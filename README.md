@@ -5,7 +5,7 @@
 ### Shiny
 ### Nextflow/SnakeFlow/...
 
-Hi guys, we'd better divide the work. There should be least three parts, include Pipline, Front-end, and background-end.
+Hi guys, we'd better divide the work. There should be at least three parts, including pipeline, Front-end, and background-end.
 
 
 
