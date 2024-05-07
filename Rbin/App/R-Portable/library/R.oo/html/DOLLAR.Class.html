@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Makes the fields and methods of an Class accessible via the $...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for DOLLAR.Class {R.oo}"><tr><td>DOLLAR.Class {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Makes the fields and methods of an Class accessible via the $ and the [[ operator</h2>
+
+<h3>Description</h3>
+
+<p>Makes the fields and methods of an Class accessible via the <code>$</code>
+operator. This method is never called explicitly, but through an indirect
+usage of the <code>$</code> operator, e.g. <code>obj$name</code> or
+<code>obj$getValue()</code>.
+</p>
+
+<ol>
+<li><p> This method will first search for a <code>get&lt;Name&gt;()</code> method,
+e.g. if name has the value <code>"age"</code>, a <code>getAge()</code> will be
+looked for. If such a method exists it will be called with the Class
+as the first and only argument, e.g. <code>getAge(this)</code>.
+A <code>get&lt;Name&gt;()</code> is only looked for if <code>&lt;name&gt;</code> is not a
+private field. A private field is a name <em>beginning</em> with a
+<code>.</code> (period). The rational for this naming convention is to be
+consistent with how <code><a href="../../base/help/ls.html">ls</a>()</code> works, which will not list
+such members by default.
+</p>
+</li>
+<li><p> If no such method exists, first then, this method will look a
+field in the Class can has the name <code>name</code>.
+</p>
+</li>
+<li><p> If such neither exists, a method with name <code>name</code> will be
+searched for and returned.
+</p>
+</li>
+<li><p> If no fields or methods are found at all, <code><a href="../../base/help/NULL.html">NULL</a></code> is returned.
+</p>
+</li></ol>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## S3 method for class 'Class'
+this$name
+  ## S3 method for class 'Class'
+this[[name, exact=TRUE]]
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the field or method to be accessed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the value of a field or a method (<code><a href="../../base/help/function.html">function</a></code>).
+If no such field or method exists, <code><a href="../../base/help/NULL.html">NULL</a></code> is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Class.html">Class</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: For a complete example see help(Class).</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

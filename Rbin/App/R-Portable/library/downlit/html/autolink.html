@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Automatically link inline code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for autolink {downlit}"><tr><td>autolink {downlit}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Automatically link inline code</h2>
+
+<h3>Description</h3>
+
+<p>Automatically link inline code
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+autolink(text)
+
+autolink_url(text)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>String of code to highlight and link.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>text</code> is linkable, an HTML link for <code>autolink()</code>, and or just
+the URL for <code>autolink_url()</code>. Both return <code>NA</code> if the text is not
+linkable.
+</p>
+
+
+<h3>Options</h3>
+
+<p>downlit provides a number of options to control the details of the linking.
+They are particularly important if you want to generate &quot;local&quot; links.
+</p>
+
+<ul>
+<li> <p><code>downlit.package</code>: name of the current package. Determines when
+<code>topic_index</code> and <code>article_index</code>
+</p>
+</li>
+<li> <p><code>downlit.topic_index</code> and <code>downlit.article_index</code>: named character
+vector that maps from topic/article name to path.
+</p>
+</li>
+<li> <p><code>downlit.rdname</code>: name of current Rd file being documented (if any);
+used to avoid self-links.
+</p>
+</li>
+<li> <p><code>downlit.attached</code>: character vector of currently attached R packages.
+</p>
+</li>
+<li> <p><code>downlit.local_packages</code>: named character vector providing relative
+paths (value) to packages (name) that can be reached with relative links
+from the target HTML document.
+</p>
+</li>
+<li> <p><code>downlit.topic_path</code> and <code>downlit.article_path</code>: paths to reference
+topics and articles/vignettes relative to the &quot;current&quot; file.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+autolink("stats::median()")
+autolink("vignette('grid', package = 'grid')")
+
+autolink_url("stats::median()")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>downlit</em> version 0.4.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

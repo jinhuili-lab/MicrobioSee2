@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Detect RStudio Jobs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for isJob {rstudioapi}"><tr><td>isJob {rstudioapi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Detect RStudio Jobs</h2>
+
+<h3>Description</h3>
+
+<p>Use this function to detect whether RStudio is running an R &quot;job&quot;.
+These jobs are normally used for actions taken in the Jobs tab, as well
+as within the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> build pane.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+isJob()
+
+isBackgroundJob()
+
+isWorkbenchJob()
+</pre>
+
+
+<h3>Details</h3>
+
+<p><code>isWorkbenchJob()</code> is used to detect scripts which have been launched as
+Workbench jobs, and is only available in RStudio Workbench 2024.04 or newer.
+These jobs use the RStudio Launcher to run <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> scripts on remote clusters, as
+opposed to <code>isBackgroundJob()</code>, which is used to detect background jobs
+which are run on the local machine.
+</p>
+<p>This function is primarily intended to be used by package authors, who
+need to customize the behavior of their methods when run within an
+RStudio job.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Boolean; <code>TRUE</code> if this is an RStudio job.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>rstudioapi</em> version 0.16.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

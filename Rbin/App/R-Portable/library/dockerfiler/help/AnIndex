@@ -1,0 +1,11 @@
+dockerfiler-package	dockerfiler-package
+compact_sysreqs	compact_sysreqs
+Dockerfile	Dockerfile
+dockerfiler	dockerfiler-package
+docker_ignore_add	docker_ignore_add
+dock_from_desc	dockerfiles
+dock_from_renv	dock_from_renv
+get_sysreqs	get_sysreqs
+parse_dockerfile	parse_dockerfile
+r	r
+renv	renv

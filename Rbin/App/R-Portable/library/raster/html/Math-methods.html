@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mathematical functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Math-methods {raster}"><tr><td>Math-methods {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Mathematical functions</h2>
+
+<h3>Description</h3>
+
+<p>Generic mathematical functions that can be used with a Raster* object as argument:   
+</p>
+<p><code>"abs", "sign", "sqrt", "ceiling", "floor", "trunc",  "cummax", "cummin", </code>
+</p>
+<p><code>"cumprod", "cumsum", "log", "log10", "log2", "log1p", "acos", "acosh", "asin", </code>
+</p>
+<p><code>"asinh", "atan", "atanh", "exp", "expm1", "cos", "cosh", "sin", "sinh", "tan", "tanh"</code>. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>You can use the, somewhat more flexible, function <code><a href="../help/calc.html">calc</a></code> instead of the Math-methods.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/Arith-methods.html">Arith-methods</a></code>, <code><a href="../../raster/help/calc.html">calc</a></code>, <code><a href="../../raster/help/overlay.html">overlay</a></code>, <code><a href="../../raster/help/atan2.html">atan2</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster(nrow=10, ncol=10)
+r1 &lt;- setValues(r1, runif(ncell(r1)) * 10)
+r2 &lt;- sqrt(r1)
+s &lt;- stack(r1, r2) - 5
+b &lt;- abs(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

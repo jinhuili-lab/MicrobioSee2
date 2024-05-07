@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prediction Tools for [Constrained] Ordination (CCA, RDA, DCA,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for predict.cca {vegan}"><tr><td>predict.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prediction Tools for [Constrained] Ordination (CCA,
+RDA, DCA, CA, PCA) </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>predict</code> can be used to find site and species scores or
+estimates of the response data with new data sets, Function
+<code>calibrate</code> estimates values of constraints with new data set.
+Functions <code>fitted</code> and <code>residuals</code> return estimates of
+response data. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cca'
+fitted(object, model = c("CCA", "CA", "pCCA"),
+    type =  c("response", "working"), ...)
+## S3 method for class 'capscale'
+fitted(object, model = c("CCA", "CA", "pCCA", "Imaginary"),
+    type = c("response", "working"), ...)
+## S3 method for class 'cca'
+residuals(object, ...)
+## S3 method for class 'cca'
+predict(object, newdata, type = c("response", "wa", "sp", "lc", "working"),
+        rank = "full", model = c("CCA", "CA"), scaling = "none",
+        hill = FALSE, ...)
+## S3 method for class 'rda'
+predict(object, newdata, type = c("response", "wa", "sp", "lc", "working"),
+        rank = "full", model = c("CCA", "CA"), scaling = "none",
+        correlation = FALSE, const, ...)
+## S3 method for class 'cca'
+calibrate(object, newdata, rank = "full", ...)
+## S3 method for class 'cca'
+coef(object, norm = FALSE, ...)
+## S3 method for class 'decorana'
+predict(object, newdata, type = c("response", "sites", "species"),
+    rank = 4, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A result object from <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code> or
+<code><a href="../../vegan/help/decorana.html">decorana</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Show constrained (<code>"CCA"</code>), unconstrained
+(<code>"CA"</code>) or conditioned &ldquo;partial&rdquo; (<code>"pCCA"</code>)
+results. For <code>fitted</code> method of <code><a href="../../vegan/help/capscale.html">capscale</a></code> this can
+also be <code>"Imaginary"</code> for imaginary components with negative
+eigenvalues </p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>New data frame to be used in prediction or in
+calibration.  Usually this a new community data frame, but with
+<code>type = "lc"</code> and for constrained component with <code>type =
+    "response"</code> and <code>type = "working"</code> it must be a data frame of
+constraints.  The <code>newdata</code> must have the same number of rows
+as the original community data for a <code><a href="../../vegan/help/cca.html">cca</a></code> result with
+<code>type = "response"</code> or <code>type = "working"</code>.  If the
+original model had row or column names, then new data must contain
+rows or columns with the same names (row names for species scores,
+column names for <code>"wa"</code> scores and constraint names of
+<code>"lc"</code> scores). In other cases the rows or columns must match
+directly. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of prediction, fitted values or residuals:
+<code>"response"</code> scales results so that the same ordination gives
+the same results, and <code>"working"</code> gives the values used
+internally, that is after Chi-square standardization in
+<code><a href="../../vegan/help/cca.html">cca</a></code> and scaling and centring in
+<code><a href="../../vegan/help/rda.html">rda</a></code>. In <code><a href="../../vegan/help/capscale.html">capscale</a></code> and
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code> the <code>"response"</code> gives the
+dissimilarities, and <code>"working"</code> the internal data structure
+analysed in the ordination. Alternative <code>"wa"</code> gives the site
+scores as weighted averages of the community data, <code>"lc"</code> the
+site scores as linear combinations of environmental data, and
+<code>"sp"</code> the species scores. In <code>predict.decorana</code> the
+alternatives are scores for <code>"sites"</code> or <code>"species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>The rank or the number of axes used in the approximation.
+The default is to use all axes (full rank) of the <code>"model"</code> or
+all available four axes in <code>predict.decorana</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>logical, character, or numeric; Scaling or predicted
+scores with the same meaning as in <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>, and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. See <code>scores.cca</code> for further details
+on acceptable values.</p>
+</td></tr>
+<tr valign="top"><td><code>correlation, hill</code></td>
+<td>
+<p>logical; correlation-like scores or Hill's
+scaling as appropriate for RDA and CCA respectively. See
+<code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> for additional details.</p>
+</td></tr>
+<tr valign="top"><td><code>const</code></td>
+<td>
+<p>Constant multiplier for  RDA scores. This will be used
+only when <code>scaling</code> is not <code>FALSE</code>, and the default value
+will give similar scaling as in <code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>norm</code></td>
+<td>
+<p>Coefficients for variables that are centred and scaled
+to unit norm.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to the functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>fitted</code> gives the approximation of the original data
+matrix or dissimilarities from the ordination result either in the
+scale of the response or as scaled internally by the function.
+Function <code>residuals</code> gives the approximation of the original data
+from the unconstrained ordination.  With argument <code>type =
+  "response"</code> the <code>fitted.cca</code> and <code>residuals.cca</code> function
+both give the same marginal totals as the original data matrix, and
+fitted and residuals do not add up to the original data.  Functions
+<code>fitted</code> and <code>residuals</code> for <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> give the dissimilarities with <code>type =
+  "response"</code>, but these are not additive.  However, the
+<code>"working"</code> scores are additive for <code><a href="../../vegan/help/capscale.html">capscale</a></code> (but
+not for <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>). The <code>fitted</code> and <code>residuals</code>
+for <code><a href="../../vegan/help/capscale.html">capscale</a></code> and <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> will include the
+additive constant if that was requested in the function call.  All
+variants of <code>fitted</code> and <code>residuals</code> are defined so that for
+model <code>mod &lt;- cca(y ~ x)</code>, <code>cca(fitted(mod))</code> is equal to
+constrained ordination, and <code>cca(residuals(mod))</code> is equal to
+unconstrained part of the ordination.
+</p>
+<p>Function <code>predict</code> can find the estimate of the original data
+matrix or dissimilarities (<code>type = "response"</code>) with any rank.
+With <code>rank = "full"</code> it is identical to <code>fitted</code>.  In
+addition, the function can find the species scores or site scores from
+the community data matrix for <code><a href="../../vegan/help/cca.html">cca</a></code> or <code><a href="../../vegan/help/rda.html">rda</a></code>.
+The function can be used with new data, and it can be used to add new
+species or site scores to existing ordinations.  The function returns
+(weighted) orthonormal scores by default, and you must specify
+explicit <code>scaling</code> to add those scores to ordination
+diagrams. With <code>type = "wa"</code> the function finds the site scores
+from species scores. In that case, the new data can contain new sites,
+but species must match in the original and new data.  With <code>type="sp"</code> 
+the function finds species scores from site constraints
+(linear combination scores). In that case the new data can contain new
+species, but sites must match in the original and new data. With
+<code>type = "lc"</code> the function finds the linear combination scores
+for sites from environmental data. In that case the new data frame
+must contain all constraining and conditioning environmental variables
+of the model formula. With <code>type = "response"</code> or 
+<code>type = "working"</code> the new data must contain environmental variables 
+if constrained component is desired, and community data matrix if
+residual or unconstrained component is desired.  With these types, the
+function uses <code>newdata</code> to find new <code>"lc"</code> (constrained) or
+<code>"wa"</code> scores (unconstrained) and then finds the response or
+working data from these new row scores and species scores.  The
+original site (row) and species (column) weights are used for
+<code>type = "response"</code> and <code>type = "working"</code> in correspondence
+analysis (<code><a href="../../vegan/help/cca.html">cca</a></code>) and therefore the number of rows must
+match in the original data and <code>newdata</code>.
+</p>
+<p>If a completely new data frame is created, extreme care is needed
+defining variables similarly as in the original model, in particular
+with (ordered) factors. If ordination was performed with the formula
+interface, the <code>newdata</code> can be a data frame or matrix, but
+extreme care is needed that the columns match in the original and
+<code>newdata</code>.
+</p>
+<p>Function <code>calibrate.cca</code> finds estimates of constraints from
+community ordination or <code>"wa"</code> scores from <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code> and <code><a href="../../vegan/help/capscale.html">capscale</a></code>. This is often known as
+calibration, bioindication or environmental reconstruction.
+Basically, the method is similar to projecting site scores onto
+biplot arrows, but it uses regression coefficients.  The function
+can be called with <code>newdata</code> so that cross-validation is
+possible.  The <code>newdata</code> may contain new sites, but species
+must match in the original and new data.  The function does not work
+with &lsquo;partial&rsquo; models with <code>Condition</code> term, and it
+cannot be used with <code>newdata</code> for <code><a href="../../vegan/help/capscale.html">capscale</a></code> or
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code> results.  The results may only be interpretable
+for continuous variables.
+</p>
+<p>Function <code>coef</code> will give the regression coefficients from centred
+environmental variables (constraints and conditions) to linear
+combination scores. The coefficients are for unstandardized environmental
+variables. The coefficients will be <code>NA</code> for aliased effects.
+</p>
+<p>Function <code>predict.decorana</code> is similar to <code>predict.cca</code>.
+However, <code>type = "species"</code> is not available in detrended
+correspondence analysis  (DCA), because detrending destroys the mutual
+reciprocal averaging (except for the first axis when rescaling is not
+used). Detrended CA does not attempt to approximate the original data
+matrix, so <code>type = "response"</code> has no meaning in detrended
+analysis (except with <code>rank = 1</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The functions return matrices, vectors or dissimilarities as is appropriate.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen.</p>
+
+
+<h3>References</h3>
+
+<p>Greenacre, M. J. (1984). Theory and applications of correspondence
+analysis. Academic Press, London.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>, <code><a href="../../vegan/help/decorana.html">decorana</a></code>,
+<code><a href="../../vegan/help/goodness.cca.html">goodness.cca</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+mod &lt;- cca(dune ~ A1 + Management + Condition(Moisture), data=dune.env)
+# Definition of the concepts 'fitted' and 'residuals'
+mod
+cca(fitted(mod))
+cca(residuals(mod))
+# Remove rare species (freq==1) from 'cca' and find their scores
+# 'passively'.
+freq &lt;- specnumber(dune, MARGIN=2)
+freq
+mod &lt;- cca(dune[, freq&gt;1] ~ A1 + Management + Condition(Moisture), dune.env)
+predict(mod, type="sp", newdata=dune[, freq==1], scaling="species")
+# New sites
+predict(mod, type="lc", new=data.frame(A1 = 3, Management="NM", Moisture="2"), scal=2)
+# Calibration and residual plot
+mod &lt;- cca(dune ~ A1 + Moisture, dune.env)
+pred &lt;- calibrate(mod)
+pred
+with(dune.env, plot(A1, pred[,"A1"] - A1, ylab="Prediction Error"))
+abline(h=0)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

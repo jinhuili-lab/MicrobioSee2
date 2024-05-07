@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a vector of color values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for smoothColors {plotrix}"><tr><td>smoothColors {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a vector of color values</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">smoothColors</span> calculates a sequence of colors. If two color names 
+in the arguments are separated by a number, that number of interpolated
+colors will be inserted between the two color endpoints. Any number of
+color names and integers may be passed, but the last argument must be
+a color name. If more than one integer appears between two color names,
+only the first will be used in the interpolation and the others will be
+ignored.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ smoothColors(...,alpha=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>an arbitrary sequence of color names and integers beginning
+and ending with a color name.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>optional <span class="samp">alpha</span> (transparency) value.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of hexadecimal color values as used by <span class="samp">col</span>.</p>
+
+
+<h3>Note</h3>
+
+<p>For more R functions that transform numeric values into
+colors or produce colors that can be used to represent values, see the 
+<span class="pkg">colourschemes</span> package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Barry Rowlingson</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/color.gradient.html">color.gradient</a>,<a href="../../grDevices/html/rgb.html">rgb</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(1:10,main="Test opaque colors",type="n",axes=FALSE)
+ box()
+ rect(1:7,1:7,3:9,3:9,col=smoothColors("red",2,"green",2,"blue"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

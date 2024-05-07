@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Verbose class ignoring everything</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for MultiVerbose {R.utils}"><tr><td>MultiVerbose {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Verbose class ignoring everything</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class MultiVerbose</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code><a href="../help/Verbose.html">Verbose</a></code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>MultiVerbose</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>MultiVerbose</b><br />
+extends <a href="../help/Verbose.html">Verbose</a><br />
+</p>
+<p>A Verbose class ignoring everything.
+</p>
+<p><em>This is a trial class</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+MultiVerbose(verboseList=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>verboseList</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> of <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.list</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>writeRaw</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Verbose</b>:<br />
+as.character, as.double, as.logical, capture, cat, enter, enterf, equals, evaluate, exit, getThreshold, getTimestampFormat, header, isOn, isVisible, less, more, newline, off, on, popState, print, printWarnings, printf, pushState, ruler, setDefaultLevel, setThreshold, setTimestampFormat, str, summary, timestamp, timestampOff, timestampOn, writeRaw
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Output to both standard output and to log file
+stdoutLog &lt;- Verbose(threshold=-1)
+fileLog &lt;- Verbose(file.path(tempdir(), "foo.log"), threshold=-1)
+verbose &lt;- MultiVerbose(list(stdoutLog, fileLog), threshold=-1)
+
+
+header(verbose, "A verbose writer example", padding=0)
+
+enter(verbose, "Analysis A")
+for (kk in 1:10) {
+  printf(verbose, "step %d\n", kk)
+  if (kk == 2) {
+    cat(verbose, "Turning ON automatic timestamps")
+    timestampOn(verbose)
+  } else if (kk == 4) {
+    timestampOff(verbose)
+    cat(verbose, "Turned OFF automatic timestamps")
+    cat(verbose, "Turning OFF verbose messages for steps ", kk, "-6")
+    off(verbose)
+  } else if (kk == 6) {
+    on(verbose)
+    cat(verbose, "Turned ON verbose messages just before step ", kk+1)
+  }
+
+  if (kk %in% c(5,8)) {
+    enter(verbose, "Sub analysis ", kk)
+    for (jj in c("i", "ii", "iii")) {
+      cat(verbose, "part ", jj)
+    }
+    exit(verbose)
+  }
+}
+cat(verbose, "All steps completed!")
+exit(verbose)
+
+ruler(verbose)
+cat(verbose, "Demo of some other methods:")
+str(verbose, c(a=1, b=2, c=3))
+print(verbose, c(a=1, b=2, c=3))
+summary(verbose, c(a=1, b=2, c=3))
+evaluate(verbose, rnorm, n=3, mean=2, sd=3)
+
+ruler(verbose)
+newline(verbose)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

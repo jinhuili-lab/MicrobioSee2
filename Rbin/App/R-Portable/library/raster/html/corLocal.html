@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Local correlation coefficient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for corLocal {raster}"><tr><td>corLocal {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Local correlation coefficient</h2>
+
+<h3>Description</h3>
+
+<p>Local correlation coefficient for two RasterLayer objects (using a focal neighborhood) or for two RasterStack or Brick objects (with the same number of layers (&gt; 2))
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,RasterLayer'
+corLocal(x, y, ngb=5, 
+     method=c("pearson", "kendall", "spearman"), test=FALSE, filename='', ...)
+
+
+## S4 method for signature 'RasterStackBrick,RasterStackBrick'
+corLocal(x, y,  
+     method=c("pearson", "kendall", "spearman"), test=FALSE, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer or RasterStack/RasterBrick</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>object of the same class as <code>x</code>, and with the same number of layers</p>
+</td></tr>
+<tr valign="top"><td><code>ngb</code></td>
+<td>
+<p>neighborhood size. Either a single integer or a vector of two integers c(nrow, ncol)</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>character indicating which correlation coefficient is to be used. One of <code>"pearson"</code>, <code>"kendall"</code>, or <code>"spearman"</code></p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, return a p-value</p>
+</td></tr> 
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>NA</code> values are omitted</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../stats/html/cor.html">cor</a></code>, <code><a href="../../stats/html/cor.test.html">cor.test</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- stack(system.file("external/rlogo.grd", package="raster"))
+b &lt;- aggregate(b, 2, mean)
+
+set.seed(0)
+b[[2]] &lt;- flip(b[[2]], 'y') + runif(ncell(b))
+b[[1]] &lt;- b[[1]] + runif(ncell(b))
+
+x &lt;- corLocal(b[[1]], b[[2]], test=TRUE )
+# plot(x)
+
+# only cells where the p-value &lt; 0.1
+xm &lt;- mask(x[[1]], x[[2]] &lt; 0.1, maskvalue=FALSE)
+plot(xm)
+
+
+# for global correlation, use the cor function
+x &lt;- as.matrix(b)
+cor(x, method="spearman")
+ 
+# use sampleRegular for large datasets
+x &lt;- sampleRegular(b, 1000)
+cor.test(x[,1], x[,2])
+
+# RasterStack or Brick objects
+y &lt;- corLocal(b, flip(b, 'y'))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

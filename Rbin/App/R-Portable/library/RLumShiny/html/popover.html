@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a bootstrap button with popover</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for popover {RLumShiny}"><tr><td>popover {RLumShiny}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a bootstrap button with popover</h2>
+
+<h3>Description</h3>
+
+<p>Add small overlays of content for housing secondary information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+popover(title, content, header = NULL, html = TRUE,
+  class = "btn btn-default", placement = c("right", "top", "left",
+  "bottom"), trigger = c("click", "hover", "focus", "manual"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+Title of the button.</p>
+</td></tr>
+<tr valign="top"><td><code>content</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+Text to be displayed in the popover.</p>
+</td></tr>
+<tr valign="top"><td><code>header</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>optional</em>):
+Optional header in the popover.</p>
+</td></tr>
+<tr valign="top"><td><code>html</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Insert HTML into the popover.</p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Bootstrap button class (e.g. &quot;btn btn-danger&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>placement</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+How to position the popover - top | bottom | left | right | auto.
+When &quot;auto&quot; is specified, it will dynamically reorient the popover.
+For example, if placement is &quot;auto left&quot;, the popover will display to the
+left when possible, otherwise it will display right.</p>
+</td></tr>
+<tr valign="top"><td><code>trigger</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+How popover is triggered - click | hover | focus | manual.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# html code
+popover("title", "Some content")
+
+# example app
+## Not run: 
+shinyApp(
+ui = fluidPage(
+  jscolorInput(inputId = "col", label = "JSColor Picker", 
+               value = "21BF6B", position = "right", 
+               mode = "HVS", close = TRUE),
+  popover(title = "Help!", content = "Call 911"),
+  plotOutput("plot")
+),
+server = function(input, output) {
+  output$plot &lt;- renderPlot({
+    plot(cars, col = input$col, cex = 2, pch = 16)
+ })
+})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RLumShiny</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

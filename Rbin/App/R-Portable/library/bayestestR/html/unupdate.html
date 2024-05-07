@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Un-update Bayesian models to their prior-to-data state</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for unupdate {bayestestR}"><tr><td>unupdate {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Un-update Bayesian models to their prior-to-data state</h2>
+
+<h3>Description</h3>
+
+<p>As posteriors are priors that have been updated after observing some data,
+the goal of this function is to un-update the posteriors to obtain models
+representing the priors. These models can then be used to examine the prior
+predictive distribution, or to compare priors with posteriors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+unupdate(model, verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+unupdate(model, verbose = TRUE, ...)
+
+## S3 method for class 'brmsfit'
+unupdate(model, verbose = TRUE, ...)
+
+## S3 method for class 'brmsfit_multiple'
+unupdate(model, verbose = TRUE, newdata = NULL, ...)
+
+## S3 method for class 'blavaan'
+unupdate(model, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A fitted Bayesian model.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>List of <code>data.frames</code> to update the model with new data.
+Required even if the original data should be used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function in used internally to compute Bayes factors.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A model un-fitted to the data, representing the prior model.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

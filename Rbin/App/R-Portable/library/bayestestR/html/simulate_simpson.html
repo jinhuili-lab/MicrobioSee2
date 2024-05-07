@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simpson's paradox dataset simulation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simulate_simpson {bayestestR}"><tr><td>simulate_simpson {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simpson's paradox dataset simulation</h2>
+
+<h3>Description</h3>
+
+<p>Simpson's paradox, or the Yule-Simpson effect, is a phenomenon in probability
+and statistics, in which a trend appears in several different groups of data
+but disappears or reverses when these groups are combined.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_simpson(
+  n = 100,
+  r = 0.5,
+  groups = 3,
+  difference = 1,
+  group_prefix = "G_"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The number of observations for each group to be generated (minimum 4).</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>A value or vector corresponding to the desired correlation
+coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Number of groups (groups can be participants, clusters, anything).</p>
+</td></tr>
+<tr valign="top"><td><code>difference</code></td>
+<td>
+<p>Difference between groups.</p>
+</td></tr>
+<tr valign="top"><td><code>group_prefix</code></td>
+<td>
+<p>The prefix of the group name (e.g., &quot;G_1&quot;, &quot;G_2&quot;, &quot;G_3&quot;, ...).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A dataset.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data &lt;- simulate_simpson(n = 10, groups = 5, r = 0.5)
+
+if (require("ggplot2")) {
+  ggplot(data, aes(x = V1, y = V2)) +
+    geom_point(aes(color = Group)) +
+    geom_smooth(aes(color = Group), method = "lm") +
+    geom_smooth(method = "lm")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

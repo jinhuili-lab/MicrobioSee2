@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Size of cells</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for area {raster}"><tr><td>area {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Size of cells</h2>
+
+<h3>Description</h3>
+
+<p>Raster objects: Compute the approximate surface area of cells in an unprojected (longitude/latitude) Raster object. It is an approximation because area is computed as the height (latitudinal span) of a cell (which is constant among all cells) times the width (longitudinal span) in the (latitudinal) middle of a cell. The width is smaller at the poleward side than at the equator-ward side of a cell. This variation is greatest near the poles and the values are thus not very precise for very high latitudes. 
+</p>
+<p>SpatialPolygons: Compute the area of the spatial features. Works for both planar and angular (lon/lat) coordinate reference systems
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+area(x, filename="", na.rm=FALSE, weights=FALSE, ...)
+
+## S4 method for signature 'RasterStackBrick'
+area(x, filename="", na.rm=FALSE, weights=FALSE, ...)
+
+## S4 method for signature 'SpatialPolygons'
+area(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or SpatialPolygons object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename for the output Raster object (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, cells that are <code>NA</code> are ignored</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the area of each cells is divided by the total area of all cells that are not <code>NA</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>x</code> is a RasterStack/Brick, a RasterBrick will be returned if <code>na.rm=TRUE</code>. However, if <code>na.rm=FALSE</code>, a RasterLayer is returned, because the values would be the same for all layers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>x</code> is a Raster* object: RasterLayer or RasterBrick. Cell values represent the size of the cell in km2, or the relative size if <code>weights=TRUE</code>
+</p>
+<p>If <code>x</code> is a SpatialPolygons* object: area if each spatial object in squared meters if the CRS is longitude/latitude, or in squared map units (typically meter)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=18, ncol=36)
+a &lt;- area(r)
+
+if (require(rgdal) &amp; require(rgeos)) {
+	p &lt;- shapefile(system.file("external/lux.shp", package="raster"))
+	p$area &lt;- round(area(p) / 10000000,1)
+	p$area
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

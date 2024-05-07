@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display set intersections</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for intersectDiagram {plotrix}"><tr><td>intersectDiagram {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display set intersections</h2>
+
+<h3>Description</h3>
+
+<p>Display set intersections as rows of rectangles.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ intersectDiagram(x,pct=FALSE,show.nulls=FALSE,xnames=NULL,sep="+",
+  mar=c(0,0,3,0),main="Intersection Diagram",cex=1,col=NULL,
+  minspacing=NA,all.intersections=FALSE,include=NULL,null.label="Non-set")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list containing as many numeric vectors as there are sets. The
+first vector contains the counts or percentages of the elements that are
+only in one set, the next vector contains the counts or percentages of 
+elements that are in two sets and so on. A matrix of set membership
+indicators or a two column matrix of object identifiers and attribute
+identifiers can be passed - see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>pct</code></td>
+<td>
+<p>Whether to display counts (FALSE) or percentages (TRUE) of the
+number of entities.</p>
+</td></tr>
+<tr valign="top"><td><code>show.nulls</code></td>
+<td>
+<p>Whether to display the number of original objects that 
+are not members of any set. Any value that is not NA will become the 
+label for this category.</p>
+</td></tr>
+<tr valign="top"><td><code>xnames</code></td>
+<td>
+<p>Optional user supplied names for the set categories (see
+Details).</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The separator to use between category names (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>The margins for the diagram. The margins that were in effect when
+the function is called are restored.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title for the diagram.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colors for the sets (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for the intersection labels.</p>
+</td></tr>
+<tr valign="top"><td><code>minspacing</code></td>
+<td>
+<p>The minimum spacing between the rectangles (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>all.intersections</code></td>
+<td>
+<p>Whether to display all intersections, even if empty
+(Dangerous - see Detail).</p>
+</td></tr>
+<tr valign="top"><td><code>include</code></td>
+<td>
+<p>Which set identifiers to include in the diagram (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>null.label</code></td>
+<td>
+<p>The label for the non-set entities if displayed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">intersectDiagram</span> displays rows of optionally colored rectangles that
+represent the intersections of set memberships (attributes) of a set of objects.
+The topmost row represents the intersections of the fewest sets, and
+succeeding rows represent the intersections of more sets. If there were objects
+in the original data set that were not members of any set, any percentages
+calculated will reflect this. By setting <span class="samp">show.nulls</span> to TRUE, the counts
+or percentages of such objects will be displayed below the intersections over
+an empty rectangle scaled to the count or percentage.
+</p>
+<p>Important - If the <span class="samp">all.intersections</span> argument is TRUE, all intersections
+will be displayed, whether empty or not (see the example). This is mostly for
+demonstration purposes, and if the number of sets is large, is likely to produce
+a very messy diagram. Similarly, sets with large numbers of
+intersections that are populated will require very large displays to be readable,
+even if there are small numbers in the intersections. If you would like to see
+this in action, pass the data frame <span class="samp">setdf</span> in the <a href="../../plotrix/help/categoryReshape.html">categoryReshape</a>
+example to <span class="samp">intersectDiagram</span> with <span class="samp">all.intersections</span> TRUE.
+</p>
+<p><span class="samp">intersectDiagram</span> does not attempt to display the set intersections as
+a pattern of overlapping geometric figures, but rather the relative numbers of
+objects sharing each intersection. More than three intersecting sets generally
+produce a complex and difficult to interpret Venn diagram, and this provides an
+alternative way to display the size of intersections between larger numbers
+of sets.
+</p>
+<p><span class="samp">intersectDiagram</span> now allows the user to display only part of the 
+set intersections, which is useful for analyzing very complex intersections.
+This is controlled by the <span class="samp">include</span> argument. This defaults to all sets or 
+attributes when <span class="samp">include=NULL</span>. If one or more of the labels of the sets or 
+attributes is passed, only the intersections containing those labels will be 
+displayed. See examples 2 and 3 below.
+</p>
+<p>Each set (attribute) is assigned a color if <span class="samp">col</span> is not NA. <span class="samp">rainbow</span>
+is called if <span class="samp">col</span> is NULL, otherwise the colors passed are used. For each
+intersection, the colors representing the sets intersecting are included in
+the rectangle.
+</p>
+<p>The strings displayed on each rectangle are taken from the argument
+<span class="samp">xnames</span> unless that is NULL, then the <span class="samp">names</span> of the intersectList
+object passed as <span class="samp">x</span> or returned from the call to <span class="samp">makeIntersectList</span>.
+</p>
+<p>If a matrix or data frame of set membership indicators is passed as <span class="samp">x</span>,
+it will be passed to <a href="../../plotrix/help/makeIntersectList.html">makeIntersectList</a> for conversion. Each column must
+represent a set, and the values in the columns must be 0 or 1, or FALSE or TRUE.
+Similarly, if a matrix or data frame in which the first column is object
+identifiers and the second column is attributes, this will be passed to
+<span class="samp">makeIntersectList</span>.
+</p>
+<p>The spacing between the largest rectangles is controlled by <span class="samp">minspacing</span>.
+<span class="samp">minspacing</span> is in units of object counts and defaults to 0.1 times the
+largest number of objects in an intersection. When the number of objects in
+different intersections at a given level varies widely, the labels of
+intersections with few objects may overlap if they are wide relative to the
+rectangle representing the number of objects. This can be corrected by
+passing a <span class="samp">minspacing</span> argument that will increase the space between
+rectangles and/or decreasing the character size of the labels. If the labels
+for each set are relatively long, setting <span class="samp">namesep="\n"</span> may help. Note 
+that if a different separator is passed, that separator must be explicitly
+passed in any subsequent calls using the same <span class="samp">intersectList</span> object - see
+examples 1 to 3 below.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the intersectionList object invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/makeIntersectList.html">makeIntersectList</a>, <a href="../../plotrix/help/getIntersectList.html">getIntersectList</a>, <a href="../../plotrix/help/categoryReshape.html">categoryReshape</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # create a matrix where each row represents an element and
+ # a 1 (or TRUE) in each column indicates that the element is a member
+ # of that set.
+ druguse&lt;-matrix(c(sample(c(0,1),200,TRUE,prob=c(0.15,0.85)),
+  sample(c(0,1),200,TRUE,prob=c(0.35,0.65)),
+  sample(c(0,1),200,TRUE,prob=c(0.5,0.5)),
+  sample(c(0,1),200,TRUE,prob=c(0.9,0.1))),ncol=4)
+ colnames(druguse)&lt;-c("Alc","Tob","THC","Amp")
+ druglist&lt;-makeIntersectList(druguse,sep="\n")
+ # first display it as counts
+ intersectDiagram(druglist,main="Patterns of drug use",sep="\n")
+ # then display only the intersections containing "Alc"
+ intersectDiagram(druglist,main="Patterns of drug use (Alcohol users only)",
+  sep="\n",include="alc")
+ # now display only the intersections containing "Amp"
+ intersectDiagram(druglist,main="Patterns of drug use (Speed users only)",
+  sep="\n",include="amp")
+ # then as percent with non.members, passing the initial matrix
+ intersectDiagram(druguse,pct=TRUE,show.nulls=TRUE)
+ # alter the data to have more multiple intersections
+ druguse[which(as.logical(druguse[,1]))[1:40],2]&lt;-1
+ druguse[which(as.logical(druguse[,1]))[31:70],3]&lt;-1
+ druguse[,4]&lt;-sample(c(0,1),200,TRUE,prob=c(0.9,0.1))
+ intersectDiagram(druguse,main="Smaller font in labels",
+  col=c("gray20","gray40","gray60","gray80"),cex=0.8)
+ # transform the spacing - usually makes it too close, first try minspacing
+ intersectDiagram(druguse,col="gray",main="Minimum spacing = 30 cases",
+  minspacing=30)
+ # then try cex - may need both for large differences
+ intersectDiagram(druguse,main="Very boring single color",col="gray",cex=0.8)
+ # create a matrix with empty intersections
+ druguse&lt;-matrix(c(sample(c(0,1),20,TRUE),
+  sample(c(0,1),20,TRUE),
+  sample(c(0,1),20,TRUE),
+  sample(c(0,1),20,TRUE)),ncol=4)
+ # show only the populated intersections
+ intersectDiagram(druguse,main="Display only populated intersections")
+ # show all intersections
+ intersectDiagram(druguse,main="Display empty intersections",all.intersections=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

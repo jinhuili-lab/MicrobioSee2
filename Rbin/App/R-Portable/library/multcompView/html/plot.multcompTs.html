@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: plot multcomp graphics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.multcompTs {multcompView}"><tr><td>plot.multcompTs {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>plot multcomp graphics</h2>
+
+<h3>Description</h3>
+
+<p>Plot graphic(s) for multcompTs or multcompLetters objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'multcompTs'
+plot(
+  x,
+  horizontal = FALSE,
+  col = 1:6,
+  type = c("Ts", "boxes"),
+  orientation = c("standard", "reverse"),
+  add = FALSE,
+  at,
+  width,
+  fig = c(0, 1, 0, 1),
+  lwd = 3,
+  label.levels = if (add) NA else 0.05,
+  label.groups = NA,
+  T.base = 0.4,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class 'multcompTs' or 'multcompLetters'.</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>A logical scalar indicating whether the list of items
+compared reads left to right (horizontal = TRUE) or top to bottom
+(horizontal = FALSE).  If this multcomp graphic accompanies boxplots for
+different levels or groups compared, the 'boxplot' argument 'horizontal' is
+the negation of the multcomp plot 'horizontal' argument.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The color for each group of items or factor levels.  The colors
+will cross the different items or factor levels and will therefore have the
+orientation specified via 'horizontal'.  If the number of columns exceeds
+length(col), col is recycled.  For alternative choices for col, see &quot;Color
+Specification&quot; in the <code><a href="../../graphics/html/par.html">par</a></code> help page.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>An alternative display for either multcompTs or multcompLetters
+is 'boxes' (or rectangles).  If type=&quot;boxes&quot; with &quot;multcompTs&quot;, the
+&quot;base(s)&quot; of each &quot;T&quot; will be indicated by a triangle.</p>
+</td></tr>
+<tr valign="top"><td><code>orientation</code></td>
+<td>
+<p>The &quot;standard&quot; orientation has the 'multcompTs' pointing
+towards the names of the items or factor levels; with the &quot;reverse&quot;
+orientation, the bases of the &quot;Ts&quot; point away.  By default, the names are on
+the left or below unless the mean of the relevant 'fig' range is less than
+0.5.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>TRUE to add to an existing plot; FALSE to start a new plot.  The
+names of the factor levels or items compared will be plotted only if
+add=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>A numeric vector or matrix or a list with components &quot;at&quot; and
+&quot;width&quot;.  If a list, both components must be either a numeric vector or
+matrix.  The numeric vector &quot;at&quot; (whether the function argument or &quot;at&quot;
+component of the &quot;at&quot; list) must be either a numeric vector or matrix giving
+the locations where the &quot;Ts&quot; or &quot;Letters&quot; graphics should be drawn.
+length(at) is 1, 2 or 3 times the number of the number of factor levels or
+items compared.  If length(at) is twice the number of levels or items
+compared, it gives the range of the display for that level; the base of a
+&quot;T&quot; will be at the midpoint.  If length(at) is three times the number of
+items compared, the intermediate number will be the center of the base of
+the &quot;T&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>A numeric vector or matrix with as many rows as &quot;Ts&quot; or
+&quot;groups&quot; and with up to three columns.  With one column, it will be the
+&quot;center&quot; of the plot range for that group.  With two columns, they will
+delimit the range.  With three, they will provide &quot;bottom&quot;, &quot;center&quot;, and
+&quot;top&quot; of the range for that set of grouping indicators.  If &quot;at&quot; is a list,
+the argument &quot;width&quot; is ignored and is taken from the list &quot;at&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>fig</code></td>
+<td>
+<p>A numerical vector of the form 'c(x1, x2, y1, y2)' giving the
+coordinates of the figure region in the display region of the plot device,
+as described on the <code><a href="../../graphics/html/par.html">par</a></code> help page.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>width of line to connect elements of &quot;T&quot; graphics that might not
+otherwise be connected.</p>
+</td></tr>
+<tr valign="top"><td><code>label.levels</code></td>
+<td>
+<p>NA for no labels or distance away from the plot for the
+labels as a proportion of the plot range.</p>
+</td></tr>
+<tr valign="top"><td><code>label.groups</code></td>
+<td>
+<p>NA for no labels or distance away from the plot for the
+labels as a proportion of the plot range.</p>
+</td></tr>
+<tr valign="top"><td><code>T.base</code></td>
+<td>
+<p>A numeric scalar giving the proportion of the available space
+devoted to the base of the Ts; used only when type=&quot;Ts&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters can be given as described on the
+<code><a href="../../graphics/html/plot.default.html">plot</a></code> help page or for plot.multcompLetters as describe on the
+<code><a href="../../grid/help/gpar.html">gpar</a></code> help page.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The requested graphic is either plotted by itself or added to an existing
+plot as specified by the arguments.  The placement can be controlled by
+'fig' and 'at'.
+</p>
+<p>The fontsize and fontface of a plot of a multcompLetters object with 'type =
+&quot;Letters&quot;' can be adjusted as describe on the <code><a href="../../grid/help/gpar.html">gpar</a></code> help
+page.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with two components: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>at </code></td>
+<td>
+<p> A matrix with three columns
+giving the middle and extremes of the display for each of the factor levels
+or items compared.  </p>
+</td></tr> <tr valign="top"><td><code>width </code></td>
+<td>
+<p> A matrix with as many rows as &quot;Ts&quot; or
+comparator levels and with two columns giving the plot range for that
+comparator level.  </p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code> <code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code>
+<code><a href="../../multcompView/help/multcompBoxplot.html">multcompBoxplot</a></code> <code><a href="../../grid/help/gpar.html">gpar</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##
+## plot(multcompTs(...))
+##
+dif4 &lt;- c(.1, .02, .03, 1)
+names(dif4) &lt;- c("A-B", "A-C", "B-C", "A-D")
+(mcT4 &lt;- multcompTs(dif4))
+# Standard plot, base of "Ts" point left
+mcT4.1 &lt;- plot(mcT4, label.groups=0.05)
+# Redo using "at" = list 
+plot(mcT4, label.groups=0.05, at=mcT4.1)
+# Same plot with group labels closer to the figure
+plot(mcT4, label.groups=0.02)
+
+# Base of "Ts" point right 
+plot(mcT4, label.groups=TRUE, orientation="r")
+# Base of "Ts" point down 
+plot(mcT4, horizontal=TRUE, label.groups=0.05)
+# Base of "Ts" point up
+plot(mcT4, horizontal=TRUE, label.groups=0.05,
+     orientation="r")
+
+# Same 4 plots but with boxes &amp; triangles, not Ts
+plot(mcT4, label.groups=0.05, type="b")
+plot(mcT4, label.groups=0.05, orientation="r",
+     type="b")
+plot(mcT4, horizontal=TRUE, label.groups=0.05,
+     type="b")
+plot(mcT4, horizontal=TRUE, label.groups=0.05,
+     orientation="r", type="b")
+
+##
+## plot(multcompLetters(...))
+##
+# ... using dif4 from above
+(mcL4 &lt;- multcompLetters(dif4, Letters=LETTERS))
+# Standard plot
+## Not run: 
+# Requires (grid)
+mcL4.1 &lt;- plot(mcL4, label.groups=0.05)
+# Redo using "at" = list 
+plot(mcL4, label.groups=0.05, at=mcL4.1)
+
+# With bold face and larger font 
+plot(mcL4, label.groups=0.05,
+     fontsize=28, fontface="bold")
+
+# Horizontal rather than vertical 
+plot(mcL4, horizontal=TRUE, label.groups=0.05)
+
+## End(Not run)
+
+# Same as boxes rather than letters 
+plot(mcL4, label.groups=0.05, type="b")
+plot(mcL4, horizontal=TRUE, label.groups=0.05,
+     type="b")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Normal distribution with profiled-out standard deviation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dnorm_n {bbmle}"><tr><td>dnorm_n {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Normal distribution with profiled-out standard deviation
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns the Normal probability densities for a distribution
+with the given mean values and the standard deviation equal
+to the root mean-squared deviation between x and mu
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dnorm_n(x, mean, log = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>numeric vector of data</p>
+</td></tr>
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>numeric vector or mean values</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>logical: return the log-density?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a convenience function, designed for the case
+where you're trying to compute a MLE for the mean but
+don't want to bother estimating the MLE for the standard
+deviation at the same time
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric vector of probability densities
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(101)
+x &lt;- rnorm(5,mean=3,sd=2)
+dnorm_n(x,mean=3,log=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

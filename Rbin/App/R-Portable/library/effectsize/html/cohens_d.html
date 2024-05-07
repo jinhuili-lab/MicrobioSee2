@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cohen's _d_ and Other Standardized Differences</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cohens_d {effectsize}"><tr><td>cohens_d {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cohen's <em>d</em> and Other Standardized Differences</h2>
+
+<h3>Description</h3>
+
+<p>Compute effect size indices for standardized differences: Cohen's <em>d</em>,
+Hedges' <em>g</em> and Glass’s <em>delta</em> (<i>&Delta;</i>). (This function returns the
+<strong>population</strong> estimate.) Pair with any reported <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>.
+<br /><br />
+Both Cohen's <em>d</em> and Hedges' <em>g</em> are the estimated the standardized
+difference between the means of two populations. Hedges' <em>g</em> provides a
+correction for small-sample bias (using the exact method) to Cohen's <em>d</em>. For
+sample sizes &gt; 20, the results for both statistics are roughly equivalent.
+Glass’s <em>delta</em> is appropriate when the standard deviations are significantly
+different between the populations, as it uses only the <em>second</em> group's
+standard deviation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cohens_d(
+  x,
+  y = NULL,
+  data = NULL,
+  pooled_sd = TRUE,
+  mu = 0,
+  paired = FALSE,
+  adjust = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+hedges_g(
+  x,
+  y = NULL,
+  data = NULL,
+  pooled_sd = TRUE,
+  mu = 0,
+  paired = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+glass_delta(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A numeric vector, or a character name of one in <code>data</code>.
+Any missing values (<code>NA</code>s) are dropped from the resulting vector.
+<code>x</code> can also be a formula (see <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>), in which case <code>y</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>pooled_sd</code></td>
+<td>
+<p>If <code>TRUE</code> (default), a <code><a href="../../effectsize/help/sd_pooled.html">sd_pooled()</a></code> is used (assuming equal
+variance). Else the mean SD from both groups is used instead.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>a number indicating the true value of the mean (or
+difference in means if you are performing a two sample test).</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>If <code>TRUE</code>, the values of <code>x</code> and <code>y</code> are considered as paired.
+This produces an effect size that is equivalent to the one-sample effect
+size on <code>x - y</code>. See also <code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d()</a></code> for more options.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Should the effect size be adjusted for small-sample bias using
+Hedges' method? Note that <code>hedges_g()</code> is an alias for
+<code>cohens_d(adjust = TRUE)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Set <code>pooled_sd = FALSE</code> for effect sizes that are to accompany a Welch's
+<em>t</em>-test (Delacre et al, 2021).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size ( <code>Cohens_d</code>, <code>Hedges_g</code>,
+<code>Glass_delta</code>) and their CIs (<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The indices here give the population estimated standardized difference.
+Some statistical packages give the sample estimate instead (without
+applying Bessel's correction).
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Algina, J., Keselman, H. J., &amp; Penfield, R. D. (2006). Confidence intervals
+for an effect size when variances are not equal. Journal of Modern Applied
+Statistical Methods, 5(1), 2.
+</p>
+</li>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral
+sciences (2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Delacre, M., Lakens, D., Ley, C., Liu, L., &amp; Leys, C. (2021, May 7). Why
+Hedges’ g*s based on the non-pooled standard deviation should be reported
+with Welch's t-test. doi: <a href="https://doi.org/10.31234/osf.io/tu6mp">10.31234/osf.io/tu6mp</a>
+</p>
+</li>
+<li><p> Hedges, L. V. &amp; Olkin, I. (1985). Statistical methods for
+meta-analysis. Orlando, FL: Academic Press.
+</p>
+</li>
+<li><p> Hunter, J. E., &amp; Schmidt, F. L. (2004). Methods of meta-analysis:
+Correcting error and bias in research findings. Sage.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/rm_d.html">rm_d()</a></code>, <code><a href="../../effectsize/help/sd_pooled.html">sd_pooled()</a></code>, <code><a href="../../effectsize/help/t_to_d.html">t_to_d()</a></code>, <code><a href="../../effectsize/help/r_to_d.html">r_to_d()</a></code>
+</p>
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d</a>()</code>,
+<code><a href="../../effectsize/help/means_ratio.html">means_ratio</a>()</code>,
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>,
+<code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(mtcars)
+mtcars$am &lt;- factor(mtcars$am)
+
+# Two Independent Samples ----------
+
+(d &lt;- cohens_d(mpg ~ am, data = mtcars))
+# Same as:
+# cohens_d("mpg", "am", data = mtcars)
+# cohens_d(mtcars$mpg[mtcars$am=="0"], mtcars$mpg[mtcars$am=="1"])
+
+# More options:
+cohens_d(mpg ~ am, data = mtcars, pooled_sd = FALSE)
+cohens_d(mpg ~ am, data = mtcars, mu = -5)
+cohens_d(mpg ~ am, data = mtcars, alternative = "less")
+hedges_g(mpg ~ am, data = mtcars)
+glass_delta(mpg ~ am, data = mtcars)
+
+
+# One Sample ----------
+
+cohens_d(wt ~ 1, data = mtcars)
+
+# same as:
+# cohens_d("wt", data = mtcars)
+# cohens_d(mtcars$wt)
+
+# More options:
+cohens_d(wt ~ 1, data = mtcars, mu = 3)
+hedges_g(wt ~ 1, data = mtcars, mu = 3)
+
+
+# Paired Samples ----------
+
+data(sleep)
+
+cohens_d(Pair(extra[group == 1], extra[group == 2]) ~ 1, data = sleep)
+
+# same as:
+# cohens_d(sleep$extra[sleep$group == 1], sleep$extra[sleep$group == 2], paired = TRUE)
+# cohens_d(sleep$extra[sleep$group == 1] - sleep$extra[sleep$group == 2])
+# rm_d(sleep$extra[sleep$group == 1], sleep$extra[sleep$group == 2], method = "z", adjust = FALSE)
+
+# More options:
+cohens_d(Pair(extra[group == 1], extra[group == 2]) ~ 1, data = sleep, mu = -1, verbose = FALSE)
+hedges_g(Pair(extra[group == 1], extra[group == 2]) ~ 1, data = sleep, verbose = FALSE)
+
+
+# Interpretation -----------------------
+interpret_cohens_d(-1.48, rules = "cohen1988")
+interpret_hedges_g(-1.48, rules = "sawilowsky2009")
+interpret_glass_delta(-1.48, rules = "gignac2016")
+# Or:
+interpret(d, rules = "sawilowsky2009")
+
+# Common Language Effect Sizes
+d_to_u3(1.48)
+# Or:
+print(d, append_CLES = TRUE)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: R Markdown output formats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for html_format {markdown}"><tr><td>html_format {markdown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>R Markdown output formats</h2>
+
+<h3>Description</h3>
+
+<p>Convenience functions for R Markdown v2 users.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+html_format(
+  meta = NULL,
+  template = NULL,
+  options = NULL,
+  keep_md = FALSE,
+  keep_tex = FALSE,
+  latex_engine = "xelatex"
+)
+
+latex_format(
+  meta = NULL,
+  template = NULL,
+  options = NULL,
+  keep_md = FALSE,
+  keep_tex = FALSE,
+  latex_engine = "xelatex"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>meta, template, options</code></td>
+<td>
+<p>Arguments to be passed to <code><a href="../../markdown/help/mark.html">mark()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep_md, keep_tex</code></td>
+<td>
+<p>Whether to keep the intermediate &lsquo;<span class="file">.md</span>&rsquo; and
+&lsquo;<span class="file">.tex</span>&rsquo; files generated from &lsquo;<span class="file">.Rmd</span>&rsquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>latex_engine</code></td>
+<td>
+<p>The LaTeX engine to compile &lsquo;<span class="file">.tex</span>&rsquo; to &lsquo;<span class="file">.pdf</span>&rsquo;.
+This argument and <code>keep_tex</code> are for <code>latex_format()</code> only, and ignored in
+<code>html_format()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>We refer to this <span class="pkg">markdown</span> package plus <span class="pkg">knitr</span> as &ldquo;R
+Markdown v1&rdquo;, and the <span class="pkg">rmarkdown</span> package as &ldquo;R Markdown v2&rdquo;. The
+former uses <span class="pkg">commonmark</span> to convert Markdown, and the latter uses Pandoc.
+However, the latter also accept custom converting tools in addition to
+Pandoc. The output formats here provide the custom converting function
+<code><a href="../../markdown/help/mark.html">mark()</a></code> to <span class="pkg">rmarkdown</span>, so that users can take advantage of
+<code><a href="../../rmarkdown/help/render.html">rmarkdown::render()</a></code> and the Knit button in RStudio. It is absolutely not
+necessary to rely on <span class="pkg">rmarkdown</span>. The only point is convenience. If you
+do not use <code>rmarkdown::render()</code> or the Knit button, you can definitely just
+call <code>markdown::mark()</code> directly.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>markdown</em> version 1.12 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

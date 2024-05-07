@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parses and evaluates code from a file or a connection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sourceTo {R.utils}"><tr><td>sourceTo {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parses and evaluates code from a file or a connection</h2>
+
+<h3>Description</h3>
+
+<p>Parses and evaluates code from a file or a connection.
+This has the same effect as if <code>source(..., local=TRUE)</code> would have
+been called from within the given environment.
+This is useful when setting up a new local working environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+sourceTo(file, path=NULL, chdir=FALSE, ..., local=TRUE, envir=parent.frame(),
+  modifiedOnly=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string giving the pathname
+of the file or URL to read from.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>An optional <code><a href="../../base/help/character.html">character</a></code> string giving the path to the file.
+Ignored if <code>file</code> is a connection.</p>
+</td></tr>
+<tr valign="top"><td><code>chdir</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and <code>file</code> is a pathname, the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+working directory is temporarily changed to the directory
+containing <code>file</code> for evaluating.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to <code><a href="../../base/help/source.html">source</a></code>(). If argument <code>file</code> is
+not explicitly given, the first argument is assumed to be the
+<code>file</code> argument. This argument is converted into a string by
+<code>as.character()</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>local</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">FALSE</a></code>, evaluation is done in the global environment,
+otherwise in the calling environment.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code> in which <code><a href="../../base/help/source.html">source</a></code>() should be
+called. If <code><a href="../../base/help/NULL.html">NULL</a></code>, the global environment is used.</p>
+</td></tr>
+<tr valign="top"><td><code>modifiedOnly</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the file is sourced only if modified
+since the last time it was sourced, otherwise regardless.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Return the result of <code><a href="../../base/help/source.html">source</a></code>().
+</p>
+
+
+<h3>Hooks</h3>
+
+<p>This methods recognizes the hook <code>sourceTo/onPreprocess</code>, which
+is called after the lines in file has been read, but before they have
+been parsed by the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> parser, cf. <code><a href="../../base/help/parse.html">parse</a></code>().
+An <code>onPreprocess</code> hook function should take a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>
+of code lines and return a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of code lines.
+This can for instance be used to pre-process R source code with special
+directives such as <code><a href="../../R.utils/help/VComments.html">VComments</a></code>.
+</p>
+<p>Note that only one hook function can be used for this function, otherwise
+an error is generated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/sourceDirectory.html">sourceDirectory</a></code>().
+<code><a href="../../base/help/sys.source.html">sys.source</a></code>() and <code><a href="../../base/help/source.html">source</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Example 1
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cat("=== Example 1 ================================================\n")
+
+foo &lt;- function(file, ...) {
+  cat("Local objects before calling sourceTo():\n")
+  print(ls())
+
+  res &lt;- sourceTo(file, ...)
+
+  cat("Local objects after calling sourceTo():\n")
+  print(ls())
+}
+
+cat("Global objects before calling foo():\n")
+lsBefore &lt;- NA
+lsBefore &lt;- ls()
+foo(file=textConnection(c('a &lt;- 1', 'b &lt;- 2')))
+
+cat("Global objects after calling foo():\n")
+stopifnot(length(setdiff(ls(), lsBefore)) == 0)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Example 2 - with VComments preprocessor
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cat("=== Example 2 ================================================\n")
+
+preprocessor &lt;- function(lines, ...) {
+  cat("-----------------------------------------\n")
+  cat("Source code before preprocessing:\n")
+  displayCode(code=lines, pager="console")
+  cat("-----------------------------------------\n")
+  cat("Source code after preprocessing:\n")
+  lines &lt;- VComments$compile(lines)
+  displayCode(code=lines, pager="console")
+  cat("-----------------------------------------\n")
+  lines
+}
+
+oldHooks &lt;- getHook("sourceTo/onPreprocess")
+setHook("sourceTo/onPreprocess", preprocessor, action="replace")
+code &lt;- c(
+ 'x &lt;- 2',
+ '#V1# threshold=-1',
+ '#Vc# A v-comment log message',
+ 'print("Hello world")'
+)
+fh &lt;- textConnection(code)
+sourceTo(fh)
+setHook("sourceTo/onPreprocess", oldHooks, action="replace")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

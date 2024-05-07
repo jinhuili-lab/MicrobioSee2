@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Deprecated Functions in vegan package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vegan-deprecated {vegan}"><tr><td>vegan-deprecated {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Deprecated Functions in vegan package</h2>
+
+<h3>Description</h3>
+
+<p>These functions are provided for compatibility with older versions of
+<span class="pkg">vegan</span> only, and may be defunct as soon as the next release.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as.mlm(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Constrained ordination result. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>as.mlm</code> refits results of constrained ordination
+(<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code>) as a
+multiple response linear model (<code><a href="../../stats/html/lm.html">lm</a></code>). This allows
+finding influence statistics (<code><a href="../../stats/html/influence.measures.html">influence.measures</a></code>).
+It is also possible to derive several other statistics, but most of
+these are biased and misleading, since refitting ignores a major
+component of variation in constrained ordination. This function is
+replaced with a set functions that can find the same statistics
+directly from the ordination result object: see
+<code><a href="../../vegan/help/hatvalues.cca.html">hatvalues.cca</a></code>, <code><a href="../../vegan/help/rstandard.cca.html">rstandard.cca</a></code>,
+<code><a href="../../vegan/help/rstudent.cca.html">rstudent.cca</a></code>, <code><a href="../../vegan/help/cooks.distance.cca.html">cooks.distance.cca</a></code>,
+<code><a href="../../vegan/help/vcov.cca.html">vcov.cca</a></code>.
+</p>
+<p>Function <code>humpfit</code> was moved to the <span class="pkg">natto</span> package and is
+still available from <a href="https://github.com/jarioksa/natto">https://github.com/jarioksa/natto</a>. The
+function fits a neutral no-interaction model for the biomass &ndash;
+species-richness relation. The old help page is still available with
+<code>help("humpfit-deprecated")</code> (note the quotes).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/Deprecated.html">Deprecated</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

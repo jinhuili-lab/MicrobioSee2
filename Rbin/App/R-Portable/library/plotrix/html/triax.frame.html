@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Triangle plot frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for triax.frame {plotrix}"><tr><td>triax.frame {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Triangle plot frame</h2>
+
+<h3>Description</h3>
+
+<p>Display a three axis frame with optional grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ triax.frame(at=seq(0.1,0.9,by=0.1),axis.labels=NULL,
+ tick.labels=NULL,col.axis="black",cex.axis=1,cex.ticks=1,
+ align.labels=TRUE,show.grid=FALSE,col.grid="gray",lty.grid=par("lty"),
+ cc.axes=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>The tick positions on the three axes.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.labels</code></td>
+<td>
+<p>Labels for the three axes in the order bottom, right
+left. Defaults to the column names.</p>
+</td></tr>
+<tr valign="top"><td><code>tick.labels</code></td>
+<td>
+<p>The tick labels for the axes.
+Defaults to argument <span class="samp">at</span> (proportions).</p>
+</td></tr>
+<tr valign="top"><td><code>col.axis</code></td>
+<td>
+<p>Color of the triangular axes, ticks and labels.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.axis</code></td>
+<td>
+<p>Character expansion for axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.ticks</code></td>
+<td>
+<p>Character expansion for the tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>align.labels</code></td>
+<td>
+<p>Logical - whether to align axis and tick labels with
+the axes.</p>
+</td></tr>
+<tr valign="top"><td><code>show.grid</code></td>
+<td>
+<p>Whether to display grid lines at the ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>col.grid</code></td>
+<td>
+<p>Color of the grid lines. Defaults to gray.</p>
+</td></tr>
+<tr valign="top"><td><code>lty.grid</code></td>
+<td>
+<p>Type of line for the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>cc.axes</code></td>
+<td>
+<p>Whether to align the axes clockwise or counterclockwise.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">triax.frame</span> displays a triangular plot area on which proportions
+or percentages may be displayed. An optional grid may also be displayed.
+If <span class="samp">cc.axes</span> is TRUE, both the axes and axis ticks will be in
+reverse order.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/triax.points.html">triax.points</a>,<a href="../../plotrix/help/triax.abline.html">triax.abline</a>,<a href="../../plotrix/help/triax.fill.html">triax.fill</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ triax.plot(main="DEFAULT")
+ triax.plot(main="Clockwise axes",cc.axes=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

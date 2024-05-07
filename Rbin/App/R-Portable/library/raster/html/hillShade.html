@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Hill shading</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hillShade {raster}"><tr><td>hillShade {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Hill shading</h2>
+
+<h3>Description</h3>
+
+<p>Compute hill shade from slope and aspect layers (both in radians). Slope and aspect can be computed with function <code><a href="../../raster/help/terrain.html">terrain</a></code>. 
+</p>
+<p>A hill shade layer is often used as a backdrop on top of which another, semi-transparent, layer is drawn.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hillShade(slope, aspect, angle=45, direction=0, filename='', normalize=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>slope</code></td>
+<td>
+<p>RasterLayer object with slope values (in radians) </p>
+</td></tr>
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+<p>RasterLayer object with aspect values (in radians) </p>
+</td></tr>
+<tr valign="top"><td><code>angle</code></td>
+<td>
+<p> The the elevation angle of the light source (sun), in degrees</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p> The direction (azimuth) angle of the light source (sun), in degrees</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character. Optional filename</p>
+</td></tr>
+<tr valign="top"><td><code>normalize</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, values below zero are set to zero and the results are multiplied with 255</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Standard additional arguments for writing RasterLayer files</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Andrew Bevan, Robert J. Hijmans</p>
+
+
+<h3>References</h3>
+
+<p>Horn, B.K.P., 1981. Hill shading and the reflectance map. Proceedings of the IEEE 69(1):14-47
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/terrain.html">terrain</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+alt &lt;- getData('alt', country='CHE')
+slope &lt;- terrain(alt, opt='slope')
+aspect &lt;- terrain(alt, opt='aspect')
+hill &lt;- hillShade(slope, aspect, 40, 270)
+plot(hill, col=grey(0:100/100), legend=FALSE, main='Switzerland')
+plot(alt, col=rainbow(25, alpha=0.35), add=TRUE)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

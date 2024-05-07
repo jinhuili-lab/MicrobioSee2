@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Support Functions for Drawing Vectors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordiArrowTextXY {vegan}"><tr><td>ordiArrowTextXY {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Support Functions for Drawing Vectors</h2>
+
+<h3>Description</h3>
+
+<p>Support functions to assist with drawing of vectors (arrows) on
+ordination plots. <code>ordiArrowMul</code> finds the multiplier for the
+coordinates of the head of the vector such that they occupy
+<code>fill</code> proportion of the plot region. <code>ordiArrowTextXY</code>
+finds coordinates for the locations of <code>labels</code> to be drawn just
+beyond the head of the vector.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordiArrowTextXY(x, labels, display, choices = c(1,2),
+                rescale = TRUE, fill = 0.75, at = c(0,0), ...)
+ordiArrowMul(x, at = c(0,0), fill = 0.75,
+             display, choices = c(1,2), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An R object, from which <code><a href="../../vegan/help/scores.html">scores</a></code> can determine
+suitable ordination scores or an object created by
+<code><a href="../../vegan/help/envfit.html">envfit</a></code>, or a two-column matrix of coordinates of arrow
+heads on the two plot axes.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Change plotting labels. A character vector of labels for
+which label coordinates are sought. If not supplied, these will be
+determined from the row names of <code>x</code>, or <code>scores(x, ...)</code>
+if required. If either of these are not defined, suitable labels
+will be generated.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>a character string known to <code><a href="../../vegan/help/scores.html">scores</a></code> or one
+of its methods which indicates the type of scores to extract. In
+fitting functions these are ordinary site scores or linear
+combination scores (<code>"lc"</code>) in constrained ordination
+(<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code>). If
+<code>x</code> was created by <code>envfit</code> then <code>display</code> can not be
+set by the user and takes the value <code>"vectors"</code>. Ignored if
+<code>x</code> is a matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>rescale</code></td>
+<td>
+<p>logical; should the coordinates in or extracted from
+<code>x</code> be rescaled to fill <code>fill</code> proportion of the plot
+region? The default is to always rescale the coordinates as this is
+usually desired for objects <code>x</code> from which coordinates are
+retrieved. If supplying <code>x</code> a 2-column matrix that has already
+been rescaled, then set this to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p>numeric; the proportion of the plot to fill by the span of
+the arrows.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>The origin of fitted arrows in the plot.  If you plot arrows
+in other places than origin, you probably have to specify
+<code>arrrow.mul</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to <code><a href="../../vegan/help/scores.html">scores</a></code>, and
+<code><a href="../../graphics/html/strwidth.html">strwidth</a></code> and <code><a href="../../graphics/html/strwidth.html">strheight</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>ordiArrowMul</code> finds a multiplier to scale a bunch of
+arrows to fill an ordination plot, and <code>ordiArrowTextXY</code> finds
+the coordinates for labels of these arrows. NB.,
+<code>ordiArrowTextXY</code> does not draw labels; it simply returns
+coordinates at which the labels should be drawn for use with another
+function, such as <code><a href="../../graphics/html/text.html">text</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>ordiArrowTextXY</code>, a 2-column matrix of coordinates for the
+label centres in the coordinate system of the currently active
+plotting device.
+</p>
+<p>For <code>ordiArrowMul</code>, a length-1 vector containing the scaling
+factor.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen, with modifications by Gavin L. Simpson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+    ## Scale arrows by hand to fill 80% of the plot
+    ## Biplot arrows by hand
+    data(varespec, varechem)
+    ord &lt;- cca(varespec ~ Al + P + K, varechem)
+    plot(ord, display = c("species","sites"))
+
+    ## biplot scores
+    bip &lt;- scores(ord, choices = 1:2, display = "bp")
+
+    ## scaling factor for arrows to fill 80% of plot
+    (mul &lt;- ordiArrowMul(bip, fill = 0.8))
+    bip.scl &lt;- bip * mul                    # Scale the biplot scores
+    labs &lt;- rownames(bip)                   # Arrow labels
+
+    ## calculate coordinate of labels for arrows
+    (bip.lab &lt;- ordiArrowTextXY(bip.scl, rescale = FALSE, labels = labs))
+
+    ## draw arrows and text labels
+    arrows(0, 0, bip.scl[,1], bip.scl[,2], length = 0.1)
+    text(bip.lab, labels = labs)
+
+    ## Handling of ordination objects directly
+    mul2 &lt;- ordiArrowMul(ord, display = "bp", fill = 0.8)
+    stopifnot(all.equal(mul, mul2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

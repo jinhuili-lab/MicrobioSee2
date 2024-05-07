@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Classify wind direction and speed records</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bin.wind.records {plotrix}"><tr><td>bin.wind.records {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classify wind direction and speed records</h2>
+
+<h3>Description</h3>
+
+<p>Classifies wind direction and speed records into a matrix of
+percentages of observations in speed and direction bins.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ bin.wind.records(winddir,windspeed,ndir=8,radians=FALSE,
+  speed.breaks=c(0,10,20,30))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>winddir</code></td>
+<td>
+<p>A vector of wind directions.</p>
+</td></tr>
+<tr valign="top"><td><code>windspeed</code></td>
+<td>
+<p>A vector of wind speeds corresponding to the above
+directions.</p>
+</td></tr>
+<tr valign="top"><td><code>ndir</code></td>
+<td>
+<p>Number of direction bins in a compass circle.</p>
+</td></tr>
+<tr valign="top"><td><code>radians</code></td>
+<td>
+<p>Whether wind directions are in radians.</p>
+</td></tr>
+<tr valign="top"><td><code>speed.breaks</code></td>
+<td>
+<p>Minimum wind speed for each speed bin.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">bin.wind.records</span> bins a number of wind direction and speed
+records into a matrix of percentages of observations that can be used to
+display a cumulative wind rose with <span class="samp">oz.windrose</span> The defaults are those
+used by the Australian Bureau of Meteorology.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix of percentages in which the rows represent wind speed categories and 
+the columns represent wind direction categories.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/oz.windrose.html">oz.windrose</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ winddir&lt;-sample(0:360,100,TRUE)
+ windspeed&lt;-sample(0:40,100,TRUE)
+ bin.wind.records(winddir,windspeed)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

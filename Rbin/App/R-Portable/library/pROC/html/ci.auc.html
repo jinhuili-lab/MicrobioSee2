@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the confidence interval of the AUC</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci.auc {pROC}"><tr><td>ci.auc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute the confidence interval of the AUC
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the confidence interval (CI) of an area under
+the curve (AUC). By default, the 95% CI is computed with 2000
+stratified bootstrap replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+# ci.auc(...)
+## S3 method for class 'roc'
+ci.auc(roc, conf.level=0.95, method=c("delong",
+"bootstrap"), boot.n = 2000, boot.stratified = TRUE, reuse.auc=TRUE,
+progress = getOption("pROCProgress")$name, parallel=FALSE, ...)
+## S3 method for class 'smooth.roc'
+ci.auc(smooth.roc, conf.level=0.95, boot.n=2000,
+boot.stratified=TRUE, reuse.auc=TRUE,
+progress=getOption("pROCProgress")$name, parallel=FALSE, ...)
+## S3 method for class 'auc'
+ci.auc(auc, ...)
+## S3 method for class 'multiclass.roc'
+ci.auc(multiclass.roc, ...)
+## S3 method for class 'multiclass.auc'
+ci.auc(multiclass.auc, ...)
+## S3 method for class 'auc'
+ci.auc(auc, ...)
+## S3 method for class 'formula'
+ci.auc(formula, data, ...)
+## Default S3 method:
+ci.auc(response, predictor, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, or a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>an &ldquo;auc&rdquo; object from the <code><a href="../../pROC/help/auc.html">auc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>multiclass.roc, multiclass.auc</code></td>
+<td>
+<p>not implemented.</p>
+</td></tr>
+<tr valign="top"><td><code>response, predictor</code></td>
+<td>
+<p>arguments for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>a formula (and possibly a data object) of type
+response~predictor for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf.level</code></td>
+<td>
+<p>the width of the confidence interval as [0,1], never
+in percent. Default: 0.95, resulting in a 95% CI.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method to use, either &ldquo;delong&rdquo; or
+&ldquo;bootstrap&rdquo;. The first letter is sufficient. If omitted, the
+appropriate method is selected as explained in details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>the number of bootstrap replicates. Default: 2000.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>should the bootstrap be stratified (default, same number
+of cases/controls in each replicate than in the original sample) or
+not.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc</code></td>
+<td>
+<p>if <code>TRUE</code> (default) and the &ldquo;roc&rdquo; object
+contains an &ldquo;auc&rdquo; field, re-use these specifications for the
+test. If false, use optional <code>...</code> arguments to
+<code><a href="../../pROC/help/auc.html">auc</a></code>. See details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>the name of progress bar to display. Typically
+&ldquo;none&rdquo;, &ldquo;win&rdquo;, &ldquo;tk&rdquo; or &ldquo;text&rdquo; (see the
+<code>name</code> argument to <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code> for
+more information), but a list as returned by <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code>
+is also accepted. See also the &ldquo;Progress bars&rdquo; section of
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>if TRUE, the bootstrap is processed in parallel, using 
+parallel backend provided by plyr (foreach).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code><a href="../../pROC/help/roc.html">roc</a></code> and <code>roc.test.roc</code>
+when calling <code>roc.test.default</code> or <code>roc.test.formula</code>.
+Arguments for <code><a href="../../pROC/help/auc.html">auc</a></code>
+and <code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code> (only <code>char</code> and <code>style</code>)
+if applicable.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function computes the CI of an AUC. Two methods are available:
+&ldquo;delong&rdquo; and &ldquo;bootstrap&rdquo; with the parameters defined in &ldquo;roc$auc&rdquo; to
+compute a CI. When it is called with two vectors (response, predictor)
+or a formula (response~predictor) arguments, the <code><a href="../../pROC/help/roc.html">roc</a></code>
+function is called to build the ROC curve first.
+</p>
+<p>The default is to use
+&ldquo;delong&rdquo; method except for comparison of partial AUC and smoothed
+curves, where <code>bootstrap</code> is used. Using &ldquo;delong&rdquo; for
+partial AUC and smoothed ROCs is not supported.
+</p>
+<p>With <code>method="bootstrap"</code>, the function calls <code><a href="../../pROC/help/auc.html">auc</a></code>
+<code>boot.n</code> times. For more details about the bootstrap, see the Bootstrap section in
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+<p>For <a href="../../pROC/help/smooth.roc.html">smoothed ROC curves</a>, smoothing is performed again at each
+bootstrap replicate with the parameters originally provided.
+If a density smoothing was performed with user-provided
+<code>density.cases</code> or <code>density.controls</code> the bootstrap cannot
+be performed and an error is issued.
+</p>
+<p>With <code>method="delong"</code>, the variance of the AUC is computed as
+defined by DeLong <em>et al.</em> (1988) using the algorithm by Sun and Xu (2014) 
+and the CI is deduced with <code><a href="../../stats/html/Normal.html">qnorm</a></code>.
+</p>
+<p>CI of multiclass ROC curves and AUC is not implemented yet. Attempting to call these
+methods returns an error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of length 3 and class &ldquo;ci.auc&rdquo;, &ldquo;ci&rdquo; and &ldquo;numeric&rdquo; (in this order), with the lower
+bound, the median and the upper bound of the CI, and the following attributes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>conf.level</code></td>
+<td>
+<p>the width of the CI, in fraction.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method employed.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>the number of bootstrap replicates.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>whether or not the bootstrapping was stratified.</p>
+</td></tr>
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>an object of class &ldquo;<a href="../../pROC/help/auc.html">auc</a>&rdquo; stored for reference about the
+compued AUC details (partial, percent, ...)</p>
+</td></tr>
+</table>
+<p>The <code>aucs</code> item is not included in this list since version 1.2 for
+consistency reasons.
+</p>
+
+
+<h3>AUC specification</h3>
+
+<p>The comparison of the CI needs a specification of the AUC. This allows
+to compute the CI for full or partial AUCs. The specification is defined by:
+</p>
+
+<ol>
+<li><p> the &ldquo;auc&rdquo; field in the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object if
+<code>reuse.auc</code> is set to <code>TRUE</code> (default). It is naturally
+inherited from any call to <code><a href="../../pROC/help/roc.html">roc</a></code> and fits most cases.
+</p>
+</li>
+<li><p> passing the specification to <code><a href="../../pROC/help/auc.html">auc</a></code> with ...
+(arguments <code>partial.auc</code>, <code>partial.auc.correct</code> and
+<code>partial.auc.focus</code>). In this case, you must ensure either that
+the <code><a href="../../pROC/help/roc.html">roc</a></code> object do not contain an <code>auc</code> field (if
+you called <code><a href="../../pROC/help/roc.html">roc</a></code> with <code>auc=FALSE</code>), or set
+<code>reuse.auc=FALSE</code>.
+</p>
+</li></ol>
+
+<p>If <code>reuse.auc=FALSE</code> the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always
+be called with <code>...</code> to determine the specification, even if
+the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object do contain an <code>auc</code> field.
+</p>
+<p>As well if the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object do not contain an <code>auc</code>
+field, the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always be called with
+<code>...</code> to determine the specification.
+</p>
+<p>Warning: if the roc object passed to ci contains an <code>auc</code>
+field and <code>reuse.auc=TRUE</code>, <a href="../../pROC/help/auc.html">auc</a> is not called and
+arguments such as <code>partial.auc</code> are silently ignored.
+</p>
+
+
+<h3>Warnings</h3>
+
+<p>If <code>method="delong"</code> and the AUC specification specifies a
+partial AUC, the warning &ldquo;Using DeLong's test for partial AUC is
+not supported. Using bootstrap test instead.&rdquo; is issued. The
+<code>method</code> argument is ignored and &ldquo;bootstrap&rdquo; is used
+instead.
+</p>
+<p>If <code>boot.stratified=FALSE</code> and the sample has a large imbalance between
+cases and controls, it could happen that one or more of the replicates
+contains no case or control observation, or that there are not enough
+points for smoothing, producing a <code>NA</code> area.
+The warning &ldquo;NA value(s) produced during bootstrap were ignored.&rdquo;
+will be issued and the observation will be ignored. If you have a large
+imbalance in your sample, it could be safer to keep
+<code>boot.stratified=TRUE</code>.
+</p>
+
+
+<h3>Errors</h3>
+
+<p>If <code>density.cases</code> and <code>density.controls</code> were provided
+for smoothing, the error &ldquo;Cannot compute the statistic on ROC
+curves smoothed with density.controls and density.cases.&rdquo; is issued.
+</p>
+
+
+<h3>References</h3>
+
+<p>James Carpenter and John Bithell (2000) &ldquo;Bootstrap condence intervals:
+when, which, what? A practical guide for medical statisticians&rdquo;.
+<em>Statistics in Medicine</em> <b>19</b>, 1141&ndash;1164.
+DOI: doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(20000515)19:9%3C1141::AID-SIM479%3E3.0.CO;2-F">10.1002/(SICI)1097-0258(20000515)19:9&lt;1141::AID-SIM479&gt;3.0.CO;2-F</a>.
+</p>
+<p>Elisabeth R. DeLong, David M. DeLong and Daniel L. Clarke-Pearson
+(1988) &ldquo;Comparing the areas under two or more correlated receiver
+operating characteristic curves: a nonparametric
+approach&rdquo;. <em>Biometrics</em> <b>44</b>, 837&ndash;845.
+</p>
+<p>Xu Sun and Weichao Xu (2014) &ldquo;Fast Implementation of DeLongs Algorithm for Comparing
+the Areas Under Correlated Receiver Operating Characteristic Curves&rdquo;. <em>IEEE Signal
+Processing Letters</em>, <b>21</b>, 1389&ndash;1393. 
+DOI: doi: <a href="https://doi.org/10.1109/LSP.2014.2337313">10.1109/LSP.2014.2337313</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>Hadley Wickham (2011) &ldquo;The Split-Apply-Combine Strategy for Data Analysis&rdquo;. <em>Journal of Statistical Software</em>, <b>40</b>, 1&ndash;29.
+URL: <a href="https://www.jstatsoft.org/v40/i01">www.jstatsoft.org/v40/i01</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create a ROC curve:
+data(aSAH)
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+
+
+## Basic example ##
+ci.auc(roc1)
+
+# You can also write:
+ci(roc1)
+ci(auc(roc1))
+
+
+## More options ##
+# Partial AUC and customized bootstrap:
+## Not run: 
+ci.auc(roc1,
+       conf.level=0.9,
+	   partial.auc=c(1, .8),  partial.auc.focus="se", partial.auc.correct=TRUE,
+       boot.n=10000, stratified=FALSE)
+## End(Not run)
+
+# Note that the following will NOT give a CI of the partial AUC:
+## Not run: 
+ci.auc(roc1,
+       partial.auc=c(1, .8), partial.auc.focus="se", partial.auc.correct=FALSE)
+## End(Not run)
+# This is because rocobj$auc is not a partial AUC and reuse.auc = TRUE by default.
+# You can overcome this problem by passing an AUC instead:
+auc1 &lt;- auc(roc1, partial.auc=c(1, .8), partial.auc.focus="se", 
+            partial.auc.correct=FALSE)
+## Not run: 
+ci.auc(auc1)
+## End(Not run)
+
+
+## On smoothed ROC curves with bootstrap ##
+## Not run: 
+ci.auc(smooth(roc1, method="density"))
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

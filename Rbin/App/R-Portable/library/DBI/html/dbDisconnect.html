@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Disconnect (close) a connection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbDisconnect {DBI}"><tr><td>dbDisconnect {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Disconnect (close) a connection</h2>
+
+<h3>Description</h3>
+
+<p>This closes the connection, discards all pending work, and frees
+resources (e.g., memory, sockets).
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+dbDisconnect(conn, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>conn</code></td>
+<td>
+<p>A <a href="../../DBI/help/DBIConnection-class.html">DBIConnection</a> object, as returned by
+<code><a href="../../DBI/help/dbConnect.html">dbConnect()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed on to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>dbDisconnect()</code> returns <code>TRUE</code>, invisibly.
+</p>
+
+
+<h3>Failure modes</h3>
+
+<p>A warning is issued on garbage collection when a connection has been
+released without calling <code>dbDisconnect()</code>,
+but this cannot be tested automatically.
+A warning is issued immediately when calling <code>dbDisconnect()</code> on an
+already disconnected
+or invalid connection.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other DBIConnection generics: 
+<code><a href="../../DBI/help/DBIConnection-class.html">DBIConnection-class</a></code>,
+<code><a href="../../DBI/help/dbAppendTable.html">dbAppendTable</a>()</code>,
+<code><a href="../../DBI/help/dbAppendTableArrow.html">dbAppendTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTable.html">dbCreateTable</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTableArrow.html">dbCreateTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbDataType.html">dbDataType</a>()</code>,
+<code><a href="../../DBI/help/dbExecute.html">dbExecute</a>()</code>,
+<code><a href="../../DBI/help/dbExistsTable.html">dbExistsTable</a>()</code>,
+<code><a href="../../DBI/help/dbGetException.html">dbGetException</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbGetQuery.html">dbGetQuery</a>()</code>,
+<code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbIsReadOnly.html">dbIsReadOnly</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbListFields.html">dbListFields</a>()</code>,
+<code><a href="../../DBI/help/dbListObjects.html">dbListObjects</a>()</code>,
+<code><a href="../../DBI/help/dbListResults.html">dbListResults</a>()</code>,
+<code><a href="../../DBI/help/dbListTables.html">dbListTables</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbReadTable.html">dbReadTable</a>()</code>,
+<code><a href="../../DBI/help/dbReadTableArrow.html">dbReadTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbRemoveTable.html">dbRemoveTable</a>()</code>,
+<code><a href="../../DBI/help/dbSendQuery.html">dbSendQuery</a>()</code>,
+<code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement</a>()</code>,
+<code><a href="../../DBI/help/dbUnquoteIdentifier.html">dbUnquoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTable.html">dbWriteTable</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTableArrow.html">dbWriteTableArrow</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+con &lt;- dbConnect(RSQLite::SQLite(), ":memory:")
+dbDisconnect(con)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Log likelihoods and model selection for mle2 objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BIC-methods {bbmle}"><tr><td>BIC-methods {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Log likelihoods and model selection for mle2 objects</h2>
+
+<h3>Description</h3>
+
+<p>Various functions for likelihood-based and information-theoretic
+model selection of likelihood models
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S4 method for signature 'ANY,mle2,logLik'
+AICc(object,...,nobs,k=2)
+## S4 method for signature 'ANY,mle2,logLik'
+qAIC(object,...,k=2)
+## S4 method for signature 'ANY,mle2,logLik'
+qAICc(object,...,nobs,k=2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A <code>logLik</code> or <code>mle2</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>An optional list of additional <code>logLik</code>
+or <code>mle2</code> objects (fitted to the same data set).</p>
+</td></tr>
+<tr valign="top"><td><code>nobs</code></td>
+<td>
+<p>Number of observations (sometimes 
+obtainable as an attribute of
+the fit or of the log-likelihood)</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>penalty parameter (nearly always left at its default value of 2)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Further arguments to <code>BIC</code> can be specified
+in the <code>...</code> list: <code>delta</code> (logical)
+specifies whether to include a column for delta-BIC
+in the output.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A table of the BIC values, degrees of freedom,
+and possibly delta-BIC values relative to the
+minimum-BIC model
+</p>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>logLik</dt><dd><p><code>signature(object = "mle2")</code>: Extract maximized
+log-likelihood.</p>
+</dd>
+<dt>AIC</dt><dd><p><code>signature(object = "mle2")</code>: Calculate
+Akaike Information Criterion</p>
+</dd>
+<dt>AICc</dt><dd><p><code>signature(object = "mle2")</code>: Calculate
+small-sample corrected Akaike Information Criterion</p>
+</dd>
+</dl>
+
+
+
+
+
+
+<dl>
+<dt>anova</dt><dd><p><code>signature(object="mle2")</code>: Likelihood Ratio Test
+comparision of different models</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>This is implemented in an ugly way and could
+probably be improved!</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  d &lt;- data.frame(x=0:10,y=c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8))
+  (fit &lt;- mle2(y~dpois(lambda=ymax/(1+x/xhalf)),
+      start=list(ymax=25,xhalf=3),data=d))
+  (fit2 &lt;- mle2(y~dpois(lambda=(x+1)*slope),
+      start=list(slope=1),data=d))
+  BIC(fit)
+  BIC(fit,fit2)
+  </pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

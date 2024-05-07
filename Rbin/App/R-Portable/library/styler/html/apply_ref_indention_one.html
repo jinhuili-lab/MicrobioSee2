@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Applying reference indention of a target token</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for apply_ref_indention_one {styler}"><tr><td>apply_ref_indention_one {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Applying reference indention of a target token</h2>
+
+<h3>Description</h3>
+
+<p>Applies the indention level of <code>target_token</code> to all tokens that have
+<code>target_token</code> as a reference. This includes adding spaces to the first
+tokens on a line and updating the column <code>col1</code> and <code>col2</code> for all tokens
+on that line so they are kept updated.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply_ref_indention_one(flattened_pd, target_token)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flattened_pd</code></td>
+<td>
+<p>A flattened parse table</p>
+</td></tr>
+<tr valign="top"><td><code>target_token</code></td>
+<td>
+<p>The index of the token from which the indention level
+should be applied to other tokens.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

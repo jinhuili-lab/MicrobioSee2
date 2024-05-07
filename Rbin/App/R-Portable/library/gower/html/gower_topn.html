@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the top-n matches</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gower_topn {gower}"><tr><td>gower_topn {gower}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find the top-n matches</h2>
+
+<h3>Description</h3>
+
+<p>Find the top-n matches in <code>y</code> for each record in <code>x</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gower_topn(
+  x,
+  y,
+  pair_x = NULL,
+  pair_y = NULL,
+  n = 5,
+  eps = 1e-08,
+  weights = NULL,
+  ignore_case = FALSE,
+  nthread = getOption("gd_num_thread")
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><code>[data.frame]</code></p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p><code>[data.frame]</code></p>
+</td></tr>
+<tr valign="top"><td><code>pair_x</code></td>
+<td>
+<p><code>[numeric|character] (optional)</code> Columns in <code>x</code> used for comparison. 
+See Details below.</p>
+</td></tr>
+<tr valign="top"><td><code>pair_y</code></td>
+<td>
+<p><code>[numeric|character] (optional)</code> Columns in <code>y</code> used for comparison. 
+See Details below.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The top-n indices and distances to return.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p><code>[numeric] (optional)</code> Computed numbers (variable ranges) 
+smaller than <code>eps</code> are treated as zero.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p><code>[numeric] (optional)</code> A vector of weights of length <code>ncol(x)</code>
+that defines the weight applied to each component of the gower distance.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p><code>[logical]</code> Toggle ignore case when neither <code>pair_x</code>
+nor <code>pair_y</code> are user-defined.</p>
+</td></tr>
+<tr valign="top"><td><code>nthread</code></td>
+<td>
+<p>Number of threads to use for parallelization. By default,
+for a dual-core machine, 2 threads are used. For any other machine 
+n-1 cores are used so your machine doesn't freeze during a big computation. 
+The maximum nr of threads are determined using <code>omp_get_max_threads</code> at C level.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code>list</code> with two array elements: <code>index</code>
+and <code>distance</code>. Both have size <code>n X nrow(x)</code>. Each ith column 
+corresponds to the top-n best matches of <code>x</code> with rows in <code>y</code>.
+When there are no columns to compare, a message is printed and both
+<code>distance</code> and <code>index</code> will be empty matrices; the list is
+then returned invisibly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../gower/help/gower_dist.html">gower_dist</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# find the top 4 best matches in the iris data set with itself.
+x &lt;- iris[1:3,]
+lookup &lt;- iris[1:10,]
+gower_topn(x=x,y=lookup,n=4)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gower</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

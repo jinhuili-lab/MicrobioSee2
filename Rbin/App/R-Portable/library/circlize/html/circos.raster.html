@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add raster images</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.raster {circlize}"><tr><td>circos.raster {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add raster images
+</h2>
+
+<h3>Description</h3>
+
+<p>Add raster images
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.raster(
+    image, x, y,
+    width, height,
+    facing = c("inside", "outside", "reverse.clockwise", "clockwise",
+    "downward", "bending.inside", "bending.outside"),
+    niceFacing = FALSE,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    scaling = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>image</code></td>
+<td>
+<p>A <code>raster</code> object, or an object that can be converted by <code><a href="../../grDevices/help/as.raster.html">as.raster</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Position of the center of the raster image, measued in the data coordinate in the cell.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Position of the center of the raster image, measued in the data coordinate in the cell.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of the raster image. When <code>facing</code> is one of &quot;inside&quot;, &quot;outside&quot;, &quot;clockwise&quot; and &quot;reverse.clockwise&quot;, the image should have absolute size where the value of <code>width</code> should be specified like <code>20mm</code>, <code>1cm</code> or <code>0.5inche</code>. When <code>facing</code> is one of <code>bending.inside</code> and <code>bending.outside</code>, the value of <code>width</code> is measured in the data coordinate in the cell.</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>Height of the raster image. Same format as <code>width</code>. If the value of <code>height</code> is omit,  default height is calculated by taking the aspect ratio of the original image. But when <code>facing</code> is one of <code>bending.inside</code> and <code>bending.outside</code>, <code>height</code> is mandatory to set.</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>Facing of the raster image.</p>
+</td></tr>
+<tr valign="top"><td><code>niceFacing</code></td>
+<td>
+<p>Facing of text. Please refer to vignette for different settings.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Scaling factor to resize the raster image.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#raster-image">https://jokergoo.github.io/circlize_book/book/graphics.html#raster-image</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+require(png)
+image = system.file("extdata", "Rlogo.png", package = "circlize")
+image = as.raster(readPNG(image))
+circos.initialize(letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.raster(image, CELL_META$xcenter, CELL_META$ycenter, width = "2cm", 
+        facing = "inside", niceFacing = TRUE)
+})
+circos.clear()
+
+if(FALSE) {
+# NOTE: following takes quite a long time to run
+load(system.file("extdata", "doodle.RData", package = "circlize"))
+circos.par("cell.padding" = c(0, 0, 0, 0))
+circos.initialize(letters[1:16], xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    img = img_list[[CELL_META$sector.numeric.index]]
+    circos.raster(img, CELL_META$xcenter, CELL_META$ycenter, width = 1, 
+        height = 1, facing = "bending.inside")
+}, track.height = 0.25, bg.border = NA)
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    img = img_list[[CELL_META$sector.numeric.index + 16]]
+    circos.raster(img, CELL_META$xcenter, CELL_META$ycenter, width = 1, 
+        height = 1, facing = "bending.inside")
+}, track.height = 0.25, bg.border = NA)
+circos.clear()
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

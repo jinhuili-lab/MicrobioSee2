@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Arrange rows by column values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for arrange.tbl_lazy {dbplyr}"><tr><td>arrange.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Arrange rows by column values</h2>
+
+<h3>Description</h3>
+
+<p>This is an method for the dplyr <code><a href="../../dplyr/html/arrange.html">arrange()</a></code> generic. It generates
+the <code style="white-space: pre;">ORDER BY</code> clause of the SQL query. It also affects the
+<code><a href="../../dbplyr/help/window_order.html">window_order()</a></code> of windowed expressions in <code><a href="../../dbplyr/help/mutate.tbl_lazy.html">mutate.tbl_lazy()</a></code>.
+</p>
+<p>Note that <code style="white-space: pre;">ORDER BY</code> clauses can not generally appear in subqueries, which
+means that you should <code>arrange()</code> as late as possible in your pipelines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_lazy'
+arrange(.data, ..., .by_group = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_data_masking.html">data-masking</a></code>&gt; Variables, or functions of
+variables. Use <code><a href="../../dplyr/help/desc.html">desc()</a></code> to sort a variable in descending order.</p>
+</td></tr>
+<tr valign="top"><td><code>.by_group</code></td>
+<td>
+<p>If <code>TRUE</code>, will sort first by grouping variable. Applies to
+grouped data frames only.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Another <code>tbl_lazy</code>. Use <code><a href="../../dplyr/html/explain.html">show_query()</a></code> to see the generated
+query, and use <code><a href="../../dbplyr/help/collect.tbl_sql.html">collect()</a></code> to execute the query
+and return data to R.
+</p>
+
+
+<h3>Missing values</h3>
+
+<p>Unlike R, most databases sorts <code>NA</code> (<code>NULL</code>s) at the front. You can
+can override this behaviour by explicitly sorting on <code>is.na(x)</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+db &lt;- memdb_frame(a = c(3, 4, 1, 2), b = c(5, 1, 2, NA))
+db %&gt;% arrange(a) %&gt;% show_query()
+
+# Note that NAs are sorted first
+db %&gt;% arrange(b)
+# override by sorting on is.na() first
+db %&gt;% arrange(is.na(b), b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

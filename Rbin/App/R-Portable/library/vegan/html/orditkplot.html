@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ordination Plot with Movable Labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for orditkplot {vegan}"><tr><td>orditkplot {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Ordination Plot with Movable Labels </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>orditkplot</code> produces an editable ordination plot with
+points and labels. The labels can be moved with mouse, and the edited
+plot can be saved as an encapsulated postscript file or exported via <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> 
+<code>plot</code> function to other graphical formats, or saved in the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session 
+for further processing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+orditkplot(x, display = "species", choices = 1:2, width, xlim, ylim, 
+   tcex = 0.8, tcol, pch = 1,  pcol, pbg, pcex = 0.7, labels,  ...)
+## S3 method for class 'orditkplot'
+plot(x, ...)
+## S3 method for class 'orditkplot'
+points(x, pch = x$args$pch, cex = x$args$pcex,
+       col = x$args$pcol, bg = x$args$pbg, ...)
+## S3 method for class 'orditkplot'
+text(x, cex = x$args$tcex, col = x$args$tcol,
+     font = attr(x$labels, "font"), ...)
+## S3 method for class 'orditkplot'
+scores(x, display, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+ 
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An ordination result or any other object that
+<code><a href="../../vegan/help/scores.html">scores</a></code> can handle, or for the <code>plot</code> function the
+object dumped from the interactive <code>orditkplot</code> session.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Type of <code><a href="../../vegan/help/scores.html">scores</a></code> displayed. For ordination
+scores this typically is either <code>"species"</code> or <code>"sites"</code>,
+and for <code>orditkplot</code> result it is either <code>"points"</code> or
+<code>"labels"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of the plot in inches; defaults to the current
+width of the graphical device. </p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>x and y limits for plots: points outside these
+limits will be completely removed.</p>
+</td></tr>
+<tr valign="top"><td><code>tcex</code></td>
+<td>
+<p>Character expansion for text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>tcol</code></td>
+<td>
+<p>Colour of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>pch, pcol, pbg</code></td>
+<td>
+<p>Point type and outline and fill colours. 
+Defaults <code>pcol="black"</code>  and <code>pbg="transparent"</code>. 
+Argument <code>pbg</code> has an effect only in filled plotting characters
+<code>pch = 21</code> to <code>25</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>pcex</code></td>
+<td>
+<p>Expansion factor for point size.</p>
+</td></tr>  
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels used instead of row names.</p>
+</td></tr>
+<tr valign="top"><td><code>cex, col, bg, font</code></td>
+<td>
+<p>graphical parameters used in the
+<code>points</code> and <code>text</code> methods. See <code><a href="../../graphics/html/par.html">par</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to the function. These can be
+graphical parameters (see <code><a href="../../graphics/html/par.html">par</a></code>) used in the plot, or
+extra arguments to <code><a href="../../vegan/help/scores.html">scores</a></code>. These arguments are
+ignored in <code>plot</code>, but honoured in <code>text</code> and <code>points</code>. </p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p> Function <code>orditkplot</code> uses <span class="pkg">tcltk</span> package to draw
+Tcl/Tk based ordination graphics with points and labels. The function
+opens an editable canvas with fixed points, but the labels can be
+dragged with mouse to better positions or edited. In addition, it is
+possible to zoom to a part of the graph.
+</p>
+<p>The function knows the following mouse operations:
+</p>
+
+<ul>
+<li> <p><strong>Left mouse button</strong> can be used to move labels to better
+positions. A line will connect a label to the corresponding point.
+</p>
+</li>
+<li> <p><strong>Double clicking left mouse button</strong> opens a window where the
+label can be edited. After editing the label, hit the Return key.
+</p>
+</li>
+<li> <p><strong>Right mouse button</strong> (or alternatively, Shift-Mouse button with
+one-button mouse) can be used for zooming to a part of the
+graph. Keeping the mouse button down and dragging will draw a box
+of the zoomed area, and after releasing the button, a new plot window
+will be created (this is still preliminary: all arguments are not
+passed to the new plot).
+</p>
+</li></ul>
+
+<p>In addition there are buttons for the following tasks: <strong>Copy
+to EPS</strong> copies the current plot to an encapsulated postscript (eps)
+file using standard Tcl/Tk utilities. The faithfulness of this copy
+is system dependent. Button <strong>Export plot</strong> uses
+<code>plot.orditkplot</code> function to redraw the plot into graphical
+file formats. Depending on the system, the following graphical
+formats may be available: eps, pdf, svg, png, jpeg, tiff, bmp or
+xfig. Some of the output formats may be edited with external
+software: svg files with Illustrator or Inkscape, and xfig with the
+legacy program XFig. Button <strong>Save to R</strong> writes the edited
+coordinates of labels and points to the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session for further
+processing, and the <code>plot.orditkplot</code> function can be used to
+display the results. For faithful replication of the plot, the graph
+must have similar dimensions as the <code>orditkplot</code> canvas had
+originally. The <code>plot</code> function cannot be configured, but it
+uses the same settings as the original Tcl/Tk plot. However,
+<code>points</code> and <code>text</code> functions are fully configurable, but
+use the stored defaults for consistency with <code>plot.orditkplot</code>
+if none are supplied. Finally, button <strong>Close</strong> closes the
+window.
+</p>
+<p>The produced plot will have equal aspect ratio. The width of the
+horizontal axis is fixed, but vertical axes will be scaled to needed
+height, and you can use scrollbar to move vertically if the whole
+canvas does not fit the window. If you use dumped labels in ordinary
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> plots, your plot must have the same dimensions as the
+<code>orditkplot</code> canvas to have identical location of the labels.
+</p>
+<p>The function only displays one set of scores. However, you can use
+<code><a href="../../vegan/help/ordipointlabel.html">ordipointlabel</a></code> to produce a result object that has
+different points and text types for several sets of scores and this
+can be further edited with <code>orditkplot</code>. For a good starting
+solution you need to scale the <code><a href="../../vegan/help/ordipointlabel.html">ordipointlabel</a></code> result
+so that the points span over the whole horizontal axis. The function
+cannot show environmental variables or constraints, but it is
+limited to unconstrained ordination.
+</p>
+<p>The plot is a Tcl/Tk canvas, but the function tries to replicate
+standard graphical device of the platform, and it honours several
+graphical parameters (see <code><a href="../../graphics/html/par.html">par</a></code>).  Many of the graphical
+parameters can be given on the command line, and they will be passed
+to the function without influencing other graphical devices in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>.
+At the moment, the
+following graphical parameters are honoured: 
+<code>pch</code> <code>bg</code>,  <code>cex</code>,
+<code>cex.axis</code>, <code>cex.lab</code>, <code>col</code> (for labels),
+<code>col.axis</code>, <code>col.lab</code>, <code>family</code> (for font faces),
+<code>fg</code>, <code>font</code>, <code>font.axis</code>, <code>font.lab</code>,
+<code>lheight</code>, <code>lwd</code> (for the box), <code>mar</code>, <code>mex</code>,
+<code>mgp</code>, <code>ps</code>, <code>tcl</code>. These can be set with
+<code><a href="../../graphics/html/par.html">par</a></code>, and they also will influence other plots similarly.
+</p>
+<p>The <code><a href="../../tcltk/help/tkcanvas.html">tkcanvas</a></code> text cannot be rotated, and
+therefore vertical axis is not labelled, and <code>las</code>
+<code><a href="../../graphics/html/par.html">par</a></code>ameter will not be honoured in the Tcl/Tk plot, but
+it will be honoured in the exported <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> plots and in
+<code>plot.orditkplot</code>.  </p>
+
+
+<h3>Value</h3>
+
+<p> Function returns nothing useful directly, but you can save the
+edited graph to a file or save the edited positions to an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session
+for further processing and plotting.  
+</p>
+
+
+<h3>Note</h3>
+
+<p>You need <span class="pkg">tcltk</span> package and <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> must have been configured with
+<code><a href="../../base/html/capabilities.html">capabilities</a></code> for <code>tcltk</code>.
+Depending on your OS, you may need to start X11 and set the display
+before loading <span class="pkg">tcltk</span> and starting the function (for instance,
+with <code>Sys.setenv("DISPLAY"=":0")</code>). See
+<code><a href="../../tcltk/help/tcltk-package.html">tcltk-package</a></code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p> Function <code><a href="../../vegan/help/ordipointlabel.html">ordipointlabel</a></code> is an automatic
+procedure with similar goals of avoiding overplotting, and its
+output can be edited with <code>orditkplot</code>.  See
+<code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code>, <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>,
+<code><a href="../../vegan3d/help/ordirgl.html">ordirgl</a></code> and <code><a href="../../vegan/help/orditorp.html">orditorp</a></code> for
+alternative ordination plots, and <code><a href="../../vegan/help/scores.html">scores</a></code> for
+extracting ordination scores.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## The example needs user interaction and is not executed directly.
+## It should work when pasted to the window.
+## Not run: 
+data(varespec)
+ord &lt;- cca(varespec)
+## Do something with the graph and end by clicking "Dismiss"
+orditkplot(ord, mar = c(4,4,1,1)+.1, font=3)
+## Use ordipointlabel to produce a plot that has both species and site
+## scores in different colors and plotting symbols
+pl &lt;- ordipointlabel(ord)
+orditkplot(pl)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

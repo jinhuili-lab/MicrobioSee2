@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nestedness Indices for Communities of Islands or Patches</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for nestedtemp {vegan}"><tr><td>nestedtemp {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Nestedness Indices for Communities of Islands or Patches </h2>
+
+<h3>Description</h3>
+
+<p>Patches or local communities are regarded as nested if they all could
+be subsets of the same community. In general, species poor communities
+should be subsets of species rich communities, and rare species should
+only occur in species rich communities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nestedchecker(comm)
+nestedn0(comm)
+nesteddisc(comm, niter = 200)
+nestedtemp(comm, ...)
+nestednodf(comm, order = TRUE, weighted = FALSE, wbinary = FALSE)
+nestedbetasor(comm)
+nestedbetajac(comm)
+## S3 method for class 'nestedtemp'
+plot(x, kind = c("temperature", "incidence"),
+    col=rev(heat.colors(100)),  names = FALSE, ...)
+## S3 method for class 'nestednodf'
+plot(x, col = "red", names = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p>Community data.</p>
+</td></tr>
+<tr valign="top"><td><code>niter</code></td>
+<td>
+<p>Number of iterations to reorder tied columns.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Result object for a <code>plot</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour scheme for matrix temperatures.</p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>The kind of plot produced.</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>Label columns and rows in the plot using names in <code>comm</code>.
+If it is a logical vector of length 2, row and column labels are
+returned accordingly.</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>Order rows and columns by frequencies.</p>
+</td></tr>
+<tr valign="top"><td><code>weighted</code></td>
+<td>
+<p>Use species abundances as weights of interactions.</p>
+</td></tr>
+<tr valign="top"><td><code>wbinary</code></td>
+<td>
+<p>Modify original method so that binary data give the same
+result in weighted and and unweighted analysis. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The nestedness functions evaluate alternative indices of nestedness.
+The functions are intended to be used together with Null model
+communities and used as an argument in <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> to analyse
+the non-randomness of results.
+</p>
+<p>Function <code>nestedchecker</code> gives the number of checkerboard units,
+or 2x2 submatrices where both species occur once but on different
+sites (Stone &amp; Roberts 1990).
+</p>
+<p>Function <code>nestedn0</code> implements
+nestedness measure N0 which is the number of absences from the sites
+which are richer than the most pauperate site species occurs
+(Patterson &amp; Atmar 1986).
+</p>
+<p>Function <code>nesteddisc</code> implements discrepancy index which is the
+number of ones that should be shifted to fill a row with ones in a
+table arranged by species frequencies (Brualdi &amp; Sanderson
+1999). The original definition arranges species (columns) by their
+frequencies, but did not have any method of handling tied
+frequencies.  The <code>nesteddisc</code> function tries to order tied
+columns to minimize the discrepancy statistic but this is rather
+slow, and with a large number of tied columns there is no guarantee
+that the best ordering was found (argument <code>niter</code> gives the
+maximum number of tried orders). In that case a warning of tied
+columns will be issued.
+</p>
+<p>Function <code>nestedtemp</code> finds the matrix temperature which is
+defined as the sum of &ldquo;surprises&rdquo; in arranged matrix.  In
+arranged unsurprising matrix all species within proportion given by
+matrix fill are in the upper left corner of the matrix, and the
+surprise of the absence or presences is the diagonal distance from the
+fill line (Atmar &amp; Patterson 1993). Function tries to pack species and
+sites to a low temperature (Rodríguez-Gironés
+&amp; Santamaria 2006), but this is an iterative procedure, and the
+temperatures usually vary among runs.  Function <code>nestedtemp</code> also
+has a <code>plot</code> method which can display either incidences or
+temperatures of the surprises. Matrix temperature was rather vaguely
+described (Atmar &amp; Patterson 1993), but
+Rodríguez-Gironés &amp; Santamaria (2006) are
+more explicit and their description is used here. However, the results
+probably differ from other implementations, and users should be
+cautious in interpreting the results. The details of calculations are
+explained in the <code><a href="../../utils/html/vignette.html">vignette</a></code> <em>Design decisions and
+implementation</em> that you can read using functions
+<code><a href="../../utils/html/browseVignettes.html">browseVignettes</a></code>. Function
+<code><a href="../../bipartite/help/nestedness.html">nestedness</a></code> in the <span class="pkg">bipartite</span> package is
+a direct port of the BINMATNEST programme of
+Rodríguez-Gironés &amp; Santamaria (2006).
+</p>
+<p>Function <code>nestednodf</code> implements a nestedness metric based on
+overlap and decreasing fill (Almeida-Neto et al., 2008). Two basic
+properties are required for a matrix to have the maximum degree of
+nestedness according to this metric: (1) complete overlap of 1's
+from right to left columns and from down to up rows, and (2)
+decreasing marginal totals between all pairs of columns and all
+pairs of rows. The nestedness statistic is evaluated separately for
+columns (<code>N columns</code>) for rows (<code>N rows</code>) and combined for
+the whole matrix (<code>NODF</code>).  If you set <code>order = FALSE</code>,
+the statistic is evaluated with the current matrix ordering allowing
+tests of other meaningful hypothesis of matrix structure than
+default ordering by row and column totals (breaking ties by total
+abundances when <code>weighted = TRUE</code>) (see Almeida-Neto et
+al. 2008). With <code>weighted = TRUE</code>, the function finds the
+weighted version of the index (Almeida-Neto &amp; Ulrich,
+2011). However, this requires quantitative null models for adequate
+testing. Almeida-Neto &amp; Ulrich (2011) say that you have positive
+nestedness if values in the first row/column are higher than in the
+second.  With this condition, weighted analysis of binary data will
+always give zero nestedness. With argument <code>wbinary = TRUE</code>,
+equality of rows/columns also indicates nestedness, and binary data
+will give identical results in weighted and unweighted analysis.
+However, this can also influence the results of weighted analysis so
+that the results may differ from Almeida-Neto &amp; Ulrich (2011).
+</p>
+<p>Functions <code>nestedbetasor</code> and <code>nestedbetajac</code> find
+multiple-site dissimilarities and decompose these into components of
+turnover and nestedness following Baselga (2012); the pairwise
+dissimilarities can be found with <code><a href="../../vegan/help/designdist.html">designdist</a></code>. This can
+be seen as a decomposition of beta diversity (see
+<code><a href="../../vegan/help/betadiver.html">betadiver</a></code>).  Function <code>nestedbetasor</code> uses
+Sørensen dissimilarity and the turnover component is
+Simpson dissimilarity (Baselga 2012), and <code>nestedbetajac</code> uses
+analogous methods with the Jaccard index. The functions return a
+vector of three items: turnover, nestedness and their sum which is
+the multiple Sørensen or Jaccard dissimilarity. The
+last one is the total beta diversity (Baselga 2012). The functions
+will treat data as presence/absence (binary) and they can be used
+with binary <code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code>. The overall dissimilarity is
+constant in all <code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code>s that fix species (column)
+frequencies (<code>"c0"</code>), and all components are constant if row
+columns are also fixed (e.g., model <code>"quasiswap"</code>), and the
+functions are not meaningful with these null models.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The result returned by a nestedness function contains an item called
+<code>statistic</code>, but the other components differ among functions. The
+functions are constructed so that they can be handled by
+<code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen and Gustavo Carvalho (<code>nestednodf</code>). </p>
+
+
+<h3>References</h3>
+
+<p>Almeida-Neto, M., Guimarães, P.,
+Guimarães, P.R., Loyola, R.D. &amp; Ulrich, W. (2008). A
+consistent metric for nestedness analysis in ecological systems:
+reconciling concept and measurement. <em>Oikos</em> 117, 1227&ndash;1239.
+</p>
+<p>Almeida-Neto, M. &amp; Ulrich, W. (2011). A straightforward
+computational approach for measuring nestedness using quantitative
+matrices. <em>Env. Mod. Software</em> 26, 173&ndash;178.
+</p>
+<p>Atmar, W. &amp; Patterson, B.D. (1993). The measurement of order and
+disorder in the distribution of species in fragmented
+habitat. <em>Oecologia</em> 96, 373&ndash;382.
+</p>
+<p>Baselga, A. (2012). The relationship between species replacement,
+dissimilarity derived from nestedness, and nestedness. <em>Global
+Ecol. Biogeogr.</em> 21, 1223&ndash;1232.
+</p>
+<p>Brualdi, R.A. &amp; Sanderson, J.G. (1999). Nested species subsets, gaps,
+and discrepancy. <em>Oecologia</em> 119, 256&ndash;264.
+</p>
+<p>Patterson, B.D. &amp; Atmar, W. (1986). Nested subsets and the structure
+of insular mammalian faunas and archipelagos. <em>Biol. J. Linnean
+Soc.</em> 28, 65&ndash;82.
+</p>
+<p>Rodríguez-Gironés, M.A.  &amp; Santamaria, L.
+(2006). A new algorithm to calculate the nestedness temperature of
+presence-absence matrices. <em>J. Biogeogr.</em> 33, 924&ndash;935.
+</p>
+<p>Stone, L. &amp; Roberts, A. (1990). The checkerboard score and species
+distributions. <em>Oecologia</em> 85, 74&ndash;79.
+</p>
+<p>Wright, D.H., Patterson, B.D., Mikkelson, G.M., Cutler, A. &amp; Atmar,
+W. (1998). A comparative analysis of nested subset patterns of species
+composition. <em>Oecologia</em> 113, 1&ndash;20.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>In general, the functions should be used with <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>
+which generates Null model communities to assess the non-randomness of
+nestedness patterns.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(sipoo)
+## Matrix temperature
+out &lt;- nestedtemp(sipoo)
+out
+plot(out)
+plot(out, kind="incid")
+## Use oecosimu to assess the non-randomness of checker board units
+nestedchecker(sipoo)
+oecosimu(sipoo, nestedchecker, "quasiswap")
+## Another Null model and standardized checkerboard score
+oecosimu(sipoo, nestedchecker, "r00", statistic = "C.score")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

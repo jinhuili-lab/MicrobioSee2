@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the cosmic dose rate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_CosmicDoseRate {Luminescence}"><tr><td>calc_CosmicDoseRate {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the cosmic dose rate</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the cosmic dose rate taking into account the soft-
+and hard-component of the cosmic ray flux and allows corrections for
+geomagnetic latitude, altitude above sea-level and geomagnetic field
+changes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_CosmicDoseRate(
+  depth,
+  density,
+  latitude,
+  longitude,
+  altitude,
+  corr.fieldChanges = FALSE,
+  est.age = NA,
+  half.depth = FALSE,
+  error = 10,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>depth</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+depth of overburden (m). For more than one absorber use <br />
+<code>c(depth_1, depth_2, ..., depth_n)</code></p>
+</td></tr>
+<tr valign="top"><td><code>density</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+average overburden density (g/cm^3). For more than one absorber use <br />
+<code>c(density_1, density_2, ..., density_n)</code></p>
+</td></tr>
+<tr valign="top"><td><code>latitude</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+latitude (decimal degree), N positive</p>
+</td></tr>
+<tr valign="top"><td><code>longitude</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+longitude (decimal degree), E positive</p>
+</td></tr>
+<tr valign="top"><td><code>altitude</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+altitude (m above sea-level)</p>
+</td></tr>
+<tr valign="top"><td><code>corr.fieldChanges</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+correct for geomagnetic field changes after Prescott &amp; Hutton (1994).
+Apply only when justified by the data.</p>
+</td></tr>
+<tr valign="top"><td><code>est.age</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+estimated age range (ka) for geomagnetic field change correction (0-80 ka allowed)</p>
+</td></tr>
+<tr valign="top"><td><code>half.depth</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+How to overcome with varying overburden thickness. If <code>TRUE</code> only half the
+depth is used for calculation. Apply only when justified, i.e. when a constant
+sedimentation rate can safely be assumed.</p>
+</td></tr>
+<tr valign="top"><td><code>error</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+general error (percentage) to be implemented on corrected cosmic dose rate estimate</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (<code>verbose</code> to disable/enable console output).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function calculates the total cosmic dose rate considering both the
+soft- and hard-component of the cosmic ray flux.
+</p>
+<p><strong>Internal calculation steps</strong>
+</p>
+<p>(1)
+Calculate total depth of all absorber in hg/cm^2 (1 hg/cm^2 = 100 g/cm^2)
+</p>
+<p style="text-align: center;"><i>absorber = depth_1*density_1 + depth_2*density_2 + ... + depth_n*density_n</i></p>
+
+<p>(2)
+If <code>half.depth = TRUE</code>
+</p>
+<p style="text-align: center;"><i>absorber = absorber/2</i></p>
+
+<p>(3)
+Calculate cosmic dose rate at sea-level and 55 deg. latitude
+</p>
+<p>a) If absorber is &gt; 167 g/cm^2 (only hard-component; Allkofer et al.  1975):
+apply equation given by Prescott &amp; Hutton (1994) (c.f. Barbouti &amp; Rastin
+1983)
+</p>
+<p style="text-align: center;"><i>D0 = C/(((absorber+d)^&alpha;+a)*(absober+H))*exp(-B*absorber)</i></p>
+
+<p>b) If absorber is &lt; 167 g/cm^2 (soft- and hard-component): derive D0 from
+Fig. 1 in Prescott &amp; Hutton (1988).
+</p>
+<p>(4)
+Calculate geomagnetic latitude (Prescott &amp; Stephan 1982, Prescott &amp;
+Hutton 1994)
+</p>
+<p style="text-align: center;"><i>&lambda; = arcsin(0.203*cos(latitude)*cos(longitude-291)+0.979*
+sin(latitude))</i></p>
+
+<p>(5)
+Apply correction for geomagnetic latitude and altitude above sea-level.
+Values for F, J and H were read from Fig. 3 shown in Prescott &amp; Stephan
+(1982) and fitted with 3-degree polynomials for lambda &lt; 35 degree and a
+linear fit for lambda &gt; 35 degree.
+</p>
+<p style="text-align: center;"><i>Dc = D0*(F+J*exp((altitude/1000)/H))</i></p>
+
+<p>(6)
+Optional: Apply correction for geomagnetic field changes in the last
+0-80 ka (Prescott &amp; Hutton 1994). Correction and altitude factors are given
+in Table 1 and Fig. 1 in Prescott &amp; Hutton (1994). Values for altitude
+factor were fitted with a 2-degree polynomial. The altitude factor is
+operated on the decimal part of the correction factor.
+</p>
+<p style="text-align: center;"><i>Dc' = Dc*correctionFactor</i></p>
+
+<p><strong>Usage of <code>depth</code> and <code>density</code></strong>
+</p>
+<p>(1) If only one value for depth and density is provided, the cosmic dose
+rate is calculated for exactly one sample and one absorber as overburden
+(i.e. <code>depth*density</code>).
+</p>
+<p>(2) In some cases it might be useful to calculate the cosmic dose rate for a
+sample that is overlain by more than one absorber, e.g. in a profile with
+soil layers of different thickness and a distinct difference in density.
+This can be calculated by providing a matching number of values for
+<code>depth</code> and <code>density</code> (e.g. <code style="white-space: pre;">depth = c(1, 2), density = c(1.7, 2.4)</code>)
+</p>
+<p>(3) Another possibility is to calculate the cosmic dose rate for more than
+one sample of the same profile. This is done by providing more than one
+values for <code>depth</code> and only one for <code>density</code>. For example,
+<code>depth = c(1, 2, 3)</code> and <code>density = 1.7</code> will calculate the cosmic dose rate
+for three samples in 1, 2 and 3 m depth in a sediment of density 1.7 g/cm^3.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a terminal output. In addition an
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>-object is returned containing the
+following element:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>summary</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> summary of all relevant calculation results.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> used arguments</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p><a href="../../base/html/call.html">call</a> the function call</p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.5.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. calc_CosmicDoseRate(): Calculate the cosmic dose rate. Function version 0.5.2. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Despite its universal use the equation to calculate the cosmic dose
+rate provided by Prescott &amp; Hutton (1994) is falsely stated to be valid from
+the surface to 10^4 hg/cm^2 of standard rock. The original expression by
+Barbouti &amp; Rastin (1983) only considers the muon flux (i.e. hard-component)
+and is by their own definition only valid for depths between 10-10^4
+hg/cm^2.
+</p>
+<p>Thus, for near-surface samples (i.e. for depths &lt; 167 g/cm^2) the equation
+of Prescott &amp; Hutton (1994) underestimates the total cosmic dose rate, as it
+neglects the influence of the soft-component of the cosmic ray flux. For
+samples at zero depth and at sea-level the underestimation can be as large
+as ~0.1 Gy/ka. In a previous article, Prescott &amp; Hutton (1988) give another
+approximation of Barbouti &amp; Rastin's equation in the form of
+</p>
+<p style="text-align: center;"><i>D = 0.21*exp(-0.070*absorber+0.0005*absorber^2)</i></p>
+
+<p>which is valid for depths between 150-5000 g/cm^2. For shallower depths (&lt;
+150 g/cm^2) they provided a graph (Fig. 1) from which the dose rate can be
+read.
+</p>
+<p>As a result, this function employs the equation of Prescott &amp; Hutton (1994)
+only for depths &gt; 167 g/cm^2, i.e. only for the hard-component of the cosmic
+ray flux. Cosmic dose rate values for depths &lt; 167 g/cm^2 were obtained from
+the &quot;AGE&quot; program (Gruen 2009) and fitted with a 6-degree polynomial curve
+(and hence reproduces the graph shown in Prescott &amp; Hutton 1988). However,
+these values assume an average overburden density of 2 g/cm^3.
+</p>
+<p>It is currently not possible to obtain more precise cosmic dose rate values
+for near-surface samples as there is no equation known to the author of this
+function at the time of writing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Allkofer, O.C., Carstensen, K., Dau, W.D., Jokisch, H., 1975.
+Letter to the editor. The absolute cosmic ray flux at sea level. Journal of
+Physics G: Nuclear and Particle Physics 1, L51-L52.
+</p>
+<p>Barbouti, A.I., Rastin, B.C., 1983. A study of the absolute intensity of muons at sea level
+and under various thicknesses of absorber. Journal of Physics G: Nuclear and
+Particle Physics 9, 1577-1595.
+</p>
+<p>Crookes, J.N., Rastin, B.C., 1972. An
+investigation of the absolute intensity of muons at sea-level. Nuclear
+Physics B 39, 493-508.
+</p>
+<p>Gruen, R., 2009. The &quot;AGE&quot; program for the
+calculation of luminescence age estimates. Ancient TL 27, 45-46.
+</p>
+<p>Prescott, J.R., Hutton, J.T., 1988. Cosmic ray and gamma ray dosimetry for
+TL and ESR. Nuclear Tracks and Radiation Measurements 14, 223-227.
+</p>
+<p>Prescott, J.R., Hutton, J.T., 1994. Cosmic ray contributions to dose rates
+for luminescence and ESR dating: large depths and long-term time variations.
+Radiation Measurements 23, 497-500.
+</p>
+<p>Prescott, J.R., Stephan, L.G., 1982. The contribution of cosmic radiation to the environmental dose for
+thermoluminescence dating. Latitude, altitude and depth dependences. PACT 6, 17-25.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/BaseDataSet.CosmicDoseRate.html">BaseDataSet.CosmicDoseRate</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) calculate cosmic dose rate (one absorber)
+calc_CosmicDoseRate(depth = 2.78, density = 1.7,
+                    latitude = 38.06451, longitude = 1.49646,
+                    altitude = 364, error = 10)
+
+##(2a) calculate cosmic dose rate (two absorber)
+calc_CosmicDoseRate(depth = c(5.0, 2.78), density = c(2.65, 1.7),
+                    latitude = 38.06451, longitude = 1.49646,
+                    altitude = 364, error = 10)
+
+##(2b) calculate cosmic dose rate (two absorber) and
+##correct for geomagnetic field changes
+calc_CosmicDoseRate(depth = c(5.0, 2.78), density = c(2.65, 1.7),
+                    latitude = 12.04332, longitude = 4.43243,
+                    altitude = 364, corr.fieldChanges = TRUE,
+                    est.age = 67, error = 15)
+
+
+##(3) calculate cosmic dose rate and export results to .csv file
+#calculate cosmic dose rate and save to variable
+results&lt;- calc_CosmicDoseRate(depth = 2.78, density = 1.7,
+                              latitude = 38.06451, longitude = 1.49646,
+                              altitude = 364, error = 10)
+
+# the results can be accessed by
+get_RLum(results, "summary")
+
+#export results to .csv file - uncomment for usage
+#write.csv(results, file = "c:/users/public/results.csv")
+
+##(4) calculate cosmic dose rate for 6 samples from the same profile
+##    and save to .csv file
+#calculate cosmic dose rate and save to variable
+results&lt;- calc_CosmicDoseRate(depth = c(0.1, 0.5 , 2.1, 2.7, 4.2, 6.3),
+                              density = 1.7, latitude = 38.06451,
+                              longitude = 1.49646, altitude = 364,
+                              error = 10)
+
+#export results to .csv file - uncomment for usage
+#write.csv(results, file = "c:/users/public/results_profile.csv")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

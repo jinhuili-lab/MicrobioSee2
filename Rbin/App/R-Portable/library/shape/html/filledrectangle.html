@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: adds a colored and rotated rectangle to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for filledrectangle {shape}"><tr><td>filledrectangle {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+adds a colored and rotated rectangle to a plot
+</h2>
+
+<h3>Description</h3>
+
+<p>plots and colors a rotated rectangle; color can be a palette
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+filledrectangle(mid = c(0, 0), wx = 1, wy = wx, col = femmecol(100), 
+                values = NULL, zlim = NULL, lwd = 2, lcol = NA, 
+                angle = 0, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mid </code></td>
+<td>
+<p>midpoint of rectangle.
+</p>
+</td></tr>
+<tr valign="top"><td><code>wx </code></td>
+<td>
+<p>horizontal width.
+</p>
+</td></tr>
+<tr valign="top"><td><code>wy </code></td>
+<td>
+<p>vertical width.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col </code></td>
+<td>
+<p>color palette to be used; also allowed are two extremes or
+one value.
+</p>
+</td></tr>
+<tr valign="top"><td><code>values </code></td>
+<td>
+<p> if not <code>NULL</code>, a matrix providing (radius,z-values)
+couples, used for coloring.
+</p>
+</td></tr>
+<tr valign="top"><td><code>zlim </code></td>
+<td>
+<p> Only if values is not NULL: the minimum and maximum z values
+for which colors should be plotted, defaulting to the range of the
+finite values of the second column of <code>values</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd </code></td>
+<td>
+<p>width of external line.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lcol </code></td>
+<td>
+<p>line color.
+</p>
+</td></tr>
+<tr valign="top"><td><code>angle </code></td>
+<td>
+<p>angle of rotation, in degrees.
+</p>
+</td></tr>
+<tr valign="top"><td><code>... </code></td>
+<td>
+<p>arguments passed to R-function <a href="../../graphics/html/polygon.html">polygon</a>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>angle</code>=0, coloration starts from top to bottom. This is different
+from <code><a href="../../shape/help/filledmultigonal.html">filledmultigonal</a></code>,
+where coloration proceeds from middle to external
+</p>
+<p><code>wx</code>,<code>wy</code>: horizontal and vertical width of the shape
+Here &quot;horizontal&quot; and &quot;vertical&quot; denote the position BEFORE rotation
+</p>
+<p><code>values</code>: if not <code>NULL</code>, a matrix providing (radius,z-values)
+couples, used for coloring.
+Here radius are positive values denoting the relative distance between
+the shapes centre and edge.
+The radiusses are rescaled to be in [0,1] if needed.
+z-values (2nd column of <code>values</code>) together with <code>zlim</code> and
+<code>col</code> denote the coloration level.
+</p>
+<p>Colors in <code>col</code> will be interpolated to the z-values and used to
+color an interval as given by the input radiusses.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shape/help/filledmultigonal.html">filledmultigonal</a></code>, <code><a href="../../shape/help/filledshape.html">filledshape</a></code>,
+<code><a href="../../shape/help/filledcylinder.html">filledcylinder</a></code>, <code><a href="../../shape/help/filledellipse.html">filledellipse</a></code>
+</p>
+<p><code><a href="../../graphics/html/polygon.html">polygon</a></code>, <code><a href="../../graphics/html/rect.html">rect</a></code> for corresponding R-functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+color &lt;- shadepalette(grey(0.3), "lightblue", n = 50)
+emptyplot(main = "filledrectangle")
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(0.5, 0.5), angle = 0)
+filledrectangle(wx = 0.25, wy = 0.25, col = "darkblue", 
+                mid = c(0.5, 0.5), angle = 45)
+filledrectangle(wx = 0.125, wy = 0.125, col = c("lightblue","blue"),
+                mid = c(0.5, 0.5), angle = 90)
+  
+color &lt;- shadepalette(grey(0.3), "blue", n = 50)
+emptyplot(c(-1, 1), main = "filledrectangle")
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(0, 0), angle = 0)
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(0.5, 0.5), angle = 90)
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(-0.5, -0.5), angle = -90)
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(0.5, -0.5), angle = 180)
+filledrectangle(wx = 0.5, wy = 0.5, col = color, 
+                mid = c(-0.5, 0.5), angle = 270)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

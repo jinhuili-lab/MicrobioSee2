@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Loads settings from file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for loadAnywhere.Settings {R.utils}"><tr><td>loadAnywhere.Settings {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Loads settings from file</h2>
+
+<h3>Description</h3>
+
+<p>Loads settings from file. If the settings was read from file, they are by default
+written back to the same file. If this was not the case, it defaults
+to the settings file in the home directory of the current user.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Settings'
+loadAnywhere(static, file=NULL, ..., verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string or a <code><a href="../../base/help/connections.html">connection</a></code> from which settings
+should be read. If <code><a href="../../base/help/NULL.html">NULL</a></code>, the settings file is searched for by
+<code><a href="../help/findSettings.Settings.html">*findSettings</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../help/findSettings.Settings.html">*findSettings</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, verbose information is written while reading,
+otherwise not.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <a href="../../R.utils/help/Settings.html">Settings</a> object if file was successfully read,
+otherwise <code><a href="../../base/help/NULL.html">NULL</a></code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/saveAnywhere.Settings.html">*saveAnywhere</a>()</code>.
+For more information see <code><a href="../../R.utils/help/Settings.html">Settings</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

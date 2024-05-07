@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Does the ROC curve have a partial AUC?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for has.partial.auc {pROC}"><tr><td>has.partial.auc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Does the ROC curve have a partial AUC?
+</h2>
+
+<h3>Description</h3>
+
+<p>This function determines if the ROC curve has a partial AUC.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+has.partial.auc(roc)
+## S3 method for class 'auc'
+has.partial.auc(roc)
+## S3 method for class 'smooth.roc'
+has.partial.auc(roc)
+## S3 method for class 'roc'
+has.partial.auc(roc)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc</code></td>
+<td>
+<p>the ROC curve to check.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>TRUE</code> if the AUC is a partial AUC, <code>FALSE</code> otherwise.
+</p>
+<p>If the AUC is not defined (i. e. if roc was called with <code>AUC=FALSE</code>), returns <code>NULL</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/auc.html">auc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Full AUC
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+has.partial.auc(roc1)
+has.partial.auc(auc(roc1))
+has.partial.auc(smooth(roc1))
+
+# Partial AUC
+roc2 &lt;- roc(aSAH$outcome, aSAH$s100b, partial.auc = c(1, 0.9))
+has.partial.auc(roc2)
+has.partial.auc(smooth(roc2))
+
+# No AUC
+roc3 &lt;- roc(aSAH$outcome, aSAH$s100b, auc = FALSE)
+has.partial.auc(roc3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

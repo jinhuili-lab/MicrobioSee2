@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bind Spatial* objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bind {raster}"><tr><td>bind {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Bind Spatial* objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Bind (append) Spatial* objects into a single object. All objects must be of the same vector type base class (SpatialPoints, SpatialLines, or SpatialPolygons)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'SpatialPolygons,SpatialPolygons'
+bind(x, y, ..., keepnames=FALSE)
+
+## S4 method for signature 'SpatialLines,SpatialLines'
+bind(x, y, ..., keepnames=FALSE)
+
+## S4 method for signature 'SpatialPoints,SpatialPoints'
+bind(x, y, ..., keepnames=FALSE)
+
+## S4 method for signature 'data.frame,data.frame'
+bind(x, y, ..., variables=NULL)
+
+## S4 method for signature 'list,missing'
+bind(x, y, ..., keepnames=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Spatial* object or data.frame, or a list of Spatial* objects</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Spatial* object or data.frame, or missing</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional Spatial* objects</p>
+</td></tr>
+<tr valign="top"><td><code>keepnames</code></td>
+<td>
+<p>Logical. If <code>TRUE</code> the row.names are kept (if unique)</p>
+</td></tr> 
+<tr valign="top"><td><code>variables</code></td>
+<td>
+<p>character. Variable (column) names to keep, If <code>NULL</code>, all variables are kept</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>Spatial* object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../sp/help/merge.html">merge</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+p &lt;- readRDS(system.file("external/lux.rds", package="raster"))
+mersch &lt;- p[p$NAME_2=='Mersch', ]
+diekirch &lt;- p[p$NAME_2=='Diekirch', ]
+remich &lt;- p[p$NAME_2=='Remich', ]
+remich$NAME_1 &lt;- NULL
+x &lt;- bind(mersch, diekirch, remich)
+plot(x)
+data.frame(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

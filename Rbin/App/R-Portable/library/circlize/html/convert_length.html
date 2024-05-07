@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert units</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_length {circlize}"><tr><td>convert_length {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Convert units
+</h2>
+
+<h3>Description</h3>
+
+<p>Convert units
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_length(x, unit = c("mm", "cm", "inches"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector</p>
+</td></tr>
+<tr valign="top"><td><code>unit</code></td>
+<td>
+<p>supported units, only &quot;mm&quot;, &quot;cm&quot;, &quot;inches&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function coverts mm/cm/inches units to units measured in the canvas coordinate,
+e.g. how much is it in the canvas coordinate for 1 mm/cm/inches.
+</p>
+<p>Since in the circular plot, the aspect ratio is always 1, it does not matter this conversion
+is applied on x direction or y direction.
+</p>
+<p>This function is mainly used in the radical direction.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Zuguang Gu &lt;z.gu@dkfz.de&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../circlize/help/convert_x.html">convert_x</a></code> and <code><a href="../../circlize/help/convert_y.html">convert_y</a></code> convert absolute units into a data coordinate in a specified cell.
+</p>
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html#convert-functions">https://jokergoo.github.io/circlize_book/book/circular-layout.html#convert-functions</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sectors = letters[1:10]
+circos.par(cell.padding = c(0, 0, 0, 0), track.margin = c(0, 0))
+circos.initialize(sectors, xlim = cbind(rep(0, 10), runif(10, 0.5, 1.5)))
+circos.track(ylim = c(0, 1), track.height = mm_h(5))
+circos.par(track.margin = c(0, mm_h(2)))
+circos.track(ylim = c(0, 1), track.height = cm_h(1))
+circos.par(track.margin = c(0, mm_h(5)))
+circos.track(ylim = c(0, 1), track.height = inch_h(1))
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

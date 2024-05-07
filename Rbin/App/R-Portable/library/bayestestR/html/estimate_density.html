@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Density Estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for estimate_density {bayestestR}"><tr><td>estimate_density {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Density Estimation</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper over different methods of density estimation. By
+default, it uses the base R <code>density</code> with by default uses a different smoothing
+bandwidth (<code>"SJ"</code>) from the legacy default implemented the base R <code>density</code>
+function (<code>"nrd0"</code>). However, Deng and Wickham suggest that <code>method = "KernSmooth"</code>
+is the fastest and the most accurate.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+estimate_density(x, ...)
+
+## S3 method for class 'data.frame'
+estimate_density(
+  x,
+  method = "kernel",
+  precision = 2^10,
+  extend = FALSE,
+  extend_scale = 0.1,
+  bw = "SJ",
+  ci = NULL,
+  select = NULL,
+  at = NULL,
+  group_by = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector representing a posterior distribution, or a data frame of such
+vectors. Can also be a Bayesian model. <strong>bayestestR</strong> supports a wide range
+of models (see, for example, <code>methods("hdi")</code>) and not all of those are
+documented in the 'Usage' section, because methods for other classes mostly
+resemble the arguments of the <code>.numeric</code> or <code>.data.frame</code>methods.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Density estimation method. Can be <code>"kernel"</code> (default), <code>"logspline"</code>
+or <code>"KernSmooth"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>precision</code></td>
+<td>
+<p>Number of points of density data. See the <code>n</code> parameter in <code>density</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>extend</code></td>
+<td>
+<p>Extend the range of the x axis by a factor of <code>extend_scale</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>extend_scale</code></td>
+<td>
+<p>Ratio of range by which to extend the x axis. A value of <code>0.1</code>
+means that the x axis will be extended by <code>1/10</code> of the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>bw</code></td>
+<td>
+<p>See the eponymous argument in <code>density</code>. Here, the default has been
+changed for <code>"SJ"</code>, which is recommended.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>The confidence interval threshold. Only used when <code>method = "kernel"</code>.
+This feature is experimental, use with caution.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Character vector of column names. If NULL (the default), all
+numeric variables will be selected. Other arguments from <code><a href="../../datawizard/help/find_columns.html">datawizard::find_columns()</a></code>
+(such as <code>exclude</code>) can also be used.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Optional character vector. If not <code>NULL</code> and input is a data frame,
+density estimation is performed for each group (subsets) indicated by <code>at</code>.
+See examples.</p>
+</td></tr>
+<tr valign="top"><td><code>group_by</code></td>
+<td>
+<p>Deprecated in favour of <code>at</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/bayestestR.html"><code>plot()</code>-method</a> implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Deng, H., &amp; Wickham, H. (2011). Density estimation in R. Electronic publication.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+
+set.seed(1)
+x &lt;- rnorm(250, mean = 1)
+
+# Basic usage
+density_kernel &lt;- estimate_density(x) # default method is "kernel"
+
+hist(x, prob = TRUE)
+lines(density_kernel$x, density_kernel$y, col = "black", lwd = 2)
+lines(density_kernel$x, density_kernel$CI_low, col = "gray", lty = 2)
+lines(density_kernel$x, density_kernel$CI_high, col = "gray", lty = 2)
+legend("topright",
+  legend = c("Estimate", "95% CI"),
+  col = c("black", "gray"), lwd = 2, lty = c(1, 2)
+)
+
+# Other Methods
+density_logspline &lt;- estimate_density(x, method = "logspline")
+density_KernSmooth &lt;- estimate_density(x, method = "KernSmooth")
+density_mixture &lt;- estimate_density(x, method = "mixture")
+
+hist(x, prob = TRUE)
+lines(density_kernel$x, density_kernel$y, col = "black", lwd = 2)
+lines(density_logspline$x, density_logspline$y, col = "red", lwd = 2)
+lines(density_KernSmooth$x, density_KernSmooth$y, col = "blue", lwd = 2)
+lines(density_mixture$x, density_mixture$y, col = "green", lwd = 2)
+
+# Extension
+density_extended &lt;- estimate_density(x, extend = TRUE)
+density_default &lt;- estimate_density(x, extend = FALSE)
+
+hist(x, prob = TRUE)
+lines(density_extended$x, density_extended$y, col = "red", lwd = 3)
+lines(density_default$x, density_default$y, col = "black", lwd = 3)
+
+# Multiple columns
+head(estimate_density(iris))
+head(estimate_density(iris, select = "Sepal.Width"))
+
+# Grouped data
+head(estimate_density(iris, at = "Species"))
+head(estimate_density(iris$Petal.Width, at = iris$Species))
+
+# rstanarm models
+# -----------------------------------------------
+library(rstanarm)
+model &lt;- suppressWarnings(
+  stan_glm(mpg ~ wt + gear, data = mtcars, chains = 2, iter = 200, refresh = 0)
+)
+head(estimate_density(model))
+
+library(emmeans)
+head(estimate_density(emtrends(model, ~1, "wt", data = mtcars)))
+
+# brms models
+# -----------------------------------------------
+library(brms)
+model &lt;- brms::brm(mpg ~ wt + cyl, data = mtcars)
+estimate_density(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Helper functions for programming</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Programming {raster}"><tr><td>Programming {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Helper functions for programming</h2>
+
+<h3>Description</h3>
+
+ 
+<p>These are low level functions that can be used by programmers to develop new functions. If in doubt, it is almost certain that you do not need these functions as these are already embedded in all other functions in the raster package.
+</p>
+<p><code>canProcessInMemory</code> is typically used within functions. In the raster package this function is used to determine if the amount of memory needed for the function is available. If there is not enough memory available, the function returns <code>FALSE</code>, and the function that called it will write the results to a temporary file. 
+</p>
+<p>readStart opens file connection(s) for reading, readStop removes it. 
+</p>
+<p>pbCreate creates a progress bar, pbStep sets the progress, and pbClose closes it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+canProcessInMemory(x, n=4, verbose=FALSE)
+pbCreate(nsteps, progress, style=3, label='Progress', ...)
+pbStep(pb, step=NULL, label='')
+pbClose(pb, timer)
+readStart(x, ...)
+readStop(x)
+getCluster()
+returnCluster()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer or RasterBrick object (for connections) or RasterStack object (canProcessInMemory)</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>integer. The number of copies of the Raster* object cell values that a function needs to be able to have in memory</p>
+</td></tr>  
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the amount of memory needed and available is printed</p>
+</td></tr>
+<tr valign="top"><td><code>nsteps</code></td>
+<td>
+<p>integer. Number of steps the progress bar will make from start to end (e.g. nrow(raster)) </p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>character. 'text', 'window', or &rdquo;</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>style for text progress bar. See <code><a href="../../utils/help/txtProgressBar.html">txtProgressBar</a></code> </p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>character. Label for the window type progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (None implemented, except for 'silent=TRUE' for readStart for files read with gdal, and other arguments passed to gdal.open)</p>
+</td></tr>
+<tr valign="top"><td><code>pb</code></td>
+<td>
+<p> progress bar object created with pbCreate </p>
+</td></tr>
+<tr valign="top"><td><code>step</code></td>
+<td>
+<p>which step is this ( 1 &lt;= step &lt;= nsteps ). If step is <code>NULL</code>, a single step is taken </p>
+</td></tr>
+<tr valign="top"><td><code>timer</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, time to completion will be printed. If missing, the value will be taken from the rasterOptions</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>canProcessInMemory: logical
+</p>
+<p>closeConnection: RasterLayer or RasterBrick object
+</p>
+<p>getCluster: snow cluster object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=100, ncol=100)
+canProcessInMemory(r, 4)
+r &lt;- raster(nrow=50000, ncol=50000)
+canProcessInMemory(r, 2, verbose=TRUE)
+rasterOptions(maxmem=Inf, memfrac=.8)
+rasterOptions(default=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

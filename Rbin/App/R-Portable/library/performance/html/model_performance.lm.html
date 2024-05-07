@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of Regression Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_performance.lm {performance}"><tr><td>model_performance.lm {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of Regression Models</h2>
+
+<h3>Description</h3>
+
+<p>Compute indices of model performance for regression models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lm'
+model_performance(model, metrics = "all", verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A model.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>Can be <code>"all"</code>, <code>"common"</code> or a character vector of
+metrics to be computed (one or more of <code>"AIC"</code>, <code>"AICc"</code>, <code>"BIC"</code>, <code>"R2"</code>,
+<code>"R2_adj"</code>, <code>"RMSE"</code>, <code>"SIGMA"</code>, <code>"LOGLOSS"</code>, <code>"PCP"</code>, <code>"SCORE"</code>).
+<code>"common"</code> will compute AIC, BIC, R2 and RMSE.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Depending on <code>model</code>, following indices are computed:
+</p>
+
+<ul>
+<li> <p><strong>AIC</strong>: Akaike's Information Criterion, see <code>?stats::AIC</code>
+</p>
+</li>
+<li> <p><strong>AICc</strong>: Second-order (or small sample) AIC with a correction for small sample sizes
+</p>
+</li>
+<li> <p><strong>BIC</strong>: Bayesian Information Criterion, see <code>?stats::BIC</code>
+</p>
+</li>
+<li> <p><strong>R2</strong>: r-squared value, see <code><a href="../../performance/help/r2.html">r2()</a></code>
+</p>
+</li>
+<li> <p><strong>R2_adj</strong>: adjusted r-squared, see <code><a href="../../performance/help/r2.html">r2()</a></code>
+</p>
+</li>
+<li> <p><strong>RMSE</strong>: root mean squared error, see <code><a href="../../performance/help/performance_rmse.html">performance_rmse()</a></code>
+</p>
+</li>
+<li> <p><strong>SIGMA</strong>: residual standard deviation, see <code><a href="../../insight/help/get_sigma.html">insight::get_sigma()</a></code>
+</p>
+</li>
+<li> <p><strong>LOGLOSS</strong>: Log-loss, see <code><a href="../../performance/help/performance_logloss.html">performance_logloss()</a></code>
+</p>
+</li>
+<li> <p><strong>SCORE_LOG</strong>: score of logarithmic proper scoring rule, see <code><a href="../../performance/help/performance_score.html">performance_score()</a></code>
+</p>
+</li>
+<li> <p><strong>SCORE_SPHERICAL</strong>: score of spherical proper scoring rule, see <code><a href="../../performance/help/performance_score.html">performance_score()</a></code>
+</p>
+</li>
+<li> <p><strong>PCP</strong>: percentage of correct predictions, see <code><a href="../../performance/help/performance_pcp.html">performance_pcp()</a></code>
+</p>
+</li></ul>
+
+<p><code>model_performance()</code> correctly detects transformed response and
+returns the &quot;corrected&quot; AIC and BIC value on the original scale. To get back
+to the original scale, the likelihood of the model is multiplied by the
+Jacobian/derivative of the transformation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame (with one row) and one column per &quot;index&quot; (see <code>metrics</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(mpg ~ wt + cyl, data = mtcars)
+model_performance(model)
+
+model &lt;- glm(vs ~ wt + mpg, data = mtcars, family = "binomial")
+model_performance(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

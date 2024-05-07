@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stat for density ridgeline plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stat_density_ridges {ggridges}"><tr><td>stat_density_ridges {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stat for density ridgeline plots</h2>
+
+<h3>Description</h3>
+
+<p>This stat is the default stat used by <code><a href="../../ggridges/help/geom_density_ridges.html">geom_density_ridges</a></code>. It is very similar to <code><a href="../../ggplot2/html/geom_density.html">stat_density</a></code>,
+however there are a few differences. Most importantly, the density bandwidth is chosen across
+the entire dataset.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stat_density_ridges(
+  mapping = NULL,
+  data = NULL,
+  geom = "density_ridges",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  bandwidth = NULL,
+  from = NULL,
+  to = NULL,
+  jittered_points = FALSE,
+  quantile_lines = FALSE,
+  calc_ecdf = FALSE,
+  quantiles = 4,
+  quantile_fun = quantile,
+  n = 512,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="../../ggplot2/html/aes.html">aes()</a></code> or
+<code><a href="../../ggplot2/html/aes_.html">aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="../../ggplot2/html/ggplot.html">ggplot()</a></code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame.</code>, and
+will be used as the layer data.</p>
+</td></tr>
+<tr valign="top"><td><code>geom</code></td>
+<td>
+<p>The geometric object to use to display the data.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them.</p>
+</td></tr>
+<tr valign="top"><td><code>bandwidth</code></td>
+<td>
+<p>Bandwidth used for density calculation. If not provided, is estimated from the data.</p>
+</td></tr>
+<tr valign="top"><td><code>from, to</code></td>
+<td>
+<p>The left and right-most points of the grid at which the density is to be estimated,
+as in <code><a href="../../stats/html/density.html">density()</a></code>. If not provided, these are estimated from the data range and the bandwidth.</p>
+</td></tr>
+<tr valign="top"><td><code>jittered_points</code></td>
+<td>
+<p>If <code>TRUE</code>, carries the original point data over to the processed data frame,
+so that individual points can be drawn by the various ridgeline geoms. The specific position of these
+points is controlled by various position objects, e.g. <code><a href="../../ggridges/help/position_points_sina.html">position_points_sina()</a></code> or <code><a href="../../ggridges/help/position_raincloud.html">position_raincloud()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>quantile_lines</code></td>
+<td>
+<p>If <code>TRUE</code>, enables the drawing of quantile lines. Overrides the <code>calc_ecdf</code> setting
+and sets it to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>calc_ecdf</code></td>
+<td>
+<p>If <code>TRUE</code>, <code>stat_density_ridges</code> calculates an empirical cumulative distribution function (ecdf)
+and returns a variable <code>ecdf</code> and a variable <code>quantile</code>. Both can be mapped onto aesthetics via
+<code>stat(ecdf)</code> and <code>stat(quantile)</code>, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>quantiles</code></td>
+<td>
+<p>Sets the number of quantiles the data should be broken into. Used if either <code>calc_ecdf = TRUE</code>
+or <code>quantile_lines = TRUE</code>. If <code>quantiles</code> is an integer then the data will be cut into that many equal quantiles.
+If it is a vector of probabilities then the data will cut by them.</p>
+</td></tr>
+<tr valign="top"><td><code>quantile_fun</code></td>
+<td>
+<p>Function that calculates quantiles. The function needs to accept two parameters,
+a vector <code>x</code> holding the raw data values and a vector <code>probs</code> providing the probabilities that
+define the quantiles. Default is <code>quantile</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The number of equally spaced points at which the density is to be estimated. Should be a power of 2. Default
+is 512.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed on to <code><a href="../../ggplot2/html/layer.html">layer()</a></code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>color = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+# Examples of coloring by ecdf or quantiles
+ggplot(iris, aes(x = Sepal.Length, y = Species, fill = factor(stat(quantile)))) +
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE,
+    quantiles = 5
+  ) +
+  scale_fill_viridis_d(name = "Quintiles") +
+  theme_ridges()
+
+ggplot(iris,
+  aes(
+    x = Sepal.Length, y = Species, fill = 0.5 - abs(0.5-stat(ecdf))
+  )) +
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
+  scale_fill_viridis_c(name = "Tail probability", direction = -1) +
+  theme_ridges()
+
+ggplot(iris,
+  aes(
+    x = Sepal.Length, y = Species, fill = factor(stat(quantile))
+  )) +
+  stat_density_ridges(
+    geom = "density_ridges_gradient",
+    calc_ecdf = TRUE, quantiles = c(0.025, 0.975)
+  ) +
+  scale_fill_manual(
+    name = "Probability",
+    values = c("#FF0000A0", "#A0A0A0A0", "#0000FFA0"),
+    labels = c("(0, 0.025]", "(0.025, 0.975]", "(0.975, 1]")
+  ) +
+  theme_ridges()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

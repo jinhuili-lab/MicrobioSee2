@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add a label track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.labels {circlize}"><tr><td>circos.labels {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add a label track
+</h2>
+
+<h3>Description</h3>
+
+<p>Add a label track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.labels(
+    sectors, x, labels,
+    facing = "clockwise",
+    niceFacing = TRUE,
+    col = par("col"),
+    cex = 0.8,
+    font = par("font"),
+    padding = 0.4,
+    connection_height = mm_h(5),
+    line_col = par("col"),
+    line_lwd = par("lwd"),
+    line_lty = par("lty"),
+    labels_height = min(c(cm_h(1.5), max(strwidth(labels, cex = cex, font = font)))),
+    side = c("inside", "outside"),
+    labels.side = side,
+    track.margin = circos.par("track.margin"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A vector of sector names.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Positions of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>A vector of labels.</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>Facing of the labels. The value can only be <code>"clockwise"</code> or <code>"reverse.clockwise"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>niceFacing</code></td>
+<td>
+<p>Whether automatically adjust the facing of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Size of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>Font of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>Padding of the labels, the value is the ratio to the height of the label.</p>
+</td></tr>
+<tr valign="top"><td><code>connection_height</code></td>
+<td>
+<p>Height of the connection track.</p>
+</td></tr>
+<tr valign="top"><td><code>line_col</code></td>
+<td>
+<p>Color for the connection lines.</p>
+</td></tr>
+<tr valign="top"><td><code>line_lwd</code></td>
+<td>
+<p>Line width for the connection lines.</p>
+</td></tr>
+<tr valign="top"><td><code>line_lty</code></td>
+<td>
+<p>Line type for the connectioin lines.</p>
+</td></tr>
+<tr valign="top"><td><code>labels_height</code></td>
+<td>
+<p>Height of the labels track.</p>
+</td></tr>
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>Side of the labels track, is it in the inside of the track where the regions are marked?</p>
+</td></tr>
+<tr valign="top"><td><code>labels.side</code></td>
+<td>
+<p>Same as <code>side</code>. It will replace <code>side</code> in the future versions.</p>
+</td></tr>
+<tr valign="top"><td><code>track.margin</code></td>
+<td>
+<p>Bottom and top margins.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function creates two tracks, one for the connection lines and one for the labels.
+</p>
+<p>If two labels are too close and overlap, this function automatically adjusts the positions of neighouring labels.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(sectors = letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1))
+circos.labels(c("a", "a", "b", "b"), x = c(0.1, 0.12, 0.4, 0.6), labels = c(0.1, 0.12, 0.4, 0.6))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

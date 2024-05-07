@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Executes a function call with option to ignore unused...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for doCall {R.utils}"><tr><td>doCall {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Executes a function call with option to ignore unused arguments</h2>
+
+<h3>Description</h3>
+
+<p>Executes a function call with option to ignore unused arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+doCall(.fcn, ..., args=NULL, alwaysArgs=NULL, .functions=list(.fcn),
+  .ignoreUnusedArgs=TRUE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.fcn</code></td>
+<td>
+<p>A <code><a href="../../base/help/function.html">function</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string specifying the name
+of a <code><a href="../../base/help/function.html">function</a></code> to be called.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named arguments to be passed to the function.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> of additional named arguments that will be appended
+to the above arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>alwaysArgs</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> of additional named arguments that will be
+appended to the above arguments and that will <em>never</em> be ignore.</p>
+</td></tr>
+<tr valign="top"><td><code>.functions</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> of <code><a href="../../base/help/function.html">function</a></code>:s or names of functions.  This
+can be used to control which arguments are passed.</p>
+</td></tr>
+<tr valign="top"><td><code>.ignoreUnusedArgs</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, arguments that are not accepted by the
+function, will not be passed to it. Otherwise, all arguments are passed.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code> in which to evaluate the call.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/do.call.html">do.call</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  doCall("plot", x=1:10, y=sin(1:10), col="red", dummyArg=54,
+         alwaysArgs=list(xlab="x", ylab="y"),
+         .functions=c("plot", "plot.xy"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

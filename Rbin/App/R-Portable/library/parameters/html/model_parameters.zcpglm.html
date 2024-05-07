@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from Zero-Inflated Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.zcpglm {parameters}"><tr><td>model_parameters.zcpglm {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from Zero-Inflated Models</h2>
+
+<h3>Description</h3>
+
+<p>Parameters from zero-inflated models (from packages like <strong>pscl</strong>,
+<strong>cplm</strong> or <strong>countreg</strong>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'zcpglm'
+model_parameters(
+  model,
+  ci = 0.95,
+  bootstrap = FALSE,
+  iterations = 1000,
+  component = c("all", "conditional", "zi", "zero_inflated"),
+  standardize = NULL,
+  exponentiate = FALSE,
+  p_adjust = NULL,
+  keep = NULL,
+  drop = NULL,
+  summary = getOption("parameters_summary", FALSE),
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'mhurdle'
+model_parameters(
+  model,
+  ci = 0.95,
+  component = c("all", "conditional", "zi", "zero_inflated", "infrequent_purchase", "ip",
+    "auxiliary"),
+  exponentiate = FALSE,
+  p_adjust = NULL,
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A model with zero-inflation component.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>bootstrap</code></td>
+<td>
+<p>Should estimates be based on bootstrapped model? If
+<code>TRUE</code>, then arguments of <a href="../../parameters/help/model_parameters.stanreg.html">Bayesian regressions</a> apply (see also
+<code><a href="../../parameters/help/bootstrap_parameters.html">bootstrap_parameters()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of bootstrap replicates. This only apply in the
+case of bootstrapped frequentist models.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should all parameters, parameters for the conditional model,
+for the zero-inflation part of the model, or the dispersion model be returned?
+Applies to models with zero-inflation and/or dispersion component. <code>component</code>
+may be one of <code>"conditional"</code>, <code>"zi"</code>, <code>"zero-inflated"</code>, <code>"dispersion"</code> or
+<code>"all"</code> (default). May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>standardize</code></td>
+<td>
+<p>The method used for standardizing the parameters. Can be
+<code>NULL</code> (default; no standardization), <code>"refit"</code> (for re-fitting the model
+on standardized data) or one of <code>"basic"</code>, <code>"posthoc"</code>, <code>"smart"</code>,
+<code>"pseudo"</code>. See 'Details' in <code><a href="../../parameters/help/standardize_parameters.html">standardize_parameters()</a></code>.
+<strong>Importantly</strong>:
+</p>
+
+<ul>
+<li><p> The <code>"refit"</code> method does <em>not</em> standardize categorical predictors (i.e.
+factors), which may be a different behaviour compared to other R packages
+(such as <strong>lm.beta</strong>) or other software packages (like SPSS). to mimic
+such behaviours, either use <code>standardize="basic"</code> or standardize the data
+with <code>datawizard::standardize(force=TRUE)</code> <em>before</em> fitting the model.
+</p>
+</li>
+<li><p> For mixed models, when using methods other than <code>"refit"</code>, only the fixed
+effects will be standardized.
+</p>
+</li>
+<li><p> Robust estimation (i.e., <code>vcov</code> set to a value other than <code>NULL</code>) of
+standardized parameters only works when <code>standardize="refit"</code>.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>exponentiate</code></td>
+<td>
+<p>Logical, indicating whether or not to exponentiate the
+coefficients (and related confidence intervals). This is typical for
+logistic regression, or more generally speaking, for models with log or
+logit links. It is also recommended to use <code>exponentiate = TRUE</code> for models
+with log-transformed response values. <strong>Note:</strong> Delta-method standard
+errors are also computed (by multiplying the standard errors by the
+transformed coefficients). This is to mimic behaviour of other software
+packages, such as Stata, but these standard errors poorly estimate
+uncertainty for the transformed coefficient. The transformed confidence
+interval more clearly captures this uncertainty. For <code>compare_parameters()</code>,
+<code>exponentiate = "nongaussian"</code> will only exponentiate coefficients from
+non-Gaussian families.</p>
+</td></tr>
+<tr valign="top"><td><code>p_adjust</code></td>
+<td>
+<p>Character vector, if not <code>NULL</code>, indicates the method to
+adjust p-values. See <code><a href="../../stats/help/p.adjust.html">stats::p.adjust()</a></code> for details. Further
+possible adjustment methods are <code>"tukey"</code>, <code>"scheffe"</code>,
+<code>"sidak"</code> and <code>"none"</code> to explicitly disable adjustment for
+<code>emmGrid</code> objects (from <strong>emmeans</strong>).</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>summary</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, prints summary information about the
+model (model formula, number of observations, residual standard deviation
+and more).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. For instance, when
+<code>bootstrap = TRUE</code>, arguments like <code>type</code> or <code>parallel</code> are
+passed down to <code>bootstrap_model()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../insight/help/standardize_names.html">insight::standardize_names()</a></code> to rename
+columns into a consistent, standardized naming scheme.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+if (require("pscl")) {
+  data("bioChemists")
+  model &lt;- zeroinfl(art ~ fem + mar + kid5 + ment | kid5 + phd, data = bioChemists)
+  model_parameters(model)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: round Extent coordinates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Extent math {raster}"><tr><td>Extent math {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>round Extent coordinates</h2>
+
+<h3>Description</h3>
+
+<p>use <code>round(x, digits=0)</code> to round the coordinates of an Extent object to the number of digits specified. This can be useful when dealing with a small imprecision in the data (e.g. 179.9999 instead of 180). <code>floor</code> and <code>ceiling</code> move the coordiantes to the outer or inner whole integer numbers.
+</p>
+<p>It is also possible to use Arithmetic functions with Extent objects (but these work perhaps unexpectedly!)
+</p>
+<p>See <code><a href="../help/Math-methods.html">Math-methods</a></code> for these (and many more) methods with Raster* objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Extent'
+floor(x)
+## S4 method for signature 'Extent'
+ceiling(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Extent object </p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/Math-methods.html">Math-methods</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+e &lt;- extent(c(0.999999,  10.000011, -60.4, 60))
+round(e)
+ceiling(e)
+floor(e)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

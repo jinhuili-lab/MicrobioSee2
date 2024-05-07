@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw links between points or/and intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.link {circlize}"><tr><td>circos.link {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw links between points or/and intervals
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw links between points or/and intervals
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.link(
+    sector.index1,
+    point1,
+    sector.index2,
+    point2,
+    rou = get_most_inside_radius(),
+    rou1 = rou,
+    rou2 = rou,
+    h = NULL,
+    h.ratio = 0.5,
+    w = 1,
+    h2 = h,
+    w2 = w,
+    inverse = FALSE,
+    col = "black",
+    lwd = par("lwd"),
+    lty = par("lty"),
+    border = col,
+    directional = 0,
+    arr.length = ifelse(arr.type == "big.arrow", 0.02, 0.4),
+    arr.width = arr.length/2,
+    arr.type = "triangle",
+    arr.lty = lty,
+    arr.lwd = lwd,
+    arr.col = col,
+    reduce_to_mid_line = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sector.index1</code></td>
+<td>
+<p>Index for the first sector where one link end locates
+</p>
+</td></tr>
+<tr valign="top"><td><code>point1</code></td>
+<td>
+<p>A single value or a numeric vector of length 2. If it is a 2-elements vector, then
+the link would be a belt/ribbon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index2</code></td>
+<td>
+<p>Index for the other sector where the other link end locates
+</p>
+</td></tr>
+<tr valign="top"><td><code>point2</code></td>
+<td>
+<p>A single value or a numeric vector of length 2. If it is a 2-elements vector, then
+the link would be a belt/ribbon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou</code></td>
+<td>
+<p>The position of the the link ends (if <code>rou1</code> and <code>rou2</code> are not set). It is the percentage of the radius of the unit circle.
+By default its value is the position of bottom margin of the most inner track.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou1</code></td>
+<td>
+<p>The position of end 1 of the link.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou2</code></td>
+<td>
+<p>The position of end 2 of the link.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>Height of the link, measured as percent to the radius to the unit circle. By default it is automatically infered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h.ratio</code></td>
+<td>
+<p>systematically change the link height. The value is between 0 and 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Since the link is a Bezier curve, it controls the shape of Bezier curve.
+</p>
+</td></tr>
+<tr valign="top"><td><code>h2</code></td>
+<td>
+<p>Height of the bottom edge of the link if it is a ribbon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>w2</code></td>
+<td>
+<p>Shape of the bottom edge of the link if it is a ribbon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>inverse</code></td>
+<td>
+<p>Whether the link is inversed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color of the link. If the link is a ribbon, then it is the filled color for the ribbon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line (or border) width
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line (or border) style
+</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>If the link is a ribbon, then it is the color for the ribbon border.
+</p>
+</td></tr>
+<tr valign="top"><td><code>directional</code></td>
+<td>
+<p>0 for no direction, 1 for direction from <code>point1</code> to <code>point2</code>, -1 for direction from <code>point2</code> to <code>point1</code>.
+2 for two directional. The direction is important when arrow heads are added.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.width</code></td>
+<td>
+<p>Width of the arrows, pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.type</code></td>
+<td>
+<p>Type of the arrows, pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>. Default value is <code>triangle</code>. There is an additional option
+<code>big.arrow</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.length</code></td>
+<td>
+<p>Length of the arrows, measured in 'cm', pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>. If <code>arr.type</code> is set to <code>big.arrow</code>,
+the value is percent to the radius of the unit circle.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.col</code></td>
+<td>
+<p>Color of the arrows, pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.lwd</code></td>
+<td>
+<p>Line width of arrows, pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.lty</code></td>
+<td>
+<p>Line type of arrows, pass to <code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reduce_to_mid_line</code></td>
+<td>
+<p>Only use the middle points of <code>point1</code> and <code>point2</code> to draw the link.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Links are implemented as quadratic Bezier curves (<a href="https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Rational_B.C3.A9zier_curves">https://en.wikipedia.org/wiki/B%C3%A9zier_curve#Rational_B.C3.A9zier_curves</a> ).
+</p>
+<p>Drawing links does not create any track. So you can think it is independent of the tracks.
+</p>
+<p>By default you only need to set <code>sector.index1</code>, <code>point1</code>, <code>sector.index2</code> and <code>point2</code>. The
+links would look nice.
+</p>
+<p>Please refer to the vignette for detailed explanation.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#links">https://jokergoo.github.io/circlize_book/book/graphics.html#links</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

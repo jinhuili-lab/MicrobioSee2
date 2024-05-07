@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Writes a data.frame to tabular text file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for writeDataFrame.data.frame {R.utils}"><tr><td>writeDataFrame.data.frame {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Writes a data.frame to tabular text file</h2>
+
+<h3>Description</h3>
+
+<p>Writes a data.frame to tabular text file with an optional header.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'data.frame'
+writeDataFrame(data, file, path=NULL, sep="\t", quote=FALSE, row.names=FALSE,
+  col.names=!append, ..., header=list(), createdBy=NULL,
+  createdOn=format(Sys.time(), format = "%Y-%m-%d %H:%M:%S %Z"),
+  nbrOfRows=nrow(data), headerPrefix="# ", headerSep=": ", append=FALSE, overwrite=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A <code><a href="../../base/help/data.frame.html">data.frame</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a filename to write to.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>The directory where the file will be written.</p>
+</td></tr>
+<tr valign="top"><td><code>sep, quote, row.names, col.names, ...</code></td>
+<td>
+<p>Additional arguments
+passed to <code><a href="../../utils/help/write.table.html">write.table</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>header</code></td>
+<td>
+<p>An optional named <code><a href="../../base/help/list.html">list</a></code> of header rows to be written
+at the beginning of the file.  If <code><a href="../../base/help/NULL.html">NULL</a></code>, no header will be written.</p>
+</td></tr>
+<tr valign="top"><td><code>createdBy, createdOn, nbrOfRows</code></td>
+<td>
+<p>If non-<code><a href="../../base/help/NULL.html">NULL</a></code>, common header
+rows to be added to the header.</p>
+</td></tr>
+<tr valign="top"><td><code>headerPrefix</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the prefix of each
+header row.</p>
+</td></tr>
+<tr valign="top"><td><code>headerSep</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the character
+separating the header name and header values.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the output is appended to an existing file.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an existing file is overwritten.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the pathname to the file written
+(or the <code><a href="../../base/help/connections.html">connection</a></code> written to).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../utils/help/write.table.html">write.table</a></code>.
+<code><a href="../../R.utils/help/readTable.html">readTable</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

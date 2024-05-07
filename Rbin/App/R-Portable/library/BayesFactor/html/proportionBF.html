@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function for Bayesian analysis of proportions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for proportionBF {BayesFactor}"><tr><td>proportionBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function for Bayesian analysis of proportions</h2>
+
+<h3>Description</h3>
+
+<p>Bayes factors or posterior samples for binomial, geometric, or neg. binomial data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+proportionBF(y, N, p, rscale = "medium", nullInterval = NULL,
+  posterior = FALSE, callback = function(...) as.integer(0), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a vector of successes</p>
+</td></tr>
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>a vector of total number of observations</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>the null value for the probability of a success to be tested against</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>prior scale.  A number of preset values can be given as
+strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>nullInterval</code></td>
+<td>
+<p>optional vector of length 2 containing
+lower and upper bounds of an interval hypothesis to test, in probability units</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>if <code>TRUE</code>, return samples from the posterior instead
+of Bayes factor</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Given count data modeled as a binomial, geometric, or negative binomial random variable,
+the Bayes factor provided by <code>proportionBF</code> tests the null hypothesis that
+the probability of a success is <i>p_0</i> (argument <code>p</code>). Specifically,
+the Bayes factor compares two hypotheses: that the probability is <i>p_0</i>, or
+probability is not <i>p_0</i>. Currently, the default alternative is that
+</p>
+<p style="text-align: center;"><i>&lambda;~logistic(&lambda;_0,r)</i></p>
+<p> where
+<i>lambda_0=logit(p_0)</i> and
+<i>lambda=logit(p)</i>. <i>r</i> serves as a prior scale parameter.
+</p>
+<p>For the <code>rscale</code> argument, several named values are recognized:
+&quot;medium&quot;, &quot;wide&quot;, and &quot;ultrawide&quot;. These correspond
+to <i>r</i> scale values of <i>1/2</i>, <i>sqrt(2)/2</i>, and 1,
+respectively.
+</p>
+<p>The Bayes factor is computed via Gaussian quadrature, and posterior
+samples are drawn via independence Metropolis-Hastings.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>posterior</code> is <code>FALSE</code>, an object of class
+<code>BFBayesFactor</code> containing the computed model comparisons is
+returned. If <code>nullInterval</code> is defined, then two Bayes factors will
+be computed: The Bayes factor for the interval against the null hypothesis
+that the probability is <i>p0</i>, and the corresponding Bayes factor for
+the compliment of the interval.
+</p>
+<p>If <code>posterior</code> is <code>TRUE</code>, an object of class <code>BFmcmc</code>,
+containing MCMC samples from the posterior is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/prop.test.html">prop.test</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bf = proportionBF(y = 15, N = 25, p = .5)
+bf
+## Sample from the corresponding posterior distribution
+samples =proportionBF(y = 15, N = 25, p = .5, posterior = TRUE, iterations = 10000)
+plot(samples[,"p"])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

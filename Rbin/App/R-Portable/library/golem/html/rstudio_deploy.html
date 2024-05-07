@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add an app.R at the root of your package to deploy on RStudio...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_rstudioconnect_file {golem}"><tr><td>add_rstudioconnect_file {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add an app.R at the root of your package to deploy on RStudio Connect</h2>
+
+<h3>Description</h3>
+
+<p>Add an app.R at the root of your package to deploy on RStudio Connect
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_rstudioconnect_file(pkg = get_golem_wd(), open = TRUE)
+
+add_shinyappsio_file(pkg = get_golem_wd(), open = TRUE)
+
+add_shinyserver_file(pkg = get_golem_wd(), open = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Should the created file be opened?</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path to the file, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>In previous versions, this function was called add_rconnect_file.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Add a file for Connect
+if (interactive()) {
+  add_rstudioconnect_file()
+}
+# Add a file for Shiny Server
+if (interactive()) {
+  add_shinyserver_file()
+}
+# Add a file for Shinyapps.io
+if (interactive()) {
+  add_shinyappsio_file()
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

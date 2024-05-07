@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add positional information of token to next terminal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for env_add_stylerignore {styler}"><tr><td>env_add_stylerignore {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add positional information of token to next terminal</h2>
+
+<h3>Description</h3>
+
+<p>This is needed because at serialization time, we also have terminals only
+and positional argument of non-terminals were already propagated to terminals
+with <code><a href="../../styler/help/context_to_terminals.html">context_to_terminals()</a></code>. Because tokens can be added or removed during
+styling, we must not only keep the pos_id, but rather we must remember the
+pos_id of the first token in the stylerignore sequence (the marker, or the
+first token on a line if the stylerignore marker is an inline marker), for
+which we know it will still be there, and join these markers later with all
+tokens in the stylerignore sequence (this is a one to many join, i.e. one
+start marker can have many tokens).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+env_add_stylerignore(pd_flat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

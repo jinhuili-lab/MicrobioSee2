@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameter names formatting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for format_parameters {parameters}"><tr><td>format_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameter names formatting</h2>
+
+<h3>Description</h3>
+
+<p>This functions formats the names of model parameters (coefficients)
+to make them more human-readable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+format_parameters(model, ...)
+
+## Default S3 method:
+format_parameters(model, brackets = c("[", "]"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>brackets</code></td>
+<td>
+<p>A character vector of length two, indicating the opening and closing brackets.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A (names) character vector with formatted parameter names. The value
+names refer to the original names of the coefficients.
+</p>
+
+
+<h3>Interpretation of Interaction Terms</h3>
+
+<p>Note that the <em>interpretation</em> of interaction terms depends on many
+characteristics of the model. The number of parameters, and overall
+performance of the model, can differ <em>or not</em> between <code>a * b</code>
+<code>a : b</code>, and <code>a / b</code>, suggesting that sometimes interaction terms
+give different parameterizations of the same model, but other times it gives
+completely different models (depending on <code>a</code> or <code>b</code> being factors
+of covariates, included as main effects or not, etc.). Their interpretation
+depends of the full context of the model, which should not be inferred
+from the parameters table alone - rather, we recommend to use packages
+that calculate estimated marginal means or marginal effects, such as
+<a href="https://CRAN.R-project.org/package=modelbased"><span class="pkg">modelbased</span></a>, <a href="https://CRAN.R-project.org/package=emmeans"><span class="pkg">emmeans</span></a>, <a href="https://CRAN.R-project.org/package=ggeffects"><span class="pkg">ggeffects</span></a>, or
+<a href="https://CRAN.R-project.org/package=marginaleffects"><span class="pkg">marginaleffects</span></a>. To raise awareness for this issue, you may use
+<code>print(...,show_formula=TRUE)</code> to add the model-specification to the output
+of the <code><a href="../../parameters/help/print.parameters_model.html">print()</a></code> method for <code>model_parameters()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(Sepal.Length ~ Species * Sepal.Width, data = iris)
+format_parameters(model)
+
+model &lt;- lm(Sepal.Length ~ Petal.Length + (Species / Sepal.Width), data = iris)
+format_parameters(model)
+
+model &lt;- lm(Sepal.Length ~ Species + poly(Sepal.Width, 2), data = iris)
+format_parameters(model)
+
+model &lt;- lm(Sepal.Length ~ Species + poly(Sepal.Width, 2, raw = TRUE), data = iris)
+format_parameters(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

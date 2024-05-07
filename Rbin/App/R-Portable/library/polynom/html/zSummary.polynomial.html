@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary Group Methods for Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zSummary.polynomial {polynom}"><tr><td>zSummary.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summary Group Methods for Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Allows summary group generics to be used on polynomial arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+Summary(..., na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p><span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects, the first supplied of class
+<code>"polynomial"</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical: should missing values be removed?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the <code>sum</code> and <code>prod</code> functions, the sum and product of
+the given polynomials, respectively.  For the other members of the
+Summary group, an error is returned.
+</p>
+<p>Note that one could <em>order</em> polynomials by divisibility, and
+define <code>min</code> and <code>max</code> as the corresponding lattice meet and
+join, i.e., the greatest common divisor and the least common multiple,
+respectively.  This is currently not provided: instead, functions
+<code><a href="../../polynom/help/GCD.html">GCD</a></code> and <code><a href="../../polynom/help/LCM.html">LCM</a></code> should be called directly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../polynom/help/Math.polynomial.html">Math.polynomial</a></code>,
+<code><a href="../../polynom/help/Ops.polynomial.html">Ops.polynomial</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

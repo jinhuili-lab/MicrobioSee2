@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Key for interpreting lengths in a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for lengthKey {plotrix}"><tr><td>lengthKey {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Key for interpreting lengths in a plot</h2>
+
+<h3>Description</h3>
+
+<p>Key for interpreting lengths in a plot</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ lengthKey(x,y,tickpos,scale)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>The position of the left end of the key in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>tickpos</code></td>
+<td>
+<p>The labels that will appear above the key.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>A value that will scale the length of the key.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">lengthKey</span> displays a line with tick marks and the values in
+<span class="samp">tickpos</span> above those tickmarks. It is useful when line segments
+on a plot represent numeric values. Note that if the plot does not have
+a 1:1 aspect ratio, a length key is usually misleading.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/segments.html">segments</a>, <a href="../../graphics/html/arrows.html">arrows</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # manufacture a matrix of orientations in radians
+ o&lt;-matrix(rep(pi*seq(0.1,0.8,by=0.1),7),ncol=8,byrow=TRUE)
+ m&lt;-matrix(rnorm(56)+4,ncol=8,byrow=TRUE)
+ # get an empty plot of approximately 1:1 aspect ratio
+ plot(0,xlim=c(0.7,8.3),ylim=c(0.7,7.3),type="n")
+ vectorField(o,m,vecspec="rad")
+ # the scaling usually has to be worked out by trial and error
+ lengthKey(0.3,-0.5,c(0,5,10),0.24)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

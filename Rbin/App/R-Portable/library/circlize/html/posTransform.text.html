@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Genomic position transformation function specifically for...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for posTransform.text {circlize}"><tr><td>posTransform.text {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Genomic position transformation function specifically for text
+</h2>
+
+<h3>Description</h3>
+
+<p>Genomic position transformation function specifically for text
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+posTransform.text(
+    region,
+    y,
+    labels,
+    cex = 1,
+    font = par("font"),
+    sector.index = get.cell.meta.data("sector.index"),
+    track.index = get.cell.meta.data("track.index"),
+    padding = 0,
+    extend = 0,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>region</code></td>
+<td>
+<p>Genomic positions at a single chromosome. It is a data frame with two
+columns which are start position and end position.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>positions of texts
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>text labels
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>text size
+</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>text font style
+</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>sector index
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>track index
+</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>padding of text
+</p>
+</td></tr>
+<tr valign="top"><td><code>extend</code></td>
+<td>
+<p>extend to allow labels to be put in an region which is wider than the current chromosome.
+The value should be a proportion value and the length is either one or two.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This position transformation function is designed specifically for text.
+Under the transformation, texts will be as close as possible to the original positions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

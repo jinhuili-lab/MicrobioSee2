@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to compute Bayes factors for general designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for generalTestBF {BayesFactor}"><tr><td>generalTestBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to compute Bayes factors for general designs</h2>
+
+<h3>Description</h3>
+
+<p>This function computes Bayes factors corresponding to restrictions on a full model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+generalTestBF(formula, data, whichRandom = NULL, whichModels = "withmain",
+  neverExclude = NULL, iterations = 10000,
+  progress = getOption("BFprogress", interactive()), rscaleFixed = "medium",
+  rscaleRandom = "nuisance", rscaleCont = "medium", rscaleEffects = NULL,
+  multicore = FALSE, method = "auto", noSample = FALSE,
+  callback = function(...) as.integer(0))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula containing the full model for the analysis
+(see Examples)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame containing data for all factors in the formula</p>
+</td></tr>
+<tr valign="top"><td><code>whichRandom</code></td>
+<td>
+<p>a character vector specifying which factors are random</p>
+</td></tr>
+<tr valign="top"><td><code>whichModels</code></td>
+<td>
+<p>which set of models to compare; see Details</p>
+</td></tr>
+<tr valign="top"><td><code>neverExclude</code></td>
+<td>
+<p>a character vector containing a regular expression (see
+help for <a href="../../base/html/regex.html">regex</a> for details) that indicates which terms to always keep
+in the analysis</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>How many Monte Carlo simulations to generate, if relevant</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>if <code>TRUE</code>, show progress with a text progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleFixed</code></td>
+<td>
+<p>prior scale for standardized, reduced fixed effects. A
+number of preset values can be given as strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleRandom</code></td>
+<td>
+<p>prior scale for standardized random effects</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleCont</code></td>
+<td>
+<p>prior scale for standardized slopes</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleEffects</code></td>
+<td>
+<p>A named vector of prior settings for individual factors,
+overriding rscaleFixed and rscaleRandom. Values are scales, names are factor names.</p>
+</td></tr>
+<tr valign="top"><td><code>multicore</code></td>
+<td>
+<p>if <code>TRUE</code> use multiple cores through the <code>doMC</code>
+package. Unavailable on Windows.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>approximation method, if needed. See <code><a href="../../BayesFactor/help/nWayAOV.html">nWayAOV</a></code> for
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>noSample</code></td>
+<td>
+<p>if <code>TRUE</code>, do not sample, instead returning NA.</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See the help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> and <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> or details.
+</p>
+<p>Models, priors, and methods of computation are provided in Rouder et al.
+(2012) and Liang et al (2008).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>BFBayesFactor</code>, containing the computed
+model comparisons
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function <code>generalTestBF</code> can compute Bayes factors for all
+restrictions of a full model against the null
+hypothesis that all effects are 0. The total number of tests
+computed &ndash; if all tests are requested &ndash; will be <i>2^K - 1</i>
+for <i>K</i> factors or covariates.
+This number increases very quickly with the number of tested predictors. An option is included to
+prevent testing too many models: <code>options('BFMaxModels')</code>, which defaults to 50,000, is
+the maximum number of models that will be analyzed at once. This can
+be increased by increased using <code><a href="../../base/html/options.html">options</a></code>.
+</p>
+<p>It is possible to reduce the number of models tested by only testing the
+most complex model and every restriction that can be formed by removing
+one factor or interaction using the <code>whichModels</code> argument. See the
+help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> for details.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Rouder, J. N., Morey, R. D., Speckman, P. L., Province, J. M., (2012)
+Default Bayes Factors for ANOVA Designs. Journal of Mathematical
+Psychology.  56.  p. 356-374.
+</p>
+<p>Liang, F. and Paulo, R. and Molina, G. and Clyde, M. A. and
+Berger, J. O. (2008). Mixtures of g-priors for Bayesian Variable
+Selection. Journal of the American Statistical Association, 103, pp.
+410-423
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>, for testing specific models, and
+<code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code> and <code>anovaBF</code> for other functions for
+testing multiple models simultaneously.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Puzzles example: see ?puzzles and ?anovaBF
+data(puzzles)
+## neverExclude argument makes sure that participant factor ID
+## is in all models
+result = generalTestBF(RT ~ shape*color + ID, data = puzzles, whichRandom = "ID",
+neverExclude="ID", progress=FALSE)
+result
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

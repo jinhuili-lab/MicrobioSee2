@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fill in missing values with previous or next value</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fill.tbl_lazy {dbplyr}"><tr><td>fill.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fill in missing values with previous or next value</h2>
+
+<h3>Description</h3>
+
+<p>Fill in missing values with previous or next value
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fill.tbl_lazy(.data, ..., .direction = c("down", "up"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Columns to fill.</p>
+</td></tr>
+<tr valign="top"><td><code>.direction</code></td>
+<td>
+<p>Direction in which to fill missing values. Currently
+either &quot;down&quot; (the default) or &quot;up&quot;. Note that &quot;up&quot; does not work when
+<code>.data</code> is sorted by non-numeric columns. As a workaround revert the order
+yourself beforehand; for example replace <code>arrange(x, desc(y))</code> by
+<code>arrange(desc(x), y)</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+squirrels &lt;- tibble::tribble(
+  ~group,    ~name,     ~role,     ~n_squirrels, ~ n_squirrels2,
+  1,      "Sam",    "Observer",   NA,                 1,
+  1,     "Mara", "Scorekeeper",    8,                NA,
+  1,    "Jesse",    "Observer",   NA,                NA,
+  1,      "Tom",    "Observer",   NA,                 4,
+  2,     "Mike",    "Observer",   NA,                NA,
+  2,  "Rachael",    "Observer",   NA,                 6,
+  2,  "Sydekea", "Scorekeeper",   14,                NA,
+  2, "Gabriela",    "Observer",   NA,                NA,
+  3,  "Derrick",    "Observer",   NA,                NA,
+  3,     "Kara", "Scorekeeper",    9,                 10,
+  3,    "Emily",    "Observer",   NA,                NA,
+  3, "Danielle",    "Observer",   NA,                NA
+)
+squirrels$id &lt;- 1:12
+
+if (require("tidyr", quietly = TRUE)) {
+  tbl_memdb(squirrels) %&gt;%
+    window_order(id) %&gt;%
+    tidyr::fill(
+      n_squirrels,
+      n_squirrels2,
+    )
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

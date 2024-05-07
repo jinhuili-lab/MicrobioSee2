@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Methods for likelihood profiles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for profile.mle2-class {bbmle}"><tr><td>profile.mle2-class {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Methods for likelihood profiles</h2>
+
+<h3>Description</h3>
+
+<p>Definition of the mle2 likelihood profile class,
+and applicable methods</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'profile.mle2'
+plot(x,
+   levels, which=1:p, conf = c(99, 95, 90, 80, 50)/100,
+   plot.confstr = TRUE,
+   confstr = NULL, absVal = TRUE, add = FALSE,
+   col.minval="green", lty.minval=2,
+   col.conf="magenta", lty.conf=2,
+   col.prof="blue", lty.prof=1,
+   xlabs=nm, ylab="z",
+   onepage=TRUE,
+   ask=((prod(par("mfcol")) &lt; length(which)) &amp;&amp; dev.interactive() &amp;&amp;
+               !onepage),
+   show.points=FALSE,
+   main, xlim, ylim, ...)
+## S4 method for signature 'mle2'
+confint(object, parm, level = 0.95, method,
+          trace=FALSE,quietly=!interactive(),
+          tol.newmin=0.001,...)
+## S4 method for signature 'profile.mle2'
+confint(object, parm, level = 0.95, trace=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object of class <code>profile.mle2</code></p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object of class <code>mle2</code> or <code>profile.mle2</code>
+(as appropriate)</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>levels at which to plot likelihood cutoffs (set by conf
+by default)</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>level at which to compute confidence interval</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>(numeric or character) which parameter profiles to plot</p>
+</td></tr>
+<tr valign="top"><td><code>parm</code></td>
+<td>
+<p>(numeric or character) which parameter(s) to find
+confidence intervals for</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>(character) &quot;spline&quot;, &quot;uniroot&quot;, or &quot;quad&quot;, for
+spline-extrapolation-based (default), root-finding, or quadratic
+confidence intervals.  By default it uses the value of
+<code>mle2.options("confint")</code> &ndash; the factory setting is &quot;spline&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>trace progress of confidence interval calculation when using
+&lsquo;uniroot&rsquo; method?</p>
+</td></tr>
+<tr valign="top"><td><code>conf</code></td>
+<td>
+<p>(1-alpha) levels at which to plot likelihood
+cutoffs/confidence intervals</p>
+</td></tr>
+<tr valign="top"><td><code>quietly</code></td>
+<td>
+<p>(logical) suppress &ldquo;Profiling ...&rdquo; message
+when computing profile to get confidence interval?</p>
+</td></tr>
+<tr valign="top"><td><code>tol.newmin</code></td>
+<td>
+<p>see <code><a href="../../bbmle/help/profile-methods.html">profile-methods</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>plot.confstr</code></td>
+<td>
+<p>(logical) plot labels showing confidence levels?</p>
+</td></tr>
+<tr valign="top"><td><code>confstr</code></td>
+<td>
+<p>(character) labels for confidence levels (by default, constructed from conf levels)</p>
+</td></tr>
+<tr valign="top"><td><code>absVal</code></td>
+<td>
+<p>(logical) plot absolute values of signed square
+root deviance difference (&quot;V&quot; plot rather than straight-line
+plot)?</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>(logical) add profile to existing graph?</p>
+</td></tr>
+<tr valign="top"><td><code>col.minval</code></td>
+<td>
+<p>color for minimum line</p>
+</td></tr>
+<tr valign="top"><td><code>lty.minval</code></td>
+<td>
+<p>line type for minimum line</p>
+</td></tr>
+<tr valign="top"><td><code>col.conf</code></td>
+<td>
+<p>color for confidence intervals</p>
+</td></tr>
+<tr valign="top"><td><code>lty.conf</code></td>
+<td>
+<p>line type for confidence intervals</p>
+</td></tr>
+<tr valign="top"><td><code>col.prof</code></td>
+<td>
+<p>color for profile</p>
+</td></tr>
+<tr valign="top"><td><code>lty.prof</code></td>
+<td>
+<p>line type for profile</p>
+</td></tr>
+<tr valign="top"><td><code>xlabs</code></td>
+<td>
+<p>x labels</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>y label</p>
+</td></tr>
+<tr valign="top"><td><code>onepage</code></td>
+<td>
+<p>(logical) plot all profiles on one page,
+adjusting par(mfcol) as necessary?</p>
+</td></tr>
+<tr valign="top"><td><code>ask</code></td>
+<td>
+<p>(logical) pause for user input between plots?</p>
+</td></tr>
+<tr valign="top"><td><code>show.points</code></td>
+<td>
+<p>(logical) show computed profile points
+as well as interpolated spline?</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>(logical) main title</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x limits</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y limits</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default confidence interval calculation computes a likelihood
+profile and uses the points therein, or uses the computed points in
+an existing <code>profile.mle2</code> object, to construct an interpolation
+spline (which by default has three times as many points as were in
+the original set of profile points).  It then uses linear
+interpolation between these interpolated points (!)
+</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("profile.mle2",
+    ...)</code>, but most often by invoking <code>profile</code> on an &quot;mle2&quot; object.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>profile</code>:</dt><dd><p>Object of class <code>"list"</code>. List of
+profiles, one for each requested parameter. Each profile is a data
+frame with the first column called <code>z</code> being the signed square
+root of the deviance, and the others being the
+parameters with names prefixed by <code>par.vals.</code></p>
+</dd>
+<dt><code>summary</code>:</dt><dd><p>Object of class <code>"summary.mle2"</code>. Summary
+of object being profiled.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>confint</dt><dd><p><code>signature(object = "profile.mle2")</code>: Use profile
+to generate approximate confidence intervals for parameters.</p>
+</dd>
+<dt>plot</dt><dd><p><code>signature(x = "profile.mle2", y = "missing")</code>: Plot
+profiles for each parameter.</p>
+</dd>
+<dt>summary</dt><dd><p><code>signature(x = "profile.mle2")</code>: Plot
+profiles for each parameter.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "profile.mle2")</code>: Show object.</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../bbmle/help/mle2.html">mle2</a></code>, <code><a href="../../bbmle/help/mle2-class.html">mle2-class</a></code>, <code><a href="../../bbmle/help/summary.mle2-class.html">summary.mle2-class</a></code> 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 0:10
+y &lt;- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+d &lt;- data.frame(x,y)
+## we have a choice here: (1) don't impose boundaries on the parameters,
+##  put up with warning messages about NaN values: 
+fit1 &lt;- mle2(y~dpois(lambda=ymax/(1+x/xhalf)),
+     start=list(ymax=1,xhalf=1),
+     data=d)
+p1 &lt;- suppressWarnings(profile(fit1))
+plot(p1,main=c("first","second"),
+     xlab=c(~y[max],~x[1/2]),ylab="Signed square root deviance",
+     show.points=TRUE)
+suppressWarnings(confint(fit1)) ## recomputes profile
+confint(p1)  ## operates on existing profile
+suppressWarnings(confint(fit1,method="uniroot"))
+## alternatively, we can use box constraints to keep ourselves
+##  to positive parameter values ...
+fit2 &lt;- update(fit1,method="L-BFGS-B",lower=c(ymax=0.001,xhalf=0.001))
+## Not run: 
+p2 &lt;- profile(fit2)
+plot(p2,show.points=TRUE)
+## but the fit for ymax is just bad enough that the spline gets wonky
+confint(p2)  ## now we get a warning
+confint(fit2,method="uniroot")
+## bobyqa is a better-behaved bounded optimizer ...
+##  BUT recent (development, 2012.5.24) versions of
+##    optimx no longer allow single-parameter fits!
+if (require(optimx)) {
+  fit3 &lt;- update(fit1,
+      optimizer="optimx",
+      method="bobyqa",lower=c(ymax=0.001,xhalf=0.001))
+   p3 &lt;- profile(fit3)
+   plot(p3,show.points=TRUE)
+  confint(p3)
+}
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

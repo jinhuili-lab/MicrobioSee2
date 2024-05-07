@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw arrow which is paralle to the circle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.arrow {circlize}"><tr><td>circos.arrow {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw arrow which is paralle to the circle
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw arrow which is paralle to the circle
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.arrow(
+    x1,
+    x2,
+    y = get.cell.meta.data("ycenter"),
+    width = get.cell.meta.data("yrange")/2,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    arrow.head.length = mm_x(5),
+    arrow.head.width = width*2,
+    arrow.position = c("end", "start"),
+    tail = c("normal", "point"),
+    border = "black",
+    col = "#FFCCCC",
+    lty = par("lty"),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>Start position of the arrow on the x-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+<p>End position of the arrow on the x-axis. Note <code>x2</code> should be larger than <code>x1</code>. The direction of arrows can be controlled by <code>arrow.position</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Position of the arrow on the y-axis. Note this is the center of the arrow on y-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Width of the arrow body.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index of the sector.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index of the track.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.head.length</code></td>
+<td>
+<p>Length of the arrow head. Note the value should be smaller than the length of the arrow itself (which is <code>x2 - x1</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.head.width</code></td>
+<td>
+<p>Width of the arrow head.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.position</code></td>
+<td>
+<p>Where is the arrow head on the arrow. If you want to the arrow in the reversed direction, set this value to <code>"start"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>tail</code></td>
+<td>
+<p>The shape of the arrow tail (the opposite side of arrow head).</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color of the arrow.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Filled color of the arrow.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line style of the arrow.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../graphics/help/polygon.html">polygon</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note all position values are measured in the data coordinate (the coordinate in each cell). For the values of
+<code>width</code>, <code>arrow.head.Length</code>, <code>arrow.head.width</code>, they can be set with <code><a href="../../circlize/help/mm_y.html">mm_y</a></code>/<code><a href="../../circlize/help/cm_y.html">cm_y</a></code>/<code><a href="../../circlize/help/inches_y.html">inches_y</a></code> in absolute units.
+</p>
+<p>If you see points overflow warnings, you can set <code>circos.par(points.overflow.warning = FALSE)</code> to turn it off.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Zuguang Gu &lt;z.gu@dkfz.de&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#circular-arrows">https://jokergoo.github.io/circlize_book/book/graphics.html#circular-arrows</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+op = par(no.readonly = TRUE)
+par(mfrow = c(1, 2))
+circos.initialize(letters[1:4], xlim = c(0, 1))
+col = rand_color(4)
+tail = c("point", "normal", "point", "normal")
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.arrow(x1 = 0, x2 = 1, y = 0.5, width = 0.4, 
+        arrow.head.width = 0.6, arrow.head.length = cm_x(1), 
+        col = col[CELL_META$sector.numeric.index], 
+        tail = tail[CELL_META$sector.numeric.index])
+}, bg.border = NA, track.height = 0.4)
+circos.clear()
+
+circos.initialize(letters[1:4], xlim = c(0, 1))
+tail = c("point", "normal", "point", "normal")
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.arrow(x1 = 0, x2 = 1, y = 0.5, width = 0.4, 
+        arrow.head.width = 0.6, arrow.head.length = cm_x(1), 
+        col = col[CELL_META$sector.numeric.index], 
+        tail = tail[CELL_META$sector.numeric.index],
+        arrow.position = "start")
+}, bg.border = NA, track.height = 0.4)
+par(op)
+
+########## cell cycle ###########
+cell_cycle = data.frame(phase = factor(c("G1", "S", "G2", "M"), 
+                                    levels = c("G1", "S", "G2", "M")),
+                        hour = c(11, 8, 4, 1))
+color = c("#66C2A5", "#FC8D62", "#8DA0CB", "#E78AC3")
+circos.par(start.degree = 90)
+circos.initialize(cell_cycle$phase, xlim = cbind(rep(0, 4), cell_cycle$hour))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+  circos.arrow(CELL_META$xlim[1], CELL_META$xlim[2], 
+      arrow.head.width = CELL_META$yrange*0.8, arrow.head.length = cm_x(1),
+      col = color[CELL_META$sector.numeric.index])
+  circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index, 
+      facing = "downward")
+}, bg.border = NA, track.height = 0.3)
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

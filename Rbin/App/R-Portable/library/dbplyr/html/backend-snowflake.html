@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Backend: Snowflake</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for backend-snowflake {dbplyr}"><tr><td>backend-snowflake {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Backend: Snowflake</h2>
+
+<h3>Description</h3>
+
+<p>See <code>vignette("translate-function")</code> and <code>vignette("translate-verb")</code> for
+details of overall translation technology.
+</p>
+<p>Use <code>simulate_snowflake()</code> with <code>lazy_frame()</code> to see simulated SQL without
+converting to live access database.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_snowflake()
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+lf &lt;- lazy_frame(a = TRUE, b = 1, c = 2, d = "z", con = simulate_snowflake())
+lf %&gt;% transmute(x = paste0(z, " times"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

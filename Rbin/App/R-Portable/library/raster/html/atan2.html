@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Two argument arc-tangent</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for atan2 {raster}"><tr><td>atan2 {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Two argument arc-tangent</h2>
+
+<h3>Description</h3>
+
+<p>For Raster* objects x and y, atan2(y, x) returns the angle in radians for the tangent y/x, handling the case when x is zero. See <code><a href="../../base/help/Trig.html">Trig</a></code>
+</p>
+<p>See <code><a href="../help/Math-methods.html">Math-methods</a></code> for other trigonometric and mathematical functions that can be used with Raster* objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+atan2(y, x) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/Math-methods.html">Math-methods</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- r2 &lt;- raster(nrow=10, ncol=10)
+values(r1) &lt;- (runif(ncell(r1))-0.5) * 10
+values(r2) &lt;- (runif(ncell(r1))-0.5) * 10
+atan2(r1, r2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

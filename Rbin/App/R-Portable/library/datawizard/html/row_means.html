@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Row means (optionally with minimum amount of valid values)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for row_means {datawizard}"><tr><td>row_means {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Row means (optionally with minimum amount of valid values)</h2>
+
+<h3>Description</h3>
+
+<p>This function is similar to the SPSS <code>MEAN.n</code> function and computes
+row means from a data frame or matrix if at least <code>min_valid</code> values of a row are
+valid (and not <code>NA</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+row_means(
+  data,
+  select = NULL,
+  exclude = NULL,
+  min_valid = NULL,
+  digits = NULL,
+  ignore_case = FALSE,
+  regex = FALSE,
+  remove_na = FALSE,
+  verbose = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame with at least two columns, where row means are applied.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Variables that will be included when performing the required
+tasks. Can be either
+</p>
+
+<ul>
+<li><p> a variable specified as a literal variable name (e.g., <code>column_name</code>),
+</p>
+</li>
+<li><p> a string with the variable name (e.g., <code>"column_name"</code>), or a character
+vector of variable names (e.g., <code>c("col1", "col2", "col3")</code>),
+</p>
+</li>
+<li><p> a formula with variable names (e.g., <code>~column_1 + column_2</code>),
+</p>
+</li>
+<li><p> a vector of positive integers, giving the positions counting from the left
+(e.g. <code>1</code> or <code>c(1, 3, 5)</code>),
+</p>
+</li>
+<li><p> a vector of negative integers, giving the positions counting from the
+right (e.g., <code>-1</code> or <code>-1:-3</code>),
+</p>
+</li>
+<li><p> one of the following select-helpers: <code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, a range using <code>:</code> or <code>regex("")</code>. <code>starts_with()</code>,
+<code>ends_with()</code>, and  <code>contains()</code> accept several patterns, e.g
+<code>starts_with("Sep", "Petal")</code>.
+</p>
+</li>
+<li><p> or a function testing for logical conditions, e.g. <code>is.numeric()</code> (or
+<code>is.numeric</code>), or any user-defined function that selects the variables
+for which the function returns <code>TRUE</code> (like: <code>foo &lt;- function(x) mean(x) &gt; 3</code>),
+</p>
+</li>
+<li><p> ranges specified via literal variable names, select-helpers (except
+<code>regex()</code>) and (user-defined) functions can be negated, i.e. return
+non-matching elements, when prefixed with a <code>-</code>, e.g. <code>-ends_with("")</code>,
+<code>-is.numeric</code> or <code>-(Sepal.Width:Petal.Length)</code>. <strong>Note:</strong> Negation means
+that matches are <em>excluded</em>, and thus, the <code>exclude</code> argument can be
+used alternatively. For instance, <code>select=-ends_with("Length")</code> (with
+<code>-</code>) is equivalent to <code>exclude=ends_with("Length")</code> (no <code>-</code>). In case
+negation should not work as expected, use the <code>exclude</code> argument instead.
+</p>
+</li></ul>
+
+<p>If <code>NULL</code>, selects all columns. Patterns that found no matches are silently
+ignored, e.g. <code>find_columns(iris, select = c("Species", "Test"))</code> will just
+return <code>"Species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>See <code>select</code>, however, column names matched by the pattern
+from <code>exclude</code> will be excluded instead of selected. If <code>NULL</code> (the default),
+excludes no columns.</p>
+</td></tr>
+<tr valign="top"><td><code>min_valid</code></td>
+<td>
+<p>Optional, a numeric value of length 1. May either be
+</p>
+
+<ul>
+<li><p> a numeric value that indicates the amount of valid values per row to
+calculate the row mean;
+</p>
+</li>
+<li><p> or a value between 0 and 1, indicating a proportion of valid values per
+row to calculate the row mean (see 'Details').
+</p>
+</li>
+<li> <p><code>NULL</code> (default), in which all cases are considered.
+</p>
+</li></ul>
+
+<p>If a row's sum of valid values is less than <code>min_valid</code>, <code>NA</code> will be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Numeric value indicating the number of decimal places to be
+used for rounding mean values. Negative values are allowed (see 'Details').
+By default, <code>digits = NULL</code> and no rounding is used.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and when one of the select-helpers or
+a regular expression is used in <code>select</code>, ignores lower/upper case in the
+search pattern when matching against variable names.</p>
+</td></tr>
+<tr valign="top"><td><code>regex</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the search pattern from <code>select</code> will be
+treated as regular expression. When <code>regex = TRUE</code>, select <em>must</em> be a
+character string (or a variable containing a character string) and is not
+allowed to be one of the supported select-helpers or a character vector
+of length &gt; 1. <code>regex = TRUE</code> is comparable to using one of the two
+select-helpers, <code>select = contains("")</code> or <code>select = regex("")</code>, however,
+since the select-helpers may not work when called from inside other
+functions (see 'Details'), this argument may be used as workaround.</p>
+</td></tr>
+<tr valign="top"><td><code>remove_na</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> (default), removes missing (<code>NA</code>) values
+before calculating row means. Only applies if <code>min_valuid</code> is not specified.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Rounding to a negative number of <code>digits</code> means rounding to a power of
+ten, for example <code>row_means(df, 3, digits = -2)</code> rounds to the nearest hundred.
+For <code>min_valid</code>, if not <code>NULL</code>, <code>min_valid</code> must be a numeric value from <code>0</code>
+to <code>ncol(data)</code>. If a row in the data frame has at least <code>min_valid</code>
+non-missing values, the row mean is returned. If <code>min_valid</code> is a non-integer
+value from 0 to 1, <code>min_valid</code> is considered to indicate the proportion of
+required non-missing values per row. E.g., if <code>min_valid = 0.75</code>, a row must
+have at least <code>ncol(data) * min_valid</code> non-missing values for the row mean
+to be calculated. See 'Examples'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector with row means for those rows with at least <code>n</code> valid values.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+dat &lt;- data.frame(
+  c1 = c(1, 2, NA, 4),
+  c2 = c(NA, 2, NA, 5),
+  c3 = c(NA, 4, NA, NA),
+  c4 = c(2, 3, 7, 8)
+)
+
+# default, all means are shown, if no NA values are present
+row_means(dat)
+
+# remove all NA before computing row means
+row_means(dat, remove_na = TRUE)
+
+# needs at least 4 non-missing values per row
+row_means(dat, min_valid = 4) # 1 valid return value
+
+# needs at least 3 non-missing values per row
+row_means(dat, min_valid = 3) # 2 valid return values
+
+# needs at least 2 non-missing values per row
+row_means(dat, min_valid = 2)
+
+# needs at least 1 non-missing value per row, for two selected variables
+row_means(dat, select = c("c1", "c3"), min_valid = 1)
+
+# needs at least 50% of non-missing values per row
+row_means(dat, min_valid = 0.5) # 3 valid return values
+
+# needs at least 75% of non-missing values per row
+row_means(dat, min_valid = 0.75) # 2 valid return values
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of Meta-Analysis Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_performance.rma {performance}"><tr><td>model_performance.rma {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of Meta-Analysis Models</h2>
+
+<h3>Description</h3>
+
+<p>Compute indices of model performance for meta-analysis model from the
+<strong>metafor</strong> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rma'
+model_performance(
+  model,
+  metrics = "all",
+  estimator = "ML",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <code>rma</code> object as returned by <code>metafor::rma()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>Can be <code>"all"</code> or a character vector of metrics to be
+computed (some of <code>c("AIC", "BIC", "I2", "H2", "TAU2", "R2", "CochransQ", "QE", "Omnibus", "QM")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>estimator</code></td>
+<td>
+<p>Only for linear models. Corresponds to the different
+estimators for the standard deviation of the errors. If <code>estimator = "ML"</code>
+(default, except for <code>performance_aic()</code> when the model object is of class
+<code>lmerMod</code>), the scaling is done by <code>n</code> (the biased ML estimator), which is
+then equivalent to using <code>AIC(logLik())</code>. Setting it to <code>"REML"</code> will give
+the same results as <code>AIC(logLik(..., REML = TRUE))</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Indices of fit</h4>
+
+
+<ul>
+<li> <p><strong>AIC</strong> Akaike's Information Criterion, see <code>?stats::AIC</code>
+</p>
+</li>
+<li> <p><strong>BIC</strong> Bayesian Information Criterion, see <code>?stats::BIC</code>
+</p>
+</li>
+<li> <p><strong>I2</strong>: For a random effects model, <code>I2</code> estimates (in
+percent) how much of the total variability in the effect size estimates
+can be attributed to heterogeneity among the true effects. For a
+mixed-effects model, <code>I2</code> estimates how much of the unaccounted
+variability can be attributed to residual heterogeneity.
+</p>
+</li>
+<li> <p><strong>H2</strong>: For a random-effects model, <code>H2</code> estimates the
+ratio of the total amount of variability in the effect size estimates to
+the amount of sampling variability. For a mixed-effects model, <code>H2</code>
+estimates the ratio of the unaccounted variability in the effect size
+estimates to the amount of sampling variability.
+</p>
+</li>
+<li> <p><strong>TAU2</strong>: The amount of (residual) heterogeneity in the random
+or mixed effects model.
+</p>
+</li>
+<li> <p><strong>CochransQ (QE)</strong>: Test for (residual) Heterogeneity. Without
+moderators in the model, this is simply Cochran's Q-test.
+</p>
+</li>
+<li> <p><strong>Omnibus (QM)</strong>: Omnibus test of parameters.
+</p>
+</li>
+<li> <p><strong>R2</strong>: Pseudo-R2-statistic, which indicates the amount of
+heterogeneity accounted for by the moderators included in a fixed-effects
+model.
+</p>
+</li></ul>
+
+<p>See the documentation for <code>?metafor::fitstats</code>.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame (with one row) and one column per &quot;index&quot; (see
+<code>metrics</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(dat.bcg, package = "metadat")
+dat &lt;- metafor::escalc(
+  measure = "RR",
+  ai = tpos,
+  bi = tneg,
+  ci = cpos,
+  di = cneg,
+  data = dat.bcg
+)
+model &lt;- metafor::rma(yi, vi, data = dat, method = "REML")
+model_performance(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

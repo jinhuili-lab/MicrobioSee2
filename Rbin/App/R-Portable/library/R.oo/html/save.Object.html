@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Saves an Object to a file or a connection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for save.Object {R.oo}"><tr><td>save.Object {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Saves an Object to a file or a connection</h2>
+
+<h3>Description</h3>
+
+<p>Saves an Object to a file or a connection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Object'
+save(this, file=NULL, path=NULL, compress=TRUE, ..., safe=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Filename or <code><a href="../../base/help/connections.html">connection</a></code> to which the Object should be saved.
+If <code><a href="../../base/help/NULL.html">NULL</a></code>, the Object will be save to a file named
+&quot;{class name}.{memory location}.RData&quot;, e.g. &quot;Object.26979608.RData&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>The path where the file should be saved.</p>
+</td></tr>
+<tr valign="top"><td><code>compress</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the file is compressed to, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments accepted by <code>save()</code> in the base package.</p>
+</td></tr>
+<tr valign="top"><td><code>safe</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and <code>file</code> is a file, then, in order to lower
+the risk for incomplete files, the object is first written to a
+temporary file, which is then renamed to the final name.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/load.Object.html">*load</a>()</code> and <code><a href="../../base/help/save.html">save</a></code>(), <code><a href="../../base/help/load.html">load</a></code>().
+For more information see <code><a href="../../R.oo/help/Object.html">Object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: For a complete example see help(Object).</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

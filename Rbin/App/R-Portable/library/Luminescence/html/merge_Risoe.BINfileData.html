@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge Risoe.BINfileData objects or Risoe BIN-files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for merge_Risoe.BINfileData {Luminescence}"><tr><td>merge_Risoe.BINfileData {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Merge Risoe.BINfileData objects or Risoe BIN-files</h2>
+
+<h3>Description</h3>
+
+<p>Function allows merging Risoe BIN/BINX files or <code>Risoe.BINfileData</code> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+merge_Risoe.BINfileData(
+  input.objects,
+  output.file,
+  keep.position.number = FALSE,
+  position.number.append.gap = 0
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input.objects</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> with <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects (<strong>required</strong>):
+Character vector with path and files names
+(e.g. <code>input.objects = c("path/file1.bin", "path/file2.bin")</code> or
+<a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects (e.g. <code>input.objects = c(object1, object2)</code>).
+Alternatively a <code>list</code> is supported.</p>
+</td></tr>
+<tr valign="top"><td><code>output.file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+File output path and name. If no value is given, a <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> is
+returned instead of a file.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.position.number</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+Allows keeping the original position numbers of the input objects.
+Otherwise the position numbers are recalculated.</p>
+</td></tr>
+<tr valign="top"><td><code>position.number.append.gap</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+Set the position number gap between merged BIN-file sets, if the option
+<code>keep.position.number = FALSE</code> is used. See details for further
+information.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function allows merging different measurements to one file or one
+object. The record IDs are recalculated for the new object. Other values
+are kept for each object. The number of input objects is not limited.
+</p>
+<p><code>position.number.append.gap</code> option
+</p>
+<p>If the option <code>keep.position.number = FALSE</code> is used, the position
+numbers of the new data set are recalculated by adding the highest position
+number of the previous data set to the each position number of the next data
+set. For example: The highest position number is 48, then this number will
+be added to all other position numbers of the next data set (e.g. 1 + 48 =
+49)
+</p>
+<p>However, there might be cases where an additional addend (summand) is needed
+before the next position starts. Example:
+</p>
+
+<ul>
+<li><p> Position number set (A): <code style="white-space: pre;">1,3,5,7</code>
+</p>
+</li>
+<li><p> Position number set (B): <code style="white-space: pre;">1,3,5,7</code>
+</p>
+</li></ul>
+
+<p>With no additional summand the new position numbers would be:
+<code style="white-space: pre;">1,3,5,7,8,9,10,11</code>. That might be unwanted. Using the argument
+<code>position.number.append.gap = 1</code> it will become:
+<code style="white-space: pre;">1,3,5,7,9,11,13,15,17</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code>file</code> or a <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.7
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. merge_Risoe.BINfileData(): Merge Risoe.BINfileData objects or Risoe BIN-files. Function version 0.2.7. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The validity of the output objects is not further checked.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Duller, G., 2007. Analyst.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##merge two objects
+data(ExampleData.BINfileData, envir = environment())
+
+object1 &lt;- CWOSL.SAR.Data
+object2 &lt;- CWOSL.SAR.Data
+
+object.new &lt;- merge_Risoe.BINfileData(c(object1, object2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

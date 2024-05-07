@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get a block of raster cell values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getValuesBlock {raster}"><tr><td>getValuesBlock {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get a block of raster cell values</h2>
+
+<h3>Description</h3>
+
+<p>getValuesBlock returns values for a block (rectangular area) of values of a Raster* object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+getValuesBlock(x, row=1, nrows=1, col=1, ncols=(ncol(x)-col+1), format='', ...)
+
+## S4 method for signature 'RasterBrick'
+getValuesBlock(x, row=1, nrows=1, col=1, ncols=(ncol(x)-col+1), lyrs, ...)
+
+## S4 method for signature 'RasterStack'
+getValuesBlock(x, row=1, nrows=1, col=1, ncols=(ncol(x)-col+1), lyrs, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>row</code></td>
+<td>
+<p>positive integer. Row number to start from, should be between 1 and nrow(x)</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p>positive integer. How many rows? Default is 1</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>positive integer. Column number to start from, should be between 1 and ncol(x)</p>
+</td></tr>
+<tr valign="top"><td><code>ncols</code></td>
+<td>
+<p>positive integer. How many columns? Default is the number of columns left after the start column</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>character. When <code>x</code> is a <code>RasterLayer</code>, if <code>format='matrix'</code> or <code>format='m'</code>, a matrix is returned instead of a vector. If <code>format='matrix'</code>, it is a nrow x ncol matrix. If <code>format='m'</code> it is a 1 column matrix (the benefit is that the type of output is now the same for all Raster objects)</p>
+</td></tr>
+<tr valign="top"><td><code>lyrs</code></td>
+<td>
+<p>integer (vector). Which layers? Default is all layers (<code>1:nlayers(x)</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (none implemented)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>matrix or vector (if <code>(x=RasterLayer)</code>, unless <code>format='matrix'</code>)
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/getValues.html">getValues</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+b &lt;- getValuesBlock(r, row=100, nrows=3, col=10, ncols=5)
+b 
+b &lt;- matrix(b, nrow=3, ncol=5, byrow=TRUE)
+b
+
+logo &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+getValuesBlock(logo, row=35, nrows=3, col=50, ncols=3, lyrs=2:3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

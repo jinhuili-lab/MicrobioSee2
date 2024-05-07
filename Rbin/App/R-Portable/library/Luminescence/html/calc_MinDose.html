@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply the (un-)logged minimum age model (MAM) after Galbraith...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_MinDose {Luminescence}"><tr><td>calc_MinDose {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply the (un-)logged minimum age model (MAM) after Galbraith et al. (1999)
+to a given De distribution</h2>
+
+<h3>Description</h3>
+
+<p>Function to fit the (un-)logged three or four parameter minimum dose model
+(MAM-3/4) to De data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_MinDose(
+  data,
+  sigmab,
+  log = TRUE,
+  par = 3,
+  bootstrap = FALSE,
+  init.values,
+  level = 0.95,
+  log.output = FALSE,
+  plot = TRUE,
+  multicore = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+for <a href="../../base/html/data.frame.html">data.frame</a>: two columns with De <code>(data[ ,1])</code> and De error <code>(data[ ,2])</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sigmab</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+additional spread in De values.
+This value represents the expected overdispersion in the data should the sample be
+well-bleached (Cunningham &amp; Walling 2012, p. 100).
+<strong>NOTE</strong>: For the logged model (<code>log = TRUE</code>) this value must be
+a fraction, e.g. 0.2 (= 20 \
+sigmab must be provided in the same absolute units of the De values (seconds or Gray).
+See details.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+fit the (un-)logged minimum dose model to De data.</p>
+</td></tr>
+<tr valign="top"><td><code>par</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+apply the 3- or 4-parameter minimum age model (<code>par=3</code> or <code>par=4</code>). The MAM-3 is
+used by default.</p>
+</td></tr>
+<tr valign="top"><td><code>bootstrap</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+apply the recycled bootstrap approach of Cunningham &amp; Wallinga (2012).</p>
+</td></tr>
+<tr valign="top"><td><code>init.values</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+a named list with starting values for gamma, sigma, p0 and mu
+(e.g. <code>list(gamma=100, sigma=1.5, p0=0.1, mu=100)</code>). If no values are provided reasonable values
+are tried to be estimated from the data. <strong>NOTE</strong> that the initial values must always be given
+in the absolute units. The the logged model is applied (<code>log = TRUE</code>), the provided <code>init.values</code>
+are automatically log transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+the confidence level required (defaults to 0.95).</p>
+</td></tr>
+<tr valign="top"><td><code>log.output</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+If <code>TRUE</code> the console output will also show the logged values of the final parameter estimates
+and confidence intervals (only applicable if <code>log = TRUE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output (<code>TRUE</code>/<code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>multicore</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enable parallel computation of the bootstrap by creating a multicore SNOW cluster. Depending
+on the number of available logical CPU cores this may drastically reduce
+the computation time. Note that this option is highly experimental and may not
+work on all machines. (<code>TRUE</code>/<code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>(<em>optional</em>) further arguments for bootstrapping
+(<code style="white-space: pre;">bs.M, bs.N, bs.h, sigmab.sd</code>). See details for their usage.
+Further arguments are
+</p>
+
+<ul>
+<li> <p><code>verbose</code> to de-/activate console output (logical),
+</p>
+</li>
+<li> <p><code>debug</code> for extended console output (logical) and
+</p>
+</li>
+<li> <p><code>cores</code> (integer) to manually specify the number of cores to be used when <code>multicore=TRUE</code>.
+</p>
+</li></ul>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Parameters</strong>
+</p>
+<p>This model has four parameters:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+<code>gamma</code>: </td><td style="text-align: left;"> minimum dose on the log scale </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code>mu</code>: </td><td style="text-align: left;"> mean of the non-truncated normal distribution </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code>sigma</code>: </td><td style="text-align: left;"> spread in ages above the minimum </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code>p0</code>: </td><td style="text-align: left;"> proportion of grains at gamma </td>
+</tr>
+<tr>
+ <td style="text-align: right;"> </td>
+</tr>
+
+</table>
+
+<p>If <code>par=3</code> (default) the 3-parameter minimum age model is applied,
+where <code>gamma=mu</code>. For <code>par=4</code> the 4-parameter model is applied instead.
+</p>
+<p><strong>(Un-)logged model</strong>
+</p>
+<p>In the original version of the minimum dose model, the basic data are the natural
+logarithms of the De estimates and relative standard errors of the De
+estimates. The value for <code>sigmab</code> must be provided as a ratio
+(e.g, 0.2 for 20 \
+</p>
+<p>If <code>log=FALSE</code>, the modified un-logged model will be applied instead. This
+has essentially the same form as the original version.  <code>gamma</code> and
+<code>sigma</code> are in Gy and <code>gamma</code> becomes the minimum true dose in the
+population.
+<strong>Note</strong> that the un-logged model requires <code>sigmab</code> to be in the same
+absolute unit as the provided De values (seconds or Gray).
+</p>
+<p>While the original (logged) version of the minimum dose
+model may be appropriate for most samples (i.e. De distributions), the
+modified (un-logged) version is specially designed for modern-age and young
+samples containing negative, zero or near-zero De estimates (Arnold et al.
+2009, p. 323).
+</p>
+<p><strong>Initial values &amp; boundaries</strong>
+</p>
+<p>The log likelihood calculations use the <a href="../../stats/html/nlminb.html">nlminb</a> function for box-constrained
+optimisation using PORT routines.  Accordingly, initial values for the four
+parameters can be specified via <code>init.values</code>. If no values are
+provided for <code>init.values</code> reasonable starting values are estimated
+from the input data.  If the final estimates of <em>gamma</em>, <em>mu</em>,
+<em>sigma</em> and <em>p0</em> are totally off target, consider providing custom
+starting values via <code>init.values</code>.
+In contrast to previous versions of this function the boundaries for the
+individual model parameters are no longer required to be explicitly specified.
+If you want to override the default boundary values use the arguments
+<code>gamma.lower</code>, <code>gamma.upper</code>, <code>sigma.lower</code>, <code>sigma.upper</code>, <code>p0.lower</code>, <code>p0.upper</code>,
+<code>mu.lower</code> and <code>mu.upper</code>.
+</p>
+<p><strong>Bootstrap</strong>
+</p>
+<p>When <code>bootstrap=TRUE</code> the function applies the bootstrapping method as
+described in Wallinga &amp; Cunningham (2012). By default, the minimum age model
+produces 1000 first level and 3000 second level bootstrap replicates
+(actually, the number of second level bootstrap replicates is three times
+the number of first level replicates unless specified otherwise).  The
+uncertainty on sigmab is 0.04 by default. These values can be changed by
+using the arguments <code>bs.M</code> (first level replicates), <code>bs.N</code>
+(second level replicates) and <code>sigmab.sd</code> (error on sigmab). With
+<code>bs.h</code> the bandwidth of the kernel density estimate can be specified.
+By default, <code>h</code> is calculated as
+</p>
+<p style="text-align: center;"><i>h = (2*&sigma;_{DE})/&radic;{n}</i></p>
+
+<p><strong>Multicore support</strong>
+</p>
+<p>This function supports parallel computing and can be activated by <code>multicore=TRUE</code>.
+By default, the number of available logical CPU cores is determined
+automatically, but can be changed with <code>cores</code>. The multicore support
+is only available when <code>bootstrap=TRUE</code> and spawns <code>n</code> R instances
+for each core to get MAM estimates for each of the N and M bootstrap
+replicates. Note that this option is highly experimental and may or may not
+work for your machine. Also the performance gain increases for larger number
+of bootstrap replicates. Also note that with each additional core and hence
+R instance and depending on the number of bootstrap replicates the memory
+usage can significantly increase. Make sure that memory is always available,
+otherwise there will be a massive performance hit.
+</p>
+<p><strong>Likelihood profiles</strong>
+</p>
+<p>The likelihood profiles are generated and plotted by the <code>bbmle</code> package.
+The profile likelihood plots look different to ordinary profile likelihood as
+</p>
+<p>&quot;<code style="white-space: pre;">[...]</code> the plot method for likelihood profiles displays the square root of
+the the deviance difference (twice the difference in negative log-likelihood from
+the best fit), so it will be V-shaped for cases where the quadratic approximation
+works well <code style="white-space: pre;">[...]</code>.&quot; (Bolker 2016).
+</p>
+<p>For more details on the profile likelihood
+calculations and plots please see the vignettes of the <code>bbmle</code> package
+(also available here: <a href="https://CRAN.R-project.org/package=bbmle">https://CRAN.R-project.org/package=bbmle</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a plot (<em>optional</em>) and terminal output. In addition an
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned containing the
+following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>.$summary</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> summary of all relevant model results.</p>
+</td></tr>
+<tr valign="top"><td><code>.$data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> original input data</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> used arguments</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p><a href="../../base/html/call.html">call</a> the function call</p>
+</td></tr>
+<tr valign="top"><td><code>.$mle</code></td>
+<td>
+<p><a href="../../bbmle/html/mle2.html">mle2</a> object containing the maximum log likelihood functions for all parameters</p>
+</td></tr>
+<tr valign="top"><td><code>BIC</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> BIC score</p>
+</td></tr>
+<tr valign="top"><td><code>.$confint</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> confidence intervals for all parameters</p>
+</td></tr>
+<tr valign="top"><td><code>.$profile</code></td>
+<td>
+<p><a href="../../bbmle/html/profile-methods.html">profile.mle2</a> the log likelihood profiles</p>
+</td></tr>
+<tr valign="top"><td><code>.$bootstrap</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> bootstrap results</p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.4.4
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. calc_MinDose(): Apply the (un-)logged minimum age model (MAM) after Galbraith et al. (1999) to a given De distribution. Function version 0.4.4. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The default starting values for <em>gamma</em>, <em>mu</em>, <em>sigma</em>
+and <em>p0</em> may only be appropriate for some De data sets and may need to
+be changed for other data. This is especially true when the un-logged
+version is applied. <br />
+Also note that all R warning messages are suppressed
+when running this function. If the results seem odd consider re-running the
+model with <code>debug=TRUE</code> which provides extended console output and
+forwards all internal warning messages.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany) <br />
+Based on a rewritten S script of Rex Galbraith, 2010 <br />
+The bootstrap approach is based on a rewritten MATLAB script of Alastair Cunningham. <br />
+Alastair Cunningham is thanked for his help in implementing and cross-checking the code.
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Arnold, L.J., Roberts, R.G., Galbraith, R.F. &amp; DeLong, S.B.,
+2009. A revised burial dose estimation procedure for optical dating of young
+and modern-age sediments. Quaternary Geochronology 4, 306-325.
+</p>
+<p>Galbraith, R.F. &amp; Laslett, G.M., 1993. Statistical models for mixed fission
+track ages. Nuclear Tracks Radiation Measurements 4, 459-470.
+</p>
+<p>Galbraith, R.F., Roberts, R.G., Laslett, G.M., Yoshida, H. &amp; Olley, J.M.,
+1999. Optical dating of single grains of quartz from Jinmium rock shelter,
+northern Australia. Part I: experimental design and statistical models.
+Archaeometry 41, 339-364.
+</p>
+<p>Galbraith, R.F., 2005. Statistics for
+Fission Track Analysis, Chapman &amp; Hall/CRC, Boca Raton.
+</p>
+<p>Galbraith, R.F. &amp; Roberts, R.G., 2012. Statistical aspects of equivalent dose and error
+calculation and display in OSL dating: An overview and some recommendations.
+Quaternary Geochronology 11, 1-27.
+</p>
+<p>Olley, J.M., Roberts, R.G., Yoshida, H., Bowler, J.M., 2006. Single-grain optical dating of grave-infill
+associated with human burials at Lake Mungo, Australia. Quaternary Science
+Reviews 25, 2469-2474.
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Arnold, L.J. &amp; Roberts, R.G., 2009. Stochastic modelling of multi-grain equivalent dose
+(De) distributions: Implications for OSL dating of sediment mixtures.
+Quaternary Geochronology 4, 204-230.
+</p>
+<p>Bolker, B., 2016. Maximum likelihood estimation analysis with the bbmle package.
+In: Bolker, B., R Development Core Team, 2016. bbmle: Tools for General Maximum Likelihood Estimation.
+R package version 1.0.18. <a href="https://CRAN.R-project.org/package=bbmle">https://CRAN.R-project.org/package=bbmle</a>
+</p>
+<p>Bailey, R.M. &amp; Arnold, L.J., 2006. Statistical modelling of single grain quartz De distributions and an
+assessment of procedures for estimating burial dose. Quaternary Science
+Reviews 25, 2475-2502.
+</p>
+<p>Cunningham, A.C. &amp; Wallinga, J., 2012. Realizing the potential of fluvial archives using robust OSL chronologies.
+Quaternary Geochronology 12, 98-106.
+</p>
+<p>Rodnight, H., Duller, G.A.T., Wintle, A.G. &amp; Tooth, S., 2006. Assessing the reproducibility and accuracy
+of optical dating of fluvial deposits.  Quaternary Geochronology 1, 109-120.
+</p>
+<p>Rodnight, H., 2008. How many equivalent dose values are needed to
+obtain a reproducible distribution?. Ancient TL 26, 3-10.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_CentralDose.html">calc_CentralDose</a>, <a href="../../Luminescence/help/calc_CommonDose.html">calc_CommonDose</a>, <a href="../../Luminescence/help/calc_FiniteMixture.html">calc_FiniteMixture</a>,
+<a href="../../Luminescence/help/calc_FuchsLang2001.html">calc_FuchsLang2001</a>, <a href="../../Luminescence/help/calc_MaxDose.html">calc_MaxDose</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Load example data
+data(ExampleData.DeValues, envir = environment())
+
+# (1) Apply the minimum age model with minimum required parameters.
+# By default, this will apply the un-logged 3-parameter MAM.
+calc_MinDose(data = ExampleData.DeValues$CA1, sigmab = 0.1)
+
+## Not run: 
+# (2) Re-run the model, but save results to a variable and turn
+# plotting of the log-likelihood profiles off.
+mam &lt;- calc_MinDose(data = ExampleData.DeValues$CA1,
+                    sigmab = 0.1,
+                    plot = FALSE)
+
+# Show structure of the RLum.Results object
+mam
+
+# Show summary table that contains the most relevant results
+res &lt;- get_RLum(mam, "summary")
+res
+
+# Plot the log likelihood profiles retroactively, because before
+# we set plot = FALSE
+plot_RLum(mam)
+
+# Plot the dose distribution in an abanico plot and draw a line
+# at the minimum dose estimate
+plot_AbanicoPlot(data = ExampleData.DeValues$CA1,
+                 main = "3-parameter Minimum Age Model",
+                 line = mam,polygon.col = "none",
+                 hist = TRUE,
+                 rug = TRUE,
+                 summary = c("n", "mean", "mean.weighted", "median", "in.ci"),
+                 centrality = res$de,
+                 line.col = "red",
+                 grid.col = "none",
+                 line.label = paste0(round(res$de, 1), "\U00B1",
+                                     round(res$de_err, 1), " Gy"),
+                 bw = 0.1,
+                 ylim = c(-25, 18),
+                 summary.pos = "topleft",
+                 mtext = bquote("Parameters: " ~
+                                  sigma[b] == .(get_RLum(mam, "args")$sigmab) ~ ", " ~
+                                  gamma == .(round(log(res$de), 1)) ~ ", " ~
+                                  sigma == .(round(res$sig, 1)) ~ ", " ~
+                                  rho == .(round(res$p0, 2))))
+
+
+
+# (3) Run the minimum age model with bootstrap
+# NOTE: Bootstrapping is computationally intensive
+# (3.1) run the minimum age model with default values for bootstrapping
+calc_MinDose(data = ExampleData.DeValues$CA1,
+             sigmab = 0.15,
+             bootstrap = TRUE)
+
+# (3.2) Bootstrap control parameters
+mam &lt;- calc_MinDose(data = ExampleData.DeValues$CA1,
+                    sigmab = 0.15,
+                    bootstrap = TRUE,
+                    bs.M = 300,
+                    bs.N = 500,
+                    bs.h = 4,
+                    sigmab.sd = 0.06,
+                    plot = FALSE)
+
+# Plot the results
+plot_RLum(mam)
+
+# save bootstrap results in a separate variable
+bs &lt;- get_RLum(mam, "bootstrap")
+
+# show structure of the bootstrap results
+str(bs, max.level = 2, give.attr = FALSE)
+
+# print summary of minimum dose and likelihood pairs
+summary(bs$pairs$gamma)
+
+# Show polynomial fits of the bootstrap pairs
+bs$poly.fits$poly.three
+
+# Plot various statistics of the fit using the generic plot() function
+par(mfcol=c(2,2))
+plot(bs$poly.fits$poly.three, ask = FALSE)
+
+# Show the fitted values of the polynomials
+summary(bs$poly.fits$poly.three$fitted.values)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

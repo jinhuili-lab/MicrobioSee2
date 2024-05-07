@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert the styling scope to its lower-level representation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scope_normalize {styler}"><tr><td>scope_normalize {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert the styling scope to its lower-level representation</h2>
+
+<h3>Description</h3>
+
+<p>If <code>scope</code> is of class <code>character</code> and of length one, the value of the
+argument and all less-invasive levels are included too (e.g.
+styling tokens includes styling spaces). If
+<code>scope</code> is of class <code>AsIs</code>, every level to be included has to be declared
+individually. See compare <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code> for the possible levels and
+their order.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scope_normalize(scope, name = substitute(scope))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p>A character vector of length one or a vector of class <code>AsIs</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the character vector to be displayed if the
+construction of the factor fails.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other third-party style guide helpers: 
+<code><a href="../../styler/help/next_non_comment.html">next_non_comment</a>()</code>,
+<code><a href="../../styler/help/pd_is.html">pd_is</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+scope_normalize(I("tokens"))
+scope_normalize(I(c("indention", "tokens")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

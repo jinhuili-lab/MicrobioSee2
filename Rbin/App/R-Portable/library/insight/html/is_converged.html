@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convergence test for mixed effects models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for is_converged {insight}"><tr><td>is_converged {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convergence test for mixed effects models</h2>
+
+<h3>Description</h3>
+
+<p><code>is_converged()</code> provides an alternative convergence
+test for <code>merMod</code>-objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is_converged(x, tolerance = 0.001, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>merMod</code> or <code>glmmTMB</code>-object.</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>Indicates up to which value the convergence result is
+accepted. The smaller <code>tolerance</code> is, the stricter the test will be.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>TRUE</code> if convergence is fine and <code>FALSE</code> if convergence
+is suspicious. Additionally, the convergence value is returned as attribute.
+</p>
+
+
+<h3>Convergence and log-likelihood</h3>
+
+<p>Convergence problems typically arise when the model hasn't converged to a
+solution where the log-likelihood has a true maximum. This may result in
+unreliable and overly complex (or non-estimable) estimates and standard
+errors.
+</p>
+
+
+<h3>Inspect model convergence</h3>
+
+<p><strong>lme4</strong> performs a convergence-check (see <code>?lme4::convergence</code>), however, as
+discussed <a href="https://github.com/lme4/lme4/issues/120">here</a> and suggested by
+one of the lme4-authors in <a href="https://github.com/lme4/lme4/issues/120#issuecomment-39920269">this comment</a>,
+this check can be too strict. <code>is_converged()</code> thus provides an alternative
+convergence test for <code>merMod</code>-objects.
+</p>
+
+
+<h3>Resolving convergence issues</h3>
+
+<p>Convergence issues are not easy to diagnose. The help page on <code>?lme4::convergence</code>
+provides most of the current advice about how to resolve convergence issues.
+Another clue might be large parameter values, e.g. estimates (on the scale of
+the linear predictor) larger than 10 in (non-identity link) generalized linear
+model <em>might</em> indicate complete separation, which can be addressed by
+regularization, e.g. penalized regression or Bayesian regression with
+appropriate priors on the fixed effects.
+</p>
+
+
+<h3>Convergence versus Singularity</h3>
+
+<p>Note the different meaning between singularity and convergence: singularity
+indicates an issue with the &quot;true&quot; best estimate, i.e. whether the maximum
+likelihood estimation for the variance-covariance matrix of the random effects
+is positive definite or only semi-definite. Convergence is a question of
+whether we can assume that the numerical optimization has worked correctly
+or not.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(cbpp)
+set.seed(1)
+cbpp$x &lt;- rnorm(nrow(cbpp))
+cbpp$x2 &lt;- runif(nrow(cbpp))
+
+model &lt;- glmer(
+  cbind(incidence, size - incidence) ~ period + x + x2 + (1 + x | herd),
+  data = cbpp,
+  family = binomial()
+)
+
+is_converged(model)
+
+
+
+model &lt;- glmmTMB(
+  Sepal.Length ~ poly(Petal.Width, 4) * poly(Petal.Length, 4) +
+    (1 + poly(Petal.Width, 4) | Species),
+  data = iris
+)
+
+is_converged(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Where is the min or max value?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for which.min {raster}"><tr><td>which.min {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Where is the min or max value?</h2>
+
+<h3>Description</h3>
+
+<p>Which cells have the minumum / maximum value (for a RasterLayer), or which layer has the minimum/maximum value (for a RasterStack or RasterBrick)?
+</p>
+<p>which.min and which.max return the index of the first layer that has the min or max value for a cell. This can be problematic if there are ties. 
+</p>
+<p>In you want the index of all the layers that have the min or max value, use whiches.min or whiches.max (only for objects with less than 10 layers).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+which.min(x)
+which.max(x)
+whiches.min(x, ...)
+whiches.max(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (none implemented)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>(which.*): vector of cell numbers (if <code>x</code> is a RasterLayer). If <code>x</code> is a RasterStack or RasterBrick, a RasterLayer giving the number of the first layer with the minimum or maximum value for a cell.
+</p>
+<p>(whiches.*). An integer in which each digit represents a layer. For example, 35 means &quot;layers 3 and 5&quot;
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is a limit to accurate integer number representation. Therefore, do not use <code>whiches.*</code> with more than 15 layers.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/Which.html">Which</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster")) 
+
+r &lt;- which.min(b)
+
+i &lt;- which.min(b[[3]])
+xy &lt;- xyFromCell(b, i)
+plot(b[[3]])
+points(xy)
+
+x &lt;- whiches.min(b)
+freq(x)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

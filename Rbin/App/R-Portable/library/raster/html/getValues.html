@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get raster cell values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getValues {raster}"><tr><td>getValues {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get raster cell values</h2>
+
+<h3>Description</h3>
+
+<p>getValues returns all values or the values for a number of rows of a Raster* object. Values returned for a RasterLayer are a vector. The values returned for a RasterStack or RasterBrick are always a matrix, with the rows representing cells, and the columns representing layers
+</p>
+<p><code>values</code> is a shorthand version of getValues (for all rows).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getValues(x, row, nrows, ...)
+
+values(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>row</code></td>
+<td>
+<p>Numeric. Row number, should be between 1 and nrow(x), or missing in which case all values are returned</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p>Numeric. Number of rows. Should be an integer &gt; 0, or missing</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. When x is a <code>RasterLayer</code>: <code>format</code> to specify the output format. Either &quot;matrix&quot; or, the default &quot;&quot;, in which case a vector is returned</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>vector or matrix of raster values
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/getValuesBlock.html">getValuesBlock</a>, <a href="../../raster/help/getValuesFocal.html">getValuesFocal</a>, <a href="../../raster/help/setValues.html">setValues</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+r
+v &lt;- getValues(r)
+length(v)
+head(v)
+getValues(r, row=10)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

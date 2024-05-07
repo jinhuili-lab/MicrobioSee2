@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a bootstrap tooltip</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tooltip {RLumShiny}"><tr><td>tooltip {RLumShiny}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a bootstrap tooltip</h2>
+
+<h3>Description</h3>
+
+<p>Create bootstrap tooltips for any HTML element to be used in shiny applications.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tooltip(refId, text, attr = NULL, animation = TRUE, delay = 100,
+  html = TRUE, placement = "auto", trigger = "hover")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>refId</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+id of the element the tooltip is to be attached to.</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+Text to be displayed in the tooltip.</p>
+</td></tr>
+<tr valign="top"><td><code>attr</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>optional</em>):
+Attach tooltip to all elements with attribute <code>attr='refId'</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>animation</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Apply a CSS fade transition to the tooltip.</p>
+</td></tr>
+<tr valign="top"><td><code>delay</code></td>
+<td>
+<p><code><a href="../../base/html/numeric.html">numeric</a></code> (<em>with default</em>):
+Delay showing and hiding the tooltip (ms).</p>
+</td></tr>
+<tr valign="top"><td><code>html</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Insert HTML into the tooltip.</p>
+</td></tr>
+<tr valign="top"><td><code>placement</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+How to position the tooltip - <code>top</code> | <code>bottom</code> | <code>left</code> | <code>right</code> | <code>auto</code>.
+When 'auto' is specified, it will dynamically reorient the tooltip.
+For example, if placement is 'auto left', the tooltip will display to the
+left when possible, otherwise it will display right.</p>
+</td></tr>
+<tr valign="top"><td><code>trigger</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+How tooltip is triggered - <code>click</code> | <code>hover</code> | <code>focus</code> | <code>manual</code>.
+You may pass multiple triggers; separate them with a space.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# javascript code
+tt &lt;- tooltip("elementId", "This is a tooltip.")
+str(tt)
+
+# example app
+## Not run: 
+shinyApp(
+ui = fluidPage(
+  jscolorInput(inputId = "col", label = "JSColor Picker", 
+               value = "21BF6B", position = "right", 
+               mode = "HVS", close = TRUE),
+  tooltip("col", "This is a JScolor widget"),
+  
+  checkboxInput("cbox", "Checkbox", FALSE),
+  tooltip("cbox", "This is a checkbox"),
+  
+  checkboxGroupInput("cboxg", "Checkbox group", selected = "a", 
+                     choices = c("a" = "a",
+                                 "b" = "b",
+                                 "c" = "c")),
+  tooltip("cboxg", "This is a &lt;b&gt;checkbox group&lt;/b&gt;", html = TRUE),
+  
+  selectInput("select", "Selectinput", selected = "a", choices = c("a"="a", "b"="b")),
+  tooltip("select", "This is a text input field", attr = "for", placement = "right"),
+  
+  passwordInput("pwIn", "Passwordinput"),
+  tooltip("pwIn", "This is a password input field"),
+  
+  plotOutput("plot")
+),
+server = function(input, output) {
+  output$plot &lt;- renderPlot({
+    plot(cars, col = input$col, cex = 2, pch = 16)
+ })
+})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RLumShiny</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

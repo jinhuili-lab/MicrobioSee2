@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Effect Sizes: Getting Started</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Effect Sizes: Getting Started</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#aims-of-the-package" id="toc-aims-of-the-package">Aims of
+the Package</a></li>
+<li><a href="#comparison-to-other-packages" id="toc-comparison-to-other-packages">Comparison to Other
+Packages</a></li>
+<li><a href="#examples-of-features" id="toc-examples-of-features">Examples of Features</a>
+<ul>
+<li><a href="#indices-of-effect-size" id="toc-indices-of-effect-size">Indices of Effect Size</a>
+<ul>
+<li><a href="#standardized-differences" id="toc-standardized-differences">Standardized Differences</a></li>
+<li><a href="#contingency-tables" id="toc-contingency-tables">Contingency Tables</a></li>
+</ul></li>
+<li><a href="#parameter-and-model-standardization" id="toc-parameter-and-model-standardization">Parameter and Model
+Standardization</a></li>
+<li><a href="#effect-sizes-for-anovas" id="toc-effect-sizes-for-anovas">Effect Sizes for ANOVAs</a></li>
+<li><a href="#effect-size-conversion" id="toc-effect-size-conversion">Effect Size Conversion</a>
+<ul>
+<li><a href="#from-test-statistics" id="toc-from-test-statistics">From
+Test Statistics</a></li>
+<li><a href="#between-effect-sizes" id="toc-between-effect-sizes">Between Effect Sizes</a></li>
+</ul></li>
+<li><a href="#effect-size-interpretation" id="toc-effect-size-interpretation">Effect Size Interpretation</a></li>
+</ul></li>
+<li><a href="#licensing-and-availability" id="toc-licensing-and-availability">Licensing and Availability</a></li>
+<li><a href="#acknowledgments" id="toc-acknowledgments">Acknowledgments</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<div id="aims-of-the-package" class="section level1">
+<h1>Aims of the Package</h1>
+<p>In both theoretical and applied research, it is often of interest to
+assess the strength of an observed association. This is typically done
+to allow the judgment of the magnitude of an effect [especially when
+units of measurement are not meaningful, e.g., in the use of estimated
+latent variables; <span class="citation">Bollen (1989)</span>], to
+facilitate comparing between predictors’ importance within a given
+model, or both. Though some indices of effect size, such as the
+correlation coefficient (itself a standardized covariance coefficient)
+are readily available, other measures are often harder to obtain.
+<strong>effectsize</strong> is an R package <span class="citation">(R
+Core Team 2020)</span> that fills this important gap, providing
+utilities for easily estimating a wide variety of standardized effect
+sizes (i.e., effect sizes that are not tied to the units of measurement
+of the variables of interest) and their confidence intervals (CIs), from
+a variety of statistical models. <strong>effectsize</strong> provides
+easy-to-use functions, with full documentation and explanation of the
+various effect sizes offered, and is also used by developers of other R
+packages as the back-end for effect size computation, such as
+<strong>parameters</strong> <span class="citation">(Lüdecke et al.
+2020)</span>, <strong>ggstatsplot</strong> <span class="citation">(Patil
+2018)</span>, <strong>gtsummary</strong> <span class="citation">(Sjoberg
+et al. 2020)</span> and more.</p>
+</div>
+<div id="comparison-to-other-packages" class="section level1">
+<h1>Comparison to Other Packages</h1>
+<p><strong>effectsize</strong>’s functionality is in part comparable to
+packages like <strong>lm.beta</strong> <span class="citation">(Behrendt
+2014)</span>, <strong>MOTE</strong> <span class="citation">(Buchanan et
+al. 2019)</span>, and <strong>MBESS</strong> <span class="citation">(K.
+Kelley 2020)</span>. Yet, there are some notable differences, e.g.:</p>
+<!-- - **lm.beta** provides standardized regression coefficients for linear models, based on post-hoc model matrix standardization. However, the functionality is available only for a limited number of models (models inheriting from the `lm` class), whereas **effectsize** provides support for many types of models, including (generalized) linear mixed models, Bayesian models, and more. Additionally, in additional to post-hoc model matrix standardization, **effectsize** offers other methods of standardization (see below).   -->
+<ul>
+<li>Both <strong>MOTE</strong> and <strong>MBESS</strong> provide
+functions for computing effect sizes such as Cohen’s <em>d</em> and
+effect sizes for ANOVAs <span class="citation">(Cohen 1988)</span>, and
+their confidence intervals. However, both require manual input of
+<em>F</em>- or <em>t</em>-statistics, <em>degrees of freedom</em>, and
+<em>sums of squares</em> for the computation the effect sizes, whereas
+<strong>effectsize</strong> can automatically extract this information
+from the provided models, thus allowing for better ease-of-use as well
+as reducing any potential for error.<br />
+<!-- - Finally, in **base R**, the function `scale()` can be used to standardize vectors, matrices and data frame, which can be used to standardize data prior to model fitting. The coefficients of a linear model fit on such data are in effect standardized regression coefficients. **effectsize** expands an this, allowing for robust standardization (using the median and the MAD, instead of the mean and SD), post-hoc parameter standardization, and more. --></li>
+</ul>
+</div>
+<div id="examples-of-features" class="section level1">
+<h1>Examples of Features</h1>
+<p><strong>effectsize</strong> provides various functions for extracting
+and estimating effect sizes and their confidence intervals [estimated
+using the noncentrality parameter method; <span class="citation">Steiger
+(2004)</span>]. In this article, we provide basic usage examples for
+estimating some of the most common effect size. A comprehensive
+overview, including in-depth examples and <a href="https://easystats.github.io/effectsize/reference/index.html">a
+full list of features and functions</a>, are accessible via a dedicated
+website (<a href="https://easystats.github.io/effectsize/" class="uri">https://easystats.github.io/effectsize/</a>).</p>
+<div id="indices-of-effect-size" class="section level2">
+<h2>Indices of Effect Size</h2>
+<div id="standardized-differences" class="section level3">
+<h3>Standardized Differences</h3>
+<p><strong>effectsize</strong> provides functions for estimating the
+common indices of standardized differences such as Cohen’s <em>d</em>
+(<code>cohens_d()</code>), Hedges’ <em>g</em> (<code>hedges_g()</code>)
+for both paired and independent samples <span class="citation">(Cohen
+1988; Hedges and Olkin 1985)</span>, and Glass’ <span class="math inline">\(\Delta\)</span> (<code>glass_delta()</code>) for
+independent samples with different variances <span class="citation">(Hedges and Olkin 1985)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">es.use_symbols =</span> <span class="cn">TRUE</span>) <span class="co"># get nice symbols when printing! (On Windows, requires R &gt;= 4.2.0)</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d |         95% CI</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; -1.48     | [-2.27, -0.67]</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#&gt; - Estimated using pooled SD.</span></span></code></pre></div>
+</div>
+<div id="contingency-tables" class="section level3">
+<h3>Contingency Tables</h3>
+<p>Pearson’s <span class="math inline">\(\phi\)</span>
+(<code>phi()</code>) and Cramér’s <em>V</em> (<code>cramers_v()</code>)
+can be used to estimate the strength of association between two
+categorical variables <span class="citation">(Cramér 1946)</span>, while
+Cohen’s <em>g</em> (<code>cohens_g()</code>) estimates the deviance
+between paired categorical variables <span class="citation">(Cohen
+1988)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">150</span>, <span class="dv">130</span>, <span class="dv">35</span>, <span class="dv">55</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">50</span>, <span class="dv">10</span>, <span class="dv">40</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">165</span>, <span class="dv">65</span>, <span class="dv">2</span>, <span class="dv">25</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">cramers_v</span>(M)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Cramer&#39;s V (adj.) |       95% CI</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; --------------------------------</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 0.17              | [0.11, 1.00]</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span></code></pre></div>
+</div>
+</div>
+<div id="parameter-and-model-standardization" class="section level2">
+<h2>Parameter and Model Standardization</h2>
+<blockquote>
+<p>Note: this functionality has been moved to the
+<code>parameters</code> and <code>datawizard</code> packages.</p>
+</blockquote>
+<p>Standardizing parameters (i.e., coefficients) can allow for their
+comparison within and between models, variables and studies. To this
+end, two functions are available: <code>standardize()</code>, which
+returns an updated model, re-fit with standardized data, and
+<code>standardize_parameters()</code>, which returns a table of
+standardized coefficients from a provided model [for a list of supported
+models, see the <em>insight</em> package; <span class="citation">Lüdecke, Waggoner, and Makowski (2019)</span>].</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> cyl <span class="sc">*</span> am,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">data =</span> mtcars</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>datawizard<span class="sc">::</span><span class="fu">standardize</span>(model)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; Call:</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; lm(formula = mpg ~ cyl * am, data = data_std)</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Coefficients:</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; (Intercept)          cyl           am       cyl:am  </span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;     -0.0977      -0.7426       0.1739      -0.1930</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>parameters<span class="sc">::</span><span class="fu">standardize_parameters</span>(model)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; # Standardization method: refit</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; Parameter   | Std. Coef. |         95% CI</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; -----------------------------------------</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; (Intercept) |      -0.10 | [-0.30,  0.11]</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; cyl         |      -0.74 | [-0.95, -0.53]</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; am          |       0.17 | [-0.04,  0.39]</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; cyl:am      |      -0.19 | [-0.41,  0.02]</span></span></code></pre></div>
+<p>Standardized parameters can also be produced for generalized linear
+models (GLMs; where only the predictors are standardized):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glm</span>(am <span class="sc">~</span> cyl <span class="sc">+</span> hp,</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="at">data =</span> mtcars</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>parameters<span class="sc">::</span><span class="fu">standardize_parameters</span>(model, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; # Standardization method: refit</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Parameter   | Std_Odds_Ratio |        95% CI</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; --------------------------------------------</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; (Intercept) |           0.53 | [0.18,  1.32]</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; cyl         |           0.05 | [0.00,  0.29]</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; hp          |           6.70 | [1.32, 61.54]</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; - Response is unstandardized.</span></span></code></pre></div>
+<p><code>standardize_parameters()</code> provides several
+standardization methods, such as robust standardization, or
+<em>pseudo</em>-standardized coefficients for (generalized) linear mixed
+models <span class="citation">(Hoffman 2015)</span>. A full review of
+these methods can be found in the <a href="https://easystats.github.io/parameters/articles/standardize_parameters_effsize.html"><em>Parameter
+and Model Standardization</em> vignette</a>.</p>
+</div>
+<div id="effect-sizes-for-anovas" class="section level2">
+<h2>Effect Sizes for ANOVAs</h2>
+<p>Unlike standardized parameters, the effect sizes reported in the
+context of ANOVAs (analysis of variance) or ANOVA-like tables represent
+the amount of variance explained by each of the model’s terms, where
+each term can be represented by one or more parameters.
+<code>eta_squared()</code> can produce such popular effect sizes as
+Eta-squared (<span class="math inline">\(\eta^2\)</span>), its partial
+version (<span class="math inline">\(\eta^2_p\)</span>), as well as the
+generalized <span class="math inline">\(\eta^2_G\)</span> <span class="citation">(Cohen 1988; Olejnik and Algina 2003)</span>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">options</span>(<span class="at">contrasts =</span> <span class="fu">c</span>(<span class="st">&quot;contr.sum&quot;</span>, <span class="st">&quot;contr.poly&quot;</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;ChickWeight&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># keep only complete cases and convert `Time` to a factor</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>ChickWeight <span class="ot">&lt;-</span> <span class="fu">subset</span>(ChickWeight, <span class="fu">ave</span>(weight, Chick, <span class="at">FUN =</span> length) <span class="sc">==</span> <span class="dv">12</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>ChickWeight<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">factor</span>(ChickWeight<span class="sc">$</span>Time)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">aov</span>(weight <span class="sc">~</span> Diet <span class="sc">*</span> Time <span class="sc">+</span> <span class="fu">Error</span>(Chick <span class="sc">/</span> Time),</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="at">data =</span> ChickWeight</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="fu">eta_squared</span>(model, <span class="at">partial =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; # Effect Size for ANOVA (Type I)</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; Group      | Parameter | η² (partial) |       95% CI</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; ----------------------------------------------------</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; Chick      |      Diet |         0.27 | [0.06, 1.00]</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; Chick:Time |      Time |         0.87 | [0.85, 1.00]</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; Chick:Time | Diet:Time |         0.22 | [0.11, 1.00]</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">eta_squared</span>(model, <span class="at">generalized =</span> <span class="st">&quot;Time&quot;</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; # Effect Size for ANOVA (Type I)</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; Group      | Parameter | η² (generalized) |       95% CI</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; --------------------------------------------------------</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; Chick      |      Diet |             0.04 | [0.00, 1.00]</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; Chick:Time |      Time |             0.74 | [0.71, 1.00]</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; Chick:Time | Diet:Time |             0.03 | [0.00, 1.00]</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; - Observed variables: Time</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span></code></pre></div>
+<p><strong>effectsize</strong> also offers <span class="math inline">\(\epsilon^2_p\)</span>
+(<code>epsilon_squared()</code>) and <span class="math inline">\(\omega^2_p\)</span>
+(<code>omega_squared()</code>), which are less biased estimates of the
+variance explained in the population <span class="citation">(T. L.
+Kelley 1935; Olejnik and Algina 2003)</span>. For more details about the
+various effect size measures and their applications, see the <a href="https://easystats.github.io/effectsize/articles/anovaES.html"><em>Effect
+sizes for ANOVAs</em> vignette</a>.</p>
+</div>
+<div id="effect-size-conversion" class="section level2">
+<h2>Effect Size Conversion</h2>
+<div id="from-test-statistics" class="section level3">
+<h3>From Test Statistics</h3>
+<p>In many real world applications there are no straightforward ways of
+obtaining standardized effect sizes. However, it is possible to get
+approximations of most of the effect size indices (<em>d</em>,
+<em>r</em>, <span class="math inline">\(\eta^2_p\)</span>…) with the use
+of test statistics <span class="citation">(Friedman 1982)</span>. These
+conversions are based on the idea that test statistics are a function of
+effect size and sample size (or more often of degrees of freedom). Thus
+it is possible to reverse-engineer indices of effect size from test
+statistics (<em>F</em>, <em>t</em>, <span class="math inline">\(\chi^2\)</span>, and <em>z</em>).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">F_to_eta2</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">f =</span> <span class="fu">c</span>(<span class="fl">40.72</span>, <span class="fl">33.77</span>),</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">df =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="at">df_error =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">9</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; η² (partial) |       95% CI</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; ---------------------------</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; 0.82         | [0.66, 1.00]</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; 0.79         | [0.49, 1.00]</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">t_to_d</span>(<span class="at">t =</span> <span class="sc">-</span><span class="fl">5.14</span>, <span class="at">df_error =</span> <span class="dv">22</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; d     |         95% CI</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt; ----------------------</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt; -2.19 | [-3.23, -1.12]</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="fu">t_to_r</span>(<span class="at">t =</span> <span class="sc">-</span><span class="fl">5.14</span>, <span class="at">df_error =</span> <span class="dv">22</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; r     |         95% CI</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; ----------------------</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt; -0.74 | [-0.85, -0.49]</span></span></code></pre></div>
+<p>These functions also power the <code>effectsize()</code> convenience
+function for estimating effect sizes from R’s <code>htest</code>-type
+objects. For example:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">data</span>(hardlyworking, <span class="at">package =</span> <span class="st">&quot;effectsize&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>aov1 <span class="ot">&lt;-</span> <span class="fu">oneway.test</span>(salary <span class="sc">~</span> n_comps,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">data =</span> hardlyworking, <span class="at">var.equal =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">effectsize</span>(aov1)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; η²   |       95% CI</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; -------------------</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 0.20 | [0.14, 1.00]</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>xtab <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">762</span>, <span class="dv">327</span>, <span class="dv">468</span>), <span class="fu">c</span>(<span class="dv">484</span>, <span class="dv">239</span>, <span class="dv">477</span>), <span class="fu">c</span>(<span class="dv">484</span>, <span class="dv">239</span>, <span class="dv">477</span>))</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>Xsq <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(xtab)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="fu">effectsize</span>(Xsq)</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; Cramer&#39;s V (adj.) |       95% CI</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; --------------------------------</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; 0.07              | [0.05, 1.00]</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; - One-sided CIs: upper bound fixed at [1.00].</span></span></code></pre></div>
+<p>These functions also power our <em>Effect Sizes From Test
+Statistics</em> shiny app (<a href="https://easystats4u.shinyapps.io/statistic2effectsize/" class="uri">https://easystats4u.shinyapps.io/statistic2effectsize/</a>).</p>
+</div>
+<div id="between-effect-sizes" class="section level3">
+<h3>Between Effect Sizes</h3>
+<p>For comparisons between different types of designs and analyses, it
+is useful to be able to convert between different types of effect sizes
+[<em>d</em>, <em>r</em>, Odds ratios and Risk ratios; <span class="citation">Borenstein et al. (2009)</span>; <span class="citation">Grant (2014)</span>].</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">r_to_d</span>(<span class="fl">0.7</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] 1.96</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">d_to_oddsratio</span>(<span class="fl">1.96</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1] 35</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="fu">oddsratio_to_riskratio</span>(<span class="fl">34.99</span>, <span class="at">p0 =</span> <span class="fl">0.4</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [1] 2.4</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">oddsratio_to_r</span>(<span class="fl">34.99</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [1] 0.7</span></span></code></pre></div>
+</div>
+</div>
+<div id="effect-size-interpretation" class="section level2">
+<h2>Effect Size Interpretation</h2>
+<p>Finally, <strong>effectsize</strong> provides convenience functions
+to apply existing or custom interpretation rules of thumb, such as for
+instance Cohen’s (1988). Although we strongly advocate for the cautious
+and parsimonious use of such judgment-replacing tools, we provide these
+functions to allow users and developers to explore and hopefully gain a
+deeper understanding of the relationship between data values and their
+interpretation. More information is available in the <a href="https://easystats.github.io/effectsize/articles/interpret.html"><em>Automated
+Interpretation of Indices of Effect Size</em> vignette</a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">interpret_cohens_d</span>(<span class="fu">c</span>(<span class="fl">0.02</span>, <span class="fl">0.52</span>, <span class="fl">0.86</span>), <span class="at">rules =</span> <span class="st">&quot;cohen1988&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;very small&quot; &quot;medium&quot;     &quot;large&quot;     </span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; (Rules: cohen1988)</span></span></code></pre></div>
+</div>
+</div>
+<div id="licensing-and-availability" class="section level1">
+<h1>Licensing and Availability</h1>
+<p><strong>effectsize</strong> is licensed under the GNU General Public
+License (v3.0), with all source code stored at GitHub (<a href="https://github.com/easystats/effectsize" class="uri">https://github.com/easystats/effectsize</a>), and with a
+corresponding issue tracker for bug reporting and feature enhancements.
+In the spirit of honest and open science, we encourage requests/tips for
+fixes, feature updates, as well as general questions and concerns via
+direct interaction with contributors and developers, by <a href="https://github.com/easystats/effectsize/issues/">filing an
+issue</a>. See the package’s <a href="https://github.com/easystats/effectsize/blob/main/.github/CONTRIBUTING.md/"><em>Contribution
+Guidelines</em></a>.</p>
+</div>
+<div id="acknowledgments" class="section level1">
+<h1>Acknowledgments</h1>
+<p><strong>effectsize</strong> is part of the <a href="https://github.com/easystats/easystats/"><em>easystats</em></a>
+ecosystem, a collaborative project created to facilitate the usage of R
+for statistical analyses. Thus, we would like to thank the <a href="https://github.com/orgs/easystats/people/">members of
+easystats</a> as well as the users.</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-behrendt2014lmbeta" class="csl-entry">
+Behrendt, Stefan. 2014. <em><span class="nocase">l</span>m.beta: Add
+Standardized Regression Coefficients to Lm-Objects</em>. <a href="https://CRAN.R-project.org/package=lm.beta/">https://CRAN.R-project.org/package=lm.beta/</a>.
+</div>
+<div id="ref-bollen1989structural" class="csl-entry">
+Bollen, Kenneth A. 1989. <em>Structural Equations with Latent
+Variables</em>. New York: John Wiley &amp; Sons. <a href="https://doi.org/10.1002/9781118619179">https://doi.org/10.1002/9781118619179</a>.
+</div>
+<div id="ref-borenstein2009converting" class="csl-entry">
+Borenstein, Michael, Larry V Hedges, JPT Higgins, and Hannah R
+Rothstein. 2009. <span>“Converting Among Effect Sizes.”</span>
+<em>Introduction to Meta-Analysis</em>, 45–49.
+</div>
+<div id="ref-buchanan2019MOTE" class="csl-entry">
+Buchanan, Erin M., Amber Gillenwaters, John E. Scofield, and K. D.
+Valentine. 2019. <em><span class="nocase">MOTE: Measure of the
+Effect</span>: Package to Assist in Effect Size Calculations and Their
+Confidence Intervals</em>. <a href="https://github.com/doomlab/MOTE/">https://github.com/doomlab/MOTE/</a>.
+</div>
+<div id="ref-cohen1988statistical" class="csl-entry">
+Cohen, J. 1988. <em>Statistical Power Analysis for the Behavioral
+Sciences, 2nd Ed.</em> New York: Routledge.
+</div>
+<div id="ref-cramer1946mathematical" class="csl-entry">
+Cramér, Harald. 1946. <em>Mathematical Methods of Statistics</em>.
+Princeton: Princeton University Press.
+</div>
+<div id="ref-friedman1982simplified" class="csl-entry">
+Friedman, Herbert. 1982. <span>“Simplified Determinations of Statistical
+Power, Magnitude of Effect and Research Sample Sizes.”</span>
+<em>Educational and Psychological Measurement</em> 42 (2): 521–26.
+</div>
+<div id="ref-grant2014converting" class="csl-entry">
+Grant, Robert L. 2014. <span>“Converting an Odds Ratio to a Range of
+Plausible Relative Risks for Better Communication of Research
+Findings.”</span> <em>Bmj</em> 348: f7450.
+</div>
+<div id="ref-hedges1985statistical" class="csl-entry">
+Hedges, L, and I Olkin. 1985. <em>Statistical Methods for
+Meta-Analysis</em>. San Diego: Academic Press.
+</div>
+<div id="ref-hoffman2015longitudinal" class="csl-entry">
+Hoffman, Lesa. 2015. <em>Longitudinal Analysis: Modeling Within-Person
+Fluctuation and Change</em>. Routledge.
+</div>
+<div id="ref-kelley2020MBESS" class="csl-entry">
+Kelley, Ken. 2020. <em>MBESS: The MBESS <span>R</span> Package</em>. <a href="https://CRAN.R-project.org/package=MBESS/">https://CRAN.R-project.org/package=MBESS/</a>.
+</div>
+<div id="ref-kelley1935unbiased" class="csl-entry">
+Kelley, Truman L. 1935. <span>“An Unbiased Correlation Ratio
+Measure.”</span> <em>Proceedings of the National Academy of Sciences of
+the United States of America</em> 21 (9): 554–59. <a href="https://doi.org/10.1073/pnas.21.9.554">https://doi.org/10.1073/pnas.21.9.554</a>.
+</div>
+<div id="ref-ludecke2020extracting" class="csl-entry">
+Lüdecke, Daniel, Mattan S Ben-Shachar, Indrajeet Patil, and Dominique
+Makowski. 2020. <span>“Extracting, Computing and Exploring the
+Parameters of Statistical Models Using <span>R</span>.”</span>
+<em>Journal of Open Source Software</em> 5 (53): 2445. <a href="https://doi.org/10.21105/joss.02445">https://doi.org/10.21105/joss.02445</a>.
+</div>
+<div id="ref-luedecke2019insight" class="csl-entry">
+Lüdecke, Daniel, Philip Waggoner, and Dominique Makowski. 2019.
+<span>“<span class="nocase">i</span>nsight: A Unified Interface to
+Access Information from Model Objects in <span>R</span>.”</span>
+<em>Journal of Open Source Software</em> 4 (38): 1412. <a href="https://doi.org/10.21105/joss.01412">https://doi.org/10.21105/joss.01412</a>.
+</div>
+<div id="ref-olejnik2003generalized" class="csl-entry">
+Olejnik, Stephen, and James Algina. 2003. <span>“Generalized Eta and
+Omega Squared Statistics: Measures of Effect Size for Some Common
+Research Designs.”</span> <em>Psychological Methods</em> 8 (4): 434.
+</div>
+<div id="ref-patil2020ggstatsplot" class="csl-entry">
+Patil, Indrajeet. 2018. <span>“<span class="nocase">ggstatsplot</span>:
+’Ggplot2’ Based Plots with Statistical Details.”</span> <em>CRAN</em>.
+<a href="https://doi.org/10.5281/zenodo.2074621">https://doi.org/10.5281/zenodo.2074621</a>.
+</div>
+<div id="ref-rcore" class="csl-entry">
+R Core Team. 2020. <em><span>R</span>: A Language and Environment for
+Statistical Computing</em>. Vienna, Austria: R Foundation for
+Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.
+</div>
+<div id="ref-sjoberg2020gtsummary" class="csl-entry">
+Sjoberg, Daniel D., Michael Curry, Margie Hannum, Karissa Whiting, and
+Emily C. Zabor. 2020. <em><span class="nocase">g</span>tsummary:
+Presentation-Ready Data Summary and Analytic Result Tables</em>. <a href="https://CRAN.R-project.org/package=gtsummary/">https://CRAN.R-project.org/package=gtsummary/</a>.
+</div>
+<div id="ref-steiger2004beyond" class="csl-entry">
+Steiger, James H. 2004. <span>“Beyond the <span>F</span> Test: Effect
+Size Confidence Intervals and Tests of Close Fit in the Analysis of
+Variance and Contrast Analysis.”</span> <em>Psychological Methods</em> 9
+(2): 164–82. <a href="https://doi.org/10.1037/1082-989X.9.2.164">https://doi.org/10.1037/1082-989X.9.2.164</a>.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

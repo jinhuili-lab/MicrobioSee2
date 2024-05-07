@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shallowify the parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for shallowify {styler}"><tr><td>shallowify {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shallowify the parse table</h2>
+
+<h3>Description</h3>
+
+<p>Cached expressions don't need to be transformed with <code>transformers</code> in
+<code><a href="../../styler/help/parse_transform_serialize_r_block.html">parse_transform_serialize_r_block()</a></code>, we simply return <code>text</code> for the
+top-level token.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shallowify(pd)
+</pre>
+
+
+<h3>Details</h3>
+
+<p>Expressions that are cached are already styled correctly. We can make the
+parse table shallow at these locations, fully relying on the <code>text</code> column:
+</p>
+
+<ul>
+<li><p> remove all children, as they are not needed anymore.
+</p>
+</li>
+<li><p> mark the expression as a terminal.
+</p>
+</li></ul>
+
+
+
+<h3>Top-level comments</h3>
+
+<p>Note that we do not cache top-level comments. Because package code has a lot
+of roxygen comments and each of them is a top-level expression, checking is
+very expensive. More expensive than styling, because comments are always
+terminals. This will also yield large speed improvements in
+<code><a href="../../styler/help/compute_parse_data_nested.html">compute_parse_data_nested()</a></code> because nesting is expensive and will not be
+done for cached expressions.
+</p>
+
+
+<h3>Implementation</h3>
+
+<p>Because the structure of the parse table is not always &quot;top-level expression
+first, then children&quot;, this function creates a temporary parse table that has
+this property and then extract the ids and subset the original parse table so
+it is shallow in the right places.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

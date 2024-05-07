@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Options consulted by usethis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for usethis_options {usethis}"><tr><td>usethis_options {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Options consulted by usethis</h2>
+
+<h3>Description</h3>
+
+<p>User-configurable options consulted by usethis, which provide a mechanism
+for setting default behaviors for various functions.
+</p>
+<p>If the built-in defaults don't suit you, set one or more of these options.
+Typically, this is done in the <code>.Rprofile</code> startup file, which you can open
+for editing with <code><a href="../../usethis/help/edit_r_profile.html">edit_r_profile()</a></code> - this will set the specified options for
+all future R sessions. Your code will look something like:
+</p>
+<div class="sourceCode"><pre>options(
+  usethis.description = list(
+    "Authors@R" = utils::person(
+      "Jane", "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre"),
+      comment = c(ORCID = "YOUR-ORCID-ID")
+    ),
+    License = "MIT + file LICENSE"
+  ),
+  usethis.destdir = "/path/to/folder/", # for use_course(), create_from_github()
+  usethis.protocol = "ssh", # Use ssh git protocol
+  usethis.overwrite = TRUE # overwrite files in Git repos without confirmation
+)
+</pre></div>
+
+
+<h3>Options for the usethis package</h3>
+
+
+<ul>
+<li> <p><code>usethis.description</code>: customize the default content of new <code>DESCRIPTION</code>
+files by setting this option to a named list.
+If you are a frequent package developer, it is worthwhile to pre-configure
+your preferred name, email, license, etc. See the example above and the
+<a href="https://usethis.r-lib.org/articles/articles/usethis-setup.html">article on usethis setup</a>
+for more details.
+</p>
+</li>
+<li> <p><code>usethis.destdir</code>: Default directory in which to place new projects
+downloaded by <code><a href="../../usethis/help/use_course.html">use_course()</a></code> and <code><a href="../../usethis/help/create_from_github.html">create_from_github()</a></code>.
+If this option is unset, the user's Desktop or similarly conspicuous place
+will be used.
+</p>
+</li>
+<li> <p><code>usethis.protocol</code>: specifies your preferred transport protocol for Git.
+Either &quot;https&quot; (default) or &quot;ssh&quot;:
+</p>
+
+<ul>
+<li> <p><code>usethis.protocol = "https"</code> implies <code style="white-space: pre;">https://github.com/&lt;OWNER&gt;/&lt;REPO&gt;.git</code>
+</p>
+</li>
+<li> <p><code>usethis.protocol = "ssh"</code> implies <code style="white-space: pre;">git@github.com:&lt;OWNER&gt;/&lt;REPO&gt;.git</code>
+</p>
+</li></ul>
+
+<p>You can also change this for the duration of your R session with
+<code><a href="../../usethis/help/use_git_protocol.html">use_git_protocol()</a></code>.
+</p>
+</li>
+<li> <p><code>usethis.overwrite</code>: If <code>TRUE</code>, usethis overwrites an existing file without
+asking for user confirmation if the file is inside a Git repo. The
+rationale is that the normal Git workflow makes it easy to see and
+selectively accept/discard any proposed changes.
+</p>
+</li>
+<li> <p><code>usethis.quiet</code>: Set to <code>TRUE</code> to suppress user-facing messages. Default
+<code>FALSE</code>.
+</p>
+</li>
+<li> <p><code>usethis.allow_nested_project</code>: Whether or not to allow
+you to create a project inside another project. This is rarely a good idea,
+so this option defaults to <code>FALSE</code>.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

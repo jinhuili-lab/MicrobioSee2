@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add a ROC line to a ROC plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for lines.roc {pROC}"><tr><td>lines.roc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add a ROC line to a ROC plot
+</h2>
+
+<h3>Description</h3>
+
+<p>This convenience function adds a ROC line to a ROC curve.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'roc'
+lines(x, ...)
+## S3 method for class 'smooth.roc'
+lines(x, ...)
+## S3 method for class 'roc'
+lines.roc(x, lwd=2, ...)
+## S3 method for class 'formula'
+lines.roc(x, data, subset, na.action, ...)
+## Default S3 method:
+lines.roc(x, predictor, ...)
+## S3 method for class 'smooth.roc'
+lines.roc(x, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a roc object from the <a href="../../pROC/help/roc.html">roc</a> function (for plot.roc.roc),
+a formula (for plot.roc.formula) or a response vector (for
+plot.roc.default).
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor, data</code></td>
+<td>
+<p>arguments for the <a href="../../pROC/help/roc.html">roc</a> function.</p>
+</td></tr>
+<tr valign="top"><td><code>subset,na.action</code></td>
+<td>
+<p>arguments for <code><a href="../../stats/html/model.frame.html">model.frame</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>line width (see <code><a href="../../graphics/html/par.html">par</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters for <code><a href="../../graphics/html/lines.html">lines</a></code>, and
+especially <code>type</code> (see <code><a href="../../graphics/html/plot.default.html">plot.default</a></code>) and
+arguments for <code><a href="../../graphics/html/par.html">par</a></code> such as <code>col</code> (color),
+<code>lty</code> (line type) or line characteristics <code>lend</code>,
+<code>ljoin</code> and <code>lmitre</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>This function returns a list of class &ldquo;roc&rdquo; invisibly. See <code><a href="../../pROC/help/roc.html">roc</a></code> for more details.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a few ROC curves:
+data(aSAH)
+roc.s100b &lt;- roc(aSAH$outcome, aSAH$s100b)
+roc.wfns &lt;- roc(aSAH$outcome, aSAH$wfns)
+
+# We need a plot to be ready
+plot(roc.s100b, type = "n") # but don't actually plot the curve
+
+# Add the line
+lines(roc.s100b, type="b", pch=21, col="blue", bg="grey")
+
+# Add the line of an other ROC curve
+lines(roc.wfns, type="o", pch=19, col="red")
+
+
+# Without using 'lines':
+rocobj &lt;- plot.roc(aSAH$outcome, aSAH$s100b, type="b", pch=21, col="blue", bg="grey")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

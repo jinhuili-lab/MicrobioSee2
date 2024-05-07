@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Searches for a working PNG device</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for System$findGraphicsDevice {R.utils}"><tr><td>System$findGraphicsDevice {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Searches for a working PNG device</h2>
+
+<h3>Description</h3>
+
+<p>Searches for a working PNG device.
+</p>
+<p>On Unix, the png device requires that X11 is available, which it is not
+when running batch scripts or running <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> remotely.  In such cases, an
+alternative is to use the <code>bitmap()</code> device, which generates an
+EPS file and the uses Ghostscript to transform it to a PNG file.
+</p>
+<p>Moreover, if identical looking bitmap and vector graphics (EPS) files
+are wanted for the same figures, in practice, <code>bitmap()</code> has
+to be used.
+</p>
+<p>By default, this method tests a list of potential graphical devices and
+returns the first that successfully creates an image file.
+By default, it tries to create a PNG image file via the built-in
+<code>png()</code> device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## System$findGraphicsDevice(devices=list(png), maxCount=100, sleepInterval=0.1,
+##   findGhostscript=TRUE, ...)
+
+## Don't use the below:
+## S3 method for class 'System'
+findGraphicsDevice(static, devices=list(png), maxCount=100, sleepInterval=0.1,
+  findGhostscript=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>devices</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> of graphics device driver <code><a href="../../base/help/function.html">function</a></code>s to be
+tested.</p>
+</td></tr>
+<tr valign="top"><td><code>maxCount</code></td>
+<td>
+<p>The maximum number of subsequent tests for the
+the existences of <code>bitmap()</code> generated image files.</p>
+</td></tr>
+<tr valign="top"><td><code>sleepInterval</code></td>
+<td>
+<p>The time in seconds between above subsequent
+tests.</p>
+</td></tr>
+<tr valign="top"><td><code>findGhostscript</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, Ghostscript, which is needed by
+the <code>bitmap()</code> device, is searched for on the current system.
+If found, its location is recorded.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/function.html">function</a></code> that generates images, or <code><a href="../../base/help/NULL.html">NULL</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For supported graphical devices, see <code><a href="../../base/html/capabilities.html">capabilities</a></code>().
+<code><a href="../../grDevices/help/png.html">png</a></code>,
+<code>bitmap()</code> and <code><a href="../../grDevices/help/dev2bitmap.html">dev2bitmap</a></code>.
+<code><a href="../help/findGhostscript.System.html">*findGhostscript</a>()</code>.
+For more information see <code><a href="../../R.utils/help/System.html">System</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  fcn &lt;- System$findGraphicsDevice()
+  if (identical(fcn, png)) {
+    cat("PNG device found: png()")
+  } else if (identical(fcn, bitmap)) {
+    cat("PNG device found: bitmap()")
+  } else {
+    cat("PNG device not found.")
+  }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

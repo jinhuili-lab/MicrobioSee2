@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Export XSYG-file(s) to CSV-files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_XSYG2CSV {Luminescence}"><tr><td>convert_XSYG2CSV {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Export XSYG-file(s) to CSV-files</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper function around the functions <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a> and
+<a href="../../Luminescence/help/write_RLum2CSV.html">write_RLum2CSV</a> and it imports an XSYG-file and directly exports its content
+to CSV-files. If nothing is set for the argument <code>path</code> (<a href="../../Luminescence/help/write_RLum2CSV.html">write_RLum2CSV</a>)
+the input folder will become the output folder.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_XSYG2CSV(file, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+name of the XSYG-file to be converted to CSV-files</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function
+<a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a> and <a href="../../Luminescence/help/write_RLum2CSV.html">write_RLum2CSV</a></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns either a CSV-file (or many of them) or for the option <code>export = FALSE</code>
+a list comprising objects of type <a href="../../base/html/data.frame.html">data.frame</a> and <a href="../../base/html/matrix.html">matrix</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. convert_XSYG2CSV(): Export XSYG-file(s) to CSV-files. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>,
+<a href="../../utils/help/write.table.html">utils::write.table</a>, <a href="../../Luminescence/help/write_RLum2CSV.html">write_RLum2CSV</a>, <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##transform XSYG-file values to a list
+data(ExampleData.XSYG, envir = environment())
+convert_XSYG2CSV(OSL.SARMeasurement$Sequence.Object[1:10], export = FALSE)
+
+## Not run: 
+##select your BIN-file
+file &lt;- file.choose()
+
+##convert
+convert_XSYG2CSV(file)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Names of raster layers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for names {raster}"><tr><td>names {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Names of raster layers</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the names of the layers of a Raster* object 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+names(x)
+
+## S4 replacement method for signature 'Raster'
+names(x)&lt;-value
+
+## S4 method for signature 'Raster'
+labels(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>  
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>character (vector)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Character 
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/nlayers.html">nlayers</a>, <a href="../help/bands.html">bands</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=5, nrows=5)
+values(r) &lt;- 1:ncell(r)
+s &lt;- stack(r, r, r)
+nlayers(s)
+names(s)
+names(s) &lt;- c('a', 'b', 'c')
+names(s)[2] &lt;- 'hello world'
+names(s)
+s
+labels(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

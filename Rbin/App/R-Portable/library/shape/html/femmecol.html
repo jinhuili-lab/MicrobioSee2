@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: red-green-blue color palette</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for femmecol {shape}"><tr><td>femmecol {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>red-green-blue color palette</h2>
+
+<h3>Description</h3>
+
+<p>Creates a vector of (n) contiguous colors
+(darkblue-blue-cyan-yellow-red-darkred).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+femmecol(n = 100)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n </code></td>
+<td>
+<p>number of colors.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector of character strings giving the colors in hexadecimal format
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../grDevices/html/palettes.html">rainbow</a></code>, <code><a href="../../grDevices/html/palettes.html">heat.colors</a></code>,
+<code><a href="../../grDevices/html/palettes.html">topo.colors</a></code>, the comparable R-functions.
+</p>
+<p><code><a href="../../shape/help/intpalette.html">intpalette</a></code>, <code><a href="../../shape/help/shadepalette.html">shadepalette</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+filled.contour(volcano, color = femmecol, asp = 1, main = "femmecol")
+femmecol(10)
+image(matrix(nrow = 1, ncol = 100, data = 1:100), 
+      col = femmecol(100), main = "femmecol")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

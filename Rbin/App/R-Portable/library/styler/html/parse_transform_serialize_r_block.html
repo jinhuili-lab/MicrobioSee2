@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parse, transform and serialize a nested parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for parse_transform_serialize_r_block {styler}"><tr><td>parse_transform_serialize_r_block {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parse, transform and serialize a nested parse table</h2>
+
+<h3>Description</h3>
+
+<p>We process blocks of nested parse tables for speed. See <code><a href="../../styler/help/cache_find_block.html">cache_find_block()</a></code>
+for details on how a top-level nest is split into blocks.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parse_transform_serialize_r_block(
+  pd_nested,
+  start_line,
+  transformers,
+  base_indention
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A block of the nested parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>start_line</code></td>
+<td>
+<p>The line number on which the code starts.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A list of <em>named</em> transformer functions</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+text_in &lt;- 'x&lt;- function()
+"here
+is"
+NULL
+1+ 1
+'
+style_text(text_in, base_indention = 3)
+# not equal to the naive approach
+styler:::construct_vertical(
+  paste0(styler:::add_spaces(3), style_text(text_in), sep = "")
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the direction away from the closest point</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for thigmophobe {plotrix}"><tr><td>thigmophobe {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find the direction away from the closest point</h2>
+
+<h3>Description</h3>
+
+<p>Find the direction away from the closest point</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ thigmophobe(x,y=NULL,names=seq_along(z),xlog=par("xlog"),ylog=par("ylog"),
+  usr=par("usr"),pin=par("pin"),eps=.Machine$double.eps,pi=base::pi)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Numeric data vectors. Typically the x/y coordinates of
+plotted points. If arrays are passed, they will be silently coerced to
+numeric vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>Names for the vector of directions.</p>
+</td></tr>
+<tr valign="top"><td><code>xlog,ylog</code></td>
+<td>
+<p>Flags for logarithmic axes. See Note.</p>
+</td></tr>
+<tr valign="top"><td><code>usr</code></td>
+<td>
+<p>The extent of the plot in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>pin</code></td>
+<td>
+<p>Extent of the plot in inches.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>smallest number that can be represented on the system.</p>
+</td></tr>
+<tr valign="top"><td><code>pi</code></td>
+<td>
+<p>value of pi.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">thigmophobe</span> returns the direction (as 1|2|3|4 - see pos= in 
+<span class="samp">text</span>) away from the nearest point to each of the points 
+described by <span class="samp">x</span> and <span class="samp">y</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of directions away from the point nearest to each point.
+</p>
+
+
+<h3>Note</h3>
+
+<p><span class="samp">thigmophobe</span> is typically used to get the offsets to automatically
+place labels on a scatterplot or similar using <span class="samp">thigmophobe.labels</span>
+to avoid overlapping labels. The name means &quot;one who fears being touched&quot;.
+</p>
+<p>The <span class="samp">plot.span</span>, <span class="samp">xlog</span> and <span class="samp">ylog</span> arguments were added to
+allow <span class="samp">thigmophobe</span> to be used outside of base graphics.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Bill Venables</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-rnorm(10)
+ y&lt;-rnorm(10)
+ thigmophobe(x,y)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

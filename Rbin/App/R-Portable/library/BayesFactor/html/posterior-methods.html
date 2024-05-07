@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample from the posterior distribution of one of several...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for posterior {BayesFactor}"><tr><td>posterior {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample from the posterior distribution of one of several models.</h2>
+
+<h3>Description</h3>
+
+<p>This function samples from the posterior distribution of a <code>BFmodel</code>,
+which can be obtained from a <code>BFBayesFactor</code> object. If there is more
+than one numerator in the <code>BFBayesFactor</code> object, the <code>index</code>
+argument can be passed to select one numerator.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+posterior(model, index, data, iterations, ...)
+
+## S4 method for signature 'BFmodel,missing,data.frame,missing'
+posterior(model, index, data,
+  iterations, ...)
+
+## S4 method for signature 'BFBayesFactor,missing,missing,missing'
+posterior(model, index, data,
+  iterations, ...)
+
+## S4 method for signature 'BFBayesFactor,numeric,missing,numeric'
+posterior(model, index, data,
+  iterations, ...)
+
+## S4 method for signature 'BFBayesFactor,missing,missing,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFlinearModel,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFindepSample,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFcontingencyTable,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFoneSample,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFmetat,missing,data.frame,numeric'
+posterior(model, index = NULL,
+  data, iterations, ...)
+
+## S4 method for signature 'BFproportion,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+
+## S4 method for signature 'BFcorrelation,missing,data.frame,numeric'
+posterior(model,
+  index = NULL, data, iterations, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>or set of models from which to sample</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>the index within the set of models giving the desired model</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>the data to be conditioned on</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>the number of iterations to sample</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to and from related methods</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The data argument is used internally, and will y not be needed by
+end-users.
+</p>
+<p>Note that if there are fixed effects in the model, the reduced
+parameterzation used internally (see help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code>) is
+unreduced. For a factor with two levels, the chain will contain two effect
+estimates that sum to 0.
+</p>
+<p>Two useful arguments that can be passed to related methods are <code>thin</code>
+and <code>columnFilter</code>, currently implemented for methods using
+<code>nWayAOV</code> (models with more than one categorical covariate, or a mix of
+categorical and continuous covariates). <code>thin</code>, an integer, will keep
+only every <code>thin</code> iterations. The default is <code>thin=1</code>, which keeps
+all iterations. Argument <code>columnFilter</code> is either <code>NULL</code> (for no
+filtering) or a character vector of extended regular expressions (see
+<a href="../../base/html/regex.html">regex</a> help for details). Any column from an effect that matches one of
+the filters will not be saved.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an object containing samples from the posterior distribution
+of the specified model
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Sample from the posteriors for two models
+data(sleep)
+
+bf = lmBF(extra ~ group + ID, data = sleep, whichRandom="ID", progress=FALSE)
+
+## sample from the posterior of the numerator model
+## data argument not needed - it is included in the Bayes factor object
+chains = posterior(bf, iterations = 1000, progress = FALSE)
+
+plot(chains)
+
+## demonstrate column filtering by filtering out participant effects
+data(puzzles)
+bf = lmBF(RT ~ shape + color + shape:color + ID, data=puzzles)
+chains = posterior(bf, iterations = 1000, progress = FALSE, columnFilter="^ID$")
+colnames(chains) # Contains no participant effects
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

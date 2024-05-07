@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the confidence interval of a ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci {pROC}"><tr><td>ci {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute the confidence interval of a ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the confidence interval (CI) of a ROC curve. The
+<code>of</code> argument controls the type of CI that will be computed.
+By default, the 95% CI are computed with 2000 stratified bootstrap
+replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ci(...)
+## S3 method for class 'roc'
+ci(roc, of = c("auc", "thresholds", "sp", "se", "coords"), ...)
+## S3 method for class 'smooth.roc'
+ci(smooth.roc, of = c("auc", "sp", "se", "coords"), ...)
+## S3 method for class 'multiclass.roc'
+ci(multiclass.roc, of = "auc", ...)
+## S3 method for class 'multiclass.auc'
+ci(multiclass.auc, of = "auc", ...)
+## S3 method for class 'formula'
+ci(formula, data, ...)
+## Default S3 method:
+ci(response, predictor, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, or a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>multiclass.roc, multiclass.auc</code></td>
+<td>
+<p>not implemented.</p>
+</td></tr>
+<tr valign="top"><td><code>response, predictor</code></td>
+<td>
+<p>arguments for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>a formula (and possibly a data object) of type
+response~predictor for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>of</code></td>
+<td>
+<p>The type of confidence interval. One of &ldquo;auc&rdquo;,
+&ldquo;thresholds&rdquo;, &ldquo;sp&rdquo;, &ldquo;se&rdquo; or &ldquo;coords&rdquo;. Note that
+confidence interval on &ldquo;thresholds&rdquo; are not available for
+smoothed ROC curves.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/roc.html">roc</a></code>, and the specific
+<code>ci</code> functions <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code>,
+<code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code> and <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>ci.formula</code> and <code>ci.default</code> are convenience methods
+that build the ROC curve (with the <code><a href="../../pROC/help/roc.html">roc</a></code> function) before
+calling <code>ci.roc</code>. You can pass them arguments for both
+<code><a href="../../pROC/help/roc.html">roc</a></code> and <code>ci.roc</code>. Simply use <code>ci</code>
+that will dispatch to the correct method.
+</p>
+<p>This function is typically called from <code><a href="../../pROC/help/roc.html">roc</a></code> when <code>ci=TRUE</code> (not by
+default). Depending on the <code>of</code> argument, the specific
+<code>ci</code> functions <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>, <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>,
+<code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code> or <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> are called.
+</p>
+<p>When the ROC curve has an <code><a href="../../pROC/help/auc.html">auc</a></code> of 1 (or 100%), the confidence interval will always be null
+(there is no interval). This is true for both &ldquo;delong&rdquo; and &ldquo;bootstrap&rdquo; methods that can
+not properly assess the variance in this case. This result is misleading, as the variance is of course not null.
+A <code><a href="../../base/html/warning.html">warning</a></code> will be displayed to inform of this condition, and of the misleading output.
+</p>
+<p>CI of multiclass ROC curves and AUC is not implemented yet. Attempting to call these
+methods returns an error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The return value of the specific <code>ci</code> functions
+<code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>, <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code> or <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code>, depending on the
+<code>of</code> argument.
+</p>
+
+
+<h3>References</h3>
+
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>,
+<code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code>, <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a ROC curve:
+data(aSAH)
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+
+
+## AUC ## 
+ci(roc1)
+# this is equivalent to:
+ci(roc1, of = "auc")
+# or:
+ci.auc(roc1)
+
+
+## Coordinates ##
+## Not run: 
+# Thresholds
+ci(roc1, of = "thresholds")
+ci(roc1, of = "thresholds", thresholds = "all")
+ci(roc1, of = "thresholds", thresholds = 0.51)
+# equivalent to:
+ci.thresholds(roc1, thresholds = 0.51)
+
+# SE/SP
+ci(roc1, of = "sp", sensitivities = c(.95, .9, .85))
+ci.sp(roc1)
+ci(roc1, of = "se")
+ci.se(roc1)
+
+# Arbitrary coordinates
+ci(roc1, of = "coords", "best")
+ci.coords(roc1, 0.51, "threshold")
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

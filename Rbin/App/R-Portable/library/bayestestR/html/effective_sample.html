@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Effective Sample Size (ESS)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for effective_sample {bayestestR}"><tr><td>effective_sample {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Effective Sample Size (ESS)</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the effective sample size (ESS).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+effective_sample(model, ...)
+
+## S3 method for class 'brmsfit'
+effective_sample(
+  model,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL,
+  ...
+)
+
+## S3 method for class 'stanreg'
+effective_sample(
+  model,
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <code>stanreg</code>, <code>stanfit</code>, <code>brmsfit</code>, <code>blavaan</code>, or <code>MCMCglmm</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Effective Sample (ESS)</strong> should be as large as possible, altough for most applications, an effective sample size greater than 1,000 is sufficient for stable estimates (Bürkner, 2017). The ESS corresponds to the number of independent samples with the same estimation power as the N autocorrelated samples. It is is a measure of &ldquo;how much independent information there is in autocorrelated chains&rdquo; (<em>Kruschke 2015, p182-3</em>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with two columns: Parameter name and effective sample size (ESS).
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Kruschke, J. (2014). Doing Bayesian data analysis: A tutorial with R, JAGS, and Stan. Academic Press.
+</p>
+</li>
+<li><p> Bürkner, P. C. (2017). brms: An R package for Bayesian multilevel models using Stan. Journal of Statistical Software, 80(1), 1-28
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+library(rstanarm)
+model &lt;- suppressWarnings(
+  stan_glm(mpg ~ wt + gear, data = mtcars, chains = 2, iter = 200, refresh = 0)
+)
+effective_sample(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Method for Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.polynomial {polynom}"><tr><td>plot.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot Method for Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Plots polynomials, optionally allowing the &ldquo;interesting&rdquo; region to
+be automatically determined.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+plot(x, xlim = 0:1, ylim = range(Px), type = "l",
+                len = 1000, ..., xlab = "x", ylab = "P(x)")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"polynomial"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>the range to be encompassed by the x axis.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>the range to be encompassed by the y axis.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>as for <code><a href="../../graphics/html/plot.default.html">plot</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>len</code></td>
+<td>
+<p>number of x points drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../graphics/html/plot.default.html">plot</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>graphical parameters.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a method for the generic function <code><a href="../../graphics/html/plot.default.html">plot</a></code>.
+</p>
+<p>A plot of the polynomial is produced on the currently active device.
+Unless otherwise specified, the domain is chosen to enclose the real
+parts of all zeros, stationary points and zero itself.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/plot.default.html">plot</a></code>,
+<code><a href="../../graphics/html/lines.html">lines</a></code>,
+<code><a href="../../graphics/html/points.html">points</a></code>,
+<code><a href="../../polynom/help/lines.polynomial.html">lines.polynomial</a></code>,
+<code><a href="../../polynom/help/points.polynomial.html">points.polynomial</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot(p &lt;- poly.calc(-1:5))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

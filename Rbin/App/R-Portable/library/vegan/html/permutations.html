@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Permutation tests in Vegan</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for permutations {vegan}"><tr><td>permutations {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Permutation tests in Vegan</h2>
+
+<h3>Description</h3>
+
+<p>From version 2.2-0, <span class="pkg">vegan</span> has significantly improved access to
+restricted permutations which brings it into line with those offered
+by Canoco. The permutation designs are modelled after the permutation
+schemes of Canoco 3.1 (ter Braak, 1990).
+</p>
+<p><span class="pkg">vegan</span> currently provides for the following features within
+permutation tests:
+</p>
+
+<ol>
+<li><p>Free permutation of <em>DATA</em>, also known as randomisation,
+</p>
+</li>
+<li><p>Free permutation of <em>DATA</em> within the levels of a
+grouping variable,
+</p>
+</li>
+<li><p>Restricted permutations for line transects or time series,
+</p>
+</li>
+<li><p>Permutation of groups of samples whilst retaining the
+within-group ordering,
+</p>
+</li>
+<li><p>Restricted permutations for spatial grids,
+</p>
+</li>
+<li><p>Blocking, samples are never permuted <em>between</em> blocks,
+and
+</p>
+</li>
+<li><p>Split-plot designs, with permutation of whole plots, split
+plots, or both.
+</p>
+</li></ol>
+
+<p>Above, we use <em>DATA</em> to mean either the observed data themselves
+or some function of the data, for example the residuals of an
+ordination model in the presence of covariables.
+</p>
+<p>These capabilities are provided by functions from the <span class="pkg">permute</span>
+package. The user can request a particular type of permutation by
+supplying the <code>permutations</code> argument of a function with an
+object returned by <code><a href="../../permute/html/how.html">how</a></code>, which defines how samples should
+be permuted. Alternatively, the user can simply specify the required
+number of permutations and a simple randomisation procedure will be
+performed. Finally, the user can supply a matrix of permutations (with
+number of rows equal to the number of permutations and number of
+columns equal to the number of observations in the data) and
+<span class="pkg">vegan</span> will use these permutations instead of generating new
+permutations.
+</p>
+<p>The majority of functions in <span class="pkg">vegan</span> allow for the full range of
+possibilities outlined above. Exceptions include
+<code><a href="../../vegan/help/kendall.post.html">kendall.post</a></code> and <code><a href="../../vegan/help/kendall.global.html">kendall.global</a></code>.
+</p>
+<p>The Null hypothesis for the first two types of permutation test listed
+above assumes free exchangeability of <em>DATA</em> (within the levels
+of the grouping variable, if specified). Dependence between
+observations, such as that which arises due to spatial or temporal
+autocorrelation, or more-complicated experimental designs, such as
+split-plot designs, violates this fundamental assumption of the test
+and requires more complex restricted permutation test designs. It is
+these designs that are available via the <span class="pkg">permute</span> package and to
+which <span class="pkg">vegan</span> provides access from version 2.2-0 onwards.
+</p>
+<p>Unless otherwise stated in the help pages for specific functions,
+permutation tests in <span class="pkg">vegan</span> all follow the same format/structure:
+</p>
+
+<ol>
+<li><p>An appropriate test statistic is chosen. Which statistic is
+chosen should be described on the help pages for individual
+functions.
+</p>
+</li>
+<li><p>The value of the test statistic is evaluate for the observed
+data and analysis/model and recorded. Denote this value
+<i>x[0]</i>.
+</p>
+</li>
+<li><p>The <em>DATA</em> are randomly permuted according to one of the
+above schemes, and the value of the test statistic for this
+permutation is evaluated and recorded.
+</p>
+</li>
+<li><p>Step 3 is repeated a total of <i>n</i> times, where <i>n</i> is
+the number of permutations requested. Denote these values as
+<i>x[i]</i>, where <i>{i = 1, &hellip;, n}.</i>
+</p>
+</li>
+<li><p>Count the number of values of the test statistic,
+<i>x[i]</i>, in the Null distribution that are as extreme as
+test statistic for the observed data <i>x[0]</i>. Denote this
+count as <i>N</i>.
+</p>
+<p>We use the phrase <em>as extreme</em> to include cases where a
+two-sided test is performed and large negative values of the test
+statistic should be considered.
+</p>
+</li>
+<li><p>The permutation p-value is computed as
+</p>
+<p style="text-align: center;"><i>(N + 1) / (n + 1)</i></p>
+
+</li></ol>
+
+<p>The above description illustrates why the default number of
+permutations specified in <span class="pkg">vegan</span> functions takes values of 199 or
+999 for example. Pretty <em>p</em> values are achieved because the
+<i>+ 1</i> in the denominator results in division by 200 or 1000, for
+the 199 or 999 random permutations used in the test.
+</p>
+<p>The simple intuition behind the presence of <i>+ 1</i> in the numerator
+and denominator is that these represent the inclusion of the observed
+value of the statistic in the Null distribution (e.g. Manly 2006).
+Phipson &amp; Smyth (2010) present a more compelling explanation for the
+inclusion of <i>+ 1</i> in the numerator and denominator of the
+<em>p</em> value calculation.
+</p>
+<p>Fisher (1935) had in mind that a permutation test would involve
+enumeration of all possible permutations of the data yielding an exact
+test. However, doing this complete enumeration may not be feasible in
+practice owing to the potentially vast number of arrangements of the
+data, even in modestly-sized data sets with free permutation of
+samples. As a result we evaluate the <em>p</em> value as the tail
+probability of the Null distribution of the test statistic directly
+from the random sample of possible permutations. Phipson &amp; Smyth
+(2010) show that the naive calculation of the permutation <em>p</em>
+value is
+</p>
+<p style="text-align: center;"><i>p = N / n</i></p>
+
+<p>which leads to an invalid test with incorrect type I error rate. They
+go on to show that by replacing the unknown tail probability (the
+<em>p</em> value) of the Null distribution with the biased estimator
+</p>
+<p style="text-align: center;"><i>p = (N + 1) / (n + 1)</i></p>
+
+<p>that the positive bias induced is of just the right size to
+account for the  uncertainty in the estimation of the tail probability
+from the set of randomly sampled permutations to yield a test with the
+correct type I error rate.
+</p>
+<p>The estimator described above is correct for the situation where
+permutations of the data are samples randomly <em>without</em>
+replacement. This is not strictly what happens in <span class="pkg">vegan</span> because
+permutations are drawn pseudo-randomly independent of one
+another. Note that the actual chance of this happening is practice is
+small but the functions in <span class="pkg">permute</span> do not guarantee to generate
+a unique set of permutations unless complete enumeration of
+permutations is requested. This is not feasible for all but the
+smallest of data sets or restrictive of permutation designs, but in
+such cases the chance of drawing a set of permutations with repeats is
+lessened as the sample size, and thence the size of set of all
+possible permutations, increases.
+</p>
+<p>Under the situation of sampling permutations with replacement then,
+the tail probability <i>p</i> calculated from the biased estimator
+described above is somewhat <strong>conservative</strong>, being too large by
+an amount that depends on the number of possible values that the test
+statistic can take under permutation of the data (Phipson &amp; Smyth,
+2010). This represents a slight loss of statistical power for the
+conservative <em>p</em> value calculation used here. However, unless
+sample sizes are small and the the permutation design such that the
+set of values that the test statistic can take is also small, this
+loss of power is unlikely to be critical.
+</p>
+<p>The minimum achievable p-value is
+</p>
+<p style="text-align: center;"><i>p[min] = 1 / (n + 1)</i></p>
+
+<p>and hence depends on the number of permutations evaluated. However,
+one cannot simply increase the number of permutations (<i>n</i>) to
+achieve a potentially lower p-value unless the number of observations
+available permits such a number of permutations. This is unlikely to
+be a problem for all but the smallest data sets when free permutation
+(randomisation) is valid, but in restricted permutation designs with a
+low number of observations, there may not be as many unique
+permutations of the data as you might desire to reach the required
+level of significance.
+</p>
+<p>It is currently the responsibility of the user to determine the total
+number of possible permutations for their <em>DATA</em>. The number of
+possible permutations allowed under the specified design can be
+calculated using <code><a href="../../permute/help/numPerms.html">numPerms</a></code> from the
+<span class="pkg">permute</span> package. Heuristics employed within the
+<code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> function used by <span class="pkg">vegan</span> can be
+triggered to generate the entire set of permutations instead of a
+random set. The settings controlling the triggering of the complete
+enumeration step are contained within a permutation design created
+using <code>link[permute]{how}</code> and can be set by the user. See
+<code><a href="../../permute/help/how.html">how</a></code> for details.
+</p>
+<p>Limits on the total number of permutations of <em>DATA</em> are more
+severe in temporally or spatially ordered data or experimental designs
+with low replication. For example, a time series of <i>n = 100</i>
+observations has just 100 possible permutations <strong>including</strong> the
+observed ordering.
+</p>
+<p>In situations where only a low number of permutations is possible due
+to the nature of <em>DATA</em> or the experimental design, enumeration
+of all permutations becomes important and achievable computationally.
+</p>
+<p>Above, we have provided only a brief overview of the capabilities of
+<span class="pkg">vegan</span> and <span class="pkg">permute</span>. To get the best out of the new
+functionality and for details on how to set up permutation designs
+using <code><a href="../../permute/help/how.html">how</a></code>, consult the vignette
+<em>Restricted permutations; using the permute package</em> supplied
+with <span class="pkg">permute</span> and accessible via <code>vignette("permutations",
+  package = "permute").</code>
+</p>
+
+
+<h3>Random Number Generation</h3>
+
+<p>The permutations are based on the random number generator provided
+by <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>. This may change in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> releases and change the permutations
+and <span class="pkg">vegan</span> test results. One such change was in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> release
+3.6.0. The new version is clearly better for permutation tests and
+you should use it. However, if you need to reproduce old results,
+you can set the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> random number generator to a previous version
+with <code><a href="../../base/html/Random.html">RNGversion</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Gavin L. Simpson </p>
+
+
+<h3>References</h3>
+
+<p>Manly, B. F. J. (2006). <em>Randomization, Bootstrap and Monte Carlo
+Methods in Biology</em>, Third Edition. Chapman and Hall/CRC.
+</p>
+<p>Phipson, B., &amp; Smyth, G. K. (2010). Permutation P-values should never
+be zero: calculating exact P-values when permutations are randomly
+drawn. <em>Statistical Applications in Genetics and Molecular
+Biology</em>, <strong>9</strong>, Article 39. DOI: 10.2202/1544-6115.1585
+</p>
+<p>ter Braak, C. J. F. (1990). <em>Update notes: CANOCO version
+3.1</em>. Wageningen: Agricultural Mathematics Group. (UR).
+</p>
+<p>See also:
+</p>
+<p>Davison, A. C., &amp; Hinkley, D. V. (1997). <em>Bootstrap Methods and
+their Application</em>. Cambridge University Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/permutest.html">permutest</a></code> for the main interface in <span class="pkg">vegan</span>. See
+also <code><a href="../../permute/help/how.html">how</a></code> for details on permutation design
+specification, <code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> for the code used to
+generate a set of permutations, <code><a href="../../permute/help/numPerms.html">numPerms</a></code> for
+a function to return the size of the set of possible permutations
+under the current design.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: raw.means.plot: Raw-Means Plots for Experimental Designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for raw.means.plot {plotrix}"><tr><td>raw.means.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+raw.means.plot: Raw-Means Plots for Experimental Designs
+</h2>
+
+<h3>Description</h3>
+
+<p>raw.means.plot is a function for visualizing results of experimental designs
+with up to two factors. It plots both raw data (background) and factor/cell
+means (foreground) to provide a more accurate visualization of the underlying
+distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+raw.means.plot(data, col.offset = 2, col.x = 3, col.value = 4, na.rm = FALSE,
+ avoid.overlap = c("y", "x", "both"), y.factor = 1, y.amount = NULL,
+ x.amount = 0.05, pch = 21:25, lty = 1:5, bg.b.col = "darkgrey",
+ bg.f.col = NULL, fg.b.col = "black",fg.f.col = "black", type = "o",
+ pt.cex = 1, lwd = 1, xlab = "", ylab = "", ylim, max.offset = 0.2,
+ xaxis = TRUE, x.labels, xaxt = "n", plot = TRUE, legend = TRUE, mar = NULL,
+ reset.mar = TRUE, l.pos, yjust = 0.5, l.bty = "n", l.adj = c(0, 0.5), ...)
+
+raw.means.plot2(data, col.id, col.offset, col.x, col.value,
+ fun.aggregate = "mean", ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a <span class="samp">data.frame</span> in long format (i.e., each datapoint one row,
+see <span class="samp">\link{reshape}</span> or the reshape package) that contains at least
+three columns: one column coding the first factor (<span class="samp">col.offset</span>), one
+column coding the second factor (<span class="samp">col.x</span>), and one column containing
+the values (<span class="samp">col.value</span>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.id</code></td>
+<td>
+
+<p>a <span class="samp">character</span> scalar, specifiying the name of the column specifying the
+id column. (only for <span class="samp">raw.means.plot2</span>)
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.offset</code></td>
+<td>
+
+<p>a <span class="samp">character</span> or <span class="samp">numeric</span> (only <span class="samp">raw.means.plot</span>) scalar,
+specifiying either name or number of the column coding the different lines
+(the offset or first factor).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.x</code></td>
+<td>
+
+<p>a <span class="samp">character</span> or <span class="samp">numeric</span> (only <span class="samp">raw.means.plot</span>) scalar,
+specifiying either name or number of the column coding the x-axis factor.
+Default is 3.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.value</code></td>
+<td>
+
+<p>a <span class="samp">character</span> or <span class="samp">numeric</span> (only <span class="samp">raw.means.plot</span>) scalar,
+specifiying either name or number of the data column. Default is 4.
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+
+<p><span class="samp">logical</span> indicating whether <span class="samp">NA</span> values should be stripped before
+the computation proceeds. Default is <span class="samp">FALSE</span>. Throws an error message
+if FALSE and NAs are encountered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>avoid.overlap</code></td>
+<td>
+
+<p>character. What should happen to datapoints within one cell of the two
+factors that have the same value.
+</p>
+
+<ul>
+<li> <p><span class="samp">"y"</span> (the default) <a href="../../base/html/jitter.html">jitter</a> is added so that
+overlapping points are distinguishable on the <strong>y</strong>-axis
+</p>
+</li>
+<li> <p><span class="samp">"x"</span> <a href="../../base/html/jitter.html">jitter</a> is added so that overlapping points
+are distinguishable on the <strong>x</strong>-axis
+</p>
+</li>
+<li> <p><span class="samp">"both"</span> <a href="../../base/html/jitter.html">jitter</a> is added so that overlapping points
+are distinguishable on both the <strong>y</strong>- and the <strong>x</strong>-axis.
+</p>
+</li>
+<li><p> anything else. No jitter is added.
+</p>
+</li></ul>
+
+</td></tr>
+<tr valign="top"><td><code>y.factor</code></td>
+<td>
+
+<p><span class="samp">factor</span> for controlling the amount of jitter on the y-axis
+(will be passed to <a href="../../base/html/jitter.html">jitter</a>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>y.amount</code></td>
+<td>
+
+<p><span class="samp">amount</span> for controlling the amount of jitter on the y-axis
+(will be passed to <a href="../../base/html/jitter.html">jitter</a>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>x.amount</code></td>
+<td>
+
+<p><span class="samp">amount</span> for controlling the amount of jitter on the x-axis
+(will be passed to <a href="../../base/html/jitter.html">jitter</a>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+
+<p><span class="samp">pch</span> values (plot symbols) taken for plotting the data. Note that
+the same values are taken for raw data and means. see <a href="../../graphics/html/points.html">points</a>
+for more details. Recycled if too short (with warning). Default is 21:25,
+because those are the only values that can be displayed filled and non-filled.
+All other values should not be used. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p><span class="samp">lty</span> values (line types) for connecting the means. See <a href="../../graphics/html/par.html">par</a>
+for more details. Recycled if too short (with warning). Default is 1:5.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bg.b.col</code></td>
+<td>
+
+<p>background border color: border color of raw data points. Silently recycled. Default:
+<span class="samp">"darkgrey"</span> 
+</p>
+</td></tr>
+<tr valign="top"><td><code>bg.f.col</code></td>
+<td>
+
+<p>background filling color: fill color of raw data points. Silently recycled. Default:
+<span class="samp">NULL</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>fg.b.col</code></td>
+<td>
+
+<p>foreground border color: border color of mean data points. Silently recycled. Default:
+<span class="samp">black</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>fg.f.col</code></td>
+<td>
+
+<p>foreground fill color: fill color for mean data points. Silently recycled. Default:
+<span class="samp">black</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+
+<p>same as type in <a href="../../graphics/html/plot.default.html">plot</a>. Default: <span class="samp">o</span> (&quot;overplotted&quot;)
+</p>
+</td></tr>
+<tr valign="top"><td><code>pt.cex</code></td>
+<td>
+
+<p><span class="samp">numeric</span> specifying the <span class="samp">cex</span> value used for plotting the points.
+Default is 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+
+<p><span class="samp">numeric</span> specifying the <span class="samp">lwd</span> value used for plotting the lines.
+Default is 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+
+<p>x-axis label. Default: <span class="samp">""</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+
+<p>y-axis label. Default: <span class="samp">""</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+
+<p>the y-axis limits of the plot. If not specified (the default) will be taken
+from data so that all raw data points are visible and a warning message is
+displayed specifying the ylim.
+</p>
+</td></tr>
+<tr valign="top"><td><code>max.offset</code></td>
+<td>
+
+<p><span class="samp">numeric</span>. maximal offset of factor levels from the offset factor
+(<span class="samp">col.offset</span>) specifying the different lines. The centre of each factor
+on the x-axis is at full numbers (starting from 1 to ...). The maximum will
+only be reached if the number of factor levels (from <span class="samp">col.offset</span>) is
+even. Default: 0.2.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xaxis</code></td>
+<td>
+
+<p><span class="samp">logical</span> value indicating whether or not the x-axis should be generated
+by <span class="samp">raw.means.plot</span>. If <span class="samp">TRUE</span>, labels for the x-axis will be taken
+either from the unique values of <span class="samp">col.x</span> or can be specified with
+<span class="samp">x.labels</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x.labels</code></td>
+<td>
+
+<p><span class="samp">character</span> vector specifiying <span class="samp">col.x</span> levels. Only relevant if
+<span class="samp">xaxis=TRUE</span>. Then, the values given here will be displayed at the
+x-axis for each factor level of <span class="samp">col.x</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xaxt</code></td>
+<td>
+
+<p>A character which specifies whether ot not the x-axis should be plotted by
+the call to plot function. Interfers with the aforementioned <span class="samp">xaxis</span>
+argument and the automatic <span class="samp">xaxis</span> function by <span class="samp">raw.means.plot</span>.
+Just there for completeness. Default <span class="samp">"n"</span> (and should not be changed).
+</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+
+<p><span class="samp">logical</span>. Should the <span class="samp">raw.means.plot</span> be drawn or not. If
+<span class="samp">TRUE</span> (the default) plot will be drawn. If <span class="samp">FALSE</span> only the legend
+will be drawn (if <span class="samp">legend = TRUE</span>) See details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+
+<p><span class="samp">logical</span> indicating whether or not <span class="samp">raw.means.plot</span> should
+automatically add a legend on the right outside the plot area indicating
+which line and points refer to which <span class="samp">col.offset</span> factor levels. Default
+is <span class="samp">TRUE</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+
+<p><span class="samp">NULL</span> or <span class="samp">numerical</span> vector of length 4 indicating the margins of
+the plot (see <a href="../../graphics/html/par.html">par</a>). If <span class="samp">NULL</span> (the default) the right
+margin (i.e., <span class="samp">par("mar")[4]</span>) will be (imperfectly) guessed from the
+<span class="samp">col.offset</span> factors for placing the legend right to the plot. If length
+is four this value will be taken. Ignored for <span class="samp">plot = FALSE</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reset.mar</code></td>
+<td>
+
+<p><span class="samp">logical</span> indicating if the margins (<span class="samp">mar</span>) shall be resetted after
+setting internally. Will be ignored if <span class="samp">legend = FALSE</span>. Default is
+<span class="samp">TRUE</span> and should not be changed (especially with <span class="samp">plot = FLASE</span>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>l.pos</code></td>
+<td>
+
+<p><span class="samp">numeric</span> vector of length 2 indicating the position of the legend. If
+not specified automatically determined. See details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>yjust</code></td>
+<td>
+
+<p>how the legend is to be justified relative to the legend y location. A value
+of 0 means top, 0.5 means centered and 1 means bottom justified. Default is
+0.5.
+</p>
+</td></tr>
+<tr valign="top"><td><code>l.bty</code></td>
+<td>
+
+<p>the type of box to be drawn around the legend. The allowed values are
+<span class="samp">"o"</span> and <span class="samp">"n"</span> (the default).
+</p>
+</td></tr>
+<tr valign="top"><td><code>l.adj</code></td>
+<td>
+
+<p><span class="samp">numeric</span> of length 1 or 2; the string adjustment for legend text. Useful
+for y-adjustment when labels are plotmath expression. see <a href="../../graphics/html/legend.html">legend</a>
+and <a href="../../grDevices/html/plotmath.html">plotmath</a> for more info.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments which are either passed to plot or legend (or
+<span class="samp">raw.means.plot</span> for <span class="samp">raw.means.plot2</span>). The following arguments
+are passed to legend, all others are passed to plot:
+<span class="samp">"fill", "border", "angle", "density", "box.lwd", "box.lty", "box.col",
+ "pt.cex", "pt.lwd", "xjust", "x.intersp", "y.intersp", "text.width",
+ "text.col", "merge", "trace", "plot", "ncol", "horiz", "title", "inset",
+ "title.col", "title.adj"</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun.aggregate</code></td>
+<td>
+
+<p>Function or function name used for aggregating the data across the two
+factors. Default is <span class="samp">"mean"</span>. (only for <span class="samp">raw.means.plot2</span>)
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">raw.means.plot2</span> is probably the more useful function, as it allows for
+using a data.frame with more than two-factors and aggregates across the other
+factors, but needs a column specifying the experimental unit (e.g.,
+participant).
+</p>
+<p><span class="samp">raw.means.plot</span> is basically an advanced wrapper for two other
+functions: <a href="../../graphics/html/plot.default.html">plot</a> and (if <span class="samp">legend=TRUE</span>)
+<a href="../../graphics/html/legend.html">legend</a>. Furthermore, raw data is plotted with a call to
+<a href="../../graphics/html/points.html">points</a> and the means with a call to <a href="../../graphics/html/lines.html">lines</a>.
+</p>
+<p>You can use <span class="samp">raw.means.plot</span> to plot only a legend by setting
+<span class="samp">plot = FALSE</span> and <span class="samp">legend = TRUE</span>. Then, <span class="samp">raw.means.plot</span>
+will draw an invisible plot with <span class="samp">xlim = c(0,10)</span> and
+<span class="samp">ylim = c(0, 10)</span> and place the legend on this invisible plot. You
+can specify <span class="samp">l.pos</span> to position the legend, otherwise it will be plotted
+at <span class="samp">c(5,5)</span> (i.e., in the middle of the plot). Note that
+<span class="samp">xpd = TRUE</span> in the call to <span class="samp">legend</span> (see <a href="../../graphics/html/par.html">par</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Nothing. This function is invoked for its side effects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Singmann (<a href="mailto:henrik.singmann@psychologie.uni-freiburg.de">henrik.singmann@psychologie.uni-freiburg.de</a>) with
+ideas from Jim Lemon
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/add.ps.html">add.ps</a> can be used in addition to<span class="samp">raw.means.plot</span> to
+compare the factors at each x-axis position, by adding p-values from t-tests
+to the x-axis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+x &lt;- data.frame(id = 1:150, offset = rep(c("Group A", "Group B", "Group C"),
+ each = 50), xaxis = sample(c("A", "B", "C", "D"),150, replace = TRUE),
+ data = c(rnorm(50, 10, 5), rnorm(50, 15,6), rnorm(50, 20, 5)))
+
+raw.means.plot(x)
+
+raw.means.plot(x, main = "Example", ylab = "Values", xlab = "Factor",
+ title = "Groups")
+
+raw.means.plot(x, "offset", "xaxis", "data")
+
+raw.means.plot(x, "xaxis", "offset", "data")
+
+raw.means.plot(x, 3, 2, 4)
+
+# different colors:
+raw.means.plot(x, main = "Example", ylab = "Values", xlab = "Factor",
+ title = "Groups", fg.f.col = c("red","blue", "green"))
+
+x2 &lt;- data.frame(id = 1:150, offset = rep(c("Group A", "Group B", "Group C"),
+ each = 50), xaxis = sample(c("A", "B", "C", "D"),150, replace = TRUE),
+ data = c(rnorm(50, 10, 5), rnorm(50, 15,6), rnorm(50, 20, 5)))
+
+layout(matrix(c(1,2,3,3), 2,2,byrow = TRUE), heights = c(7,1))
+raw.means.plot(x, main = "Data x1", ylab = "Values", xlab = "Factor",
+ legend = FALSE, mar = c(4,4,4,1)+0.1)
+raw.means.plot(x2, main = "Data x2", ylab = "Values", xlab = "Factor",
+ legend = FALSE, mar = c(4,4,4,1)+0.1)
+raw.means.plot(x2, plot = FALSE, title = "Groups")
+
+
+y &lt;- data.frame(id = 1:300, offset = rep(1, 300),
+ axis = sample(LETTERS[1:6],300, replace = TRUE), data = c(rnorm(100, 1),
+ rnorm(100), rnorm(100,1)))
+
+par(mfrow = c(2,2))
+
+raw.means.plot(y, legend = FALSE)
+
+raw.means.plot(y, type = "p", legend = FALSE)
+
+raw.means.plot(y, type = "l", legend = FALSE)
+
+raw.means.plot(y, 3, 2, x.labels = "one group only")
+
+
+# Example with overlapping points
+z &lt;- data.frame (id = 1:200, offset = rep(c("C 1", "C 2"), 200),
+ axis = sample(LETTERS[1:4], 200, replace = TRUE),
+ data = sample(1:20, 200, replace = TRUE))
+
+# x versus y jitter
+par(mfrow = c(2,2))
+raw.means.plot(z, avoid.overlap = "none", main = "no-jitter")
+raw.means.plot(z, main = "y-axis jitter (default)")
+raw.means.plot(z, avoid.overlap = "x", main = "x-axis jitter")
+raw.means.plot(z, avoid.overlap = "both", main = "both-axis jitter")
+
+
+# y-axis jitter (default)
+par(mfrow = c(2,2))
+raw.means.plot(z, avoid.overlap = "none", main = "no jitter")
+raw.means.plot(z, y.factor = 0.5, main = "smaller y-jitter")
+raw.means.plot(z, main = "standard y-jitter")
+raw.means.plot(z, y.factor = 2, main = "bigger y-jitter")
+
+
+# x-axis jitter (default)
+par(mfrow = c(2,2))
+raw.means.plot(z, avoid.overlap = "none", main = "no jitter")
+raw.means.plot(z, avoid.overlap = "x", x.amount = 0.025,
+ main = "smaller x -jitter")
+raw.means.plot(z, avoid.overlap = "x", main = "standard x-jitter")
+raw.means.plot(z, avoid.overlap = "x", x.amount= 0.1,
+ main = "bigger x-jitter")
+
+
+
+## Not run: 
+
+#The examples uses the OBrienKaiser dataset from car and needs reshape.
+require(reshape)
+require(car)
+data(OBrienKaiser)
+OBKnew &lt;- cbind(factor(1:nrow(OBrienKaiser)), OBrienKaiser)
+colnames(OBKnew)[1] &lt;- "id"
+OBK.long &lt;- melt(OBKnew)
+OBK.long[, c("measurement", "time")] &lt;-
+ t(vapply(strsplit(as.character(OBK.long$variable), "\\."),  "[", c("", "")))
+
+raw.means.plot2(OBK.long, "id", "measurement", "gender", "value")
+
+raw.means.plot2(OBK.long, "id", "treatment", "gender", "value")
+
+# also use add.ps:
+# For this example the position at each x-axis are within-subject comparisons!
+raw.means.plot2(OBK.long, "id", "measurement", "gender", "value")
+add.ps(OBK.long, "id", "measurement", "gender", "value", paired = TRUE)
+ #reference is "fup"
+
+raw.means.plot2(OBK.long, "id", "measurement", "gender", "value")
+add.ps(OBK.long, "id", "measurement", "gender", "value", ref.offset = 2,
+ paired = TRUE) #reference is "post"
+
+# Use R's standard (i.e., Welch test)
+raw.means.plot2(OBK.long, "id", "treatment", "gender", "value")
+add.ps(OBK.long, "id", "treatment", "gender", "value",
+ prefixes = c("p(control vs. A)", "p(control vs. B)"))
+
+# Use standard t-test
+raw.means.plot2(OBK.long, "id", "treatment", "gender", "value")
+add.ps(OBK.long, "id", "treatment", "gender", "value", var.equal = TRUE,
+ prefixes = c("p(control vs. A)", "p(control vs. B)"))
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

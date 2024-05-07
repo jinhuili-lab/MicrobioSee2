@@ -1,0 +1,90 @@
+Type: Package
+Package: see
+Title: Visualisation Toolbox for 'easystats' and Extra Geoms, Themes
+        and Color Palettes for 'ggplot2'
+Version: 0.6.8
+Authors@R: 
+    c(person(given = "Daniel",
+             family = "Lüdecke",
+             role = c("aut", "cre"),
+             email = "d.luedecke@uke.de",
+             comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+      person(given = "Dominique",
+             family = "Makowski",
+             role = c("aut", "inv"),
+             email = "dom.makowski@gmail.com",
+             comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+      person(given = "Indrajeet",
+             family = "Patil",
+             role = c("aut", "ctb"),
+             email = "patilindrajeet.science@gmail.com",
+             comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+      person(given = "Mattan S.",
+             family = "Ben-Shachar",
+             role = c("aut", "ctb"),
+             email = "matanshm@post.bgu.ac.il",
+             comment = c(ORCID = "0000-0002-4287-4801", Twitter = "@mattansb")),
+      person(given = "Brenton M.",
+             family = "Wiernik",
+             role = c("aut", "ctb"),
+             email = "brenton@wiernik.org",
+             comment = c(ORCID = "0000-0001-9560-6336")),
+      person(given = "Philip",
+             family = "Waggoner",
+             role = c("aut", "ctb"),
+             email = "philip.waggoner@gmail.com",
+             comment = c(ORCID = "0000-0002-7825-7573")),
+      person(given = "Jeffrey R.",
+             family = "Stevens",
+             role = "ctb",
+             email = "jeffrey.r.stevens@gmail.com",
+             comment = c(ORCID = "0000-0003-2375-1360")),
+      person(given = "Matthew",
+             family = "Smith",
+             role = "rev",
+             email = "M.Smith3@napier.ac.uk",
+             comment = c(Twitter = "@SmithMatt90")),
+      person(given = "Jakob",
+             family = "Bossek",
+             role = "rev",
+             email = "bossek@wi.uni-muenster.de",
+             comment = c(Twitter = "@BossekJakob")))
+Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
+Description: Provides plotting utilities supporting easystats-packages
+    (<https://github.com/easystats/easystats>) and some extra themes,
+    geoms, and scales for 'ggplot2'. Color scales are based on
+    <https://materialui.co/colors>.
+License: GPL-3
+URL: https://easystats.github.io/see/
+BugReports: https://github.com/easystats/see/issues
+Depends: graphics, grDevices, R (>= 3.4), stats
+Imports: bayestestR, datawizard (>= 0.2.0), effectsize, ggplot2 (>=
+        3.3.5), ggridges, insight, parameters (>= 0.13.0), rlang
+Suggests: brms, coda, correlation, dplyr, emmeans, ggdist, ggraph,
+        ggrepel, ggside, glmmTMB, grid, httr, lavaan, lme4, logspline,
+        MASS, mclust, metafor, modelbased, NbClust, nFactors,
+        patchwork, performance (>= 0.7.1), psych, qqplotr,
+        randomForest, rmarkdown, rstanarm, spelling, splines, testthat
+        (>= 3.0.0), tidygraph, tidyr, vdiffr (>= 1.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.1.2
+NeedsCompilation: no
+Packaged: 2021-10-03 12:29:44 UTC; DL
+Author: Daniel Lüdecke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>,
+    @strengejacke),
+  Dominique Makowski [aut, inv] (<https://orcid.org/0000-0001-5375-9967>,
+    @Dom_Makowski),
+  Indrajeet Patil [aut, ctb] (<https://orcid.org/0000-0003-1995-6531>,
+    @patilindrajeets),
+  Mattan S. Ben-Shachar [aut, ctb]
+    (<https://orcid.org/0000-0002-4287-4801>, @mattansb),
+  Brenton M. Wiernik [aut, ctb] (<https://orcid.org/0000-0001-9560-6336>),
+  Philip Waggoner [aut, ctb] (<https://orcid.org/0000-0002-7825-7573>),
+  Jeffrey R. Stevens [ctb] (<https://orcid.org/0000-0003-2375-1360>),
+  Matthew Smith [rev] (@SmithMatt90),
+  Jakob Bossek [rev] (@BossekJakob)
+Repository: CRAN
+Date/Publication: 2021-10-03 13:00:01 UTC
+Built: R 4.1.2; ; 2024-05-05 17:26:38 UTC; windows

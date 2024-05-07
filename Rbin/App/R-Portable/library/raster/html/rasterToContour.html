@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Raster to contour lines conversion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rasterToContour {raster}"><tr><td>rasterToContour {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Raster to contour lines conversion</h2>
+
+<h3>Description</h3>
+
+<p>RasterLayer to contour lines. This is a wrapper around <code><a href="../../grDevices/help/contourLines.html">contourLines</a></code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rasterToContour(x, maxpixels=100000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> a RasterLayer object </p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p> Maximum number of raster cells to use; this function fails when too many cells are used</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any argument that can be passed to <code><a href="../../grDevices/help/contourLines.html">contourLines</a></code> </p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>Most of the code was taken from maptools::ContourLines2SLDF, by Roger Bivand &amp; Edzer Pebesma 
+</p>
+
+
+<h3>Value</h3>
+
+<p>SpatialLinesDataFrame 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+f &lt;- system.file("external/test.grd", package="raster")
+r &lt;- raster(f)
+x &lt;- rasterToContour(r)
+class(x)
+plot(r)
+plot(x, add=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

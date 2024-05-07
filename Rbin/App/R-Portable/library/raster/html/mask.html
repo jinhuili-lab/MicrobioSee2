@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mask values in a Raster object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mask {raster}"><tr><td>mask {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Mask values in a Raster object</h2>
+
+<h3>Description</h3>
+
+<p>Create a new Raster* object that has the same values as <code>x</code>, except for the cells that are <code>NA</code> (or other <code>maskvalue</code>) in a 'mask'. These cells become <code>NA</code> (or other <code>updatevalue</code>). The mask can be either another Raster* object of the same extent and resolution, or a Spatial* object (e.g. SpatialPolygons) in which case all cells that are not covered by the Spatial object are set to <code>updatevalue</code>. You can use <code>inverse=TRUE</code> to set the cells that are not <code>NA</code> (or other <code>maskvalue</code>) in the mask, or not covered by the Spatial* object, to <code>NA</code> (or other <code>updatvalue</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,RasterLayer'
+mask(x, mask, filename="", inverse=FALSE, 
+      maskvalue=NA, updatevalue=NA, updateNA=FALSE, ...)
+
+## S4 method for signature 'RasterStackBrick,RasterLayer'
+mask(x, mask, filename="", inverse=FALSE,
+      maskvalue=NA, updatevalue=NA, updateNA=FALSE, ...)
+
+## S4 method for signature 'RasterLayer,RasterStackBrick'
+mask(x, mask, filename="", inverse=FALSE, 
+      maskvalue=NA, updatevalue=NA, updateNA=FALSE, ...)
+
+## S4 method for signature 'RasterStackBrick,RasterStackBrick'
+mask(x, mask, filename="", inverse=FALSE, 
+      maskvalue=NA, updatevalue=NA, updateNA=FALSE, ...)
+
+## S4 method for signature 'Raster,Spatial'
+mask(x, mask, filename="", inverse=FALSE, 
+      updatevalue=NA, updateNA=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>mask</code></td>
+<td>
+<p>Raster* object or a Spatial* object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional output filename</p>
+</td></tr>
+<tr valign="top"><td><code>inverse</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, areas on mask that are _not_ the <code>maskvalue</code> are masked</p>
+</td></tr>
+<tr valign="top"><td><code>maskvalue</code></td>
+<td>
+<p>numeric. The value in <code>mask</code> that indicates the cells of <code>x</code> that should become <code>updatevalue</code> (default = <code>NA</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>updatevalue</code></td>
+<td>
+<p>numeric. The value that cells of <code>x</code> should become if they are not covered by <code>mask</code> (and not <code>NA</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>updateNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, <code>NA</code> values outside the masked area are also updated to the the <code>updatevalue</code> (only relevant if the <code>updatevalue</code> is not <code>NA</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as in <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/rasterize.html">rasterize</a>, <a href="../../raster/help/crop.html">crop</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10)
+m &lt;- raster(ncol=10, nrow=10)
+values(r) &lt;- runif(ncell(r)) * 10
+values(m) &lt;- runif(ncell(r))
+m[m &lt; 0.5] &lt;- NA
+mr &lt;- mask(r, m)
+
+m2 &lt;- m &gt; .7
+mr2 &lt;- mask(r, m2, maskvalue=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

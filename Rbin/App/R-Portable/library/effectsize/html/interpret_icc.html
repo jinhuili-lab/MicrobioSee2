@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Intraclass Correlation Coefficient (ICC)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_icc {effectsize}"><tr><td>interpret_icc {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Intraclass Correlation Coefficient (ICC)</h2>
+
+<h3>Description</h3>
+
+<p>The value of an ICC lies between 0 to 1, with 0 indicating no reliability among raters and 1 indicating perfect reliability.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_icc(icc, rules = "koo2016", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>icc</code></td>
+<td>
+<p>Value or vector of Intraclass Correlation Coefficient (ICC) values.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"koo2016"</code> (default) or custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used for now.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Koo (2016) (<code>"koo2016"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>ICC &lt; 0.50</strong> - Poor reliability
+</p>
+</li>
+<li> <p><strong>0.5 &lt;= ICC &lt; 0.75</strong> - Moderate reliability
+</p>
+</li>
+<li> <p><strong>0.75 &lt;= ICC &lt; 0.9</strong> - Good reliability
+</p>
+</li>
+<li><p> **ICC &gt;= 0.9 ** - Excellent reliability
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Koo, T. K., and Li, M. Y. (2016). A guideline of selecting and reporting intraclass correlation coefficients for reliability research. Journal of chiropractic medicine, 15(2), 155-163.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_icc(0.6)
+interpret_icc(c(0.4, 0.8))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;RLum.Data.Spectrum&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for RLum.Data.Spectrum-class {Luminescence}"><tr><td>RLum.Data.Spectrum-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"RLum.Data.Spectrum"</code></h2>
+
+<h3>Description</h3>
+
+<p>Class for representing luminescence spectra data (TL/OSL/RF).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RLum.Data.Spectrum'
+show(object)
+
+## S4 method for signature 'RLum.Data.Spectrum'
+set_RLum(
+  class,
+  originator,
+  .uid,
+  .pid,
+  recordType = "Spectrum",
+  curveType = NA_character_,
+  data = matrix(),
+  info = list()
+)
+
+## S4 method for signature 'RLum.Data.Spectrum'
+get_RLum(object, info.object)
+
+## S4 method for signature 'RLum.Data.Spectrum'
+names_RLum(object)
+
+## S4 method for signature 'RLum.Data.Spectrum'
+bin_RLum.Data(object, bin_size.col = 1, bin_size.row = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>, <code><a href="../../Luminescence/help/names_RLum.html">names_RLum</a></code> (<strong>required</strong>):
+an object of class <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a></p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+name of the <code>RLum</code> class to create.</p>
+</td></tr>
+<tr valign="top"><td><code>originator</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+contains the name of the calling function (the function that produces this object);
+can be set manually.</p>
+</td></tr>
+<tr valign="top"><td><code>.uid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+sets an unique ID for this object using the internal C++ function <code>create_UID</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.pid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+option to provide a parent id for nesting at will.</p>
+</td></tr>
+<tr valign="top"><td><code>recordType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a>:
+record type (e.g. &quot;OSL&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>curveType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a>:
+curve type (e.g. &quot;predefined&quot; or &quot;measured&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/matrix.html">matrix</a>:
+raw curve data. If data is of type <code>RLum.Data.Spectrum</code>, this can be used
+to re-construct the object. If the object is reconstructed, <code>.uid</code>, <code>.pid</code> and <code>orginator</code>
+are always taken from the input object</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/list.html">list</a>:
+info elements</p>
+</td></tr>
+<tr valign="top"><td><code>info.object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+the name of the info object to be called</p>
+</td></tr>
+<tr valign="top"><td><code>bin_size.col</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+set number of channels used for each bin, e.g. <code>bin_size.col = 2</code> means that
+two channels are binned. Note: The function does not check the input, very large values
+mean a full column binning (a single sum)</p>
+</td></tr>
+<tr valign="top"><td><code>bin_size.row</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+set number of channels used for each bin, e.g. <code>bin_size.row = 2</code> means that
+two channels are binned. Note: The function does not check the input, very large values
+mean a full row binning (a single sum)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><strong><code style="white-space: pre;">[set_RLum]</code></strong>
+</p>
+<p>An object from the class <code>RLum.Data.Spectrum</code>
+</p>
+<p><strong><code style="white-space: pre;">[get_RLum]</code></strong>
+</p>
+
+<ol>
+<li><p> A <a href="../../base/html/matrix.html">matrix</a> with the spectrum values or
+</p>
+</li>
+<li><p> only the info object if <code>info.object</code> was set.
+</p>
+</li></ol>
+
+<p><strong><code style="white-space: pre;">[names_RLum]</code></strong>
+</p>
+<p>The names of the info objects
+</p>
+<p><strong><code style="white-space: pre;">[bin_RLum.Data]</code></strong>
+</p>
+<p>Same object as input, after applying the binning.
+</p>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>show</code>: Show structure of <code>RLum.Data.Spectrum</code> object
+</p>
+</li>
+<li> <p><code>set_RLum</code>: Construction method for RLum.Data.Spectrum object. The slot info is optional
+and predefined as empty list by default
+</p>
+</li>
+<li> <p><code>get_RLum</code>: Accessor method for RLum.Data.Spectrum object. The argument info.object
+is optional to directly access the info elements. If no info element name
+is provided, the raw curve data (matrix) will be returned
+</p>
+</li>
+<li> <p><code>names_RLum</code>: Returns the names info elements coming along with this curve object
+</p>
+</li>
+<li> <p><code>bin_RLum.Data</code>: Allows binning of RLum.Data.Spectrum data. Count values and values on the x-axis are summed-up;
+for wavelength/energy values the mean is calculated.
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>recordType</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> containing the type of the curve (e.g. &quot;TL&quot; or &quot;OSL&quot;)</p>
+</dd>
+<dt><code>curveType</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> containing curve type, allowed values are measured or predefined</p>
+</dd>
+<dt><code>data</code></dt><dd><p>Object of class <a href="../../base/html/matrix.html">matrix</a> containing spectrum (count) values.
+Row labels indicate wavelength/pixel values, column labels are temperature or time values.</p>
+</dd>
+<dt><code>info</code></dt><dd><p>Object of class <a href="../../base/html/list.html">list</a> containing further meta information objects</p>
+</dd>
+</dl>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>set_RLum("RLum.Data.Spectrum", ...)</code>.
+</p>
+
+
+<h3>Class version</h3>
+
+<p>0.5.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. RLum.Data.Spectrum-class(): Class 'RLum.Data.Spectrum'. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The class should only contain data for a single spectra data set. For
+additional elements the slot <code>info</code> can be used. Objects from this class are automatically
+created by, e.g., <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a>, <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("RLum.Data.Spectrum")
+
+##show example data
+data(ExampleData.XSYG, envir = environment())
+TL.Spectrum
+
+##show data matrix
+get_RLum(TL.Spectrum)
+
+##plot spectrum
+## Not run: 
+plot_RLum(TL.Spectrum)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

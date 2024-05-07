@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Determine the directory or full path to the currently...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for script_file {gtools}"><tr><td>script_file {gtools}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Determine the directory or full path to the currently executing script</h2>
+
+<h3>Description</h3>
+
+<p>Determine the directory or full path to the currently executing script
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+script_file(fail = c("stop", "warning", "quiet"))
+
+script_path(fail = c("stop", "warning", "quiet"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fail</code></td>
+<td>
+<p>character, one of &quot;stop&quot;, &quot;warning&quot;, &quot;quiet&quot;. specifying what
+should be done when the script path cannot be determined:
+&quot;stop&quot; causes an error to be generated,
+&quot;warn&quot; generates a warning message and returns NA,
+&quot;quiet&quot; silently returns NA.
+</p>
+<p>These function should work with <code>Rscript</code>, <code>source()</code>,
+<code>Rmarkdown</code> <code>RStudio</code>'s &quot;Run selection&quot;, and the <code>RStudio</code>
+Console.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character scalar containing the full path to the currently
+executing script file (<code>script_file</code>) or its directory
+(<code>script_path</code>).  If unable to determine the script path, it generates
+a warning and returns <code>""</code> (empty string).
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>script_file</code>: Determine the full path of the currently executing
+script
+</p>
+</li>
+<li> <p><code>script_path</code>: Determine the directory of the currently executing script
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Greg Warnes <a href="mailto:greg@warnes.net">greg@warnes.net</a> based on on a Stack Overflow post by
+jerry-t (<a href="https://stackoverflow.com/users/2292993/jerry-t">https://stackoverflow.com/users/2292993/jerry-t</a>) at
+<a href="https://stackoverflow.com/a/36777602/2744062">https://stackoverflow.com/a/36777602/2744062</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+getwd()
+commandArgs(trailingOnly = FALSE)
+
+script_file("warning")
+script_path("warning")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>gtools</em> version 3.9.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

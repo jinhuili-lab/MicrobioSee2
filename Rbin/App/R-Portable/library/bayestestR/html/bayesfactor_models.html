@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bayes Factors (BF) for model comparison</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bayesfactor_models {bayestestR}"><tr><td>bayesfactor_models {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bayes Factors (BF) for model comparison</h2>
+
+<h3>Description</h3>
+
+<p>This function computes or extracts Bayes factors from fitted models.
+<br /> <br />
+The <code style="white-space: pre;">bf_*</code> function is an alias of the main function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bayesfactor_models(..., denominator = 1, verbose = TRUE)
+
+bf_models(..., denominator = 1, verbose = TRUE)
+
+## Default S3 method:
+bayesfactor_models(..., denominator = 1, verbose = TRUE)
+
+## S3 method for class 'bayesfactor_models'
+update(object, subset = NULL, reference = NULL, ...)
+
+## S3 method for class 'bayesfactor_models'
+as.matrix(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Fitted models (see details), all fit on the same data, or a single
+<code>BFBayesFactor</code> object (see 'Details'). Ignored in <code>as.matrix()</code>,
+<code>update()</code>. If the following named arguments are present, they are passed
+to <code><a href="../../insight/help/get_loglikelihood.html">insight::get_loglikelihood()</a></code> (see details):
+</p>
+
+<ul>
+<li> <p><code>estimator</code> (defaults to <code>"ML"</code>)
+</p>
+</li>
+<li> <p><code>check_response</code>  (defaults to <code>FALSE</code>)
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>denominator</code></td>
+<td>
+<p>Either an integer indicating which of the models to use as
+the denominator, or a model to be used as a denominator. Ignored for
+<code>BFBayesFactor</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+<p>A <code><a href="../../bayestestR/help/bayesfactor_models.html">bayesfactor_models()</a></code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>Vector of model indices to keep or remove.</p>
+</td></tr>
+<tr valign="top"><td><code>reference</code></td>
+<td>
+<p>Index of model to reference to, or <code>"top"</code> to
+reference to the best model, or <code>"bottom"</code> to reference to the worst
+model.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the passed models are supported by <strong>insight</strong> the DV of all models will
+be tested for equality (else this is assumed to be true), and the models'
+terms will be extracted (allowing for follow-up analysis with <code>bayesfactor_inclusion</code>).
+</p>
+
+<ul>
+<li><p> For <code>brmsfit</code> or <code>stanreg</code> models, Bayes factors are computed using the <a href="https://CRAN.R-project.org/package=bridgesampling"><span class="pkg">bridgesampling</span></a> package.
+</p>
+
+<ul>
+<li> <p><code>brmsfit</code> models must have been fitted with <code>save_pars = save_pars(all = TRUE)</code>.
+</p>
+</li>
+<li> <p><code>stanreg</code> models must have been fitted with a defined <code>diagnostic_file</code>.
+</p>
+</li></ul>
+
+</li>
+<li><p> For <code>BFBayesFactor</code>, <code>bayesfactor_models()</code> is mostly a wraparound <code>BayesFactor::extractBF()</code>.
+</p>
+</li>
+<li><p> For all other model types, Bayes factors are computed using the BIC approximation.
+Note that BICs are extracted from using <a href="../../insight/help/get_loglikelihood.html">insight::get_loglikelihood</a>, see documentation
+there for options for dealing with transformed responses and REML estimation.
+</p>
+</li></ul>
+
+<p>In order to correctly and precisely estimate Bayes factors, a rule of thumb
+are the 4 P's: <strong>P</strong>roper <strong>P</strong>riors and <strong>P</strong>lentiful
+<strong>P</strong>osteriors. How many? The number of posterior samples needed for
+testing is substantially larger than for estimation (the default of 4000
+samples may not be enough in many cases). A conservative rule of thumb is to
+obtain 10 times more samples than would be required for estimation
+(<em>Gronau, Singmann, &amp; Wagenmakers, 2017</em>). If less than 40,000 samples
+are detected, <code>bayesfactor_models()</code> gives a warning.
+</p>
+<p>See also <a href="https://easystats.github.io/bayestestR/articles/bayes_factors.html">the Bayes factors vignette</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the models' formulas (reconstructed fixed and
+random effects) and their <code>log(BF)</code>s  (Use <code>as.numeric()</code> to extract the
+non-log Bayes factors; see examples), that prints nicely.
+</p>
+
+
+<h3>Interpreting Bayes Factors</h3>
+
+<p>A Bayes factor greater than 1 can be interpreted as evidence against the
+null, at which one convention is that a Bayes factor greater than 3 can be
+considered as &quot;substantial&quot; evidence against the null (and vice versa, a
+Bayes factor smaller than 1/3 indicates substantial evidence in favor of the
+null-model) (<cite>Wetzels et al. 2011</cite>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/bayestestR.html"><code>plot()</code>-method</a>
+implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Mattan S. Ben-Shachar
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Gronau, Q. F., Singmann, H., &amp; Wagenmakers, E. J. (2017). Bridgesampling: An R package for estimating
+normalizing constants. arXiv preprint arXiv:1710.08162.
+</p>
+</li>
+<li><p> Kass, R. E., and Raftery, A. E. (1995). Bayes Factors. Journal of the American Statistical Association,
+90(430), 773-795.
+</p>
+</li>
+<li><p> Robert, C. P. (2016). The expected demise of the Bayes factor. Journal of Mathematical Psychology,
+72, 33–37.
+</p>
+</li>
+<li><p> Wagenmakers, E. J. (2007). A practical solution to the pervasive problems of p values.
+Psychonomic bulletin &amp; review, 14(5), 779-804.
+</p>
+</li>
+<li><p> Wetzels, R., Matzke, D., Lee, M. D., Rouder, J. N., Iverson, G. J., and Wagenmakers, E.-J. (2011).
+Statistical Evidence in Experimental Psychology: An Empirical Comparison Using 855 t Tests.
+Perspectives on Psychological Science, 6(3), 291–298. doi: <a href="https://doi.org/10.1177/1745691611406923">10.1177/1745691611406923</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# With lm objects:
+# ----------------
+lm1 &lt;- lm(mpg ~ 1, data = mtcars)
+lm2 &lt;- lm(mpg ~ hp, data = mtcars)
+lm3 &lt;- lm(mpg ~ hp + drat, data = mtcars)
+lm4 &lt;- lm(mpg ~ hp * drat, data = mtcars)
+(BFM &lt;- bayesfactor_models(lm1, lm2, lm3, lm4, denominator = 1))
+# bayesfactor_models(lm2, lm3, lm4, denominator = lm1) # same result
+# bayesfactor_models(lm1, lm2, lm3, lm4, denominator = lm1) # same result
+
+update(BFM, reference = "bottom")
+as.matrix(BFM)
+as.numeric(BFM)
+
+lm2b &lt;- lm(sqrt(mpg) ~ hp, data = mtcars)
+# Set check_response = TRUE for transformed responses
+bayesfactor_models(lm2b, denominator = lm2, check_response = TRUE)
+
+
+# With lmerMod objects:
+# ---------------------
+lmer1 &lt;- lme4::lmer(Sepal.Length ~ Petal.Length + (1 | Species), data = iris)
+lmer2 &lt;- lme4::lmer(Sepal.Length ~ Petal.Length + (Petal.Length | Species), data = iris)
+lmer3 &lt;- lme4::lmer(
+  Sepal.Length ~ Petal.Length + (Petal.Length | Species) + (1 | Petal.Width),
+  data = iris
+)
+bayesfactor_models(lmer1, lmer2, lmer3,
+  denominator = 1,
+  estimator = "REML"
+)
+
+# rstanarm models
+# ---------------------
+# (note that a unique diagnostic_file MUST be specified in order to work)
+stan_m0 &lt;- suppressWarnings(rstanarm::stan_glm(Sepal.Length ~ 1,
+  data = iris,
+  family = gaussian(),
+  diagnostic_file = file.path(tempdir(), "df0.csv")
+))
+stan_m1 &lt;- suppressWarnings(rstanarm::stan_glm(Sepal.Length ~ Species,
+  data = iris,
+  family = gaussian(),
+  diagnostic_file = file.path(tempdir(), "df1.csv")
+))
+stan_m2 &lt;- suppressWarnings(rstanarm::stan_glm(Sepal.Length ~ Species + Petal.Length,
+  data = iris,
+  family = gaussian(),
+  diagnostic_file = file.path(tempdir(), "df2.csv")
+))
+bayesfactor_models(stan_m1, stan_m2, denominator = stan_m0, verbose = FALSE)
+
+
+# brms models
+# --------------------
+# (note the save_pars MUST be set to save_pars(all = TRUE) in order to work)
+brm1 &lt;- brms::brm(Sepal.Length ~ 1, data = iris, save_pars = save_pars(all = TRUE))
+brm2 &lt;- brms::brm(Sepal.Length ~ Species, data = iris, save_pars = save_pars(all = TRUE))
+brm3 &lt;- brms::brm(
+  Sepal.Length ~ Species + Petal.Length,
+  data = iris,
+  save_pars = save_pars(all = TRUE)
+)
+
+bayesfactor_models(brm1, brm2, brm3, denominator = 1, verbose = FALSE)
+
+
+# BayesFactor
+# ---------------------------
+data(puzzles)
+BF &lt;- BayesFactor::anovaBF(RT ~ shape * color + ID,
+  data = puzzles,
+  whichRandom = "ID", progress = FALSE
+)
+BF
+bayesfactor_models(BF) # basically the same
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

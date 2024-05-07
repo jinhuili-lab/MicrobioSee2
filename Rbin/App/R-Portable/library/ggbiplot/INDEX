@@ -1,0 +1,8 @@
+crime                   U. S. Crimes
+get_SVD                 Extract the SVD components from a PCA-like
+                        object
+ggbiplot                Biplot for Principal Components using ggplot2
+ggscreeplot             Screeplot for Principal Components
+reflect                 Reflect Columns in a Principal Component-like
+                        Object
+wine                    Wine dataset

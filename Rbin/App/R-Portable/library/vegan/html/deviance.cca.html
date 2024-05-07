@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Statistics Resembling Deviance and AIC for Constrained...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for deviance.cca {vegan}"><tr><td>deviance.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Statistics Resembling Deviance and AIC for Constrained Ordination</h2>
+
+<h3>Description</h3>
+
+<p>The functions extract statistics that resemble deviance and AIC from the
+result of constrained correspondence analysis <code><a href="../../vegan/help/cca.html">cca</a></code> or
+redundancy analysis <code><a href="../../vegan/help/rda.html">rda</a></code>.  These functions are rarely
+needed directly, but they are called by <code><a href="../../stats/html/step.html">step</a></code> in
+automatic model building.  Actually, <code><a href="../../vegan/help/cca.html">cca</a></code> and
+<code><a href="../../vegan/help/rda.html">rda</a></code> do not have <code><a href="../../stats/html/AIC.html">AIC</a></code> and these functions
+are certainly wrong.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cca'
+deviance(object, ...)
+
+## S3 method for class 'cca'
+extractAIC(fit, scale = 0, k = 2, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>the result of a constrained ordination
+(<code><a href="../../vegan/help/cca.html">cca</a></code> or <code><a href="../../vegan/help/rda.html">rda</a></code>). </p>
+</td></tr>
+<tr valign="top"><td><code>fit</code></td>
+<td>
+<p>fitted model from constrained ordination.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>optional numeric specifying the scale parameter of the model,
+see <code>scale</code> in <code><a href="../../stats/html/step.html">step</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>numeric specifying the &quot;weight&quot; of the <em>equivalent degrees of
+freedom</em> (=:<code>edf</code>) part in the AIC formula.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions find statistics that
+resemble <code><a href="../../stats/html/deviance.html">deviance</a></code> and <code><a href="../../stats/html/AIC.html">AIC</a></code> in constrained
+ordination.  Actually, constrained ordination methods do not have a
+log-Likelihood, which means that they cannot have AIC and deviance.
+Therefore you should not use these functions, and if you use them, you
+should not trust them.  If you use these functions, it remains as your
+responsibility to check the adequacy of the result.
+</p>
+<p>The deviance of <code><a href="../../vegan/help/cca.html">cca</a></code> is equal to the Chi-square of
+the residual data matrix after fitting the constraints.  The deviance
+of  <code><a href="../../vegan/help/rda.html">rda</a></code> is defined as the residual sum of squares. The
+deviance function of <code>rda</code> is also used for
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. Function <code>extractAIC</code> mimics
+<code>extractAIC.lm</code> in translating deviance to AIC.
+</p>
+<p>There is little need to call these functions directly.  However, they
+are called implicitly in <code><a href="../../stats/html/step.html">step</a></code> function used in automatic
+selection of constraining variables.  You should check the resulting
+model with some other criteria, because the statistics used here are
+unfounded. In particular, the penalty <code>k</code> is not properly
+defined, and the default <code>k = 2</code> is not justified
+theoretically. If you have only continuous covariates, the <code>step</code>
+function will base the model building on magnitude of eigenvalues, and
+the value of <code>k</code> only influences the stopping point (but the
+variables with the highest eigenvalues are not necessarily the most
+significant in permutation tests in <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>). If you
+also have multi-class factors, the value of <code>k</code> will have a
+capricious effect in model building. The <code><a href="../../stats/html/step.html">step</a></code> function
+will pass arguments to <code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> and
+<code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>, and setting <code>test = "permutation"</code>
+will provide permutation tests of each deletion and addition which
+can help in judging the validity of the model building.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>deviance</code> functions return &ldquo;deviance&rdquo;, and
+<code>extractAIC</code> returns effective degrees of freedom and &ldquo;AIC&rdquo;. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions are unfounded and untested and they should not be used
+directly or implicitly.  Moreover, usual caveats in using 
+<code><a href="../../stats/html/step.html">step</a></code> are very valid.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari  Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Godínez-Domínguez, E. &amp; Freire, J. (2003)
+Information-theoretic approach for selection of spatial and temporal
+models of community organization. <em>Marine Ecology Progress
+Series</em> <strong>253</strong>, 17&ndash;24. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>,
+<code><a href="../../stats/html/step.html">step</a></code>, <code><a href="../../stats/html/extractAIC.html">extractAIC</a></code>,
+<code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code>, <code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# The deviance of correspondence analysis equals Chi-square
+data(dune)
+data(dune.env)
+chisq.test(dune)
+deviance(cca(dune))
+# Stepwise selection (forward from an empty model "dune ~ 1")
+ord &lt;- cca(dune ~ ., dune.env)
+step(cca(dune ~ 1, dune.env), scope = formula(ord))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

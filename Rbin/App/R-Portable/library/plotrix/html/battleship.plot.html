@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a matrix of values as the widths of stacked...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for battleship.plot {plotrix}"><tr><td>battleship.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a matrix of values as the widths of stacked rectangles</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">battleship.plot</span> displays a matrix of rectangles, with widths
+proportional to the values in <span class="samp">x</span>. The values are scaled so that half the
+width of the largest rectangle is equal to <span class="samp">maxxspan</span> in user units. This
+prevents the rectangles from overlapping. The user can adjust the spacing of the
+stacks of rectangles by changing <span class="samp">maxxspan</span>. Similarly, maxyspan controls
+the spacing between rectangles in the vertical direction.
+</p>
+<p>The labels for each stack of plots (the columns of x) are displayed at the top
+of the plot, angled at 45 degrees. The labels for each row of rectangles in the
+stacks (the rows of x) are displayed at the left. Long labels for either may
+require adjusting the <span class="samp">mar</span> argument. 
+</p>
+<p>The function will try to extract the labels <span class="samp">xaxlab</span> and <span class="samp">yaxlab</span> from
+the matrix column and row names respectively if none are passed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ battleship.plot(x,mar=c(2,5,5,1),col="white",border="black",
+ main="",xlab="",ylab="",xaxlab=NULL,yaxlab=NULL,cex.labels=1,
+ maxxspan=0.45,maxyspan=0.45)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix or data frame containing numeric values. See the example.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>Margins for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The fill colors for the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The border colors for the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title for the plot (i.e. <span class="samp">main</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>The x and y axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxlab,yaxlab</code></td>
+<td>
+<p>Optional labels for the rows and columns.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.labels</code></td>
+<td>
+<p>Character expansion for the row and column labels.</p>
+</td></tr>
+<tr valign="top"><td><code>maxxspan,maxyspan</code></td>
+<td>
+<p>Scaling factor for the widths and heights of the
+rectangles so that they don't overlap.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Adam Maltese for the suggestion</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../plotrix/help/staxlab.html">staxlab</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-matrix(sample(10:50,100,TRUE),10)
+ xaxlab=c("One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten")
+ yaxlab=c("First","Second","Third","Fourth","Fifth","Sixth","Seventh",
+  "Eighth","Ninth","Tenth")
+ battleship.plot(x,xlab="The battle has just begun",main="Battleship1",
+  xaxlab=xaxlab,yaxlab=yaxlab)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

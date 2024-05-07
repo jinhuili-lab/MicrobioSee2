@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convenient text formatting functionalities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for text_format {datawizard}"><tr><td>text_format {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convenient text formatting functionalities</h2>
+
+<h3>Description</h3>
+
+<p>Convenience functions to manipulate and format text.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+text_format(
+  text,
+  sep = ", ",
+  last = " and ",
+  width = NULL,
+  enclose = NULL,
+  ...
+)
+
+format_text(
+  text,
+  sep = ", ",
+  last = " and ",
+  width = NULL,
+  enclose = NULL,
+  ...
+)
+
+text_fullstop(text)
+
+text_lastchar(text, n = 1)
+
+text_concatenate(text, sep = ", ", last = " and ", enclose = NULL)
+
+text_paste(text, text2 = NULL, sep = ", ", enclose = NULL, ...)
+
+text_remove(text, pattern = "", ...)
+
+text_wrap(text, width = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text, text2</code></td>
+<td>
+<p>A character string.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>Separator.</p>
+</td></tr>
+<tr valign="top"><td><code>last</code></td>
+<td>
+<p>Last separator.</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>Positive integer giving the target column width for wrapping
+lines in the output. Can be &quot;auto&quot;, in which case it will select 90\
+default width.</p>
+</td></tr>
+<tr valign="top"><td><code>enclose</code></td>
+<td>
+<p>Character that will be used to wrap elements of <code>text</code>, so
+these can be, e.g., enclosed with quotes or backticks. If <code>NULL</code> (default),
+text elements will not be enclosed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to be passed to or from other functions.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The number of characters to find.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Character vector. For <code>data_rename()</code>, indicates columns that
+should be selected for renaming. Can be <code>NULL</code> (in which case all columns
+are selected). For <code>data_addprefix()</code> or <code>data_addsuffix()</code>, a character
+string, which will be added as prefix or suffix to the column names.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A character string.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Add full stop if missing
+text_fullstop(c("something", "something else."))
+
+# Find last characters
+text_lastchar(c("ABC", "DEF"), n = 2)
+
+# Smart concatenation
+text_concatenate(c("First", "Second", "Last"))
+text_concatenate(c("First", "Second", "Last"), last = " or ", enclose = "`")
+
+# Remove parts of string
+text_remove(c("one!", "two", "three!"), "!")
+
+# Wrap text
+long_text &lt;- paste(rep("abc ", 100), collapse = "")
+cat(text_wrap(long_text, width = 50))
+
+# Paste with optional separator
+text_paste(c("A", "", "B"), c("42", "42", "42"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

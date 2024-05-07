@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add lines to the plotting regions in a same track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.trackLines {circlize}"><tr><td>circos.trackLines {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add lines to the plotting regions in a same track
+</h2>
+
+<h3>Description</h3>
+
+<p>Add lines to the plotting regions in a same track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.trackLines(
+    sectors,
+    x, y,
+    track.index = get.current.track.index(),
+    col = par("col"),
+    lwd = par("lwd"),
+    lty = par("lty"),
+    type = "l",
+    straight = FALSE,
+    area = FALSE,
+    area.baseline = NULL,
+    border = "black",
+    baseline = "bottom",
+    pt.col = par("col"),
+    cex = par("cex"),
+    pch = par("pch"),
+    factors = sectors)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A <code><a href="../../base/html/factor.html">factor</a></code> or a character vector which represents the categories of data.</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>The same as <code>sectors</code>. It will be removed in future versions. </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data points on x-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data points on y-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Line color.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line style.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Line type, similar as <code>type</code> argument in <code><a href="../../graphics/help/lines.html">lines</a></code>, but only in <code>c("l", "o", "h", "s")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>straight</code></td>
+<td>
+<p>Whether draw straight lines between points.</p>
+</td></tr>
+<tr valign="top"><td><code>area</code></td>
+<td>
+<p>Whether to fill the area below the lines. If it is set to <code>TRUE</code>, <code>col</code> controls the filled color in the area and <code>border</code> controls the color of the line.</p>
+</td></tr>
+<tr valign="top"><td><code>area.baseline</code></td>
+<td>
+<p>Deprecated, use <code>baseline</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>baseline</code></td>
+<td>
+<p>The base line to draw area, pass to <code><a href="../../circlize/help/circos.lines.html">circos.lines</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Color for border of the area.</p>
+</td></tr>
+<tr valign="top"><td><code>pt.col</code></td>
+<td>
+<p>If <code>type</code> is &quot;o&quot;, points color.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>If <code>type</code> is &quot;o&quot;, points size.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>If <code>type</code> is &quot;o&quot;, points type.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function adds lines in multiple cells by first splitting data into several parts in which
+each part corresponds to one factor (sector index) and then add lines in cells by calling <code><a href="../../circlize/help/circos.lines.html">circos.lines</a></code>.
+</p>
+<p>This function can be replaced by a <code>for</code> loop containing <code><a href="../../circlize/help/circos.lines.html">circos.lines</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: as() - RLum-object coercion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for as {Luminescence}"><tr><td>as {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>as() - RLum-object coercion</h2>
+
+<h3>Description</h3>
+
+<p>for <code style="white-space: pre;">[RLum.Analysis-class]</code>
+</p>
+<p>for <code style="white-space: pre;">[RLum.Data.Curve-class]</code>
+</p>
+<p>for <code style="white-space: pre;">[RLum.Data.Image-class]</code>
+</p>
+<p>for <code style="white-space: pre;">[RLum.Data.Spectrum-class]</code>
+</p>
+<p>for <code style="white-space: pre;">[RLum.Results-class]</code>
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a>, <a href="../../base/html/list.html">list</a>, <a href="../../base/html/data.frame.html">data.frame</a>, <a href="../../base/html/matrix.html">matrix</a> (<strong>required</strong>):
+object to be coerced from</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+class name to be coerced to</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>from</strong> </td><td style="text-align: left;"> <strong>to</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>list</code> </td><td style="text-align: left;"> <code>list</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Given that the <a href="../../base/html/list.html">list</a> consists of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects.
+</p>
+<p><strong><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>from</strong> </td><td style="text-align: left;"> <strong>to</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>list</code> </td><td style="text-align: left;"> <code>list</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>data.frame</code> </td><td style="text-align: left;"> <code>data.frame</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>matrix</code> </td><td style="text-align: left;"> <code>matrix</code>
+</td>
+</tr>
+
+</table>
+
+<p><strong><a href="../../Luminescence/help/RLum.Data.Image-class.html">RLum.Data.Image</a></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>from</strong> </td><td style="text-align: left;"> <strong>to</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>data.frame</code> </td><td style="text-align: left;"> <code>data.frame</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>matrix</code> </td><td style="text-align: left;"> <code>matrix</code>
+</td>
+</tr>
+
+</table>
+
+<p><strong><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>from</strong> </td><td style="text-align: left;"> <strong>to</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>data.frame</code> </td><td style="text-align: left;"> <code>data.frame</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>matrix</code> </td><td style="text-align: left;"> <code>matrix</code>
+</td>
+</tr>
+
+</table>
+
+<p><strong><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>from</strong> </td><td style="text-align: left;"> <strong>to</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>list</code> </td><td style="text-align: left;"> <code>list</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Given that the <a href="../../base/html/list.html">list</a> consists of <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> objects.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Due to the complex structure of the <code>RLum</code> objects itself a coercing to standard
+R data structures will be always loosely!
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../methods/help/as.html">methods::as</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

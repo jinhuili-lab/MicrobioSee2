@@ -1,0 +1,47 @@
+Package: pak
+Version: 0.5.0
+Title: Another Approach to Package Installation
+Description: The goal of 'pak' is to make package installation faster and
+    more reliable. In particular, it performs all HTTP operations in parallel,
+    so metadata resolution and package downloads are fast. Metadata and package
+    files are cached on the local disk as well. 'pak' has a dependency solver,
+    so it finds version conflicts before performing the installation. This
+    version of 'pak' supports CRAN, 'Bioconductor' and 'GitHub' packages as well.
+Authors@R: c(
+    person("Gábor", "Csárdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+    person("Jim", "Hester", , "jim.hester@rstudio.com", role = "aut"),
+    person("RStudio", role = c("cph", "fnd"))
+  )
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+RoxygenNote: 7.2.1.9000
+Depends: R (>= 3.2)
+Imports: tools, utils
+Suggests: callr (>= 3.7.0), cli (>= 3.2.0), covr, curl (>= 4.3.2), desc
+        (>= 1.4.1), digest, distro, filelock (>= 1.0.2), gitcreds, glue
+        (>= 1.6.2), mockery, pingr, jsonlite (>= 1.8.0), pkgcache (>=
+        2.0.4), pkgdepends (>= 0.4.0), pkgsearch (>= 3.1.0),
+        prettyunits, processx (>= 3.8.1), ps (>= 1.6.0), rprojroot (>=
+        2.0.2), rstudioapi, testthat, withr
+Note: This field has Remotes syntax, but repeat remotes in `Remotes`!
+Config/needs/dependencies: callr, desc, cli, curl, distro, filelock,
+        glue, jsonlite, pkgcache, pkgdepends, pkgsearch, prettyunits,
+        processx, ps, rprojroot
+Config/Needs/website: r-lib/asciicast, r-lib/roxygen2,
+        tidyverse/tidytemplate
+Config/testthat/edition: 3
+Config/build/extra-sources: configure*
+URL: https://pak.r-lib.org/
+BugReports: https://github.com/r-lib/pak/issues
+BuildResaveData: no
+NeedsCompilation: no
+Packaged: 2023-04-20 14:25:57 UTC; gaborcsardi
+Author: Gábor Csárdi [aut, cre],
+  Jim Hester [aut],
+  RStudio [cph, fnd]
+Maintainer: Gábor Csárdi <csardi.gabor@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-04-20 14:50:02 UTC
+Built: R 4.1.3; ; 2023-04-20 16:57:28 UTC; windows

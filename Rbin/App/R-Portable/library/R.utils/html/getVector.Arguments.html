@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Validates a vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arguments$getVector {R.utils}"><tr><td>Arguments$getVector {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validates a vector</h2>
+
+<h3>Description</h3>
+
+<p>Validates a vector by checking its length (number of elements).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Arguments$getVector(x, length=NULL, .name=NULL, ...)
+
+## Don't use the below:
+## S3 method for class 'Arguments'
+getVector(static, x, length=NULL, .name=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A single <code><a href="../../base/help/vector.html">vector</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>length</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length two or more. If two, it
+is the minimum and maximum length of <code>x</code>. Otherwise, it is the
+set of possible lengths of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.name</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string for name used in error messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the same <code><a href="../../base/help/vector.html">vector</a></code>, if it is valid. Otherwise an exception is
+thrown.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/Arguments.html">Arguments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

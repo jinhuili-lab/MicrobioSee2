@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a rectangle filled with an arbitrary color gradient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gradient.rect {plotrix}"><tr><td>gradient.rect {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a rectangle filled with an arbitrary color gradient</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">gradient.rect</span> draws a rectangle consisting of <span class="samp">nslices</span>
+subrectangles of the colors in <span class="samp">col</span> or those returned by 
+<span class="samp">color.gradient</span> if <span class="samp">col</span> is NULL. The rectangle is
+'sliced' in the direction specified by <span class="samp">gradient</span>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ gradient.rect(xleft,ybottom,xright,ytop,reds,greens,blues,col=NULL,
+  nslices=50,gradient="x",border=par("fg"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xleft,ybottom,xright,ytop</code></td>
+<td>
+<p>Positions of the relevant corners
+of the desired rectangle, as in <span class="samp">rect</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>reds,greens,blues</code></td>
+<td>
+<p>vectors of the values of the color components
+either as 0 to 1 or ,if any value is greater than 1, 0 to 255.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Vector of colors. If supplied, this takes precedence over
+<span class="samp">reds, greens, blues</span> and <span class="samp">nslices</span> will be set to its length.</p>
+</td></tr>
+<tr valign="top"><td><code>nslices</code></td>
+<td>
+<p>The number of sub-rectangles that will be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>gradient</code></td>
+<td>
+<p>whether the gradient should be horizontal (x) or vertical.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The color of the border around the rectangle (NA for none).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>the vector of hexadecimal color values from <span class="samp">color.gradient</span> or
+<span class="samp">col</span>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # get an empty box
+ plot(0:10,type="n",axes=FALSE)
+ # run across the three primaries
+ gradient.rect(1,0,3,6,reds=c(1,0),
+  greens=c(seq(0,1,length=10),seq(1,0,length=10)),
+  blues=c(0,1),gradient="y")
+ # now a "danger gradient"
+ gradient.rect(4,0,6,6,c(seq(0,1,length=10),rep(1,10)),
+  c(rep(1,10),seq(1,0,length=10)),c(0,0),gradient="y")
+ # now just a smooth gradient across the bar
+ gradient.rect(7,0,9,6,col=smoothColors("red",38,"blue"),border=NA)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Emission Spectra Conversion from Wavelength to Energy Scales</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_Wavelength2Energy {Luminescence}"><tr><td>convert_Wavelength2Energy {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Emission Spectra Conversion from Wavelength to Energy Scales</h2>
+
+<h3>Description</h3>
+
+<p>The function provides a convenient and fast way to convert emission spectra wavelength
+to energy scales. The function works on <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../base/html/data.frame.html">data.frame</a> and <a href="../../base/html/matrix.html">matrix</a> and
+a <a href="../../base/html/list.html">list</a> of such objects. The function was written to smooth the workflow while analysing
+emission spectra data. This is in particular useful if you want to further treat your data
+and apply, e.g., a signal deconvolution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_Wavelength2Energy(object, digits = 3L, order = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../base/html/data.frame.html">data.frame</a>, <a href="../../base/html/matrix.html">matrix</a> (<strong>required</strong>): input object to be converted.
+If the input is not an <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, the first column is always treated as the wavelength
+column. The function supports a list of allowed input objects.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>): set the number of digits on the returned energy axis</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enables/disables sorting of the values in ascending energy
+order. After the conversion the longest wavelength has the lowest energy value and the shortest
+wavelength the highest. While this is correct, some R functions expect increasing x-values.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The intensity of the spectrum is re-calculated using the following approach to recalculate
+wavelength and corresponding intensity values
+(e.g., Appendix 4 in Blasse and Grabmeier, 1994; Mooney and Kambhampati, 2013):
+</p>
+<p style="text-align: center;"><i>&phi;_{E} = &phi;_{&lambda;} * &lambda;^2 / (hc)</i></p>
+
+<p>with
+<i>&phi;_{E}</i> the intensity per interval of energy <i>E</i> (1/eV),
+<i>&phi;_{&lambda;}</i> the intensity per interval of wavelength <i>&lambda;</i>
+(1/nm) and
+<i>h</i> (eV * s) the Planck constant and <i>c</i> (nm/s) the velocity of light.
+</p>
+<p>For transforming the wavelength axis (x-values) the equation as follow is used
+</p>
+<p style="text-align: center;"><i>E = hc/&lambda;</i></p>
+
+
+
+<h3>Value</h3>
+
+<p>The same object class as provided as input is returned.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. convert_Wavelength2Energy(): Emission Spectra Conversion from Wavelength to Energy Scales. Function version 0.1.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This conversion works solely for emission spectra. In case of absorption spectra only
+the x-axis has to be converted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS - Université Bordeaux Montaigne (France)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Blasse, G., Grabmaier, B.C., 1994. Luminescent Materials. Springer.
+</p>
+<p>Mooney, J., Kambhampati, P., 2013. Get the Basics Right: Jacobian Conversion of Wavelength and
+Energy Scales for Quantitative Analysis of Emission Spectra. J. Phys. Chem. Lett. 4, 3316–3318.
+doi: <a href="https://doi.org/10.1021/jz401508t">10.1021/jz401508t</a>
+</p>
+<p>Mooney, J., Kambhampati, P., 2013. Correction to “Get the Basics Right: Jacobian Conversion of
+Wavelength and Energy Scales for Quantitative Analysis of Emission Spectra.” J. Phys. Chem. Lett. 4,
+3316–3318. doi: <a href="https://doi.org/10.1021/jz401508t">10.1021/jz401508t</a>
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Angulo, G., Grampp, G., Rosspeintner, A., 2006. Recalling the appropriate representation of
+electronic spectra. Spectrochimica Acta Part A: Molecular and Biomolecular Spectroscopy 65,
+727–731. doi: <a href="https://doi.org/10.1016/j.saa.2006.01.007">10.1016/j.saa.2006.01.007</a>
+</p>
+<p>Wang, Y., Townsend, P.D., 2013. Potential problems in collection and data processing of
+luminescence signals. Journal of Luminescence 142, 202–211. doi: <a href="https://doi.org/10.1016/j.jlumin.2013.03.052">10.1016/j.jlumin.2013.03.052</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##=====================##
+##(1) Literature example after Mooney et al. (2013)
+##(1.1) create matrix
+m &lt;- matrix(
+  data = c(seq(400, 800, 50), rep(1, 9)), ncol = 2)
+
+##(1.2) set plot function to reproduce the
+##literature figure
+p &lt;- function(m) {
+ plot(x = m[, 1], y = m[, 2])
+ polygon(
+ x = c(m[, 1], rev(m[, 1])),
+ y = c(m[, 2], rep(0, nrow(m))))
+ for (i in 1:nrow(m)) {
+  lines(x = rep(m[i, 1], 2), y = c(0, m[i, 2]))
+ }
+}
+
+##(1.3) plot curves
+par(mfrow = c(1,2))
+p(m)
+p(convert_Wavelength2Energy(m))
+
+##=====================##
+##(2) Another example using density curves
+##create dataset
+xy &lt;- density(
+ c(rnorm(n = 100, mean = 500, sd = 20),
+ rnorm(n = 100, mean = 800, sd = 20)))
+xy &lt;- data.frame(xy$x, xy$y)
+
+##plot
+par(mfrow = c(1,2))
+plot(
+ xy,
+ type = "l",
+ xlim = c(150, 1000),
+ xlab = "Wavelength [nm]",
+ ylab = "Luminescence [a.u.]"
+)
+plot(
+ convert_Wavelength2Energy(xy),
+ xy$y,
+ type = "l",
+ xlim = c(1.23, 8.3),
+ xlab = "Energy [eV]",
+ ylab = "Luminescence [a.u.]"
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

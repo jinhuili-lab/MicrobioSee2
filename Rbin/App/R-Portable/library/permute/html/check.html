@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Utility functions for permutation schemes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check {permute}"><tr><td>check {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Utility functions for permutation schemes</h2>
+
+<h3>Description</h3>
+
+<p><code>check</code> provides checking of permutation schemes for
+validity. <code>permuplot</code> produces a graphical representation of the
+selected permutation design.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check(object, control = how(), quietly = FALSE)
+
+## S3 method for class 'check'
+summary(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an R object. See Details for a complete description,
+especially for <code><a href="../../permute/help/numPerms.html">numPerms</a></code>. For
+<code><a href="../../permute/help/summary.check.html">summary.check</a></code> an object of class <code>"check"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values describing properties of the
+permutation design, as returned by a call to <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>quietly</code></td>
+<td>
+<p>logical; should messages by suppressed?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>check</code> is a utility functions for working with the new
+permutation schemes available in <code><a href="../../permute/help/shuffle.html">shuffle</a></code>.
+</p>
+<p><code>check</code> is used to check the current permutation schemes
+against the object to which it will be applied. It calculates the
+maximum number of possible permutations for the number of observations
+in <code>object</code> and the permutation scheme described by
+<code>control</code>. The returned object contains component <code>control</code>,
+an object of class <code>"how"</code> suitably modified if
+<code>check</code> identifies a problem.
+</p>
+<p>The main problem is requesting more permutations than is possible with
+the number of observations and the permutation design. In such cases,
+<code>nperm</code> is reduced to equal the number of possible permutations,
+and complete enumeration of all permutations is turned on
+(<code>control$complete</code> is set to <code>TRUE</code>). 
+</p>
+<p>Alternatively, if the number of possible permutations is low, and
+less than <code>control$minperm</code>, it is better to enumerate all
+possible permutations, and as such complete enumeration of all
+permutations is turned on (<code>control$complete</code> is set to
+<code>TRUE</code>). This guarantees that permutations are all unique and
+there are no duplicates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>check</code> a list containing the maximum number of
+permutations possible and an object of class <code>"<a href="../../permute/help/how.html">how</a>"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin L. Simpson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../permute/help/shuffle.html">shuffle</a></code> and <code><a href="../../permute/help/how.html">how</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## only run this example if vegan is available
+if (suppressPackageStartupMessages(require("vegan"))) {
+    ## use example data from ?pyrifos in package vegan
+    example(pyrifos)
+
+    ## Demonstrate the maximum number of permutations for the pyrifos data
+    ## under a series of permutation schemes
+
+    ## no restrictions - lots of perms
+    CONTROL &lt;- how(within = Within(type = "free"))
+    (check1 &lt;- check(pyrifos, CONTROL))
+    ## summary(check1)
+    
+    ## no strata but data are series with no mirroring, so 132 permutations
+    CONTROL &lt;- how(within = Within(type = "series", mirror = FALSE))
+    check(pyrifos, CONTROL)
+    
+    ## no strata but data are series with mirroring, so 264 permutations
+    CONTROL &lt;- how(within = Within(type = "series", mirror = TRUE))
+    check(pyrifos, control = CONTROL)
+    
+    ## unrestricted within strata
+    check(pyrifos, control = how(plots = Plots(strata = ditch),
+                   within = Within(type = "free")))
+    
+    ## time series within strata, no mirroring
+    check(pyrifos,
+          control = how(plots = Plots(strata = ditch),
+          within = Within(type = "series", mirror = FALSE)))
+    
+    ## time series within strata, with mirroring
+    check(pyrifos,
+          control = how(plots = Plots(strata = ditch),
+          within = Within(type = "series", mirror = TRUE)))
+    
+    ## time series within strata, no mirroring, same permutation
+    ## within strata
+    check(pyrifos,
+          control = how(plots = Plots(strata = ditch),
+          within = Within(type = "series", constant = TRUE)))
+    
+    ## time series within strata, with mirroring, same permutation
+    ## within strata
+    check(pyrifos,
+          control = how(plots = Plots(strata = ditch),
+          within = Within(type = "series", mirror = TRUE,
+          constant = TRUE)))
+    ## permute strata
+    check(pyrifos, how(plots = Plots(strata = ditch, type = "free"),
+                       within = Within(type = "none")))
+}
+    
+## this should also also for arbitrary vectors
+vec1 &lt;- check(1:100)
+vec2 &lt;- check(1:100, how())
+all.equal(vec1, vec2)
+vec3 &lt;- check(1:100, how(within = Within(type = "series")))
+all.equal(100, vec3$n)
+vec4 &lt;- check(1:100, how(within = Within(type= "series", mirror = TRUE)))
+all.equal(vec4$n, 200)
+
+## enumerate all possible permutations
+fac &lt;- gl(2,6)
+ctrl &lt;- how(plots = Plots(strata = fac),
+            within = Within(type = "grid", mirror = FALSE,
+                            constant = TRUE, nrow = 3, ncol = 2))
+check(1:12, ctrl)
+
+numPerms(1:12, control = ctrl)
+(tmp &lt;- allPerms(12, control = update(ctrl, observed = TRUE)))
+(tmp2 &lt;- allPerms(12, control = ctrl))
+
+## turn on mirroring
+ctrl &lt;- update(ctrl, within = update(getWithin(ctrl), mirror = TRUE))
+numPerms(1:12, control = ctrl)
+(tmp3 &lt;- allPerms(12, control = update(ctrl, observed = TRUE)))
+(tmp4 &lt;- allPerms(12, control = ctrl))
+## prints out details of the permutation scheme as
+## well as the matrix of permutations
+summary(tmp)
+summary(tmp2)
+
+## different numbers of observations per level of strata
+fac &lt;- factor(rep(1:3, times = c(3,2,2)))
+## free permutations in levels of strata
+numPerms(7, how(within = Within(type = "free"),
+                plots = Plots(strata = fac, type = "none")))
+allPerms(7, how(within = Within(type = "free"),
+                plots = Plots(strata = fac)))
+## series permutations in levels of strata
+ctrl &lt;- how(within = Within(type = "series"), plots = Plots(strata = fac))
+numPerms(7, control = ctrl)
+allPerms(7, control = ctrl)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

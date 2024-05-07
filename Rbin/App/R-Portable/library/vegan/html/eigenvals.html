@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract Eigenvalues from an Ordination Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for eigenvals {vegan}"><tr><td>eigenvals {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Extract Eigenvalues from an Ordination Object
+</h2>
+
+<h3>Description</h3>
+
+<p>Function extracts eigenvalues from an object that has them. Many
+multivariate methods return such objects. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+eigenvals(x, ...)
+## S3 method for class 'cca'
+eigenvals(x, model = c("all", "unconstrained", "constrained"),
+          constrained = NULL, ...)
+## S3 method for class 'eigenvals'
+summary(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object from which to extract eigenvalues.
+</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>An <code>eigenvals</code> result object.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+
+<p>Which eigenvalues to return for objects that inherit from class
+<code>"cca"</code> only.
+</p>
+</td></tr>
+<tr valign="top"><td><code>constrained</code></td>
+<td>
+
+<p>Return only constrained eigenvalues. Deprecated as of vegan
+2.5-0. Use <code>model</code> instead.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Other arguments to the functions (usually ignored)
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a generic function that has methods for <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code>, <code><a href="../../vegan/help/pcnm.html">pcnm</a></code>, <code><a href="../../stats/html/prcomp.html">prcomp</a></code>,
+<code><a href="../../stats/html/princomp.html">princomp</a></code>, <code><a href="../../ade4/help/dudi.html">dudi</a></code> (of <span class="pkg">ade4</span>), and 
+<code><a href="../../labdsv/help/pca.html">pca</a></code> and <code><a href="../../labdsv/help/pco.html">pco</a></code> (of 
+<span class="pkg">labdsv</span>) result objects. The default method also
+extracts eigenvalues if the result looks like being from
+<code><a href="../../base/html/eigen.html">eigen</a></code> or <code><a href="../../base/html/svd.html">svd</a></code>.  Functions
+<code><a href="../../stats/html/prcomp.html">prcomp</a></code> and <code><a href="../../stats/html/princomp.html">princomp</a></code> contain square roots
+of eigenvalues that all called standard deviations, but
+<code>eigenvals</code> function returns their squares.  Function
+<code><a href="../../base/html/svd.html">svd</a></code> contains singular values, but function
+<code>eigenvals</code> returns their squares. For constrained ordination
+methods <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> the function returns the both constrained and
+unconstrained eigenvalues concatenated in one vector, but the partial
+component will be ignored. However, with argument 
+<code>constrained = TRUE</code> only constrained eigenvalues are returned. 
+</p>
+<p>The <code>summary</code> of <code>eigenvals</code> result returns eigenvalues,
+proportion explained and cumulative proportion explained. The result
+object can have some negative eigenvalues (<code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code>,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>, <code><a href="../../vegan/help/pcnm.html">pcnm</a></code>) which correspond to
+imaginary axes of Euclidean mapping of non-Euclidean distances
+(Gower 1985). In these cases, the sum of absolute values of
+eigenvalues is used in calculating the proportions explained, and
+real axes (corresponding to positive eigenvalues) will only explain
+a part of total variation (Mardia et al. 1979, Gower 1985).  
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"eigenvals"</code>, which is a vector of
+eigenvalues.
+</p>
+<p>The <code>summary</code> method returns an object of class
+<code>"summary.eigenvals"</code>, which is a matrix.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gower, J. C. (1985). Properties of Euclidean and non-Euclidean
+distance matrices. <em>Linear Algebra and its Applications</em> 67,
+81&ndash;97.
+</p>
+<p>Mardia, K. V., Kent, J. T. and Bibby, J. M. (1979).  Chapter 14 of
+<em>Multivariate Analysis</em>, London: Academic Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/eigen.html">eigen</a></code>, <code><a href="../../base/html/svd.html">svd</a></code>, <code><a href="../../stats/html/prcomp.html">prcomp</a></code>,
+<code><a href="../../stats/html/princomp.html">princomp</a></code>, <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>, <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code>,
+<code><a href="../../vegan/help/cca.object.html">cca.object</a></code>. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+mod &lt;- cca(varespec ~ Al + P + K, varechem)
+ev &lt;- eigenvals(mod)
+ev
+summary(ev)
+
+## choose which eignevalues to return
+eigenvals(mod, model = "unconstrained")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

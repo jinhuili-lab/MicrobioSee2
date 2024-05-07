@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Monic Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for monic {polynom}"><tr><td>monic {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Monic Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Convert a polynomial to monic form by dividing by the leading
+coefficient.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+monic(p)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>A polynomial.  A warning is issued if the polynomial is
+identically zero.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Similar in effect to <code>p/as.numeric(p[length(p)])</code> but with some
+safeguards against leading zero coefficients.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A polynomial proportional to <code>p</code> with leading coefficient 1.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../polynom/help/change.origin.html">change.origin</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

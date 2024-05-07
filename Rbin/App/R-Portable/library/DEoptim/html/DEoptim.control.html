@@ -1,0 +1,355 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Control various aspects of the DEoptim implementation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for DEoptim.control {DEoptim}"><tr><td>DEoptim.control {DEoptim}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Control various aspects of the DEoptim implementation</h2>
+
+<h3>Description</h3>
+
+<p>Allow the user to set some characteristics of the 
+Differential Evolution optimization algorithm implemented
+in <code>DEoptim</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+DEoptim.control(VTR = -Inf, strategy = 2, bs = FALSE, NP = NA,
+  itermax = 200, CR = 0.5, F = 0.8, trace = TRUE, initialpop = NULL,
+  storepopfrom = itermax + 1, storepopfreq = 1, p = 0.2, c = 0, reltol,
+  steptol, parallelType = 0, cluster = NULL, packages = c(), parVar = c(),
+  foreachArgs = list())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>VTR</code></td>
+<td>
+<p>the value to be reached. The optimization process
+will stop if either the maximum number of iterations <code>itermax</code>
+is reached or the best parameter vector <code>bestmem</code> has found a value
+<code>fn(bestmem) &lt;= VTR</code>. Default to <code>-Inf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>strategy</code></td>
+<td>
+<p>defines the Differential Evolution
+strategy used in the optimization procedure:<br />
+<code>1</code>: DE / rand / 1 / bin (classical strategy)<br />
+<code>2</code>: DE / local-to-best / 1 / bin (default)<br />
+<code>3</code>: DE / best / 1 / bin with jitter<br />
+<code>4</code>: DE / rand / 1 / bin with per-vector-dither<br />
+<code>5</code>: DE / rand / 1 / bin with per-generation-dither<br />
+<code>6</code>: DE / current-to-p-best / 1<br />
+any value not above: variation to DE / rand / 1 / bin: either-or-algorithm.  Default
+strategy is currently <code>2</code>. See *Details*.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bs</code></td>
+<td>
+<p>if <code>FALSE</code> then every mutant will be tested against a
+member in the previous generation, and the best value will proceed
+into the next generation (this is standard trial vs. target
+selection). If <code>TRUE</code> then the old generation and <code>NP</code>
+mutants will be sorted by their associated objective function
+values, and the best <code>NP</code> vectors will proceed into the next
+generation (best of parent and child selection). Default is
+<code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>NP</code></td>
+<td>
+<p>number of population members. Defaults to <code>NA</code>; if
+the user does not change the value of <code>NP</code> from <code>NA</code> or
+specifies a value less than 4 it
+is reset when <code>DEoptim</code> is called as <code>10*length(lower)</code>. For
+many problems it is best to set
+<code>NP</code> to be at least 10 times the length
+of the parameter vector.  </p>
+</td></tr>
+<tr valign="top"><td><code>itermax</code></td>
+<td>
+<p>the maximum iteration (population generation) allowed.
+Default is <code>200</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>CR</code></td>
+<td>
+<p>crossover probability from interval [0,1]. Default
+to <code>0.5</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>F</code></td>
+<td>
+<p>differential weighting factor from interval [0,2]. Default
+to <code>0.8</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Positive integer or logical value indicating whether 
+printing of progress occurs at each iteration. The default value is
+<code>TRUE</code>.  If a positive integer is specified, printing occurs every
+<code>trace</code> iterations.  </p>
+</td></tr>
+<tr valign="top"><td><code>initialpop</code></td>
+<td>
+<p>an initial population used as a starting
+population in the optimization procedure. May be useful to speed up
+the convergence. Default to <code>NULL</code>.  If given, each member of
+the initial population should be given as a row of a numeric matrix, so that
+<code>initialpop</code> is a matrix with <code>NP</code> rows and a number of
+columns equal to the length of the parameter vector to be optimized. </p>
+</td></tr>
+<tr valign="top"><td><code>storepopfrom</code></td>
+<td>
+<p>from which generation should the following
+intermediate populations be stored in memory. Default to
+<code>itermax + 1</code>, i.e., no intermediate population is stored.</p>
+</td></tr>
+<tr valign="top"><td><code>storepopfreq</code></td>
+<td>
+<p>the frequency with which populations are stored.
+Default to <code>1</code>, i.e., every intermediate population
+is stored.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>when <code>strategy = 6</code>, the top (100 * p)% best 
+solutions are used in the mutation. <code>p</code> must be defined in (0,1].</p>
+</td></tr>
+<tr valign="top"><td><code>c</code></td>
+<td>
+<p><code>c</code> controls the speed of the
+crossover adaptation. Higher values of <code>c</code> give more weight to the
+current successful mutations. <code>c</code> must be defined in (0,1].</p>
+</td></tr>
+<tr valign="top"><td><code>reltol</code></td>
+<td>
+<p>relative convergence tolerance.  The algorithm stops if
+it is unable to reduce the value by a factor of <code>reltol * (abs(val) +
+   reltol)</code> after <code>steptol</code> steps. Defaults to
+<code>sqrt(.Machine$double.eps)</code>, typically about <code>1e-8</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>steptol</code></td>
+<td>
+<p>see <code>reltol</code>. Defaults to <code>itermax</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parallelType</code></td>
+<td>
+<p>Defines the type of parallelization to employ, if
+any.
+<code>0</code>: The default, this uses <code>DEoptim</code> on one only one core.
+<code>1</code>: This uses all available cores, via the <span class="pkg">parallel</span>
+package, to run <code>DEoptim</code>.  If <code>parallelType=1</code>, then the
+<code>packages</code> argument and the <code>parVar</code> argument need to
+specify the packages required by the objective function and the
+variables required in the environment, respectively. 
+<code>2</code>: This uses the <span class="pkg">foreach</span> package for parallelism; see
+the <code>sandbox</code> directory in the source code for examples.  If
+<code>parallelType=2</code>, then the <code>foreachArgs</code> argument can pass
+the options to be called with <code>foreach</code>.  
+</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>Existing <span class="pkg">parallel</span> cluster object. If provided, overrides
++  specified <code>parallelType</code>. Using <code>cluster</code> allows fine-grained control
++  over the number of used cores and exported data.</p>
+</td></tr>
+<tr valign="top"><td><code>packages</code></td>
+<td>
+<p>Used if  <code>parallelType=1</code>; a list of
+package names (as strings) that need to be loaded for use by the objective
+function. </p>
+</td></tr>
+<tr valign="top"><td><code>parVar</code></td>
+<td>
+<p>Used if  <code>parallelType=1</code>;  a list of variable names
+(as strings) that need to exist in the environment for use by the
+objective function or are used as arguments by the objective
+function. </p>
+</td></tr>  
+<tr valign="top"><td><code>foreachArgs</code></td>
+<td>
+<p>A list of named arguments for the <code>foreach</code>
+function from the
+package <span class="pkg">foreach</span>.  The arguments <code>i</code>, <code>.combine</code> and
+<code>.export</code> are not possible to set here; they are set
+internally. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This defines the Differential Evolution 
+strategy used in the optimization procedure, described below in the 
+terms used by Price et al. (2006); see also Mullen et al. (2009) for details. 
+</p>
+
+<ul>
+<li> <p><code>strategy = 1</code>: DE / rand / 1 / bin. <br /> 
+This strategy is the classical approach for DE, and is described in <code><a href="../../DEoptim/help/DEoptim.html">DEoptim</a></code>. 
+</p>
+</li>
+<li> <p><code>strategy = 2</code>: DE / local-to-best / 1 / bin. <br />
+In place of the classical DE mutation the expression
+</p>
+<p style="text-align: center;"><i>
+      v_i,g = old_i,g + (best_g - old_i,g) + x_r0,g + F * (x_r1,g - x_r2,g)
+    </i></p>
+ 
+<p>is used, where <i>old_i,g</i> and <i>best_g</i> are the 
+<i>i</i>-th member and best member, respectively, of the previous population.
+This strategy is currently used by default.  
+</p>
+</li>
+<li> <p><code>strategy = 3</code>: DE / best / 1 / bin with jitter.<br />
+In place of the classical DE mutation the expression
+</p>
+<p style="text-align: center;"><i>
+       v_i,g = best_g + jitter + F * (x_r1,g - x_r2,g) 
+     </i></p>
+
+<p>is used, where <i>jitter</i> is defined as 0.0001 * <code>rand</code> + F.
+</p>
+</li>
+<li> <p><code>strategy = 4</code>: DE / rand / 1 / bin with per vector dither.<br />
+In place of the classical DE mutation the expression
+</p>
+<p style="text-align: center;"><i>
+       v_i,g = x_r0,g + dither * (x_r1,g - x_r2,g)
+     </i></p>
+
+<p>is used, where <i>dither</i> is calculated as <i>F + \code{rand} * (1 - F)</i>.
+</p>
+</li>
+<li> <p><code>strategy = 5</code>: DE / rand / 1 / bin with per generation dither.<br />
+The strategy described for <code>4</code> is used, but <i>dither</i>
+is only determined once per-generation. 
+</p>
+</li>
+<li> <p><code>strategy = 6</code>: DE / current-to-p-best / 1.<br />
+The top <i>(100*p)</i> percent best solutions are used in the mutation,
+where <i>p</i> is defined in <i>(0,1]</i>.
+</p>
+</li>
+<li><p> any value not above: variation to DE / rand / 1 / bin: either-or algorithm.<br />
+In the case that <code>rand</code> &lt; 0.5, the classical strategy <code>strategy = 1</code> is used. 
+Otherwise, the expression
+</p>
+<p style="text-align: center;"><i>
+       v_i,g = x_r0,g + 0.5 * (F + 1) * (x_r1,g + x_r2,g -  2 * x_r0,g)
+     </i></p>
+
+<p>is used. 
+</p>
+</li></ul>
+
+<p>Several conditions can cause the optimization process to stop:
+</p>
+
+<ul>
+<li><p>if the best parameter vector (<code>bestmem</code>) produces a value
+less than or equal to <code>VTR</code> (i.e. <code>fn(bestmem) &lt;= VTR</code>), or
+</p>
+</li>
+<li><p>if the maximum number of iterations is reached (<code>itermax</code>), or
+</p>
+</li>
+<li><p>if a number (<code>steptol</code>) of consecutive iterations are unable
+to reduce the best function value by a certain amount (<code>reltol *
+      (abs(val) + reltol)</code>). <code>100*reltol</code> is approximately the percent
+change of the objective value required to consider the parameter set
+an improvement over the current best member.
+</p>
+</li></ul>
+
+<p>Zhang and Sanderson (2009) define several extensions to the DE algorithm, 
+including strategy 6, DE/current-to-p-best/1. They also define a self-adaptive 
+mechanism for the other control parameters.  This self-adaptation will speed 
+convergence on many problems, and is defined by the control parameter <code>c</code>.
+If <code>c</code> is non-zero, crossover and mutation will be adapted by the algorithm.  
+Values in the range of <code>c=.05</code> to <code>c=.5</code> appear to work best for most 
+problems, though the adaptive algorithm is robust to a wide range of <code>c</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The default value of <code>control</code> is the return value of 
+<code>DEoptim.control()</code>, which is  a list (and a member of the
+<code>S3</code> class  
+<code>DEoptim.control</code>) with the above elements.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Further details and examples of the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> package <span class="pkg">DEoptim</span> can be found
+in Mullen et al. (2011) and Ardia et al. (2011a, 2011b) or look at the 
+package's vignette by typing <code>vignette("DEoptim")</code>. Also, an illustration of
+the package usage for a high-dimensional non-linear portfolio optimization problem 
+is available by typing <code>vignette("DEoptimPortfolioOptimization")</code>. 
+</p>
+<p>Please cite the package in publications. Use <code>citation("DEoptim")</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Ardia, Katharine Mullen <a href="mailto:mullenkate@gmail.com">mullenkate@gmail.com</a>, 
+Brian Peterson and Joshua Ulrich.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ardia, D., Boudt, K., Carl, P., Mullen, K.M., Peterson, B.G. (2011)
+Differential Evolution with <span class="pkg">DEoptim</span>. An Application to Non-Convex Portfolio Optimization. 
+<em>R Journal</em>, 3(1), 27-34. 
+doi: <a href="https://doi.org/10.32614/RJ-2011-005">10.32614/RJ-2011-005</a>
+</p>
+<p>Ardia, D., Ospina Arango, J.D., Giraldo Gomez, N.D. (2011)
+Jump-Diffusion Calibration using Differential Evolution. 
+<em>Wilmott Magazine</em>, 55 (September), 76-79.
+doi: <a href="https://doi.org/10.1002/wilm.10034">10.1002/wilm.10034</a>
+</p>
+<p>Mullen, K.M, Ardia, D., Gil, D., Windover, D., Cline,J. (2011). 
+<span class="pkg">DEoptim:</span> An R Package for Global Optimization by Differential Evolution. 
+<em>Journal of Statistical Software</em>, 40(6), 1-26.
+doi: <a href="https://doi.org/10.18637/jss.v040.i06">10.18637/jss.v040.i06</a>
+</p>
+<p>Price, K.V., Storn, R.M., Lampinen J.A. (2006)
+<em>Differential Evolution - A Practical Approach to Global Optimization</em>.
+Berlin Heidelberg: Springer-Verlag. ISBN 3540209506.
+</p>
+<p>Zhang, J. and Sanderson, A. (2009) 
+<em>Adaptive Differential Evolution</em>
+Springer-Verlag. ISBN 978-3-642-01526-7
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../DEoptim/help/DEoptim.html">DEoptim</a></code> and <code><a href="../../DEoptim/help/DEoptim-methods.html">DEoptim-methods</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## set the population size to 20
+DEoptim.control(NP = 20)
+
+## set the population size, the number of iterations and don't
+## display the iterations during optimization
+DEoptim.control(NP = 20, itermax = 100, trace = FALSE)
+   
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DEoptim</em> version 2.2-6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

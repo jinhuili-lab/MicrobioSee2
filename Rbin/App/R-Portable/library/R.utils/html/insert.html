@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Insert values to a vector at certain positions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for insert {R.utils}"><tr><td>insert {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Insert values to a vector at certain positions</h2>
+
+<h3>Description</h3>
+
+<p>Insert values to a vector at certain positions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+insert(x, ats, values=NA, useNames=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The <code><a href="../../base/help/vector.html">vector</a></code> of data values.</p>
+</td></tr>
+<tr valign="top"><td><code>ats</code></td>
+<td>
+<p>The indices of <code>x</code> where the values should be inserted.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>A <code><a href="../../base/help/list.html">list</a></code> or a <code><a href="../../base/help/vector.html">vector</a></code> of the values to be inserted.
+Should be of same length as <code>ats</code>, unless if a single value
+when it is automatically extended without a warning.</p>
+</td></tr>
+<tr valign="top"><td><code>useNames</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">FALSE</a></code>, the names attribute is dropped/ignored,
+otherwise not.  Only applied if argument <code>x</code> is named.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/append.html">append</a></code>() takes argument <code>after</code> (a scalar).  For example,
+<code>append(x, y, after=after) == insert(x, values=y, ats=after+1)</code>.
+Contrary to <code>append()</code>, <code>insert()</code> accepts a vector of insert indices.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Insert NAs (default) between all values
+y &lt;- c(a=1, b=2, c=3)
+print(y)
+x &lt;- insert(y, ats=2:length(y))
+Ex &lt;- c(y[1], NA_real_, y[2], NA_real_, y[3])
+print(x)
+stopifnot(identical(x,Ex))
+
+# Insert at first position
+y &lt;- c(a=1, b=2, c=3)
+print(y)
+x &lt;- insert(y, ats=1, values=rep(NA_real_,2))
+Ex &lt;- c(NA_real_,NA_real_,y)
+print(x)
+stopifnot(identical(x,Ex))
+
+x &lt;- insert(y, ats=1, values=rep(NA_real_,2), useNames=FALSE)
+print(x)
+
+# Insert at last position (names of 'values' are ignored
+# because input vector has no names)
+x &lt;- insert(1:3, ats=4, values=c(d=2, e=1))
+Ex &lt;- c(1:3,2,1)
+print(x)
+stopifnot(identical(x,Ex))
+
+
+# Insert in the middle of a vector
+x &lt;- insert(c(1,3,2,1), ats=2, values=2)
+print(x)
+stopifnot(identical(as.double(x),as.double(Ex)))
+
+
+# Insert multiple vectors at multiple indices at once
+x0 &lt;- c(1:4, 8:11, 13:15)
+
+x &lt;- insert(x0, ats=c(5,9), values=list(5:7,12))
+print(x)
+Ex &lt;- 1:max(x)
+stopifnot(identical(as.double(x),as.double(Ex)))
+
+x &lt;- insert(x0, ats=c(5,9,12), values=list(5:7,12,16:18))
+print(x)
+Ex &lt;- 1:max(x)
+stopifnot(identical(as.double(x),as.double(Ex)))
+
+
+# Insert missing indices
+Ex &lt;- 1:20
+missing &lt;- setdiff(Ex, x0)
+x &lt;- x0
+for (m in missing)
+  x &lt;- insert(x, ats=m, values=m)
+print(x)
+stopifnot(identical(as.double(x),as.double(Ex)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

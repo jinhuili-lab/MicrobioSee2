@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add an author to the 'Authors@R' field in DESCRIPTION</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_author {usethis}"><tr><td>use_author {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add an author to the <code>Authors@R</code> field in DESCRIPTION</h2>
+
+<h3>Description</h3>
+
+<p><code>use_author()</code> adds a person to the <code>Authors@R</code> field of the DESCRIPTION
+file, creating that field if necessary. It will not modify, e.g., the role(s)
+or email of an existing author (judged using their &quot;Given Family&quot; name). For
+that we recommend editing DESCRIPTION directly. Or, for programmatic use,
+consider calling the more specialized functions available in the <span class="pkg">desc</span>
+package directly.
+</p>
+<p><code>use_author()</code> also surfaces two other situations you might want to address:
+</p>
+
+<ul>
+<li><p> Explicit use of the fields <code>Author</code> or <code>Maintainer</code>. We recommend switching
+to the more modern <code>Authors@R</code> field instead, because it offers richer
+metadata for various downstream uses. (Note that <code>Authors@R</code> is <em>eventually</em>
+processed to create <code>Author</code> and <code>Maintainer</code> fields, but only when the
+<code>tar.gz</code> is built from package source.)
+</p>
+</li>
+<li><p> Presence of the fake author placed by <code><a href="../../usethis/help/create_package.html">create_package()</a></code> and
+<code><a href="../../usethis/help/use_description.html">use_description()</a></code>. This happens when <span class="pkg">usethis</span> has to create a
+DESCRIPTION file and the user hasn't given any author information via the
+<code>fields</code> argument or the global option <code>"usethis.description"</code>. The
+placeholder looks something like <code style="white-space: pre;">First Last &lt;first.last@example.com&gt; [aut, cre] (YOUR-ORCID-ID)</code> and <code>use_author()</code> offers to remove it in interactive
+sessions.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+use_author(given = NULL, family = NULL, ..., role = "ctb")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>given</code></td>
+<td>
+<p>a character vector with the <em>given</em> names,
+or a list thereof.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>a character string with the <em>family</em> name,
+or a list thereof.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments passed on to <code><a href="../../utils/help/person.html">utils::person</a></code>
+</p>
+
+<dl>
+<dt><code>middle</code></dt><dd><p>a character string with the collapsed middle name(s).
+Deprecated, see <b>Details</b>.</p>
+</dd>
+<dt><code>email</code></dt><dd><p>a character string (or vector) giving an e-mail address
+(each),
+or a list thereof.</p>
+</dd>
+<dt><code>comment</code></dt><dd><p>a character string (or vector) providing comments,
+or a list thereof.</p>
+</dd>
+<dt><code>first</code></dt><dd><p>a character string giving the first name.
+Deprecated, see <b>Details</b>.</p>
+</dd>
+<dt><code>last</code></dt><dd><p>a character string giving the last name.
+Deprecated, see <b>Details</b>.</p>
+</dd>
+</dl>
+</td></tr>
+<tr valign="top"><td><code>role</code></td>
+<td>
+<p>a character vector specifying the role(s) of the person
+(see <b>Details</b>),
+or a list thereof.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+use_author(
+  given = "Lucy",
+  family = "van Pelt",
+  role = c("aut", "cre"),
+  email = "lucy@example.com",
+  comment = c(ORCID = "LUCY-ORCID-ID")
+)
+
+use_author("Charlie", "Brown")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

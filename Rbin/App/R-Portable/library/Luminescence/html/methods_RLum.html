@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: methods_RLum</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for methods_RLum {Luminescence}"><tr><td>methods_RLum {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>methods_RLum</h2>
+
+<h3>Description</h3>
+
+<p>Methods for S3-generics implemented for the package 'Luminescence'.
+This document summarises all implemented S3-generics. The name of the function
+is given before the first dot, after the dot the name of the object that is
+supported by this method is given, e.g. <code>plot.RLum.Data.Curve</code> can be called
+by <code>plot(object, ...)</code>, where <code>object</code> is the <code>RLum.Data.Curve</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'list'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Results'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Analysis'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Data.Spectrum'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Data.Image'
+plot(x, y, ...)
+
+## S3 method for class 'Risoe.BINfileData'
+plot(x, y, ...)
+
+## S3 method for class 'RLum.Results'
+hist(x, ...)
+
+## S3 method for class 'RLum.Data.Image'
+hist(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+hist(x, ...)
+
+## S3 method for class 'RLum.Analysis'
+hist(x, ...)
+
+## S3 method for class 'RLum.Results'
+summary(object, ...)
+
+## S3 method for class 'RLum.Analysis'
+summary(object, ...)
+
+## S3 method for class 'RLum.Data.Image'
+summary(object, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+summary(object, ...)
+
+## S3 method for class 'Risoe.BINfileData'
+subset(x, subset, records.rm = TRUE, ...)
+
+## S3 method for class 'RLum.Analysis'
+subset(x, subset = NULL, ...)
+
+bin.RLum.Data.Curve(x, bin_size = 2, ...)
+
+bin.RLum.Data.Spectrum(x, bin_size.row = 1, bin_size.col = 1, ...)
+
+## S3 method for class 'RLum.Results'
+length(x, ...)
+
+## S3 method for class 'RLum.Analysis'
+length(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+length(x, ...)
+
+## S3 method for class 'Risoe.BINfileData'
+length(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+dim(x)
+
+## S3 method for class 'RLum.Data.Spectrum'
+dim(x)
+
+## S3 method for class 'RLum'
+rep(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+names(x, ...)
+
+## S3 method for class 'RLum.Data.Spectrum'
+names(x, ...)
+
+## S3 method for class 'RLum.Data.Image'
+names(x, ...)
+
+## S3 method for class 'RLum.Analysis'
+names(x, ...)
+
+## S3 method for class 'RLum.Results'
+names(x, ...)
+
+## S3 method for class 'Risoe.BINfileData'
+names(x)
+
+## S3 method for class 'RLum.Data.Spectrum'
+row.names(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+as.data.frame(x, row.names = NULL, optional = FALSE, ...)
+
+## S3 method for class 'RLum.Data.Spectrum'
+as.data.frame(x, row.names = NULL, optional = FALSE, ...)
+
+## S3 method for class 'Risoe.BINfileData'
+as.data.frame(x, row.names = NULL, optional = FALSE, ...)
+
+## S3 method for class 'RLum.Results'
+as.list(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+as.list(x, ...)
+
+## S3 method for class 'RLum.Data.Image'
+as.list(x, ...)
+
+## S3 method for class 'RLum.Analysis'
+as.list(x, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+as.matrix(x, ...)
+
+## S3 method for class 'RLum.Data.Spectrum'
+as.matrix(x, ...)
+
+## S3 method for class 'RLum.Data.Image'
+as.matrix(x, ...)
+
+is.RLum(x, ...)
+
+is.RLum.Data(x, ...)
+
+is.RLum.Data.Curve(x, ...)
+
+is.RLum.Data.Spectrum(x, ...)
+
+is.RLum.Data.Image(x, ...)
+
+is.RLum.Analysis(x, ...)
+
+is.RLum.Results(x, ...)
+
+## S3 method for class 'RLum'
+merge(x, y, ...)
+
+## S3 method for class 'RLum.Analysis'
+unlist(x, recursive = TRUE, ...)
+
+## S3 method for class 'RLum.Data.Curve'
+x + y
+
+## S3 method for class 'RLum.Data.Curve'
+x - y
+
+## S3 method for class 'RLum.Data.Curve'
+x * y
+
+## S3 method for class 'RLum.Data.Curve'
+x / y
+
+## S3 method for class 'RLum.Data.Curve'
+x[y, z, drop = TRUE]
+
+## S3 method for class 'RLum.Data.Spectrum'
+x[y, z, drop = TRUE]
+
+## S3 method for class 'RLum.Data.Image'
+x[y, z, drop = TRUE]
+
+## S3 method for class 'RLum.Analysis'
+x[i, drop = FALSE]
+
+## S3 method for class 'RLum.Results'
+x[i, drop = TRUE]
+
+## S3 replacement method for class 'RLum.Data.Curve'
+x[i, j] &lt;- value
+
+## S3 method for class 'RLum.Analysis'
+x[[i]]
+
+## S3 method for class 'RLum.Results'
+x[[i]]
+
+## S3 method for class 'RLum.Data.Curve'
+x$i
+
+## S3 method for class 'RLum.Analysis'
+x$i
+
+## S3 method for class 'RLum.Results'
+x$i
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a> or <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> (<strong>required</strong>):
+input object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+the row index of the matrix, data.frame</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that can be passed to the method</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a> (<strong>required</strong>):
+input object</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p><code style="white-space: pre;">[subset]</code> <a href="../../base/html/expression.html">expression</a> (<strong>required</strong>):
+logical expression indicating elements or rows to keep, this function works
+in <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects like <a href="../../base/html/subset.html">subset.data.frame</a>, but takes care
+of the object structure. Works also on <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>records.rm</code></td>
+<td>
+<p><a href="../../base/html/subset.html">subset</a> <a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+remove records from data set, can be disabled, to just set the column <code>SET</code> to <code>TRUE</code> or <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables row names (<code>as.data.frame</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>optional</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+logical. If TRUE, setting row names and converting column names
+(to syntactic names: see make.names) is optional (see <a href="../../base/help/as.data.frame.html">base::as.data.frame</a>)</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables further sub-setting (<code>unlist</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+the column index of the matrix, data.frame</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+keep object structure or drop it</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+name of the wanted record type or data object or row in the <code>RLum.Data.Curve</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+column of the data matrix in the <code>RLum.Data.Curve</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> <strong>(required)</strong>:
+numeric value which replace the value in the <code>RLum.Data.Curve</code> object</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The term S3-generics sounds complicated, however, it just means that something
+has been implemented in the package to increase the usability for users new
+in R and who are not familiar with the underlying <code>RLum</code>-object structure of
+the package. The practical outcome is that operations and functions presented
+in standard books on R can be used without knowing the specifics of the R
+package <code>'Luminescence'</code>. For examples see the example section.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>methods_RLum</code> are not really new functions, everything given here are mostly just
+surrogates for existing functions in the package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load example data
+data(ExampleData.RLum.Analysis, envir = environment())
+
+
+##combine curve is various ways
+curve1 &lt;- IRSAR.RF.Data[[1]]
+curve2 &lt;-  IRSAR.RF.Data[[1]]
+curve1 + curve2
+curve1 - curve2
+curve1 / curve2
+curve1 * curve2
+
+
+##`$` access curves
+IRSAR.RF.Data$RF
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

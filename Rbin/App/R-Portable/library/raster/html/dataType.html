@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Data type</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dataType {raster}"><tr><td>dataType {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Data type </h2>
+
+<h3>Description</h3>
+
+<p>Get the datatype of a RasterLayer object. The datatype determines the interpretation of values written to disk. 
+Changing the datatype of a Raster* object does not directly affect the way they are stored in memory. For native file formats (.grd/.gri files) it does affect how values are read from file. This is not the case for file formats that are read via rgdal (such as .tif and .img files) or netcdf.
+</p>
+<p>If you change the datatype of a RasterLayer and then read values from a native format file these may be completely wrong, so only do this for debugging or when the information in the header file was wrong. To set the datatype of a new file, you can give a 'datatype' argument to the functions that write values to disk (e.g. <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code>). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dataType(x)
+dataType(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> A <code>RasterLayer</code> object </p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p> A data type (see below) </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Setting the data type is useful if you want to write values to disk. In other cases use functions such as round()
+</p>
+<p>Datatypes are described by 5 characters. The first three indicate whether the values are integers, decimal number or logical values. The fourth character indicates the number of bytes used to save the values on disk, and the last character indicates whether the numbers are signed (i.e. can be negative and positive values) or not (only zero and positive values allowed)
+</p>
+<p>The following datatypes are available:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<b>Datatype definition</b> </td><td style="text-align: left;"> <b>minimum possible value</b> </td><td style="text-align: left;"> <b>maximum possible value</b> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>LOG1S</code> </td><td style="text-align: left;"> FALSE (0)</td><td style="text-align: left;"> TRUE (1) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT1S</code> </td><td style="text-align: left;"> -127 </td><td style="text-align: left;">  127 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT1U</code> </td><td style="text-align: left;"> 0 </td><td style="text-align: left;">  255 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT2S</code> </td><td style="text-align: left;"> -32,767</td><td style="text-align: left;">  32,767 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT2U</code> </td><td style="text-align: left;"> 0 </td><td style="text-align: left;">  65,534 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT4S</code> </td><td style="text-align: left;"> -2,147,483,647 </td><td style="text-align: left;"> 2,147,483,647 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>INT4U</code> </td><td style="text-align: left;"> 0 </td><td style="text-align: left;"> 4,294,967,296 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>FLT4S</code> </td><td style="text-align: left;"> -3.4e+38 </td><td style="text-align: left;">  3.4e+38 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>FLT8S</code> </td><td style="text-align: left;"> -1.7e+308 </td><td style="text-align: left;">   1.7e+308 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>For all integer types, except the single byte types, the lowest (signed) or highest (unsigned) value is used to store <code>NA</code>. Single byte files do not have <code>NA</code> values. Logical values are stored as signed single byte integers, they do have an <code>NA</code> value (-127)
+</p>
+<p><code>INT4U</code> is available but they are best avoided as R does not support 32-bit unsigned integers.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+dataType(r)
+## Not run: 
+s &lt;- writeRaster(r, 'new.grd', datatype='INT2U', overwrite=TRUE)
+dataType(s)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

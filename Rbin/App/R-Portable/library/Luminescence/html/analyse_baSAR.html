@@ -1,0 +1,661 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bayesian models (baSAR) applied on luminescence data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for analyse_baSAR {Luminescence}"><tr><td>analyse_baSAR {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bayesian models (baSAR) applied on luminescence data</h2>
+
+<h3>Description</h3>
+
+<p>This function allows the application of Bayesian models on luminescence data, measured
+with the single-aliquot regenerative-dose (SAR, Murray and Wintle, 2000) protocol. In particular,
+it follows the idea proposed by Combès et al., 2015 of using an hierarchical model for estimating
+a central equivalent dose from a set of luminescence measurements. This function is (I) the adoption
+of this approach for the R environment and (II) an extension and a technical refinement of the
+published code.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+analyse_baSAR(
+  object,
+  XLS_file = NULL,
+  aliquot_range = NULL,
+  source_doserate = NULL,
+  signal.integral,
+  signal.integral.Tx = NULL,
+  background.integral,
+  background.integral.Tx = NULL,
+  irradiation_times = NULL,
+  sigmab = 0,
+  sig0 = 0.025,
+  distribution = "cauchy",
+  baSAR_model = NULL,
+  n.MCMC = 1e+05,
+  fit.method = "EXP",
+  fit.force_through_origin = TRUE,
+  fit.includingRepeatedRegPoints = TRUE,
+  method_control = list(),
+  digits = 3L,
+  distribution_plot = "kde",
+  plot = TRUE,
+  plot_reduced = TRUE,
+  plot.single = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../base/html/list.html">list</a> of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>,
+<a href="../../base/html/character.html">character</a> or <a href="../../base/html/list.html">list</a> (<strong>required</strong>):
+input object used for the Bayesian analysis. If a <code>character</code> is provided the function
+assumes a file connection and tries to import a BIN/BINX-file using the provided path. If a <code>list</code> is
+provided the list can only contain either <code>Risoe.BINfileData</code> objects or <code>character</code>s
+providing a file connection. Mixing of both types is not allowed. If an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>
+is provided the function directly starts with the Bayesian Analysis (see details)</p>
+</td></tr>
+<tr valign="top"><td><code>XLS_file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+XLS_file with data for the analysis. This file must contain 3 columns:
+the name of the file, the disc position and the grain position
+(the last being 0 for multi-grain measurements).<br />
+Alternatively a <code>data.frame</code> of similar structure can be provided.</p>
+</td></tr>
+<tr valign="top"><td><code>aliquot_range</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+allows to limit the range of the aliquots used for the analysis.
+This argument has only an effect if the argument <code>XLS_file</code> is used or
+the input is the previous output (i.e. is <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>). In this case the
+new selection will add the aliquots to the removed aliquots table.</p>
+</td></tr>
+<tr valign="top"><td><code>source_doserate</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> <strong>(required)</strong>:
+source dose rate of beta-source used for the measurement and its uncertainty
+in Gy/s, e.g., <code>source_doserate = c(0.12, 0.04)</code>. Parameter can be provided
+as <code>list</code>, for the case that more than one BIN-file is provided, e.g.,
+<code>source_doserate = list(c(0.04, 0.004), c(0.05, 0.004))</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>):
+vector with the limits for the signal integral used for the calculation,
+e.g., <code>signal.integral = c(1:5)</code>. Ignored if <code>object</code> is an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object.
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.Tx</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+vector with the limits for the signal integral for the Tx curve. I
+f nothing is provided the value from <code>signal.integral</code> is used and it is ignored
+if <code>object</code> is an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object.
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>background.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>):
+vector with the bounds for the background integral.
+Ignored if <code>object</code> is an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object.
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>background.integral.Tx</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+vector with the limits for the background integral for the Tx curve.
+If nothing is provided the value from <code>background.integral</code> is used.
+Ignored if <code>object</code> is an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object.
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>irradiation_times</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): if set this vector replaces all irradiation
+times for one aliquot and one cycle (Lx and Tx curves) and recycles it for all others cycles and aliquots.
+Please note that if this argument is used, for every(!) single curve
+in the dataset an irradiation time needs to be set.</p>
+</td></tr>
+<tr valign="top"><td><code>sigmab</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+option to set a manual value for the overdispersion (for <code>LnTx</code> and <code>TnTx</code>),
+used for the <code>Lx</code>/<code>Tx</code> error calculation. The value should be provided as
+absolute squared count values, cf. <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>.
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sig0</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+allow adding an extra component of error to the final Lx/Tx error value
+(e.g., instrumental error, see details is <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>).
+The parameter can be provided as <code>list</code>, see <code>source_doserate</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>distribution</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+type of distribution that is used during Bayesian calculations for
+determining the Central dose and overdispersion values.
+Allowed inputs are <code>"cauchy"</code>, <code>"normal"</code> and <code>"log_normal"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>baSAR_model</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+option to provide an own modified or new model for the Bayesian calculation
+(see details). If an own model is provided the argument <code>distribution</code> is
+ignored and set to <code>'user_defined'</code></p>
+</td></tr>
+<tr valign="top"><td><code>n.MCMC</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+number of iterations for the Markov chain Monte Carlo (MCMC) simulations</p>
+</td></tr>
+<tr valign="top"><td><code>fit.method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+equation used for the fitting of the dose-response curve using the function
+<a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> and then for the Bayesian modelling. Here supported methods: <code>EXP</code>, <code>EXP+LIN</code> and <code>LIN</code></p>
+</td></tr>
+<tr valign="top"><td><code>fit.force_through_origin</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+force fitting through origin</p>
+</td></tr>
+<tr valign="top"><td><code>fit.includingRepeatedRegPoints</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+includes the recycling point (assumed to be measured during the last cycle)</p>
+</td></tr>
+<tr valign="top"><td><code>method_control</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>):
+named list of control parameters that can be directly
+passed to the Bayesian analysis, e.g., <code>method_control = list(n.chains = 4)</code>.
+See details for further information</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+round output to the number of given digits</p>
+</td></tr>
+<tr valign="top"><td><code>distribution_plot</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>): sets the final distribution plot that
+shows equivalent doses obtained using the frequentist approach and sets in the central dose
+as comparison obtained using baSAR. Allowed input is <code>'abanico'</code> or <code>'kde'</code>. If set to <code>NULL</code> nothing is plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables plot output</p>
+</td></tr>
+<tr valign="top"><td><code>plot_reduced</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables the advanced plot output</p>
+</td></tr>
+<tr valign="top"><td><code>plot.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables single plots or plots arranged by <code>analyse_baSAR</code></p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>parameters that can be passed to the function <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>
+(almost full support), <a href="../../readxl/help/read_excel.html">readxl::read_excel</a> (full support), <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> (<code>n.records</code>,
+<code>position</code>, <code>duplicated.rm</code>), see details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Internally the function consists of two parts: (I) The Bayesian core for the Bayesian calculations
+and applying the hierarchical model and (II) a data pre-processing part. The Bayesian core can be run
+independently, if the input data are sufficient (see below). The data pre-processing part was
+implemented to simplify the analysis for the user as all needed data pre-processing is done
+by the function, i.e. in theory it is enough to provide a BIN/BINX-file with the SAR measurement
+data. For the Bayesian analysis for each aliquot the following information are needed from the SAR analysis.
+<code>LxTx</code>, the <code>LxTx</code> error and the dose values for all regeneration points.
+</p>
+<p><strong>How the systematic error contribution is calculated?</strong>
+</p>
+<p>Standard errors (so far) provided with the source dose rate are considered as systematic uncertainties
+and added to final central dose by:
+</p>
+<p style="text-align: center;"><i>systematic.error = 1/n &sum; SE(source.doserate)</i></p>
+
+<p style="text-align: center;"><i>SE(central.dose.final) = &radic;{SE(central.dose)^2 + systematic.error^2}</i></p>
+
+<p>Please note that this approach is rather rough and can only be valid if the source dose rate
+errors, in case different readers had been used, are similar. In cases where more than
+one source dose rate is provided a warning is given.
+</p>
+<p><strong>Input / output scenarios</strong>
+</p>
+<p>Various inputs are allowed for this function. Unfortunately this makes the function handling rather
+complex, but at the same time very powerful. Available scenarios:
+</p>
+<p><strong>(1) - <code>object</code> is BIN-file or link to a BIN-file</strong>
+</p>
+<p>Finally it does not matter how the information of the BIN/BINX file are provided. The function
+supports <strong>(a)</strong> either a path to a file or directory or a <code>list</code> of file names or paths or
+<strong>(b)</strong> a <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object or a list of these objects. The latter one can
+be produced by using the function <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, but this function is called automatically
+if only a filename and/or a path is provided. In both cases it will become the data that can be
+used for the analysis.
+</p>
+<p><code style="white-space: pre;">[XLS_file = NULL]</code>
+</p>
+<p>If no XLS file (or data frame with the same format) is provided the functions runs an automatic process that
+consists of the following steps:
+</p>
+
+<ol>
+<li><p> Select all valid aliquots using the function <a href="../../Luminescence/help/verify_SingleGrainData.html">verify_SingleGrainData</a>
+</p>
+</li>
+<li><p> Calculate <code>Lx/Tx</code> values using the function <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>
+</p>
+</li>
+<li><p> Calculate De values using the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>
+</p>
+</li></ol>
+
+<p>These proceeded data are subsequently used in for the Bayesian analysis
+</p>
+<p><code style="white-space: pre;">[XLS_file != NULL]</code>
+</p>
+<p>If an XLS-file is provided or a <code>data.frame</code> providing similar information the pre-processing
+steps consists of the following steps:
+</p>
+
+<ol>
+<li><p> Calculate <code>Lx/Tx</code> values using the function <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>
+</p>
+</li>
+<li><p> Calculate De values using the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>
+</p>
+</li></ol>
+
+<p>Means, the XLS file should contain a selection of the BIN-file names and the aliquots selected
+for the further analysis. This allows a manual selection of input data, as the automatic selection
+by <a href="../../Luminescence/help/verify_SingleGrainData.html">verify_SingleGrainData</a> might be not totally sufficient.
+</p>
+<p><strong>(2) - <code>object</code> <code style="white-space: pre;">RLum.Results object</code></strong>
+</p>
+<p>If an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is provided as input and(!) this object was
+previously created by the function <code>analyse_baSAR()</code> itself, the pre-processing part
+is skipped and the function starts directly the Bayesian analysis. This option is very powerful
+as it allows to change parameters for the Bayesian analysis without the need to repeat
+the data pre-processing. If furthermore the argument <code>aliquot_range</code> is set, aliquots
+can be manually excluded based on previous runs.
+</p>
+<p><strong><code>method_control</code></strong>
+</p>
+<p>These are arguments that can be passed directly to the Bayesian calculation core, supported arguments
+are:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Parameter</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>lower_centralD</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> sets the lower bound for the expected De range. Change it only if you know what you are doing!</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>upper_centralD</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> sets the upper bound for the expected De range. Change it only if you know what you are doing!</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>n.chains</code> </td><td style="text-align: left;"> <a href="../../base/html/integer.html">integer</a> </td><td style="text-align: left;"> sets number of parallel chains for the model (default = 3) (cf. <a href="../../rjags/help/jags.model.html">rjags::jags.model</a>)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>inits</code> </td><td style="text-align: left;"> <a href="../../base/html/list.html">list</a> </td><td style="text-align: left;"> option to set initialisation values (cf. <a href="../../rjags/help/jags.model.html">rjags::jags.model</a>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>thin</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> thinning interval for monitoring the Bayesian process (cf. <a href="../../rjags/help/jags.model.html">rjags::jags.model</a>)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>variable.names</code> </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a> </td><td style="text-align: left;"> set the variables to be monitored during the MCMC run, default:
+<code>'central_D'</code>, <code>'sigma_D'</code>, <code>'D'</code>, <code>'Q'</code>, <code>'a'</code>, <code>'b'</code>, <code>'c'</code>, <code>'g'</code>.
+Note: only variables present in the model can be monitored.
+</td>
+</tr>
+
+</table>
+
+<p><strong>User defined models</strong><br />
+</p>
+<p>The function provides the option to modify and to define own models that can be used for
+the Bayesian calculation. In the case the user wants to modify a model, a new model
+can be piped into the function via the argument <code>baSAR_model</code> as <code>character</code>.
+The model has to be provided in the JAGS dialect of the BUGS language (cf. <a href="../../rjags/help/jags.model.html">rjags::jags.model</a>)
+and parameter names given with the pre-defined names have to be respected, otherwise the function
+will break.
+</p>
+<p><strong>FAQ</strong>
+</p>
+<p>Q: How can I set the seed for the random number generator (RNG)?
+</p>
+<p>A: Use the argument <code>method_control</code>, e.g., for three MCMC chains
+(as it is the default):</p>
+<pre>method_control = list(
+inits = list(
+ list(.RNG.name = "base::Wichmann-Hill", .RNG.seed = 1),
+ list(.RNG.name = "base::Wichmann-Hill", .RNG.seed = 2),
+ list(.RNG.name = "base::Wichmann-Hill", .RNG.seed = 3)
+))
+</pre>
+<p>This sets a reproducible set for every chain separately.<br />
+</p>
+<p>Q: How can I modify the output plots?
+</p>
+<p>A: You can't, but you can use the function output to create own, modified plots.
+</p>
+<p>Q: Can I change the boundaries for the central_D?
+</p>
+<p>A: Yes, we made it possible, but we DO NOT recommend it, except you know what you are doing!<br />
+Example: <code style="white-space: pre;">method_control = list(lower_centralD = 10))</code>
+</p>
+<p>Q: The lines in the baSAR-model appear to be in a wrong logical order?<br />
+</p>
+<p>A: This is correct and allowed (cf. JAGS manual)
+</p>
+<p><strong>Additional arguments support via the <code>...</code> argument</strong>
+</p>
+<p>This list summarizes the additional arguments that can be passed to the internally used
+functions.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Supported argument</strong> </td><td style="text-align: left;"> <strong>Corresponding function</strong> </td><td style="text-align: left;"> <strong>Default</strong> </td><td style="text-align: left;"> **Short description **</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>threshold</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/verify_SingleGrainData.html">verify_SingleGrainData</a> </td><td style="text-align: left;"> <code>30</code> </td><td style="text-align: left;"> change rejection threshold for curve selection </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>sheet</code> </td><td style="text-align: left;"> <a href="../../readxl/help/read_excel.html">readxl::read_excel</a> </td><td style="text-align: left;"> <code>1</code> </td><td style="text-align: left;"> select XLS-sheet for import</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>col_names</code> </td><td style="text-align: left;"> <a href="../../readxl/help/read_excel.html">readxl::read_excel</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> first row in XLS-file is header</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>col_types</code> </td><td style="text-align: left;"> <a href="../../readxl/help/read_excel.html">readxl::read_excel</a> </td><td style="text-align: left;"> <code>NULL</code> </td><td style="text-align: left;"> limit import to specific columns</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>skip</code> </td><td style="text-align: left;"> <a href="../../readxl/help/read_excel.html">readxl::read_excel</a> </td><td style="text-align: left;"> <code>0</code> </td><td style="text-align: left;"> number of rows to be skipped during import</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>n.records</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> </td><td style="text-align: left;"> <code>NULL</code> </td><td style="text-align: left;"> limit records during BIN-file import</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>duplicated.rm</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> remove duplicated records in the BIN-file</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>pattern</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> select BIN-file by name pattern</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>position</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> </td><td style="text-align: left;"> <code>NULL</code> </td><td style="text-align: left;"> limit import to a specific position</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>background.count.distribution</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a> </td><td style="text-align: left;"> <code>"non-poisson"</code> </td><td style="text-align: left;"> set assumed count distribution</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>fit.weights</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> enables / disables fit weights</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>fit.bounds</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> enables / disables fit bounds</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>NumberIterations.MC</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> </td><td style="text-align: left;"> <code>100</code> </td><td style="text-align: left;"> number of MC runs for error calculation</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>output.plot</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> enables / disables dose response curve plot</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>output.plotExtended</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> </td><td style="text-align: left;"> <code>TRUE</code> </td><td style="text-align: left;"> enables / disables extended dose response curve plot</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>Function returns results numerically and graphically:
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$summary</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> statistical summary, including the central dose </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$mcmc</code> </td><td style="text-align: left;"> <code>mcmc</code> </td><td style="text-align: left;"> <a href="../../coda/help/mcmc.list.html">coda::mcmc.list</a> object including raw output </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$models</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> implemented models used in the baSAR-model core </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$input_object</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> summarising table (same format as the XLS-file) including, e.g., Lx/Tx values</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$removed_aliquots</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> table with removed aliquots (e.g., <code>NaN</code>, or <code>Inf</code> <code>Lx</code>/<code>Tx</code> values). If nothing was removed <code>NULL</code> is returned
+</td>
+</tr>
+
+</table>
+
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ PLOT OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+
+<ul>
+<li><p> (A) Ln/Tn curves with set integration limits,
+</p>
+</li>
+<li><p> (B) trace plots are returned by the baSAR-model, showing the convergence of the parameters (trace)
+and the resulting kernel density plots. If <code>plot_reduced = FALSE</code> for every(!) dose a trace and
+a density plot is returned (this may take a long time),
+</p>
+</li>
+<li><p> (C) dose plots showing the dose for every aliquot as boxplots and the marked
+HPD in within. If boxes are coloured 'orange' or 'red' the aliquot itself should be checked,
+</p>
+</li>
+<li><p> (D) the dose response curve resulting from the monitoring of the Bayesian modelling are
+provided along with the Lx/Tx values and the HPD. Note: The amount for curves displayed
+is limited to 1000 (random choice) for performance reasons,
+</p>
+</li>
+<li><p> (E) the final plot is the De distribution as calculated using the conventional (frequentist) approach
+and the central dose with the HPDs marked within. This figure is only provided for a comparison,
+no further statistical conclusion should be drawn from it.
+</p>
+</li></ul>
+
+<p><strong>Please note: If distribution was set to <code>log_normal</code> the central dose is given as geometric mean!</strong>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.33
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Mercier, N., Kreutzer, S., 2021. analyse_baSAR(): Bayesian models (baSAR) applied on luminescence data. Function version 0.1.33. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>If you provide more than one BIN-file</strong>, it is <strong>strongly</strong> recommended to provide
+a <code>list</code> with the same number of elements for the following parameters:
+</p>
+<p><code>source_doserate</code>, <code>signal.integral</code>, <code>signal.integral.Tx</code>, <code>background.integral</code>,
+<code>background.integral.Tx</code>, <code>sigmab</code>, <code>sig0</code>.
+</p>
+<p>Example for two BIN-files: <code>source_doserate = list(c(0.04, 0.006), c(0.05, 0.006))</code>
+</p>
+<p><strong>The function is currently limited to work with standard Risoe BIN-files only!</strong>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Norbert Mercier, IRAMAT-CRP2A, Université Bordeaux Montaigne (France) <br />
+Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+The underlying Bayesian model based on a contribution by Combès et al., 2015.
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Combès, B., Philippe, A., Lanos, P., Mercier, N., Tribolo, C., Guerin, G., Guibert, P., Lahaye, C., 2015.
+A Bayesian central equivalent dose model for optically stimulated luminescence dating.
+Quaternary Geochronology 28, 62-70. doi:10.1016/j.quageo.2015.04.001
+</p>
+<p>Mercier, N., Kreutzer, S., Christophe, C., Guerin, G., Guibert, P., Lahaye, C., Lanos, P., Philippe, A.,
+Tribolo, C., 2016. Bayesian statistics in luminescence dating: The 'baSAR'-model and its implementation
+in the R package 'Luminescence'. Ancient TL 34, 14-21.
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Gelman, A., Carlin, J.B., Stern, H.S., Dunson, D.B., Vehtari, A., Rubin, D.B., 2013.
+Bayesian Data Analysis, Third Edition. CRC Press.
+</p>
+<p>Murray, A.S., Wintle, A.G., 2000. Luminescence dating of quartz using an improved single-aliquot
+regenerative-dose protocol. Radiation Measurements 32, 57-73. doi:10.1016/S1350-4487(99)00253-X
+</p>
+<p>Plummer, M., 2017. JAGS Version 4.3.0 user manual. <code style="white-space: pre;">https://sourceforge.net/projects/mcmc-jags/files/Manuals/4.x/jags_user_manual.pdf/download</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>, <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>,
+<a href="../../readxl/help/read_excel.html">readxl::read_excel</a>, <a href="../../Luminescence/help/verify_SingleGrainData.html">verify_SingleGrainData</a>,
+<a href="../../rjags/help/jags.model.html">rjags::jags.model</a>, <a href="../../rjags/help/coda.samples.html">rjags::coda.samples</a>, <a href="../../graphics/html/boxplot.html">boxplot.default</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) load package test data set
+data(ExampleData.BINfileData, envir = environment())
+
+##(2) selecting relevant curves, and limit dataset
+CWOSL.SAR.Data &lt;- subset(
+  CWOSL.SAR.Data,
+  subset = POSITION%in%c(1:3) &amp; LTYPE == "OSL")
+
+## Not run: 
+##(3) run analysis
+##please not that the here selected parameters are
+##choosen for performance, not for reliability
+results &lt;- analyse_baSAR(
+  object = CWOSL.SAR.Data,
+  source_doserate = c(0.04, 0.001),
+  signal.integral = c(1:2),
+  background.integral = c(80:100),
+  fit.method = "LIN",
+  plot = FALSE,
+  n.MCMC = 200
+
+)
+
+print(results)
+
+
+##XLS_file template
+##copy and paste this the code below in the terminal
+##you can further use the function write.csv() to export the example
+
+XLS_file &lt;-
+structure(
+list(
+ BIN_FILE = NA_character_,
+ DISC = NA_real_,
+ GRAIN = NA_real_),
+   .Names = c("BIN_FILE", "DISC", "GRAIN"),
+   class = "data.frame",
+   row.names = 1L
+)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

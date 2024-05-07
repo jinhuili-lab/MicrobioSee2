@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Moving functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for movingFun {raster}"><tr><td>movingFun {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Moving functions</h2>
+
+<h3>Description</h3>
+
+<p>Helper function to compute 'moving' functions, such as the 'moving average'
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+movingFun(x, n, fun=mean, type='around', circular=FALSE, na.rm=FALSE) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector of numbers</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Size of the 'window', i.e. the number of sequential elements to use in the function</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>A function like mean, min, max, sum</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character. One of 'around', 'to', or 'from'. The choice indicates which values should be used in the computation. The focal element is always used. If <code>type</code> is 'around', the other elements are before and after the focal element. Alternatively, you can select the elements preceding the focal element ('to') or those coming after it 'from'. For example, to compute the movingFun with <code>n=3</code> for element 5 of a vector; 'around' used elements 4,5,6; 'to' used elements 3,4,5, and 'from' uses elements 5,6,7</p>
+</td></tr>
+<tr valign="top"><td><code>circular</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the data are considered to have a circular nature (e.g. months of the year), and the last elements in vector <code>x</code> are used in the computation of the moving function of the first element(s) of the vector, and the first elements are used in the computation of the moving function for the last element(s)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, <code>NA</code> values should be ingored (by <code>fun</code>)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Numeric
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans, inspired by Diethelm Wuertz' rollFun function in the fTrading package</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+movingFun(1:12, 3, mean)
+movingFun(1:12, 3, mean, 'to')
+movingFun(1:12, 3, mean, 'from')
+movingFun(1:12, 3, mean, circular=TRUE)
+
+v &lt;- c(0,1,2,3,3,3,3,4,4,4,5,5,6,7,7,8,9,NA)
+movingFun(v, n=5)
+movingFun(v, n=5, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for Model Parameters from Bayesian Meta-Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_parameters_brms_meta {see}"><tr><td>plot.see_parameters_brms_meta {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for Model Parameters from Bayesian Meta-Analysis</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>parameters::model_parameters()</code>
+function when used with brms-meta-analysis models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_parameters_brms_meta'
+plot(
+  x,
+  size_point = 2,
+  size_line = 0.8,
+  size_text = 3.5,
+  posteriors_alpha = 0.7,
+  rope_alpha = 0.15,
+  rope_color = "cadetblue",
+  normalize_height = TRUE,
+  show_labels = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_line</code></td>
+<td>
+<p>Numeric value specifying size of line geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>posteriors_alpha</code></td>
+<td>
+<p>Numeric value specifying alpha for the posterior
+distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_alpha</code></td>
+<td>
+<p>Numeric specifying transparency level of ROPE ribbon.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_color</code></td>
+<td>
+<p>Character specifying color of ROPE ribbon.</p>
+</td></tr>
+<tr valign="top"><td><code>normalize_height</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, height of mcmc-areas is
+&quot;normalized&quot;, to avoid overlap. In certain cases when the range of a
+posterior distribution is narrow for some parameters, this may result in
+very flat mcmc-areas. In such cases, set <code>normalize_height = FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, text labels are displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Colors of density areas and errorbars</h4>
+
+<p>To change the colors of the density areas, use <code>scale_fill_manual()</code>
+with named color-values, e.g. <code>scale_fill_manual(values = c("Study" = "blue", "Overall" = "green"))</code>.
+To change the color of the error bars, use <code>scale_color_manual(values = c("Errorbar" = "red"))</code>.
+</p>
+
+
+
+<h4>Show or hide estimates and CI</h4>
+
+<p>Use <code>show_labels = FALSE</code> to hide the textual
+output of estimates and credible intervals.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+if (require("bayestestR") &amp;&amp; require("brms") &amp;&amp; require("metafor")) {
+  +
+    # data
+    data(dat.bcg)
+  dat &lt;- escalc(
+    measure = "RR",
+    ai = tpos,
+    bi = tneg,
+    ci = cpos,
+    di = cneg,
+    data = dat.bcg
+  )
+  dat$author &lt;- make.unique(dat$author)
+
+  # model
+  set.seed(123)
+  priors &lt;- c(
+    prior(normal(0, 1), class = Intercept),
+    prior(cauchy(0, 0.5), class = sd)
+  )
+  model &lt;- brm(yi | se(vi) ~ 1 + (1 | author), data = dat)
+
+  # result
+  mp &lt;- model_parameters(model)
+  plot(mp)
+}
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

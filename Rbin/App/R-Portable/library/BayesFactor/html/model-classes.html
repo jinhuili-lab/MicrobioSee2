@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: General S4 classes for representing models for comparison</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BFmodel-class {BayesFactor}"><tr><td>BFmodel-class {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>General S4 classes for representing models for comparison</h2>
+
+<h3>Description</h3>
+
+<p>The <code>BFmodel</code> is a general S4 class for representing models for comparison. The more classes
+<code>BFlinearModel</code>, <code>BFindepSample</code>, and <code>BFoneSample</code> inherit directly from <code>BFmodel</code>.
+</p>
+
+
+<h3>Details</h3>
+
+
+<p>These model classes all have the following slots defined:
+</p>
+<dl>
+<dt>type</dt><dd><p>Model type</p>
+</dd>
+<dt>identifier</dt><dd><p>a list uniquely identifying the model from other models of the same type</p>
+</dd>
+<dt>prior</dt><dd><p>list giving appropriate prior settings for the model</p>
+</dd>
+<dt>dataTypes</dt><dd><p>a character vector whose names are possible columns in the data; elements specify the corresponding data type, currently one of c(&quot;fixed&quot;,&quot;random&quot;,&quot;continuous&quot;)</p>
+</dd>
+<dt>shortName</dt><dd><p>a short, readable identifying string</p>
+</dd>
+<dt>longName</dt><dd><p>a longer, readable identifying string</p>
+</dd>
+<dt>analysis</dt><dd><p>object storing information about a previous analysis of this model</p>
+</dd>
+<dt>version</dt><dd><p>character string giving the version and revision number of the package that the model was created in</p>
+</dd>
+</dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

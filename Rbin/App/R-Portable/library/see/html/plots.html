@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple plots side by side</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plots {see}"><tr><td>plots {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiple plots side by side</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper around <em>patchwork</em> to plot multiple figures side by side on
+the same page. See
+<a href="https://patchwork.data-imaginist.com/articles/patchwork.html">the <em>patchwork</em> documentation</a> for more advanced control of plot layouts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plots(
+  ...,
+  n_rows = NULL,
+  n_columns = NULL,
+  guides = NULL,
+  tags = FALSE,
+  tag_prefix = NULL,
+  tag_suffix = NULL,
+  tag_sep = NULL,
+  title = NULL,
+  subtitle = NULL,
+  caption = NULL,
+  theme = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Multiple <code>ggplot</code>s or a list containing <code>ggplot</code> objects</p>
+</td></tr>
+<tr valign="top"><td><code>n_rows</code></td>
+<td>
+<p>Number of rows to align plots.</p>
+</td></tr>
+<tr valign="top"><td><code>n_columns</code></td>
+<td>
+<p>Number of columns to align plots.</p>
+</td></tr>
+<tr valign="top"><td><code>guides</code></td>
+<td>
+<p>A string specifying how guides should be treated in the
+layout. <code>'collect'</code> will collect shared guides across plots, removing
+duplicates. <code>'keep'</code> will keep guides alongside their plot.
+<code>'auto'</code> will inherit from a higher patchwork level (if any). See
+<code><a href="../../patchwork/help/plot_layout.html">patchwork::plot_layout()</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>tags</code></td>
+<td>
+<p>Add tags to your subfigures. Can be <code>NULL</code> to omit (default)
+or a character vector containing tags for each plot. Automatic tags can
+also be generated with <code>'1'</code> for Arabic numerals, <code>'A'</code> for
+uppercase Latin letters, <code>'a'</code> for lowercase Latin letters, <code>'I'</code>
+for uppercase Roman numerals, and <code>'i'</code> for lowercase Roman numerals.
+For backwards compatibility, can also be <code>FALSE</code> (equivalent to
+<code>NULL</code>), <code>NA</code> (equivalent to <code>NULL</code>), or <code>TRUE</code>
+(equivalent to <code>'A'</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>tag_prefix, tag_suffix</code></td>
+<td>
+<p>Text strings that should appear before or after
+the tag.</p>
+</td></tr>
+<tr valign="top"><td><code>tag_sep</code></td>
+<td>
+<p>Text string giving the separator to use between different tag
+levels.</p>
+</td></tr>
+<tr valign="top"><td><code>title, subtitle, caption</code></td>
+<td>
+<p>Text strings to use for the various plot
+annotations to add to the composed patchwork.</p>
+</td></tr>
+<tr valign="top"><td><code>theme</code></td>
+<td>
+<p>A ggplot theme specification to use for the plot. Only elements
+related to titles, caption, and tags, as well as plot margin and
+background, are used.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+library(see)
+
+p1 &lt;- ggplot(mtcars, aes(x = disp, y = mpg)) +
+  geom_point()
+p2 &lt;- ggplot(mtcars, aes(x = mpg)) +
+  geom_density()
+p3 &lt;- ggplot(mtcars, aes(x = factor(cyl))) +
+  geom_bar() +
+  scale_x_discrete("cyl")
+
+plots(p1, p2)
+plots(p1, p2, n_columns = 2, tags = "A")
+plots(
+  p1, p2, p3,
+  n_columns = 1, tags = c("Fig. 1", "Fig. 2", "Fig. 3"),
+  title = "The surprising truth about mtcars"
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

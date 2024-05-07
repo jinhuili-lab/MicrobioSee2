@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rasterize points, lines, or polygons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rasterize {raster}"><tr><td>rasterize {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rasterize points, lines, or polygons</h2>
+
+<h3>Description</h3>
+
+<p>Transfer values associated with 'object' type spatial data (points, lines, polygons) to raster cells.
+</p>
+<p>For polygons, values are transferred if the polygon covers the center of a raster cell. For lines, values are transferred to all cells that are touched by a line. You can combine this behaviour by rasterizing polygons as lines first and then as polygons.
+</p>
+<p>If <code>x</code> represents points, each point is assigned to a grid cell. Points that fall on a border between cells are placed in the cell to the right and/or in the cell below. The value of a grid cell is determined by the values associated with the points and function <code>fun</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'matrix,Raster'
+rasterize(x, y, field, fun='last', background=NA,
+     mask=FALSE, update=FALSE, updateValue='all', filename="", na.rm=TRUE, ...)
+
+## S4 method for signature 'SpatialPoints,Raster'
+rasterize(x, y, field, fun='last', background=NA,
+    mask=FALSE, update=FALSE, updateValue='all', filename="", na.rm=TRUE, ...)
+
+## S4 method for signature 'SpatialLines,Raster'
+rasterize(x, y, field, fun='last', background=NA,
+    mask=FALSE, update=FALSE, updateValue='all', filename="", ...)
+
+## S4 method for signature 'SpatialPolygons,Raster'
+rasterize(x, y, field, fun='last', background=NA,
+    mask=FALSE, update=FALSE, updateValue='all', filename="",
+    getCover=FALSE, silent=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>points (a SpatialPoints* object, or a two-column matrix (or data.frame)), SpatialLines*, SpatialPolygons*, or an Extent object </p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>field</code></td>
+<td>
+<p>numeric or character. The value(s) to be transferred. This can be a single number, or a vector of numbers that has the same length as the number of spatial features (points, lines, polygons). If <code>x</code> is a Spatial*DataFrame, this can be the column name of the variable to be transferred. If missing, the attribute index is used (i.e. numbers from 1 to the number of features). You can also provide a vector with the same length as the number of spatial features, or a matrix where the number of rows matches the number of spatial features</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function or character. To determine what values to assign to cells that are covered by multiple spatial features. You can use functions such as <code>min, max</code>, or <code>mean</code>, or one of the following character values: <code>'first'</code>, <code>'last'</code>, <code>'count'</code>. The default value is <code>'last'</code>. In the case of SpatialLines*, <code>'length'</code> is also allowed (currently for planar coordinate systems only).
+</p>
+<p>If <code>x</code> represents points, <code>fun</code> must accept a <code>na.rm</code> argument, either explicitly or through 'dots'. This means that <code>fun=length</code> fails, but <code>fun=function(x,...)length(x)</code> works, although it ignores the <code>na.rm</code> argument. To use the <code>na.rm</code> argument you can use a function like this: fun=function(x, na.rm)if (na.rm) length(na.omit(x)) else (length(x), or use a function that removes <code>NA</code> values in all cases, like this function to compute the number of unique values per grid cell &quot;richness&quot;: <code>fun=function(x, ...) {length(unique(na.omit(x)))} </code>. If you want to count the number of points in each grid cell, you can use <code> fun='count'</code> or  <code>fun=function(x,...){length(x)}</code>.
+</p>
+<p>You can also pass multiple functions using a statement like <code>fun=function(x, ...) c(length(x),mean(x))</code>, in which case the returned object is a RasterBrick (multiple layers).
+</p>
+</td></tr>
+<tr valign="top"><td><code>background</code></td>
+<td>
+<p>numeric. Value to put in the cells that are not covered by any of the features of <code>x</code>. Default is <code>NA</code></p>
+</td></tr>
+<tr valign="top"><td><code>mask</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the values of the input Raster object are 'masked' by the spatial features of <code>x</code>. That is, cells that spatially overlap with the spatial features retain their values, the other cells become <code>NA</code>. Default is <code>FALSE</code>. This option cannot be used when <code>update=TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>update</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the values of the Raster* object are updated for the cells that overlap the spatial features of <code>x</code>. Default is <code>FALSE</code>. Cannot be used when <code>mask=TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>updateValue</code></td>
+<td>
+<p>numeric (normally an integer), or character. Only relevant when <code>update=TRUE</code>. Select, by their values, the cells to be updated with the values of the spatial features. Valid character values are <code>'all'</code>, <code>'NA'</code>, and <code>'!NA'</code>. Default is <code>'all'</code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>TRUE</code>, <code>NA</code> values are removed if <code>fun</code> honors the <code>na.rm</code> argument</p>
+</td></tr>
+<tr valign="top"><td><code>getCover</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the fraction of each grid cell that is covered by the polygons is returned (and the values of <code>field, fun, mask</code>, and <code>update</code> are ignored. The fraction covered is estimated by dividing each cell into 100 subcells and determining presence/absence of the polygon in the center of each subcell</p>
+</td></tr>
+<tr valign="top"><td><code>silent</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, feedback on the polygon count is suppressed. Default is <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments for file writing as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/extract.html">extract</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+###############################
+# rasterize points
+###############################
+r &lt;- raster(ncols=36, nrows=18)
+n &lt;- 1000
+set.seed(123)
+x &lt;- runif(n) * 360 - 180
+y &lt;- runif(n) * 180 - 90
+xy &lt;- cbind(x, y)
+# get the (last) indices
+r0 &lt;- rasterize(xy, r)
+# presence/absensce (NA) (is there a point or not?)
+r1 &lt;- rasterize(xy, r, field=1)
+# how many points?
+r2 &lt;- rasterize(xy, r, fun=function(x,...)length(x))
+vals &lt;- runif(n)
+# sum of the values associated with the points
+r3 &lt;- rasterize(xy, r, vals, fun=sum)
+
+# with a SpatialPointsDataFrame
+vals &lt;- 1:n
+p &lt;- data.frame(xy, name=vals)
+coordinates(p) &lt;- ~x+y
+r &lt;- rasterize(p, r, 'name', fun=min)
+#r2 &lt;- rasterize(p, r, 'name', fun=max)
+#plot(r, r2, cex=0.5)
+
+###############################
+# rasterize lines
+###############################
+cds1 &lt;- rbind(c(-180,-20), c(-140,55), c(10, 0), c(-140,-60))
+cds2 &lt;- rbind(c(-10,0), c(140,60), c(160,0), c(140,-55))
+cds3 &lt;- rbind(c(-125,0), c(0,60), c(40,5), c(15,-45))
+
+lines &lt;- spLines(cds1, cds2, cds3)
+
+r &lt;- raster(ncols=90, nrows=45)
+r &lt;- rasterize(lines, r)
+
+## Not run: 
+plot(r)
+plot(lines, add=TRUE)
+
+r &lt;- rasterize(lines, r, fun='count')
+plot(r)
+
+values(r) &lt;- 1:ncell(r)
+r &lt;- rasterize(lines, r, mask=TRUE)
+plot(r)
+
+values(r) &lt;- 1
+r[lines] &lt;- 10
+plot(r)
+
+## End(Not run)
+
+###############################
+# rasterize polygons
+###############################
+
+p1 &lt;- rbind(c(-180,-20), c(-140,55), c(10, 0), c(-140,-60), c(-180,-20))
+hole &lt;- rbind(c(-150,-20), c(-100,-10), c(-110,20), c(-150,-20))
+p1 &lt;- list(p1, hole)
+p2 &lt;- rbind(c(-10,0), c(140,60), c(160,0), c(140,-55), c(-10,0))
+p3 &lt;- rbind(c(-125,0), c(0,60), c(40,5), c(15,-45), c(-125,0))
+
+pols &lt;- spPolygons(p1, p2, p3)
+
+r &lt;- raster(ncol=90, nrow=45)
+r &lt;- rasterize(pols, r, fun=sum)
+
+
+## Not run: 
+
+plot(r)
+plot(pols, add=T)
+
+# add a polygon
+p5 &lt;- rbind(c(-180,10), c(0,90), c(40,90), c(145,-10),
+            c(-25, -15), c(-180,0), c(-180,10))
+addpoly &lt;- SpatialPolygons(list(Polygons(list(Polygon(p5)), 1)))
+addpoly &lt;- as(addpoly, "SpatialPolygonsDataFrame")
+addpoly@data[1,1] &lt;- 10
+r2 &lt;- rasterize(addpoly, r, field=1, update=TRUE, updateValue="NA")
+plot(r2)
+plot(pols, border="blue", lwd=2, add=TRUE)
+plot(addpoly, add=TRUE, border="red", lwd=2)
+
+# get the percentage cover of polygons in a cell
+r3 &lt;- raster(ncol=36, nrow=18)
+r3 &lt;- rasterize(pols, r3, getCover=TRUE)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

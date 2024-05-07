@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The tidyverse style</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tidyverse_style {styler}"><tr><td>tidyverse_style {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The tidyverse style</h2>
+
+<h3>Description</h3>
+
+<p>Style code according to the tidyverse style guide.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tidyverse_style(
+  scope = "tokens",
+  strict = TRUE,
+  indent_by = 2L,
+  start_comments_with_one_space = FALSE,
+  reindention = tidyverse_reindention(),
+  math_token_spacing = tidyverse_math_token_spacing()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p>The extent of manipulation. Can range from &quot;none&quot; (least
+invasive) to &quot;tokens&quot; (most invasive). See 'Details'. This argument is a
+string or a vector of class <code>AsIs</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>strict</code></td>
+<td>
+<p>A logical value indicating whether a set of strict
+or not so strict transformer functions should be returned. Compare the
+functions returned with or without <code>strict = TRUE</code>. For example,
+<code>strict = TRUE</code> means force <em>one</em> space e.g. after &quot;,&quot; and <em>one</em> line break
+e.g. after a closing curly brace. <code>strict = FALSE</code> means to set spaces and
+line breaks to one if there is none and leave the code untouched otherwise.
+See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>indent_by</code></td>
+<td>
+<p>How many spaces of indention should be inserted after
+operators such as '('.</p>
+</td></tr>
+<tr valign="top"><td><code>start_comments_with_one_space</code></td>
+<td>
+<p>Whether or not comments should start
+with only one space (see <code><a href="../../styler/help/start_comments_with_space.html">start_comments_with_space()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>reindention</code></td>
+<td>
+<p>A list of parameters for regex re-indention, most
+conveniently constructed using <code><a href="../../styler/help/specify_reindention.html">specify_reindention()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>math_token_spacing</code></td>
+<td>
+<p>A list of parameters that define spacing around
+math token, conveniently constructed using <code><a href="../../styler/help/specify_math_token_spacing.html">specify_math_token_spacing()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The following levels for <code>scope</code> are available:
+</p>
+
+<ul>
+<li><p> &quot;none&quot;: Performs no transformation at all.
+</p>
+</li>
+<li><p> &quot;spaces&quot;: Manipulates spacing between token on the same line.
+</p>
+</li>
+<li><p> &quot;indention&quot;: Manipulates the indention, i.e. number of spaces at the
+beginning of each line.
+</p>
+</li>
+<li><p> &quot;line_breaks&quot;: Manipulates line breaks between tokens.
+</p>
+</li>
+<li><p> &quot;tokens&quot;: manipulates tokens.
+</p>
+</li></ul>
+
+<p><code>scope</code> can be specified in two ways:
+</p>
+
+<ul>
+<li><p> As a string: In this case all less invasive scope levels are implied, e.g.
+&quot;line_breaks&quot; includes &quot;indention&quot;, &quot;spaces&quot;. This is brief and what most
+users need.
+</p>
+</li>
+<li><p> As vector of class <code>AsIs</code>: Each level has to be listed explicitly by
+wrapping one ore more levels of the scope in <code><a href="../../base/html/AsIs.html">I()</a></code>. This offers more
+granular control at the expense of more verbosity.
+</p>
+</li></ul>
+
+<p>See 'Examples' for details.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+style_text("call( 1)", style = tidyverse_style, scope = "spaces")
+style_text("call( 1)", transformers = tidyverse_style(strict = TRUE))
+style_text(c("ab &lt;- 3", "a  &lt;-3"), strict = FALSE) # keeps alignment of "&lt;-"
+style_text(c("ab &lt;- 3", "a  &lt;-3"), strict = TRUE) # drops alignment of "&lt;-"
+
+# styling line breaks only without spaces
+style_text(c("ab &lt;- 3", "a =3"), strict = TRUE, scope = I(c("line_breaks", "tokens")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

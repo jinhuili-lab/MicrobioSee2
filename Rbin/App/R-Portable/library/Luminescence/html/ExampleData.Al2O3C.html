@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example Al2O3:C Measurement Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ExampleData.Al2O3C {Luminescence}"><tr><td>ExampleData.Al2O3C {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example Al2O3:C Measurement Data</h2>
+
+<h3>Description</h3>
+
+<p>Measurement data obtained from measuring Al2O3:C chips at the IRAMAT-CRP2A, Université Bordeaux
+Montaigne in 2017 on a Freiberg Instruments lexsyg SMART reader.
+The example data used in particular to allow test of the functions
+developed in framework of the work by Kreutzer et al., 2018.
+</p>
+
+
+<h3>Format</h3>
+
+<p>Two datasets comprising <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> data imported using the function <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>
+</p>
+
+<p><code>data_ITC</code>: Measurement data to determine the irradiation time correction, the data can
+be analysed with the function <a href="../../Luminescence/help/analyse_Al2O3C_ITC.html">analyse_Al2O3C_ITC</a>
+</p>
+<p><code>data_CrossTalk</code>: Measurement data obtained while estimating the irradiation cross-talk of the
+reader used for the experiments. The data can be analysed either with the function
+<a href="../../Luminescence/help/analyse_Al2O3C_CrossTalk.html">analyse_Al2O3C_CrossTalk</a> or <a href="../../Luminescence/help/analyse_Al2O3C_Measurement.html">analyse_Al2O3C_Measurement</a>
+
+</p>
+
+
+<h3>Note</h3>
+
+<p>From both datasets unneeded curves have been removed and
+the number of aliquots have been reduced to a required minimum to keep the file size small, but
+still being able to run the corresponding functions.
+</p>
+
+
+<h3>References</h3>
+
+<p>Kreutzer, S., Martin, L., Guérin, G., Tribolo, C., Selva, P., Mercier, N., 2018.
+Environmental Dose Rate Determination Using a Passive Dosimeter: Techniques and Workflow for alpha-Al2O3:C Chips.
+Geochronometria 45, 56–67.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/analyse_Al2O3C_ITC.html">analyse_Al2O3C_ITC</a>, <a href="../../Luminescence/help/analyse_Al2O3C_CrossTalk.html">analyse_Al2O3C_CrossTalk</a>, <a href="../../Luminescence/help/analyse_Al2O3C_Measurement.html">analyse_Al2O3C_Measurement</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) curves
+data(ExampleData.Al2O3C, envir = environment())
+plot_RLum(data_ITC[1:2])
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

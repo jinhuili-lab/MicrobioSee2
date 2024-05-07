@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the position for a legend or table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get.tablepos {plotrix}"><tr><td>get.tablepos {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the position for a legend or table</h2>
+
+<h3>Description</h3>
+
+<p>Gets the x and y positions and justification for a legend or table in
+user units from the string descriptors like &quot;top&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ get.tablepos(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A valid position descriptor like &quot;top&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">get.tablepos</span> checks for one of the nine valid position descriptors:
+</p>
+<p>topleft, top, topright, left, center, right, bottomleft, bottom and bottomright.
+</p>
+<p>If none of these descriptors are found, it will return the center position
+and justification.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>x position</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>y position</p>
+</td></tr>
+<tr valign="top"><td><code>xjust</code></td>
+<td>
+<p>x (horizontal) justification</p>
+</td></tr>
+<tr valign="top"><td><code>yjust</code></td>
+<td>
+<p>y (vertical) justification</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/addtable2plot.html">addtable2plot</a>, <a href="../../plotrix/help/legendg.html">legendg</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

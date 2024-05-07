@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply fading correction after Lamothe et al., 2003</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_Lamothe2003 {Luminescence}"><tr><td>calc_Lamothe2003 {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply fading correction after Lamothe et al., 2003</h2>
+
+<h3>Description</h3>
+
+<p>This function applies the fading correction for the prediction of long-term fading as suggested
+by Lamothe et al., 2003. The function basically adjusts the Ln/Tn values and fit a new dose-response
+curve using the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_Lamothe2003(
+  object,
+  dose_rate.envir,
+  dose_rate.source,
+  g_value,
+  tc = NULL,
+  tc.g_value = tc,
+  verbose = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>): Input data for applying the
+fading correction. Allow are (1) <a href="../../base/html/data.frame.html">data.frame</a> with three columns (dose, LxTx, LxTx error), (2)
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object created by the function <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a> or <a href="../../Luminescence/help/analyse_pIRIRSequence.html">analyse_pIRIRSequence</a></p>
+</td></tr>
+<tr valign="top"><td><code>dose_rate.envir</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> vector of length 2 (<strong>required</strong>): Environmental dose rate in mGy/a</p>
+</td></tr>
+<tr valign="top"><td><code>dose_rate.source</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> vector of length 2 (<strong>required</strong>): Irradiation source dose rate in Gy/s,
+which is, according to Lamothe et al. (2003) De/t*.</p>
+</td></tr>
+<tr valign="top"><td><code>g_value</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> vector of length 2 (<strong>required</strong>): g_value in \
+the equivalent dose was calculated, i.e. tc is either similar for the g-value measurement <strong>and</strong> the De measurement or
+needs be to recalculated (cf. <a href="../../Luminescence/help/calc_FadingCorr.html">calc_FadingCorr</a>). Inserting a normalised g-value, e.g., normalised to 2-days , will
+lead to wrong results</p>
+</td></tr>
+<tr valign="top"><td><code>tc</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (optional): time in seconds between irradiation and
+the prompt measurement used in the De estimation (cf. Huntley &amp; Lamothe 2001).
+If set to <code>NULL</code> it is assumed that tc is similar for the equivalent dose
+estimation and the g-value estimation</p>
+</td></tr>
+<tr valign="top"><td><code>tc.g_value</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (with default): the time in seconds between irradiation and the prompt measurement used for estimating the g-value.
+If the g-value was normalised to, e.g., 2 days, this time in seconds (i.e., 172800) should be given here along with the time used for the
+De estimation. If nothing is provided the time is set to tc, which is usual case for g-values obtained using the
+SAR method and g-values that had been not normalised to 2 days. Note: If this value is not <code>NULL</code> the functions expects a <a href="../../base/html/numeric.html">numeric</a> value for <code>tc</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (with default): Enables/disables terminal verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (with default): Enables/disables plot output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns are graphical output produced by the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> and
+an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$data</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> the fading corrected values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$fit</code> </td><td style="text-align: left;"> <code>nls</code> </td><td style="text-align: left;"> the object returned by the dose response curve fitting </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>'<strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Mercier, N., 2021. calc_Lamothe2003(): Apply fading correction after Lamothe et al., 2003. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom), Norbert Mercier,
+IRAMAT-CRP2A, Université Bordeaux Montaigne (France)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Huntley, D.J., Lamothe, M., 2001. Ubiquity of anomalous fading in K-feldspars and the measurement
+and correction for it in optical dating. Canadian Journal of Earth Sciences 38, 1093-1106.
+</p>
+<p>Lamothe, M., Auclair, M., Hamzaoui, C., Huot, S., 2003.
+Towards a prediction of long-term anomalous fading of feldspar IRSL. Radiation Measurements 37,
+493-498.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>, <a href="../../Luminescence/help/calc_FadingCorr.html">calc_FadingCorr</a>, <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>, <a href="../../Luminescence/help/analyse_pIRIRSequence.html">analyse_pIRIRSequence</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+##ExampleData.BINfileData contains two BINfileData objects
+##CWOSL.SAR.Data and TL.SAR.Data
+data(ExampleData.BINfileData, envir = environment())
+
+##transform the values from the first position in a RLum.Analysis object
+object &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data, pos=1)
+
+##perform SAR analysis and set rejection criteria
+results &lt;- analyse_SAR.CWOSL(
+object = object,
+signal.integral.min = 1,
+signal.integral.max = 2,
+background.integral.min = 900,
+background.integral.max = 1000,
+verbose = FALSE,
+plot = FALSE,
+onlyLxTxTable = TRUE
+)
+
+##run fading correction
+results_corr &lt;- calc_Lamothe2003(
+  object = results,
+  dose_rate.envir =  c(1.676 , 0.180),
+  dose_rate.source = c(0.184, 0.003),
+  g_value =  c(2.36, 0.6),
+  plot = TRUE,
+  fit.method = "EXP")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

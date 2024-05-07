@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Refer to a table nested in a hierarchy (e.g. within a schema)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Id-class {DBI}"><tr><td>Id-class {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Refer to a table nested in a hierarchy (e.g. within a schema)</h2>
+
+<h3>Description</h3>
+
+<p>Objects of class <code>Id</code> have a single slot <code>name</code>, which is a character vector.
+The <code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier()</a></code> method converts <code>Id</code> objects to strings.
+Support for <code>Id</code> objects depends on the database backend.
+</p>
+<p>They can be used in the following methods as <code>name</code> or <code>table</code> argument:
+</p>
+
+<ul>
+<li> <p><code><a href="../../DBI/help/dbCreateTable.html">dbCreateTable()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../DBI/help/dbAppendTable.html">dbAppendTable()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../DBI/help/dbReadTable.html">dbReadTable()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../DBI/help/dbWriteTable.html">dbWriteTable()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../DBI/help/dbExistsTable.html">dbExistsTable()</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../DBI/help/dbRemoveTable.html">dbRemoveTable()</a></code>
+</p>
+</li></ul>
+
+<p>Objects of this class are also returned from <code><a href="../../DBI/help/dbListObjects.html">dbListObjects()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Id(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Components of the hierarchy, e.g. <code>cluster</code>,
+<code>catalog</code>, <code>schema</code>, or <code>table</code>, depending on the database backend. For more
+on these concepts, see <a href="https://stackoverflow.com/questions/7022755/">https://stackoverflow.com/questions/7022755/</a></p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Identifies a table in a specific schema:
+Id("dbo", "Customer")
+# You can name the components if you want, but it's not needed
+Id(table = "Customer", schema = "dbo")
+
+# Create a SQL expression for an identifier:
+dbQuoteIdentifier(ANSI(), Id("nycflights13", "flights"))
+
+# Write a table in a specific schema:
+## Not run: 
+dbWriteTable(con, Id("myschema", "mytable"), data.frame(a = 1))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

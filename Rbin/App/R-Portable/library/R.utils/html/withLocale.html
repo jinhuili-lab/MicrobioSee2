@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression with locale set temporarily</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withLocale {R.utils}"><tr><td>withLocale {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression with locale set temporarily</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression with locale set temporarily.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withLocale(expr, category, locale, ..., substitute=TRUE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>category</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the category to use.</p>
+</td></tr>
+<tr valign="top"><td><code>locale</code></td>
+<td>
+<p><code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying the locale to used.  The
+first successfully set one will be used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression.
+and <code><a href="../../base/help/Sys.setlocale.html">Sys.setlocale</a></code>() to set locale.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Vector
+cat("Original vector:\n")
+x &lt;- c(letters[1:8], LETTERS[1:8])
+print(x)
+
+cat("Sorting with 'C' locale:\n")
+y1 &lt;- withLocale(sort(x), "LC_COLLATE", "C")
+print(y1)
+
+cat("Sorting with an 'English' locale:\n")
+y2 &lt;- withLocale(sort(x), "LC_COLLATE", c("en_US", "en_US.UTF8", "English_United States.1252"))
+print(y2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

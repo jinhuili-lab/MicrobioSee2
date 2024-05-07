@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Xu' R2 (Omega-squared)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_xu {performance}"><tr><td>r2_xu {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Xu' R2 (Omega-squared)</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Xu' Omega-squared value, a simple R2 equivalent for
+linear mixed models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_xu(model)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A linear (mixed) model.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>r2_xu()</code> is a crude measure for the explained variance from
+linear (mixed) effects models, which is originally denoted as
+&Omega;<sup>2</sup>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The R2 value.
+</p>
+
+
+<h3>References</h3>
+
+<p>Xu, R. (2003). Measuring explained variation in linear mixed effects models.
+Statistics in Medicine, 22(22), 3527–3541. doi: <a href="https://doi.org/10.1002/sim.1572">10.1002/sim.1572</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(Sepal.Length ~ Petal.Length + Species, data = iris)
+r2_xu(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

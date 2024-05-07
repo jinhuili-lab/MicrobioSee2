@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ecological Diversity Indices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for diversity {vegan}"><tr><td>diversity {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Ecological Diversity Indices</h2>
+
+<h3>Description</h3>
+
+<p> Shannon, Simpson, and Fisher diversity indices and species
+richness.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+diversity(x, index = "shannon", MARGIN = 1, base = exp(1))
+fisher.alpha(x, MARGIN = 1, ...)
+specnumber(x, groups, MARGIN = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data, a matrix-like object or a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>Diversity index, one of <code>"shannon"</code>,
+<code>"simpson"</code> or <code>"invsimpson"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p>Margin for which the index is computed. </p>
+</td></tr>
+<tr valign="top"><td><code>base</code></td>
+<td>
+<p> The logarithm <code>base</code> used in <code>shannon</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>A grouping factor: if given, finds the total number of
+species in each group.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to the function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Shannon or Shannon&ndash;Weaver (or Shannon&ndash;Wiener) index is defined as
+<i>H = -sum p_i log(b) p_i</i>, where
+<i>p_i</i> is the proportional abundance of species <i>i</i> and <i>b</i>
+is the base of the logarithm.  It is most popular to use natural
+logarithms, but some argue for base <i>b = 2</i> (which makes sense,
+but no real difference).
+</p>
+<p>Both variants of Simpson's index are based on <i>D =
+    sum p_i^2</i>. Choice <code>simpson</code> returns <i>1-D</i> and
+<code>invsimpson</code> returns <i>1/D</i>.
+</p>
+<p><code>fisher.alpha</code> estimates the <i>&alpha;</i> parameter of
+Fisher's logarithmic series (see <code><a href="../../vegan/help/fisherfit.html">fisherfit</a></code>). 
+The estimation is possible only for genuine
+counts of individuals. 
+</p>
+<p>Function <code>specnumber</code> finds the number of species. With
+<code>MARGIN = 2</code>, it finds frequencies of species. If <code>groups</code>
+is given, finds the total number of species in each group (see 
+example on finding one kind of beta diversity with this option).
+</p>
+<p>Better stories can be told about Simpson's index than about
+Shannon's index, and still grander narratives about
+rarefaction (Hurlbert 1971).  However, these indices are all very
+closely related (Hill 1973), and there is no reason to despise one
+more than others (but if you are a graduate student, don't drag me in,
+but obey your Professor's orders). In particular, the exponent of the
+Shannon index is linearly related to inverse Simpson (Hill 1973)
+although the former may be more sensitive to rare species. Moreover,
+inverse Simpson is asymptotically equal to rarefied species richness
+in sample of two individuals, and Fisher's <i>&alpha;</i> is very
+similar to inverse Simpson.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of diversity indices or numbers of species. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen  and  Bob O'Hara (<code>fisher.alpha</code>).</p>
+
+
+<h3>References</h3>
+
+<p>Fisher, R.A., Corbet, A.S. &amp; Williams, C.B. (1943). The relation
+between the number of species and the number of individuals in a
+random sample of animal population. <em>Journal of Animal Ecology</em>
+<strong>12</strong>, 42&ndash;58.
+</p>
+<p>Hurlbert, S.H. (1971). The nonconcept of species diversity: a critique
+and alternative parameters. <em>Ecology</em> <strong>52</strong>, 577&ndash;586.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>These functions calculate only some basic indices, but many
+others can be derived with them (see Examples). Facilities related to
+diversity are discussed in a <span class="pkg">vegan</span> vignette that can be read
+with <code>browseVignettes("vegan")</code>.  Functions <code><a href="../../vegan/help/renyi.html">renyi</a></code>
+and <code><a href="../../vegan/help/tsallis.html">tsallis</a></code> estimate a series of generalized diversity
+indices. Function <code><a href="../../vegan/help/rarefy.html">rarefy</a></code> finds estimated number of
+species for given sample size. Beta diversity can be estimated with
+<code><a href="../../vegan/help/betadiver.html">betadiver</a></code>. Diversities can be partitioned with
+<code><a href="../../vegan/help/adipart.html">adipart</a></code> and <code><a href="../../vegan/help/multipart.html">multipart</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+H &lt;- diversity(BCI)
+simp &lt;- diversity(BCI, "simpson")
+invsimp &lt;- diversity(BCI, "inv")
+## Unbiased Simpson (Hurlbert 1971, eq. 5) with rarefy:
+unbias.simp &lt;- rarefy(BCI, 2) - 1
+## Fisher alpha
+alpha &lt;- fisher.alpha(BCI)
+## Plot all
+pairs(cbind(H, simp, invsimp, unbias.simp, alpha), pch="+", col="blue")
+## Species richness (S) and Pielou's evenness (J):
+S &lt;- specnumber(BCI) ## rowSums(BCI &gt; 0) does the same...
+J &lt;- H/log(S)
+## beta diversity defined as gamma/alpha - 1:
+data(dune)
+data(dune.env)
+alpha &lt;- with(dune.env, tapply(specnumber(dune), Management, mean))
+gamma &lt;- with(dune.env, specnumber(dune, Management))
+gamma/alpha - 1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

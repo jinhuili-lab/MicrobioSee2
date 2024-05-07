@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Return filtered or sliced data frame, or row indices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_match {datawizard}"><tr><td>data_match {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Return filtered or sliced data frame, or row indices</h2>
+
+<h3>Description</h3>
+
+<p>Return a filtered (or sliced) data frame or row indices of a data frame that
+match a specific condition. <code>data_filter()</code> works like <code>data_match()</code>, but works
+with logical expressions or row indices of a data frame to specify matching
+conditions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_match(x, to, match = "and", return_indices = FALSE, drop_na = TRUE, ...)
+
+data_filter(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>A data frame matching the specified conditions. Note that if
+<code>match</code> is a value other than <code>"and"</code>, the original row order might be
+changed. See 'Details'.</p>
+</td></tr>
+<tr valign="top"><td><code>match</code></td>
+<td>
+<p>String, indicating with which logical operation matching
+conditions should be combined. Can be <code>"and"</code> (or <code>"&amp;"</code>), <code>"or"</code> (or <code>"|"</code>)
+or <code>"not"</code> (or <code>"!"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>return_indices</code></td>
+<td>
+<p>Logical, if <code>FALSE</code>, return the vector of rows that
+can be used to filter the original data frame. If <code>FALSE</code> (default),
+returns directly the filtered data frame instead of the row indices.</p>
+</td></tr>
+<tr valign="top"><td><code>drop_na</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, missing values (<code>NA</code>s) are removed before
+filtering the data. This is the default behaviour, however, sometimes when
+row indices are requested (i.e. <code>return_indices=TRUE</code>), it might be useful
+to preserve <code>NA</code> values, so returned row indices match the row indices of
+the original data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>A sequence of logical expressions indicating which rows to keep,
+or a numeric vector indicating the row indices of rows to keep. Can also be
+a string representation of a logical expression (e.g. <code>"x &gt; 4"</code>), a
+character vector (e.g. <code>c("x &gt; 4", "y == 2")</code>) or a variable that contains
+the string representation of a logical expression. These might be useful
+when used in packages to avoid defining undefined global variables.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For <code>data_match()</code>, if <code>match</code> is either <code>"or"</code> or <code>"not"</code>, the
+original row order from <code>x</code> might be changed. If preserving row order is
+required, use <code>data_filter()</code> instead.
+</p>
+<div class="sourceCode"><pre># mimics subset() behaviour, preserving original row order
+head(data_filter(mtcars[c("mpg", "vs", "am")], vs == 0 | am == 1))
+#&gt;                    mpg vs am
+#&gt; Mazda RX4         21.0  0  1
+#&gt; Mazda RX4 Wag     21.0  0  1
+#&gt; Datsun 710        22.8  1  1
+#&gt; Hornet Sportabout 18.7  0  0
+#&gt; Duster 360        14.3  0  0
+#&gt; Merc 450SE        16.4  0  0
+
+# re-sorting rows
+head(data_match(mtcars[c("mpg", "vs", "am")],
+                data.frame(vs = 0, am = 1),
+                match = "or"))
+#&gt;                    mpg vs am
+#&gt; Mazda RX4         21.0  0  1
+#&gt; Mazda RX4 Wag     21.0  0  1
+#&gt; Hornet Sportabout 18.7  0  0
+#&gt; Duster 360        14.3  0  0
+#&gt; Merc 450SE        16.4  0  0
+#&gt; Merc 450SL        17.3  0  0
+</pre></div>
+<p>While <code>data_match()</code> works with data frames to match conditions against,
+<code>data_filter()</code> is basically a wrapper around <code style="white-space: pre;">subset(subset = &lt;filter&gt;)</code>.
+However, unlike <code>subset()</code>, it preserves label attributes and is useful when
+working with labelled data.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A filtered data frame, or the row indices that match the specified
+configuration.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> Functions to rename stuff: <code><a href="../../datawizard/help/data_rename.html">data_rename()</a></code>, <code><a href="../../datawizard/help/data_rename_rows.html">data_rename_rows()</a></code>, <code><a href="../../datawizard/help/data_addprefix.html">data_addprefix()</a></code>, <code><a href="../../datawizard/help/data_addsuffix.html">data_addsuffix()</a></code>
+</p>
+</li>
+<li><p> Functions to reorder or remove columns: <code><a href="../../datawizard/help/data_reorder.html">data_reorder()</a></code>, <code><a href="../../datawizard/help/data_relocate.html">data_relocate()</a></code>, <code><a href="../../datawizard/help/data_remove.html">data_remove()</a></code>
+</p>
+</li>
+<li><p> Functions to reshape, pivot or rotate data frames: <code><a href="../../datawizard/help/data_to_long.html">data_to_long()</a></code>, <code><a href="../../datawizard/help/data_to_wide.html">data_to_wide()</a></code>, <code><a href="../../datawizard/help/data_rotate.html">data_rotate()</a></code>
+</p>
+</li>
+<li><p> Functions to recode data: <code><a href="../../datawizard/help/rescale.html">rescale()</a></code>, <code><a href="../../datawizard/help/reverse.html">reverse()</a></code>, <code><a href="../../datawizard/help/categorize.html">categorize()</a></code>, <code><a href="../../datawizard/help/recode_values.html">recode_values()</a></code>, <code><a href="../../datawizard/help/slide.html">slide()</a></code>
+</p>
+</li>
+<li><p> Functions to standardize, normalize, rank-transform: <code><a href="../../datawizard/help/center.html">center()</a></code>, <code><a href="../../datawizard/help/standardize.html">standardize()</a></code>, <code><a href="../../datawizard/help/normalize.html">normalize()</a></code>, <code><a href="../../datawizard/help/ranktransform.html">ranktransform()</a></code>, <code><a href="../../datawizard/help/winsorize.html">winsorize()</a></code>
+</p>
+</li>
+<li><p> Split and merge data frames: <code><a href="../../datawizard/help/data_partition.html">data_partition()</a></code>, <code><a href="../../datawizard/help/data_merge.html">data_merge()</a></code>
+</p>
+</li>
+<li><p> Functions to find or select columns: <code><a href="../../datawizard/help/data_select.html">data_select()</a></code>, <code><a href="../../datawizard/help/data_find.html">data_find()</a></code>
+</p>
+</li>
+<li><p> Functions to filter rows: <code><a href="../../datawizard/help/data_match.html">data_match()</a></code>, <code><a href="../../datawizard/help/data_filter.html">data_filter()</a></code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data_match(mtcars, data.frame(vs = 0, am = 1))
+data_match(mtcars, data.frame(vs = 0, am = c(0, 1)))
+
+# observations where "vs" is NOT 0 AND "am" is NOT 1
+data_match(mtcars, data.frame(vs = 0, am = 1), match = "not")
+# equivalent to
+data_filter(mtcars, vs != 0 &amp; am != 1)
+
+# observations where EITHER "vs" is 0 OR "am" is 1
+data_match(mtcars, data.frame(vs = 0, am = 1), match = "or")
+# equivalent to
+data_filter(mtcars, vs == 0 | am == 1)
+
+# slice data frame by row indices
+data_filter(mtcars, 5:10)
+
+# Define a custom function containing data_filter()
+my_filter &lt;- function(data, variable) {
+  data_filter(data, variable)
+}
+my_filter(mtcars, "cyl == 6")
+
+# Pass complete filter-condition as string.
+my_filter &lt;- function(data, condition) {
+  data_filter(data, condition)
+}
+my_filter(mtcars, "am != 0")
+
+# string can also be used directly as argument
+data_filter(mtcars, "am != 0")
+
+# or as variable
+fl &lt;- "am != 0"
+data_filter(mtcars, fl)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

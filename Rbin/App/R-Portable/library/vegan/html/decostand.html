@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Standardization Methods for Community Ecology</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for decostand {vegan}"><tr><td>decostand {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Standardization Methods for Community Ecology</h2>
+
+<h3>Description</h3>
+
+<p>The function provides some popular (and effective) standardization
+methods for community ecologists.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+decostand(x, method, MARGIN, range.global, logbase = 2, na.rm=FALSE, ...)
+wisconsin(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data, a matrix-like object.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Standardization method. See Details for available options.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p>Margin, if default is not acceptable. <code>1</code> = rows,
+and <code>2</code> = columns of <code>x</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>range.global</code></td>
+<td>
+<p>Matrix from which the range is found in
+<code>method = "range"</code>.  This allows using same ranges across
+subsets of data.  The dimensions of <code>MARGIN</code> must match with
+<code>x</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>logbase</code></td>
+<td>
+<p>The logarithm base used in <code>method = "log"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Ignore missing values in row or column standardizations.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to the function (ignored).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function offers following standardization methods for community
+data:
+</p>
+
+<ul>
+<li> <p><code>total</code>: divide by margin total (default <code>MARGIN = 1</code>).
+</p>
+</li>
+<li> <p><code>max</code>: divide by margin maximum (default <code>MARGIN = 2</code>).
+</p>
+</li>
+<li> <p><code>frequency</code>: divide by margin total and multiply by the
+number of non-zero items, so that the average of non-zero entries is
+one (Oksanen 1983; default <code>MARGIN = 2</code>).
+</p>
+</li>
+<li> <p><code>normalize</code>: make margin sum of squares equal to one (default
+<code>MARGIN = 1</code>).
+</p>
+</li>
+<li> <p><code>range</code>: standardize values into range 0 ... 1 (default
+<code>MARGIN = 2</code>).  If all values are constant, they will be
+transformed to 0.
+</p>
+</li>
+<li> <p><code>rank, rrank</code>: <code>rank</code> replaces abundance values by
+their increasing ranks leaving zeros unchanged, and <code>rrank</code> is
+similar but uses relative ranks with maximum 1 (default
+<code>MARGIN = 1</code>). Average ranks are used for tied values.
+</p>
+</li>
+<li> <p><code>standardize</code>: scale <code>x</code> to zero mean and unit variance
+(default <code>MARGIN = 2</code>).
+</p>
+</li>
+<li> <p><code>pa</code>: scale <code>x</code> to presence/absence scale (0/1).
+</p>
+</li>
+<li> <p><code>chi.square</code>: divide by row sums and square root of
+column sums, and adjust for square root of matrix total
+(Legendre &amp; Gallagher 2001). When used with the Euclidean
+distance, the distances should be similar to the
+Chi-square distance used in correspondence analysis. However, the
+results from <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code> would still differ, since
+CA is a weighted ordination method (default <code>MARGIN = 1</code>).
+</p>
+</li>
+<li> <p><code>hellinger</code>: square root of <code>method = "total"</code>
+(Legendre &amp; Gallagher 2001).
+</p>
+</li>
+<li> <p><code>log</code>: logarithmic transformation as suggested by
+Anderson et al. (2006): <i>log_b (x) + 1</i> for
+<i>x &gt; 0</i>, where <i>b</i> is the base of the logarithm; zeros are
+left as zeros. Higher bases give less weight to quantities and more
+to presences, and <code>logbase = Inf</code> gives the presence/absence
+scaling. Please note this is <em>not</em> <i>log(x+1)</i>.
+Anderson et al. (2006) suggested this for their (strongly) modified
+Gower distance (implemented as <code>method = "altGower"</code> in 
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code>), but the standardization can be used 
+independently of distance indices. 
+</p>
+</li></ul>
+
+<p>Standardization, as contrasted to transformation, means that the
+entries are transformed relative to other entries.
+</p>
+<p>All methods have a default margin. <code>MARGIN=1</code> means rows (sites
+in a normal data set) and <code>MARGIN=2</code> means columns (species in a
+normal data set).
+</p>
+<p>Command <code>wisconsin</code> is a shortcut to common Wisconsin double
+standardization where species (<code>MARGIN=2</code>) are first standardized
+by maxima (<code>max</code>) and then sites (<code>MARGIN=1</code>) by
+site totals (<code>tot</code>).
+</p>
+<p>Most standardization methods will give nonsense results with
+negative data entries that normally should not occur in the community
+data. If there are empty sites or species (or constant with
+<code>method =  "range"</code>), many standardization will change these into
+<code>NaN</code>.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the standardized data frame, and adds an attribute
+<code>"decostand"</code> giving the name of applied standardization
+<code>"method"</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Common transformations can be made with standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> functions.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen, Etienne Laliberté
+(<code>method = "log"</code>).</p>
+
+
+<h3>References</h3>
+
+ 
+<p>Anderson, M.J., Ellingsen, K.E. &amp; McArdle, B.H. (2006) Multivariate
+dispersion as a measure of beta diversity. <em>Ecology Letters</em> 
+<strong>9</strong>, 683&ndash;693.
+</p>
+<p>Legendre, P. &amp; Gallagher, E.D. (2001) Ecologically meaningful
+transformations for ordination of species data. <em>Oecologia</em>
+<strong>129</strong>, 271&ndash;280.
+</p>
+<p>Oksanen, J. (1983) Ordination of boreal heath-like vegetation with
+principal component analysis, correspondence analysis and
+multidimensional scaling. <em>Vegetatio</em> <strong>52</strong>, 181&ndash;189.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+sptrans &lt;- decostand(varespec, "max")
+apply(sptrans, 2, max)
+sptrans &lt;- wisconsin(varespec)
+
+## Chi-square: PCA similar but not identical to CA.
+## Use wcmdscale for weighted analysis and identical results.
+sptrans &lt;- decostand(varespec, "chi.square")
+plot(procrustes(rda(sptrans), cca(varespec)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

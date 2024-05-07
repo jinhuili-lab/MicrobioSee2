@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get all or one golem options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_golem_options {golem}"><tr><td>get_golem_options {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get all or one golem options</h2>
+
+<h3>Description</h3>
+
+<p>This function is to be used inside the
+server and UI from your app, in order to call the
+parameters passed to <code>run_app()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_golem_options(which = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>NULL (default), or the name of an option</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The value of the option.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Define and use golem_options
+if (interactive()) {
+  # 1. Pass parameters directly to `run_app`
+
+  run_app(
+    title = "My Golem App",
+    content = "something"
+  )
+
+  # 2. Get the values
+  # 2.1 from the UI side
+
+  h1(get_golem_options("title"))
+
+  # 2.2 from the server-side
+
+  output$param &lt;- renderPrint({
+    paste("param content = ", get_golem_options("content"))
+  })
+
+  output$param_full &lt;- renderPrint({
+    get_golem_options() # list of all golem options as a list.
+  })
+
+  # 3. If needed, to set default value, edit `run_app` like this :
+
+  run_app &lt;- function(
+  title = "this",
+  content = "that",
+  ...
+  ) {
+    with_golem_options(
+      app = shinyApp(
+        ui = app_ui,
+        server = app_server
+      ),
+      golem_opts = list(
+        title = title,
+        content = content,
+        ...
+      )
+    )
+  }
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Remove last expression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for alignment_drop_last_expr {styler}"><tr><td>alignment_drop_last_expr {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Remove last expression</h2>
+
+<h3>Description</h3>
+
+<p>In a <em>nest</em>, if the last token is an <code>expr</code>, the <em>nest</em> represents either
+an if, while or for statement or a function call. We don't call about that
+part, in fact it's important to remove it for alignment. See 'Examples'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+alignment_drop_last_expr(pds_by_line)
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+call(
+  x = 12,
+  y =  3,
+)
+
+function(a = 33,
+         qq = 4) {
+  # we don't care about this part for alignment detection
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

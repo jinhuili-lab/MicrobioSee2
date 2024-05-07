@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate a set of permutations from the specified design.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for shuffleSet {permute}"><tr><td>shuffleSet {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Generate a set of permutations from the specified design.
+</h2>
+
+<h3>Description</h3>
+
+<p><code>shuffleSet</code> returns a set of <code>nset</code> permutations from the
+specified design. The main purpose of the function is to circumvent
+the overhead of repeatedly calling <code><a href="../../permute/help/shuffle.html">shuffle</a></code> to generate a
+set of permutations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shuffleSet(n, nset, control = how(), check = TRUE, quietly = FALSE)
+
+## S3 method for class 'permutationMatrix'
+as.matrix(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>numeric; the number of observations in the sample set. May also be
+any object that <code>nobs</code> knows about; see
+<code><a href="../../permute/help/nobs-methods.html">nobs-methods</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nset</code></td>
+<td>
+
+<p>numeric; the number of permutations to generate for the set. Can be
+missing, the default, in which case <code>nset</code> is determined from
+<code>control</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+
+<p>an object of class <code>"how"</code> describing a valid permutation
+design.
+</p>
+</td></tr>
+<tr valign="top"><td><code>check</code></td>
+<td>
+
+<p>logical; should the design be checked for various problems via
+function <code><a href="../../permute/help/check.html">check</a></code>? The default is to check the design for
+the stated number of observations and update <code>control</code>
+accordingly. See Details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>quietly</code></td>
+<td>
+
+<p>logical; should messages by suppressed?
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an object of class <code>"permutationMatrix"</code>, as returned by
+<code>shuffleSet</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>arguments passed to other methods. For the <code>as.matrix</code> method
+only.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>shuffleSet</code> is designed to generate a set of <code>nset</code>
+permutation indices over which a function can iterate as part of a
+permutation test. It is only slightly more efficient than calling
+<code><a href="../../permute/help/shuffle.html">shuffle</a></code> <code>nset</code> times, but it is far more practical
+than the simpler function because a set of permutations can be worked
+on by applying a function to the rows of the returned object. This
+simplifies the function applied, and facilitates the use of parallel
+processing functions, thus enabling a larger number of permutations to
+be evaluated in reasonable time.
+</p>
+<p>By default, <code>shuffleSet</code> will check the permutations design
+following a few simple heuristics. See <code><a href="../../permute/help/check.html">check</a></code> for details
+of these. Whether some of the heuristics are activiated or not can be
+controlled via <code><a href="../../permute/help/how.html">how</a></code>, essentialy via its argument
+<code>minperm</code>. In particular, if there are fewer than <code>minperm</code>
+permutations, <code>shuffleSet</code> will generate and return <strong>all
+possible permutations</strong>, which may differ from the number requested via
+argument <code>nset</code>.
+</p>
+<p>The <code>check</code> argument to <code>shuffleSet</code> controls whether
+checking is performed in the permutation design. If you set
+<code>check = FALSE</code> then exactly <code>nset</code> permutations will be
+returned. However, do be aware that there is no guarantee that the set
+of permutations returned will be unique, especially so for designs and
+data sets where there are few possible permutations relative to the
+number requested.
+</p>
+<p>The <code>as.matrix</code> method sets the <code>control</code> and <code>seed</code>
+attributes to <code>NULL</code> and removes the <code>"permutationMatrix"</code>
+class, resulting in a standard matrix object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a matrix of permutations, where each row is a separate
+permutation. As such, the returned matrix has <code>nset</code> rows and
+<code>n</code> columns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin L. Simpson
+</p>
+
+
+<h3>References</h3>
+
+<p><code>shuffleSet()</code> is modelled after the permutation schemes of Canoco
+3.1 (ter Braak, 1990); see also Besag &amp; Clifford (1989).
+</p>
+<p>Besag, J. and Clifford, P. (1989) Generalized Monte Carlo significance
+tests. <em>Biometrika</em> <strong>76</strong>; 633&ndash;642.
+</p>
+<p>ter Braak, C. J. F. (1990). <em>Update notes: CANOCO version
+3.1</em>. Wageningen: Agricultural Mathematics Group. (UR).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../permute/help/shuffle.html">shuffle</a></code> for generating a single permutation, and
+<code><a href="../../permute/help/how.html">how</a></code> for setting up permutation designs.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+set.seed(1)
+## simple random permutations, 5 permutations in set
+shuffleSet(n = 10, nset = 5)
+
+## series random permutations, 5 permutations in set
+shuffleSet(10, 5, how(within = Within(type = "series")))
+
+## series random permutations, 10 permutations in set,
+## with possible mirroring
+CTRL &lt;- how(within = Within(type = "series", mirror = TRUE))
+shuffleSet(10, 10, CTRL)
+
+## Permuting strata
+## 4 groups of 5 observations
+CTRL &lt;- how(within = Within(type = "none"),
+            plots = Plots(strata = gl(4,5), type = "free"))
+shuffleSet(20, 10, control = CTRL)
+
+## 10 random permutations in presence of Plot-level strata
+plotStrata &lt;- Plots(strata = gl(4,5))
+CTRL &lt;- how(plots = plotStrata,
+            within = Within(type = "free"))
+numPerms(20, control = CTRL)
+shuffleSet(20, 10, control = CTRL)
+## as above but same random permutation within Plot-level strata
+CTRL &lt;- how(plots = plotStrata,
+            within = Within(type = "free", constant = TRUE))
+numPerms(20, control = CTRL)
+shuffleSet(20, 10, CTRL) ## check this.
+
+## time series within each level of Plot strata
+CTRL &lt;- how(plots = plotStrata,
+            within = Within(type = "series"))
+shuffleSet(20, 10, CTRL)
+## as above, but  with same permutation for each Plot-level stratum
+CTRL &lt;- how(plots = plotStrata,
+            within = Within(type = "series", constant = TRUE))
+shuffleSet(20, 10, CTRL)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

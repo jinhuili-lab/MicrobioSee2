@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Barro Colorado Island Tree Counts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BCI {vegan}"><tr><td>BCI {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Barro Colorado Island Tree Counts</h2>
+
+<h3>Description</h3>
+
+<p>Tree counts in 1-hectare plots in the Barro Colorado Island and
+associated site information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(BCI)
+data(BCI.env)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 50 plots (rows) of 1 hectare with counts of trees on
+each plot with total of 225 species (columns). Full Latin names are
+used for tree species. The names were updated against
+<a href="http://www.theplantlist.org">http://www.theplantlist.org</a> and Kress et al. (2009) which allows
+matching 207 of species against doi: <a href="https://doi.org/10.5061/dryad.63q27">10.5061/dryad.63q27</a> (Zanne et
+al., 2014). The original species names are available as attribute
+<code>original.names</code> of <code>BCI</code>. See Examples for changed names.
+</p>
+<p>For <code>BCI.env</code>, a data frame with 50 plots (rows) and nine site
+variables derived from Pyke et al. (2001) and Harms et al. (2001):
+</p>
+
+<dl>
+<dt><code>UTM.EW</code>: </dt><dd><p>UTM coordinates (zone 17N) East-West.</p>
+</dd>
+<dt><code>UTM.NS</code>: </dt><dd><p>UTM coordinates (zone 17N) North-South.</p>
+</dd>
+<dt><code>Precipitation</code>: </dt><dd><p>Precipitation in mm per year.</p>
+</dd>
+<dt><code>Elevation</code>: </dt><dd><p>Elevation in m above sea level.</p>
+</dd>
+<dt><code>Age.cat</code>: </dt><dd><p>Forest age category.</p>
+</dd>
+<dt><code>Geology</code>: </dt><dd><p>The Underlying geological formation.</p>
+</dd>
+<dt><code>Habitat</code>: </dt><dd><p>Dominant habitat type based on the map of
+habitat types in 25 grid cells in each plot (Harms et al. 2001,
+excluding streamside habitat). The habitat types are <code>Young</code>
+forests (<em>ca.</em> 100 years), old forests on &gt; 7 degree slopes
+(<code>OldSlope</code>), old forests under 152 m elevation
+(<code>OldLow</code>) and at higher elevation (<code>OldHigh</code>) and
+<code>Swamp</code> forests.</p>
+</dd>
+<dt><code>River</code>: </dt><dd><p><code>"Yes"</code> if there is streamside habitat
+in the plot.</p>
+</dd>
+<dt><code>EnvHet</code>: </dt><dd><p>Environmental Heterogeneity assessed as the
+Simpson diversity of frequencies of <code>Habitat</code> types in 25
+grid cells in the plot.</p>
+</dd>
+</dl>
+
+
+
+<h3>Details</h3>
+
+<p>Data give the numbers of trees at least 10 cm in
+diameter at breast height (1.3 m above the ground) in each one hectare
+square of forest. Within each one hectare square, all individuals of
+all species were tallied and are recorded in this table.
+</p>
+<p>The data frame contains only the Barro Colorado Island subset of the
+original data.
+</p>
+<p>The quadrats are located in a regular grid. See <code>BCI.env</code> for the
+coordinates.
+</p>
+<p>A full description of the site information in <code>BCI.env</code> is
+given in Pyke et al. (2001) and Harms et al. (2001). <em>N.B.</em>
+Pyke et al. (2001) and Harms et al. (2001) give conflicting
+information about forest age categories and elevation.
+</p>
+
+
+<h3>Source</h3>
+
+<p><a href="https://science.sciencemag.org/content/suppl/2002/01/24/295.5555.666.DC1">https://science.sciencemag.org/content/suppl/2002/01/24/295.5555.666.DC1</a>
+for community data and References for environmental data.
+</p>
+
+
+<h3>References</h3>
+
+<p>Condit, R, Pitman, N, Leigh, E.G., Chave, J., Terborgh, J., Foster,
+R.B., Nuñez, P., Aguilar, S., Valencia, R., Villa, G.,
+Muller-Landau, H.C., Losos, E. &amp; Hubbell, S.P. (2002).
+Beta-diversity in tropical forest trees. <em>Science</em> 295,
+666&ndash;669.
+</p>
+<p>Harms K.E., Condit R., Hubbell S.P. &amp; Foster R.B. (2001) Habitat
+associations of trees and shrubs in a 50-ha neotropical forest
+plot. <em>J. Ecol.</em> 89, 947&ndash;959.
+</p>
+<p>Kress W.J., Erickson D.L, Jones F.A., Swenson N.G, Perez R., Sanjur
+O. &amp; Bermingham E. (2009) Plant DNA barcodes and a community
+phylogeny of a tropical forest dynamics plot in Panama. <em>PNAS</em>
+106, 18621&ndash;18626.
+</p>
+<p>Zanne A.E., Tank D.C., Cornwell, W.K., Eastman J.M., Smith, S.A.,
+FitzJohn, R.G., McGlinn, D.J., O’Meara, B.C., Moles, A.T., Reich,
+P.B., Royer, D.L., Soltis, D.E., Stevens, P.F., Westoby, M., Wright,
+I.J., Aarssen, L., Bertin, R.I., Calaminus, A., Govaerts, R.,
+Hemmings, F., Leishman, M.R., Oleksyn, J., Soltis, P.S., Swenson,
+N.G., Warman, L. &amp; Beaulieu, J.M. (2014) Three keys to the radiation
+of angiosperms into freezing environments. <em>Nature</em> 506,
+89&ndash;92.  doi: <a href="https://doi.org/10.1038/nature12872">10.1038/nature12872</a> (published online Dec 22, 2013).
+</p>
+<p>Pyke, C. R., Condit, R., Aguilar, S., &amp; Lao, S. (2001). Floristic
+composition across a climatic gradient in a neotropical lowland
+forest. <em>Journal of Vegetation Science</em> 12, 553&ndash;566.
+doi: <a href="https://doi.org/10.2307/3237007">10.2307/3237007</a> 
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Extra-CRAN package <span class="pkg">natto</span>
+(<a href="https://github.com/jarioksa/natto">https://github.com/jarioksa/natto</a>) has data set
+<code>BCI.env2</code> with original grid data of Harms et al. (2001)
+habitat classification, and data set <code>BCI.taxon</code> of APG III
+classification of tree species.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI, BCI.env)
+head(BCI.env)
+## see changed species names
+oldnames &lt;- attr(BCI, "original.names")
+taxa &lt;- cbind("Old Names" = oldnames, "Current Names" = names(BCI))
+noquote(taxa[taxa[,1] != taxa[,2], ])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

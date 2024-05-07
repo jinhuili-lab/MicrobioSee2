@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a SQL string.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for build_sql {dbplyr}"><tr><td>build_sql {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build a SQL string.</h2>
+
+<h3>Description</h3>
+
+<p>This is a convenience function that should prevent sql injection attacks
+(which in the context of dplyr are most likely to be accidental not
+deliberate) by automatically escaping all expressions in the input, while
+treating bare strings as sql. This is unlikely to prevent any serious
+attack, but should make it unlikely that you produce invalid sql.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build_sql(..., .env = parent.frame(), con = sql_current_con())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>input to convert to SQL. Use <code><a href="../../dbplyr/help/sql.html">sql()</a></code> to preserve
+user input as is (dangerous), and <code><a href="../../dbplyr/help/ident.html">ident()</a></code> to label user
+input as sql identifiers (safe)</p>
+</td></tr>
+<tr valign="top"><td><code>.env</code></td>
+<td>
+<p>the environment in which to evaluate the arguments. Should not
+be needed in typical use.</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>database connection; used to select correct quoting characters.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function should be used only when generating <code>SELECT</code> clauses,
+other high level queries, or for other syntax that has no R equivalent.
+For individual function translations, prefer <code><a href="../../dbplyr/help/sql_expr.html">sql_expr()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+con &lt;- simulate_dbi()
+build_sql("SELECT * FROM TABLE", con = con)
+x &lt;- "TABLE"
+build_sql("SELECT * FROM ", x, con = con)
+build_sql("SELECT * FROM ", ident(x), con = con)
+build_sql("SELECT * FROM ", sql(x), con = con)
+
+# http://xkcd.com/327/
+name &lt;- "Robert'); DROP TABLE Students;--"
+build_sql("INSERT INTO Students (Name) VALUES (", name, ")", con = con)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for build {pkgbuild}"><tr><td>build {pkgbuild}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build package</h2>
+
+<h3>Description</h3>
+
+<p>Building converts a package source directory into a single bundled file.
+If <code>binary = FALSE</code> this creates a <code>tar.gz</code> package that can
+be installed on any platform, provided they have a full development
+environment (although packages without source code can typically be
+installed out of the box). If <code>binary = TRUE</code>, the package will have
+a platform specific extension (e.g. <code>.zip</code> for windows), and will
+only be installable on the current platform, but no development
+environment is needed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+build(
+  path = ".",
+  dest_path = NULL,
+  binary = FALSE,
+  vignettes = TRUE,
+  manual = FALSE,
+  clean_doc = NULL,
+  args = NULL,
+  quiet = FALSE,
+  needs_compilation = pkg_has_src(path),
+  compile_attributes = FALSE,
+  register_routines = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Path to a package, or within a package.</p>
+</td></tr>
+<tr valign="top"><td><code>dest_path</code></td>
+<td>
+<p>path in which to produce package. If it is an existing
+directory, then the output file is placed in <code>dest_path</code> and named
+according to the current R conversions (e.g. <code>.zip</code> for Windows binary
+packages, <code>.tgz</code> for macOS binary packages, etc).
+If it is an existing file, then it will be overwritten.
+If <code>dest_path</code> does not exist, then it is used as a file name.
+If <code>NULL</code>, it defaults to the parent directory of the package.</p>
+</td></tr>
+<tr valign="top"><td><code>binary</code></td>
+<td>
+<p>Produce a binary (<code>--binary</code>) or source (
+<code>--no-manual --no-resave-data</code>) version of the package.</p>
+</td></tr>
+<tr valign="top"><td><code>vignettes, manual</code></td>
+<td>
+<p>For source packages: if <code>FALSE</code>, don't build PDF
+vignettes (<code>--no-build-vignettes</code>) or manual (<code>--no-manual</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>clean_doc</code></td>
+<td>
+<p>If <code>TRUE</code>, clean the files in <code>inst/doc</code> before building
+the package. If <code>NULL</code> and the <code>Config/build/clean-inst-doc</code> entry is
+present in <code>DESCRIPTION</code>, then that is used. Otherwise, if <code>NULL</code>,
+and interactive, ask to remove the files prior to cleaning. In most
+cases cleaning the files is the correct behavior to avoid stale
+vignette outputs in the built package.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>An optional character vector of additional command
+line arguments to be passed to <code style="white-space: pre;">R CMD build</code> if <code>binary = FALSE</code>,
+or <code style="white-space: pre;">R CMD install</code> if <code>binary = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>if <code>TRUE</code> suppresses output from this function.</p>
+</td></tr>
+<tr valign="top"><td><code>needs_compilation</code></td>
+<td>
+<p>Usually only needed if the packages has
+C/C++/Fortran code. By default this is autodetected.</p>
+</td></tr>
+<tr valign="top"><td><code>compile_attributes</code></td>
+<td>
+<p>if <code>TRUE</code> and the package uses Rcpp, call
+<code><a href="../../Rcpp/help/compileAttributes.html">Rcpp::compileAttributes()</a></code> before building the package. It is ignored
+if package does not need compilation.</p>
+</td></tr>
+<tr valign="top"><td><code>register_routines</code></td>
+<td>
+<p>if <code>TRUE</code> and the package does not use Rcpp, call
+register routines with
+<code>tools::package_native_routine_registration_skeleton()</code> before building
+the package. It is ignored if package does not need compilation.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Configuration</h4>
+
+
+
+<h5><code>DESCRIPTION</code> entries</h5>
+
+
+<ul>
+<li> <p><code>Config/build/clean-inst-doc</code> can be set to <code>FALSE</code> to avoid cleaning up
+<code>inst/doc</code> when building a source package. Set it to <code>TRUE</code> to force a
+cleanup. See the <code>clean_doc</code> argument.
+</p>
+</li>
+<li> <p><code>Config/build/copy-method</code> can be used to avoid copying large
+directories in <code style="white-space: pre;">R CMD build</code>. It works by copying (or linking) the
+files of the package to a temporary directory, leaving out the
+(possibly large) files that are not part of the package. Possible
+values:
+</p>
+
+<ul>
+<li> <p><code>none</code>: pkgbuild does not copy the package tree. This is the default.
+</p>
+</li>
+<li> <p><code>copy</code>: the package files are copied to a temporary directory before
+<code style="white-space: pre;"> R CMD build</code>.
+</p>
+</li>
+<li> <p><code>link</code>: the package files are symbolic linked to a temporary
+directory before <code style="white-space: pre;">R CMD build</code>. Windows does not have symbolic
+links, so on Windows this is equivalent to <code>copy</code>.
+</p>
+</li></ul>
+
+<p>You can also use the <code>pkg.build_copy_method</code> option or the
+<code>PKG_BUILD_COPY_METHOD</code> environment variable to set the copy method.
+The option is consulted first, then the <code>DESCRIPTION</code> entry, then the
+environment variable.
+</p>
+</li>
+<li> <p><code>Config/build/extra-sources</code> can be used to define extra source files
+for pkgbuild to decide whether a package DLL needs to be recompiled in
+<code>needs_compile()</code>. The syntax is a comma separated list of file names,
+or globs. (See <code><a href="../../utils/help/glob2rx.html">utils::glob2rx()</a></code>.) E.g. <code style="white-space: pre;">src/rust/src/*.rs</code> or
+<code style="white-space: pre;">configure*</code>.
+</p>
+</li>
+<li> <p><code>Config/build/bootstrap</code> can be set to <code>TRUE</code> to run
+<code style="white-space: pre;">Rscript bootstrap.R</code> in the source directory prior to running subsequent
+build steps.
+</p>
+</li></ul>
+
+
+
+
+<h5>Options</h5>
+
+
+<ul>
+<li> <p><code>pkg.build_copy_method</code>: use this option to avoid copying large
+directories when building a package. See possible values above, at the
+<code>Config/build/copy-method</code> <code>DESCRIPTION</code> entry.
+</p>
+</li>
+<li> <p><code>pkg.build_stop_for_warnings</code>: if it is set to <code>TRUE</code>, then pkgbuild
+will stop for <code style="white-space: pre;">R CMD build</code> errors. It takes precedence over the
+<code>PKG_BUILD_STOP_FOR_WARNINGS</code> environment variable.
+</p>
+</li></ul>
+
+
+
+
+<h5>Environment variables</h5>
+
+
+<ul>
+<li> <p><code>PKG_BUILD_COLOR_DIAGNOSTICS</code>: set it to <code>false</code> to opt out of colored
+compiler diagnostics. Set it to <code>true</code> to force colored compiler
+diagnostics.
+</p>
+</li>
+<li> <p><code>PKG_BUILD_COPY_METHOD</code>: use this environment variable to avoid copying
+large directories when building a package. See possible values above,
+at the <code>Config/build/copy-method</code> <code>DESCRIPTION</code> entry.
+</p>
+</li></ul>
+
+<p>will stop for <code style="white-space: pre;">R CMD build</code> errors. The <code>pkg.build_stop_for_warnings</code>
+option takes precedence over this environment variable.
+</p>
+
+
+
+
+<h3>Value</h3>
+
+<p>a string giving the location (including file name) of the built
+package
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pkgbuild</em> version 1.4.4 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

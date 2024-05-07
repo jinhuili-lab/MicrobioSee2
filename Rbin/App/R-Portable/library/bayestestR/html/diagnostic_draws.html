@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Diagnostic values for each iteration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for diagnostic_draws {bayestestR}"><tr><td>diagnostic_draws {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Diagnostic values for each iteration</h2>
+
+<h3>Description</h3>
+
+<p>Returns the accumulated log-posterior, the average Metropolis acceptance rate, divergent transitions, treedepth rather than terminated its evolution normally.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+diagnostic_draws(posterior, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>A <code>stanreg</code>, <code>stanfit</code>, <code>brmsfit</code>, or <code>blavaan</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+set.seed(333)
+
+if (require("brms", quietly = TRUE)) {
+  model &lt;- suppressWarnings(brm(mpg ~ wt * cyl * vs,
+    data = mtcars,
+    iter = 100, control = list(adapt_delta = 0.80),
+    refresh = 0
+  ))
+  diagnostic_draws(model)
+}
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

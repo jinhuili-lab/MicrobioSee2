@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Write raster data to a file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for writeRaster {raster}"><tr><td>writeRaster {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Write raster data to a file</h2>
+
+<h3>Description</h3>
+
+<p>Write an entire Raster* object to a file, using one of the many supported formats. See <code><a href="../help/writeValues.html">writeValues</a></code> for writing in chunks (e.g.  by row). 
+</p>
+<p>When writing a file to disk, the file format is determined by the 'format=' argument if supplied, or else by the file extension (if the extension is known). If other cases the default format is used. The default format is 'raster', but this setting can be changed (see <code><a href="../../raster/help/rasterOptions.html">rasterOptions</a></code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,character'
+writeRaster(x, filename, format, ...)
+
+## S4 method for signature 'RasterStackBrick,character'
+writeRaster(x, filename, format, bylayer, suffix='numbers', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Output filename</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>Character. Output file type. See <code><a href="../help/writeFormats.html">writeFormats</a></code>. If this argument is not provided, it is attempted to infer it from the filename extension. If that fails, the default format is used. The default format is 'raster', but this can be changed using <code><a href="../../raster/help/rasterOptions.html">rasterOptions</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments: 
+</p>
+<p><code>datatype</code>Character. Output data type (e.g. 'INT2S' or 'FLT4S'). 
+See <code><a href="../../raster/help/dataType.html">dataType</a></code>. If no datatype is specified, 'FLT4S' is used,
+unless this default value was changed with <code><a href="../../raster/help/rasterOptions.html">rasterOptions</a></code>
+</p>
+<p><code>overwrite</code>: Logical. If TRUE, &quot;filename&quot; will be overwritten if it exists
+</p>
+<p><code>progress</code>: Character. Set a value to show a progress bar. Valid values are &quot;text&quot; and &quot;window&quot;.
+</p>
+<p><code>NAflag</code>: Numeric. To overwrite the default value used to represent <code>NA</code> in a file 
+</p>
+<p><code>bandorder</code>: Character. 'BIL', 'BIP', or 'BSQ'. For 'native' file formats only.
+For some other formats you can use the 'options' argument (see below)
+</p>
+<p><code>options</code>: Character. File format specific GDAL options. E.g., when
+writing a geotiff file you can use: <code>options=c("COMPRESS=NONE", "TFW=YES")</code>
+</p>
+<p>You can use options=c(&quot;PROFILE=BASELINE&quot;) to create a plain  tif with no GeoTIFF tags. 
+This can be useful when writing files to be read by applications intolerant of unrecognised tags. 
+</p>
+<p>NetCDF files have the following additional, optional, arguments: <code>varname</code>, <code>varunit</code>, <code>longname</code>, <code>xname</code>, <code>yname</code>, <code>zname</code>, <code>zunit</code>
+</p>
+<p><code>prj</code>: Logical. If <code>TRUE</code>, the crs is written to a .prj file. This can be useful 
+when writing to an ascii file or another file type that does not store the crs
+</p>
+<p><code>setStatistics</code>: logical. If <code>TRUE</code> (the default) the min and max cell values are written to file (if the format permits it)
+</p>
+</td></tr>
+<tr valign="top"><td><code>bylayer</code></td>
+<td>
+<p>if <code>TRUE</code>, write a separate file for each layer. You can provide a vector of filenames that matches the number of layers. Or you can provide a single filename that will get a unique suffix (see below)</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>'numbers' or 'names' to determine the suffix that each file gets when <code>bylayer=TRUE</code>; either a number between <code>1</code> and <code>nlayers(x)</code> or <code>names(x)</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>See <code>writeFormats</code> for supported file types (&quot;formats&quot;, &quot;drivers&quot;).
+</p>
+<p>The rgdal package is needed, except for these file formats: 'raster', 'BIL', 'BIP', 'BSQ', 'SAGA', 'ascii', 'IDRISI', and 'CDF'. Some of these formats can be used with or without rgdal (idrisi, SAGA, ascii).  You need the 'ncdf4' library for the 'CDF' format. 
+</p>
+<p>In multi-layer files (i.e. files saved from RasterStack or RasterBrick objects), in the native 'raster' format, the band-order can be set to BIL ('Bands Interleaved by Line'), BIP ('Bands Interleaved by Pixels') or BSQ ('Bands SeQuential'). Note that bandorder is not the same as filetype here. 
+</p>
+<p>Supported file types include:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+	</td><td style="text-align: left;"> <b>File type</b> </td><td style="text-align: left;"> <b>Long name</b> </td><td style="text-align: left;"> <b>default extension</b> </td><td style="text-align: right;"> <b>Multiband support</b> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>raster</code>    </td><td style="text-align: left;"> 'Native' raster package format </td><td style="text-align: left;"> .grd </td><td style="text-align: right;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>ascii</code>     </td><td style="text-align: left;"> ESRI Ascii  </td><td style="text-align: left;"> .asc                 </td><td style="text-align: right;">  No </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>SAGA</code>      </td><td style="text-align: left;"> SAGA GIS    </td><td style="text-align: left;"> .sdat                </td><td style="text-align: right;">  No </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>IDRISI</code>    </td><td style="text-align: left;"> IDRISI      </td><td style="text-align: left;"> .rst                 </td><td style="text-align: right;">  No </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>CDF</code>       </td><td style="text-align: left;"> netCDF (requires ncdf4) </td><td style="text-align: left;"> .nc    </td><td style="text-align: right;">  Yes </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>GTiff</code>     </td><td style="text-align: left;"> GeoTiff (requires rgdal) </td><td style="text-align: left;"> .tif    </td><td style="text-align: right;">  Yes  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>ENVI</code>      </td><td style="text-align: left;"> ENVI .hdr Labelled       </td><td style="text-align: left;"> .envi   </td><td style="text-align: right;"> Yes  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>EHdr</code>      </td><td style="text-align: left;"> ESRI .hdr Labelled       </td><td style="text-align: left;">  .bil   </td><td style="text-align: right;"> Yes  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <code>HFA</code>       </td><td style="text-align: left;"> Erdas Imagine Images (.img)  </td><td style="text-align: left;"> .img </td><td style="text-align: right;"> Yes  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>This function is used for the side-effect of writing values to a file.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/writeFormats.html">writeFormats</a></code>, <code><a href="../help/writeValues.html">writeValues</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+tmp &lt;- tempdir()
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+
+# take a small part
+r &lt;- crop(r, extent(179880, 180800, 329880, 330840) )
+
+# write to an integer binary file
+rf &lt;- writeRaster(r, filename=file.path(tmp, "allint.grd"), datatype='INT4S', overwrite=TRUE)
+
+# make a brick and save multi-layer file
+b &lt;- brick(r, sqrt(r))
+bf &lt;- writeRaster(b, filename=file.path(tmp, "multi.grd"), bandorder='BIL', overwrite=TRUE)
+
+# write to a new geotiff file (depends on rgdal)
+if (require(rgdal)) {
+  rf &lt;- writeRaster(r, filename=file.path(tmp, "test.tif"), format="GTiff", overwrite=TRUE)
+  bf &lt;- writeRaster(b, filename=file.path(tmp, "multi.tif"), 
+						options="INTERLEAVE=BAND", overwrite=TRUE)
+}
+ 
+# write to netcdf 
+if (require(ncdf4)) {	
+ rnc &lt;- writeRaster(r, filename=file.path(tmp, "netCDF.nc"), format="CDF", overwrite=TRUE)   
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

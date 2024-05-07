@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Change cell values to logical or integer values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for as.logical {raster}"><tr><td>as.logical {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Change cell values to logical or integer values</h2>
+
+<h3>Description</h3>
+
+<p>Change values of a Raster* object to logical or integer values. With <code>as.logical</code>, zero becomes <code>FALSE</code>, all other values become <code>TRUE</code>. With <code>as.integer</code> values are truncated.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+as.logical(x, filename='', ...)
+
+## S4 method for signature 'Raster'
+as.integer(x, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional optional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../base/help/logical.html">logical</a></code>, <code><a href="../../base/help/integer.html">integer</a></code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=10, ncol=10)
+set.seed(0)
+values(r) &lt;- runif(ncell(r)) * 10
+r
+r &lt;- as.integer(r)
+r
+as.logical(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

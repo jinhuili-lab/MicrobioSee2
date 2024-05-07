@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate likelihood &quot;slices&quot;</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for slice {bbmle}"><tr><td>slice {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate likelihood &quot;slices&quot;</h2>
+
+<h3>Description</h3>
+
+<p>Computes cross-section(s) of a multi-dimensional likelihood surface
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+slice(x, dim=1, ...)
+sliceOld(fitted, which = 1:p, maxsteps = 100,
+                       alpha = 0.01, zmax = sqrt(qchisq(1 - alpha/2, p)),
+                       del = zmax/5, trace = FALSE,
+                       tol.newmin=0.001, ...)
+slice1D(params,fun,nt=101,lower=-Inf,
+                    upper=Inf,verbose=TRUE, tranges=NULL,
+                    fun_args = NULL,
+                    ...)
+slice2D(params,fun,nt=31,lower=-Inf,
+                    upper=Inf,
+                    cutoff=10,verbose=TRUE,
+                    tranges=NULL,
+                    ...)
+slicetrans(params, params2, fun, extend=0.1, nt=401,
+                       lower=-Inf, upper=Inf)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a fitted model object of some sort</p>
+</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+<p>dimensionality of slices (1 or 2)</p>
+</td></tr>
+<tr valign="top"><td><code>params</code></td>
+<td>
+<p>a named vector of baseline parameter values</p>
+</td></tr>
+<tr valign="top"><td><code>params2</code></td>
+<td>
+<p>a vector of parameter values</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>an objective function</p>
+</td></tr>
+<tr valign="top"><td><code>fun_args</code></td>
+<td>
+<p>additional arguments to pass to <code>fun</code></p>
+</td></tr>
+<tr valign="top"><td><code>nt</code></td>
+<td>
+<p>(integer) number of slice-steps to take</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>lower bound(s) (stub?)</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+<p>upper bound(s) (stub?)</p>
+</td></tr>
+<tr valign="top"><td><code>cutoff</code></td>
+<td>
+<p>maximum increase in objective function to allow
+when computing ranges</p>
+</td></tr>
+<tr valign="top"><td><code>extend</code></td>
+<td>
+<p>(numeric) fraction by which to extend range beyond specified points</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>print verbose output?</p>
+</td></tr>
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>A fitted maximum likelihood model of class
+&ldquo;mle2&rdquo;</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>a numeric or character vector describing which parameters
+to profile (default is to profile all parameters)</p>
+</td></tr>
+<tr valign="top"><td><code>maxsteps</code></td>
+<td>
+<p>maximum number of steps to take looking for an upper
+value of the negative log-likelihood</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>maximum (two-sided) likelihood ratio test confidence
+level to find</p>
+</td></tr>
+<tr valign="top"><td><code>zmax</code></td>
+<td>
+<p>maximum value of signed square root of deviance difference
+to find (default value corresponds to a
+2-tailed chi-squared test at level alpha)</p>
+</td></tr>
+<tr valign="top"><td><code>del</code></td>
+<td>
+<p>step size for profiling</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>(logical) produce tracing output?</p>
+</td></tr>
+<tr valign="top"><td><code>tol.newmin</code></td>
+<td>
+<p>tolerance for diagnosing a new minimum below the
+minimum deviance estimated in initial fit is found</p>
+</td></tr>
+<tr valign="top"><td><code>tranges</code></td>
+<td>
+<p>a two-column matrix giving lower and upper bounds for
+each parameter</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Slices provide a lighter-weight way to explore likelihood surfaces
+than profiles, since they vary a single parameter rather than
+optimizing over all but one or two parameters.
+</p>
+
+<dl>
+<dt>slice</dt><dd><p>is a generic method</p>
+</dd>
+<dt>slice1D</dt><dd><p>creates one-dimensional slices, by default of all
+parameters of a model</p>
+</dd>
+<dt>slice2D</dt><dd><p>creates two-dimensional slices, by default of all pairs
+of parameters in a model. In each panel the closed point represents
+the parameters given (typically the MLEs), while the open point
+represents the observed minimum value within the 2D slice.
+If everything has gone according to plan, these points should
+coincide (at least up to grid precision).
+</p>
+</dd>
+<dt>slicetrans</dt><dd><p>creates a slice along a transect between two specified
+points in parameter space (see <code>calcslice</code> in the <code>emdbook</code>
+package)</p>
+</dd>
+</dl>
+
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>slice</code> with
+</p>
+
+<dl>
+<dt>slices</dt><dd><p>a list of individual parameter (or parameter-pair)
+slices, each of which is a data frame with elements
+</p>
+
+<dl>
+<dt>var1</dt><dd><p>name of the first variable</p>
+</dd>
+<dt>var2</dt><dd><p>(for 2D slices) name of the second variable</p>
+</dd>
+<dt>x</dt><dd><p>parameter values</p>
+</dd>
+<dt>y</dt><dd><p>(for 2D slices) parameter values</p>
+</dd>
+<dt>z</dt><dd><p>slice values</p>
+</dd>
+<dt>ranges</dt><dd><p>a list (?) of the ranges for each parameter</p>
+</dd>
+<dt>params</dt><dd><p>vector of baseline parameter values</p>
+</dd>
+<dt>dim</dt><dd><p>1 or 2</p>
+</dd>
+</dl>
+
+</dd>
+</dl>
+<p><code>sliceOld</code> returns instead a list with elements <code>profile</code>
+and <code>summary</code> (see <code><a href="../../bbmle/help/profile.mle2.html">profile.mle2</a></code>)
+
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/profile.html">profile</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 0:10
+y &lt;- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+d &lt;- data.frame(x,y)
+fit1 &lt;- mle2(y~dpois(lambda=exp(lymax)/(1+x/exp(lhalf))),
+   start=list(lymax=0,lhalf=0),
+   data=d)
+s1 &lt;- bbmle::slice(fit1,verbose=FALSE)
+s2 &lt;- bbmle::slice(fit1,dim=2,verbose=FALSE)
+require(lattice)
+plot(s1)
+plot(s2)
+## 'transect' slice, from best-fit values to another point
+st &lt;- bbmle::slice(fit1,params2=c(5,0.5))
+plot(st)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

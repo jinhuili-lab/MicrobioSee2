@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate SQL from R expressions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sql_expr {dbplyr}"><tr><td>sql_expr {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate SQL from R expressions</h2>
+
+<h3>Description</h3>
+
+<p>Low-level building block for generating SQL from R expressions.
+Strings are escaped; names become bare SQL identifiers. User infix
+functions have <code style="white-space: pre;">%</code> stripped.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sql_expr(x, con = sql_current_con())
+
+sql_call2(.fn, ..., con = sql_current_con())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A quasiquoted expression</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Connection to use for escaping. Will be set automatically when
+called from a function translation.</p>
+</td></tr>
+<tr valign="top"><td><code>.fn</code></td>
+<td>
+<p>Function name (as string, call, or symbol)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to function</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Using <code>sql_expr()</code> in package will require use of <code><a href="../../utils/html/globalVariables.html">globalVariables()</a></code>
+to avoid <code style="white-space: pre;">R CMD check</code> NOTES. This is a small amount of additional pain,
+which I think is worthwhile because it leads to more readable translation
+code.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+con &lt;- simulate_dbi() # not necessary when writing translations
+
+sql_expr(f(x + 1), con = con)
+sql_expr(f("x", "y"), con = con)
+sql_expr(f(x, y), con = con)
+
+x &lt;- ident("x")
+sql_expr(f(!!x, y), con = con)
+
+sql_expr(cast("x" %as% DECIMAL), con = con)
+sql_expr(round(x) %::% numeric, con = con)
+
+sql_call2("+", quote(x), 1, con = con)
+sql_call2("+", "x", 1, con = con)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

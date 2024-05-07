@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Separate single variable into multiple variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_separate {datawizard}"><tr><td>data_separate {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Separate single variable into multiple variables</h2>
+
+<h3>Description</h3>
+
+<p>Separates a single variable into multiple new variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_separate(
+  data,
+  select = NULL,
+  new_columns = NULL,
+  separator = "[^[:alnum:]]+",
+  guess_columns = NULL,
+  merge_multiple = FALSE,
+  merge_separator = "",
+  fill = "right",
+  extra = "drop_right",
+  convert_na = TRUE,
+  exclude = NULL,
+  append = FALSE,
+  ignore_case = FALSE,
+  verbose = TRUE,
+  regex = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Variables that will be included when performing the required
+tasks. Can be either
+</p>
+
+<ul>
+<li><p> a variable specified as a literal variable name (e.g., <code>column_name</code>),
+</p>
+</li>
+<li><p> a string with the variable name (e.g., <code>"column_name"</code>), or a character
+vector of variable names (e.g., <code>c("col1", "col2", "col3")</code>),
+</p>
+</li>
+<li><p> a formula with variable names (e.g., <code>~column_1 + column_2</code>),
+</p>
+</li>
+<li><p> a vector of positive integers, giving the positions counting from the left
+(e.g. <code>1</code> or <code>c(1, 3, 5)</code>),
+</p>
+</li>
+<li><p> a vector of negative integers, giving the positions counting from the
+right (e.g., <code>-1</code> or <code>-1:-3</code>),
+</p>
+</li>
+<li><p> one of the following select-helpers: <code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, a range using <code>:</code> or <code>regex("")</code>. <code>starts_with()</code>,
+<code>ends_with()</code>, and  <code>contains()</code> accept several patterns, e.g
+<code>starts_with("Sep", "Petal")</code>.
+</p>
+</li>
+<li><p> or a function testing for logical conditions, e.g. <code>is.numeric()</code> (or
+<code>is.numeric</code>), or any user-defined function that selects the variables
+for which the function returns <code>TRUE</code> (like: <code>foo &lt;- function(x) mean(x) &gt; 3</code>),
+</p>
+</li>
+<li><p> ranges specified via literal variable names, select-helpers (except
+<code>regex()</code>) and (user-defined) functions can be negated, i.e. return
+non-matching elements, when prefixed with a <code>-</code>, e.g. <code>-ends_with("")</code>,
+<code>-is.numeric</code> or <code>-(Sepal.Width:Petal.Length)</code>. <strong>Note:</strong> Negation means
+that matches are <em>excluded</em>, and thus, the <code>exclude</code> argument can be
+used alternatively. For instance, <code>select=-ends_with("Length")</code> (with
+<code>-</code>) is equivalent to <code>exclude=ends_with("Length")</code> (no <code>-</code>). In case
+negation should not work as expected, use the <code>exclude</code> argument instead.
+</p>
+</li></ul>
+
+<p>If <code>NULL</code>, selects all columns. Patterns that found no matches are silently
+ignored, e.g. <code>find_columns(iris, select = c("Species", "Test"))</code> will just
+return <code>"Species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>new_columns</code></td>
+<td>
+<p>The names of the new columns, as character vector. If
+more than one variable was selected (in <code>select</code>), the new names are prefixed
+with the name of the original column. <code>new_columns</code> can also be a list of
+(named) character vectors when multiple variables should be separated. See
+'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>separator</code></td>
+<td>
+<p>Separator between columns. Can be a character vector, which
+is then treated as regular expression, or a numeric vector that indicates at
+which positions the string values will be split.</p>
+</td></tr>
+<tr valign="top"><td><code>guess_columns</code></td>
+<td>
+<p>If <code>new_columns</code> is not given, the required number of
+new columns is guessed based on the results of value splitting. For example,
+if a variable is split into three new columns, this will be considered as
+the required number of new columns, and columns are named <code>"split_1"</code>,
+<code>"split_2"</code> and <code>"split_3"</code>. When values from a variable are split into
+different amount of new columns, the <code>guess_column</code> can be either <code>"mode"</code>
+(number of new columns is based on the most common number of splits), <code>"min"</code>
+or <code>"max"</code> to use the minimum resp. maximum number of possible splits as
+required number of columns.</p>
+</td></tr>
+<tr valign="top"><td><code>merge_multiple</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and more than one variable is selected
+for separating, new columns can be merged. Value pairs of all split variables
+are merged.</p>
+</td></tr>
+<tr valign="top"><td><code>merge_separator</code></td>
+<td>
+<p>Separator string when <code>merge_multiple = TRUE</code>. Defines
+the string that is used to merge values together.</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p>How to deal with values that return fewer new columns after
+splitting? Can be <code>"left"</code> (fill missing columns from the left with <code>NA</code>),
+<code>"right"</code> (fill missing columns from the right with <code>NA</code>) or <code>"value_left"</code>
+or <code>"value_right"</code> to fill missing columns from left or right with the
+left-most or right-most values.</p>
+</td></tr>
+<tr valign="top"><td><code>extra</code></td>
+<td>
+<p>How to deal with values that return too many new columns after
+splitting? Can be <code>"drop_left"</code> or <code>"drop_right"</code> to drop the left-most or
+right-most values, or <code>"merge_left"</code> or <code>"merge_right"</code> to merge the left-
+or right-most value together, and keeping all remaining values as is.</p>
+</td></tr>
+<tr valign="top"><td><code>convert_na</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, character <code>"NA"</code> values are converted
+into real <code>NA</code> values.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>See <code>select</code>, however, column names matched by the pattern
+from <code>exclude</code> will be excluded instead of selected. If <code>NULL</code> (the default),
+excludes no columns.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>Logical, if <code>FALSE</code> (default), removes original columns that
+were separated. If <code>TRUE</code>, all columns are preserved and the new columns are
+appended to the data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and when one of the select-helpers or
+a regular expression is used in <code>select</code>, ignores lower/upper case in the
+search pattern when matching against variable names.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>regex</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the search pattern from <code>select</code> will be
+treated as regular expression. When <code>regex = TRUE</code>, select <em>must</em> be a
+character string (or a variable containing a character string) and is not
+allowed to be one of the supported select-helpers or a character vector
+of length &gt; 1. <code>regex = TRUE</code> is comparable to using one of the two
+select-helpers, <code>select = contains("")</code> or <code>select = regex("")</code>, however,
+since the select-helpers may not work when called from inside other
+functions (see 'Details'), this argument may be used as workaround.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the newly created variable(s), or - when <code>append = TRUE</code> -
+<code>data</code> including new variables.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../datawizard/help/data_unite.html">data_unite()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# simple case
+d &lt;- data.frame(
+  x = c("1.a.6", "2.b.7", "3.c.8"),
+  stringsAsFactors = FALSE
+)
+d
+data_separate(d, new_columns = c("a", "b", "c"))
+
+# guess number of columns
+d &lt;- data.frame(
+  x = c("1.a.6", NA, "2.b.6.7", "3.c", "x.y.z"),
+  stringsAsFactors = FALSE
+)
+d
+data_separate(d, guess_columns = "mode")
+
+data_separate(d, guess_columns = "max")
+
+# drop left-most column
+data_separate(d, guess_columns = "mode", extra = "drop_left")
+
+# merge right-most column
+data_separate(d, guess_columns = "mode", extra = "merge_right")
+
+# fill columns with fewer values with left-most values
+data_separate(d, guess_columns = "mode", fill = "value_left")
+
+# fill and merge
+data_separate(
+  d,
+  guess_columns = "mode",
+  fill = "value_left",
+  extra = "merge_right"
+)
+
+# multiple columns to split
+d &lt;- data.frame(
+  x = c("1.a.6", "2.b.7", "3.c.8"),
+  y = c("x.y.z", "10.11.12", "m.n.o"),
+  stringsAsFactors = FALSE
+)
+d
+# split two columns, default column names
+data_separate(d, guess_columns = "mode")
+
+# split into new named columns, repeating column names
+data_separate(d, new_columns = c("a", "b", "c"))
+
+# split selected variable new columns
+data_separate(d, select = "y", new_columns = c("a", "b", "c"))
+
+# merge multiple split columns
+data_separate(
+  d,
+  new_columns = c("a", "b", "c"),
+  merge_multiple = TRUE
+)
+
+# merge multiple split columns
+data_separate(
+  d,
+  new_columns = c("a", "b", "c"),
+  merge_multiple = TRUE,
+  merge_separator = "-"
+)
+
+# separate multiple columns, give proper column names
+d_sep &lt;- data.frame(
+  x = c("1.a.6", "2.b.7.d", "3.c.8", "5.j"),
+  y = c("m.n.99.22", "77.f.g.34", "44.9", NA),
+  stringsAsFactors = FALSE
+)
+
+data_separate(
+  d_sep,
+  select = c("x", "y"),
+  new_columns = list(
+    x = c("A", "B", "C"), # separate "x" into three columns
+    y = c("EE", "FF", "GG", "HH") # separate "y" into four columns
+  ),
+  verbose = FALSE
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

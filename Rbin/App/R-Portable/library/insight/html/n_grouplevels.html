@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Count number of random effect levels in a mixed model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for n_grouplevels {insight}"><tr><td>n_grouplevels {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Count number of random effect levels in a mixed model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the number of group levels of random effects from mixed models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+n_grouplevels(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A mixed model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments that can be passed to the function. Currently,
+you can use <code>data</code> to provide the model data, if available, to avoid
+retrieving model data multiple times.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The number of group levels in the model.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(sleepstudy, package = "lme4")
+set.seed(12345)
+sleepstudy$grp &lt;- sample(1:5, size = 180, replace = TRUE)
+sleepstudy$subgrp &lt;- NA
+for (i in 1:5) {
+  filter_group &lt;- sleepstudy$grp == i
+  sleepstudy$subgrp[filter_group] &lt;-
+    sample(1:30, size = sum(filter_group), replace = TRUE)
+}
+model &lt;- lme4::lmer(
+  Reaction ~ Days + (1 | grp / subgrp) + (1 | Subject),
+  data = sleepstudy
+)
+n_grouplevels(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

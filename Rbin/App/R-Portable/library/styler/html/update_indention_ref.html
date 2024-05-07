@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update the indention reference</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for update_indention_ref {styler}"><tr><td>update_indention_ref {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update the indention reference</h2>
+
+<h3>Description</h3>
+
+<p>Update the indention reference
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+update_indention_ref_fun_dec(pd_nested)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>update_indention_ref_fun_dec()</code>: Updates the reference pos_id for all
+tokens in <code>pd_nested</code> if <code>pd_nested</code> contains a function declaration.
+Tokens inside a function declaration are are re-indented,
+that is, they are indented up to the level at which the token FUNCTION
+ends in terms of col2.
+</p>
+</li></ul>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+a &lt;- function(x,
+              y) {
+  x + y
+}
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

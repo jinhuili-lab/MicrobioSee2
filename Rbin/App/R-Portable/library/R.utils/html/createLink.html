@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a link to a file or a directory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for createLink {R.utils}"><tr><td>createLink {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a link to a file or a directory</h2>
+
+<h3>Description</h3>
+
+<p>Creates a link to a file or a directory.
+This method tries to create a link to a file/directory on the
+file system, e.g. a symbolic link and Windows Shortcut links.
+It depends on operating and file system (and argument settings),
+which type of link is finally created, but all this is hidden
+internally so that links can be created the same way regardless
+of system.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+createLink(link=".", target, skip=!overwrite, overwrite=FALSE,
+  methods=getOption("createLink/args/methods", c("unix-symlink", "windows-ntfs-symlink",
+  "windows-shortcut")), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>link</code></td>
+<td>
+<p>The path or pathname of the link to be created.
+If <code>"."</code> (or <code><a href="../../base/help/NULL.html">NULL</a></code>), it is inferred from the
+<code>target</code> argument, if possible.</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>The target file or directory to which the shortcut should
+point to.</p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and a file with the same name as argument
+<code>link</code> already exists, then the nothing is done.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an existing link file is overwritten,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>methods</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying what methods (and in
+what order) should be tried for creating links.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the path or pathname to the link.
+If no link was created, <code><a href="../../base/help/NULL.html">NULL</a></code> is returned.
+</p>
+
+
+<h3>Required privileges on Windows</h3>
+
+<p>In order for <code>method="unix-symlink"</code> (utilizing
+<code><a href="../../base/help/files.html">file.symlink</a>()</code>),
+<code>method="windows-ntfs-symlink"</code> (utilizing executable <code>mklink</code>),
+and/or <code>method="windows-shortcut"</code> (utilizing
+<code><a href="../../R.utils/help/createWindowsShortcut.html">createWindowsShortcut</a></code>()) to succeed on Windows,
+the client/R session must run with sufficient privileges
+(it has been reported that Administrative rights are necessary).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>Ben Garrett, <em>Windows File Junctions, Symbolic Links and Hard Links</em>,
+September 2009 [<a href="https://devtidbits.com/2009/09/07/windows-file-junctions-symbolic-links-and-hard-links/">https://devtidbits.com/2009/09/07/windows-file-junctions-symbolic-links-and-hard-links/</a>]<br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/createWindowsShortcut.html">createWindowsShortcut</a></code>() and
+<code><a href="../../base/help/files.html">file.symlink</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

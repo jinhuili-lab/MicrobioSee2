@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to compute Bayes factors for ANOVA designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for anovaBF {BayesFactor}"><tr><td>anovaBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to compute Bayes factors for ANOVA designs</h2>
+
+<h3>Description</h3>
+
+<p>This function computes Bayes factors for all main-effects and interaction
+contrasts in an ANOVA design.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+anovaBF(formula, data, whichRandom = NULL, whichModels = "withmain",
+  iterations = 10000, progress = getOption("BFprogress", interactive()),
+  rscaleFixed = "medium", rscaleRandom = "nuisance", rscaleEffects = NULL,
+  multicore = FALSE, method = "auto", noSample = FALSE,
+  callback = function(...) as.integer(0))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula containing all factors to include in the analysis
+(see Examples)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame containing data for all factors in the formula</p>
+</td></tr>
+<tr valign="top"><td><code>whichRandom</code></td>
+<td>
+<p>a character vector specifying which factors are random</p>
+</td></tr>
+<tr valign="top"><td><code>whichModels</code></td>
+<td>
+<p>which set of models to compare; see Details</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>How many Monte Carlo simulations to generate, if relevant</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>if <code>TRUE</code>, show progress with a text progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleFixed</code></td>
+<td>
+<p>prior scale for standardized, reduced fixed effects. A
+number of preset values can be given as strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleRandom</code></td>
+<td>
+<p>prior scale for standardized random effects</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleEffects</code></td>
+<td>
+<p>A named vector of prior settings for individual factors,
+overriding rscaleFixed and rscaleRandom. Values are scales, names are factor names.</p>
+</td></tr>
+<tr valign="top"><td><code>multicore</code></td>
+<td>
+<p>if <code>TRUE</code> use multiple cores through the <code>doMC</code>
+package. Unavailable on Windows.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>approximation method, if needed. See <code><a href="../../BayesFactor/help/nWayAOV.html">nWayAOV</a></code> for
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>noSample</code></td>
+<td>
+<p>if <code>TRUE</code>, do not sample, instead returning NA.</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Models, priors, and methods of computation are provided in Rouder et al.
+(2012).
+</p>
+<p>The ANOVA model for a vector of observations <i>y</i> is </p>
+<p style="text-align: center;"><i> y = &mu; + X_1
+&theta;_1 + &hellip; + X_p&theta;_p +&epsilon;,</i></p>
+<p> where
+<i>&theta;_1,&hellip;,&theta;_p</i> are vectors of main-effect and interaction
+effects, <i>X_1,&hellip;,X_p</i> are corresponding design matrices, and
+<i>&epsilon;</i> is a vector of zero-centered noise terms with variance
+<i>&sigma;^2</i>.  Zellner and Siow (1980) inspired g-priors are placed on
+effects, but with a separate g-prior parameter for each covariate:
+</p>
+<p style="text-align: center;"><i>&theta;_1~N(0,g_1&sigma;^2), &hellip;,  &theta;_p~N(0,g_p &sigma;^2).</i></p>
+<p>  A
+Jeffries prior is placed on <i>&mu;</i> and <i>&sigma;^2</i>.  Independent
+scaled inverse-chi-square priors with one degree of freedom are placed on
+<i>g_1,&hellip;,g_p</i>.  The square-root of the scale for g's corresponding to
+fixed and random effects is given by <code>rscaleFixed</code> and
+<code>rscaleRandom</code>, respectively.
+</p>
+<p>When a factor is treated as random, there are as many main effect terms in
+the vector <i>&theta;</i> as levels.  When a factor is treated as fixed, the
+sums-to-zero linear constraint is enforced by centering the corresponding
+design matrix, and there is one fewer main effect terms as levels.  The
+Cornfield-Tukey model of interactions is assumed.  Details are provided in
+Rouder et al. (2012)
+</p>
+<p>Bayes factors are computed by integrating the likelihood with respect to the
+priors on parameters.  The integration of all parameters except
+<i>g_1,&hellip;,g_p</i> may be expressed in closed-form; the integration of
+<i>g_1,&hellip;,g_p</i> is performed through Monte Carlo sampling, and
+<code>iterations</code> is the number of iterations used to estimate the Bayes
+factor.
+</p>
+<p><code>anovaBF</code> computes Bayes factors for either all submodels or select
+submodels missing a single main effect or covariate, depending on the
+argument <code>whichModels</code>. If no random factors are specified, the null
+model assumed by <code>anovaBF</code> is the grand-mean only model. If random
+factors are specified, the null model is the model with an additive model on
+all random factors, plus a grand mean. Thus, <code>anovaBF</code> does not
+currently test random factors. Testing random factors is possible with
+<code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>.
+</p>
+<p>The argument <code>whichModels</code> controls which models are tested. Possible
+values are 'all', 'withmain', 'top', and 'bottom'. Setting
+<code>whichModels</code> to 'all' will test all models that can be created by
+including or not including a main effect or interaction. 'top' will test all
+models that can be created by removing or leaving in a main effect or
+interaction term from the full model. 'bottom' creates models by adding
+single factors or interactions to the null model. 'withmain' will test all
+models, with the constraint that if an interaction is included, the
+corresponding main effects are also included.
+</p>
+<p>For the <code>rscaleFixed</code> and <code>rscaleRandom</code> arguments, several named
+values are recognized: &quot;medium&quot;, &quot;wide&quot;, and &quot;ultrawide&quot;, corresponding to
+<i>r</i> scale values of 1/2, <i>sqrt(2)/2</i>, and 1,
+respectively. In addition, <code>rscaleRandom</code> can be set to the &quot;nuisance&quot;,
+which sets <i>r=1</i> (and is thus equivalent to &quot;ultrawide&quot;). The &quot;nuisance&quot;
+setting is for medium-to-large-sized effects assumed to be in the data but
+typically not of interest, such as variance due to participants.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>BFBayesFactor</code>, containing the computed
+model comparisons
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function <code>anovaBF</code> will compute Bayes factors for all
+possible combinations of fixed factors and interactions, against the null
+hypothesis that <em>all</em> effects are 0. The total number of tests
+computed will be <i>2^(2^K - 1)</i> for <i>K</i> fixed factors.
+This number increases very quickly with the number of factors. For
+instance, for a five-way ANOVA, the total number of tests exceeds two
+billion. Even though each test takes a fraction of a second, the time
+taken for all tests could exceed your lifetime. An option is included to
+prevent this: <code>options('BFMaxModels')</code>, which defaults to 50,000, is
+the maximum number of models that 'anovaBF' will analyze at once. This can
+be increased by increasing the option value.
+</p>
+<p>It is possible to reduce the number of models tested by only testing the
+most complex model and every restriction that can be formed by removing
+one factor or interaction using the <code>whichModels</code> argument. Setting
+this argument to 'top' reduces the number of tests to <i>2^K-1</i>, which
+is more manageable. The Bayes factor for each restriction against the most
+complex model can be interpreted as a test of the removed
+factor/interaction. Setting <code>whichModels</code> to 'withmain' will not
+reduce the number of tests as much as 'top' but the results may be more
+interpretable, since an interaction is only allowed when all interacting
+effects (main or interaction) are also included in the model.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman, A. (2005) Analysis of Variance&mdash;why it is more
+important than ever.  Annals of Statistics, 33, pp. 1-53.
+</p>
+<p>Rouder, J. N., Morey, R. D., Speckman, P. L., Province, J. M., (2012)
+Default Bayes Factors for ANOVA Designs. Journal of Mathematical
+Psychology.  56.  p. 356-374.
+</p>
+<p>Zellner, A. and Siow, A., (1980) Posterior Odds Ratios for Selected
+Regression Hypotheses.  In Bayesian Statistics: Proceedings of the First
+Interanational Meeting held in Valencia (Spain).  Bernardo, J. M.,
+Lindley, D. V., and Smith A. F. M. (eds), pp. 585-603.  University of
+Valencia.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>, for testing specific models, and
+<code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code> for the function similar to <code>anovaBF</code> for
+linear regression models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Classical example, taken from t.test() example
+## Student's sleep data
+data(sleep)
+plot(extra ~ group, data = sleep)
+
+## traditional ANOVA gives a p value of 0.00283
+summary(aov(extra ~ group + Error(ID/group), data = sleep))
+
+## Gives a Bayes factor of about 11.6
+## in favor of the alternative hypothesis
+anovaBF(extra ~ group + ID, data = sleep, whichRandom = "ID",
+    progress=FALSE)
+
+## Demonstrate top-down testing
+data(puzzles)
+result = anovaBF(RT ~ shape*color + ID, data = puzzles, whichRandom = "ID",
+    whichModels = 'top', progress=FALSE)
+result
+
+## In orthogonal designs, the top down Bayes factor can be
+## interpreted as a test of the omitted effect
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

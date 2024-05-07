@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Bayes Factor (BF)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_bf {effectsize}"><tr><td>interpret_bf {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Bayes Factor (BF)</h2>
+
+<h3>Description</h3>
+
+<p>Interpret Bayes Factor (BF)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_bf(
+  bf,
+  rules = "jeffreys1961",
+  log = FALSE,
+  include_value = FALSE,
+  protect_ratio = TRUE,
+  exact = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bf</code></td>
+<td>
+<p>Value or vector of Bayes factor (BF) values.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"jeffreys1961"</code> (default), <code>"raftery1995"</code> or custom set
+of <code><a href="../../effectsize/help/rules.html">rules()</a></code> (for the <em>absolute magnitude</em> of evidence).</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Is the <code>bf</code> value <code>log(bf)</code>?</p>
+</td></tr>
+<tr valign="top"><td><code>include_value</code></td>
+<td>
+<p>Include the value in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>protect_ratio</code></td>
+<td>
+<p>Should values smaller than 1 be represented as ratios?</p>
+</td></tr>
+<tr valign="top"><td><code>exact</code></td>
+<td>
+<p>Should very large or very small values be reported with a
+scientific format (e.g., 4.24e5), or as truncated values (as &quot;&gt; 1000&quot; and
+&quot;&lt; 1/1000&quot;).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Argument names can be partially matched.
+</p>
+
+
+<h3>Rules</h3>
+
+<p>Rules apply to BF as ratios, so BF of 10 is as extreme as a BF of 0.1 (1/10).
+</p>
+
+<ul>
+<li><p> Jeffreys (1961) (<code>"jeffreys1961"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>BF = 1</strong> - No evidence
+</p>
+</li>
+<li> <p><strong>1 &lt; BF &lt;= 3</strong> - Anecdotal
+</p>
+</li>
+<li> <p><strong>3 &lt; BF &lt;= 10</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>10 &lt; BF &lt;= 30</strong> - Strong
+</p>
+</li>
+<li> <p><strong>30 &lt; BF &lt;= 100</strong> - Very strong
+</p>
+</li>
+<li> <p><strong>BF &gt; 100</strong> - Extreme.
+</p>
+</li></ul>
+
+</li>
+<li><p> Raftery (1995) (<code>"raftery1995"</code>)
+</p>
+
+<ul>
+<li> <p><strong>BF = 1</strong> - No evidence
+</p>
+</li>
+<li> <p><strong>1 &lt; BF &lt;= 3</strong> - Weak
+</p>
+</li>
+<li> <p><strong>3 &lt; BF &lt;= 20</strong> - Positive
+</p>
+</li>
+<li> <p><strong>20 &lt; BF &lt;= 150</strong> - Strong
+</p>
+</li>
+<li> <p><strong>BF &gt; 150</strong> - Very strong
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Jeffreys, H. (1961), Theory of Probability, 3rd ed., Oxford University
+Press, Oxford.
+</p>
+</li>
+<li><p> Raftery, A. E. (1995). Bayesian model selection in social research.
+Sociological methodology, 25, 111-164.
+</p>
+</li>
+<li><p> Jarosz, A. F., &amp; Wiley, J. (2014). What are the odds? A practical guide to
+computing and reporting Bayes factors. The Journal of Problem Solving, 7(1), 2.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_bf(1)
+interpret_bf(c(5, 2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

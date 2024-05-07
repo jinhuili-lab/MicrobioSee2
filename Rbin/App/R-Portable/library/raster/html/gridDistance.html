@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distance on a grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gridDistance {raster}"><tr><td>gridDistance {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distance on a grid</h2>
+
+<h3>Description</h3>
+
+<p>The function calculates the distance to cells of a RasterLayer when the path has to go through the centers of neighboring raster cells (currently only implemented as a 'queen' case in which cells have 8 neighbors).
+</p>
+<p>The distance is in meters if the coordinate reference system (CRS) of the RasterLayer is longitude/latitude (<code>+proj=longlat</code>) and in the units of the CRS (typically meters) in other cases. 
+</p>
+<p>Distances are computed by summing local distances between cells, which are connected with their neighbours in 8 directions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+gridDistance(x, origin, omit=NULL, filename="", ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>origin</code></td>
+<td>
+<p>value(s) of the cells from which the distance is calculated</p>
+</td></tr>
+<tr valign="top"><td><code>omit</code></td>
+<td>
+<p>value(s) of the cells which cannot be traversed (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the RasterLayer to be processed is big, it will be processed in chunks. This may lead to errors in the case of complex objects spread over different chunks (meandering rivers, for instance). You can try to solve these issues by varying the chunk size, see function setOptions().
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jacob van Etten and Robert J. Hijmans </p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../help/distance.html">distance</a></code> for 'as the crow flies' distance. Additional distance measures and options (directions, cost-distance) are available in the '<code>gdistance</code>' package.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+#world lon/lat raster
+r &lt;- raster(ncol=10,nrow=10, vals=1)
+r[48] &lt;- 2
+r[66:68] &lt;- 3
+d &lt;- gridDistance(r,origin=2,omit=3) 
+plot(d)
+
+#UTM small area
+crs(r) &lt;- "+proj=utm +zone=15 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
+d &lt;- gridDistance(r,origin=2,omit=3) 
+plot(d)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

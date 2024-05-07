@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Package R.oo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for R.oo-package {R.oo}"><tr><td>R.oo-package {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Package R.oo</h2>
+
+<h3>Description</h3>
+
+<p>Methods and classes for object-oriented programming in R with or without references.  Large effort has been made on making definition of methods as simple as possible with a minimum of maintenance for package developers.  The package has been developed since 2001 and is now considered very stable.  This is a cross-platform package implemented in pure R that defines standard S3 classes without any tricks.
+</p>
+<p>Please note that the Rdoc syntax/grammar used to convert Rdoc comments
+in code into Rd files is not strictly defined and is modified by the
+need of the author. Ideally, there will be a well defined Rdoc language
+one day.
+</p>
+
+
+<h3>Installation and updates</h3>
+
+<p>To install this package do<br />
+</p>
+<p><code>install.packages("R.oo")</code>
+</p>
+
+
+<h3>Dependencies and other requirements</h3>
+
+<p>This package requires a standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> installation and
+the <span class="pkg">R.methodsS3</span> package.
+</p>
+
+
+<h3>To get started</h3>
+
+<p>To get started,It is very useful to understand that:
+</p>
+
+<ol>
+<li><p> The <code><a href="../../R.methodsS3/help/setMethodS3.html">setMethodS3</a></code>() function, which is
+defined in the <span class="pkg">R.methodsS3</span> package (used to be part of
+<span class="pkg">R.oo</span>), is nothing but a conveniency wrapper for setting
+up S3 methods, and automatically create an S3 generic
+function, if missing.  For more information, see the help of
+<span class="pkg">R.methodsS3</span>.
+</p>
+</li>
+<li><p> The <code><a href="../../R.oo/help/Object.html">Object</a></code> class is a top-level &quot;root&quot; class
+that provides support for <em>reference variables</em>.
+Any class inheriting from this class supports
+reference variables.
+</p>
+</li>
+<li><p> The <code><a href="../../R.oo/help/Object.html">Object</a></code> class is basically a wrapper around an
+<code><a href="../../base/help/environment.html">environment</a></code>, which some additional accessors etc.  It is the
+environment data type that provides the &quot;emulation&quot; of
+reference variables - the Object class structure makes
+it easier to extends this class and adds some level of coding
+protection.  The Object class features is not intended for
+referencing individual elements of basic <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> data types,
+but rather for the whole variable of such.
+For instance, you can reassign a whole matrix <code>X</code> part of
+the object this way, but you cannot reassign <code>X[1,1]</code>
+without creating a completely new copy.
+</p>
+</li></ol>
+
+
+
+<h3>Further readings</h3>
+
+<p>For a detailed introduction to the package see [1] (part of the
+package distribution).
+</p>
+
+
+<h3>How to cite this package</h3>
+
+<p>Whenever using this package, please cite [1] as<br />
+</p>
+<pre>
+Bengtsson, H. The R.oo package - Object-Oriented Programming with References Using
+Standard R Code, Proceedings of the 3rd International Workshop on Distributed
+Statistical Computing (DSC 2003), ISSN 1609-395X, Hornik, K.; Leisch, F. &amp; Zeileis,
+A. (ed.), 2003
+</pre>
+
+
+<h3>License</h3>
+
+<p>The releases of this package is licensed under
+LGPL version 2.1 or newer.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] H. Bengtsson, <em>The R.oo package - Object-Oriented Programming with References Using Standard R Code</em>, In Kurt Hornik, Friedrich Leisch and Achim Zeileis, editors, Proceedings of the 3rd International Workshop on Distributed Statistical Computing (DSC 2003), March 20-22, Vienna, Austria. <a href="https://www.r-project.org/conferences/DSC-2003/Proceedings/">https://www.r-project.org/conferences/DSC-2003/Proceedings/</a>
+<br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p>People interested in <span class="pkg">R.oo</span> may also be interested in
+packages <span class="pkg">proto</span> and <span class="pkg">mutatr</span>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

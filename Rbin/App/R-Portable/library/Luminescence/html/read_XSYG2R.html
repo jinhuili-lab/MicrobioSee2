@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Import XSYG files to R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for read_XSYG2R {Luminescence}"><tr><td>read_XSYG2R {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Import XSYG files to R</h2>
+
+<h3>Description</h3>
+
+<p>Imports XSYG-files produced by a Freiberg Instruments lexsyg reader into R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read_XSYG2R(
+  file,
+  recalculate.TL.curves = TRUE,
+  fastForward = FALSE,
+  import = TRUE,
+  pattern = ".xsyg",
+  verbose = TRUE,
+  txtProgressBar = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> or <a href="../../base/html/list.html">list</a> (<strong>required</strong>):
+path and file name of the XSYG file. If input is a <code>list</code> it should comprise
+only <code>character</code>s representing each valid path and XSYG-file names.
+Alternatively the input character can be just a directory (path), in this case the
+the function tries to detect and import all XSYG-files found in the directory.</p>
+</td></tr>
+<tr valign="top"><td><code>recalculate.TL.curves</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if set to <code>TRUE</code>, TL curves are returned as temperature against count values
+(see details for more information) Note: The option overwrites the time vs.
+count TL curve. Select <code>FALSE</code> to import the raw data delivered by the
+lexsyg. Works for TL curves and spectra.</p>
+</td></tr>
+<tr valign="top"><td><code>fastForward</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if <code>TRUE</code> for a more efficient data processing only a list of <code>RLum.Analysis</code>
+objects is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>import</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if set to <code>FALSE</code>, only the XSYG file structure is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p><a href="../../base/html/regex.html">regex</a> (<em>with default</em>):
+optional regular expression if <code>file</code> is a link to a folder, to select just
+specific XSYG-files</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enable or disable verbose mode. If verbose is <code>FALSE</code>
+the <code>txtProgressBar</code> is also switched off</p>
+</td></tr>
+<tr valign="top"><td><code>txtProgressBar</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables <code>TRUE</code> or disables <code>FALSE</code> the progression bar during import</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>How does the import function work?</strong>
+</p>
+<p>The function uses the <a href="../../XML/html/isXMLString.html">xml</a> package to parse the file structure. Each
+sequence is subsequently translated into an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object.
+</p>
+<p><strong>General structure XSYG format</strong></p>
+<pre>&lt;?xml?&gt;
+&lt;Sample&gt;
+  &lt;Sequence&gt;
+    &lt;Record&gt;
+      &lt;Curve name="first curve" /&gt;
+      &lt;Curve name="curve with data"&gt;x0 , y0 ; x1 , y1 ; x2 , y2 ; x3 , y3&lt;/Curve&gt;
+    &lt;/Record&gt;
+  &lt;/Sequence&gt;
+&lt;/Sample&gt;
+</pre>
+<p>So far, each
+XSYG file can only contain one <code style="white-space: pre;">&lt;Sample&gt;&lt;/Sample&gt;</code>, but multiple
+sequences.
+</p>
+<p>Each record may comprise several curves.
+</p>
+<p><strong>TL curve recalculation</strong>
+</p>
+<p>On the FI lexsyg device TL curves are recorded as time against count values.
+Temperature values are monitored on the heating plate and stored in a
+separate curve (time vs. temperature). If the option
+<code>recalculate.TL.curves = TRUE</code> is chosen, the time values for each TL
+curve are replaced by temperature values.
+</p>
+<p>Practically, this means combining two matrices (Time vs. Counts and Time vs.
+Temperature) with different row numbers by their time values. Three cases
+are considered:
+</p>
+
+<ol>
+<li><p> HE: Heating element
+</p>
+</li>
+<li><p> PMT: Photomultiplier tube
+</p>
+</li>
+<li><p> Interpolation is done using the function <a href="../../stats/html/approxfun.html">approx</a>
+</p>
+</li></ol>
+
+<p>CASE (1): <code>nrow(matrix(PMT))</code> &gt; <code>nrow(matrix(HE))</code>
+</p>
+<p>Missing temperature values from the heating element are calculated using
+time values from the PMT measurement.
+</p>
+<p>CASE (2): <code>nrow(matrix(PMT))</code> &lt; <code>nrow(matrix(HE))</code>
+</p>
+<p>Missing count values from the PMT are calculated using time values from the
+heating element measurement.
+</p>
+<p>CASE (3): <code>nrow(matrix(PMT))</code> == <code>nrow(matrix(HE))</code>
+</p>
+<p>A new matrix is produced using temperature values from the heating element
+and count values from the PMT.
+</p>
+<p><strong>Note:</strong>
+Please note that due to the recalculation of the temperature
+values based on values delivered by the heating element, it may happen that
+multiple count values exists for each temperature value and temperature
+values may also decrease during heating, not only increase.
+</p>
+<p><strong>Advanced file import</strong>
+</p>
+<p>To allow for a more efficient usage of the function, instead of single path
+to a file just a directory can be passed as input. In this particular case
+the function tries to extract all XSYG-files found in the directory and import
+them all. Using this option internally the function constructs as list of
+the XSYG-files found in the directory. Please note no recursive detection
+is supported as this may lead to endless loops.
+</p>
+
+
+<h3>Value</h3>
+
+<p><strong>Using the option <code>import = FALSE</code></strong>
+</p>
+<p>A list consisting of two elements is shown:
+</p>
+
+<ul>
+<li> <p><a href="../../base/html/data.frame.html">data.frame</a> with information on file.
+</p>
+</li>
+<li> <p><a href="../../base/html/data.frame.html">data.frame</a> with information on the sequences stored in the XSYG file.
+</p>
+</li></ul>
+
+<p><strong>Using the option <code>import = TRUE</code> (default)</strong>
+</p>
+<p>A list is provided, the list elements
+contain: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Sequence.Header</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> with information on the
+sequence.</p>
+</td></tr> <tr valign="top"><td><code>Sequence.Object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+containing the curves.</p>
+</td></tr>
+</table>
+
+
+<h3>Function version</h3>
+
+<p>0.6.8
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. read_XSYG2R(): Import XSYG files to R. Function version 0.6.8. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is a beta version as the XSYG file format is not yet
+fully specified. Thus, further file operations (merge, export, write) should
+be done using the functions provided with the package <a href="../../XML/html/isXMLString.html">xml</a>.
+</p>
+<p><strong>So far, no image data import is provided!</strong> <br />
+Corresponding values in the XSXG file are skipped.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Grehl, S., Kreutzer, S., Hoehne, M., 2013. Documentation of the
+XSYG file format. Unpublished Technical Note. Freiberg, Germany
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>XML: <a href="https://en.wikipedia.org/wiki/XML">https://en.wikipedia.org/wiki/XML</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../XML/html/isXMLString.html">xml</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>, <a href="../../stats/html/approxfun.html">approx</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) import XSYG file to R (uncomment for usage)
+
+#FILE &lt;- file.choose()
+#temp &lt;- read_XSYG2R(FILE)
+
+##(2) additional examples for pure XML import using the package XML
+##    (uncomment for usage)
+
+  ##import entire XML file
+  #FILE &lt;- file.choose()
+  #temp &lt;- XML::xmlRoot(XML::xmlTreeParse(FILE))
+
+  ##search for specific subnodes with curves containing 'OSL'
+  #getNodeSet(temp, "//Sample/Sequence/Record[@recordType = 'OSL']/Curve")
+
+##(2) How to extract single curves ... after import
+data(ExampleData.XSYG, envir = environment())
+
+##grep one OSL curves and plot the first curve
+OSLcurve &lt;- get_RLum(OSL.SARMeasurement$Sequence.Object, recordType="OSL")[[1]]
+
+##(3) How to see the structure of an object?
+structure_RLum(OSL.SARMeasurement$Sequence.Object)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Vegetation and Environment in Dutch Dune Meadows.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dune {vegan}"><tr><td>dune {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Vegetation and Environment in Dutch Dune Meadows. </h2>
+
+<h3>Description</h3>
+
+<p>The dune meadow vegetation data, <code>dune</code>, has cover class values
+of 30 species on 20 sites. The corresponding environmental data frame
+<code>dune.env</code> has following entries: </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  data(dune)
+  data(dune.env)
+</pre>
+
+
+<h3>Format</h3>
+
+<p><code>dune</code> is a data frame of observations of 30 species at 20
+sites. The species names are abbreviated to 4+4 letters (see
+<code><a href="../../vegan/help/make.cepnames.html">make.cepnames</a></code>). The following names are changed from
+the original source (Jongman et al. 1987): <em>Leontodon
+autumnalis</em> to <em>Scorzoneroides</em>, and <em>Potentilla
+palustris</em> to <em>Comarum</em>.
+</p>
+<p><code>dune.env</code> is a data frame of 20 observations on the following
+5 variables:
+</p>
+
+<dl>
+<dt>A1:</dt><dd><p>a numeric vector of thickness of soil A1 horizon.</p>
+</dd>
+<dt>Moisture:</dt><dd><p>an ordered factor with levels: <code>1</code> &lt; <code>2</code> &lt;
+<code>4</code> &lt; <code>5</code>.</p>
+</dd>
+</dl>
+
+<dl>
+<dt>Management:</dt><dd><p>a factor with levels: <code>BF</code> (Biological
+farming), <code>HF</code> (Hobby farming), <code>NM</code> (Nature
+Conservation Management), and <code>SF</code> (Standard Farming).</p>
+</dd>
+</dl>
+
+
+
+
+<dl>
+<dt>Use:</dt><dd><p>an ordered factor of land-use with levels: <code>Hayfield</code>
+&lt; <code>Haypastu</code> &lt; <code>Pasture</code>.</p>
+</dd>
+</dl>
+
+<dl>
+<dt>Manure:</dt><dd><p>an ordered factor with levels: <code>0</code> &lt; <code>1</code> &lt;
+<code>2</code> &lt; <code>3</code> &lt; <code>4</code>.</p>
+</dd> 
+</dl>
+
+
+
+
+<h3>Source</h3>
+
+<p>Jongman, R.H.G, ter Braak, C.J.F &amp; van Tongeren,
+O.F.R. (1987). <em>Data Analysis in Community and Landscape
+Ecology</em>. Pudoc, Wageningen.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

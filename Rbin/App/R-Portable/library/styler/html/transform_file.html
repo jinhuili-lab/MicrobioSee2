@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform a file and output a customized message</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for transform_file {styler}"><tr><td>transform_file {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transform a file and output a customized message</h2>
+
+<h3>Description</h3>
+
+<p>Transforms file contents and outputs customized messages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+transform_file(
+  path,
+  fun,
+  max_char_path,
+  message_before = "",
+  message_after = " [DONE]",
+  message_after_if_changed = " *",
+  ...,
+  dry
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>A vector with file paths to transform.</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>A function that returns a character vector.</p>
+</td></tr>
+<tr valign="top"><td><code>max_char_path</code></td>
+<td>
+<p>The number of characters of the longest path. Determines
+the indention level of <code>message_after</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>message_before</code></td>
+<td>
+<p>The message to print before the path.</p>
+</td></tr>
+<tr valign="top"><td><code>message_after</code></td>
+<td>
+<p>The message to print after the path.</p>
+</td></tr>
+<tr valign="top"><td><code>message_after_if_changed</code></td>
+<td>
+<p>The message to print after <code>message_after</code> if
+any file was transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to <code><a href="../../styler/help/transform_utf8.html">transform_utf8()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dry</code></td>
+<td>
+<p>To indicate whether styler should run in <em>dry</em> mode, i.e. refrain
+from writing back to files .<code>"on"</code> and <code>"fail"</code> both don't write back, the
+latter returns an error if the input code is not identical to the result
+of styling. &quot;off&quot;, the default, writes back if the input and output of
+styling are not identical.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add Text on Non-transparent Label to an Ordination Plot.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordilabel {vegan}"><tr><td>ordilabel {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add Text on Non-transparent Label to an Ordination Plot. </h2>
+
+<h3>Description</h3>
+
+<p> Function <code>ordilabel</code> is similar to
+<code><a href="../../graphics/html/text.html">text</a></code>, but the text is on an opaque label. This can help
+in crowded ordination plots: you still cannot see all text labels, but
+at least the uppermost are readable. Argument <code>priority</code> helps to
+make the most important labels visible.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordilabel(x, display, labels, choices = c(1, 2), priority, select, 
+    cex = 0.8, fill = "white", border = NULL, col = NULL, xpd = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An ordination object an any object known to
+<code><a href="../../vegan/help/scores.html">scores</a></code>. </p>
+</td></tr> 
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Kind of scores displayed (passed to
+<code><a href="../../vegan/help/scores.html">scores</a></code>). </p>
+</td></tr> 
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Optional text used in plots. If this is not given, the
+text is found from the ordination object.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes shown (passed to <code><a href="../../vegan/help/scores.html">scores</a></code>). </p>
+</td></tr>
+<tr valign="top"><td><code>priority</code></td>
+<td>
+<p>Vector of the same length as the number of
+labels. The items with high priority will be plotted uppermost.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Items to be displayed. This can either be a logical
+vector which is <code>TRUE</code> for displayed items or a vector of
+indices of displayed items.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p> Character expansion for the text (passed to
+<code><a href="../../graphics/html/text.html">text</a></code>). </p>
+</td></tr> 
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p> Background colour of the labels (the <code>col</code> argument
+of <code><a href="../../graphics/html/polygon.html">polygon</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The colour and visibility of the border of the label as
+defined in <code><a href="../../graphics/html/polygon.html">polygon</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Text colour. Default <code>NULL</code> will give the value of
+<code>border</code> or <code>par("fg")</code> if <code>border</code> is <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xpd</code></td>
+<td>
+<p>Draw labels also outside the plot region (see 
+<code><a href="../../graphics/html/par.html">par</a></code>).</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments (passed to <code><a href="../../graphics/html/text.html">text</a></code>). </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The function may be useful with crowded ordination plots, in
+particular together with argument <code>priority</code>. You will not see
+all text labels, but at least some are readable. Other alternatives to
+crowded plots are <code><a href="../../vegan/help/identify.ordiplot.html">identify.ordiplot</a></code>,
+<code><a href="../../vegan/help/orditorp.html">orditorp</a></code> and <code><a href="../../vegan/help/orditkplot.html">orditkplot</a></code>.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/scores.html">scores</a></code>, <code><a href="../../graphics/html/polygon.html">polygon</a></code>,
+<code><a href="../../graphics/html/text.html">text</a></code>. The function is modelled after
+<code><a href="../../ade4/help/s.label.html">s.label</a></code> in <span class="pkg">ade4</span> package.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+ord &lt;- cca(dune)
+plot(ord, type = "n")
+ordilabel(ord, dis="sites", cex=1.2, font=3, fill="hotpink", col="blue")
+## You may prefer separate plots, but here species as well
+ordilabel(ord, dis="sp", font=2, priority=colSums(dune))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a matrix of cell values as symbols.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for densityGrid {plotrix}"><tr><td>densityGrid {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a matrix of cell values as symbols.</h2>
+
+<h3>Description</h3>
+
+<p>Displays a matrix of values as symbols on an existing image.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ densityGrid(x,z=NULL,xrange=NA,zrange=NA,range.cex=c(1,10),
+ xlim=c(-180,180),ylim=c(-90,90),red=c(0,1),green=c(0,1),blue=c(0,1),alpha=1,
+ pch=".",geocoord=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Matrix of values representing counts in cells (usually locations).</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>Optional matrix of values attached to the cells in x.</p>
+</td></tr>
+<tr valign="top"><td><code>xrange,zrange</code></td>
+<td>
+<p>Explicit ranges for the counts in x and z. Used to
+define a &quot;pretty&quot; set of values to label legends.</p>
+</td></tr>
+<tr valign="top"><td><code>range.cex</code></td>
+<td>
+<p>The range of expansion for the symbols when this is used to
+indicate the number of counts in the cells.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>The extreme coordinates in the horizontal direction (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>The extreme coordinates in the vertical direction (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>red,green,blue</code></td>
+<td>
+<p>Values in an RGB colorspace to use in transforming the
+cell values into colors.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Transparency of the colors.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>The symbol to use in displaying the observation density. Either
+&quot;.&quot; or 15 seem to work well depending upon the resolution of the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>geocoord</code></td>
+<td>
+<p>Whether the size of the symbols that indicate density when
+there are intensity values should be corrected for a Mercator projection.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">densityGrid</span> expects one matrix or a list of two matrices containing
+values that will be transformed into colors or sizes of the symbols displayed.
+The two matrices may be passed as a list. If only one matrix is present, the 
+color of the symbols is determined by the values (counts) in the matrix. If
+a second matrix is passed, The values in that matrix will be used to determine 
+the colors, and the size of the symbols will be proportional to the values in
+the first matrix. In the case of only one matrix, the user should set the 
+first value of <span class="samp">range.cex</span> to the desired expansion of the symbols.
+</p>
+<p>Currently <span class="samp">densityGrid</span> does not display anything in grid cells that have
+zero count values.
+</p>
+<p><span class="samp">densityGrid</span> was developed to allow very large numbers of coordinate 
+locations to be accumulated in a matrix for display on a geographic map. Thus
+the default limits refer to coordinates as latitude/longitude for the earth.
+Because some geographic data are so numerous that memory limits are exceeded,
+the underlying <span class="samp">makeDensityMatrix</span> function can be run on small sections
+of the entire data set and the resulting matrices added as long as the initial
+coordinate limits are used throughout. Note that if the values for counts
+(with one matrix) or for intensity (with two matrices) cover a very large 
+range, it may be necessary to trim extreme values (noting this on any legends)
+and transform the data (usually log10) to get good color separation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil. Displays a grid of symbols on an existing plot device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/makeDensityMatrix.html">makeDensityMatrix</a>,<a href="../../plotrix/help/color.scale.html">color.scale</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ ## Not run: 
+  data(l2010)
+  # log10 transform both density and intensity
+  l2010[[1]]&lt;-log10(l2010[[1]])
+  l2010[[2]]&lt;-log10(l2010[[2]])
+  library(maps)
+  x11(width=10)
+  par(mar=c(7,3,2,3))
+  plot(0,xlim=c(-180,180),ylim=c(-90,90),type="n",axes=FALSE,xlab="",ylab="")
+  densityGrid(l2010,pch=".",xrange=c(0,6),zrange=c(2,8),range.cex=c(2,8),
+   red=c(0,0.5,1),green=c(0,1,0),blue=c(1,0,0),alpha=1)
+  color.legend(-60,-107,60,-97,c("2","3","4","5","6","7","8"),
+   rect.col=color.scale(1:7,cs1=c(0,0.5,1),cs2=c(0,1,0),cs3=c(1,0,0),alpha=1),
+   cex=0.5)
+  par(xpd=TRUE)
+  text(0,95,"Lightning strikes 2010")
+  text(0,-114,"Mean intensity kVA (10^n)",cex=0.5)
+  points(x=seq(-60,60,20),y=rep(-125,7),pch=".",cex=1:7)
+  text(x=seq(-60,60,20),y=rep(-132,7),c("&lt;=1","2","3","4","5","6","&gt;6"),cex=0.5)
+  text(0,-142,"Cell frequency (10^n)",cex=0.5)
+  par(xpd=FALSE)
+  map("world",mar=c(7,3,2,3),add=TRUE)
+  dev.off()
+  # now only Australia
+  par(mar=c(7,3,2,3))
+  plot(0,xlim=c(112,154),ylim=c(-43.8,-11.1),type="n",axes=FALSE,xlab="",ylab="")
+  densityGrid(l2010,pch=".",xrange=c(0,6),zrange=c(2,8),range.cex=c(2,8),
+   xlim=c(112,154),ylim=c(-43.8,-11.1),red=c(0,0.5,1),green=c(0,1,0),
+   blue=c(1,0,0),alpha=1)
+  color.legend(120,-47,146,-45,c("2","3","4","5","6","7","8"),
+   rect.col=color.scale(1:7,cs1=c(0,0.5,1),cs2=c(0,1,0),cs3=c(1,0,0),alpha=1),
+   cex=0.5)
+  par(xpd=TRUE)
+  text(133,-9,"Lightning strikes 2010 (Australia)")
+  text(133,-48.2,"Mean intensity kVA (10^n)",cex=0.5)
+  points(x=seq(121,145,4),y=rep(-50,7),pch=".",cex=1:7)
+  text(x=seq(121,145,4),y=rep(-51,7),c("&lt;=1","2","3","4","5","6","&gt;6"),cex=0.5)
+  text(133,-52,"Cell frequency (10^n)",cex=0.5)
+  par(xpd=FALSE)
+  map("world",mar=c(7,3,2,3),xlim=c(112,154),ylim=c(-43.8,-11.1),add=TRUE)
+ 
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

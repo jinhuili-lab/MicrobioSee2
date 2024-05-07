@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Start comments with a space</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for start_comments_with_space {styler}"><tr><td>start_comments_with_space {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Start comments with a space</h2>
+
+<h3>Description</h3>
+
+<p>Forces comments to start with a space, that is, after the regular expression
+<code style="white-space: pre;">#+['\\*]</code>, at least one space must follow if the comment is <em>non-empty</em>, i.e
+there is not just spaces within the comment. Multiple spaces may be legit for
+indention in some situations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+start_comments_with_space(pd, force_one = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>force_one</code></td>
+<td>
+<p>Whether or not to force one space or allow multiple spaces.</p>
+</td></tr>
+</table>
+
+
+<h3>Exceptions</h3>
+
+<p>Spaces won't be added to comments when they are:
+</p>
+
+<ul>
+<li><p> shebangs
+</p>
+</li>
+<li><p> code chunk headers
+</p>
+</li>
+<li><p> xaringan markers
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

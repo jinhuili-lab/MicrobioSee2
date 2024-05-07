@@ -1,0 +1,652 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;Risoe.BINfileData&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Risoe.BINfileData-class {Luminescence}"><tr><td>Risoe.BINfileData-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"Risoe.BINfileData"</code></h2>
+
+<h3>Description</h3>
+
+<p>S4 class object for luminescence data in R. The object is produced as output
+of the function <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Risoe.BINfileData'
+show(object)
+
+## S4 method for signature 'ANY'
+set_Risoe.BINfileData(
+  METADATA = data.frame(),
+  DATA = list(),
+  .RESERVED = list()
+)
+
+## S4 method for signature 'Risoe.BINfileData'
+get_Risoe.BINfileData(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object of class <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a></p>
+</td></tr>
+<tr valign="top"><td><code>METADATA</code></td>
+<td>
+<p>Object of class &quot;data.frame&quot; containing the meta information
+for each curve.</p>
+</td></tr>
+<tr valign="top"><td><code>DATA</code></td>
+<td>
+<p>Object of class &quot;list&quot; containing numeric vector with count data.</p>
+</td></tr>
+<tr valign="top"><td><code>.RESERVED</code></td>
+<td>
+<p>Object of class &quot;list&quot; containing list of undocumented raw
+values for internal use only.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments that might be passed</p>
+</td></tr>
+</table>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>show</code>: Show structure of RLum and Risoe.BINfile class objects
+</p>
+</li>
+<li> <p><code>set_Risoe.BINfileData</code>: The Risoe.BINfileData is normally produced as output of the function read_BIN2R.
+This construction method is intended for internal usage only.
+</p>
+</li>
+<li> <p><code>get_Risoe.BINfileData</code>: Formal get-method for Risoe.BINfileData object. It does not allow accessing
+the object directly, it is just showing a terminal message.
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>METADATA</code></dt><dd><p>Object of class &quot;data.frame&quot; containing the meta information for each curve.</p>
+</dd>
+<dt><code>DATA</code></dt><dd><p>Object of class &quot;list&quot; containing numeric vector with count data.</p>
+</dd>
+<dt><code>.RESERVED</code></dt><dd><p>Object of class &quot;list&quot; containing list of undocumented raw values for internal use only.</p>
+</dd>
+</dl>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form
+<code>new("Risoe.BINfileData", ...)</code>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.4.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. Risoe.BINfileData-class(): Class 'Risoe.BINfileData'. Function version 0.4.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>Internal METADATA - object structure</strong>
+</p>
+<p>This structure is compatible with BIN/BINX-files version 03-08, however, it does not follow (in its
+sequential arrangement) the manual provided by the manufacturer,
+but an own structure accounting for the different versions.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+<strong>#</strong> </td><td style="text-align: left;"> <strong>Name</strong> </td><td style="text-align: left;"> <strong>Data Type</strong> </td><td style="text-align: left;"> <strong>V</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,1]</code> </td><td style="text-align: left;"> <code>ID</code>  </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> RLum </td><td style="text-align: left;"> Unique record ID (same ID as in slot <code>DATA</code>)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,2]</code> </td><td style="text-align: left;"> <code>SEL</code> </td><td style="text-align: left;"> <code>logic</code> </td><td style="text-align: left;"> RLum </td><td style="text-align: left;"> Record selection, not part official BIN-format, triggered by TAG</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,3]</code> </td><td style="text-align: left;"> <code>VERSION</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> BIN-file version number </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,4]</code> </td><td style="text-align: left;"> <code>LENGTH</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Length of this record</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,5]</code> </td><td style="text-align: left;"> <code>PREVIOUS</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Length of previous record</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,6]</code> </td><td style="text-align: left;"> <code>NPOINTS</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Number of data points in the record</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,7]</code> </td><td style="text-align: left;"> <code>RECTYPE</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Record type </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,8]</code> </td><td style="text-align: left;"> <code>RUN</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Run number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,9]</code> </td><td style="text-align: left;"> <code>SET</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Set number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,10]</code>  </td><td style="text-align: left;"> <code>POSITION</code> </td><td style="text-align: left;">  <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Position number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,11]</code> </td><td style="text-align: left;"> <code>GRAIN</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-04 </td><td style="text-align: left;"> Grain number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,12]</code> </td><td style="text-align: left;"> <code>GRAINNUMBER</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Grain number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,13]</code> </td><td style="text-align: left;"> <code>CURVENO</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Curve number</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,14]</code> </td><td style="text-align: left;"> <code>XCOORD</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> X position of a single grain</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,15]</code> </td><td style="text-align: left;"> <code>YCOORD</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Y position of a single grain</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,16]</code> </td><td style="text-align: left;"> <code>SAMPLE</code> </td><td style="text-align: left;"> <code>factor</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Sample name</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,17]</code> </td><td style="text-align: left;"> <code>COMMENT</code> </td><td style="text-align: left;"> <code>factor</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Comment name</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,18]</code> </td><td style="text-align: left;"> <code>SYSTEMID</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Risø system id</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,19]</code> </td><td style="text-align: left;"> <code>FNAME</code> </td><td style="text-align: left;"> <code>factor</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> File name (<em>.bin/</em>.binx)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,20]</code> </td><td style="text-align: left;"> <code>USER</code> </td><td style="text-align: left;"> <code>factor</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> User name</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,21]</code> </td><td style="text-align: left;"> <code>TIME</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Data collection time (<code>hh-mm-ss</code>)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,22]</code> </td><td style="text-align: left;"> <code>DATE</code> </td><td style="text-align: left;"> <code>factor</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Data collection date (<code>ddmmyy</code>)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,23]</code> </td><td style="text-align: left;"> <code>DTYPE</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Data type</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,24]</code> </td><td style="text-align: left;"> <code>BL_TIME</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Bleaching time</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,25]</code> </td><td style="text-align: left;"> <code>BL_UNIT</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Bleaching unit (mJ, J, s, min, h)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,26]</code> </td><td style="text-align: left;"> <code>NORM1</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Normalisation factor (1)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,27]</code> </td><td style="text-align: left;"> <code>NORM2</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Normalisation factor (2)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,28]</code> </td><td style="text-align: left;"> <code>NORM3</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Normalisation factor (3)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,29]</code> </td><td style="text-align: left;"> <code>BG</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Background level</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,30]</code> </td><td style="text-align: left;"> <code>SHIFT</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Number of channels to shift data</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,31]</code> </td><td style="text-align: left;"> <code>TAG</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Tag, triggers <code>SEL</code></td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,32]</code> </td><td style="text-align: left;"> <code>LTYPE</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Luminescence type</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,33]</code> </td><td style="text-align: left;"> <code>LIGHTSOURCE</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Light source</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,34]</code> </td><td style="text-align: left;"> <code>LPOWER</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Optical stimulation power</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,35]</code> </td><td style="text-align: left;"> <code>LIGHTPOWER</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Optical stimulation power</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,36]</code> </td><td style="text-align: left;"> <code>LOW</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Low (temperature, time, wavelength)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,37]</code> </td><td style="text-align: left;"> <code>HIGH</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> High (temperature, time, wavelength)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,38]</code> </td><td style="text-align: left;"> <code>RATE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Rate (heating rate, scan rate)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,39]</code> </td><td style="text-align: left;"> <code>TEMPERATURE</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Sample temperature</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,40]</code> </td><td style="text-align: left;"> <code>MEASTEMP</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Measured temperature</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,41]</code> </td><td style="text-align: left;"> <code>AN_TEMP</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Annealing temperature</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,42]</code> </td><td style="text-align: left;"> <code>AN_TIME</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Annealing time</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,43]</code> </td><td style="text-align: left;"> <code>TOLDELAY</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> TOL 'delay' channels</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,44]</code> </td><td style="text-align: left;"> <code>TOLON</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> TOL 'on' channels</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,45]</code> </td><td style="text-align: left;"> <code>TOLOFF</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> TOL 'off' channels</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,46]</code> </td><td style="text-align: left;"> <code>IRR_TIME</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Irradiation time</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,47]</code> </td><td style="text-align: left;"> <code>IRR_TYPE</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-08 </td><td style="text-align: left;"> Irradiation type (alpha, beta or gamma)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,48]</code> </td><td style="text-align: left;"> <code>IRR_UNIT</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03-04 </td><td style="text-align: left;"> Irradiation unit (Gy, rad, s, min, h)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,49]</code> </td><td style="text-align: left;"> <code>IRR_DOSERATE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Irradiation dose rate (Gy/s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,50]</code> </td><td style="text-align: left;"> <code>IRR_DOSERATEERR</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 06-08 </td><td style="text-align: left;"> Irradiation dose rate error (Gy/s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,51]</code> </td><td style="text-align: left;"> <code>TIMESINCEIRR</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Time since irradiation (s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,52]</code> </td><td style="text-align: left;"> <code>TIMETICK</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Time tick for pulsing (s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,53]</code> </td><td style="text-align: left;"> <code>ONTIME</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> On-time for pulsing (in time ticks)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,54]</code> </td><td style="text-align: left;"> <code>OFFTIME</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 03 </td><td style="text-align: left;"> Off-time for pulsed stimulation (in s) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,55]</code> </td><td style="text-align: left;"> <code>STIMPERIOD</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Stimulation period (on+off in time ticks)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,56]</code> </td><td style="text-align: left;"> <code>GATE_ENABLED</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> PMT signal gating enabled</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,57]</code> </td><td style="text-align: left;"> <code>ENABLE_FLAGS</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> PMT signal gating  enabled</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,58]</code> </td><td style="text-align: left;"> <code>GATE_START</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Start gating (in time ticks)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,59]</code> </td><td style="text-align: left;"> <code>GATE_STOP</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Stop gating (in time ticks), <code>'Gateend'</code> for version 04, here only GATE_STOP is used</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,60]</code> </td><td style="text-align: left;"> <code>PTENABLED</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Photon time enabled</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,61]</code> </td><td style="text-align: left;"> <code>DTENABLED</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> PMT dead time correction enabled</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,62]</code> </td><td style="text-align: left;"> <code>DEADTIME</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> PMT dead time (s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,63]</code> </td><td style="text-align: left;"> <code>MAXLPOWER</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> Stimulation power to 100 percent (mW/cm^2)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,64]</code> </td><td style="text-align: left;"> <code>XRF_ACQTIME</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> XRF acquisition time (s)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,65]</code> </td><td style="text-align: left;"> <code>XRF_HV</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> XRF X-ray high voltage (V)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,66]</code> </td><td style="text-align: left;"> <code>XRF_CURR</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> XRF X-ray current (µA)</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,67]</code> </td><td style="text-align: left;"> <code>XRF_DEADTIMEF</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 05-08 </td><td style="text-align: left;"> XRF dead time fraction</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,68]</code> </td><td style="text-align: left;"> <code>DETECTOR_ID</code> </td><td style="text-align: left;"> <code>raw</code> </td><td style="text-align: left;"> 07-08 </td><td style="text-align: left;"> Detector ID</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,69]</code> </td><td style="text-align: left;"> <code>LOWERFILTER_ID</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 07-08 </td><td style="text-align: left;"> Lower filter ID in reader</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,70]</code> </td><td style="text-align: left;"> <code>UPPERFILTER_ID</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> 07-08 </td><td style="text-align: left;"> Upper filter ID in reader</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,71]</code> </td><td style="text-align: left;"> <code>ENOISEFACTOR</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 07-08 </td><td style="text-align: left;"> Excess noise filter, usage unknown </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,72]</code> </td><td style="text-align: left;"> <code>MARKPOS_X1</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 1 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,73]</code> </td><td style="text-align: left;"> <code>MARKPOS_Y1</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 1 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,74]</code> </td><td style="text-align: left;"> <code>MARKPOS_X2</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 2 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,75]</code> </td><td style="text-align: left;"> <code>MARKPOS_Y2</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 2 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,76]</code> </td><td style="text-align: left;"> <code>MARKPOS_X3</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 3 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,77]</code> </td><td style="text-align: left;"> <code>MARKPOS_Y3</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> Coordinates marker position 3 </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,78]</code> </td><td style="text-align: left;"> <code>EXTR_START</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> usage unknown </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,79]</code> </td><td style="text-align: left;"> <code>EXTR_END</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> 08 </td><td style="text-align: left;"> usage unknown</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[,80]</code> </td><td style="text-align: left;"> <code>SEQUENCE</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> 03-04 </td><td style="text-align: left;"> Sequence name
+</td>
+</tr>
+
+</table>
+
+<p>V = BIN-file version (RLum means that it does not depend on a specific BIN version)
+</p>
+<p>Note that the <code>Risoe.BINfileData</code> object combines all values from
+different versions from the BIN-file, reserved bits are skipped, however,
+the function <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a> reset arbitrary reserved bits. Invalid
+values for a specific version are set to <code>NA</code>. Furthermore, the
+internal R data types do not necessarily match the required data types for
+the BIN-file data import! Data types are converted during data import.<br />
+</p>
+<p><strong>LTYPE</strong> values
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+VALUE </td><td style="text-align: left;"> TYPE </td><td style="text-align: left;"> DESCRIPTION </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[0]</code> </td><td style="text-align: left;"> <code>TL</code> </td><td style="text-align: left;">: Thermoluminescence </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[1]</code> </td><td style="text-align: left;"> <code>OSL</code> </td><td style="text-align: left;">: Optically stimulated luminescence </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[2]</code> </td><td style="text-align: left;"> <code>IRSL</code> </td><td style="text-align: left;">: Infrared stimulated luminescence </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[3]</code> </td><td style="text-align: left;"> <code>M-IR</code> </td><td style="text-align: left;">: Infrared monochromator scan</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[4]</code> </td><td style="text-align: left;"> <code>M-VIS</code> </td><td style="text-align: left;">: Visible monochromator scan</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[5]</code> </td><td style="text-align: left;"> <code>TOL</code> </td><td style="text-align: left;">: Thermo-optical luminescence </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[6]</code> </td><td style="text-align: left;"> <code>TRPOSL</code> </td><td style="text-align: left;">: Time Resolved Pulsed OSL</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[7]</code> </td><td style="text-align: left;"> <code>RIR</code> </td><td style="text-align: left;">: Ramped IRSL</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[8]</code> </td><td style="text-align: left;"> <code>RBR</code> </td><td style="text-align: left;">: Ramped (Blue) LEDs</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[9]</code> </td><td style="text-align: left;"> <code>USER</code> </td><td style="text-align: left;">: User defined</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[10]</code> </td><td style="text-align: left;"> <code>POSL</code> </td><td style="text-align: left;">: Pulsed OSL </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[11]</code> </td><td style="text-align: left;"> <code>SGOSL</code> </td><td style="text-align: left;">: Single Grain OSL</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[12]</code> </td><td style="text-align: left;"> <code>RL</code> </td><td style="text-align: left;">: Radio Luminescence </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[13]</code> </td><td style="text-align: left;"> <code>XRF</code> </td><td style="text-align: left;">: X-ray Fluorescence
+</td>
+</tr>
+
+</table>
+
+<p><strong>DTYPE</strong> values
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+VALUE </td><td style="text-align: left;"> DESCRIPTION </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[0]</code> </td><td style="text-align: left;"> Natural </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[1]</code> </td><td style="text-align: left;"> N+dose </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[2]</code> </td><td style="text-align: left;"> Bleach </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[3]</code> </td><td style="text-align: left;"> Bleach+dose </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[4]</code> </td><td style="text-align: left;"> Natural (Bleach) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[5]</code> </td><td style="text-align: left;"> N+dose (Bleach) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[6]</code> </td><td style="text-align: left;"> Dose </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[7]</code> </td><td style="text-align: left;"> Background
+</td>
+</tr>
+
+</table>
+
+<p><strong>LIGHTSOURCE</strong> values
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+VALUE </td><td style="text-align: left;"> DESCRIPTION </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[0]</code> </td><td style="text-align: left;"> None </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[1]</code> </td><td style="text-align: left;"> Lamp </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[2]</code> </td><td style="text-align: left;"> IR diodes/IR Laser </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[3]</code> </td><td style="text-align: left;"> Calibration LED </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[4]</code> </td><td style="text-align: left;"> Blue Diodes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[5]</code> </td><td style="text-align: left;"> White light </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[6]</code> </td><td style="text-align: left;"> Green laser (single grain) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">[7]</code> </td><td style="text-align: left;"> IR laser (single grain) </td>
+</tr>
+
+</table>
+
+<p>(information on the BIN/BINX file format are kindly provided by Risø, DTU Nutech)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)<br />
+based on information provided by Torben Lapp and Karsten Bracht Nielsen (Risø DTU, Denmark)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Risø DTU, 2013. The Sequence Editor User Manual - Feb 2013 and Risø DTU, 2016.
+</p>
+<p>The Sequence Editor User Manual - February 2016
+</p>
+<p><a href="https://www.fysik.dtu.dk">https://www.fysik.dtu.dk</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/plot_Risoe.BINfileData.html">plot_Risoe.BINfileData</a>, <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>,
+<a href="../../Luminescence/help/merge_Risoe.BINfileData.html">merge_Risoe.BINfileData</a>, <a href="../../Luminescence/help/Risoe.BINfileData2RLum.Analysis.html">Risoe.BINfileData2RLum.Analysis</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("Risoe.BINfileData")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

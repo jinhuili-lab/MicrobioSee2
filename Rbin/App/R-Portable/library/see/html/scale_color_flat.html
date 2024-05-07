@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Flat UI color palette</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scale_color_flat {see}"><tr><td>scale_color_flat {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flat UI color palette</h2>
+
+<h3>Description</h3>
+
+<p>The palette based on <a href="https://materialui.co/flatuicolors">Flat UI</a>.
+Use <code>scale_color_flat_d</code> for <em>discrete</em> categories and
+<code>scale_color_flat_c</code> for a <em>continuous</em> scale.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scale_color_flat(palette = "contrast", discrete = TRUE, reverse = FALSE, ...)
+
+scale_color_flat_d(palette = "contrast", discrete = TRUE, reverse = FALSE, ...)
+
+scale_color_flat_c(
+  palette = "contrast",
+  discrete = FALSE,
+  reverse = FALSE,
+  ...
+)
+
+scale_colour_flat(palette = "contrast", discrete = TRUE, reverse = FALSE, ...)
+
+scale_colour_flat_c(
+  palette = "contrast",
+  discrete = FALSE,
+  reverse = FALSE,
+  ...
+)
+
+scale_colour_flat_d(
+  palette = "contrast",
+  discrete = TRUE,
+  reverse = FALSE,
+  ...
+)
+
+scale_fill_flat(palette = "contrast", discrete = TRUE, reverse = FALSE, ...)
+
+scale_fill_flat_d(palette = "contrast", discrete = TRUE, reverse = FALSE, ...)
+
+scale_fill_flat_c(palette = "contrast", discrete = FALSE, reverse = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Character name of palette. Depending on the color scale, can
+be <code>"full"</code>, <code>"ice"</code>, <code>"rainbow"</code>, <code>"complement"</code>,
+<code>"contrast"</code> or <code>"light"</code> (for dark themes).</p>
+</td></tr>
+<tr valign="top"><td><code>discrete</code></td>
+<td>
+<p>Boolean indicating whether color aesthetic is discrete or not.</p>
+</td></tr>
+<tr valign="top"><td><code>reverse</code></td>
+<td>
+<p>Boolean indicating whether the palette should be reversed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code>discrete_scale()</code> or
+<code>scale_color_gradientn()</code>, used respectively when discrete is
+<code>TRUE</code> or <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+library(see)
+
+ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +
+  geom_boxplot() +
+  theme_modern() +
+  scale_fill_flat_d()
+
+ggplot(iris, aes(x = Species, y = Sepal.Length, fill = Species)) +
+  geom_violin() +
+  theme_modern() +
+  scale_fill_flat_d(palette = "ice")
+
+ggplot(iris, aes(x = Petal.Length, y = Petal.Width, color = Sepal.Length)) +
+  geom_point() +
+  theme_modern() +
+  scale_color_flat_c(palette = "rainbow")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

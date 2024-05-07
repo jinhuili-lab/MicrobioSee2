@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Run code using a temporary config file.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for with_config {config}"><tr><td>with_config {config}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run code using a temporary config file.</h2>
+
+<h3>Description</h3>
+
+<p>This function takes inspiration from <code><a href="../../withr/help/with_envvar.html">withr::with_envvar()</a></code> and may be useful
+for testing purposes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+with_config(
+  config_yml,
+  code,
+  .active_config = c(R_CONFIG_ACTIVE = "default"),
+  .extra_env_vars = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>config_yml</code></td>
+<td>
+<p>Either the path to a config file, or a character string
+representing a yaml configuration.</p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>Code to execute in a temporary environment.</p>
+</td></tr>
+<tr valign="top"><td><code>.active_config</code></td>
+<td>
+<p>Either a string representing a configuration, e.g.
+<code>default</code>, or a named character representing an environment variable, e.g.
+<code>c(R_CONFIG_ACTIVE = "default")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.extra_env_vars</code></td>
+<td>
+<p>Additional environment variables to set.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The result of running the <code>code</code>, after having temporarily set the
+necessary environment variables.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+yaml &lt;- '
+default:
+  db_name: dbase
+  databases:
+    db1: !expr paste0(db_name, "/one")
+    db2: !expr paste0(db_name, "/two")
+
+staging:
+  staging_postfix: _staging
+  db_name: dbase
+  databases:
+    db1: !expr paste0(db_name, staging_postfix, "/one")
+    db2: !expr paste0(db_name, staging_postfix, "/two")
+'
+
+# Ensure that base::get() doesn't get masked, for tests on CRAN
+get &lt;- base::get
+
+with_config(yaml, config::get() )
+with_config(yaml, config::get("databases", config = "default") )
+with_config(yaml, config::get("databases", config = "staging") )
+
+config_file &lt;- system.file("tests/testthat/config.yml", package = "config")
+if (file.exists(config_file)) {
+  with_config(config_file, config::get())
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>config</em> version 0.3.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

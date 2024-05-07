@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Box plot of Raster objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for boxplot {raster}"><tr><td>boxplot {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Box plot of Raster objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Box plot of layers in a Raster object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterStackBrick'
+boxplot(x, maxpixels=100000, ...)
+
+## S4 method for signature 'RasterLayer'
+boxplot(x, y=NULL, maxpixels=100000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>If <code>x</code> is a RasterLayer object, y can be an additional RasterLayer to group the values of <code>x</code> by 'zone'</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>Integer. Number of pixels to sample from each layer of large Raster objects</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>graphics::<a href="../../graphics/help/boxplot.html">boxplot</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/pairs.html">pairs</a>, <a href="../../raster/help/hist.html">hist</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- r2 &lt;- r3 &lt;- raster(ncol=10, nrow=10)
+values(r1) &lt;- rnorm(ncell(r1), 100, 40)
+values(r2) &lt;- rnorm(ncell(r1), 80, 10)
+values(r3) &lt;- rnorm(ncell(r1), 120, 30)
+s &lt;- stack(r1, r2, r3)
+names(s) &lt;- c('A', 'B', 'C')
+
+boxplot(s, notch=TRUE, col=c('red', 'blue', 'orange'), main='Box plot', ylab='random' )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

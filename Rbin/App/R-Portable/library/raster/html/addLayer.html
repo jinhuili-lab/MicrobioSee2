@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add or drop a layer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for addLayer {raster}"><tr><td>addLayer {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add or drop a layer</h2>
+
+<h3>Description</h3>
+
+<p>Add a layer to a Raster* object or drop a layer from a RasterStack or RasterBrick. The object returned is always a RasterStack (unless nothing to add or drop was provided, in which case the original object is returned).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+addLayer(x, ...) 
+dropLayer(x, i, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>integer. Indices of the layers to be dropped</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. The layers to add for addLayer. None implemented for dropLayer)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterStack
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/subset.html">subset</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+file &lt;- system.file("external/test.grd", package="raster")
+s &lt;- stack(file, file, file)
+r &lt;- raster(file)
+s &lt;- addLayer(s, r/2, r*2)
+s
+s &lt;- dropLayer(s, c(3, 5))
+nlayers(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

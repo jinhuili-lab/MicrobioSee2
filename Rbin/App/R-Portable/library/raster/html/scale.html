@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scale values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scale {raster}"><tr><td>scale {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scale values</h2>
+
+<h3>Description</h3>
+
+<p>Center and/or scale raster data 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+scale(x, center=TRUE, scale=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>logical or numeric. If <code>TRUE</code>, centering is done by subtracting the layer means (omitting <code>NA</code>s), and if <code>FALSE</code>, no centering is done. If <code>center</code> is a numeric vector with length equal to the <code>nlayers(x)</code>, then each layer of <code>x</code> has the corresponding value from center subtracted from it.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>logical or numeric. If <code>TRUE</code>, scaling is done by dividing the (centered) layers of <code>x</code> by their standard deviations if <code>center</code> is <code>TRUE</code>, and the root mean square otherwise. If scale is <code>FALSE</code>, no scaling is done. If <code>scale</code> is a numeric vector with length equal to <code>nlayers(x)</code>, each layer of <code>x</code> is divided by the corresponding value. Scaling is done after centering.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../base/help/scale.html">scale</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+bs &lt;- scale(b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

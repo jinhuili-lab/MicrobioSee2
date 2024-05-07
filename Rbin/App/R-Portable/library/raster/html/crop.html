@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Crop</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for crop {raster}"><tr><td>crop {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Crop</h2>
+
+<h3>Description</h3>
+
+<p>crop returns a geographic subset of an object as specified by an Extent object (or object from which an extent object can be extracted/created). 
+If <code>x</code> is a Raster* object, the Extent is aligned to <code>x</code>. Areas included in <code>y</code> but outside the extent of <code>x</code> are ignored (see <code><a href="../../raster/help/extend.html">extend</a></code> if you want a larger area).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+crop(x, y, filename="", snap='near', datatype=NULL, ...)
+
+## S4 method for signature 'Spatial'
+crop(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object or SpatialPolygons*, SpatialLines*, or SpatialPoints* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Extent object, or any object from which an Extent object can be extracted (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character, output filename. Optional</p>
+</td></tr>
+<tr valign="top"><td><code>snap</code></td>
+<td>
+<p>Character. One of 'near', 'in', or 'out', for use with <code><a href="../../raster/help/alignExtent.html">alignExtent</a></code></p>
+</td></tr>  
+<tr valign="top"><td><code>datatype</code></td>
+<td>
+<p>Character. Output <code><a href="../../raster/help/dataType.html">dataType</a></code> (by default it is the same as the input datatype)</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>Objects from which an Extent can be extracted/created include RasterLayer, RasterStack, RasterBrick and objects of the Spatial* classes from the sp package. You can check this with the <code><a href="../help/extent.html">extent</a></code> function. New Extent objects can be also be created with function <code><a href="../../raster/help/extent.html">extent</a></code> and <code><a href="../../raster/help/drawExtent.html">drawExtent</a></code> by clicking twice on a plot.
+</p>
+<p>To crop by row and column numbers you can create an extent like this (for Raster <code>x</code>, row 5 to 10, column 7 to 12)
+<code>crop(x, extent(x, 5, 10, 7, 15))</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick object; or SpatialLines or SpatialPolygons object.
+</p>
+
+
+<h3>Note</h3>
+
+<p>values within the extent of a Raster* object can be set to NA with <a href="../help/mask.html">mask</a></p>
+
+
+<h3>See Also</h3>
+
+ 
+<p><code><a href="../help/extend.html">extend</a></code>, <code><a href="../help/merge.html">merge</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=45, ncol=90)
+values(r) &lt;- 1:ncell(r)
+e &lt;- extent(-160, 10, 30, 60)
+rc &lt;- crop(r, e)	
+
+# use row and column numbers:
+rc2 &lt;- crop(r, extent(r, 5, 10, 7, 15))
+
+# crop Raster* with Spatial* object
+b &lt;- as(extent(6, 6.4, 49.75, 50), 'SpatialPolygons')
+crs(b) &lt;- crs(r)
+rb &lt;- crop(r, b)
+
+# crop a SpatialPolygon* object with another one
+if (require(rgdal) &amp; require(rgeos)) {
+  p &lt;- shapefile(system.file("external/lux.shp", package="raster"))
+  pb &lt;- crop(p, b)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

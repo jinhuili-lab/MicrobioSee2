@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Activate or deactivate the styler cache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cache_activate {styler}"><tr><td>cache_activate {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Activate or deactivate the styler cache</h2>
+
+<h3>Description</h3>
+
+<p>Helper functions to control the behavior of caching. Simple wrappers around
+<code><a href="../../base/help/options.html">base::options()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cache_activate(cache_name = NULL, verbose = !getOption("styler.quiet", FALSE))
+
+cache_deactivate(verbose = !getOption("styler.quiet", FALSE))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cache_name</code></td>
+<td>
+<p>The name of the styler cache to use. If
+<code>NULL</code>, the option &quot;styler.cache_name&quot; is considered which defaults to
+the version of styler used.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Whether or not to print an informative message about what the
+function is doing.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other cache managers: 
+<code><a href="../../styler/help/cache_clear.html">cache_clear</a>()</code>,
+<code><a href="../../styler/help/cache_info.html">cache_info</a>()</code>,
+<code><a href="../../styler/help/caching.html">caching</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

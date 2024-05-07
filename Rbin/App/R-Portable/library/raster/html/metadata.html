@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Metadata</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for metadata {raster}"><tr><td>metadata {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Metadata </h2>
+
+<h3>Description</h3>
+
+<p>Get or set a metadata to a Raster object 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+metadata(x)
+metadata(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object </p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>list with named elements. Each element may be another list of named elements (but these nested lists are not allowed to be lists themselves)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object or list
+</p>
+
+
+<h3>Note</h3>
+
+<p>The metadata can contain single values or vectors of basic data types (character, integer, numeric) and Date. Some other types may also be supported. You cannot use a matrix or data.frame as a meta-data element.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(nc=10, nr=10)
+values(r) &lt;- 1:ncell(r)
+
+m &lt;- list(wave=list(a=1, b=2, c=c('cool', 'important')), that=list(red='44', blue=1:5,
+       days=as.Date(c('2014-1-15','2014-2-15'))), this='888 miles from here', today=NA)
+
+metadata(r) &lt;- m
+
+## Not run: 
+
+x &lt;- writeRaster(r, rasterTmpFile(), overwrite=TRUE)
+metax &lt;- metadata(x)
+
+identical(metax, m)
+
+# nested too deep
+badmeta1 &lt;- list(wave=list(a=1, b=2, c='x'), that=list(red='4', blue=list(bad=5)))
+metadata(r) &lt;- badmeta1
+
+# missing names
+badmeta2 &lt;- list(wave=list(1, 2, c='x'), that=list(red='44', blue=14), this='8m')
+metadata(r) &lt;- badmeta2
+
+# matrix not allowed
+badmeta3 &lt;- list(wave=list(a=1, b=matrix(1:4, ncol=2), c='x'), that=list(red='4'))
+metadata(r) &lt;- badmeta3
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

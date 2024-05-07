@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Arithmetic Ops Group Methods for Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Ops.polynomial {polynom}"><tr><td>Ops.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Arithmetic Ops Group Methods for Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Allows arithmetic operators to be used for polynomial calculations,
+such as addition, multiplication, division, etc.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+Ops(e1, e2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e1</code></td>
+<td>
+<p>an object of class <code>"polynomial"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>e2</code></td>
+<td>
+<p>an object of class <code>"polynomial"</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A polynomial got by performing the operation on the two arguments.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../polynom/help/Math.polynomial.html">Math.polynomial</a></code>,
+<code><a href="../../polynom/help/Summary.polynomial.html">Summary.polynomial</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+p &lt;- polynomial(c(1, 2, 1))
+## 1 + 2*x + x^2
+r &lt;- poly.calc(-1 : 1)
+## -1*x + x^3
+(r - 2 * p)^2
+## 4 + 20*x + 33*x^2 + 16*x^3 - 6*x^4 - 4*x^5 + x^6
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

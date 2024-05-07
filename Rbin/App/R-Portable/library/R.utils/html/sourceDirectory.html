@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sources files recursively to either local or global...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sourceDirectory {R.utils}"><tr><td>sourceDirectory {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sources files recursively to either local or global environment</h2>
+
+<h3>Description</h3>
+
+<p>Sources files recursively to either local or global environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+sourceDirectory(path, pattern=".*[.](r|R|s|S|q)([.](lnk|LNK))*$", recursive=TRUE,
+  envir=parent.frame(), onError=c("error", "warning", "skip"), modifiedOnly=TRUE, ...,
+  verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>A path to a directory to be sourced.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>A regular expression file name pattern to identify
+source code files.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, subdirectories are recursively sourced
+first, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code> in which the code should be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>onError</code></td>
+<td>
+<p>If an error occurs, the error may stop the job,
+give a warning, or silently be skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>modifiedOnly</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, only files that are modified since the
+last time they were sourced are sourced, otherwise regardless.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../R.utils/help/sourceTo.html">sourceTo</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/vector.html">vector</a></code> of the full pathnames of the files sourced.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Subdirectories and files in each (sub-)directory are sourced
+in lexicographic order.
+</p>
+
+
+<h3>Hooks</h3>
+
+<p>This method does not provide hooks, but the internally used
+<code><a href="../../R.utils/help/sourceTo.html">sourceTo</a></code>() does.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/sourceTo.html">sourceTo</a></code>() and compare to <code><a href="../../base/help/source.html">source</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

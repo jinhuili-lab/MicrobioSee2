@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Log Loss</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for performance_logloss {performance}"><tr><td>performance_logloss {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Log Loss</h2>
+
+<h3>Description</h3>
+
+<p>Compute the log loss for models with binary outcome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performance_logloss(model, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Model with binary outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Logistic regression models predict the probability of an outcome of being a
+&quot;success&quot; or &quot;failure&quot; (or 1 and 0 etc.). <code>performance_logloss()</code> evaluates
+how good or bad the predicted probabilities are. High values indicate bad
+predictions, while low values indicate good predictions. The lower the
+log-loss, the better the model predicts the outcome.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric, the log loss of <code>model</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../performance/help/performance_score.html">performance_score()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mtcars)
+m &lt;- glm(formula = vs ~ hp + wt, family = binomial, data = mtcars)
+performance_logloss(m)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Specify which tokens must be absent for a transformer to be...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for specify_transformers_drop {styler}"><tr><td>specify_transformers_drop {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Specify which tokens must be absent for a transformer to be dropped</h2>
+
+<h3>Description</h3>
+
+<p><code>{styler}</code> can remove transformer functions safely removed from the list of
+transformers to be applied on every <em>nest</em> with <code><a href="../../styler/help/transformers_drop.html">transformers_drop()</a></code> if the
+tokens that trigger a manipulation of the parse data are absent in the text
+to style. <code>specify_transformers_drop()</code> helps you specify these
+conditions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+specify_transformers_drop(
+  spaces = NULL,
+  indention = NULL,
+  line_breaks = NULL,
+  tokens = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>spaces, indention, line_breaks, tokens</code></td>
+<td>
+<p>Each a list (or <code>NULL</code>) where
+the name of each element is the concerning transformer, the value is an
+unnamed vector with tokens that match the rule. See 'Examples'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note that the negative formulation (must be absent in order to be dropped)
+means that when you add a new rule and you forget
+to add a rule for when to drop it, it will not be dropped. If we required to
+specify the complement (which tokens must be present for the transformer to
+be kept), the transformer would be silently removed, which is less save.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>It is the responsibility of the developer to ensure expected behavior, in
+particular that:
+</p>
+
+<ul>
+<li><p> the name of the supplied dropping criteria matches the name of the
+transformer function.
+</p>
+</li>
+<li><p> the dropping criteria (name + token) reflects correctly under which
+circumstances the transformer does not have an impact on styling and can
+therefore be safely removed without affecting the styling outcome.
+</p>
+</li></ul>
+
+<p>You can use the unexported function <code><a href="../../styler/help/test_transformers_drop.html">test_transformers_drop()</a></code> for some
+checks.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+dropping &lt;- specify_transformers_drop(
+  spaces = c(remove_space_after_excl = "'!'")
+)
+style_guide &lt;- create_style_guide(
+  space = list(remove_space_after_excl = styler:::remove_space_after_excl),
+  transformers_drop = dropping
+)
+# transformers_drop() will remove the transformer when the code does not
+# contain an exclamation mark
+style_guide_with_some_transformers_dropped &lt;- styler:::transformers_drop(
+  "x &lt;- 3;2", style_guide
+)
+setdiff(
+  names(style_guide$space),
+  names(style_guide_with_some_transformers_dropped)
+)
+# note that dropping all transformers of a scope means that this scope
+# has an empty named list for this scope
+style_guide_with_some_transformers_dropped$space
+# this is not the same as if this scope was never specified.
+tidyverse_style(scope = "none")$space
+# Hence, styler should check for length 0 to decide if a scope is present or
+# not, not via `is.null()` and we can use the `is.null()` check to see if
+# this scope was initially required by the user.
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample size and power computation for ROC curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for power.roc.test {pROC}"><tr><td>power.roc.test {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Sample size and power computation for ROC curves
+</h2>
+
+<h3>Description</h3>
+
+<p>Computes sample size, power, significance level or minimum AUC for ROC curves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+power.roc.test(...)
+# One or Two ROC curves test with roc objects:
+## S3 method for class 'roc'
+power.roc.test(roc1, roc2, sig.level = 0.05, 
+power = NULL, kappa = NULL, alternative = c("two.sided", "one.sided"),
+reuse.auc=TRUE, method = c("delong", "bootstrap", "obuchowski"), ...)
+# One ROC curve with a given AUC:
+## S3 method for class 'numeric'
+power.roc.test(auc = NULL, ncontrols = NULL, 
+ncases = NULL, sig.level = 0.05, power = NULL, kappa = 1, 
+alternative = c("two.sided", "one.sided"), ...)
+# Two ROC curves with the given parameters:
+## S3 method for class 'list'
+power.roc.test(parslist, ncontrols = NULL, 
+ncases = NULL, sig.level = 0.05, power = NULL,  kappa = 1, 
+alternative = c("two.sided", "one.sided"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc1, roc2</code></td>
+<td>
+<p>one or two &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc</code></td>
+<td>
+
+<p>expected AUC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parslist</code></td>
+<td>
+
+<p>a <code><a href="../../base/html/list.html">list</a></code> of parameters for the two ROC curves test with
+Obuchowski variance when no empirical ROC curve is known:
+</p>
+
+<dl>
+<dt>A1</dt><dd><p>binormal A parameter for ROC curve 1</p>
+</dd>
+<dt>B1</dt><dd><p>binormal B parameter for ROC curve 1</p>
+</dd>
+<dt>A2</dt><dd><p>binormal A parameter for ROC curve 2</p>
+</dd>
+<dt>B2</dt><dd><p>binormal B parameter for ROC curve 2</p>
+</dd>
+<dt>rn</dt><dd><p>correlation between the variables in control patients</p>
+</dd>
+<dt>ra</dt><dd><p>correlation between the variables in case patients</p>
+</dd>
+<dt>delta</dt><dd><p>the difference of AUC between the two ROC curves</p>
+</dd>
+</dl>
+
+<p>For a partial AUC, the following additional parameters must be set:
+</p>
+
+<dl>
+<dt>FPR11</dt><dd><p>Upper bound of FPR (1 - specificity) of ROC curve 1</p>
+</dd>
+<dt>FPR12</dt><dd><p>Lower bound of FPR (1 - specificity) of ROC curve 1</p>
+</dd>
+<dt>FPR21</dt><dd><p>Upper bound of FPR (1 - specificity) of ROC curve 2</p>
+</dd>
+<dt>FPR22</dt><dd><p>Lower bound of FPR (1 - specificity) of ROC curve 2</p>
+</dd>
+</dl>
+
+</td></tr>
+<tr valign="top"><td><code>ncontrols, ncases</code></td>
+<td>
+
+<p>number of controls and case observations available.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sig.level</code></td>
+<td>
+<p>expected significance level (probability of type I
+error).
+</p>
+</td></tr>
+<tr valign="top"><td><code>power</code></td>
+<td>
+<p>expected power of the test (1 - probability of type II
+error).
+</p>
+</td></tr>
+<tr valign="top"><td><code>kappa</code></td>
+<td>
+
+<p>expected balance between control and case observations. Must be
+positive. Only for sample size determination, that is to determine
+<code>ncontrols</code> and <code>ncases</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>whether a one or two-sided test is performed.</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc</code></td>
+<td>
+<p>if <code>TRUE</code> (default) and the &ldquo;roc&rdquo; objects
+contain an &ldquo;auc&rdquo; field, re-use these specifications for the
+test. See the <em>AUC specification</em> section for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method to compute <a href="../../pROC/help/var.roc.html">variance</a> and
+<a href="../../pROC/help/cov.roc.html">covariance</a>, either &ldquo;delong&rdquo;,
+&ldquo;bootstrap&rdquo; or &ldquo;obuchowski&rdquo;. The first letter is
+sufficient. Only for Two ROC curves power calculation. See
+<code><a href="../../pROC/help/var.html">var</a></code> and <code><a href="../../pROC/help/cov.html">cov</a></code> documentations for more
+details. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially <code><a href="../../pROC/help/auc.html">auc</a></code> (with <code>reuse.auc=FALSE</code> or no AUC in
+the ROC curve), <code><a href="../../pROC/help/cov.html">cov</a></code> and <code><a href="../../pROC/help/var.html">var</a></code> (especially
+arguments <code>method</code>, <code>boot.n</code> and <code>boot.stratified</code>).
+Ignored (with a warning) with a <code>parslist</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>power.htest</code> (such as that given by
+<code><a href="../../stats/html/power.t.test.html">power.t.test</a></code>) with the supplied and computed values.
+</p>
+
+
+<h3>One ROC curve power calculation</h3>
+
+<p>If one or no ROC curves are passed to <code>power.roc.test</code>, a one ROC
+curve power calculation is performed. The function expects either
+<code>power</code>, <code>sig.level</code> or <code>auc</code>, or both <code>ncontrols</code>
+and <code>ncases</code> to be missing, so that the parameter is determined
+from the others with the formula by Obuchowski <em>et al.</em>, 2004 (formulas
+2 and 3, p. 1123).
+</p>
+<p>For the sample size, <code>ncases</code> is computed directly from formulas
+2 and 3 and ncontrols is deduced with <code>kappa</code> (defaults to the
+ratio of controls to cases).
+AUC is optimized by <code><a href="../../stats/html/uniroot.html">uniroot</a></code> while <code>sig.level</code>
+and <code>power</code> are solved as quadratic equations.
+</p>
+<p><code>power.roc.test</code> can also be passed a <code>roc</code> object from the <code><a href="../../pROC/help/roc.html">roc</a></code>
+function, but the empirical ROC will not be used, only the number of
+patients and the AUC.
+</p>
+
+
+<h3>Two paired ROC curves power calculation</h3>
+
+<p>If two ROC curves are passed to <code>power.roc.test</code>, the function
+will compute either the required sample size (if <code>power</code> is supplied),
+the significance level (if <code>sig.level=NULL</code> and <code>power</code> is
+supplied) or the power of a test of a difference between to AUCs
+according to the formula by Obuchowski and McClish, 1997
+(formulas 2 and 3, p. 1530&ndash;1531). The null hypothesis is that the AUC
+of <code>roc1</code> is the same than the AUC of <code>roc2</code>, with
+<code>roc1</code> taken as the reference ROC curve.
+</p>
+<p>For the sample size, <code>ncases</code> is computed directly from formula 2
+and ncontrols is deduced with <code>kappa</code> (defaults to the
+ratio of controls to cases in <code>roc1</code>).
+<code>sig.level</code> and <code>power</code> are solved as quadratic equations.
+</p>
+<p>The variance and covariance of the ROC curve are computed with the
+<code><a href="../../pROC/help/var.html">var</a></code> and <code><a href="../../pROC/help/cov.html">cov</a></code> functions. By default, DeLong
+method using the algorithm by Sun and Xu (2014) is used for full
+AUCs and the bootstrap for partial AUCs. It is
+possible to force the use of Obuchowski's variance by specifying
+<code>method="obuchowski"</code>.
+</p>
+<p>Alternatively when no empirical ROC curve is known, or if only one is
+available, a list can be passed to <code>power.roc.test</code>, with the
+contents defined in the &ldquo;Arguments&rdquo; section. The variance and
+covariance are computed from Table 1 and Equation 4 and 5 of
+Obuchowski and McClish (1997), p. 1530&ndash;1531.
+</p>
+<p>Power calculation for unpaired ROC curves is not implemented.
+</p>
+
+
+<h3>AUC specification</h3>
+
+<p>The comparison of the AUC of the ROC curves needs a specification of the
+AUC. The specification is defined by:
+</p>
+
+<ol>
+<li><p> the &ldquo;auc&rdquo; field in the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects if
+<code>reuse.auc</code> is set to <code>TRUE</code> (default)
+</p>
+</li>
+<li><p> passing the specification to <code><a href="../../pROC/help/auc.html">auc</a></code> with ...
+(arguments <code>partial.auc</code>, <code>partial.auc.correct</code> and
+<code>partial.auc.focus</code>). In this case, you must ensure either that
+the <code><a href="../../pROC/help/roc.html">roc</a></code> object do not contain an <code>auc</code> field (if
+you called <code><a href="../../pROC/help/roc.html">roc</a></code> with <code>auc=FALSE</code>), or set
+<code>reuse.auc=FALSE</code>.
+</p>
+</li></ol>
+
+<p>If <code>reuse.auc=FALSE</code> the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always
+be called with <code>...</code> to determine the specification, even if
+the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do contain an <code>auc</code> field.
+</p>
+<p>As well if the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do not contain an <code>auc</code>
+field, the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always be called with
+<code>...</code> to determine the specification.
+</p>
+<p>Warning: if the roc object passed to roc.test contains an <code>auc</code>
+field and <code>reuse.auc=TRUE</code>, <a href="../../pROC/help/auc.html">auc</a> is not called and
+arguments such as <code>partial.auc</code> are silently ignored.
+</p>
+
+
+<h3>Acknowledgements</h3>
+
+<p>The authors would like to thank Christophe Combescure and Anne-Sophie
+Jannot for their help with the implementation of this section of the package.
+</p>
+
+
+<h3>References</h3>
+
+<p>Elisabeth R. DeLong, David M. DeLong and Daniel L. Clarke-Pearson
+(1988) &ldquo;Comparing the areas under two or more correlated receiver
+operating characteristic curves: a nonparametric
+approach&rdquo;. <em>Biometrics</em> <b>44</b>, 837&ndash;845.
+</p>
+<p>Nancy A. Obuchowski, Donna K. McClish (1997). &ldquo;Sample size
+determination for diagnostic accurary studies involving binormal ROC
+curve indices&rdquo;. <em>Statistics in Medicine</em>, <b>16</b>,
+1529&ndash;1542. DOI: doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(19970715)16:13%3C1529::AID-SIM565%3E3.0.CO;2-H">10.1002/(SICI)1097-0258(19970715)16:13&lt;1529::AID-SIM565&gt;3.0.CO;2-H</a>.
+</p>
+<p>Nancy A. Obuchowski, Micharl L. Lieber, Frank H. Wians
+Jr. (2004). &ldquo;ROC Curves in Clinical Chemistry: Uses, Misuses, and
+Possible Solutions&rdquo;. <em>Clinical Chemistry</em>, <b>50</b>, 1118&ndash;1125. DOI:
+doi: <a href="https://doi.org/10.1373/clinchem.2004.031823">10.1373/clinchem.2004.031823</a>.
+</p>
+<p>Xu Sun and Weichao Xu (2014) &ldquo;Fast Implementation of DeLongs Algorithm for Comparing
+the Areas Under Correlated Receiver Operating Characteristic Curves&rdquo;. <em>IEEE Signal
+Processing Letters</em>, <b>21</b>, 1389&ndash;1393. 
+DOI: doi: <a href="https://doi.org/10.1109/LSP.2014.2337313">10.1109/LSP.2014.2337313</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/roc.test.html">roc.test</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+#### One ROC curve ####
+
+# Build a roc object:
+rocobj &lt;- roc(aSAH$outcome, aSAH$s100b)
+
+# Determine power of one ROC curve:
+power.roc.test(rocobj)
+# Same as:
+power.roc.test(ncases=41, ncontrols=72, auc=0.73, sig.level=0.05)
+# sig.level=0.05 is implicit and can be omitted:
+power.roc.test(ncases=41, ncontrols=72, auc=0.73)
+
+# Determine ncases &amp; ncontrols:
+power.roc.test(auc=rocobj$auc, sig.level=0.05, power=0.95, kappa=1.7)
+power.roc.test(auc=0.73, sig.level=0.05, power=0.95, kappa=1.7)
+
+# Determine sig.level:
+power.roc.test(ncases=41, ncontrols=72, auc=0.73, power=0.95, sig.level=NULL)
+
+# Derermine detectable AUC:
+power.roc.test(ncases=41, ncontrols=72, sig.level=0.05, power=0.95)
+
+
+#### Two ROC curves ####
+
+###  Full AUC
+roc1 &lt;- roc(aSAH$outcome, aSAH$ndka)
+roc2 &lt;- roc(aSAH$outcome, aSAH$wfns)
+
+## Sample size
+# With DeLong variance (default)
+power.roc.test(roc1, roc2, power=0.9)
+# With Obuchowski variance
+power.roc.test(roc1, roc2, power=0.9, method="obuchowski")
+
+## Power test
+# With DeLong variance (default)
+power.roc.test(roc1, roc2)
+# With Obuchowski variance
+power.roc.test(roc1, roc2, method="obuchowski")
+
+## Significance level
+# With DeLong variance (default)
+power.roc.test(roc1, roc2, power=0.9, sig.level=NULL)
+# With Obuchowski variance
+power.roc.test(roc1, roc2, power=0.9, sig.level=NULL, method="obuchowski")
+
+### Partial AUC
+roc3 &lt;- roc(aSAH$outcome, aSAH$ndka, partial.auc=c(1, 0.9))
+roc4 &lt;- roc(aSAH$outcome, aSAH$wfns, partial.auc=c(1, 0.9))
+
+## Sample size
+# With bootstrap variance (default)
+## Not run: 
+power.roc.test(roc3, roc4, power=0.9)
+
+## End(Not run)
+# With Obuchowski variance
+power.roc.test(roc3, roc4, power=0.9, method="obuchowski")
+
+## Power test
+# With bootstrap variance (default)
+## Not run: 
+power.roc.test(roc3, roc4)
+# This is exactly equivalent:
+power.roc.test(roc1, roc2, reuse.auc=FALSE, partial.auc=c(1, 0.9))
+
+## End(Not run)
+# With Obuchowski variance
+power.roc.test(roc3, roc4, method="obuchowski")
+
+## Significance level
+# With bootstrap variance (default)
+## Not run: 
+power.roc.test(roc3, roc4, power=0.9, sig.level=NULL)
+
+## End(Not run)
+# With Obuchowski variance
+power.roc.test(roc3, roc4, power=0.9, sig.level=NULL, method="obuchowski")
+
+## With only binormal parameters given
+# From example 2 of Obuchowski and McClish, 1997.
+ob.params &lt;- list(A1=2.6, B1=1, A2=1.9, B2=1, rn=0.6, ra=0.6, FPR11=0,
+FPR12=0.2, FPR21=0, FPR22=0.2, delta=0.037) 
+
+power.roc.test(ob.params, power=0.8, sig.level=0.05)
+power.roc.test(ob.params, power=0.8, sig.level=NULL, ncases=107)
+power.roc.test(ob.params, power=NULL, sig.level=0.05, ncases=107)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

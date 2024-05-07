@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Global substitute of expression using regular expressions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for egsub {R.utils}"><tr><td>egsub {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Global substitute of expression using regular expressions</h2>
+
+<h3>Description</h3>
+
+<p>Global substitute of expression using regular expressions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+egsub(pattern, replacement, x, ..., value=TRUE, envir=parent.frame(), inherits=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string with the regular expression to be
+matched, cf. <code><a href="../../base/help/gsub.html">gsub</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>replacement</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the replacement to use
+when there is a match, cf. <code><a href="../../base/help/gsub.html">gsub</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The <code><a href="../../base/help/expression.html">expression</a></code> or a <code><a href="../../base/help/function.html">function</a></code> to be modified.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/gsub.html">gsub</a></code>()</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the value of the replacement itself is used
+to look up a variable with that name and then using that variables
+value as the replacement.  Otherwise the replacement value is used.</p>
+</td></tr>
+<tr valign="top"><td><code>envir, inherits</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code> from where to find the variable
+and whether the search should also include enclosing frames, cf.
+<code><a href="../../base/help/get.html">get</a></code>().  Only use if <code>value</code> is <code><a href="../../base/help/logical.html">TRUE</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an <code><a href="../../base/help/expression.html">expression</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Original expression
+expr &lt;- substitute({
+  res &lt;- foo.bar.yaa(2)
+  print(res)
+  R.utils::use("R.oo")
+  x &lt;- .b.
+})
+
+# Some predefined objects
+foo.bar.yaa &lt;- function(x) str(x)
+a &lt;- 2
+b &lt;- a
+
+# Substitute with variable name
+expr2 &lt;- egsub("^[.]([a-zA-Z0-9_.]+)[.]$", "\\1", expr, value=FALSE)
+print(expr2)
+## {
+##     res &lt;- foo.bar.yaa(2)
+##     print(res)
+##     R.utils::use("R.oo")
+##     x &lt;- b
+## }
+
+# Substitute with variable value
+expr3 &lt;- egsub("^[.]([a-zA-Z0-9_.]+)[.]$", "\\1", expr, value=TRUE)
+print(expr3)
+## {
+##     res &lt;- foo.bar.yaa(2)
+##     print(res)
+##     R.utils::use("R.oo")
+##     x &lt;- 2
+## }
+# Substitute the body of a function
+warnifnot &lt;- egsub("stop", "warning", stopifnot, value=FALSE)
+print(warnifnot)
+warnifnot(pi == 3.14)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

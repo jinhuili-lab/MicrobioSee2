@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a file in table format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readTable {R.utils}"><tr><td>readTable {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a file in table format</h2>
+
+<h3>Description</h3>
+
+<p>Reads a file in table format and creates a data frame from it, with cases corresponding
+to lines and variables to fields in the file.
+</p>
+<p><em>WARNING: This method is very much in an alpha stage.
+Expect it to change.</em>
+</p>
+<p>This method is an extension to the default <code><a href="../../utils/help/read.table.html">read.table</a></code>
+function in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>.  It is possible to specify a column name to column class
+map such that the column classes are automatically assigned from the
+column header in the file.
+</p>
+<p>In addition, it is possible to read any subset of rows.
+The method is optimized such that only columns and rows that are of
+interest are parsed and read into <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s memory.  This minimizes memory
+usage at the same time as it speeds up the reading.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+readTable(file, colClasses=NULL, isPatterns=FALSE, defColClass=NA, header=FALSE, skip=0,
+  nrows=-1, rows=NULL, col.names=NULL, check.names=FALSE, path=NULL, ...,
+  stripQuotes=TRUE, method=c("readLines", "intervals"), verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a filename.  If a filename, the path
+specified by <code>path</code> is added to the front of the
+filename.  Unopened files are opened and closed at the end.</p>
+</td></tr>
+<tr valign="top"><td><code>colClasses</code></td>
+<td>
+<p>Either a named or an unnamed <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+If unnamed, it specified the column classes just as used by
+<code><a href="../../utils/help/read.table.html">read.table</a></code>.
+If it is a named vector, <code>names(colClasses)</code> are used to match
+the column names read (this requires that <code>header=TRUE</code>) and
+the column classes are set to the corresponding values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>isPatterns</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the matching of <code>names(colClasses)</code> to
+the read column names is done by regular expressions matching.</p>
+</td></tr>
+<tr valign="top"><td><code>defColClass</code></td>
+<td>
+<p>If the column class map specified by a named
+<code>colClasses</code> argument does not match some of the read column
+names, the column class is by default set to this class. The
+default is to read the columns in an &quot;as is&quot; way.</p>
+</td></tr>
+<tr valign="top"><td><code>header</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, column names are read from the file.</p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+<p>The number of lines (commented or non-commented) to skip
+before trying to read the header or alternatively the data table.</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p>The number of rows to read of the data table.
+Ignored if <code>rows</code> is specified.</p>
+</td></tr>
+<tr valign="top"><td><code>rows</code></td>
+<td>
+<p>An row index <code><a href="../../base/help/vector.html">vector</a></code> specifying which rows of the table
+to read, e.g. row one is the row following the header.
+Non-existing rows are ignored.  Note that rows are returned in
+the same order they are requested and duplicated rows are also
+returned.</p>
+</td></tr>
+<tr valign="top"><td><code>col.names</code></td>
+<td>
+<p>Same as in <code>read.table()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>check.names</code></td>
+<td>
+<p>Same as in <code>read.table()</code>, but default value
+is <code><a href="../../base/help/logical.html">FALSE</a></code> here.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>If <code>file</code> is a filename, this path is added to it,
+otherwise ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../utils/help/read.table.html">read.table</a></code> used internally.</p>
+</td></tr>
+<tr valign="top"><td><code>stripQuotes</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, quotes are stripped from values before
+being parse.
+This argument is only effective when <code>method=="readLines"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>If <code>"readLines"</code>, <code>(readLines())</code> is used
+internally to first only read rows of interest, which is then
+passed to <code>read.table()</code>.
+If <code>"intervals"</code>, contiguous intervals are first identified in
+the rows of interest.  These intervals are the read one by one
+using <code>read.table()</code>.
+The latter methods is faster and especially more memory efficient
+if the intervals are not too many, where as the former is preferred
+if many &quot;scattered&quot; rows are to be read.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/data.frame.html">data.frame</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/readTableIndex.html">readTableIndex</a></code>().
+<code><a href="../../utils/help/read.table.html">read.table</a></code>.
+<code><a href="../../R.utils/help/colClasses.html">colClasses</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

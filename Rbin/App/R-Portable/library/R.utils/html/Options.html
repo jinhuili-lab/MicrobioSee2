@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The Options class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Options {R.utils}"><tr><td>Options {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The Options class</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class Options</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>Options</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<a href="../help/Settings.html">Settings</a><br />
+</p>
+<p>public static class <b>Options</b><br />
+extends <a href="../../R.oo/help/Object.html">Object</a><br />
+</p>
+<p>A class to set and get either options stored in a <code><a href="../../base/help/list.html">list</a></code> tree structure.
+</p>
+<p>Each option has a pathname. The format of a pathname is similar to a
+(Unix) filesystem pathname, e.g. &quot;graphics/cex&quot;. See examples for
+more details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Options(options=list(), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>A tree <code><a href="../../base/help/list.html">list</a></code> structure of options.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note, this class and its methods do <em>not</em> operate on the global
+options structure defined in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> (<a href="../../base/html/options.html">options</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The constructor returns an Options object.
+</p>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.character</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.list</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>equals</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getLeaves</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getOption</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>hasOption</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>names</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>nbrOfOptions</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setOption</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>str</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+local &lt;- Options()
+
+# Query a missing option
+cex &lt;- getOption(local, "graphics/cex")
+cat("graphics/cex =", cex, "\n")  # Returns NULL
+
+# Query a missing option with default value
+cex &lt;- getOption(local, "graphics/cex", defaultValue=1)
+cat("graphics/cex =", cex, "\n")  # Returns NULL
+
+# Set option and get previous value
+oldCex &lt;- setOption(local, "graphics/cex", 2)
+cat("previous graphics/cex =", oldCex, "\n")  # Returns NULL
+
+# Set option again and get previous value
+oldCex &lt;- setOption(local, "graphics/cex", 3)
+cat("previous graphics/cex =", oldCex, "\n")  # Returns 2
+
+# Query a missing option with default value, which is ignored
+cex &lt;- getOption(local, "graphics/cex", defaultValue=1)
+cat("graphics/cex =", cex, "\n")  # Returns 3
+
+# Query multiple options with multiple default values
+multi &lt;- getOption(local, c("graphics/cex", "graphics/pch"), c(1,2))
+print(multi)
+
+# Check existance of multiple options
+has &lt;- hasOption(local, c("graphics/cex", "graphics/pch"))
+print(has)
+
+# Get a subtree of options
+graphics &lt;- getOption(local, "graphics")
+print(graphics)
+
+# Get the complete tree of options
+all &lt;- getOption(local)
+print(all)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Raster to polygons conversion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rasterToPolygons {raster}"><tr><td>rasterToPolygons {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Raster to polygons conversion</h2>
+
+<h3>Description</h3>
+
+<p>Raster to polygons conversion. Cells with NA are not converted. A function can be used to select a subset of the raster cells (by their values).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rasterToPolygons(x, fun=NULL, n=4, na.rm=TRUE, digits=12, dissolve=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> Raster* object </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p> function to select a subset of raster values (only allowed if <code>x</code> has a single layer)</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> integer. The number of nodes for each polygon. Only 4, 8, and 16 are allowed </p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p> If <code>TRUE</code>, cells with <code>NA</code> values in all layers are ignored </p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p> number of digits to round the coordinates to </p>
+</td></tr>
+<tr valign="top"><td><code>dissolve</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, polygons with the same attribute value will be dissolved into multi-polygon regions. This option requires the rgeos package</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>fun</code> should be a simple function returning a logical value. 
+</p>
+<p>E.g.: <code>fun=function(x){x==1}</code> or  <code>fun=function(x){x&gt;3 &amp; x&lt;6}</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>SpatialPolygonsDataFrame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(nrow=18, ncol=36)
+values(r) &lt;- runif(ncell(r)) * 10
+r[r&gt;8] &lt;- NA
+pol &lt;- rasterToPolygons(r, fun=function(x){x&gt;6})
+
+#plot(r &gt; 6)
+#plot(pol, add=TRUE, col='red')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

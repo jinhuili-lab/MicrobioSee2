@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A progress bar that sets the size of a file accordingly</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for FileProgressBar {R.utils}"><tr><td>FileProgressBar {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A progress bar that sets the size of a file accordingly</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class FileProgressBar</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code><a href="../help/ProgressBar.html">ProgressBar</a></code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>FileProgressBar</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>FileProgressBar</b><br />
+extends <a href="../help/ProgressBar.html">ProgressBar</a><br />
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+FileProgressBar(pathname=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>The pathname of the output file.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments accepted by the <code><a href="../../R.utils/help/ProgressBar.html">ProgressBar</a></code>
+constructor.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A progress bar that sets the size of a file accordingly. This class useful to check the progress of a batch job by
+just querying the size of a file, for instance, via ftp.
+</p>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>cleanup</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>update</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from ProgressBar</b>:<br />
+as.character, getBarString, increase, isDone, reset, setMaxValue, setProgress, setStepLength, setTicks, setValue, update
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Not run: 
+  
+# Creates a progress bar (of length 100) that displays it self as a file.
+
+pb &lt;- FileProgressBar(file.path(tempdir(), "progress.simulation"), max = 10L)
+reset(pb)
+while (!isDone(pb)) {
+  x &lt;- rnorm(3e4)
+  increase(pb)
+  # Emulate a slow process
+  if (interactive()) Sys.sleep(0.1)
+  cat(sprintf("File size: %d bytes\n", file.info(pb$pathname)$size))
+  Sys.sleep(0.01)
+}
+
+  
+## End(Not run)
+ </pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

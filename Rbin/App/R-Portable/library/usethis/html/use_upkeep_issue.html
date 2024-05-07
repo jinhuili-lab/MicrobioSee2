@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an upkeep checklist in a GitHub issue</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_upkeep_issue {usethis}"><tr><td>use_upkeep_issue {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an upkeep checklist in a GitHub issue</h2>
+
+<h3>Description</h3>
+
+<p>This opens an issue in your package repository with a checklist of tasks for
+regular maintenance of your package. This is a fairly opinionated list of
+tasks but we believe taking care of them will generally make your package
+better, easier to maintain, and more enjoyable for your users. Some of the
+tasks are meant to be performed only once (and once completed shouldn't show
+up in subsequent lists), and some should be reviewed periodically. The
+tidyverse team uses a similar function <code><a href="../../usethis/help/use_tidy_upkeep_issue.html">use_tidy_upkeep_issue()</a></code> for our
+annual package Spring Cleaning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_upkeep_issue(year = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>year</code></td>
+<td>
+<p>Year you are performing the upkeep, used in the issue title.
+Defaults to current year</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+use_upkeep_issue(2023)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert BIC indices to Bayes Factors via the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bic_to_bf {bayestestR}"><tr><td>bic_to_bf {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert BIC indices to Bayes Factors via the BIC-approximation method.</h2>
+
+<h3>Description</h3>
+
+<p>The difference between two Bayesian information criterion (BIC) indices of
+two models can be used to approximate Bayes factors via:
+<br />
+</p>
+<p style="text-align: center;"><i>BF10 = exp((BIC0-BIC1)/2)</i></p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+bic_to_bf(bic, denominator, log = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bic</code></td>
+<td>
+<p>A vector of BIC values.</p>
+</td></tr>
+<tr valign="top"><td><code>denominator</code></td>
+<td>
+<p>The BIC value to use as a denominator (to test against).</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>If <code>TRUE</code>, return the <code>log(BF)</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The Bayes Factors corresponding to the BIC values against the denominator.
+</p>
+
+
+<h3>References</h3>
+
+<p>Wagenmakers, E. J. (2007). A practical solution to the pervasive problems of
+p values. Psychonomic bulletin &amp; review, 14(5), 779-804
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bic1 &lt;- BIC(lm(Sepal.Length ~ 1, data = iris))
+bic2 &lt;- BIC(lm(Sepal.Length ~ Species, data = iris))
+bic3 &lt;- BIC(lm(Sepal.Length ~ Species + Petal.Length, data = iris))
+bic4 &lt;- BIC(lm(Sepal.Length ~ Species * Petal.Length, data = iris))
+
+bic_to_bf(c(bic1, bic2, bic3, bic4), denominator = bic1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

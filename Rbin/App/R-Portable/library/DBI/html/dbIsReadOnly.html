@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Is this DBMS object read only?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbIsReadOnly {DBI}"><tr><td>dbIsReadOnly {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Is this DBMS object read only?</h2>
+
+<h3>Description</h3>
+
+<p>This generic tests whether a database object is read only.
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+dbIsReadOnly(dbObj, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dbObj</code></td>
+<td>
+<p>An object inheriting from <a href="../../DBI/help/DBIObject-class.html">DBIObject</a>,
+i.e. <a href="../../DBI/help/DBIDriver-class.html">DBIDriver</a>, <a href="../../DBI/help/DBIConnection-class.html">DBIConnection</a>,
+or a <a href="../../DBI/help/DBIResult-class.html">DBIResult</a></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other DBIDriver generics: 
+<code><a href="../../DBI/help/DBIDriver-class.html">DBIDriver-class</a></code>,
+<code><a href="../../DBI/help/dbCanConnect.html">dbCanConnect</a>()</code>,
+<code><a href="../../DBI/help/dbConnect.html">dbConnect</a>()</code>,
+<code><a href="../../DBI/help/dbDataType.html">dbDataType</a>()</code>,
+<code><a href="../../DBI/help/dbDriver.html">dbDriver</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbListConnections.html">dbListConnections</a>()</code>
+</p>
+<p>Other DBIConnection generics: 
+<code><a href="../../DBI/help/DBIConnection-class.html">DBIConnection-class</a></code>,
+<code><a href="../../DBI/help/dbAppendTable.html">dbAppendTable</a>()</code>,
+<code><a href="../../DBI/help/dbAppendTableArrow.html">dbAppendTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTable.html">dbCreateTable</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTableArrow.html">dbCreateTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbDataType.html">dbDataType</a>()</code>,
+<code><a href="../../DBI/help/dbDisconnect.html">dbDisconnect</a>()</code>,
+<code><a href="../../DBI/help/dbExecute.html">dbExecute</a>()</code>,
+<code><a href="../../DBI/help/dbExistsTable.html">dbExistsTable</a>()</code>,
+<code><a href="../../DBI/help/dbGetException.html">dbGetException</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbGetQuery.html">dbGetQuery</a>()</code>,
+<code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbListFields.html">dbListFields</a>()</code>,
+<code><a href="../../DBI/help/dbListObjects.html">dbListObjects</a>()</code>,
+<code><a href="../../DBI/help/dbListResults.html">dbListResults</a>()</code>,
+<code><a href="../../DBI/help/dbListTables.html">dbListTables</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbReadTable.html">dbReadTable</a>()</code>,
+<code><a href="../../DBI/help/dbReadTableArrow.html">dbReadTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbRemoveTable.html">dbRemoveTable</a>()</code>,
+<code><a href="../../DBI/help/dbSendQuery.html">dbSendQuery</a>()</code>,
+<code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement</a>()</code>,
+<code><a href="../../DBI/help/dbUnquoteIdentifier.html">dbUnquoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTable.html">dbWriteTable</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTableArrow.html">dbWriteTableArrow</a>()</code>
+</p>
+<p>Other DBIResult generics: 
+<code><a href="../../DBI/help/DBIResult-class.html">DBIResult-class</a></code>,
+<code><a href="../../DBI/help/dbBind.html">dbBind</a>()</code>,
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult</a>()</code>,
+<code><a href="../../DBI/help/dbColumnInfo.html">dbColumnInfo</a>()</code>,
+<code><a href="../../DBI/help/dbFetch.html">dbFetch</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbGetRowCount.html">dbGetRowCount</a>()</code>,
+<code><a href="../../DBI/help/dbGetRowsAffected.html">dbGetRowsAffected</a>()</code>,
+<code><a href="../../DBI/help/dbGetStatement.html">dbGetStatement</a>()</code>,
+<code><a href="../../DBI/help/dbHasCompleted.html">dbHasCompleted</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteLiteral.html">dbQuoteLiteral</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteString.html">dbQuoteString</a>()</code>
+</p>
+<p>Other DBIConnector generics: 
+<code><a href="../../DBI/help/DBIConnector-class.html">DBIConnector-class</a></code>,
+<code><a href="../../DBI/help/dbConnect.html">dbConnect</a>()</code>,
+<code><a href="../../DBI/help/dbDataType.html">dbDataType</a>()</code>,
+<code><a href="../../DBI/help/dbGetConnectArgs.html">dbGetConnectArgs</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+dbIsReadOnly(ANSI())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

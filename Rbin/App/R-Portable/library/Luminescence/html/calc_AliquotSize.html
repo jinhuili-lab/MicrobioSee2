@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate the amount of grains on an aliquot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_AliquotSize {Luminescence}"><tr><td>calc_AliquotSize {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Estimate the amount of grains on an aliquot</h2>
+
+<h3>Description</h3>
+
+<p>Estimate the number of grains on an aliquot. Alternatively, the packing
+density of an aliquot is computed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_AliquotSize(
+  grain.size,
+  sample.diameter,
+  packing.density = 0.65,
+  MC = TRUE,
+  grains.counted,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>grain.size</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+mean grain size (microns) or a range of grain sizes from which the
+mean grain size is computed (e.g. <code>c(100,200)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sample.diameter</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+diameter (mm) of the targeted area on the sample carrier.</p>
+</td></tr>
+<tr valign="top"><td><code>packing.density</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+empirical value for mean packing density. <br />
+If <code>packing.density = "Inf"</code> a hexagonal structure on an infinite plane with
+a packing density of <i>0.906&hellip;</i> is assumed.</p>
+</td></tr>
+<tr valign="top"><td><code>MC</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>optional</em>):
+if <code>TRUE</code> the function performs a Monte Carlo simulation for estimating the
+amount of grains on the sample carrier and assumes random errors in grain
+size distribution and packing density. Requires a vector with min and max
+grain size for <code>grain.size</code>. For more information see details.</p>
+</td></tr>
+<tr valign="top"><td><code>grains.counted</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+grains counted on a sample carrier. If a non-zero positive integer is provided this function
+will calculate the packing density of the aliquot. If more than one value is
+provided the mean packing density and its standard deviation is calculated.
+Note that this overrides <code>packing.density</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output (<code>TRUE</code>/<code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to pass (<code style="white-space: pre;">main, xlab, MC.iter</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used to either estimate the number of grains on an
+aliquot or to compute the packing density depending on the the arguments
+provided.
+</p>
+<p>The following function is used to estimate the number of grains <code>n</code>:
+</p>
+<p style="text-align: center;"><i>n = (&pi;*x^2)/(&pi;*y^2)*d</i></p>
+
+<p>where <code>x</code> is the radius of the aliquot size (microns), <code>y</code> is the mean
+radius of the mineral grains (mm) and <code>d</code> is the packing density
+(value between 0 and 1).
+</p>
+<p><strong>Packing density</strong>
+</p>
+<p>The default value for <code>packing.density</code> is 0.65, which is the mean of
+empirical values determined by Heer et al. (2012) and unpublished data from
+the Cologne luminescence laboratory. If <code>packing.density = "Inf"</code> a maximum
+density of  <i>&pi;/&radic;12 = 0.9068&hellip;</i> is used. However, note that
+this value is not appropriate as the standard preparation procedure of
+aliquots resembles a  PECC (<em>&quot;Packing Equal Circles in a Circle&quot;</em>) problem
+where the maximum packing density is asymptotic to about 0.87.
+</p>
+<p><strong>Monte Carlo simulation</strong>
+</p>
+<p>The number of grains on an aliquot can be estimated by Monte Carlo simulation
+when setting <code>MC = TRUE</code>. Each of the parameters necessary to calculate
+<code>n</code> (<code>x</code>, <code>y</code>, <code>d</code>) are assumed to be normally distributed with means
+<i>&mu;_x, &mu;_y, &mu;_d</i> and standard deviations <i>&sigma;_x, &sigma;_y, &sigma;_d</i>.
+</p>
+<p>For the mean grain size random samples are taken first from
+<i>N(&mu;_y, &sigma;_y)</i>, where <i>&mu;_y = mean.grain.size</i> and
+<i>&sigma;_y = (max.grain.size-min.grain.size)/4</i> so that 95\
+grains are within the provided the grain size range. This effectively takes
+into account that after sieving the sample there is still a small chance of
+having grains smaller or larger than the used mesh sizes. For each random
+sample the mean grain size is calculated, from which random subsamples are
+drawn for the Monte Carlo simulation.
+</p>
+<p>The packing density is assumed
+to be normally distributed with an empirically determined <i>&mu; = 0.65</i>
+(or provided value) and <i>&sigma; = 0.18</i>. The normal distribution is
+truncated at <code>d = 0.87</code> as this is approximately the maximum packing
+density that can be achieved in PECC problem.
+</p>
+<p>The sample diameter has
+<i>&mu; = sample.diameter</i> and <i>&sigma; = 0.2</i> to take into account
+variations in sample disc preparation (i.e. applying silicon spray to the
+disc). A lower truncation point at <code>x = 0.5</code> is used, which assumes
+that aliqouts with smaller sample diameters of 0.5 mm are discarded.
+Likewise, the normal distribution is truncated at 9.8 mm, which is the
+diameter of the sample disc.
+</p>
+<p>For each random sample drawn from the
+normal distributions the amount of grains on the aliquot is calculated. By
+default, <code>10^5</code> iterations are used, but can be reduced/increased with
+<code>MC.iter</code> (see <code>...</code>). The results are visualised in a bar- and
+boxplot together with a statistical summary.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a terminal output. In addition an
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned containing the
+following element:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>.$summary</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> summary of all relevant calculation results.</p>
+</td></tr>
+<tr valign="top"><td><code>.$args</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> used arguments</p>
+</td></tr>
+<tr valign="top"><td><code>.$call</code></td>
+<td>
+<p><a href="../../base/html/call.html">call</a> the function call</p>
+</td></tr>
+<tr valign="top"><td><code>.$MC</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> results of the Monte Carlo simulation</p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.31
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. calc_AliquotSize(): Estimate the amount of grains on an aliquot. Function version 0.31. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Duller, G.A.T., 2008. Single-grain optical dating of Quaternary
+sediments: why aliquot size matters in luminescence dating. Boreas 37,
+589-612.
+</p>
+<p>Heer, A.J., Adamiec, G., Moska, P., 2012. How many grains
+are there on a single aliquot?. Ancient TL 30, 9-16.
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Chang, H.-C., Wang, L.-C., 2010. A simple proof of Thue's
+Theorem on Circle Packing. <a href="https://arxiv.org/pdf/1009.4322v1.pdf">https://arxiv.org/pdf/1009.4322v1.pdf</a>,
+2013-09-13.
+</p>
+<p>Graham, R.L., Lubachevsky, B.D., Nurmela, K.J.,
+Oestergard, P.R.J., 1998.  Dense packings of congruent circles in a circle.
+Discrete Mathematics 181, 139-154.
+</p>
+<p>Huang, W., Ye, T., 2011. Global
+optimization method for finding dense packings of equal circles in a circle.
+European Journal of Operational Research 210, 474-481.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Estimate the amount of grains on a small aliquot
+calc_AliquotSize(grain.size = c(100,150), sample.diameter = 1, MC.iter = 100)
+
+## Calculate the mean packing density of large aliquots
+calc_AliquotSize(grain.size = c(100,200), sample.diameter = 8,
+                 grains.counted = c(2525,2312,2880), MC.iter = 100)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

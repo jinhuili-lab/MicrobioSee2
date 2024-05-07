@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Utility Function for Safe Prediction with 'datawizard'...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for makepredictcall.dw_transformer {datawizard}"><tr><td>makepredictcall.dw_transformer {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Utility Function for Safe Prediction with <code>datawizard</code> transformers</h2>
+
+<h3>Description</h3>
+
+<p>This function allows for the use of (some of) <code>datawizard</code>'s transformers
+inside a model formula. See examples below.
+<br /><br />
+Currently, <code><a href="../../datawizard/help/center.html">center()</a></code>, <code><a href="../../datawizard/help/standardize.html">standardize()</a></code>, <code><a href="../../datawizard/help/normalize.html">normalize()</a></code>, &amp; <code><a href="../../datawizard/help/rescale.html">rescale()</a></code> are
+supported.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'dw_transformer'
+makepredictcall(var, call)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>var</code></td>
+<td>
+<p>A variable.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>The term in the formula, as a call.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A replacement for <code>call</code> for the <code>predvars</code> attribute of
+the terms.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/help/makepredictcall.html">stats::makepredictcall()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data("mtcars")
+train &lt;- mtcars[1:30, ]
+test &lt;- mtcars[31:32, ]
+
+m1 &lt;- lm(mpg ~ center(hp), data = train)
+predict(m1, newdata = test) # Data is "centered" before the prediction is made,
+# according to the center of the old data
+
+m2 &lt;- lm(mpg ~ standardize(hp), data = train)
+m3 &lt;- lm(mpg ~ scale(hp), data = train) # same as above
+predict(m2, newdata = test) # Data is "standardized" before the prediction is made.
+predict(m3, newdata = test) # Data is "standardized" before the prediction is made.
+
+
+m4 &lt;- lm(mpg ~ normalize(hp), data = mtcars)
+m5 &lt;- lm(mpg ~ rescale(hp, to = c(-3, 3)), data = mtcars)
+
+(newdata &lt;- data.frame(hp = c(range(mtcars$hp), 400))) # 400 is outside original range!
+
+model.frame(delete.response(terms(m4)), data = newdata)
+model.frame(delete.response(terms(m5)), data = newdata)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

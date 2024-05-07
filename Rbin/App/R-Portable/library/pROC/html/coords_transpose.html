@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transposing the output of 'coords'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for coords_transpose {pROC}"><tr><td>coords_transpose {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transposing the output of <code>coords</code></h2>
+
+<h3>Description</h3>
+
+<p>This help page desribes recent and upcoming changes in the 
+return values of the <code><a href="../../pROC/help/coords.html">coords</a></code> function.</p>
+
+
+<h3>Background information</h3>
+
+<p>Until the release of pROC 1.16, the <code>coords</code> function was returning 
+a matrix with thresholds in columns, and the coordinate variables in rows.
+</p>
+<pre>
+data(aSAH)
+rocobj &lt;- roc(aSAH$outcome, aSAH$s100b)
+coords(rocobj, c(0.05, 0.2, 0.5))
+#                   0.05       0.2       0.5
+# threshold   0.05000000 0.2000000 0.5000000
+# specificity 0.06944444 0.8055556 0.9722222
+# sensitivity 0.97560976 0.6341463 0.2926829
+
+</pre>
+<p>This format didn't conform to the grammar of the 
+<a href="https://www.tidyverse.org/">tidyverse</a> which has become prevalent in modern
+R language.
+</p>
+<p>In addition, the dropping of dimensions by default makes it difficult to guess
+what type of data <code>coords</code> is going to return.
+</p>
+<pre>
+coords(rocobj, "best")
+#   threshold specificity sensitivity 
+#   0.2050000   0.8055556   0.6341463 
+# A numeric vector
+
+</pre>
+<p>Although it is possible to pass <code>drop = FALSE</code>, the fact that it is not the
+default makes the behaviour unintuitive.
+</p>
+<p>In pROC version 1.16, this was changed and <code>coords</code> now returns
+a <code><a href="../../base/html/data.frame.html">data.frame</a></code> with the thresholds in rows and measurement in colums by default.
+</p>
+<pre>
+ coords(rocobj, c(0.05, 0.2, 0.5), transpose = FALSE)
+#      threshold specificity sensitivity
+# 0.05      0.05  0.06944444   0.9756098
+# 0.2       0.20  0.80555556   0.6341463
+# 0.5       0.50  0.97222222   0.2926829
+</pre>
+
+
+<h3>Changes in 1.15</h3>
+
+
+<ol>
+<li><p>Addition of the <code>transpose</code> argument.
+</p>
+</li>
+<li><p>Display a warning if <code>transpose</code> is missing. Pass <code>transpose</code> explicitly to silence the warning.
+</p>
+</li>
+<li><p>Deprecation of <code>as.list</code>.
+</p>
+</li></ol>
+
+
+
+<h3>Changes in 1.16</h3>
+
+
+<ol>
+<li><p>Change of the default <code>transpose</code> to <code>TRUE</code>.
+</p>
+</li></ol>
+
+<p>THIS CHANGE IS BACKWARDS INCOMPATIBLE AND IS EXPECTED TO BREAK LEGACY CODE.
+</p>
+
+
+<h3>Changes in 1.17</h3>
+
+
+<ol>
+<li><p>Dropped the warning if <code>transpose</code> is missing.
+</p>
+</li></ol>
+
+
+
+<h3>Changes in future versions</h3>
+
+
+<ol>
+<li><p>Support for  the <code>as.list</code> argument might be dropped in the future.
+This is still under consideration.
+</p>
+</li>
+<li>
+<p>The <code>transpose</code> and <code>drop</code> arguments might be deprecated in the future, but will remain available for a few additional major versions.
+
+</p>
+</li></ol>
+
+
+
+<h3>Related changes in ci.coords</h3>
+
+<p>In version 1.16, the format of the <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> return value was changed from a matrix-like object with mixed <code>x</code> and <code>ret</code> in rows and 3 columns, into a list-like object which should be easier to use programatically.
+</p>
+
+
+<h3>Recommendations</h3>
+
+<p>If you are writing a new script calling the <code>coords</code> function, set <code>transpose = FALSE</code> to silence the warning and benefit from the latest improvements in pROC and obtain a tidy data.
+</p>
+
+
+<h3>See also</h3>
+
+<p><a href="https://github.com/xrobin/pROC/issues/54">The GitHub issue tracking the changes described in this manual page</a>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Consolidate columns after a merge</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stylerignore_consolidate_col {styler}"><tr><td>stylerignore_consolidate_col {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Consolidate columns after a merge</h2>
+
+<h3>Description</h3>
+
+<p>After <code><a href="../../base/help/merge.html">base::merge()</a></code>, all non-id columns that were present in <code>x</code> and <code>y</code>
+do get a suffix <code>.x</code> and <code>.y</code>. If the <code>y</code> value is missing, use the <code>x</code>
+value (because the information for this token was not stylerignored),
+otherwise the <code>y</code> value (i.e. the styled value).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stylerignore_consolidate_col(
+  flattened_pd,
+  col,
+  col_x = paste0(col, ".x"),
+  col_y = paste0(col, ".y")
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flattened_pd</code></td>
+<td>
+<p>A flattened parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>A string indicating the name of the column that should be
+consolidated.</p>
+</td></tr>
+<tr valign="top"><td><code>col_x, col_y</code></td>
+<td>
+<p>The name of the column from the left (right) parent to
+consolidate.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

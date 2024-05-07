@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Permutational Multivariate Analysis of Variance Using...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for adonis {vegan}"><tr><td>adonis {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Permutational Multivariate Analysis of Variance Using Distance Matrices</h2>
+
+<h3>Description</h3>
+
+<p>Analysis of variance using distance matrices &mdash; for
+partitioning distance matrices among sources of variation and fitting
+linear models (e.g., factors, polynomial regression) to distance 
+matrices; uses a permutation test with pseudo-<i>F</i> ratios.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+adonis2(formula, data, permutations = 999, method = "bray",
+    sqrt.dist = FALSE, add = FALSE, by = "terms",
+    parallel = getOption("mc.cores"), strata, ...)
+adonis(formula, data, permutations = 999, method = "bray",
+    strata = NULL, contr.unordered = "contr.sum",
+    contr.ordered = "contr.poly", parallel = getOption("mc.cores"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>Model formula. The LHS must be either a community
+data matrix or a dissimilarity matrix, e.g., from
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code>.  If the LHS is a data
+matrix, function <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> will be used to find the
+dissimilarities. The RHS defines the independent variables. These
+can be continuous variables or factors, they can be transformed
+within the formula, and they can have interactions as in a typical
+<code><a href="../../stats/html/formula.html">formula</a></code>. If a dissimilarity object is supplied, no
+species coefficients can be calculated in <code>adonis</code> (see Value
+below).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> the data frame for the independent variables.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p> the name of any method used in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> to
+calculate pairwise distances if the left hand side of the
+<code>formula</code> was a data frame or a matrix. </p>
+</td></tr>
+<tr valign="top"><td><code>sqrt.dist</code></td>
+<td>
+<p>Take square root of dissimilarities. This often
+euclidifies dissimilarities. Implemented in <code>adonis2</code>, ignored
+in <code>adonis</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add a constant to the non-diagonal dissimilarities such
+that all eigenvalues are non-negative in the underlying Principal
+Co-ordinates Analysis (see <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code> for
+details). Choice <code>"lingoes"</code> (or <code>TRUE</code>) use the
+recommended method of Legendre &amp; Anderson (1999: &ldquo;method 1&rdquo;)
+and <code>"cailliez"</code> uses their &ldquo;method 2&rdquo;. Implemented
+in <code>adonis2</code>, ignored in <code>adonis</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p><code>by = "terms"</code> will assess significance for each term
+(sequentially from first to last), setting <code>by = "margin"</code>
+will assess the marginal effects of the terms (each marginal term
+analysed in a model with all other variables), and <code>by =
+    NULL</code> will assess the overall significance of all terms
+together. The arguments is passed on to <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>.
+Implemented in <code>adonis2</code>, ignored in <code>adonis</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p> groups (strata) within which to constrain permutations.
+NB. argument <code>strata</code> is <b>DEPRECATED</b> in <code>adonis2</code>:
+you should define similar structure (<code>blocks</code>) in
+<code>permutations</code>. See Examples for procedures in <code>adonis2</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>contr.unordered, contr.ordered</code></td>
+<td>
+<p>contrasts used for the design
+matrix (default in R is dummy or treatment contrasts for unordered
+factors). Ignored in <code>adonis2</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing. The parallel processing is done with <span class="pkg">parallel</span>
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code>vegdist</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>adonis2</code> and <code>adonis</code> are functions for the analysis and
+partitioning sums of squares using dissimilarities. Function
+<code>adonis</code> is directly based on the algorithm of Anderson (2001) and
+performs a sequential test of terms. Function <code>adonis2</code> is based on
+the principles of McArdle &amp; Anderson (2001) and can perform sequential,
+marginal and overall tests. Function <code>adonis2</code> also allows using
+additive constants or squareroot of dissimilarities to avoid negative
+eigenvalues. but both functions can handle semimetric indices (such as
+Bray-Curtis) that produce negative eigenvalues. Function <code>adonis2</code>
+can be much slower than <code>adonis</code>, in particular with several
+terms. With the same random permutation, tests are identical in both
+functions, and the results are also identical to <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>
+of <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and <code><a href="../../vegan/help/capscale.html">capscale</a></code>. With Euclidean
+distances, the tests are also identical to <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code> of
+<code><a href="../../vegan/help/rda.html">rda</a></code>.
+</p>
+<p>The functions partition sums of squares of a multivariate data set, and
+they are directly analogous to MANOVA (multivariate analysis of
+variance). McArdle and Anderson (2001) and Anderson (2001) refer to the
+method as &ldquo;permutational manova&rdquo; (formerly &ldquo;nonparametric
+manova&rdquo;). Further, as the inputs are linear predictors, and a response
+matrix of an arbitrary number of columns, they are a robust alternative
+to both parametric MANOVA and to ordination methods for describing how
+variation is attributed to different experimental treatments or
+uncontrolled covariates. Functions are also analogous to distance-based
+redundancy analysis in functions <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> (Legendre and Anderson 1999).  Functions provide
+an alternative to AMOVA (nested analysis of molecular variance,
+Excoffier, Smouse, and Quattro, 1992; <code><a href="../../ade4/help/amova.html">amova</a></code> in the
+<span class="pkg">ade4</span> package) for both crossed and nested factors.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>adonis2</code> returns an <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code> result
+object with a new column for partial <i>R-squared</i>: This is the
+proportion of sum of squares from the total, and in marginal models
+(<code>by = "margin"</code>) the <i>R-squared</i> terms do not add up to
+1.
+</p>
+<p>Function <code>adonis</code> returns an object of class <code>"adonis"</code> with
+following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>aov.tab</code></td>
+<td>
+<p>Typical AOV table showing sources of variation,
+degrees of freedom, sequential sums of squares, mean squares,
+<i>F</i> statistics, partial <i>R-squared</i> and <i>P</i>
+values, based on <i>N</i> permutations. </p>
+</td></tr>
+<tr valign="top"><td><code>coefficients</code></td>
+<td>
+<p> matrix of coefficients of the linear model, with
+rows representing sources of variation and columns representing
+species; each column represents a fit of a species abundance to the
+linear model. These are what you get when you fit one species to
+your predictors. These are NOT available if you supply the distance
+matrix in the formula, rather than the site x species matrix</p>
+</td></tr> 
+<tr valign="top"><td><code>coef.sites</code></td>
+<td>
+<p> matrix of coefficients of the linear model, with
+rows representing sources of variation and columns representing
+sites; each column represents a fit of a sites distances (from all
+other sites) to the  linear model. These are what you get when you
+fit distances of one site to
+your predictors. </p>
+</td></tr>   
+<tr valign="top"><td><code>f.perms</code></td>
+<td>
+<p> an <i>N</i> by <i>m</i> matrix of the null <i>F</i>
+statistics for each source of variation based on <i>N</i>
+permutations of the data. The permutations can be inspected with
+<code><a href="../../vegan/help/permustats.html">permustats</a></code> and its support functions.</p>
+</td></tr>
+<tr valign="top"><td><code>model.matrix</code></td>
+<td>
+<p>The <code><a href="../../stats/html/model.matrix.html">model.matrix</a></code> for the right hand
+side of the formula.</p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+<p>The <code><a href="../../stats/html/terms.html">terms</a></code> component of the model.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>Anderson (2001, Fig. 4) warns that the method may confound
+location and dispersion effects: significant differences may be caused
+by different within-group variation (dispersion) instead of different
+mean values of the groups (see Warton et al. 2012 for a general
+analysis). However, it seems that <code>adonis</code> is less sensitive to
+dispersion effects than some of its alternatives (<code><a href="../../vegan/help/anosim.html">anosim</a></code>,
+<code><a href="../../vegan/help/mrpp.html">mrpp</a></code>). Function <code><a href="../../vegan/help/betadisper.html">betadisper</a></code> is a sister
+function to <code>adonis</code> to study the differences in dispersion
+within the same geometric framework.
+</p>
+<p><code>adonis</code> and <code>adonis2</code> are different implementations and
+they do not share all arguments. If you use arguments of the
+wrong function, they may be silently ignored.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Martin Henry H. Stevens (<code>adonis</code>) and Jari Oksanen
+(<code>adonis2</code>). </p>
+
+
+<h3>References</h3>
+
+<p>Anderson, M.J. 2001. A new method for non-parametric multivariate
+analysis of variance. <em>Austral Ecology</em>, <strong>26</strong>: 32&ndash;46.
+</p>
+<p>Excoffier, L., P.E. Smouse, and J.M. Quattro. 1992. Analysis of
+molecular variance inferred from metric distances among DNA haplotypes:
+Application to human mitochondrial DNA restriction data. <em>Genetics</em>,
+<strong>131</strong>:479&ndash;491.
+</p>
+<p>Legendre, P. and M.J. Anderson. 1999. Distance-based redundancy
+analysis: Testing multispecies responses in multifactorial ecological
+experiments. <em>Ecological Monographs</em>, <strong>69</strong>:1&ndash;24.
+</p>
+<p>McArdle, B.H.  and M.J. Anderson. 2001. Fitting multivariate models to
+community data: A comment on distance-based redundancy
+analysis. <em>Ecology</em>, <strong>82</strong>: 290&ndash;297.
+</p>
+<p>Warton, D.I., Wright, T.W., Wang, Y. 2012. Distance-based multivariate
+analyses confound location and dispersion effects. <em>Methods in
+Ecology and Evolution</em>, 3, 89&ndash;101.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/mrpp.html">mrpp</a></code>, <code><a href="../../vegan/help/anosim.html">anosim</a></code>,
+<code><a href="../../vegan/help/mantel.html">mantel</a></code>, <code><a href="../../vegan/help/varpart.html">varpart</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+## default test by terms
+adonis2(dune ~ Management*A1, data = dune.env)
+## overall tests
+adonis2(dune ~ Management*A1, data = dune.env, by = NULL)
+
+### Example of use with strata, for nested (e.g., block) designs.
+dat &lt;- expand.grid(rep=gl(2,1), NO3=factor(c(0,10)),field=gl(3,1) )
+dat
+Agropyron &lt;- with(dat, as.numeric(field) + as.numeric(NO3)+2) +rnorm(12)/2
+Schizachyrium &lt;- with(dat, as.numeric(field) - as.numeric(NO3)+2) +rnorm(12)/2
+total &lt;- Agropyron + Schizachyrium
+dotplot(total ~ NO3, dat, jitter.x=TRUE, groups=field,
+        type=c('p','a'), xlab="NO3", auto.key=list(columns=3, lines=TRUE) )
+
+Y &lt;- data.frame(Agropyron, Schizachyrium)
+mod &lt;- metaMDS(Y, trace = FALSE)
+plot(mod)
+### Ellipsoid hulls show treatment
+with(dat, ordiellipse(mod, field, kind = "ehull", label = TRUE))
+### Spider shows fields
+with(dat, ordispider(mod, field, lty=3, col="red"))
+
+### Incorrect (no strata)
+perm &lt;- how(nperm = 199)
+adonis2 (Y ~ NO3, data = dat, permutations = perm)
+
+## Correct with strata
+setBlocks(perm) &lt;- with(dat, field)
+adonis2(Y ~ NO3, data = dat, permutations = perm)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

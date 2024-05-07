@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a nested data frame into a node tree</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for create_node_from_nested_root {styler}"><tr><td>create_node_from_nested_root {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a nested data frame into a node tree</h2>
+
+<h3>Description</h3>
+
+<p>This function is convenient to display all nesting levels of a nested data frame
+at once.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_node_from_nested_root(pd_nested, structure_only)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>structure_only</code></td>
+<td>
+<p>Whether or not create a tree that represents the
+structure of the expression without any information on the tokens. Useful
+to check whether two structures are identical.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An object of class &quot;Node&quot; and &quot;R6&quot;.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (rlang::is_installed("data.tree")) {
+  withr::with_options(
+    list(styler.cache_name = NULL), # temporarily deactivate cache
+    {
+      code &lt;- "a &lt;- function(x) { if(x &gt; 1) { 1+1 } else {x} }"
+      nested_pd &lt;- compute_parse_data_nested(code)
+      initialized &lt;- styler:::pre_visit_one(
+        nested_pd, default_style_guide_attributes
+      )
+      styler:::create_node_from_nested_root(initialized,
+        structure_only = FALSE
+      )
+    }
+  )
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

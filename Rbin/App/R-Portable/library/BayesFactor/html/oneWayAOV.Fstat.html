@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use F statistic to compute Bayes factor for balanced one-way...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for oneWayAOV.Fstat {BayesFactor}"><tr><td>oneWayAOV.Fstat {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use F statistic to compute Bayes factor for balanced one-way designs</h2>
+
+<h3>Description</h3>
+
+<p>Using the classical F test statistic for a balanced one-way design, this function computes the corresponding Bayes factor test.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+oneWayAOV.Fstat(F, N, J, rscale = "medium", simple = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>F</code></td>
+<td>
+<p>F statistic from classical ANOVA</p>
+</td></tr>
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>number of observations per cell or group</p>
+</td></tr>
+<tr valign="top"><td><code>J</code></td>
+<td>
+<p>number of cells or groups</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>numeric prior scale</p>
+</td></tr>
+<tr valign="top"><td><code>simple</code></td>
+<td>
+<p>if <code>TRUE</code>, return only the Bayes factor</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For F statistics computed from balanced one-way designs, this function can
+be used to compute the Bayes factor testing the model that all group means
+are not equal to the grand mean, versus the null model that all group means
+are equal. It can be used when you don't have access to the full data set
+for analysis by <code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>, but you do have the test statistic.
+</p>
+<p>For details about the model, see the help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code>, and the references therein.
+</p>
+<p>The Bayes factor is computed via Gaussian quadrature.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>simple</code> is <code>TRUE</code>, returns the Bayes factor (against the 
+intercept-only null). If <code>FALSE</code>, the function returns a 
+vector of length 3 containing the computed log(e) Bayes factor,
+along with a proportional error estimate on the Bayes factor and the method used to compute it.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>oneWayAOV.Fstat</code> should only be used with F values obtained from
+balanced designs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Morey, R. D., Rouder, J. N., Pratte, M. S., \&amp; Speckman, P. L.
+(2011). Using MCMC chain outputs to efficiently estimate Bayes factors.
+Journal of Mathematical Psychology, 55, 368-378
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/integrate.html">integrate</a></code>, <code><a href="../../stats/html/aov.html">aov</a></code>; see <code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code> for the intended interface to this function, using the full data set.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Example data "InsectSprays" - see ?InsectSprays
+require(stats); require(graphics)
+boxplot(count ~ spray, data = InsectSprays, xlab = "Type of spray", 
+        ylab = "Insect count", main = "InsectSprays data", varwidth = TRUE, 
+        col = "lightgray")
+
+## Classical analysis (with transformation)
+classical &lt;- aov(sqrt(count) ~ spray, data = InsectSprays)
+plot(classical)
+summary(classical)
+
+## Bayes factor (a very large number)
+Fvalue &lt;- anova(classical)$"F value"[1]
+result &lt;- oneWayAOV.Fstat(Fvalue, N=12, J=6)
+exp(result[['bf']])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

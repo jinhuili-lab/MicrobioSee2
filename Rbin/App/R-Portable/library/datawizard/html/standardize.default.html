@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Re-fit a model with standardized data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for standardize.default {datawizard}"><tr><td>standardize.default {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Re-fit a model with standardized data</h2>
+
+<h3>Description</h3>
+
+<p>Performs a standardization of data (z-scoring) using
+<code><a href="../../datawizard/help/standardize.html">standardize()</a></code> and then re-fits the model to the standardized data.
+<br /><br />
+Standardization is done by completely refitting the model on the standardized
+data. Hence, this approach is equal to standardizing the variables <em>before</em>
+fitting the model and will return a new model object. This method is
+particularly recommended for complex models that include interactions or
+transformations (e.g., polynomial or spline terms). The <code>robust</code> (default to
+<code>FALSE</code>) argument enables a robust standardization of data, based on the
+<code>median</code> and the <code>MAD</code> instead of the <code>mean</code> and the <code>SD</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+standardize(
+  x,
+  robust = FALSE,
+  two_sd = FALSE,
+  weights = TRUE,
+  verbose = TRUE,
+  include_response = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, centering is done by subtracting the
+median from the variables and dividing it by the median absolute deviation
+(MAD). If <code>FALSE</code>, variables are standardized by subtracting the
+mean and dividing it by the standard deviation (SD).</p>
+</td></tr>
+<tr valign="top"><td><code>two_sd</code></td>
+<td>
+<p>If <code>TRUE</code>, the variables are scaled by two times the deviation
+(SD or MAD depending on <code>robust</code>). This method can be useful to obtain
+model coefficients of continuous parameters comparable to coefficients
+related to binary predictors, when applied to <strong>the predictors</strong> (not the
+outcome) (Gelman, 2008).</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>If <code>TRUE</code> (default), a weighted-standardization is carried out.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>include_response</code></td>
+<td>
+<p>If <code>TRUE</code> (default), the response value will also be
+standardized. If <code>FALSE</code>, only the predictors will be standardized.
+</p>
+
+<ul>
+<li><p> Note that for GLMs and models with non-linear link functions, the
+response value will not be standardized, to make re-fitting the model work.
+</p>
+</li>
+<li><p> If the model contains an <code><a href="../../stats/help/offset.html">stats::offset()</a></code>, the offset variable(s) will
+be standardized only if the response is standardized. If <code>two_sd = TRUE</code>,
+offsets are standardized by one-sd (similar to the response).
+</p>
+</li>
+<li><p> (For <code>mediate</code> models, the <code>include_response</code> refers to the outcome in
+the y model; m model's response will always be standardized when possible).
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A statistical model fitted on standardized data
+</p>
+
+
+<h3>Generalized Linear Models</h3>
+
+<p>Standardization for generalized linear models (GLM, GLMM, etc) is done only
+with respect to the predictors (while the outcome remains as-is,
+unstandardized) - maintaining the interpretability of the coefficients (e.g.,
+in a binomial model: the exponent of the standardized parameter is the OR of
+a change of 1 SD in the predictor, etc.)
+</p>
+
+
+<h3>Dealing with Factors</h3>
+
+<p><code>standardize(model)</code> or <code>standardize_parameters(model, method = "refit")</code> do
+<em>not</em> standardize categorical predictors (i.e. factors) / their
+dummy-variables, which may be a different behaviour compared to other R
+packages (such as <strong>lm.beta</strong>) or other software packages (like SPSS). To
+mimic such behaviours, either use <code>standardize_parameters(model, method = "basic")</code> to obtain post-hoc standardized parameters, or standardize the data
+with <code>standardize(data, force = TRUE)</code> <em>before</em> fitting the
+model.
+</p>
+
+
+<h3>Transformed Variables</h3>
+
+<p>When the model's formula contains transformations (e.g. <code>y ~ exp(X)</code>) the
+transformation effectively takes place after standardization (e.g.,
+<code>exp(scale(X))</code>). Since some transformations are undefined for none positive
+values, such as <code>log()</code> and <code>sqrt()</code>, the relevel variables are shifted (post
+standardization) by <code>Z - min(Z) + 1</code> or <code>Z - min(Z)</code> (respectively).
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other standardize: 
+<code><a href="../../datawizard/help/standardize.html">standardize</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(Infant.Mortality ~ Education * Fertility, data = swiss)
+coef(standardize(model))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

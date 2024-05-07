@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fits an Environmental Vector or Factor onto an Ordination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for envfit {vegan}"><tr><td>envfit {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fits an Environmental Vector or Factor onto an Ordination </h2>
+
+<h3>Description</h3>
+
+<p>The function fits environmental vectors or factors onto an
+ordination. The projections of points onto vectors have maximum
+correlation with corresponding environmental variables, and the
+factors show the averages of factor levels. For continuous varaibles
+this is equal to fitting a linear trend surface (plane in 2D) for a
+variable (see <code><a href="../../vegan/help/ordisurf.html">ordisurf</a></code>); this trend surface can be
+presented by showing its gradient (direction of steepest increase)
+using an arrow. The environmental variables are the dependent
+variables that are explained by the ordination scores, and each
+dependent variable is analysed separately.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+envfit(ord, env, permutations = 999, strata = NULL, 
+   choices=c(1,2),  display = "sites", w  = weights(ord, display),
+   na.rm = FALSE, ...)
+## S3 method for class 'formula'
+envfit(formula, data, ...)
+## S3 method for class 'envfit'
+plot(x, choices = c(1,2), labels, arrow.mul, at = c(0,0), 
+   axis = FALSE, p.max = NULL, col = "blue", bg, add = TRUE, ...)
+## S3 method for class 'envfit'
+scores(x, display, choices, ...)
+vectorfit(X, P, permutations = 0, strata = NULL, w, ...)
+factorfit(X, P, permutations = 0, strata = NULL, w, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p>An ordination object or other structure from which the
+ordination <code><a href="../../vegan/help/scores.html">scores</a></code> can be extracted (including a data
+frame or matrix of scores).</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p>Data frame, matrix or vector of environmental
+variables. The variables can be of mixed type (factors, continuous
+variables) in data frames.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Matrix or data frame of ordination scores.</p>
+</td></tr>
+<tr valign="top"><td><code>P</code></td>
+<td>
+<p>Data frame, matrix or vector of environmental
+variable(s). These must be continuous for <code>vectorfit</code> and
+factors or characters for <code>factorfit</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices. Set <code>permutations = 0</code> to skip
+permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>Model  <code><a href="../../stats/html/formula.html">formula</a></code> and data.  </p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Remove points with missing values in ordination scores
+or environmental variables. The operation is casewise: the whole
+row of data is removed if there is a missing value and 
+<code>na.rm = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A result object from <code>envfit</code>. For <code>ordiArrowMul</code>
+and <code>ordiArrowTextXY</code> this must be a two-column matrix (or
+matrix-like object) containing the coordinates of arrow heads on
+the two plot axes, and other methods extract such a structure from
+the <code>envfit</code> results.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes to plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Change plotting labels. The argument should be a list
+with elements <code>vectors</code> and <code>factors</code> which give the new
+plotting labels. If either of these elements is omitted, the
+default labels will be used. If there is only one type of elements
+(only <code>vectors</code> or only <code>factors</code>), the labels can be
+given as vector. The default labels can be displayed with
+<code>labels</code> command.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.mul</code></td>
+<td>
+<p>Multiplier for vector lengths. The arrows are
+automatically scaled similarly as in <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code> if this
+is not given and <code>add = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>The origin of fitted arrows in the plot.  If you plot arrows
+in other places then origin, you probably have to specify
+<code>arrrow.mul</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Plot axis showing the scaling of fitted arrows.</p>
+</td></tr>
+<tr valign="top"><td><code>p.max</code></td>
+<td>
+<p>Maximum estimated <i>P</i> value for displayed
+variables.  You must calculate <i>P</i> values with setting
+<code>permutations</code> to use this option. </p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour in plotting.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background colour for labels. If <code>bg</code> is set, the
+labels are displayed with <code><a href="../../vegan/help/ordilabel.html">ordilabel</a></code> instead of
+<code>text</code>. See Examples for using semitransparent background.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Results added to an existing ordination plot.</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>An integer vector or factor specifying the strata for
+permutation. If supplied, observations are permuted only within the
+specified strata.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>In fitting functions these are ordinary site scores or
+linear combination scores 
+(<code>"lc"</code>) in constrained ordination (<code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code>). In <code>scores</code>
+function they are either <code>"vectors"</code> or <code>"factors"</code>
+(with synonyms <code>"bp"</code> or <code>"cn"</code>, resp.).</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Weights used in fitting (concerns mainly <code><a href="../../vegan/help/cca.html">cca</a></code>
+and <code><a href="../../vegan/help/decorana.html">decorana</a></code> results which have nonconstant weights).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to <code><a href="../../vegan/help/scores.html">scores</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>envfit</code> finds vectors or factor averages of
+environmental variables.  Function <code>plot.envfit</code> adds these in an
+ordination diagram.  If <code>X</code> is a <code><a href="../../base/html/data.frame.html">data.frame</a></code>,
+<code>envfit</code>
+uses <code>factorfit</code> for <code><a href="../../base/html/factor.html">factor</a></code> variables and
+<code>vectorfit</code> for other variables.  If <code>X</code> is a matrix or a
+vector, <code>envfit</code> uses only <code>vectorfit</code>. Alternatively, the
+model can be defined a simplified model <code><a href="../../stats/html/formula.html">formula</a></code>, where
+the left hand side must be an ordination result object or a matrix of
+ordination scores, and right hand
+side lists the environmental variables. The formula interface can be
+used for easier selection and/or transformation of environmental
+variables. Only the main effects will be analysed even if interaction
+terms were defined in the formula.
+</p>
+<p>The ordination results are extracted with <code><a href="../../vegan/help/scores.html">scores</a></code> and
+all extra arguments are passed to the <code>scores</code>. The fitted
+models only apply to the results defined when extracting the scores
+when using <code>envfit</code>. For instance, <code>scaling</code> in
+constrained ordination (see <code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code>,
+<code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code>) must be set in the same way in
+<code>envfit</code> and in the <code>plot</code> or the ordination results (see
+Examples).
+</p>
+<p>The printed output of continuous variables (vectors) gives the
+direction cosines which are the coordinates of the heads of unit
+length vectors.  In <code>plot</code> these are scaled by their
+correlation (square root of the column <code>r2</code>) so that
+&ldquo;weak&rdquo; predictors have shorter arrows than &ldquo;strong&rdquo;
+predictors.  You can see the scaled relative lengths using command
+<code>scores</code>.  The <code>plot</code>ted (and scaled) arrows are further
+adjusted to the current graph using a constant multiplier: this will
+keep the relative <code>r2</code>-scaled lengths of the arrows but tries
+to fill the current plot.  You can see the multiplier using
+<code>ordiArrowMul(result_of_envfit)</code>, and set it with the
+argument <code>arrow.mul</code>.
+</p>
+<p>Functions <code>vectorfit</code> and <code>factorfit</code> can be called directly.
+Function <code>vectorfit</code> finds directions in the ordination space
+towards which the environmental vectors change most rapidly and to
+which they have maximal correlations with the ordination
+configuration.  Function <code>factorfit</code> finds averages of ordination
+scores for factor levels. Function <code>factorfit</code> treats ordered
+and unordered factors similarly.
+</p>
+<p>If <code>permutations</code> <i>&gt; 0</i>, the significance of fitted vectors
+or factors is assessed using permutation of environmental variables.
+The goodness of fit statistic is squared correlation coefficient
+(<i>r^2</i>).
+For factors this is defined as <i>r^2 = 1 - ss_w/ss_t</i>, where
+<i>ss_w</i> and <i>ss_t</i> are within-group and total sums of
+squares. See <code><a href="../../vegan/help/permutations.html">permutations</a></code> for additional details on
+permutation tests in Vegan.
+</p>
+<p>User can supply a vector of prior weights <code>w</code>. If the ordination
+object has weights, these will be used. In practise this means that
+the row totals are used as weights with <code><a href="../../vegan/help/cca.html">cca</a></code> or
+<code><a href="../../vegan/help/decorana.html">decorana</a></code> results. If you do not like this, but want to
+give equal weights to all sites, you should set <code>w = NULL</code>.  The
+fitted vectors are similar to biplot arrows in constrained ordination
+only when fitted to LC scores (<code>display = "lc"</code>) and you set
+<code>scaling = "species"</code> (see <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code>).  The
+weighted fitting gives similar results to biplot arrows and class
+centroids in <code><a href="../../vegan/help/cca.html">cca</a></code>.
+</p>
+<p>The lengths of arrows for fitted vectors are automatically adjusted
+for the physical size of the plot, and the arrow lengths cannot be
+compared across plots. For similar scaling of arrows, you must
+explicitly set the <code>arrow.mul</code> argument in the <code>plot</code>
+command; see <code><a href="../../vegan/help/ordiArrowMul.html">ordiArrowMul</a></code> and
+<code><a href="../../vegan/help/ordiArrowTextXY.html">ordiArrowTextXY</a></code>.
+</p>
+<p>The results can be accessed with <code>scores.envfit</code> function which
+returns either the fitted vectors scaled by correlation coefficient or
+the centroids of the fitted environmental variables.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Functions <code>vectorfit</code> and <code>factorfit</code> return lists of
+classes <code>vectorfit</code> and <code>factorfit</code> which have a
+<code>print</code> method.  The result object have the following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>arrows</code></td>
+<td>
+<p>Arrow endpoints from <code>vectorfit</code>. The arrows are
+scaled to unit length.</p>
+</td></tr>
+<tr valign="top"><td><code>centroids</code></td>
+<td>
+<p>Class centroids from <code>factorfit</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>Goodness of fit statistic: Squared correlation coefficient</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Number of permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>A list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pvals</code></td>
+<td>
+<p>Empirical P-values for each variable.</p>
+</td></tr>
+</table>
+<p>Function <code>envfit</code> returns a list of class <code>envfit</code> with
+results of <code>vectorfit</code> and <code>envfit</code> as items.
+</p>
+<p>Function <code>plot.envfit</code> scales the vectors by correlation.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Fitted vectors have become the method of choice in displaying
+environmental variables in ordination.  Indeed, they are the optimal
+way of presenting environmental variables in Constrained
+Correspondence Analysis <code><a href="../../vegan/help/cca.html">cca</a></code>, since there they are the
+linear constraints.
+In unconstrained ordination the relation between external variables
+and ordination configuration may be less linear, and therefore other
+methods than arrows may be more useful.  The simplest is to adjust the
+plotting symbol sizes (<code>cex</code>, <code><a href="../../graphics/html/symbols.html">symbols</a></code>) by
+environmental variables.
+Fancier methods involve smoothing and regression methods that
+abound in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>, and <code><a href="../../vegan/help/ordisurf.html">ordisurf</a></code> provides a wrapper for some.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen.  The permutation test derives from the code
+suggested by Michael Scroggie. </p>
+
+
+<h3>See Also</h3>
+
+<p>A better alternative to vectors may be <code><a href="../../vegan/help/ordisurf.html">ordisurf</a></code>.    
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec, varechem)
+library(MASS)
+ord &lt;- metaMDS(varespec)
+(fit &lt;- envfit(ord, varechem, perm = 999))
+scores(fit, "vectors")
+plot(ord)
+plot(fit)
+plot(fit, p.max = 0.05, col = "red")
+## Adding fitted arrows to CCA. We use "lc" scores, and hope
+## that arrows are scaled similarly in cca and envfit plots
+ord &lt;- cca(varespec ~ Al + P + K, varechem)
+plot(ord, type="p")
+fit &lt;- envfit(ord, varechem, perm = 999, display = "lc")
+plot(fit, p.max = 0.05, col = "red")
+## 'scaling' must be set similarly in envfit and in ordination plot
+plot(ord, type = "p", scaling = "sites")
+fit &lt;- envfit(ord, varechem, perm = 0, display = "lc", scaling = "sites")
+plot(fit, col = "red")
+
+## Class variables, formula interface, and displaying the
+## inter-class variability with ordispider, and semitransparent
+## white background for labels (semitransparent colours are not
+## supported by all graphics devices)
+data(dune)
+data(dune.env)
+ord &lt;- cca(dune)
+fit &lt;- envfit(ord ~ Moisture + A1, dune.env, perm = 0)
+plot(ord, type = "n")
+with(dune.env, ordispider(ord, Moisture, col="skyblue"))
+with(dune.env, points(ord, display = "sites", col = as.numeric(Moisture),
+                      pch=16))
+plot(fit, cex=1.2, axis=TRUE, bg = rgb(1, 1, 1, 0.5))
+## Use shorter labels for factor centroids
+labels(fit)
+plot(ord)
+plot(fit, labels=list(factors = paste("M", c(1,2,4,5), sep = "")),
+   bg = rgb(1,1,0,0.5))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

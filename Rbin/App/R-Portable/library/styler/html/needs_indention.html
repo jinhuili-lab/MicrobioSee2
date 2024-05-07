@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check whether indention is needed</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for needs_indention {styler}"><tr><td>needs_indention {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check whether indention is needed</h2>
+
+<h3>Description</h3>
+
+<p>Checks for each potential trigger token in <code>pd</code> whether it actually should
+cause indention.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+needs_indention(pd, potential_triggers_pos, other_trigger_tokens = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>potential_triggers_pos</code></td>
+<td>
+<p>A vector with indices of the potential trigger
+tokens in <code>pd</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>other_trigger_tokens</code></td>
+<td>
+<p>Other tokens that are going to cause indention
+if on the same line as the token corresponding to <code>potential_trigger</code> and
+directly followed by a line break.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

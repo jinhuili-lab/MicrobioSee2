@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: &quot;m-l-1&quot; approximation for SEs, CIs and p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci_ml1 {parameters}"><tr><td>ci_ml1 {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>&quot;m-l-1&quot; approximation for SEs, CIs and p-values</h2>
+
+<h3>Description</h3>
+
+<p>Approximation of degrees of freedom based on a &quot;m-l-1&quot; heuristic
+as suggested by Elff et al. (2019).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ci_ml1(model, ci = 0.95, ...)
+
+dof_ml1(model)
+
+p_value_ml1(model, dof = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A mixed model.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments</p>
+</td></tr>
+<tr valign="top"><td><code>dof</code></td>
+<td>
+<p>Degrees of Freedom.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Small Sample Cluster corrected Degrees of Freedom</h4>
+
+<p>Inferential statistics (like p-values, confidence intervals and
+standard errors) may be biased in mixed models when the number of clusters
+is small (even if the sample size of level-1 units is high). In such cases
+it is recommended to approximate a more accurate number of degrees of freedom
+for such inferential statistics (see <em>Li and Redden 2015</em>). The
+<em>m-l-1</em> heuristic is such an approach that uses a t-distribution with
+fewer degrees of freedom (<code>dof_ml1()</code>) to calculate p-values
+(<code>p_value_ml1()</code>) and confidence intervals (<code>ci(method = "ml1")</code>).
+</p>
+
+
+
+<h4>Degrees of Freedom for Longitudinal Designs (Repeated Measures)</h4>
+
+<p>In particular for repeated measure designs (longitudinal data analysis),
+the <em>m-l-1</em> heuristic is likely to be more accurate than simply using the
+residual or infinite degrees of freedom, because <code>dof_ml1()</code> returns
+different degrees of freedom for within-cluster and between-cluster effects.
+</p>
+
+
+
+<h4>Limitations of the &quot;m-l-1&quot; Heuristic</h4>
+
+<p>Note that the &quot;m-l-1&quot; heuristic is not applicable (or at least less accurate)
+for complex multilevel designs, e.g. with cross-classified clusters. In such cases,
+more accurate approaches like the Kenward-Roger approximation (<code>dof_kenward()</code>)
+is recommended. However, the &quot;m-l-1&quot; heuristic also applies to generalized
+mixed models, while approaches like Kenward-Roger or Satterthwaite are limited
+to linear mixed models only.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Elff, M.; Heisig, J.P.; Schaeffer, M.; Shikano, S. (2019). Multilevel
+Analysis with Few Clusters: Improving Likelihood-based Methods to Provide
+Unbiased Estimates and Accurate Inference, British Journal of Political
+Science.
+</p>
+</li>
+<li><p> Li, P., Redden, D. T. (2015). Comparing denominator degrees of freedom
+approximations for the generalized linear mixed model in analyzing binary
+outcome in small sample cluster-randomized trials. BMC Medical Research
+Methodology, 15(1), 38. doi: <a href="https://doi.org/10.1186/s12874-015-0026-x">10.1186/s12874-015-0026-x</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/dof_ml1.html">dof_ml1()</a></code> is a small helper-function to calculate approximated
+degrees of freedom of model parameters, based on the &quot;m-l-1&quot; heuristic.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("lme4")) {
+  model &lt;- lmer(Petal.Length ~ Sepal.Length + (1 | Species), data = iris)
+  p_value_ml1(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

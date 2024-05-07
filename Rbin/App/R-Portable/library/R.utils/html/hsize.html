@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert byte sizes into human-readable byte sizes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hsize {R.utils}"><tr><td>hsize {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert byte sizes into human-readable byte sizes</h2>
+
+<h3>Description</h3>
+
+<p>Convert byte sizes into human-readable byte sizes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## S3 method for class 'numeric'
+hsize(sizes, digits=1L, units="auto", standard=getOption("hsize.standard", "IEC"),
+  bytes=getOption("hsize.bytes", "B"), ...)
+  ## S3 method for class 'object_size'
+hsize(sizes, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sizes</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of sizes.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of digits to be presented in the give unit.</p>
+</td></tr>
+<tr valign="top"><td><code>units</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying type of units to use.</p>
+</td></tr>
+<tr valign="top"><td><code>bytes</code></td>
+<td>
+<p>The string used for units of bytes without a prefix.
+Applied only if <code>units="auto"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../utils/help/object.size.html">object.size</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sizes &lt;- c(1000^(0:8), 1024^(0:8))
+df &lt;- data.frame(size=sizes)
+df$SI &lt;- hsize(sizes, standard="SI")
+df$TB &lt;- hsize(sizes, units="TB")
+df$IEC &lt;- hsize(sizes, standard="IEC")
+df$TiB &lt;- hsize(sizes, units="TiB")
+print(df)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

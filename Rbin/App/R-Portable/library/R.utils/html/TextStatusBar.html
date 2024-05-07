@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A status bar at the R prompt that can be updated</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for TextStatusBar {R.utils}"><tr><td>TextStatusBar {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A status bar at the R prompt that can be updated</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class TextStatusBar</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>TextStatusBar</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>TextStatusBar</b><br />
+extends <a href="../../R.oo/help/Object.html">Object</a><br />
+</p>
+<p>A status bar at the R prompt that can be updated.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+TextStatusBar(fmt=paste("%-", getOption("width") - 1, "s", sep = ""), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fmt</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> format string to be used by <code><a href="../../base/help/sprintf.html">sprintf</a></code>().
+Default is a left-aligned string of full width.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named arguments to be passed to <code><a href="../../base/help/sprintf.html">sprintf</a></code>() together
+with the format string.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A label with name <code>hfill</code> can be used for automatic horizontal
+filling.  It must be <code><a href="../../base/help/numeric.html">numeric</a></code> and be immediate before a string
+label such that a <code>hfill</code> label and the following string label
+together specifies an sprintf format such as <code>"%*-s"</code>.
+The value of <code>hfill</code> will be set such that the resulting status
+bar has width equal to <code>getOption("width")-1</code> (the reason for the
+-1 is to prevent the text status bar from writing into the next line).
+If more than one <code>hfill</code> label is used their widths will be
+uniformly distributed.  Left over spaces will be distributed between
+<code>hfill</code> labels with initial values of one.
+</p>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>flush</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getLabel</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>newline</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>popMessage</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setLabel</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setLabels</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>update</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>updateLabels</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Read all HTML files in the base package
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+path &lt;- system.file(package="base")
+files &lt;- list.files(path, recursive=TRUE, full.names=TRUE)
+files &lt;- files[sapply(files, FUN=isFile)]
+nfiles &lt;- length(files)
+
+cat(sprintf("Reading %d files in %s:\n", nfiles, path))
+
+# Create a status bar with four labels
+sb &lt;- TextStatusBar("File: %-*s [%3.0f%% %7.0f bytes %-8s]",
+                hfill=1, file="", progress=0, nbytes=0L, time="")
+
+nbytes &lt;- 0L
+for (kk in seq_len(nfiles)) {
+  file &lt;- files[kk]
+
+  # Update the status bar
+  if (sb) {
+    setLabel(sb, "progress", 100*kk/nfiles)
+    if (kk %% 10 == 1 || kk == nfiles)
+      setLabel(sb, "file", substr(basename(file), 1, 44))
+
+    size &lt;- file.info(file)$size
+    # popMessage() calls update() too
+    popMessage(sb, sprintf("Processing %s (%.2fkB)",
+                                       basename(file), size/1024))
+    flush(sb)
+  }
+
+  # Read the file
+  bfr &lt;- readBin(file, what="raw", n=size)
+  nbytes &lt;- nbytes + size
+
+  # Emulate a slow process
+  if (interactive()) Sys.sleep(rexp(1, rate=60))
+
+  # Update the status bar
+  if (sb) {
+    setLabel(sb, "nbytes", nbytes)
+    setLabel(sb, "time", format(Sys.time(), "%H:%M:%S"))
+    update(sb)
+  }
+}
+setLabel(sb, "file", "&lt;done&gt;")
+update(sb)
+cat("\n")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

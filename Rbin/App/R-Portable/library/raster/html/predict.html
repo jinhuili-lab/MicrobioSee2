@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Spatial model predictions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for predict {raster}"><tr><td>predict {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Spatial model predictions</h2>
+
+<h3>Description</h3>
+
+<p>Make a Raster object with predictions from a fitted model object (for example, obtained with <code>lm</code>, <code>glm</code>). The first argument is a Raster object with the independent (predictor) variables. The <code><a href="../../raster/help/names.html">names</a></code> in the Raster object should exactly match those expected by the model. This will be the case if the same Raster object was used (via <code>extract</code>) to obtain the values to fit the model (see the example). Any type of model (e.g. glm, gam, randomForest) for which a predict method has been implemented (or can be implemented) can be used. 
+</p>
+<p>This approach (predict a fitted model to raster data) is commonly used in remote sensing (for the classification of satellite images) and in ecology, for species distribution modeling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+predict(object, model, filename="", fun=predict, ext=NULL, 
+   const=NULL, index=1, na.rm=TRUE, inf.rm=FALSE, factors=NULL, 
+   format, datatype, overwrite=FALSE, progress='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object. Typically a multi-layer type (RasterStack or RasterBrick)</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>fitted model of any class that has a 'predict' method (or for which you can supply a similar method as <code>fun</code> argument. E.g. glm, gam, or randomForest </p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional output filename </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function. Default value is 'predict', but can be replaced with e.g. predict.se (depending on the type of model), or your own custom function.</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent object to limit the prediction to a sub-region of <code>x</code> </p>
+</td></tr>
+<tr valign="top"><td><code>const</code></td>
+<td>
+<p>data.frame. Can be used to add a constant for which there is no Raster object for model predictions. Particularly useful if the constant is a character-like factor value for which it is currently not possible to make a RasterLayer </p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>integer. To select the column(s) to use if predict.'model' returns a matrix with multiple columns </p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. Remove cells with <code>NA</code> values in the predictors before solving the model (and return a <code>NA</code> value for those cells). This option prevents errors with models that cannot handle <code>NA</code> values. In most other cases this will not affect the output. An exception is when predicting with a boosted regression trees model because these return predicted values even if some (or all!) variables are <code>NA</code> </p>
+</td></tr>
+<tr valign="top"><td><code>inf.rm</code></td>
+<td>
+<p>logical. Remove cells with values that are not finite (some models will fail with -Inf/Inf values). This option is ignored when <code>na.rm=FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>list with levels for factor variables. The list elements should be named with names that correspond to names in <code>object</code> such that they can be matched. This argument may be omitted for standard models such as 'glm' as the predict function will extract the levels from the <code>model</code> object, but it is necessary in some other cases (e.g. cforest models from the party package)</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>character. Output file type. See <a href="../help/writeRaster.html">writeRaster</a> (optional) </p>
+</td></tr>
+<tr valign="top"><td><code>datatype</code></td>
+<td>
+<p>character. Output data type. See <a href="../help/dataType.html">dataType</a> (optional) </p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>logical. If TRUE, &quot;filename&quot; will be overwritten if it exists </p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>character. &quot;text&quot;, &quot;window&quot;, or &quot;&quot; (the default, no progress bar)  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to pass to the predict.'model' function </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Use <code><a href="../help/interpolate.html">interpolate</a></code> if your model has 'x' and 'y' as implicit independent variables (e.g., in kriging).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# A simple model to predict the location of the R in the R-logo using 20 presence points 
+# and 50 (random) pseudo-absence points. This type of model is often used to predict
+# species distributions. See the dismo package for more of that.
+
+# create a RasterStack or RasterBrick with with a set of predictor layers
+logo &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+names(logo)
+
+## Not run: 
+# the predictor variables
+par(mfrow=c(2,2))
+plotRGB(logo, main='logo')
+plot(logo, 1, col=rgb(cbind(0:255,0,0), maxColorValue=255))
+plot(logo, 2, col=rgb(cbind(0,0:255,0), maxColorValue=255))
+plot(logo, 3, col=rgb(cbind(0,0,0:255), maxColorValue=255))
+par(mfrow=c(1,1))
+
+## End(Not run)
+
+# known presence and absence points
+p &lt;- matrix(c(48, 48, 48, 53, 50, 46, 54, 70, 84, 85, 74, 84, 95, 85, 
+   66, 42, 26, 4, 19, 17, 7, 14, 26, 29, 39, 45, 51, 56, 46, 38, 31, 
+   22, 34, 60, 70, 73, 63, 46, 43, 28), ncol=2)
+
+a &lt;- matrix(c(22, 33, 64, 85, 92, 94, 59, 27, 30, 64, 60, 33, 31, 9,
+   99, 67, 15, 5, 4, 30, 8, 37, 42, 27, 19, 69, 60, 73, 3, 5, 21,
+   37, 52, 70, 74, 9, 13, 4, 17, 47), ncol=2)
+
+# extract values for points
+xy &lt;- rbind(cbind(1, p), cbind(0, a))
+v &lt;- data.frame(cbind(pa=xy[,1], extract(logo, xy[,2:3])))
+
+#build a model, here an example with glm 
+model &lt;- glm(formula=pa~., data=v)
+
+#predict to a raster
+r1 &lt;- predict(logo, model, progress='text')
+
+plot(r1)
+points(p, bg='blue', pch=21)
+points(a, bg='red', pch=21)
+
+# use a modified function to get a RasterBrick with p and se
+# from the glm model. The values returned by 'predict' are in a list,
+# and this list needs to be transformed to a matrix
+
+predfun &lt;- function(model, data) {
+  v &lt;- predict(model, data, se.fit=TRUE)
+  cbind(p=as.vector(v$fit), se=as.vector(v$se.fit))
+}
+
+# predfun returns two variables, so use index=1:2
+r2 &lt;- predict(logo, model, fun=predfun, index=1:2)
+
+
+## Not run: 
+# You can use multiple cores to speed up the predict function
+# by calling it via the clusterR function (you may need to install the snow package)
+beginCluster()
+r1c &lt;- clusterR(logo, predict, args=list(model))
+r2c &lt;- clusterR(logo, predict, args=list(model=model, fun=predfun, index=1:2))
+
+## End(Not run)
+
+# principal components of a RasterBrick
+# here using sampling to simulate an object too large
+# to feed all its values to prcomp
+sr &lt;- sampleRandom(logo, 100)
+pca &lt;- prcomp(sr)
+
+# note the use of the 'index' argument
+x &lt;- predict(logo, pca, index=1:3)
+plot(x)
+
+## Not run: 
+# partial least square regression
+library(pls)
+model &lt;- plsr(formula=pa~., data=v)
+# this returns an array:
+predict(model, v[1:5,])
+# write a function to turn that into a matrix
+pfun &lt;- function(x, data) {
+   y &lt;- predict(x, data)
+   d &lt;- dim(y)
+   dim(y) &lt;- c(prod(d[1:2]), d[3])
+   y
+}
+
+pp &lt;- predict(logo, model, fun=pfun, index=1:3)
+
+# Random Forest
+
+library(randomForest)
+rfmod &lt;- randomForest(pa ~., data=v)
+
+## note the additional argument "type='response'" that is 
+## passed to predict.randomForest
+r3 &lt;- predict(logo, rfmod, type='response', progress='window')
+
+## get a RasterBrick with class membership probabilities
+vv &lt;- v
+vv$pa &lt;- as.factor(vv$pa)
+rfmod2 &lt;- randomForest(pa ~., data=vv)
+r4 &lt;- predict(logo, rfmod2, type='prob', index=1:2)
+spplot(r4)
+
+
+# cforest (other Random Forest implementation) example with factors argument
+v$red &lt;- as.factor(round(v$red/100))
+logo$red &lt;- round(logo[[1]]/100)
+
+library(party)
+m &lt;- cforest(pa~., control=cforest_unbiased(mtry=3), data=v)
+f &lt;- list(levels(v$red))
+names(f) &lt;- 'red'
+# the second argument in party:::predict.RandomForest
+# is "OOB", and not "newdata" or similar. We need to write a wrapper
+# predict function to deal with this 	
+predfun &lt;- function(m, d, ...) predict(m, newdata=d, ...)
+
+pc &lt;- predict(logo, m, OOB=TRUE, factors=f, fun=predfun)
+
+# knn example, using calc instead of predict
+library(class)
+cl &lt;- factor(c(rep(1, nrow(p)), rep(0, nrow(a))))
+train &lt;- extract(logo, rbind(p, a))
+k &lt;- calc(logo, function(x) as.integer(as.character(knn(train, x, cl))))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

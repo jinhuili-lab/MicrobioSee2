@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Enrich flattened parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for enrich_terminals {styler}"><tr><td>enrich_terminals {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Enrich flattened parse table</h2>
+
+<h3>Description</h3>
+
+<p>Enriches a flattened parse table with terminals only. In particular, it is
+possible to compute the exact position a token will have (line and column)
+when it will be serialized.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+enrich_terminals(flattened_pd, use_raw_indention = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flattened_pd</code></td>
+<td>
+<p>A nested parse table that was turned into a flat parse
+table using <code><a href="../../styler/help/extract_terminals.html">extract_terminals()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>use_raw_indention</code></td>
+<td>
+<p>Boolean indicating whether or not the raw indention
+should be used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Since we have only terminal tokens now, the line on which a token starts we
+also be the line on which it ends. We call <code>line1</code> the line on which the
+token starts. <code>line1</code> has the same meaning as <code>line1</code> that can be found in a
+flat parse table (see <code><a href="../../styler/help/tokenize.html">tokenize()</a></code>), just that the <code>line1</code> created by
+<code>enrich_terminals()</code> is the updated version of the former <code>line1</code>. The same
+applies for <code>col1</code> and <code>col2</code>. Note that this function does remove the
+columns <code>indent</code> and <code>spaces.</code> All information of the former is stored in
+<code>lag_spaces</code> now. The later was removed because it is redundant after adding
+the column <code>lag_spaces</code>, which is more convenient to work with, in particular
+when serializing the parse table.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

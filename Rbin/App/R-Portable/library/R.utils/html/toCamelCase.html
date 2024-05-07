@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Converts a string of words into a merged camel-cased word</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for toCamelCase {R.utils}"><tr><td>toCamelCase {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Converts a string of words into a merged camel-cased word</h2>
+
+<h3>Description</h3>
+
+<p>Converts a string of words into a merged camel-cased word, e.g. &quot;a single espresso&quot; is converted to &quot;aSingleEspresso&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+toCamelCase(s, capitalize=FALSE, preserveSameCase=FALSE, split="[ \t]+", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>s</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>capitalize</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the first letter will be in upper case,
+otherwise it will be in lower case.</p>
+</td></tr>
+<tr valign="top"><td><code>preserveSameCase</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, words that are in all upper case
+will remain as all same case words, e.g. acronyms.</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>A pattern used to identify words.  See <code><a href="../../base/help/strsplit.html">strsplit</a></code>()
+for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/capitalize.html">capitalize</a></code>.
+<code><a href="../../base/help/chartr.html">chartr</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+s &lt;- "hello world"
+print(toCamelCase(s))  # helloWorld
+print(toCamelCase(s, capitalize=TRUE))  # HelloWorld
+stopifnot(toCamelCase(s) == toCamelCase(toCamelCase(s)))
+
+s &lt;- "GEO Accession"
+print(toCamelCase(s))  # gEOAccession
+print(toCamelCase(s, preserveSameCase=TRUE))  # geoAccession
+print(toCamelCase(s, capitalize=TRUE))  # GEOAccession
+print(toCamelCase(s, capitalize=TRUE, preserveSameCase=TRUE))  # GEOAccession
+stopifnot(toCamelCase(s) == toCamelCase(toCamelCase(s)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

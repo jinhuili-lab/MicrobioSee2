@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Nuclide Activities to Concentrations and Vice Versa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_Activity2Concentration {Luminescence}"><tr><td>convert_Activity2Concentration {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Nuclide Activities to Concentrations and Vice Versa</h2>
+
+<h3>Description</h3>
+
+<p>The function performs the conversion of the specific activities into
+concentrations and vice versa for the nuclides U-238, Th-232 and K-40 to
+harmonise the measurement unit with the required data input unit of
+potential analytical tools for, e.g. dose rate calculation or related
+functions such as <a href="../../Luminescence/help/use_DRAC.html">use_DRAC</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_Activity2Concentration(data, input_unit = "Bq/kg", verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> <strong>(required)</strong>:
+provide dose rate data (activity or concentration) in three columns.
+The first column indicates the nuclides, the 2nd column measured value and
+in the 3rd column its error value. Allowed nuclide data are
+<code>'U-238'</code>, <code>'Th-232'</code> and <code>'K-40'</code>. See examples for an example.</p>
+</td></tr>
+<tr valign="top"><td><code>input_unit</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+specify unit of input data given in the dose rate data frame, choose between
+'Bq/kg' and 'ppm/%' the default is 'Bq/kg'</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enable or disable verbose mode</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The conversion from nuclide activity of a sample to nuclide concentration
+is performed using conversion factors that are based on the mass-related
+specific activity of the respective nuclide.
+The factors can be calculated using the equation:
+</p>
+<p style="text-align: center;"><i>
+A = avogadronumber * N.freq / N.mol.mass   *  ln(2) / N.half.life
+</i></p>
+
+<p style="text-align: center;"><i>
+f = A / 10^6
+</i></p>
+
+<p>where:
+</p>
+
+<ul>
+<li> <p><code>A</code> - specific activity of the nuclide
+</p>
+</li>
+<li> <p><code>N.freq</code> - natural frequency of the isotope
+</p>
+</li>
+<li> <p><code>N.mol.mass</code> molar mass
+</p>
+</li>
+<li> <p><code>n.half.life</code> half-life of the nuclide
+</p>
+</li></ul>
+
+<p>example for U238:
+</p>
+
+<ul>
+<li> <p><i>avogadronumber = 6.02214199*10^23</i>
+</p>
+</li>
+<li> <p><i>uran.half.life = 1.41*10^17</i> (in s)
+</p>
+</li>
+<li> <p><i>uran.mol.mass = 0.23802891</i> (in kg/mol)
+</p>
+</li>
+<li> <p><i>uran.freq = 0.992745</i> (in mol)
+</p>
+</li>
+<li> <p><i>A.U = avogadronumber * uran.freq / uran.mol.mass * ln(2) / uran.half.life</i> (specific activity in Bq/kg)
+</p>
+</li>
+<li> <p><i>f.U = A.kg / 10^6</i>
+</p>
+</li></ul>
+
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Fuchs, M.C., 2021. convert_Activity2Concentration(): Convert Nuclide Activities to Concentrations and Vice Versa. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Margret C. Fuchs, Helmholtz-Institute Freiberg for Resource Technology (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Debertin, K., Helmer, R.G., 1988. Gamma- and X-ray Spectrometry with
+Semiconductor Detectors, Elsevier Science Publishers, p.283
+</p>
+<p>Wiechen, A., Ruehle, H., Vogl, K., 2013. Bestimmung der massebezogenen
+Aktivitaet von Radionukliden. AEQUIVAL/MASSAKT, ISSN 1865-8725,
+<a href="https://www.bmu.de/fileadmin/Daten_BMU/Download_PDF/Strahlenschutz/aequival-massakt_v2013-07_bf.pdf">https://www.bmu.de/fileadmin/Daten_BMU/Download_PDF/Strahlenschutz/aequival-massakt_v2013-07_bf.pdf</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##construct data.frame
+data &lt;- data.frame(
+ NUCLIDES = c("U-238", "Th-232", "K-40"),
+ VALUE = c(40,80,100),
+ VALUE_ERROR = c(4,8,10),
+ stringsAsFactors = FALSE)
+
+##perform analysis
+convert_Activity2Concentration(data)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

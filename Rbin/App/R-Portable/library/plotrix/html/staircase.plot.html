@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a staircase plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for staircase.plot {plotrix}"><tr><td>staircase.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a staircase plot</h2>
+
+<h3>Description</h3>
+
+<p>Displays a plot showing a sequence of changing totals and increments as
+successive linked bars.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ staircase.plot(heights,totals=NA,labels=NULL,halfwidth=0.3,main="",
+ mar=NA,total.col="blue",inc.col=NA,bg.col=NA,direction="e",las=1,
+ display.height=TRUE,stagger=FALSE,cex=par("cex"),prefix="",suffix="",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>heights</code></td>
+<td>
+<p>vector of numeric values or a matrix or data frame with at least
+two columns. The first column must be numeric and the second may be numeric or
+logical.</p>
+</td></tr>
+<tr valign="top"><td><code>totals</code></td>
+<td>
+<p>A vector of logicals or zero/non-zero values indicating whether
+the corresponding height is a total (TRUE) or an increment (FALSE).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>An optional vector of labels for the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>halfwidth</code></td>
+<td>
+<p>Half of the width of a bar as a proportion. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>A title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>Margins for the plot. Defaults to 10 on the baseline axis, 3 on the
+top and 1 on the other two sides.</p>
+</td></tr>
+<tr valign="top"><td><code>total.col</code></td>
+<td>
+<p>Color(s) for the bars representing successive totals.</p>
+</td></tr>
+<tr valign="top"><td><code>inc.col</code></td>
+<td>
+<p>Color(s) for the bars representing increments.</p>
+</td></tr>
+<tr valign="top"><td><code>bg.col</code></td>
+<td>
+<p>The background color for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>Direction in which the bars should be presented. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>las</code></td>
+<td>
+<p>Orientation for the bar labels. See <span class="samp">par</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>display.height</code></td>
+<td>
+<p>Whether to display the totals and increments at the upper
+ends of the bars. Defaults to TRUE.</p>
+</td></tr>
+<tr valign="top"><td><code>stagger</code></td>
+<td>
+<p>Whether to stagger the labels to avoid overlap.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>The usual character expansion value.</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+<p>A prefix to the numbers displayed next to the bars (e.g. $).</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>A suffix as for prefix (e.g. %).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Displays a plot representing successive changes in counts or values. For example,
+if a research study attempts to contact a certain number of people and some
+cannot be contacted, some decline to participate, some are ineligible, the final
+sample will be smaller than the initial contact list. The first value will be the
+total of attempts, there will be a number of decrements, and the last value will
+be the actual sample. There may be intermediate totals specified. This produces
+a visual display of the sampling procedure. See the example.
+</p>
+<p>The bars are placed at integer values on the axis representing the succession of
+counts or values. The width of the bars is determined by the argument
+<span class="samp">halfwidth</span>. This defaults to 0.3, meaning that the bar extends 0.3 to each
+side, so that the proportion of bar to space is 0.6 to 0.4. The succession of
+bars is determined by the <span class="samp">direction</span> argument. The default is &quot;e&quot; (east),
+meaning that the first bar is at the left of the plot and subsequent bars are
+placed to the right. The other three possibilities follow the conventional
+compass layout.
+</p>
+<p>The <span class="samp">prefix</span> and <span class="samp">suffix</span> arguments allow the user to specify units
+for the numbers displayed next to the bars. If a single value is passed, all
+numbers will get the same prefix or suffix. Different prefixes or suffixes for 
+each number can be passed as vectors.
+</p>
+<p>The <span class="samp">getFigCtr</span> function is called to center the plot title in the figure
+region as the plot area is typically off center.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../plotrix/help/getFigCtr.html">getFigCtr</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ sample_size&lt;-c(500,-72,428,-94,334,-45,289)
+ totals&lt;-c(TRUE,FALSE,TRUE,FALSE,TRUE,FALSE,TRUE)
+ labels&lt;-c("Contact list","Uncontactable","","Declined","","Ineligible",
+  "Final sample")
+ staircase.plot(sample_size,totals,labels,
+  main="Acquisition of the sample (staircase.plot)",
+  total.col="gray",inc.col=2:4,bg.col="#eeeebb",direction="s")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply the (un-)logged common age model after Galbraith et al....</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_CommonDose {Luminescence}"><tr><td>calc_CommonDose {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply the (un-)logged common age model after Galbraith et al. (1999) to a
+given De distribution</h2>
+
+<h3>Description</h3>
+
+<p>Function to calculate the common dose of a De distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_CommonDose(data, sigmab, log = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+for <a href="../../base/html/data.frame.html">data.frame</a>: two columns with De <code>(data[,1])</code> and De error <code>(data[,2])</code></p>
+</td></tr>
+<tr valign="top"><td><code>sigmab</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+additional spread in De values.
+This value represents the expected overdispersion in the data should the sample be
+well-bleached (Cunningham &amp; Walling 2012, p. 100).
+<strong>NOTE</strong>: For the logged model (<code>log = TRUE</code>) this value must be
+a fraction, e.g. 0.2 (= 20 \
+sigmab must be provided in the same absolute units of the De values (seconds or Gray).</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+fit the (un-)logged central age model to De data</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>(Un-)logged model</strong>
+</p>
+<p>When <code>log = TRUE</code> this function
+calculates the weighted mean of logarithmic De values. Each of the estimates
+is weighted by the inverse square of its relative standard error. The
+weighted mean is then transformed back to the dose scale (Galbraith &amp;
+Roberts 2012, p. 14).
+</p>
+<p>The log transformation is not applicable if the
+De estimates are close to zero or negative. In this case the un-logged model
+can be applied instead (<code>log = FALSE</code>). The weighted mean is then
+calculated using the un-logged estimates of De and their absolute standard
+error (Galbraith &amp; Roberts 2012, p. 14).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a terminal output. In addition an
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned containing the
+following element:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>.$summary</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> summary of all relevant model results.</p>
+</td></tr>
+<tr valign="top"><td><code>.$data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> original input data</p>
+</td></tr>
+<tr valign="top"><td><code>.$args</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> used arguments</p>
+</td></tr>
+<tr valign="top"><td><code>.$call</code></td>
+<td>
+<p><a href="../../base/html/call.html">call</a> the function call</p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. calc_CommonDose(): Apply the (un-)logged common age model after Galbraith et al. (1999) to a given De distribution. Function version 0.1.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Galbraith, R.F. &amp; Laslett, G.M., 1993. Statistical models for
+mixed fission track ages. Nuclear Tracks Radiation Measurements 4, 459-470.
+</p>
+<p>Galbraith, R.F., Roberts, R.G., Laslett, G.M., Yoshida, H. &amp; Olley,
+J.M., 1999. Optical dating of single grains of quartz from Jinmium rock
+shelter, northern Australia. Part I: experimental design and statistical
+models.  Archaeometry 41, 339-364.
+</p>
+<p>Galbraith, R.F. &amp; Roberts, R.G., 2012. Statistical aspects of equivalent dose and error calculation and
+display in OSL dating: An overview and some recommendations. Quaternary
+Geochronology 11, 1-27.
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Arnold, L.J. &amp; Roberts, R.G., 2009. Stochastic modelling of multi-grain equivalent dose
+(De) distributions: Implications for OSL dating of sediment mixtures.
+Quaternary Geochronology 4, 204-230.
+</p>
+<p>Bailey, R.M. &amp; Arnold, L.J., 2006. Statistical modelling of single grain quartz De distributions and an
+assessment of procedures for estimating burial dose. Quaternary Science
+Reviews 25, 2475-2502.
+</p>
+<p>Cunningham, A.C. &amp; Wallinga, J., 2012. Realizing the potential of fluvial archives using robust OSL chronologies.
+Quaternary Geochronology 12, 98-106.
+</p>
+<p>Rodnight, H., Duller, G.A.T., Wintle, A.G. &amp; Tooth, S., 2006. Assessing the reproducibility and accuracy
+of optical dating of fluvial deposits.  Quaternary Geochronology, 1 109-120.
+</p>
+<p>Rodnight, H., 2008. How many equivalent dose values are needed to
+obtain a reproducible distribution?. Ancient TL 26, 3-10.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_CentralDose.html">calc_CentralDose</a>, <a href="../../Luminescence/help/calc_FiniteMixture.html">calc_FiniteMixture</a>,
+<a href="../../Luminescence/help/calc_FuchsLang2001.html">calc_FuchsLang2001</a>, <a href="../../Luminescence/help/calc_MinDose.html">calc_MinDose</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## load example data
+data(ExampleData.DeValues, envir = environment())
+
+## apply the common dose model
+calc_CommonDose(ExampleData.DeValues$CA1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

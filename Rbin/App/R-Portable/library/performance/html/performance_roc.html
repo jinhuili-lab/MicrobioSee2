@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simple ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for performance_roc {performance}"><tr><td>performance_roc {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simple ROC curve</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates a simple ROC curves of x/y coordinates
+based on response and predictions of a binomial model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performance_roc(x, ..., predictions, new_data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector, representing the outcome (0/1), or a model with
+binomial outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>One or more models with binomial outcome. In this case,
+<code>new_data</code> is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>predictions</code></td>
+<td>
+<p>If <code>x</code> is numeric, a numeric vector of same length
+as <code>x</code>, representing the actual predicted values.</p>
+</td></tr>
+<tr valign="top"><td><code>new_data</code></td>
+<td>
+<p>If <code>x</code> is a model, a data frame that is passed to
+<code>predict()</code> as <code>newdata</code>-argument. If <code>NULL</code>, the ROC for
+the full model is calculated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with three columns, the x/y-coordinate pairs for the ROC
+curve (<code>Sensitivity</code> and <code>Specificity</code>), and a column with the
+model name.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/performance.html"><code>plot()</code>-method</a>
+implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+data(iris)
+
+set.seed(123)
+iris$y &lt;- rbinom(nrow(iris), size = 1, .3)
+folds &lt;- sample(nrow(iris), size = nrow(iris) / 8, replace = FALSE)
+test_data &lt;- iris[folds, ]
+train_data &lt;- iris[-folds, ]
+
+model &lt;- glm(y ~ Sepal.Length + Sepal.Width, data = train_data, family = "binomial")
+as.data.frame(performance_roc(model, new_data = test_data))
+
+roc &lt;- performance_roc(model, new_data = test_data)
+area_under_curve(roc$Specificity, roc$Sensitivity)
+
+if (interactive()) {
+  m1 &lt;- glm(y ~ Sepal.Length + Sepal.Width, data = iris, family = "binomial")
+  m2 &lt;- glm(y ~ Sepal.Length + Petal.Width, data = iris, family = "binomial")
+  m3 &lt;- glm(y ~ Sepal.Length + Species, data = iris, family = "binomial")
+  performance_roc(m1, m2, m3)
+
+  # if you have `see` package installed, you can also plot comparison of
+  # ROC curves for different models
+  if (require("see")) plot(performance_roc(m1, m2, m3))
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

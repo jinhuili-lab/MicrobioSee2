@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place labels away from the nearest point</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for thigmophobe.labels {plotrix}"><tr><td>thigmophobe.labels {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Place labels away from the nearest point</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">thigmophobe.labels</span> places labels adjacent to each point, 
+offsetting each label in the direction returned by 
+<span class="samp">thigmophobe</span>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ thigmophobe.labels(x,y,labels=NULL,text.pos=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Numeric data vectors or a list with two components. 
+Typically the x/y coordinates of plotted points.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>A vector of strings that will be placed adjacent to
+each point. Defaults to the indices of the coordinates.</p>
+</td></tr>
+<tr valign="top"><td><code>text.pos</code></td>
+<td>
+<p>An optional vector of text positions (see 
+<a href="../../graphics/html/text.html">text</a>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments are passed to <span class="samp">text</span></p>
+</td></tr></table>
+<p>.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Typically used to automatically place labels on a scatterplot or 
+similar to avoid overlapping labels. <span class="samp">thigmophobe.labels</span>
+will sometimes place a label off the plot or fail to separate
+labels in clusters of points. The user can manually adjust the
+errant labels by running <span class="samp">thigmophobe</span> first and saving
+the returned vector. Then modify the position values to place
+the labels properly and pass the edited vector to
+<span class="samp">thigmophobe.labels</span> as the <span class="samp">text.pos</span> argument. This
+takes precedence over the positions calculated by <span class="samp">thigmophobe</span>.
+</p>
+<p><span class="samp">thigmophobe</span> will fail with only two labels, as it can't figure out
+the nearest neighbors. If you really want to use this with two labels, just
+eyeball the plot and work out in which direction the labels will go. Then
+pass the directions to <span class="samp">thigmophobe.labels</span> as the <span class="samp">text.pos</span>
+argument. When all else fails, look to sampplaceLabels.
+</p>
+<p>Both <span class="samp">pointLabel</span> in the <span class="pkg">maptools</span> package and <span class="samp">spread.labs</span>
+in the <span class="pkg">TeachingDemos</span> package use more sophisticated algorithms to
+place the labels and are worth a try if <span class="samp">thigmophobe</span> just won't get it
+right.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of directions away from the point nearest to each point.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon (thanks to Stephen Milborrow for finding the single point bug
+and Erik Aronesty for finding the two point problem.)</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/thigmophobe.html">thigmophobe</a>, <a href="../../graphics/html/text.html">text</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-rnorm(20)
+ y&lt;-rnorm(20)
+ xlim&lt;-range(x)
+ xspace&lt;-(xlim[2]-xlim[1])/20
+ xlim&lt;-c(xlim[1]-xspace,xlim[2]+xspace)
+ ylim&lt;-range(y)
+ yspace&lt;-(ylim[2]-ylim[1])/20
+ ylim&lt;-c(ylim[1]-yspace,ylim[2]+yspace)
+ plotlabels&lt;-
+  c("one","two","three","four","five","six","seven","eight","nine","ten",
+  "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen",
+  "eighteen","nineteen","twenty")
+ plot(x=x,y=y,xlim=xlim,ylim=ylim,main="Test thigmophobe.labels")
+ # skip the almost invisible yellow label, make them bold
+ thigmophobe.labels(x,y,plotlabels,col=c(2:6,8:12),font=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

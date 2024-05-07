@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extent</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for extent {raster}"><tr><td>extent {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extent</h2>
+
+<h3>Description</h3>
+
+<p>This function returns an Extent object of a Raster* or Spatial* object (or an Extent object), or creates an 
+Extent object from a 2x2 matrix (first row: xmin, xmax; second row: ymin, ymax), vector (length=4; order= xmin, xmax, ymin, ymax) or list (with at least two elements, with names 'x' and 'y')
+</p>
+<p><code>bbox</code> returns a <code>sp</code> package like 'bbox' object (a matrix)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+extent(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Extent object, a matrix, a bbox, or a vector of four numbers </p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. When x is a single number representing 'xmin', you can pass three additional numbers (xmax, ymin, ymax)
+</p>
+<p>When <code>x</code> is a Raster* object, you can pass four additional arguments to crop the extent: <code>r1, r2, c1, c2</code>, representing the first and last row and column number </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Extent object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans; Etienne Racine wrote the extent function for a list</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/extent.html">extent</a></code>, <code><a href="../help/drawExtent.html">drawExtent</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster()
+extent(r)
+extent(c(0, 20, 0, 20))
+#is equivalent to
+extent(0, 20, 0, 20)
+extent(matrix(c(0, 0, 20, 20), nrow=2))
+x &lt;- list(x=c(0,1,2), y=c(-3,5))
+extent(x)
+
+#crop the extent by row and column numbers
+extent(r, 1, 20, 10, 30)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

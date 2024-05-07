@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: colortable</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for colortable {raster}"><tr><td>colortable {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>colortable</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the colortable of a RasterLayer. A colortable is a vector of 256 colors in the RGB triple format as returned by the <code><a href="../../grDevices/html/rgb.html">rgb</a></code> function (e.g. &quot;#C4CDDA&quot;). 
+</p>
+<p>When setting the colortable, it is assumed that the values are integers in the range [0,255]
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+colortable(x)
+colortable(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer object</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>vector of 256 character values</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/plotRGB.html">plotRGB</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10)
+values(r) &lt;- sample(0:255, ncell(r), replace=TRUE)
+ctab &lt;- sample(rainbow(256))
+colortable(r) &lt;- ctab
+plot(r)
+head(colortable(r)) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

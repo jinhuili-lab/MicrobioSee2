@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge function for RLum.Analysis S4 class objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for merge_RLum.Analysis {Luminescence}"><tr><td>merge_RLum.Analysis {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Merge function for RLum.Analysis S4 class objects</h2>
+
+<h3>Description</h3>
+
+<p>Function allows merging of RLum.Analysis objects and adding of allowed
+objects to an RLum.Analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+merge_RLum.Analysis(objects)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>objects</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+list of S4 objects of class <code>RLum.Analysis</code>. Furthermore other objects of
+class <a href="../../Luminescence/help/RLum-class.html">RLum</a> can be added, see details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function simply allowing to merge <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+objects.  Additionally other <a href="../../Luminescence/help/RLum-class.html">RLum</a> objects can be added
+to an existing <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object. Supported objects
+to be added are: <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>,
+<a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> and
+<a href="../../Luminescence/help/RLum.Data.Image-class.html">RLum.Data.Image</a>.
+</p>
+<p>The order in the new <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object is the object
+order provided with the input list.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Return an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. merge_RLum.Analysis(): Merge function for RLum.Analysis S4 class objects. Function version 0.2.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The information for the slot 'protocol' is taken from the first
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object in the input list. Therefore at
+least one object of type <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> has to be provided.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/merge_RLum.html">merge_RLum</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>,
+<a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/RLum.Data.Image-class.html">RLum.Data.Image</a>, <a href="../../Luminescence/help/RLum-class.html">RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+##merge different RLum objects from the example data
+data(ExampleData.RLum.Analysis, envir = environment())
+data(ExampleData.BINfileData, envir = environment())
+
+object &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data, pos=1)
+curve &lt;- get_RLum(object)[[2]]
+
+temp.merged &lt;- merge_RLum.Analysis(list(curve, IRSAR.RF.Data, IRSAR.RF.Data))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

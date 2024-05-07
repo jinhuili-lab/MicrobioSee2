@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the Average Dose and the dose rate dispersion</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_AverageDose {Luminescence}"><tr><td>calc_AverageDose {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the Average Dose and the dose rate dispersion</h2>
+
+<h3>Description</h3>
+
+<p>This functions calculates the Average Dose and their extrinsic dispersion and estimates
+the standard errors by bootstrapping based on the Average Dose Model by Guerin et al., 2017
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_AverageDose(
+  data,
+  sigma_m = NULL,
+  Nb_BE = 500,
+  na.rm = TRUE,
+  plot = TRUE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+for <a href="../../base/html/data.frame.html">data.frame</a>: two columns with <code>De</code> <code>(data[,1])</code> and <code style="white-space: pre;">De error</code> <code>(values[,2])</code></p>
+</td></tr>
+<tr valign="top"><td><code>sigma_m</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+the overdispersion resulting from a dose recovery
+experiment, i.e. when all grains have  received the same dose. Indeed in such a case, any
+overdispersion (i.e. dispersion on top of analytical uncertainties) is, by definition, an
+unrecognised measurement uncertainty.</p>
+</td></tr>
+<tr valign="top"><td><code>Nb_BE</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+sample size used for the bootstrapping</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+exclude NA values from the data set prior to any further operation.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables/disables plot output</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables/disables terminal output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that can be passed to <a href="../../graphics/help/hist.html">graphics::hist</a>. As three plots
+are returned all arguments need to be provided as <a href="../../base/html/list.html">list</a>,
+e.g., <code>main = list("Plot 1", "Plot 2", "Plot 3")</code>.
+Note: not all arguments of <code>hist</code> are
+supported, but the output of <code>hist</code> is returned and can be used of own plots. <br />
+</p>
+<p>Further supported arguments: <code>mtext</code> (<a href="../../base/html/character.html">character</a>), <code>rug</code> (<code>TRUE/FALSE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong><code>sigma_m</code></strong><br />
+</p>
+<p>The program requires the input of a known value of <code>sigma_m</code>,
+which corresponds to the intrinsic overdispersion, as determined
+by a dose recovery experiment. Then the dispersion in doses (<code>sigma_d</code>)
+will be that over and above <code>sigma_m</code> (and individual uncertainties <code>sigma_wi</code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns numerical output and an (<em>optional</em>) plot.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code> <br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<strong><code>RLum.Results</code></strong>-object<br />
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong> <br />
+</p>
+<p><code style="white-space: pre;">[.. $summary : data.frame]</code><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Column</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+AVERAGE_DOSE </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> the obtained average dose</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+AVERAGE_DOSE.SE </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> the average dose error </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+SIGMA_D </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a></td><td style="text-align: left;"> sigma </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+SIGMA_D.SE </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a></td><td style="text-align: left;"> standard error of the sigma  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_AVERAGE_DOSE.LEVEL  </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> confidence level average dose</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_AVERAGE_DOSE.LOWER  </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> lower quantile of average dose </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_AVERAGE_DOSE.UPPER </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> upper quantile of average dose</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_SIGMA_D.LEVEL </td><td style="text-align: left;"> <a href="../../base/html/integer.html">integer</a></td><td style="text-align: left;"> confidence level sigma</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_SIGMA_D.LOWER </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> lower sigma quantile</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+IC_SIGMA_D.UPPER </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> upper sigma quantile</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+L_MAX </td><td style="text-align: left;"> <a href="../../base/html/character.html">character</a></td><td style="text-align: left;"> maximum likelihood value
+</td>
+</tr>
+
+</table>
+
+<p><code style="white-space: pre;">[.. $dstar : matrix]</code> <br />
+</p>
+<p>Matrix with bootstrap values<br />
+</p>
+<p><code style="white-space: pre;">[.. $hist : list]</code><br />
+</p>
+<p>Object as produced by the function histogram
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ PLOT OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>The function returns two different plot panels.
+</p>
+<p>(1) An abanico plot with the dose values
+</p>
+<p>(2) A histogram panel comprising 3 histograms with the equivalent dose and the bootstrapped average
+dose and the sigma values.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.5
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Christophe, C., Philippe, A., Kreutzer, S., 2021. calc_AverageDose(): Calculate the Average Dose and the dose rate dispersion. Function version 0.1.5. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function has beta status!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Claire Christophe, IRAMAT-CRP2A, Université de Nantes (France),
+Anne Philippe, Université de Nantes, (France),
+Guillaume Guérin, IRAMAT-CRP2A, Université Bordeaux Montaigne, (France),
+Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Guerin, G., Christophe, C., Philippe, A., Murray, A.S., Thomsen, K.J., Tribolo, C., Urbanova, P.,
+Jain, M., Guibert, P., Mercier, N., Kreutzer, S., Lahaye, C., 2017. Absorbed dose, equivalent dose,
+measured dose rates, and implications for OSL age estimates: Introducing the Average Dose Model.
+Quaternary Geochronology 1-32. doi:10.1016/j.quageo.2017.04.002
+</p>
+<p><strong>Further reading</strong><br />
+</p>
+<p>Efron, B., Tibshirani, R., 1986. Bootstrap Methods for Standard Errors, Confidence Intervals,
+and Other Measures of Statistical Accuracy. Statistical Science 1, 54-75.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../utils/html/read.table.html">read.table</a>, <a href="../../graphics/help/hist.html">graphics::hist</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##Example 01 using package example data
+##load example data
+data(ExampleData.DeValues, envir = environment())
+
+##calculate Average dose
+##(use only the first 56 values here)
+AD &lt;- calc_AverageDose(ExampleData.DeValues$CA1[1:56,], sigma_m = 0.1)
+
+##plot De and set Average dose as central value
+plot_AbanicoPlot(
+ data = ExampleData.DeValues$CA1[1:56,],
+ z.0 = AD$summary$AVERAGE_DOSE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Binned residuals for binomial logistic regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for binned_residuals {performance}"><tr><td>binned_residuals {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Binned residuals for binomial logistic regression</h2>
+
+<h3>Description</h3>
+
+<p>Check model quality of binomial logistic regression models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+binned_residuals(
+  model,
+  term = NULL,
+  n_bins = NULL,
+  show_dots = NULL,
+  ci = 0.95,
+  ci_type = c("exact", "gaussian", "boot"),
+  residuals = c("deviance", "pearson", "response"),
+  iterations = 1000,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <code>glm</code>-object with <em>binomial</em>-family.</p>
+</td></tr>
+<tr valign="top"><td><code>term</code></td>
+<td>
+<p>Name of independent variable from <code>x</code>. If not <code>NULL</code>,
+average residuals for the categories of <code>term</code> are plotted; else,
+average residuals for the estimated probabilities of the response are
+plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>n_bins</code></td>
+<td>
+<p>Numeric, the number of bins to divide the data. If
+<code>n_bins = NULL</code>, the square root of the number of observations is
+taken.</p>
+</td></tr>
+<tr valign="top"><td><code>show_dots</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, will show data points in the plot. Set
+to <code>FALSE</code> for models with many observations, if generating the plot is too
+time-consuming. By default, <code>show_dots = NULL</code>. In this case <code>binned_residuals()</code>
+tries to guess whether performance will be poor due to a very large model
+and thus automatically shows or hides dots.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Numeric, the confidence level for the error bounds.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_type</code></td>
+<td>
+<p>Character, the type of error bounds to calculate. Can be
+<code>"exact"</code> (default), <code>"gaussian"</code> or <code>"boot"</code>. <code>"exact"</code> calculates the
+error bounds based on the exact binomial distribution, using <code><a href="../../stats/html/binom.test.html">binom.test()</a></code>.
+<code>"gaussian"</code> uses the Gaussian approximation, while <code>"boot"</code> uses a simple
+bootstrap method, where confidence intervals are calculated based on the
+quantiles of the bootstrap distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>Character, the type of residuals to calculate. Can be
+<code>"deviance"</code> (default), <code>"pearson"</code> or <code>"response"</code>. It is recommended to
+use <code>"response"</code> only for those models where other residuals are not
+available.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>Integer, the number of iterations to use for the
+bootstrap method. Only used if <code>ci_type = "boot"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Binned residual plots are achieved by &quot;dividing the data into
+categories (bins) based on their fitted values, and then plotting
+the average residual versus the average fitted value for each bin.&quot;
+<em>(Gelman, Hill 2007: 97)</em>. If the model were true, one would
+expect about 95% of the residuals to fall inside the error bounds.
+</p>
+<p>If <code>term</code> is not <code>NULL</code>, one can compare the residuals in
+relation to a specific model predictor. This may be helpful to check if a
+term would fit better when transformed, e.g. a rising and falling pattern
+of residuals along the x-axis is a signal to consider taking the logarithm
+of the predictor (cf. Gelman and Hill 2007, pp. 97-98).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame representing the data that is mapped in the accompanying
+plot. In case all residuals are inside the error bounds, points are black.
+If some of the residuals are outside the error bounds (indicated by the
+grey-shaded area), blue points indicate residuals that are OK, while red
+points indicate model under- or over-fitting for the relevant range of
+estimated probabilities.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>binned_residuals()</code> returns a data frame, however, the <code>print()</code>
+method only returns a short summary of the result. The data frame itself
+is used for plotting. The <code>plot()</code> method, in turn, creates a ggplot-object.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman, A., and Hill, J. (2007). Data analysis using regression and
+multilevel/hierarchical models. Cambridge; New York: Cambridge University
+Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- glm(vs ~ wt + mpg, data = mtcars, family = "binomial")
+result &lt;- binned_residuals(model)
+result
+
+# look at the data frame
+as.data.frame(result)
+
+
+# plot
+if (require("see")) {
+  plot(result, show_dots = TRUE)
+}
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

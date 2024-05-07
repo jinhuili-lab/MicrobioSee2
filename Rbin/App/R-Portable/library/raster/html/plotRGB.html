@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Red-Green-Blue plot of a multi-layered Raster object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plotRGB {raster}"><tr><td>plotRGB {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Red-Green-Blue plot of a multi-layered Raster object</h2>
+
+<h3>Description</h3>
+
+<p>Make a Red-Green-Blue plot based on three layers (in a RasterBrick or RasterStack). Three layers (sometimes referred to as &quot;bands&quot; because they may represent different bandwidths in the electromagnetic spectrum) are combined such that they represent the red, green and blue channel. This function can be used to make 'true (or false) color images' from Landsat and other multi-band satellite images. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterStackBrick'
+plotRGB(x, r=1, g=2, b=3, scale, maxpixels=500000, stretch=NULL, 
+ext=NULL, interpolate=FALSE, colNA='white', alpha, bgalpha, addfun=NULL, zlim=NULL, 
+zlimcol=NULL, axes=FALSE, xlab='', ylab='', asp=NULL, add=FALSE, margins=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterBrick or RasterStack</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>integer. Index of the Red channel, between 1 and nlayers(x)</p>
+</td></tr>
+<tr valign="top"><td><code>g</code></td>
+<td>
+<p>integer. Index of the Green channel, between 1 and nlayers(x)</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>integer. Index of the Blue channel, between 1 and nlayers(x)</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>integer. Maximum (possible) value in the three channels. Defaults to 255 or to the maximum value of <code>x</code> if that is known and larger than 255</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer &gt; 0. Maximum number of pixels to use</p>
+</td></tr>
+<tr valign="top"><td><code>stretch</code></td>
+<td>
+<p>character. Option to stretch the values to increase the contrast of the image: &quot;lin&quot; or &quot;hist&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>An <code><a href="../../raster/help/Extent.html">Extent</a></code> object to zoom in to a region of interest (see <code><a href="../../raster/help/drawExtent.html">drawExtent</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>interpolate</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, interpolate the image when drawing</p>
+</td></tr>
+<tr valign="top"><td><code>colNA</code></td>
+<td>
+<p>color for the background (<code>NA</code> values)</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>transparency. Integer between 0 (transparent) and 255 (opaque)</p>
+</td></tr>
+<tr valign="top"><td><code>bgalpha</code></td>
+<td>
+<p>Background transparency. Integer between 0 (transparent) and 255 (opaque)</p>
+</td></tr>
+<tr valign="top"><td><code>addfun</code></td>
+<td>
+<p>Function to add additional items such as points or polygons to the plot (map). See <code><a href="../help/plot.html">plot</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>numeric vector of length 2. Range of values to plot (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>zlimcol</code></td>
+<td>
+<p>If <code>NULL</code> the values outside the range of zlim get the color of the extremes of the range. If zlimcol has any other value, the values outside the zlim range get the color of <code>NA</code> values (see colNA)</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>logical. If <code>TRUE</code> axes are drawn (and arguments such as <code>main="title"</code> will be honored)</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>character. Label of x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>character. Label of y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>asp</code></td>
+<td>
+<p>numeric. Aspect (ratio of x and y. If NULL, and appropriate value is computed to match data for the longitude/latitude coordinate reference system, and 1 for planar coordinate reference systems</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>logical. If <code>TRUE</code> add values to current plot</p>
+</td></tr>
+<tr valign="top"><td><code>margins</code></td>
+<td>
+<p>logical. If <code>TRUE</code> standard whitespace margins are used. If <code>FALSE</code>, graphics::par(plt=c(0,1,0,1)) is used</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters as in <code><a href="../../raster/help/plot.html">plot</a></code> or <code><a href="../../graphics/html/rasterImage.html">rasterImage</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans; stretch option based on functions by Josh Gray </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/plot.html">plot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+plotRGB(b)
+plotRGB(b, 3, 2, 1)
+plotRGB(b, 3, 2, 1, stretch='hist')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

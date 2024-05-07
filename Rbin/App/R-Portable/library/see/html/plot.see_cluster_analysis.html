@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for computing cluster analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_cluster_analysis {see}"><tr><td>plot.see_cluster_analysis {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for computing cluster analysis</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>parameters::cluster_analysis()</code>
+function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_cluster_analysis'
+plot(x, data = NULL, n_columns = NULL, size_bar = 0.6, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original data used to create this object. Can be a
+statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>n_columns</code></td>
+<td>
+<p>For models with multiple components (like fixed and random,
+count and zero-inflated), defines the number of columns for the
+panel-layout. If <code>NULL</code>, a single, integrated plot is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>size_bar</code></td>
+<td>
+<p>Size of bar geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+groups &lt;- cluster_analysis(iris[, 1:4], 3)
+plot(groups)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add a favicon to your shinyapp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_favicon {golem}"><tr><td>use_favicon {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add a favicon to your shinyapp</h2>
+
+<h3>Description</h3>
+
+<p>This function adds the favicon from <code>ico</code> to your shiny app.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_favicon(path, pkg = get_golem_wd(), method = "curl")
+
+remove_favicon(path = "inst/app/www/favicon.ico")
+
+favicon(
+  ico = "favicon",
+  rel = "shortcut icon",
+  resources_path = "www",
+  ext = "ico"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Path to your favicon file (.ico or .png)</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method to be used for downloading files, 'curl' is default see <code><a href="../../utils/help/download.file.html">utils::download.file()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ico</code></td>
+<td>
+<p>path to favicon file</p>
+</td></tr>
+<tr valign="top"><td><code>rel</code></td>
+<td>
+<p>rel</p>
+</td></tr>
+<tr valign="top"><td><code>resources_path</code></td>
+<td>
+<p>prefix of the resource path of the app</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>the extension of the favicon</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Used for side-effects.
+</p>
+<p>An HTML tag.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (interactive()) {
+  use_favicon()
+  use_favicon(path = "path/to/your/favicon.ico")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

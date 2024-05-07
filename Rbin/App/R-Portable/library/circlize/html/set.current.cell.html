@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set flag to current cell</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set.current.cell {circlize}"><tr><td>set.current.cell {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Set flag to current cell
+</h2>
+
+<h3>Description</h3>
+
+<p>Set flag to current cell
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set.current.cell(sector.index, track.index)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>sector index
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>track index
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>After setting the current cell, all functions which need <code>sector.index</code> and <code>track.index</code>
+arguments and are applied to the current cell do not need to specify the two arguments explicitly.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pdf(NULL)
+circos.initialize(letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1))
+circos.info()
+set.current.cell("b", 1)
+circos.info()
+circos.clear()
+dev.off()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

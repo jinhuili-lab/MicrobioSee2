@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parse, transform and serialize text</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for parse_transform_serialize_r {styler}"><tr><td>parse_transform_serialize_r {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parse, transform and serialize text</h2>
+
+<h3>Description</h3>
+
+<p>Wrapper function for the common three operations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parse_transform_serialize_r(
+  text,
+  transformers,
+  base_indention,
+  warn_empty = TRUE,
+  is_roxygen_code_example = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>The text to parse.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>Passed to <code><a href="../../styler/help/cache_make_key.html">cache_make_key()</a></code> to generate a key.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>warn_empty</code></td>
+<td>
+<p>Whether or not a warning should be displayed when <code>text</code>
+does not contain any tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>is_roxygen_code_example</code></td>
+<td>
+<p>Is code a roxygen examples block?</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../styler/help/parse_transform_serialize_roxygen.html">parse_transform_serialize_roxygen()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

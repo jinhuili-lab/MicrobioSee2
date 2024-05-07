@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the index of the next or previous non-comment in a parse...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for next_non_comment {styler}"><tr><td>next_non_comment {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find the index of the next or previous non-comment in a parse table.</h2>
+
+<h3>Description</h3>
+
+<p>Find the index of the next or previous non-comment in a parse table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+next_non_comment(pd, pos)
+
+previous_non_comment(pd, pos)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>The position of the token to start the search from.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other third-party style guide helpers: 
+<code><a href="../../styler/help/pd_is.html">pd_is</a></code>,
+<code><a href="../../styler/help/scope_normalize.html">scope_normalize</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+code &lt;- "a &lt;- # hi \n x %&gt;% b()"
+writeLines(code)
+pd &lt;- compute_parse_data_nested(code)
+child &lt;- pd$child[[1]]
+previous_non_comment(child, 4L)
+next_non_comment(child, 2L)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

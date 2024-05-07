@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cells from extent, and vice versa</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cellsFromExtent {raster}"><tr><td>cellsFromExtent {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cells from extent, and vice versa</h2>
+
+<h3>Description</h3>
+
+<p>cellsFromExtent returns the cell numbers for a Raster* object that are within a specfied extent (rectangular area), supply an object of class Extent, or another Raster* object.
+</p>
+<p>extentFromCells returns an Extent object from a Raster* object and cell numbers. All cells are within the returned Extent. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cellsFromExtent(object, extent, expand=FALSE)
+extentFromCells(object, cells)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>extent</code></td>
+<td>
+<p>An object of class Extent (which you can create with newExtent(), or another Raster* object )</p>
+</td></tr>  
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, <code>NA</code> is returned for (virtual) cells implied by <code>bndbox</code>, 
+that are outside the RasterLayer (<code>object</code>). If <code>FALSE</code>, only cell numbers for the area where <code>object</code> and <code>bndbox</code>
+overlap are returned (see <a href="../help/intersect.html">intersect</a>) </p>
+</td></tr>
+<tr valign="top"><td><code>cells</code></td>
+<td>
+<p>numeric. A vector of cell numbers</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector of cell numbers 
+</p>
+
+
+<h3>See Also</h3>
+
+ 
+<p><code><a href="../help/extent.html">extent</a></code>, <code><a href="../../raster/help/cellFromXY.html">cellFromXY</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster()
+bb &lt;- extent(-5, 5, -5, 5)
+cells &lt;- cellsFromExtent(r, bb)
+r &lt;- crop(r, bb)
+values(r) &lt;- cells
+
+e &lt;- extentFromCells(r, 50:55)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

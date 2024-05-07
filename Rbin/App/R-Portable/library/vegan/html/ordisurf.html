@@ -1,0 +1,439 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit and Plot Smooth Surfaces of Variables on Ordination.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordisurf {vegan}"><tr><td>ordisurf {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Fit and Plot Smooth Surfaces of Variables on Ordination. </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>ordisurf</code> fits a smooth surface for given variable and
+plots the result on ordination diagram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+ordisurf(x, y, choices = c(1, 2), knots = 10,
+         family = "gaussian", col = "red", isotropic = TRUE,
+         thinplate = TRUE, bs = "tp", fx = FALSE, add = FALSE,
+         display = "sites", w = weights(x, display), main, nlevels = 10,
+         levels, npoints = 31, labcex = 0.6, bubble = FALSE,
+         cex = 1, select = TRUE, method = "REML", gamma = 1,
+         plot = TRUE, lwd.cl = par("lwd"), ...)
+
+## S3 method for class 'formula'
+ordisurf(formula, data, ...)
+
+## S3 method for class 'ordisurf'
+calibrate(object, newdata, ...)
+
+## S3 method for class 'ordisurf'
+plot(x, what = c("contour","persp","gam"),
+     add = FALSE, bubble = FALSE, col = "red", cex = 1,
+     nlevels = 10, levels, labcex = 0.6, lwd.cl = par("lwd"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>For <code>ordisurf</code> an ordination configuration, either a
+matrix or a result known by <code><a href="../../vegan/help/scores.html">scores</a></code>. For
+<code>plot.ordisurf</code> an object of class <code>"ordisurf"</code> as
+returned by <code>ordisurf</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Variable to be plotted / modelled as a function of the
+ordination scores.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Ordination axes. </p>
+</td></tr>
+<tr valign="top"><td><code>knots</code></td>
+<td>
+<p>Number of initial knots in <code><a href="../../mgcv/help/gam.html">gam</a></code> (one
+more than degrees of freedom). If <code>knots = 0</code> or
+<code>knots = 1</code>  the function will fit a linear trend surface, and
+if <code>knots = 2</code> the function  will fit a quadratic trend surface
+instead of a smooth surface. A vector of length 2 is allowed when
+<code>isotropic = FALSE</code>, with the first and second elements of
+<code>knots</code> referring to the first and second of ordination
+dimensions (as indicated by <code>choices</code>) respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>family</code></td>
+<td>
+<p>Error distribution in <code><a href="../../mgcv/help/gam.html">gam</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p> Colour of contours. </p>
+</td></tr>
+<tr valign="top"><td><code>isotropic, thinplate</code></td>
+<td>
+<p>Fit an isotropic smooth surface (i.e. same
+smoothness in both ordination dimensions) via
+<code><a href="../../mgcv/help/gam.html">gam</a></code>. Use of <code>thinplate</code> is deprecated and
+will be removed in a future version of the package.</p>
+</td></tr>
+<tr valign="top"><td><code>bs</code></td>
+<td>
+<p>a two letter character string indicating the smoothing basis
+to use. (e.g. <code>"tp"</code> for thin plate regression spline,
+<code>"cr"</code> for cubic regression spline). One of <code>c("tp", "ts",
+      "cr", "cs", "ds", "ps", "ad")</code>. See
+<code><a href="../../mgcv/help/smooth.terms.html">smooth.terms</a></code> for an over view of what these
+refer to. The default is to use thin plate splines: <code>bs = "tp"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fx</code></td>
+<td>
+<p>indicates whether the smoothers are fixed degree of freedom
+regression splines (<code>fx = FALSE</code>) or penalised regression
+splines (<code>fx = TRUE</code>). Can be a vector of length 2 for
+anisotropic surfaces (<code>isotropic = FALSE</code>). It doesn't make
+sense to use <code>fx = TRUE</code> <strong>and</strong> <code>select = TRUE</code> and
+it is an <strong>error</strong> to do so. A warning is issued if you specify
+<code>fx = TRUE</code> and forget to use <code>select = FALSE</code> though
+fitting continues using <code>select = FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add contours to an existing diagram or draw a new plot?</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Type of scores known by <code><a href="../../vegan/help/scores.html">scores</a></code>: typically
+&quot;sites&quot; for ordinary site scores or &quot;lc&quot; for linear combination scores.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Prior weights on the data. Concerns mainly <code><a href="../../vegan/help/cca.html">cca</a></code>
+and <code><a href="../../vegan/help/decorana.html">decorana</a></code> results which have nonconstant weights.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The main title for the plot, or as default the name of
+plotted variable in a new plot.</p>
+</td></tr>
+<tr valign="top"><td><code>nlevels, levels</code></td>
+<td>
+<p>Either a vector of <code>levels</code> for which contours
+are drawn, or suggested number of contours in <code>nlevels</code> if
+<code>levels</code> are not supplied.</p>
+</td></tr>
+<tr valign="top"><td><code>npoints</code></td>
+<td>
+<p>numeric; the number of locations at which to evaluate
+the fitted surface. This represents the number of locations in each
+dimension.</p>
+</td></tr>
+<tr valign="top"><td><code>labcex</code></td>
+<td>
+<p>Label size in contours.  Setting this zero will suppress
+labels.</p>
+</td></tr>
+<tr valign="top"><td><code>bubble</code></td>
+<td>
+<p>Use a &ldquo;bubble plot&rdquo; for points, or vary the point
+diameter by the value of the plotted variable. If <code>bubble</code> is
+numeric, its value is used for the maximum symbol size (as in
+<code>cex</code>), or if <code>bubble = TRUE</code>, the value of <code>cex</code> gives
+the maximum. The minimum size will always be <code>cex = 0.4</code>.  The
+option only has an effect if <code>add = FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion of plotting symbols.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Logical; specify <code><a href="../../mgcv/help/gam.html">gam</a></code> argument
+<code>"select"</code>. If this is <code>TRUE</code> then <code><a href="../../mgcv/help/gam.html">gam</a></code> can
+add an extra  penalty to each term so that it can be penalized to
+zero. This means that the smoothing parameter estimation that is part
+of fitting can completely remove terms from the model. If the
+corresponding smoothing parameter is estimated as zero then the extra
+penalty has no effect.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>character; the smoothing parameter estimation
+method. Options allowed are: <code>"GCV.Cp"</code> uses GCV for models with
+unknown scale parameter and Mallows' Cp/UBRE/AIC for models with
+known scale; <code>"GACV.Cp"</code> as for <code>"GCV.Cp"</code> but uses GACV
+(Generalised Approximate CV) instead of GCV; <code>"REML"</code> and
+<code>"ML"</code> use restricted maximum likelihood or maximum likelihood
+estimation for both known and unknown scale; and <code>"P-REML"</code> and
+<code>"P-ML"</code> use REML or ML estimation but use a Pearson estimate
+of the scale.</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>Multiplier to inflate model degrees of freedom in GCV or
+UBRE/AIC score by. This effectively places an extra penalty on
+complex models. An oft-used value is <code>gamma = 1.4</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>logical; should any plotting be done by
+<code>ordisurf</code>? Useful if all you want is the fitted response
+surface model.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd.cl</code></td>
+<td>
+<p>numeric; the <code>lwd</code> (line width) parameter to use
+when drawing the contour lines.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>Alternative definition of the fitted model as
+<code>x ~ y</code>, where left-hand side is the ordination <code>x</code> and
+right-hand side the single fitted continuous variable
+<code>y</code>. The variable <code>y</code> must be in the working environment
+or in the data frame or environment given by <code>data</code>. All
+other arguments of are passed to the default method.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An <code>ordisurf</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>Coordinates in two-dimensional ordination for new
+points.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>character; what type of plot to produce. <code>"contour"</code>
+produces a contour plot of the response surface, see
+<code><a href="../../graphics/html/contour.html">contour</a></code> for details. <code>"persp"</code> produces a
+perspective plot of the same, see <code><a href="../../graphics/html/persp.html">persp</a></code> for
+details. <code>"gam"</code> plots the fitted GAM model, an object that
+inherits from class <code>"gam"</code> returned by <code>ordisurf</code>, see
+<code><a href="../../mgcv/help/plot.gam.html">plot.gam</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to <code><a href="../../vegan/help/scores.html">scores</a></code>, or
+to the graphical functions. See Note below for exceptions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>ordisurf</code> fits a smooth surface using penalised
+splines (Wood 2003) in <code><a href="../../mgcv/help/gam.html">gam</a></code>, and uses
+<code><a href="../../mgcv/help/predict.gam.html">predict.gam</a></code> to find fitted values in a regular
+grid. The smooth surface can be fitted with an extra penalty that
+allows the entire smoother to be penalized back to 0 degrees of
+freedom, effectively removing the term from the model (see Marra &amp;
+Wood, 2011). The addition of this extra penalty is invoked by
+setting argument <code>select</code> to <code>TRUE</code>. An alternative is to
+use a spline basis that includes shrinkage (<code>bs = "ts"</code> or
+<code>bs = "cs"</code>).
+</p>
+<p><code>ordisurf()</code> exposes a large number of options from
+<code><a href="../../mgcv/help/gam.html">gam</a></code> for specifying the basis functions used for
+the surface. If you stray from the defaults, do read the
+<strong>Notes</strong> section below and relevant documentation in
+<code><a href="../../mgcv/help/s.html">s</a></code> and <code><a href="../../mgcv/help/smooth.terms.html">smooth.terms</a></code>.
+</p>
+<p>The function plots the fitted contours with convex hull of data points
+either over an existing ordination diagram or draws a new plot. If
+<code>select = TRUE</code> and the smooth is effectively penalised out of
+the model, no contours will be plotted.
+</p>
+<p><code><a href="../../mgcv/help/gam.html">gam</a></code> determines the degree of smoothness for the
+fitted response surface during model fitting, unless <code>fx =
+  TRUE</code>. Argument <code>method</code> controls how <code><a href="../../mgcv/help/gam.html">gam</a></code>
+performs this smoothness selection. See <code><a href="../../mgcv/help/gam.html">gam</a></code> for
+details of the available options. Using <code>"REML"</code> or <code>"ML"</code>
+yields p-values for smooths with the best coverage properties if such
+things matter to you.
+</p>
+<p>The function uses <code><a href="../../vegan/help/scores.html">scores</a></code> to extract ordination scores,
+and <code>x</code> can be any result object known by that function.
+</p>
+<p>The user can supply a vector of prior weights <code>w</code>. If the
+ordination object has weights, these will be used. In practise this
+means that the row totals are used as weights with <code><a href="../../vegan/help/cca.html">cca</a></code>
+or <code><a href="../../vegan/help/decorana.html">decorana</a></code> results. If you do not like this, but want
+to give equal weights to all sites, you should set <code>w =
+  NULL</code>. The behaviour is consistent with <code><a href="../../vegan/help/envfit.html">envfit</a></code>. For
+complete accordance with constrained <code><a href="../../vegan/help/cca.html">cca</a></code>, you should set
+<code>display = "lc"</code>.
+</p>
+<p>Function <code>calibrate</code> returns the fitted values of the response
+variable. The <code>newdata</code> must be coordinates of points for which
+the fitted values are desired. The function is based on
+<code><a href="../../mgcv/help/predict.gam.html">predict.gam</a></code> and will pass extra arguments to
+that function.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>ordisurf</code> is usually called for its side effect of drawing the
+contour plot. The function returns a result object of class
+<code>"ordisurf"</code> that inherits from <code><a href="../../mgcv/help/gam.html">gam</a></code> used
+internally to fit the surface, but adds an item <code>grid</code> that
+contains the data for the grid surface. The item <code>grid</code> has
+elements <code>x</code> and <code>y</code> which are vectors of axis coordinates,
+and element <code>z</code> that is a matrix of fitted values for
+<code><a href="../../graphics/html/contour.html">contour</a></code>. The values outside the convex hull of observed
+points are indicated as <code>NA</code> in <code>z</code>. The
+<code><a href="../../mgcv/help/gam.html">gam</a></code> component of the result can be used for
+further analysis like predicting new values (see
+<code><a href="../../mgcv/help/predict.gam.html">predict.gam</a></code>).
+</p>
+
+
+<h3>Warning</h3>
+
+<p>The fitted GAM is a regression model and has the usual assumptions of
+such models. Of particular note is the assumption of independence of
+residuals. If the observations are not independent (e.g. they are
+repeat measures on a set of objects, or from an experimental design,
+<em>inter alia</em>) do not trust the <em>p</em>-values from the GAM
+output.
+</p>
+<p>If you need further control (i.e. to add additional fixed effects to
+the model, or use more complex smoothers), extract the ordination
+scores using the <code>scores</code> function and then generate your own
+<code><a href="../../mgcv/help/gam.html">gam</a></code> call.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The default is to use an isotropic smoother via
+<code><a href="../../mgcv/help/s.html">s</a></code> employing thin plate regression splines
+(<code>bs = "tp"</code>). These make sense in ordination as they have
+equal smoothing in all directions and are rotation invariant. However,
+if different degrees of smoothness along dimensions are required, an
+anisotropic smooth surface may be more applicable. This can be
+achieved through the use of <code>isotropic = FALSE</code>, wherein the
+surface is fitted via a tensor product smoother via
+<code><a href="../../mgcv/help/te.html">te</a></code> (unless <code>bs = "ad"</code>, in which case
+separate splines for each dimension are fitted using
+<code><a href="../../mgcv/help/s.html">s</a></code>).
+</p>
+<p>Cubic regression splines and P splines can <strong>only</strong> be used with
+<code>isotropic = FALSE</code>.
+</p>
+<p>Adaptive smooths (<code>bs = "ad"</code>), especially in two dimensions,
+require a large number of observations; without many hundreds of
+observations, the default complexities for the smoother will exceed
+the number of observations and fitting will fail.
+</p>
+<p>To get the old behaviour of <code>ordisurf</code> use <code>select = FALSE</code>,
+<code>method = "GCV.Cp"</code>, <code>fx = FALSE</code>, and <code>bs = "tp"</code>. The
+latter two options are the current defaults.
+</p>
+<p>Graphical arguments supplied to <code>plot.ordisurf</code> are passed on to
+the underlying plotting functions, <code>contour</code>, <code>persp</code>, and
+<code><a href="../../mgcv/help/plot.gam.html">plot.gam</a></code>. The exception to this is that arguments
+<code>col</code> and <code>cex</code> can not currently be passed to
+<code><a href="../../mgcv/help/plot.gam.html">plot.gam</a></code> because of a bug in the way that function
+evaluates arguments when arranging the plot.
+</p>
+<p>A work-around is to call <code><a href="../../mgcv/help/plot.gam.html">plot.gam</a></code> directly on the
+result of a call to <code>ordisurf</code>. See the Examples for an
+illustration of this.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Dave Roberts, Jari Oksanen and Gavin L. Simpson </p>
+
+
+<h3>References</h3>
+
+<p>Marra, G.P &amp; Wood, S.N. (2011) Practical variable selection for
+generalized additive models. <em>Comput. Stat. Data Analysis</em> 55,
+2372&ndash;2387.
+</p>
+<p>Wood, S.N. (2003) Thin plate regression splines.
+<em>J. R. Statist. Soc. B</em> 65, 95&ndash;114.
+</p>
+
+
+<h3>See Also</h3>
+
+<p> For basic routines <code><a href="../../mgcv/help/gam.html">gam</a></code>,
+and <code><a href="../../vegan/help/scores.html">scores</a></code>. Function
+<code><a href="../../vegan/help/envfit.html">envfit</a></code> provides a more traditional and compact
+alternative. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+vare.dist &lt;- vegdist(varespec)
+vare.mds &lt;- monoMDS(vare.dist)
+ordisurf(vare.mds ~ Baresoil, varechem, bubble = 5)
+
+## as above but without the extra penalties on smooth terms,
+## and using GCV smoothness selection (old behaviour of `ordisurf()`):
+ordisurf(vare.mds ~ Baresoil, varechem, col = "blue", add = TRUE,
+                        select = FALSE, method = "GCV.Cp")
+
+## Cover of Cladina arbuscula
+fit &lt;- ordisurf(vare.mds ~ Cladarbu, varespec, family=quasipoisson)
+## Get fitted values
+calibrate(fit)
+
+## Variable selection via additional shrinkage penalties
+## This allows non-significant smooths to be selected out
+## of the model not just to a linear surface. There are 2
+## options available:
+##  - option 1: `select = TRUE` --- the *default*
+ordisurf(vare.mds ~ Baresoil, varechem, method = "REML", select = TRUE)
+##  - option 2: use a basis with shrinkage
+ordisurf(vare.mds ~ Baresoil, varechem, method = "REML", bs = "ts")
+## or bs = "cs" with `isotropic = FALSE`
+
+## Plot method
+plot(fit, what = "contour")
+
+## Plotting the "gam" object
+plot(fit, what = "gam") ## 'col' and 'cex' not passed on
+## or via plot.gam directly
+library(mgcv)
+plot.gam(fit, cex = 2, pch = 1, col = "blue")
+## 'col' effects all objects drawn...
+
+### controlling the basis functions used
+## Use Duchon splines
+ordisurf(vare.mds ~ Baresoil, varechem, bs = "ds")
+
+## A fixed degrees of freedom smooth, must use 'select = FALSE'
+ordisurf(vare.mds ~ Baresoil, varechem, knots = 4,
+                        fx = TRUE, select = FALSE)
+
+## An anisotropic smoother with cubic regression spline bases
+ordisurf(vare.mds ~ Baresoil, varechem, isotropic = FALSE,
+                        bs = "cr", knots = 4)
+
+## An anisotropic smoother with cubic regression spline with
+## shrinkage bases &amp; different degrees of freedom in each dimension
+ordisurf(vare.mds ~ Baresoil, varechem, isotropic = FALSE,
+                        bs = "cs", knots = c(3,4), fx = TRUE,
+                        select = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

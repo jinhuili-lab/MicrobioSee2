@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpolate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpolate {raster}"><tr><td>interpolate {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpolate</h2>
+
+<h3>Description</h3>
+
+<p>Make a RasterLayer with interpolated values using a fitted model object of classes such as 'gstat' (gstat package) or 'Krige' (fields package). That is, these are models that have location ('x' and 'y', or 'longitude' and 'latitude') as independent variables. If x and y are the only independent variables provide an empty (no associated data in memory or on file) RasterLayer for which you want predictions. If there are more spatial predictor variables provide these as a Raster* object in the first argument of the function. If you do not have x and y locations as implicit predictors in your model you should use <code><a href="../help/predict.html">predict</a></code> instead.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+interpolate(object, model, filename="", fun=predict, xyOnly=TRUE,
+   xyNames=c('x', 'y'), ext=NULL, const=NULL, index=1, na.rm=TRUE, debug.level=1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>model object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function. Default value is 'predict', but can be replaced with e.g. 'predict.se' (depending on the class of the model object)</p>
+</td></tr>
+<tr valign="top"><td><code>xyOnly</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, values of the Raster* object are not considered as co-variables; and only x and y (longitude and latitude) are used. This should match the model</p>
+</td></tr>
+<tr valign="top"><td><code>xyNames</code></td>
+<td>
+<p>character. variable names that the model uses for the spatial coordinates. E.g., <code>c('longitude', 'latitude')</code></p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent object to limit the prediction to a sub-region of <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>const</code></td>
+<td>
+<p>data.frame. Can be used to add a constant for which there is no Raster object for model predictions. This is particulary useful if the constant is a character-like factor value</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>integer. To select the column if 'predict.model' returns a matrix with multiple columns</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. Remove cells with NA values in the predictors before solving the model (and return <code>NA</code> for those cells). In most cases this will not affect the output. This option prevents errors with models that cannot handle <code>NA</code> values</p>
+</td></tr>
+<tr valign="top"><td><code>debug.level</code></td>
+<td>
+<p>for gstat models only. See ?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to the predict.'model' function</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/predict.html">predict</a></code>, <code><a href="../../gstat/help/predict.gstat.html">predict.gstat</a></code>, <code><a href="../../fields/help/Tps.html">Tps</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Thin plate spline interpolation with x and y only
+# some example data
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+ra &lt;- aggregate(r, 10)
+xy &lt;- data.frame(xyFromCell(ra, 1:ncell(ra)))
+v &lt;- getValues(ra)
+# remove NAs
+i &lt;- !is.na(v)
+xy &lt;- xy[i,]
+v &lt;- v[i]
+
+#### Thin plate spline model
+library(fields) 
+tps &lt;- Tps(xy, v)
+p &lt;- raster(r)
+
+# use model to predict values at all locations
+p &lt;- interpolate(p, tps)
+p &lt;- mask(p, r)
+
+plot(p)
+## change the fun from predict to fields::predictSE to get the TPS standard error
+se &lt;- interpolate(p, tps, fun=predictSE)
+se &lt;- mask(se, r)
+plot(se)
+
+## another variable; let's call it elevation
+elevation &lt;- (init(r, 'x') * init(r, 'y')) / 100000000
+names(elevation) &lt;- 'elev'
+
+z &lt;- extract(elevation, xy)
+
+# add as another independent variable
+xyz &lt;- cbind(xy, z)
+tps2 &lt;- Tps(xyz, v)
+p2 &lt;- interpolate(elevation, tps2, xyOnly=FALSE)
+
+# as a linear coveriate
+tps3 &lt;- Tps(xy, v, Z=z)
+
+# Z is a separate argument in Krig.predict, so we need a new function
+# Internally (in interpolate) a matrix is formed of x, y, and elev (Z)
+
+pfun &lt;- function(model, x, ...) {
+   predict(model, x[,1:2], Z=x[,3], ...)
+}
+p3 &lt;- interpolate(elevation, tps3, xyOnly=FALSE, fun=pfun)
+
+#### gstat examples
+library(gstat)
+data(meuse)
+
+## inverse distance weighted (IDW)
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+data(meuse)
+mg &lt;- gstat(id = "zinc", formula = zinc~1, locations = ~x+y, data=meuse, 
+            nmax=7, set=list(idp = .5))
+z &lt;- interpolate(r, mg)
+z &lt;- mask(z, r)
+
+## kriging
+coordinates(meuse) &lt;- ~x+y
+crs(meuse) &lt;- crs(r)
+
+## ordinary kriging
+v &lt;- variogram(log(zinc)~1, meuse)
+m &lt;- fit.variogram(v, vgm(1, "Sph", 300, 1))
+gOK &lt;- gstat(NULL, "log.zinc", log(zinc)~1, meuse, model=m)
+OK &lt;- interpolate(r, gOK)
+
+# examples below provided by Maurizio Marchi
+## universial kriging
+vu &lt;- variogram(log(zinc)~elev, meuse)
+mu &lt;- fit.variogram(vu, vgm(1, "Sph", 300, 1))
+gUK &lt;- gstat(NULL, "log.zinc", log(zinc)~elev, meuse, model=mu)
+names(r) &lt;- 'elev'
+UK &lt;- interpolate(r, gUK, xyOnly=FALSE)
+
+## co-kriging
+gCoK &lt;- gstat(NULL, 'log.zinc', log(zinc)~1, meuse)
+gCoK &lt;- gstat(gCoK, 'elev', elev~1, meuse)
+gCoK &lt;- gstat(gCoK, 'cadmium', cadmium~1, meuse)
+gCoK &lt;- gstat(gCoK, 'copper', copper~1, meuse)
+coV &lt;- variogram(gCoK)
+plot(coV, type='b', main='Co-variogram')
+coV.fit &lt;- fit.lmc(coV, gCoK, vgm(model='Sph', range=1000))
+coV.fit
+plot(coV, coV.fit, main='Fitted Co-variogram')
+coK &lt;- interpolate(r, coV.fit)
+plot(coK)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

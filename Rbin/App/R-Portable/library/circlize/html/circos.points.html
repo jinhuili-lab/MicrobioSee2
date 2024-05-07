@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add points to a plotting region</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.points {circlize}"><tr><td>circos.points {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add points to a plotting region
+</h2>
+
+<h3>Description</h3>
+
+<p>Add points to a plotting region
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.points(
+    x, y,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    pch = par("pch"),
+    col = par("col"),
+    cex = par("cex"),
+    bg = par("bg"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data points on x-axis, measured in &quot;current&quot; data coordinate</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data points on y-axis, measured in &quot;current&quot; data coordinate</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Point type</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Point color</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Point size</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>backgrond of points</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can only add points in one specified cell. Pretending a low-level plotting
+function, it can only be applied in plotting region which has been created.
+</p>
+<p>You can think the function similar as the normal <code><a href="../../graphics/help/points.html">points</a></code>
+function, just adding points in the circular plotting region. The position of
+cell is identified by <code>sector.index</code> and <code>track.index</code>, if they are not
+specified, they are in 'current' sector and 'current' track.
+</p>
+<p>Data points out of the plotting region will also be added, but with warning messages.
+</p>
+<p>Other graphics parameters which are available in the function are <code>pch</code>, <code>col</code>
+and <code>cex</code> which have same meaning as those in the <code><a href="../../graphics/help/par.html">par</a></code>.
+</p>
+<p>It is recommended to use <code><a href="../../circlize/help/circos.points.html">circos.points</a></code> inside <code>panel.fun</code> in <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code> so that
+it draws points directly on &quot;curent&quot; cell.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#points">https://jokergoo.github.io/circlize_book/book/graphics.html#points</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.points(runif(10), runif(10))
+})
+circos.points(runif(10), runif(10), sector.index = "c", pch = 16, col = "red")
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

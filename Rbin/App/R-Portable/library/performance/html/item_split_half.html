@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Split-Half Reliability</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for item_split_half {performance}"><tr><td>item_split_half {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Split-Half Reliability</h2>
+
+<h3>Description</h3>
+
+<p>Compute various measures of internal consistencies
+for tests or item-scales of questionnaires.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+item_split_half(x, digits = 3)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix or a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Amount of digits for returned values.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function calculates the split-half reliability for items in
+<code>x</code>, including the Spearman-Brown adjustment. Splitting is done by
+selecting odd versus even columns in <code>x</code>. A value closer to 1
+indicates greater internal consistency.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with two elements: the split-half reliability <code>splithalf</code>
+and the Spearman-Brown corrected split-half reliability
+<code>spearmanbrown</code>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Spearman C. 1910. Correlation calculated from faulty data. British
+Journal of Psychology (3): 271-295. doi: <a href="https://doi.org/10.1111/j.2044-8295.1910.tb00206.x">10.1111/j.2044-8295.1910.tb00206.x</a>
+</p>
+</li>
+<li><p> Brown W. 1910. Some experimental results in the correlation of mental
+abilities. British Journal of Psychology (3): 296-322. doi: <a href="https://doi.org/10.1111/j.2044-8295.1910.tb00207.x">10.1111/j.2044-8295.1910.tb00207.x</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mtcars)
+x &lt;- mtcars[, c("cyl", "gear", "carb", "hp")]
+item_split_half(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

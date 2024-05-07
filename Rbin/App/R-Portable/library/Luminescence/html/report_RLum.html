@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a HTML-report for (RLum) objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for report_RLum {Luminescence}"><tr><td>report_RLum {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a HTML-report for (RLum) objects</h2>
+
+<h3>Description</h3>
+
+<p>Create a HTML-report for (RLum) objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+report_RLum(
+  object,
+  file = tempfile(),
+  title = "RLum.Report",
+  compact = TRUE,
+  timestamp = TRUE,
+  show_report = TRUE,
+  launch.browser = FALSE,
+  css.file = NULL,
+  quiet = TRUE,
+  clean = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>(<strong>required</strong>):
+The object to be reported on, preferably of any <code>RLum</code>-class.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+A character string naming the output file. If no filename is provided a
+temporary file is created.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+A character string specifying the title of the document.</p>
+</td></tr>
+<tr valign="top"><td><code>compact</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+When <code>TRUE</code> the following report components are hidden:
+<code style="white-space: pre;">@.pid</code>, <code style="white-space: pre;">@.uid</code>, <code>'Object structure'</code>, <code>'Session Info'</code>
+and only the first and last 5 rows of long matrices and data frames are shown.
+See details.</p>
+</td></tr>
+<tr valign="top"><td><code>timestamp</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+<code>TRUE</code> to add a timestamp to the filename (suffix).</p>
+</td></tr>
+<tr valign="top"><td><code>show_report</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): If set to <code>TRUE</code> the function tries to display
+the report output in the local viewer, e.g., within <em>RStudio</em> after rendering.</p>
+</td></tr>
+<tr valign="top"><td><code>launch.browser</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+<code>TRUE</code> to open the HTML file in the system's default web browser after
+it has been rendered.</p>
+</td></tr>
+<tr valign="top"><td><code>css.file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+Path to a CSS file to change the default styling of the HTML document.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+<code>TRUE</code> to suppress printing of the pandoc command line.</p>
+</td></tr>
+<tr valign="top"><td><code>clean</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+<code>TRUE</code> to clean intermediate files created during rendering.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods and to control
+the document's structure (see details).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function creates a HTML-report for a given object, listing its complete
+structure and content. The object itself is saved as a serialised .Rds file.
+The report file serves both as a convenient way of browsing through objects with
+complex data structures as well as a mean of properly documenting and saving
+objects.
+</p>
+<p>The HTML report is created with <a href="../../rmarkdown/help/render.html">rmarkdown::render</a> and has the
+following structure:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Section</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>Header</code> </td><td style="text-align: left;"> A summary of general characteristics of the object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">Object content</code> </td><td style="text-align: left;"> A comprehensive list of the complete structure and content of the provided object. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">Object structure</code> </td><td style="text-align: left;"> Summary of the objects structure given as a table </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>File</code> </td><td style="text-align: left;"> Information on the saved RDS file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">Session Info</code> </td><td style="text-align: left;"> Captured output from <code>sessionInfo()</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>Plots</code> </td><td style="text-align: left;"> (<em>optional</em>) For <code>RLum-class</code> objects a variable number of plots </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>The structure of the report can be controlled individually by providing one or more of the
+following arguments (all <code>logical</code>):
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Argument</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>header</code> </td><td style="text-align: left;"> Hide or show general information on the object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>main</code> </td><td style="text-align: left;"> Hide or show the object's content </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>structure</code> </td><td style="text-align: left;"> Hide or show object's structure </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>rds</code> </td><td style="text-align: left;"> Hide or show information on the saved RDS file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>session</code> </td><td style="text-align: left;"> Hide or show the session info </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>plot</code> </td><td style="text-align: left;"> Hide or show the plots (depending on object) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Note that these arguments have higher precedence than <code>compact</code>.
+</p>
+<p>Further options that can be provided via the <code>...</code> argument:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Argument</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>short_table</code> </td><td style="text-align: left;"> If <code>TRUE</code> only show the first and last 5 rows of long tables. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>theme</code> </td><td style="text-align: left;"> Specifies the Bootstrap
+theme to use for the report. Valid themes include <code>"default"</code>, <code>"cerulean"</code>, <code>"journal"</code>, <code>"flatly"</code>,
+<code>"readable"</code>, <code>"spacelab"</code>, <code>"united"</code>, <code>"cosmo"</code>, <code>"lumen"</code>, <code>"paper"</code>, <code>"sandstone"</code>,
+<code>"simplex"</code>, and <code>"yeti"</code>. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>highlight</code> </td><td style="text-align: left;"> Specifies the syntax highlighting style.
+Supported styles include <code>"default"</code>, <code>"tango"</code>, <code>"pygments"</code>, <code>"kate"</code>, <code>"monochrome"</code>,
+<code>"espresso"</code>, <code>"zenburn"</code>, <code>"haddock"</code>, and <code>"textmate"</code>. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>css</code> </td><td style="text-align: left;"> <code>TRUE</code> or <code>FALSE</code> to enable/disable custom CSS styling </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>The following arguments can be used to customise the report via CSS (Cascading Style Sheets):
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Argument</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>font_family</code> </td><td style="text-align: left;"> Define the font family of the HTML document (default: <code>"arial"</code>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>headings_size</code> </td><td style="text-align: left;"> Size of the <code style="white-space: pre;">&lt;h1&gt;</code> to <code style="white-space: pre;">&lt;h6&gt;</code> tags used to define HTML headings (default: 166%). </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>content_color</code> </td><td style="text-align: left;"> Colour of the object's content (default: #a72925). </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Note that these arguments must all be of class <a href="../../base/html/character.html">character</a> and follow standard CSS syntax.
+For exhaustive CSS styling you can provide a custom CSS file for argument <code>css.file</code>.
+CSS styling can be turned of using <code>css = FALSE</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Writes a HTML and .Rds file.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.4
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., Kreutzer, S., 2021. report_RLum(): Create a HTML-report for (RLum) objects. Function version 0.1.4. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function requires the R packages 'rmarkdown', 'pander' and 'rstudioapi'.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany),
+Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../rmarkdown/help/render.html">rmarkdown::render</a>, <a href="../../pander/help/pander_return.html">pander::pander_return</a>,
+<a href="../../pander/help/openFileInOS.html">pander::openFileInOS</a>, <a href="../../rstudioapi/help/viewer.html">rstudioapi::viewer</a>,
+<a href="../../utils/html/browseURL.html">browseURL</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+## Example: RLum.Results ----
+
+# load example data
+data("ExampleData.DeValues")
+
+# apply the MAM-3 age model and save results
+mam &lt;- calc_MinDose(ExampleData.DeValues$CA1, sigmab = 0.2)
+
+# create the HTML report
+report_RLum(object = mam, file = "~/CA1_MAM.Rmd",
+            timestamp = FALSE,
+            title = "MAM-3 for sample CA1")
+
+# when creating a report the input file is automatically saved to a
+# .Rds file (see saveRDS()).
+mam_report &lt;- readRDS("~/CA1_MAM.Rds")
+all.equal(mam, mam_report)
+
+
+## Example: Temporary file &amp; Viewer/Browser ----
+
+# (a)
+# Specifying a filename is not necessarily required. If no filename is provided,
+# the report is rendered in a temporary file. If you use the RStudio IDE, the
+# temporary report is shown in the interactive Viewer pane.
+report_RLum(object = mam)
+
+# (b)
+# Additionally, you can view the HTML report in your system's default web browser.
+report_RLum(object = mam, launch.browser = TRUE)
+
+
+## Example: RLum.Analysis ----
+
+data("ExampleData.RLum.Analysis")
+
+# create the HTML report (note that specifying a file
+# extension is not necessary)
+report_RLum(object = IRSAR.RF.Data, file = "~/IRSAR_RF")
+
+
+## Example: RLum.Data.Curve ----
+
+data.curve &lt;- get_RLum(IRSAR.RF.Data)[[1]]
+
+# create the HTML report
+report_RLum(object = data.curve, file = "~/Data_Curve")
+
+## Example: Any other object ----
+x &lt;- list(x = 1:10,
+          y = runif(10, -5, 5),
+          z = data.frame(a = LETTERS[1:20], b = dnorm(0:9)),
+          NA)
+
+report_RLum(object = x, file = "~/arbitray_list")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

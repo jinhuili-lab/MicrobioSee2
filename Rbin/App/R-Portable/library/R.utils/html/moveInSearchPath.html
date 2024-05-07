@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Moves a environment in the search path to another position</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for moveInSearchPath {R.utils}"><tr><td>moveInSearchPath {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Moves a environment in the search path to another position</h2>
+
+<h3>Description</h3>
+
+<p>Moves a environment in the search path to another position.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+moveInSearchPath(from, to, where=c("before", "after"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>An <code><a href="../../base/help/integer.html">integer</a></code> specifying the position of the environment
+to be moved, or a <code><a href="../../base/help/character.html">character</a></code> specifying the name of the environment
+to be moved.</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>The destination position like the <code>from</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>where</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specify where in relation to the
+destination position the environment should be moved.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It is not possible to move the first environment in the search path,
+i.e. the so called global environment.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the name of the environment moved, if it was
+moved, otherwise <code><a href="../../base/help/NULL.html">NULL</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/search.html">search</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  # Make package 'utils' come behind 'datasets' in the search path
+  moveInSearchPath("package:utils", "package:datasets", where="after")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

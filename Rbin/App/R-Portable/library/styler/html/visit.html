@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Visit'em all</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for visit {styler}"><tr><td>visit {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Visit'em all</h2>
+
+<h3>Description</h3>
+
+<p>Apply a list of functions to each level in a nested parse table.
+<code>pre_visit()</code> applies <code>funs</code> before it proceeds to the children,
+(that is, starts from the outermost level of nesting progressing
+to the innermost level), <code>post_visit()</code> proceeds to its children
+before applying the functions (meaning it first applies the functions
+to the innermost level of nesting first and then going outwards).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pre_visit(pd_nested, funs)
+
+pre_visit_one(pd_nested, fun)
+
+post_visit(pd_nested, funs)
+
+post_visit_one(pd_nested, fun)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>funs</code></td>
+<td>
+<p>A list of transformer functions.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other visitors: 
+<code><a href="../../styler/help/visit_one.html">visit_one</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

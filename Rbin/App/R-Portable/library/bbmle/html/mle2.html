@@ -1,0 +1,354 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Maximum Likelihood Estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mle2 {bbmle}"><tr><td>mle2 {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Maximum Likelihood Estimation</h2>
+
+<h3>Description</h3>
+
+<p>Estimate parameters by the method of maximum likelihood.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mle2(minuslogl, start, method, optimizer,
+    fixed = NULL, data=NULL,
+    subset=NULL,
+default.start=TRUE, eval.only = FALSE, vecpar=FALSE,
+parameters=NULL,
+parnames=NULL,
+skip.hessian=FALSE,
+hessian.opts=NULL,
+use.ginv=TRUE,
+trace=FALSE,
+browse_obj=FALSE,
+gr=NULL,
+optimfun,
+namedrop_args=TRUE,
+...)
+calc_mle2_function(formula,parameters, links, start,
+   parnames, use.deriv=FALSE, data=NULL,trace=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>minuslogl</code></td>
+<td>
+<p>Function to calculate negative log-likelihood,
+or a formula</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>Named list. Initial values for optimizer</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Optimization method to use. See <code><a href="../../stats/html/optim.html">optim</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>optimizer</code></td>
+<td>
+<p>Optimization function to use. Currently available
+choices are &quot;optim&quot; (the default), &quot;nlm&quot;, &quot;nlminb&quot;, &quot;constrOptim&quot;,
+&quot;optimx&quot;, and &quot;optimize&quot;. If &quot;optimx&quot; is used, (1) the <code>optimx</code>
+package must be explicitly loaded with <code><a href="../../base/html/load.html">load</a></code> or
+<code><a href="../../base/html/library.html">require</a></code>(<em>Warning:</em> Options other than the
+default may be poorly tested, use with caution.)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>Named list.  Parameter values to keep fixed during
+optimization.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>list of data to pass to negative log-likelihood function: must
+be specified if <code>minuslogl</code> is specified as a formula</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>logical vector for subsetting data (STUB)</p>
+</td></tr>
+<tr valign="top"><td><code>default.start</code></td>
+<td>
+<p>Logical: allow default values of <code>minuslogl</code>
+as starting values?</p>
+</td></tr>
+<tr valign="top"><td><code>eval.only</code></td>
+<td>
+<p>Logical: return value of <code>minuslogl(start)</code>
+rather than optimizing</p>
+</td></tr>
+<tr valign="top"><td><code>vecpar</code></td>
+<td>
+<p>Logical: is first argument a vector of all parameters?
+(For compatibility with <code><a href="../../stats/html/optim.html">optim</a></code>.)
+If <code>vecpar</code> is <code>TRUE</code>, then you should use
+<code><a href="../../bbmle/help/parnames.html">parnames</a></code> to define the parameter names for the
+negative log-likelihood function.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>List of linear models for parameters.
+<em>MUST BE SPECIFIED IN THE SAME ORDER as the start vector
+(this is a bug/restriction that I hope to fix soon, but in
+the meantime beware)</em></p>
+</td></tr>
+<tr valign="top"><td><code>links</code></td>
+<td>
+<p>(unimplemented) specify transformations of parameters</p>
+</td></tr>
+<tr valign="top"><td><code>parnames</code></td>
+<td>
+<p>List (or vector?) of parameter names</p>
+</td></tr>
+<tr valign="top"><td><code>gr</code></td>
+<td>
+<p>gradient function</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments to pass to optimizer</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula for the likelihood (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Logical: print parameter values tested?</p>
+</td></tr>
+<tr valign="top"><td><code>browse_obj</code></td>
+<td>
+<p>Logical: drop into browser() within the objective function?</p>
+</td></tr>
+<tr valign="top"><td><code>skip.hessian</code></td>
+<td>
+<p>Bypass Hessian calculation?</p>
+</td></tr>
+<tr valign="top"><td><code>hessian.opts</code></td>
+<td>
+<p>Options for Hessian calculation, passed through to
+the <code><a href="../../numDeriv/help/hessian.html">hessian</a></code> function</p>
+</td></tr>
+<tr valign="top"><td><code>use.ginv</code></td>
+<td>
+<p>Use generalized inverse (<code><a href="../../MASS/help/ginv.html">ginv</a></code>) to
+compute approximate variance-covariance</p>
+</td></tr>
+<tr valign="top"><td><code>optimfun</code></td>
+<td>
+<p>user-supplied optimization function. Must take exactly
+the same arguments and return exactly the same structure as <code><a href="../../stats/html/optim.html">optim</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>use.deriv</code></td>
+<td>
+<p>(experimental, not yet implemented): construct symbolic
+derivatives based on formula?</p>
+</td></tr>
+<tr valign="top"><td><code>namedrop_args</code></td>
+<td>
+<p>hack: drop names in sub-lists occurring in data?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code><a href="../../stats/html/optim.html">optim</a></code> optimizer is used to find the minimum of the
+negative log-likelihood.  An approximate covariance matrix for the
+parameters is obtained by inverting the Hessian matrix at the optimum.
+</p>
+<p>The <code>minuslogl</code> argument can also specify a formula,
+rather than an objective function, of the
+form <code>x~ddistn(param1,...,paramn)</code>.  In this case
+<code>ddistn</code> is taken to be a probability or density
+function, which must have (literally) <code>x</code> as its
+first argument (although this argument may be interpreted as
+a matrix of multivariate responses) and which must have
+a <code>log</code> argument that can be used to specify the
+log-probability or log-probability-density is required.
+If a formula is specified, then <code>parameters</code> can contain
+a list of linear models for the parameters.
+</p>
+<p>If a formula is given and non-trivial linear models are given
+in <code>parameters</code> for some of the variables, then
+model matrices will be generated using <code>model.matrix</code>.
+<code>start</code> can be given:
+</p>
+
+<ul>
+<li><p> as a list containing lists, with each list corresponding
+to the starting values for a particular parameter;
+</p>
+</li>
+<li><p> just for the higher-level parameters, in which case
+all of the additional parameters generated by <code>model.matrix</code>
+will be given starting values of zero (unless a no-intercept
+formula with <code>-1</code> is specified, in which case all the
+starting values for that parameter will be set equal)
+</p>
+</li>
+<li><p> (to be implemented!) as an exhaustive (flat) list
+of starting values (in the order given by <code>model.matrix</code>)
+</p>
+</li></ul>
+
+<p>The <code>trace</code> argument applies only when a formula is specified.
+If you specify a function, you can build in your own <code>print()</code>
+or <code>cat()</code> statement to trace its progress.  (You can also
+specify a value for <code>trace</code> as part of a <code>control</code>
+list for <code>optim()</code>: see <code><a href="../../stats/html/optim.html">optim</a></code>.)
+</p>
+<p>The <code>skip.hessian</code> argument is useful if the function is
+crashing with a &quot;non-finite finite difference value&quot; error when trying
+to evaluate the Hessian, but will preclude many subsequent
+confidence interval calculations.  (You will know the Hessian
+is failing if you use <code>method="Nelder-Mead"</code> and still
+get a finite-difference error.)
+</p>
+<p>If convergence fails, see the manual page of the
+relevant optimizer (<code><a href="../../stats/html/optim.html">optim</a></code> by default,
+but possibly <code><a href="../../stats/html/nlm.html">nlm</a></code>, <code><a href="../../stats/html/nlminb.html">nlminb</a></code>,
+<code><a href="../../optimx/help/optimx.html">optimx</a></code>, or <code><a href="../../stats/html/constrOptim.html">constrOptim</a></code>
+if you have set the value of <code>optimizer</code>)
+for the meanings of the error codes/messages.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"mle2"</code>.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>Do not use a higher-level variable named <code>.i</code> in
+<code>parameters</code> &ndash; this is reserved for internal use.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Note that the <code>minuslogl</code> function should
+return the negative log-likelihood, -log L (not
+the log-likelihood, log L, nor the deviance, -2 log L). It
+is the user's responsibility
+to ensure that the likelihood is correct, and that
+asymptotic likelihood inference is valid (e.g.
+that there are &quot;enough&quot; data and that the
+estimated parameter values do not lie on the
+boundary of the feasible parameter space).
+</p>
+<p>If <code>lower</code>, <code>upper</code>, <code>control$parscale</code>,
+or <code>control$ndeps</code> are specified for <code>optim</code>
+fits, they must be named vectors.
+</p>
+<p>The requirement that <code>data</code> be specified when using
+the formula interface is relatively new: it saves many
+headaches on the programming side when evaluating the
+likelihood function later on (e.g. for profiling or
+constructing predictions).  Since <code>data.frame</code> uses
+the names of its arguments as column names by default, it
+is probably the easiest way to package objects that are
+lying around in the global workspace for use in <code>mle2</code>
+(provided they are all of the same length).
+</p>
+<p>When <code>optimizer</code> is set to &quot;optimx&quot; and multiple
+optimization methods are used (i.e. the <code>methods</code>
+argument has more than one element, or <code>all.methods=TRUE</code>
+is set in the control options), the best (minimum
+negative log-likelihood) solution will be saved,
+regardless of reported convergence status
+(and future operations such as profiling on the fit
+will only use the method that found the best result).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../bbmle/help/mle2-class.html">mle2-class</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 0:10
+y &lt;- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+d &lt;- data.frame(x,y)
+
+## in general it is best practice to use the `data' argument,
+##  but variables can also be drawn from the global environment
+LL &lt;- function(ymax=15, xhalf=6)
+    -sum(stats::dpois(y, lambda=ymax/(1+x/xhalf), log=TRUE))
+## uses default parameters of LL
+(fit &lt;- mle2(LL))
+fit1F &lt;- mle2(LL, fixed=list(xhalf=6))
+coef(fit1F)
+coef(fit1F,exclude.fixed=TRUE)
+
+(fit0 &lt;- mle2(y~dpois(lambda=ymean),start=list(ymean=mean(y)),data=d))
+anova(fit0,fit)
+summary(fit)
+logLik(fit)
+vcov(fit)
+p1 &lt;- profile(fit)
+plot(p1, absVal=FALSE)
+confint(fit)
+
+## use bounded optimization
+## the lower bounds are really &gt; 0, but we use &gt;=0 to stress-test
+## profiling; note lower must be named
+(fit1 &lt;- mle2(LL, method="L-BFGS-B", lower=c(ymax=0, xhalf=0)))
+p1 &lt;- profile(fit1)
+
+plot(p1, absVal=FALSE)
+## a better parameterization:
+LL2 &lt;- function(lymax=log(15), lxhalf=log(6))
+    -sum(stats::dpois(y, lambda=exp(lymax)/(1+x/exp(lxhalf)), log=TRUE))
+(fit2 &lt;- mle2(LL2))
+plot(profile(fit2), absVal=FALSE)
+exp(confint(fit2))
+vcov(fit2)
+cov2cor(vcov(fit2))
+
+mle2(y~dpois(lambda=exp(lymax)/(1+x/exp(lhalf))),
+   start=list(lymax=0,lhalf=0),
+   data=d,
+   parameters=list(lymax~1,lhalf~1))
+
+## Not run: 
+## try bounded optimization with nlminb and constrOptim
+(fit1B &lt;- mle2(LL, optimizer="nlminb", lower=c(lymax=1e-7, lhalf=1e-7)))
+p1B &lt;- profile(fit1B)
+confint(p1B)
+(fit1C &lt;- mle2(LL, optimizer="constrOptim", ui = c(lymax=1,lhalf=1), ci=2,
+   method="Nelder-Mead"))
+
+set.seed(1001)
+lymax &lt;- c(0,2)
+lhalf &lt;- 0
+x &lt;- sort(runif(200))
+g &lt;- factor(sample(c("a","b"),200,replace=TRUE))
+y &lt;- rnbinom(200,mu=exp(lymax[g])/(1+x/exp(lhalf)),size=2)
+d2 &lt;- data.frame(x,g,y)
+
+fit3 &lt;- mle2(y~dnbinom(mu=exp(lymax)/(1+x/exp(lhalf)),size=exp(logk)),
+    parameters=list(lymax~g),data=d2,
+    start=list(lymax=0,lhalf=0,logk=0))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

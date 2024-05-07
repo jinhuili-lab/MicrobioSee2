@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot with repeated symbols by size</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sizeplot {plotrix}"><tr><td>sizeplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot with repeated symbols by size</h2>
+
+<h3>Description</h3>
+
+<p>Plots a set of (x,y) data with repeated points denoted by larger
+symbol sizes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ sizeplot(x, y, scale=1, pow=0.5, powscale=TRUE, size=c(1,4), add=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>x coordinates of data</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>y coordinates of data</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>scaling factor for size of symbols</p>
+</td></tr>
+<tr valign="top"><td><code>pow</code></td>
+<td>
+<p>power exponent for size of symbols</p>
+</td></tr>
+<tr valign="top"><td><code>powscale</code></td>
+<td>
+<p>(logical) use power scaling for symbol size?</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>(numeric vector) min and max size for scaling, if powscale=FALSE</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>(logical) add to an existing plot?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments to <span class="samp">plot()</span> or <span class="samp">points()</span></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Most useful for plotting (e.g.) discrete data, where repeats are
+likely.  If all points are repeated equally, gives a warning.  The
+size of a point is given by <i>scale*n^pow</i>, where n is the number of
+repeats, if powscale is TRUE, or it is scaled between size[1] and size[2],
+if powscale is FALSE.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A plot is produced on the current device, or points are added to the
+current plot if <span class="samp">add=TRUE</span>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/symbols.html">symbols</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x &lt;- c(0.1,0.1,0.1,0.1,0.1,0.2,0.2,0.2,0.2,0.3,0.3)
+ y &lt;- c( 1,  1,  1,  1,  2,  2,  2,  3,  3,  4,  5 )
+ plot(x,y)
+ sizeplot(x,y)
+ sizeplot(x,y,pch=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

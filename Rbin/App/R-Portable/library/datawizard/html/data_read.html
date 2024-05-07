@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read (import) data files from various sources</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_read {datawizard}"><tr><td>data_read {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read (import) data files from various sources</h2>
+
+<h3>Description</h3>
+
+<p>This functions imports data from various file types. It is a small wrapper
+around <code>haven::read_spss()</code>, <code>haven::read_stata()</code>, <code>haven::read_sas()</code>,
+<code>readxl::read_excel()</code> and <code>data.table::fread()</code> resp. <code>readr::read_delim()</code>
+(the latter if package <strong>data.table</strong> is not installed). Thus, supported file
+types for importing data are data files from SPSS, SAS or Stata, Excel files
+or text files (like '.csv' files). All other file types are passed to
+<code>rio::import()</code>. <code>data_write()</code> works in a similar way.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_read(
+  path,
+  path_catalog = NULL,
+  encoding = NULL,
+  convert_factors = TRUE,
+  verbose = TRUE,
+  ...
+)
+
+data_write(
+  data,
+  path,
+  delimiter = ",",
+  convert_factors = FALSE,
+  save_labels = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Character string, the file path to the data file.</p>
+</td></tr>
+<tr valign="top"><td><code>path_catalog</code></td>
+<td>
+<p>Character string, path to the catalog file. Only relevant
+for SAS data files.</p>
+</td></tr>
+<tr valign="top"><td><code>encoding</code></td>
+<td>
+<p>The character encoding used for the file. Usually not needed.</p>
+</td></tr>
+<tr valign="top"><td><code>convert_factors</code></td>
+<td>
+<p>If <code>TRUE</code> (default), numeric variables, where all
+values have a value label, are assumed to be categorical and converted
+into factors. If <code>FALSE</code>, no variable types are guessed and no conversion
+of numeric variables into factors will be performed. See also section
+'Differences to other packages'. For <code>data_write()</code>, this argument only
+applies to the text (e.g. <code>.txt</code> or <code>.csv</code>) or spreadsheet file formats (like
+<code>.xlsx</code>). Converting to factors might be useful for these formats because
+labelled numeric variables are then converted into factors and exported as
+character columns - else, value labels would be lost and only numeric values
+are written to the file.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to the related <code style="white-space: pre;">read_*()</code> or <code style="white-space: pre;">write_*()</code> functions.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data frame that should be written to a file.</p>
+</td></tr>
+<tr valign="top"><td><code>delimiter</code></td>
+<td>
+<p>For CSV-files, specifies the delimiter. Defaults to <code>","</code>,
+but in particular in European regions, <code>";"</code> might be a useful alternative,
+especially when exported CSV-files should be opened in Excel.</p>
+</td></tr>
+<tr valign="top"><td><code>save_labels</code></td>
+<td>
+<p>Only applies to CSV files. If <code>TRUE</code>, value and variable
+labels (if any) will be saved as additional CSV file. This file has the same
+file name as the exported CSV file, but includes a <code>"_labels"</code> suffix (i.e.
+when the file name is <code>"mydat.csv"</code>, the additional file with value and
+variable labels is named <code>"mydat_labels.csv"</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Supported file types</h3>
+
+
+<ul>
+<li> <p><code>data_read()</code> is a wrapper around the <strong>haven</strong>, <strong>data.table</strong>, <strong>readr</strong>
+<strong>readxl</strong> and <strong>rio</strong> packages. Currently supported file types are <code>.txt</code>,
+<code>.csv</code>, <code>.xls</code>, <code>.xlsx</code>, <code>.sav</code>, <code>.por</code>, <code>.dta</code> and <code>.sas</code> (and related
+files). All other file types are passed to <code>rio::import()</code>.
+</p>
+</li>
+<li> <p><code>data_write()</code> is a wrapper around <strong>haven</strong>, <strong>readr</strong> and <strong>rio</strong>
+packages, and supports writing files into all formats supported by these
+packages.
+</p>
+</li></ul>
+
+
+
+<h3>Compressed files (zip) and URLs</h3>
+
+<p><code>data_read()</code> can also read the above mentioned files from URLs or from
+inside zip-compressed files. Thus, <code>path</code> can also be a URL to a file like
+<code>"http://www.url.com/file.csv"</code>. When <code>path</code> points to a zip-compressed file,
+and there are multiple files inside the zip-archive, then the first supported
+file is extracted and loaded.
+</p>
+
+
+<h3>General behaviour</h3>
+
+<p><code>data_read()</code> detects the appropriate <code style="white-space: pre;">read_*()</code> function based on the
+file-extension of the data file. Thus, in most cases it should be enough to
+only specify the <code>path</code> argument. However, if more control is needed, all
+arguments in <code>...</code> are passed down to the related <code style="white-space: pre;">read_*()</code> function. The
+same applies to <code>data_write()</code>, i.e. based on the file extension provided in
+<code>path</code>, the appropriate <code style="white-space: pre;">write_*()</code> function is used automatically.
+</p>
+
+
+<h3>SPSS specific behaviour</h3>
+
+<p><code>data_read()</code> does <em>not</em> import user-defined (&quot;tagged&quot;) <code>NA</code> values from
+SPSS, i.e. argument <code>user_na</code> is always set to <code>FALSE</code> when importing SPSS
+data with the <strong>haven</strong> package. Use <code>convert_to_na()</code> to define missing
+values in the imported data, if necessary. Furthermore, <code>data_write()</code>
+compresses SPSS files by default. If this causes problems with (older) SPSS
+versions, use <code>compress = "none"</code>, for example
+<code>data_write(data, "myfile.sav", compress = "none")</code>.
+</p>
+
+
+<h3>Differences to other packages that read foreign data formats</h3>
+
+<p><code>data_read()</code> is most comparable to <code>rio::import()</code>. For data files from
+SPSS, SAS or Stata, which support labelled data, variables are converted into
+their most appropriate type. The major difference to <code>rio::import()</code> is that
+<code>data_read()</code> automatically converts fully labelled numeric variables into
+factors, where imported value labels will be set as factor levels. If a
+numeric variable has <em>no</em> value labels or less value labels than values, it
+is not converted to factor. In this case, value labels are preserved as
+<code>"labels"</code> attribute. Character vectors are preserved.  Use
+<code>convert_factors = FALSE</code> to remove the automatic conversion of numeric
+variables to factors.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

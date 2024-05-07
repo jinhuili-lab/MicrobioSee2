@@ -1,0 +1,186 @@
+Version 0.31
+    o New function inside(), as an alternative to the base function within()
+    o New function scan.clipboard()
+    o New argument "protect" in function replaceText()
+    o Function using() is now generic, with exactly the same default
+      functionality as the base function with()
+
+Version 0.30
+    o Improved treatment of multi-byte space characters in functions
+      possibleNumeric() and asNumeric()
+    o Function using() now accepts all types of variables for the "split.by"
+      argument, that can be coerced to factors
+
+Version 0.29
+    o Functions asNumeric() and recode() are now generic, with class methods for
+      factors and objects of class "declared"
+    o New arguments "na_values" (for declared objects) in function recode()
+    o Improved function getName() for more than one variable
+    o New argument "object" in function getName()
+
+Version 0.28
+    o Bug fix in asNumeric() preserving classes for some types of objects
+    o New arguments "levels" and "na_values" in function asNumeric()
+
+Version 0.27
+    o New argument "maxdec" in function numdec()
+    o Correct way of checking the package QCA version for simplify()
+    o More robust way to calculate expressions even when a condition is
+      numeric, but of character mode
+
+Version 0.26
+    o New function numdec() to count the number of decimals in a possibly
+      numeric value
+    o Improved treatment of the "split.by" argument in function using()
+    o Rewritten print method for resulting objects from function using(), now
+      of a more general class "admisc_fobject"
+    o Printing numerical vectors of class "admisc_fobject" are now automatically
+      rounded to maximum three decimals
+
+Version 0.25
+    o Bug fix in function using(), function names were sometimes misinterpreted
+      as column names in the data
+    o Functions obj.rda() and list.rda() renamed to objRDA() and listRDA()
+    o Dropped functions obj.rdata() and list.rdata()
+
+Version 0.24
+    o Fixed issue with too large whole numbers to be coerced to integers
+      (thanks to Sarah Goslee for the report)
+    o Function wholeNumeric() now returns FALSE for characters, instead of NA
+
+Version 0.23
+    o Bug fix in mvSOP(), for situations when some conditions are not present
+      in the data
+    o Bug fix in compute(), avoiding situations when mvSOP() fails
+    o Improved possibleNumeric() and wholeNumeric() for logical vectors
+    o New argument "bincat" for equality check functions
+      (thanks to Brice Richard for the suggestion)
+
+Version 0.22
+    o Improved function tryCatchWEM(), now also returning the actual output value
+      (thanks to John Fox for the suggestion)
+    o New argument "regexp" to all brackets functions, extending functionality
+      for any general purpose (thanks to Brice Richard for the suggestion)
+    o New function using(), allowing to evaluate an expression in every subset
+      of a split file
+    o New function hclr(), to produce colors from the HCL spectrum
+    o New function coerceMode(), to coerce objects to numeric or integer, if at
+      all possible
+    
+Version 0.21
+    o Bug fix in function negate(), expressions were not properly concatenated
+      (thanks to Alessandra Costa for the report)
+    
+Version 0.20
+    o New argument "each" in functions possibleNumeric() and wholeNumeric()
+    
+Version 0.19
+    o New function asSOP(), to coerce a POS expression to a standard SOP format
+    o New function mvSOP(), to coerce an expression from crisp set notation to
+      multi-value notation
+    
+Version 0.18
+    o Fixed bug affecting the function negate() when the SOP expression contains
+      a single condition in one of the conjuncts / products
+      (thanks to Michael Baumgartner for the report)
+    o Fixed bug in asNumeric() preventing certain character objects of class
+      "haven_labelled" to be converted as numeric
+    o Improved function stopError(), printing error messages containing newline
+      characters
+    
+Version 0.17
+    o More robust support for multi-byte locales when detecting tilde and
+      dash operators
+    o Fixed bug in possibleNumeric() for objects of class declared
+    
+Version 0.16
+    o New functions agtb(), altb() and aneqb() to test (in)equality of floats
+    o New utility function getName() to return the name of the object being
+      used in a function call
+    o Fixed bug when recoding objects of class "declared"
+    o Fixed bug detecting multibyte strings
+      
+Version 0.15
+    o possibleNumeric() and asNumeric() are now more robust in situations
+      with invalid multibyte strings
+    o Argument "cuts" renamed to "cut" in function recode()
+    o Fixed bug in function recode() that prevented creating ordered
+      factors
+      
+Version 0.12
+    o Solved bug in function translate() when called from plumber or
+      callr (thanks to Trevor Strobel for the report)
+    o Solved bug in dealing with expressions containing brackets with
+      single letter conditions and no star signs to indicate conjunctions
+    o New functions list.rda() and names.rda()
+    o Small improvement of the recode() function
+
+Version 0.11
+    o New function finvert(), to invert a factor's values (and optional
+      its levels)
+    o New function frelevel(), an improved version of the base relevel()
+    o New function permutations()
+    o Improved version of combnk(), to cover input vectors of any type
+    o Improved error trapping for functions negate() and simplify, when
+      dealing with multivalue expressions
+      
+Version 0.10
+    o Minor, internal functionality changes
+      
+Version 0.9
+    o Solved bug in translate() recognizing column names for datasets with more
+      than 27 columns (thanks to Sophia Birchinger for the report)
+    o New function export(), moved here from package QCA
+      
+Version 0.8
+    o Extended functionality to other types of vectors, such as having the 
+      class "haven_labelled"
+    o Novel way of recognizing SOP expressions, even without quotes
+    o New utility function recreate() to facilitate substitution
+
+Version 0.7
+    o Minor modification in function simplify(), to avoid the check error
+      from the CRAN servers for the OS X platform
+
+Version 0.6
+    o Major modification (and *not* backwards compatible!) with respect to
+      denoting negations. Using upper and lower case letters for presence and
+      absence is no longer supported, a tilde being the only and the default
+      method to signal a negation (thanks to Charles Ragin for making the point)
+    o Removed deprecated argument "use.tilde" from all related functions
+    o All functions treating a DNF/SOP expression now obey this major
+      (and not backwards compatible) change denoting a negation. Upper
+      and lower case conditions are no longer supported
+    o All printing classes are now prefixed with "admisc", to avoid possible
+      namespace collisions with (previous) versions of package QCA
+    o New function invert() to convert a SOP expression to a POS expression
+      (thanks to Charles Ragin for the suggestion)
+    o New function expand() to perform a full or a partial Quine expansion
+      to a SOP expression
+
+Version 0.5
+    o Functions compute(), factorize(), intersection(), negate()
+      and simplify(), moved here from package QCA
+    o New function replaceText()
+    o Minor changes to internal functions getInfo() and getLevels()
+    o Improved function translate() using replaceText(), now better
+      suited in dealing with set names of variable number of
+      characters, including space
+    o As a result, argument "snames" from function venn() can deal with
+      spaces in set names (thanks to Andre Gohr for the suggestion) 
+
+Version 0.4
+    o Fixed small printing bug in possibleNumeric()
+    o Function translate() is now more robust against non-printable
+      characters
+
+Version 0.3
+    o Function combinations() renamed to combnk()
+    o Improved function possibleNumeric() to deal with objects of
+      class "haven_labelled"
+
+Version 0.2
+    o Function combinations() renamed to combnk()
+
+Version 0.1
+    o Start of the package

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Zoom in on a map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zoom {raster}"><tr><td>zoom {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Zoom in on a map</h2>
+
+<h3>Description</h3>
+
+<p>Zoom in on a map (plot) by providing a new extent, by default this is done by clicking twice on the map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+zoom(x, ...) 
+## S4 method for signature 'Raster'
+zoom(x, ext=drawExtent(), maxpixels=100000, layer=1, new=TRUE, useRaster=TRUE, ...)
+
+## S4 method for signature 'Spatial'
+zoom(x, ext=drawExtent(), new=TRUE, ...)
+
+## S4 method for signature 'missing'
+zoom(x, ext=drawExtent(), new=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Spatial* (vector type) object</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent object, or other object from which an extent can be extracted</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>Maximum number of pixels used for the map</p>
+</td></tr>
+<tr valign="top"><td><code>layer</code></td>
+<td>
+<p>Positive integer to select the layer to be used if x is a mutilayer Raster object</p>
+</td></tr>
+<tr valign="top"><td><code>new</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the zoomed in map will appear on a new device (window)</p>
+</td></tr>
+<tr valign="top"><td><code>useRaster</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, a bitmap raster is used to plot the image instead of polygons</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional paramters for base plot</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Extent object (invisibly)
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/drawExtent.html">drawExtent</a></code>, <code><a href="../help/plot.html">plot</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

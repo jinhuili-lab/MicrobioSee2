@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set the NA value of a RasterLayer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for NAvalue {raster}"><tr><td>NAvalue {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set the NA value of a RasterLayer </h2>
+
+<h3>Description</h3>
+
+<p>NAvalue returns the value that is used to write NA values to disk (in 'raster' type files). 
+If you set the NA value of a Raster* object, this value will be interpreted as NA when reading the values from a file. 
+Values already in memory will not be affected. 
+</p>
+<p>If the NA value is smaller than zero, all values smaller or equal to that number will be set to NA.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+NAvalue(x) &lt;- value
+NAvalue(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>Raster</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>the value to be interpreted as NA; set this before reading the values from the file. Integer values are matched exactly; for decimal values files any value &lt;= the value will be interpreted as NA</p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns or set the NA value used for storage on disk.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r1 &lt;- raster(system.file("external/rlogo.grd", package="raster"))
+r2 &lt;- r1
+NAvalue(r2)
+NAvalue(r2) &lt;- 255
+#plot(r1)
+#x11()
+#plot(r2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

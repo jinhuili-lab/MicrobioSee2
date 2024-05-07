@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Difficulty of Questionnaire Items</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for item_difficulty {performance}"><tr><td>item_difficulty {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Difficulty of Questionnaire Items</h2>
+
+<h3>Description</h3>
+
+<p>Compute various measures of internal consistencies
+for tests or item-scales of questionnaires.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+item_difficulty(x, maximum_value = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Depending on the function, <code>x</code> may be a <code>matrix</code> as
+returned by the <code>cor()</code>-function, or a data frame
+with items (e.g. from a test or questionnaire).</p>
+</td></tr>
+<tr valign="top"><td><code>maximum_value</code></td>
+<td>
+<p>Numeric value, indicating the maximum value of an item.
+If <code>NULL</code> (default), the maximum is taken from the maximum value of all
+columns in <code>x</code> (assuming that the maximum value at least appears once in
+the data). If <code>NA</code>, each item's maximum value is taken as maximum. If the
+required maximum value is not present in the data, specify the theoreritcal
+maximum using <code>maximum_value</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><em>Item difficutly</em> of an item is defined as the quotient of the sum
+actually achieved for this item of all and the maximum achievable score.
+This function calculates the item difficulty, which should range between
+0.2 and 0.8. Lower values are a signal for more difficult items, while
+higher values close to one are a sign for easier items. The ideal value
+for item difficulty is <code>p + (1 - p) / 2</code>, where <code>p = 1 / max(x)</code>. In most
+cases, the ideal item difficulty lies between 0.5 and 0.8.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with three columns: The name(s) of the item(s), the item
+difficulties for each item, and the ideal item difficulty.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Bortz, J., and Döring, N. (2006). Quantitative Methoden der Datenerhebung.
+In J. Bortz and N. Döring, Forschungsmethoden und Evaluation. Springer:
+Berlin, Heidelberg: 137–293
+</p>
+</li>
+<li><p> Kelava A, Moosbrugger H (2020). Deskriptivstatistische Itemanalyse und
+Testwertbestimmung. In: Moosbrugger H,  Kelava A, editors. Testtheorie und
+Fragebogenkonstruktion. Berlin, Heidelberg: Springer, 143–158
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mtcars)
+x &lt;- mtcars[, c("cyl", "gear", "carb", "hp")]
+item_difficulty(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check model for independence of residuals.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_autocorrelation {performance}"><tr><td>check_autocorrelation {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check model for independence of residuals.</h2>
+
+<h3>Description</h3>
+
+<p>Check model for independence of residuals, i.e. for autocorrelation
+of error terms.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_autocorrelation(x, ...)
+
+## Default S3 method:
+check_autocorrelation(x, nsim = 1000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A model object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+<p>Number of simulations for the Durbin-Watson-Test.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Performs a Durbin-Watson-Test to check for autocorrelated residuals.
+In case of autocorrelation, robust standard errors return more accurate
+results for the estimates, or maybe a mixed model with error term for the
+cluster groups should be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns the p-value of the test statistics. A p-value &lt; 0.05
+indicates autocorrelated residuals.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other functions to check model assumptions and and assess model quality: 
+<code><a href="../../performance/help/check_collinearity.html">check_collinearity</a>()</code>,
+<code><a href="../../performance/help/check_convergence.html">check_convergence</a>()</code>,
+<code><a href="../../performance/help/check_heteroscedasticity.html">check_heteroscedasticity</a>()</code>,
+<code><a href="../../performance/help/check_homogeneity.html">check_homogeneity</a>()</code>,
+<code><a href="../../performance/help/check_model.html">check_model</a>()</code>,
+<code><a href="../../performance/help/check_outliers.html">check_outliers</a>()</code>,
+<code><a href="../../performance/help/check_overdispersion.html">check_overdispersion</a>()</code>,
+<code><a href="../../performance/help/check_predictions.html">check_predictions</a>()</code>,
+<code><a href="../../performance/help/check_singularity.html">check_singularity</a>()</code>,
+<code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+m &lt;- lm(mpg ~ wt + cyl + gear + disp, data = mtcars)
+check_autocorrelation(m)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add circular dendrograms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.dendrogram {circlize}"><tr><td>circos.dendrogram {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add circular dendrograms
+</h2>
+
+<h3>Description</h3>
+
+<p>Add circular dendrograms
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.dendrogram(
+    dend,
+    facing = c("outside", "inside"),
+    max_height = NULL,
+    use_x_attr = FALSE,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dend</code></td>
+<td>
+<p>A <code><a href="../../stats/help/dendrogram.html">dendrogram</a></code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>Is the dendromgrams facing inside to the circle or outside?</p>
+</td></tr>
+<tr valign="top"><td><code>max_height</code></td>
+<td>
+<p>Maximum height of the dendrogram. This is important if more than one dendrograms are drawn in one track and making them comparable. The height of a dendrogram can be obtained by <code>attr(dend, "height")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>use_x_attr</code></td>
+<td>
+<p>Whether use the <code>x</code> attribute to determine node positions in the dendrogram, used internally.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index of sector.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index of track.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Assuming there are <code>n</code> nodes in the dendrogram, the positions for leaves on x-axis are always <code>0.5, 1.5, ..., n - 0.5</code>.
+So you must be careful with <code>xlim</code> when you initialize the cirular layout.
+</p>
+<p>You can use the <code>dendextend</code> package to render the dendrograms.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-plots.html#phylogenetic-trees">https://jokergoo.github.io/circlize_book/book/high-level-plots.html#phylogenetic-trees</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+load(system.file(package = "circlize", "extdata", "bird.orders.RData"))
+
+labels = hc$labels  # name of birds
+ct = cutree(hc, 6)  # cut tree into 6 pieces
+n = length(labels)  # number of bird species
+dend = as.dendrogram(hc)
+
+circos.par(cell.padding = c(0, 0, 0, 0))
+circos.initialize(sectors = "a", xlim = c(0, n)) # only one sector
+max_height = attr(dend, "height")  # maximum height of the trees
+circos.trackPlotRegion(ylim = c(0, 1), bg.border = NA, track.height = 0.3,
+    panel.fun = function(x, y) {
+        for(i in seq_len(n)) {
+            circos.text(i-0.5, 0, labels[i], adj = c(0, 0.5),
+                facing = "clockwise", niceFacing = TRUE,
+                col = ct[labels[i]], cex = 0.7)
+        }
+})
+
+suppressPackageStartupMessages(require(dendextend))
+dend = color_branches(dend, k = 6, col = 1:6)
+
+circos.trackPlotRegion(ylim = c(0, max_height), bg.border = NA,
+    track.height = 0.4, panel.fun = function(x, y) {
+        circos.dendrogram(dend, max_height = max_height)
+})
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

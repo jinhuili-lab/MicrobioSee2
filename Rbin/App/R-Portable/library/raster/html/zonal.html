@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Zonal statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zonal {raster}"><tr><td>zonal {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Zonal statistics</h2>
+
+<h3>Description</h3>
+
+<p>Compute zonal statistics, that is summarized values of a Raster* object for each &quot;zone&quot; defined by a RasterLayer. 
+</p>
+<p>If <code>stat</code> is a true <code>function</code>, <code>zonal</code> will fail (gracefully) for very large Raster objects, but it will in most cases work for functions that can be defined as by a character argument ('mean', 'sd', 'min', 'max', or 'sum'). In addition you can use 'count' to count the number of cells in each zone (only useful with <code>na.rm=TRUE</code>, otherwise <code>freq(z)</code> would be more direct.
+</p>
+<p>If a function is used, it should accept a <code>na.rm</code> argument (or at least a <code>...</code> argument)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,RasterLayer'
+zonal(x, z, fun='mean', digits=0, na.rm=TRUE, ...) 
+
+## S4 method for signature 'RasterStackBrick,RasterLayer'
+zonal(x, z, fun='mean', digits=0, na.rm=TRUE, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>RasterLayer with codes representing zones</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function to be applied to summarize the values by zone. Either as character: 'mean', 'sd', 'min', 'max', 'sum'; or, for relatively small Raster* objects, a proper function</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer. Number of digits to maintain in 'zones'. By default averaged to an integer (zero digits)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, <code>NA</code> values in <code>x</code> are ignored</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. One implemented: <code>progress</code>, as in <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A matrix with a value for each zone (unique value in <code>zones</code>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p> See <code><a href="../../raster/help/cellStats.html">cellStats</a></code> for 'global' statistics (i.e., all of <code>x</code> is considered a single zone), and <code><a href="../../raster/help/extract.html">extract</a></code> for summarizing values for polygons</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=10, nrows=10)
+values(r) &lt;- runif(ncell(r)) * 1:ncell(r)
+z &lt;- r
+values(z) &lt;- rep(1:5, each=20)
+# for large files, use a character value rather than a function
+zonal(r, z, 'sum')
+
+# for smaller files you can also provide a function
+## Not run: 
+zonal(r, z, mean)
+zonal(r, z, min)
+
+## End(Not run)
+
+# multiple layers
+zonal(stack(r, r*10), z, 'sum')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

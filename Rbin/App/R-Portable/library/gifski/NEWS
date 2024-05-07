@@ -1,0 +1,32 @@
+1.6.6-1
+  - Fix for legacy Windows Vista/2008 (for the old winbuilder)
+
+1.6.6
+  - Update vendored gifski to upstream 1.6.6
+  - Note gifski 1.6.6 requires at least Rust 1.56 / Windows 7. On older
+    systems we fall back on the previous gifski 1.4.3 version. This
+    includes the old CRAN winbuilder used for R < 4.2.
+
+1.4.3-1:
+  - Add libgifski ucrt64 binary
+
+1.4.3
+  - Major update in gifski rust library. This also required different
+    threading implementation in the bindings.
+
+0.8.7.1
+  - Add workaround for compiling with old rustc compilers
+  - Add workaround for linking error with experimental UCRT toolchain
+
+0.8.7
+  - CRAN insists that we override the standard cargo/rust behaviour which
+    stores registry and crate data in ~/.cargo, because policy. So we now
+    build with CARGO_HOME set to a temporary dir that is deleted afterwards.
+    This probably makes this slower and more error prone, but I don't make
+    these rules.
+
+0.8.6
+  - Update gifski crate to 0.8.6
+  - save_gif() now properly closes graphics device when expr errors
+  - More rubust C code to prevent segfaults on write errors
+  - File paths are now converted to UTF-8 as described in gifski.h

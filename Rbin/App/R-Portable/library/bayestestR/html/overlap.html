@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Overlap Coefficient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for overlap {bayestestR}"><tr><td>overlap {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Overlap Coefficient</h2>
+
+<h3>Description</h3>
+
+<p>A method to calculate the overlap coefficient between two empirical distributions (that can be used as a measure of similarity between two samples).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+overlap(
+  x,
+  y,
+  method_density = "kernel",
+  method_auc = "trapezoid",
+  precision = 2^10,
+  extend = TRUE,
+  extend_scale = 0.1,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector of x values.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Vector of x values.</p>
+</td></tr>
+<tr valign="top"><td><code>method_density</code></td>
+<td>
+<p>Density estimation method. See <code><a href="../../bayestestR/help/estimate_density.html">estimate_density()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method_auc</code></td>
+<td>
+<p>Area Under the Curve (AUC) estimation method. See <code><a href="../../bayestestR/help/area_under_curve.html">area_under_curve()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>precision</code></td>
+<td>
+<p>Number of points of density data. See the <code>n</code> parameter in <code>density</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>extend</code></td>
+<td>
+<p>Extend the range of the x axis by a factor of <code>extend_scale</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>extend_scale</code></td>
+<td>
+<p>Ratio of range by which to extend the x axis. A value of <code>0.1</code>
+means that the x axis will be extended by <code>1/10</code> of the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+
+x &lt;- distribution_normal(1000, 2, 0.5)
+y &lt;- distribution_normal(1000, 0, 1)
+
+overlap(x, y)
+plot(overlap(x, y))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

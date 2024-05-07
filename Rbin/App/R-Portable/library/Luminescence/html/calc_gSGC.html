@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate De value based on the gSGC by Li et al., 2015</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_gSGC {Luminescence}"><tr><td>calc_gSGC {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate De value based on the gSGC by Li et al., 2015</h2>
+
+<h3>Description</h3>
+
+<p>Function returns De value and De value error using the global standardised growth
+curve (gSGC) assumption proposed by Li et al., 2015 for OSL dating of sedimentary quartz
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_gSGC(
+  data,
+  gSGC.type = "0-250",
+  gSGC.parameters,
+  n.MC = 100,
+  verbose = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+input data of providing the following columns: <code>LnTn</code>, <code>LnTn.error</code>, <code>Lr1Tr1</code>, <code>Lr1Tr1.error</code>, <code>Dr1</code>
+<strong>Note:</strong> column names are not required. The function expect the input data in the given order</p>
+</td></tr>
+<tr valign="top"><td><code>gSGC.type</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+define the function parameters that
+should be used for the iteration procedure: Li et al., 2015 (Table 2)
+presented function parameters for two dose ranges: <code>"0-450"</code> and <code>"0-250"</code></p>
+</td></tr>
+<tr valign="top"><td><code>gSGC.parameters</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>):
+option to provide own function parameters used for fitting as named list.
+Nomenclature follows Li et al., 2015, i.e. <code>list(A,A.error,D0,D0.error,c,c.error,Y0,Y0.error,range)</code>,
+range requires a vector for the range the function is considered as valid, e.g. <code>range = c(0,250)</code><br />
+Using this option overwrites the default parameter list of the gSGC, meaning the argument
+<code>gSGC.type</code> will be without effect</p>
+</td></tr>
+<tr valign="top"><td><code>n.MC</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+number of Monte Carlo simulation runs for error estimation, see details.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a>:
+enable or disable terminal output</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a>:
+enable or disable graphical feedback as plot</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>parameters will be passed to the plot output</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The error of the De value is determined using a Monte Carlo simulation approach.
+Solving of the equation is realised using <a href="../../stats/html/uniroot.html">uniroot</a>.
+Large values for <code>n.MC</code> will significantly increase the computation time.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 object of type <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>.
+</p>
+<p><strong><code style="white-space: pre;">@data</code></strong><br />
+<code style="white-space: pre;">$ De.value</code> (<a href="../../base/html/data.frame.html">data.frame</a>) <br />
+<code>.. $ De</code>  <br />
+<code>.. $ De.error</code> <br />
+<code>.. $ Eta</code> <br />
+<code style="white-space: pre;">$ De.MC</code> (<a href="../../base/html/list.html">list</a>) contains the matrices from the error estimation.<br />
+<code style="white-space: pre;">$ uniroot</code> (<a href="../../base/html/list.html">list</a>) contains the <a href="../../stats/html/uniroot.html">uniroot</a> outputs of the De estimations<br />
+</p>
+<p><strong><code style="white-space: pre;">@info</code></strong><br />
+'$ call&ldquo; (<a href="../../base/html/call.html">call</a>) the original function call
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. calc_gSGC(): Calculate De value based on the gSGC by Li et al., 2015. Function version 0.1.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Li, B., Roberts, R.G., Jacobs, Z., Li, S.-H., 2015. Potential of establishing
+a 'global standardised growth curve' (gSGC) for optical dating of quartz from sediments.
+Quaternary Geochronology 27, 94-104. doi:10.1016/j.quageo.2015.02.011
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>, <a href="../../stats/html/uniroot.html">uniroot</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+results &lt;- calc_gSGC(data = data.frame(
+LnTn =  2.361, LnTn.error = 0.087,
+Lr1Tr1 = 2.744, Lr1Tr1.error = 0.091,
+Dr1 = 34.4))
+
+get_RLum(results, data.object = "De")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

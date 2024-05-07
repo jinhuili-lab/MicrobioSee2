@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Bayesian Diagnostic Indices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_ess {effectsize}"><tr><td>interpret_ess {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Bayesian Diagnostic Indices</h2>
+
+<h3>Description</h3>
+
+<p>Interpretation of Bayesian diagnostic indices, such as Effective Sample Size (ESS) and Rhat.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_ess(ess, rules = "burkner2017")
+
+interpret_rhat(rhat, rules = "vehtari2019")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ess</code></td>
+<td>
+<p>Value or vector of Effective Sample Size (ESS) values.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>A character string (see <em>Rules</em>) or a custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rhat</code></td>
+<td>
+<p>Value or vector of Rhat values.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+
+<h4>ESS</h4>
+
+
+<ul>
+<li><p> Bürkner, P. C. (2017) (<code>"burkner2017"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>ESS &lt; 1000</strong> - Insufficient
+</p>
+</li>
+<li> <p><strong>ESS &gt;= 1000</strong> - Sufficient
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+
+<h4>Rhat</h4>
+
+
+<ul>
+<li><p> Vehtari et al. (2019) (<code>"vehtari2019"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>Rhat &lt; 1.01</strong> - Converged
+</p>
+</li>
+<li> <p><strong>Rhat &gt;= 1.01</strong> - Failed
+</p>
+</li></ul>
+
+</li>
+<li><p> Gelman &amp; Rubin (1992) (<code>"gelman1992"</code>)
+</p>
+
+<ul>
+<li> <p><strong>Rhat &lt; 1.1</strong> - Converged
+</p>
+</li>
+<li> <p><strong>Rhat &gt;= 1.1</strong> - Failed
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Bürkner, P. C. (2017). brms: An R package for Bayesian multilevel models
+using Stan. Journal of Statistical Software, 80(1), 1-28.
+</p>
+</li>
+<li><p> Gelman, A., &amp; Rubin, D. B. (1992). Inference from iterative simulation
+using multiple sequences. Statistical science, 7(4), 457-472.
+</p>
+</li>
+<li><p> Vehtari, A., Gelman, A., Simpson, D., Carpenter, B., &amp; Bürkner, P. C.
+(2019). Rank-normalization, folding, and localization: An improved Rhat for
+assessing convergence of MCMC. arXiv preprint arXiv:1903.08008.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_ess(1001)
+interpret_ess(c(852, 1200))
+
+interpret_rhat(1.00)
+interpret_rhat(c(1.5, 0.9))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

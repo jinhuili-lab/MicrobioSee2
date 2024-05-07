@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GCD and LCM for Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gcd {polynom}"><tr><td>gcd {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GCD and LCM for Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Compute the greatest common divisor (GCD) and least common multiple
+(LCM) of a collection of polynomials and polylists.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polylist'
+GCD(...)
+## S3 method for class 'polynomial'
+GCD(...)
+## S3 method for class 'polylist'
+LCM(...)
+## S3 method for class 'polynomial'
+LCM(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>a list of objects of class <code><a href="../../polynom/help/polynomial.html">polynomial</a></code> or
+<code><a href="../../polynom/help/polylist.html">polylist</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+pl &lt;- polylist(poly.from.roots(-1),
+               poly.from.roots(c(-1, -1)),
+               poly.from.roots(1))
+GCD(pl)
+GCD(pl[-3])
+LCM(pl)
+LCM(pl, pl, pl[[2]])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

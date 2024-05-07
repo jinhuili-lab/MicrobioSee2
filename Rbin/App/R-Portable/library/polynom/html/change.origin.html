@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Change Origin for a Polynomial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for change.origin {polynom}"><tr><td>change.origin {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Change Origin for a Polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the coefficients of a polynomial relative to a new origin
+on the x axis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+change.origin(p, o)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>an object of class <code>"polynomial"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>o</code></td>
+<td>
+<p>a numeric scalar representing the new origin on the original
+scale.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Let <i>P(x) = &sum;_i p_i x^i</i> be a given polynomial and consider
+writing <i>P(x) = &sum;_j q_j (x - o)^j</i>.  This function calculates
+the coefficients <i>q_j</i> and returns the result as a polynomial.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A polynomial with coefficients relative to the re-located x axis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pr &lt;- poly.calc(1:5)
+pr
+## -120 + 274*x - 225*x^2 + 85*x^3 - 15*x^4 + x^5
+change.origin(pr, 3)
+## 4*x - 5*x^3 + x^5
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

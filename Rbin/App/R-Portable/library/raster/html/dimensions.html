@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dimensions of a Raster* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dim {raster}"><tr><td>dim {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dimensions of a Raster* object</h2>
+
+<h3>Description</h3>
+
+<p>Get or set the number of rows, columns, and layers of a Raster* object. You cannot use this function to set the dimensions of a RasterStack object.
+</p>
+<p>When setting the dimensions, you can provide a row number, or a vector with the row and the column number (for a RasterLayer and a RasterBrick), or a row and column number and the number of layers (only for a RasterBrick)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BasicRaster'
+dim(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster(* object</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Integer or Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code> <a href="../../raster/help/ncell.html">ncell</a>, <a href="../../raster/help/extent.html">extent</a>, <a href="../../raster/help/res.html">res</a> </code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster()
+dim(r)
+dim(r) &lt;- c(18) 
+dim(r)
+dim(r) &lt;- c(18, 36) 
+dim(r)
+b &lt;- brick(r)
+dim(b)
+dim(b) &lt;- c(10, 10, 5)
+dim(b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

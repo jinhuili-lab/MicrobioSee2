@@ -1,0 +1,544 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adding Progress Bar to '*apply' Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pbapply {pbapply}"><tr><td>pbapply {pbapply}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Adding Progress Bar to '*apply' Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Adding progress bar to <code>*apply</code> functions, possibly leveraging
+parallel processing.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pblapply(X, FUN, ..., cl = NULL)
+pbeapply(env, FUN, ..., all.names = FALSE, USE.NAMES = TRUE, cl = NULL)
+pbwalk(X, FUN, ..., cl = NULL)
+
+pbapply(X, MARGIN, FUN, ..., simplify = TRUE, cl = NULL)
+
+pbsapply(X, FUN, ..., simplify = TRUE, USE.NAMES = TRUE, cl = NULL)
+pbvapply(X, FUN, FUN.VALUE, ..., USE.NAMES = TRUE, cl = NULL)
+pbreplicate(n, expr, simplify = "array", cl = NULL)
+
+.pb_env
+pbmapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE, USE.NAMES = TRUE)
+pb.mapply(FUN, dots, MoreArgs)
+pbMap(f, ...)
+
+pbtapply(X, INDEX, FUN = NULL, ..., default = NA, simplify = TRUE, cl = NULL)
+
+pbby(data, INDICES, FUN, ..., simplify = TRUE, cl = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+
+<p>For <code>pbsapply</code>, <code>pblapply</code>, and <code>pbwalk</code>
+a vector (atomic or list) or an expressions vector
+(other objects including classed objects will be
+coerced by <code><a href="../../base/html/list.html">as.list</a></code>.)
+For <code>pbapply</code> an array, including a matrix.
+For <code>pbtapply</code> an R object for which a <code><a href="../../base/html/split.html">split</a></code> method exists.
+Typically vector-like, allowing subsetting with <code><a href="../../base/html/Extract.html">[</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+
+<p>A vector giving the subscripts which the function will be applied over.
+<code>1</code> indicates rows, <code>2</code> indicates columns, <code>c(1,2)</code>
+indicates rows and columns.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN, f</code></td>
+<td>
+
+<p>The function to be applied to each element of <code>X</code>:
+see <code><a href="../../base/html/apply.html">apply</a></code>, <code><a href="../../base/html/lapply.html">sapply</a></code>, and <code><a href="../../base/html/lapply.html">lapply</a></code>.
+In the case of functions like <code>+</code>, <code>%*%</code>, etc.,
+the function name must be backquoted or quoted. If <code>FUN</code> is <code>NULL</code>,
+<code>pbtapply</code> returns a vector which can be used to subscript the
+multi-way array <code>pbtapply</code> normally produces.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Optional arguments to <code>FUN</code> and also to underlying functions (e.g.
+<code><a href="../../parallel/html/clusterApply.html">parLapply</a></code> and <code><a href="../../parallel/html/mcdummies.html">mclapply</a></code> when <code>cl</code>
+is not <code>NULL</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>dots</code></td>
+<td>
+
+<p>List of arguments to vectorize over (vectors or lists
+of strictly positive length, or all of zero length);
+see <code><a href="../../base/html/mapply.html">.mapply</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+
+<p>Environment to be used.
+</p>
+</td></tr>
+<tr valign="top"><td><code>FUN.VALUE</code></td>
+<td>
+
+<p>A (generalized) vector; a template for the return value from <code>FUN</code>.
+See 'Details' for <code><a href="../../base/html/lapply.html">vapply</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>simplify, SIMPLIFY</code></td>
+<td>
+
+<p>Logical; should the result be simplified to a vector or matrix if possible?
+<code>pbtapply</code> returns an array of mode <code>"list"</code> (in other words,
+a list with a dim attribute) when <code>FALSE</code>; if <code>TRUE</code> (the default),
+then if <code>FUN</code> always returns a scalar, <code>pbtapply</code> returns an array with
+the mode of the scalar.
+</p>
+</td></tr>
+<tr valign="top"><td><code>USE.NAMES</code></td>
+<td>
+
+<p>Logical; if <code>TRUE</code> and if <code>X</code> is character,
+use <code>X</code> as names for the result unless it had names already.
+</p>
+</td></tr>
+<tr valign="top"><td><code>all.names</code></td>
+<td>
+
+<p>Logical, indicating whether to apply the function to all values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>Number of replications.
+</p>
+</td></tr>
+<tr valign="top"><td><code>expr</code></td>
+<td>
+
+<p>Expression (language object, usually a call) to evaluate repeatedly.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cl</code></td>
+<td>
+
+<p>A cluster object created by <code><a href="../../parallel/html/makeCluster.html">makeCluster</a></code>,
+or an integer to indicate number of child-processes
+(integer values are ignored on Windows) for parallel evaluations
+(see Details on performance).
+It can also be <code>"future"</code> to use a future backend (see Details),
+<code>NULL</code> (default) refers to sequential evaluation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>MoreArgs</code></td>
+<td>
+
+<p>A list of other arguments to <code>FUN</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>INDEX</code></td>
+<td>
+
+<p>A <code><a href="../../base/html/list.html">list</a></code> of one or more <code><a href="../../base/html/factor.html">factor</a></code>s, each of same length
+as <code>X</code>. The elements are coerced to factors by <code><a href="../../base/html/factor.html">as.factor</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>INDICES</code></td>
+<td>
+
+<p>A factor or a list of factors, each of length <code>nrow(data)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>An R object, normally a data frame, possibly a matrix.
+</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+
+<p>Only in the case of simplification to an array, the value with which the array
+is initialized as <code><a href="../../base/html/array.html">array</a></code><code>(default, dim = ..)</code>.
+Before R 3.4.0, this was hard coded to <code><a href="../../base/html/array.html">array</a></code><code>()</code>'s
+default <code>NA</code>. If it is <code>NA</code> (the default), the missing value of the
+answer type, e.g. <code><a href="../../base/html/NA.html">NA_real_</a></code>, is chosen
+(<code><a href="../../base/html/raw.html">as.raw</a></code><code>(0)</code> for <code>"raw"</code>). In a numerical case,
+it may be set, e.g., to <code>FUN(integer(0))</code>, e.g., in the case of
+<code>FUN = sum</code> to <code>0</code> or <code>0L</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The behavior of the progress bar is controlled by the option
+<code>type</code> in <code><a href="../../pbapply/help/pboptions.html">pboptions</a></code>,
+it can take values <code>c("txt", "win", "tk", "none",)</code> on Windows,
+and <code>c("txt", "tk", "none",)</code> on Unix systems.
+</p>
+<p>Other options have elements that are arguments used in the functions
+<code><a href="../../pbapply/help/timerProgressBar.html">timerProgressBar</a></code>, <code><a href="../../utils/help/txtProgressBar.html">txtProgressBar</a></code>,
+<code><a href="../../utils/help/winProgressBar.html">winProgressBar</a></code>,
+and <code><a href="../../tcltk/help/tkProgressBar.html">tkProgressBar</a></code>.
+See <code><a href="../../pbapply/help/pboptions.html">pboptions</a></code> for how to conveniently set these.
+</p>
+<p>Parallel processing can be enabled through the <code>cl</code> argument.
+<code><a href="../../parallel/html/clusterApply.html">parLapply</a></code> is called when <code>cl</code> is a 'cluster' object,
+<code><a href="../../parallel/html/mcdummies.html">mclapply</a></code> is called when <code>cl</code> is an integer.
+Showing the progress bar increases the communication overhead
+between the main process and nodes / child processes compared to the
+parallel equivalents of the functions without the progress bar.
+The functions fall back to their original equivalents when the progress bar is
+disabled (i.e. <code>getOption("pboptions")$type == "none"</code> or <code>dopb()</code> is
+<code>FALSE</code>). This is the default when <code>interactive()</code> if <code>FALSE</code>
+(i.e. called from command line R script).
+</p>
+<p>When doing parallel processing, other objects might need to pushed to the
+workers, and random numbers must be handled with care (see Examples).
+</p>
+<p>Updating the progress bar with <code><a href="../../parallel/html/mcdummies.html">mclapply</a></code>
+can be slightly slower compared to using a Fork cluster
+(i.e. calling <code><a href="../../parallel/html/makeCluster.html">makeForkCluster</a></code>).
+Care must be taken to set appropriate random numbers in this case.
+</p>
+<p>Note the <code>use_lb</code> option (see <code><a href="../../pbapply/help/pboptions.html">pboptions</a></code>)
+for using load balancing when running in parallel clusters.
+If using <code><a href="../../parallel/html/mcdummies.html">mclapply</a></code>, the <code>...</code> passes
+arguments to the underlying function for further control.
+</p>
+<p><code>pbwalk</code> is similar to <code>pblapply</code> but it calls <code>FUN</code>
+only for its side-effect and returns the input <code>X</code> invisibly
+(this behavior is modeled after 'purrr::walk').
+</p>
+<p>Note that when <code>cl = "future"</code>, you might have to specify the
+<code>future.seed</code> argument (passed as part of <code>...</code>) when
+using random numbers in parallel.
+</p>
+<p>Note also that if your code prints messages or you encounter warnings
+during execution, the condition messages might cause the progress bar
+to break up and continue on a new line.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Similar to the value returned by the standard <code>*apply</code> functions.
+</p>
+<p>A progress bar is showed as a side effect.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Progress bar can add an overhead to the computation.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter Solymos &lt;solymos@ualberta.ca&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Progress bars used in the functions:
+<code><a href="../../utils/help/winProgressBar.html">winProgressBar</a></code>,
+<code><a href="../../utils/help/txtProgressBar.html">txtProgressBar</a></code>,
+<code><a href="../../tcltk/help/tkProgressBar.html">tkProgressBar</a></code>,
+<code><a href="../../pbapply/help/timerProgressBar.html">timerProgressBar</a></code>
+</p>
+<p>Sequential <code>*apply</code> functions:
+<code><a href="../../base/html/apply.html">apply</a></code>, <code><a href="../../base/html/lapply.html">sapply</a></code>,
+<code><a href="../../base/html/lapply.html">lapply</a></code>, <code><a href="../../base/html/lapply.html">replicate</a></code>,
+<code><a href="../../base/html/mapply.html">mapply</a></code>, <code><a href="../../base/html/mapply.html">.mapply</a></code>,
+<code><a href="../../base/html/tapply.html">tapply</a></code>
+</p>
+<p>Parallel <code>*apply</code> functions from package 'parallel':
+<code><a href="../../parallel/html/clusterApply.html">parLapply</a></code>,
+<code><a href="../../parallel/html/mcdummies.html">mclapply</a></code>.
+</p>
+<p>Setting the options: <code><a href="../../pbapply/help/pboptions.html">pboptions</a></code>
+</p>
+<p>Conveniently add progress bar to <code>for</code>-like loops:
+<code><a href="../../pbapply/help/startpb.html">startpb</a></code>, <code><a href="../../pbapply/help/setpb.html">setpb</a></code>, <code><a href="../../pbapply/help/getpb.html">getpb</a></code>,
+<code><a href="../../pbapply/help/closepb.html">closepb</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## --- simple linear model simulation ---
+set.seed(1234)
+n &lt;- 200
+x &lt;- rnorm(n)
+y &lt;- rnorm(n, crossprod(t(model.matrix(~ x)), c(0, 1)), sd = 0.5)
+d &lt;- data.frame(y, x)
+## model fitting and bootstrap
+mod &lt;- lm(y ~ x, d)
+ndat &lt;- model.frame(mod)
+B &lt;- 100
+bid &lt;- sapply(1:B, function(i) sample(nrow(ndat), nrow(ndat), TRUE))
+fun &lt;- function(z) {
+    if (missing(z))
+        z &lt;- sample(nrow(ndat), nrow(ndat), TRUE)
+    coef(lm(mod$call$formula, data=ndat[z,]))
+}
+
+## standard '*apply' functions
+system.time(res1 &lt;- lapply(1:B, function(i) fun(bid[,i])))
+system.time(res2 &lt;- sapply(1:B, function(i) fun(bid[,i])))
+system.time(res3 &lt;- apply(bid, 2, fun))
+system.time(res4 &lt;- replicate(B, fun()))
+
+## 'pb*apply' functions
+## try different settings:
+## "none", "txt", "tk", "win", "timer"
+op &lt;- pboptions(type = "timer") # default
+system.time(res1pb &lt;- pblapply(1:B, function(i) fun(bid[,i])))
+pboptions(op)
+
+pboptions(type = "txt")
+system.time(res2pb &lt;- pbsapply(1:B, function(i) fun(bid[,i])))
+pboptions(op)
+
+pboptions(type = "txt", style = 1, char = "=")
+system.time(res3pb &lt;- pbapply(bid, 2, fun))
+pboptions(op)
+
+pboptions(type = "txt", char = ":")
+system.time(res4pb &lt;- pbreplicate(B, fun()))
+pboptions(op)
+
+## Not run: 
+## parallel evaluation using the parallel package
+## (n = 2000 and B = 1000 will give visible timing differences)
+
+library(parallel)
+cl &lt;- makeCluster(2L)
+clusterExport(cl, c("fun", "mod", "ndat", "bid"))
+
+## parallel with no progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1cl &lt;- parLapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+system.time(res2cl &lt;- parSapply(cl = cl, 1:B, function(i) fun(bid[,i])))
+system.time(res3cl &lt;- parApply(cl, bid, 2, fun))
+
+## parallel with  progress bar: snow type cluster
+## (RNG is set in the main process to define the object bid)
+system.time(res1pbcl &lt;- pblapply(1:B, function(i) fun(bid[,i]), cl = cl))
+system.time(res2pbcl &lt;- pbsapply(1:B, function(i) fun(bid[,i]), cl = cl))
+## (RNG needs to be set when not using bid)
+parallel::clusterSetRNGStream(cl, iseed = 0L)
+system.time(res4pbcl &lt;- pbreplicate(B, fun(), cl = cl))
+system.time(res3pbcl &lt;- pbapply(bid, 2, fun, cl = cl))
+
+stopCluster(cl)
+
+if (.Platform$OS.type != "windows") {
+    ## parallel with no progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
+    system.time(res2mc &lt;- mclapply(1:B, function(i) fun(bid[,i]), mc.cores = 2L))
+    ## parallel with  progress bar: multicore type forking
+    ## (mc.set.seed = TRUE in parallel::mclapply by default)
+    system.time(res1pbmc &lt;- pblapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res2pbmc &lt;- pbsapply(1:B, function(i) fun(bid[,i]), cl = 2L))
+    system.time(res4pbmc &lt;- pbreplicate(B, fun(), cl = 2L))
+}
+
+## End(Not run)
+
+## --- Examples taken from standard '*apply' functions ---
+
+## --- sapply, lapply, and replicate ---
+
+require(stats); require(graphics)
+
+x &lt;- list(a = 1:10, beta = exp(-3:3), logic = c(TRUE,FALSE,FALSE,TRUE))
+# compute the list mean for each list element
+pblapply(x, mean)
+pbwalk(x, mean)
+# median and quartiles for each list element
+pblapply(x, quantile, probs = 1:3/4)
+pbsapply(x, quantile)
+i39 &lt;- sapply(3:9, seq) # list of vectors
+pbsapply(i39, fivenum)
+pbvapply(i39, fivenum,
+       c(Min. = 0, "1st Qu." = 0, Median = 0, "3rd Qu." = 0, Max. = 0))
+
+## sapply(*, "array") -- artificial example
+(v &lt;- structure(10*(5:8), names = LETTERS[1:4]))
+f2 &lt;- function(x, y) outer(rep(x, length.out = 3), y)
+(a2 &lt;- pbsapply(v, f2, y = 2*(1:5), simplify = "array"))
+a.2 &lt;- pbvapply(v, f2, outer(1:3, 1:5), y = 2*(1:5))
+stopifnot(dim(a2) == c(3,5,4), all.equal(a2, a.2),
+          identical(dimnames(a2), list(NULL,NULL,LETTERS[1:4])))
+
+summary(pbreplicate(100, mean(rexp(10))))
+
+## use of replicate() with parameters:
+foo &lt;- function(x = 1, y = 2) c(x, y)
+# does not work: bar &lt;- function(n, ...) replicate(n, foo(...))
+bar &lt;- function(n, x) pbreplicate(n, foo(x = x))
+bar(5, x = 3)
+
+## --- apply ---
+
+## Compute row and column sums for a matrix:
+x &lt;- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] &lt;- letters[1:8]
+pbapply(x, 2, mean, trim = .2)
+col.sums &lt;- pbapply(x, 2, sum)
+row.sums &lt;- pbapply(x, 1, sum)
+rbind(cbind(x, Rtot = row.sums), Ctot = c(col.sums, sum(col.sums)))
+
+stopifnot( pbapply(x, 2, is.vector))
+
+## Sort the columns of a matrix
+pbapply(x, 2, sort)
+
+## keeping named dimnames
+names(dimnames(x)) &lt;- c("row", "col")
+x3 &lt;- array(x, dim = c(dim(x),3),
+	    dimnames = c(dimnames(x), list(C = paste0("cop.",1:3))))
+identical(x,  pbapply( x,  2,  identity))
+identical(x3, pbapply(x3, 2:3, identity))
+
+##- function with extra args:
+cave &lt;- function(x, c1, c2) c(mean(x[c1]), mean(x[c2]))
+pbapply(x, 1, cave,  c1 = "x1", c2 = c("x1","x2"))
+
+ma &lt;- matrix(c(1:4, 1, 6:8), nrow = 2)
+ma
+pbapply(ma, 1, table)  #--&gt; a list of length 2
+pbapply(ma, 1, stats::quantile) # 5 x n matrix with rownames
+
+stopifnot(dim(ma) == dim(pbapply(ma, 1:2, sum)))
+
+## Example with different lengths for each call
+z &lt;- array(1:24, dim = 2:4)
+zseq &lt;- pbapply(z, 1:2, function(x) seq_len(max(x)))
+zseq         ## a 2 x 3 matrix
+typeof(zseq) ## list
+dim(zseq) ## 2 3
+zseq[1,]
+pbapply(z, 3, function(x) seq_len(max(x)))
+# a list without a dim attribute
+
+## --- mapply and .mapply ---
+
+pbmapply(rep, 1:4, 4:1)
+pbmapply(rep, times = 1:4, x = 4:1)
+pbmapply(rep, times = 1:4, MoreArgs = list(x = 42))
+pbmapply(function(x, y) seq_len(x) + y,
+       c(a =  1, b = 2, c = 3),  # names from first
+       c(A = 10, B = 0, C = -10))
+word &lt;- function(C, k) paste(rep.int(C, k), collapse = "")
+utils::str(pbmapply(word, LETTERS[1:6], 6:1, SIMPLIFY = FALSE))
+
+pb.mapply(rep,
+          dots = list(1:4, 4:1),
+          MoreArgs = list())
+pb.mapply(rep,
+          dots = list(times = 1:4, x = 4:1),
+          MoreArgs = list())
+pb.mapply(rep,
+          dots = list(times = 1:4),
+          MoreArgs = list(x = 42))
+pb.mapply(function(x, y) seq_len(x) + y,
+          dots = list(c(a =  1, b = 2, c = 3),  # names from first
+                      c(A = 10, B = 0, C = -10)),
+          MoreArgs = list())
+
+## --- Map ---
+
+pbMap(`+`, 1,         1 : 3) ;         1 + 1:3
+
+## --- eapply ---
+
+env &lt;- new.env(hash = FALSE)
+env$a &lt;- 1:10
+env$beta &lt;- exp(-3:3)
+env$logic &lt;- c(TRUE, FALSE, FALSE, TRUE)
+pbeapply(env, mean)
+unlist(pbeapply(env, mean, USE.NAMES = FALSE))
+pbeapply(env, quantile, probs = 1:3/4)
+pbeapply(env, quantile)
+
+## --- tapply ---
+
+require(stats)
+groups &lt;- as.factor(rbinom(32, n = 5, prob = 0.4))
+pbtapply(groups, groups, length) #- is almost the same as
+table(groups)
+
+## contingency table from data.frame : array with named dimnames
+pbtapply(warpbreaks$breaks, warpbreaks[,-1], sum)
+pbtapply(warpbreaks$breaks, warpbreaks[, 3, drop = FALSE], sum)
+
+n &lt;- 17; fac &lt;- factor(rep_len(1:3, n), levels = 1:5)
+table(fac)
+pbtapply(1:n, fac, sum)
+pbtapply(1:n, fac, sum, default = 0) # maybe more desirable
+pbtapply(1:n, fac, sum, simplify = FALSE)
+pbtapply(1:n, fac, range)
+pbtapply(1:n, fac, quantile)
+pbtapply(1:n, fac, length) ## NA's
+pbtapply(1:n, fac, length, default = 0) # == table(fac)
+
+## example of ... argument: find quarterly means
+pbtapply(presidents, cycle(presidents), mean, na.rm = TRUE)
+
+ind &lt;- list(c(1, 2, 2), c("A", "A", "B"))
+table(ind)
+pbtapply(1:3, ind) #-&gt; the split vector
+pbtapply(1:3, ind, sum)
+
+## Some assertions (not held by all patch propsals):
+nq &lt;- names(quantile(1:5))
+stopifnot(
+  identical(pbtapply(1:3, ind), c(1L, 2L, 4L)),
+  identical(pbtapply(1:3, ind, sum),
+            matrix(c(1L, 2L, NA, 3L), 2, dimnames = list(c("1", "2"), c("A", "B")))),
+  identical(pbtapply(1:n, fac, quantile)[-1],
+            array(list(`2` = structure(c(2, 5.75, 9.5, 13.25, 17), .Names = nq),
+                 `3` = structure(c(3, 6, 9, 12, 15), .Names = nq),
+                 `4` = NULL, `5` = NULL), dim=4, dimnames=list(as.character(2:5)))))
+
+## --- by ---
+
+pbby(warpbreaks[, 1:2], warpbreaks[,"tension"], summary)
+pbby(warpbreaks[, 1],   warpbreaks[, -1],       summary)
+pbby(warpbreaks, warpbreaks[,"tension"],
+   function(x) lm(breaks ~ wool, data = x))
+tmp &lt;- with(warpbreaks,
+            pbby(warpbreaks, tension,
+               function(x) lm(breaks ~ wool, data = x)))
+sapply(tmp, coef)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pbapply</em> version 1.7-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Row Sums/Means of Sparse Symmetric Matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rowSums.dist {proxy}"><tr><td>rowSums.dist {proxy}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Row Sums/Means of Sparse Symmetric Matrices</h2>
+
+<h3>Description</h3>
+
+<p>Compute the row (column) sums or means for a sparse symmetric 
+(distance) matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rowSums.dist(x, na.rm = FALSE)
+rowMeans.dist(x, na.rm = FALSE, diag = TRUE)
+
+colSums.dist(x, na.rm = FALSE)
+colMeans.dist(x, na.rm = FALSE, diag = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>dist</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical, should missing values (including <code>NaN</code>) be
+omitted from the summation?</p>
+</td></tr>
+<tr valign="top"><td><code>diag</code></td>
+<td>
+<p>logical, should the diagonal elements be included
+in the computation?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions are more efficient than expanding an object of
+class <code>dist</code> to matrix and using <code>rowSums</code> or <code>rowMeans</code>.
+</p>
+<p><code>colSums</code> and <code>colMeans</code> are provided for convenience.
+However, note that due to symmetry the result is always the
+same as for <code>rowSums</code> or <code>rowMeans</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector of row sums.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christian Buchta</p>
+
+
+<h3>See Also</h3>
+
+<p><code>as.matrix</code>, <code>as.dist</code>, and <code>rowSums</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## 
+x &lt;- matrix(runif(10*2),ncol=2)
+d &lt;- dist(x)
+rowSums(as.matrix(d))
+rowSums.dist(d)			# the same
+
+rowMeans(as.matrix(d))
+rowMeans.dist(d)		# the same
+rowMeans.dist(d, diag = FALSE)	# not the same
+## NAs
+d[3] &lt;- NA
+rowSums.dist(d, na.rm = TRUE)
+rowMeans.dist(d, na.rm = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>proxy</em> version 0.4-26 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

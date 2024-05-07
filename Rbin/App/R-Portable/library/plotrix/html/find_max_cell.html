@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Maximum (or minimum) value cell in a matrix.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for find_max_cell {plotrix}"><tr><td>find_max_cell {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Maximum (or minimum) value cell in a matrix.</h2>
+
+<h3>Description</h3>
+
+<p>Find the indices of the maximum value in a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre> find_max_cell(x,max=TRUE) </pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric matrix</p>
+</td></tr>
+<tr valign="top"><td><code>max</code></td>
+<td>
+<p>The default is to return the indices of the maximum value(s).
+<span class="samp">max=FALSE</span> returns those of the minimum.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list containing the column (x) and row (y) indices.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Intended to enable the user to mark cells in sampcolor2D.matplot.
+Remember to subtract 0.5 from both values to center the mark in the cell.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

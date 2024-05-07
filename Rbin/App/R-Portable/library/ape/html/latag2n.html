@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Leading and Trailing Alignment Gaps to N</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for latag2n {ape}"><tr><td>latag2n {ape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Leading and Trailing Alignment Gaps to N</h2>
+
+<h3>Description</h3>
+
+<p>Substitutes leading and trailing alignment gaps in aligned sequences
+into <code>N</code> (i.e., A, C, G, or T). The gaps in the middle of the
+sequences are left unchanged.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+latag2n(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"DNAbin"</code> with the aligned sequences.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is called by others in <span class="pkg">ape</span> and in <span class="pkg">pegas</span>. It
+is documented here in case it needs to be called by other packages.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"DNAbin"</code>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Emmanuel Paradis</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../ape/help/DNAbin.html">DNAbin</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- as.DNAbin(matrix(c("-", "A", "G", "-", "T", "C"), 2, 3))
+y &lt;- latag2n(x)
+alview(x)
+alview(y)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ape</em> version 5.5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

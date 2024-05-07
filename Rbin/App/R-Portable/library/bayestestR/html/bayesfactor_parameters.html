@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bayes Factors (BF) for a Single Parameter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bayesfactor_parameters {bayestestR}"><tr><td>bayesfactor_parameters {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bayes Factors (BF) for a Single Parameter</h2>
+
+<h3>Description</h3>
+
+<p>This method computes Bayes factors against the null (either a point or an
+interval), based on prior and posterior samples of a single parameter. This
+Bayes factor indicates the degree by which the mass of the posterior
+distribution has shifted further away from or closer to the null value(s)
+(relative to the prior distribution), thus indicating if the null value has
+become less or more likely given the observed data.
+<br /> <br />
+When the null is an interval, the Bayes factor is computed by comparing the
+prior and posterior odds of the parameter falling within or outside the null
+interval (Morey &amp; Rouder, 2011; Liao et al., 2020); When the null is a point,
+a Savage-Dickey density ratio is computed, which is also an approximation of
+a Bayes factor comparing the marginal likelihoods of the model against a
+model in which the tested parameter has been restricted to the point null
+(Wagenmakers et al., 2010; Heck, 2019).
+<br /> <br />
+Note that the <code>logspline</code> package is used for estimating densities and
+probabilities, and must be installed for the function to work.
+<br /> <br />
+<code>bayesfactor_pointnull()</code> and <code>bayesfactor_rope()</code> are wrappers
+around <code>bayesfactor_parameters</code> with different defaults for the null to
+be tested against (a point and a range, respectively). Aliases of the main
+functions are prefixed with <code style="white-space: pre;">bf_*</code>, like <code>bf_parameters()</code> or
+<code>bf_pointnull()</code>.
+<br /> <br />
+<strong>For more info, in particular on specifying correct priors for factors
+with more than 2 levels, see
+<a href="https://easystats.github.io/bayestestR/articles/bayes_factors.html">the Bayes factors vignette</a>.</strong>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+bayesfactor_pointnull(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+bayesfactor_rope(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = rope_range(posterior, verbose = FALSE),
+  verbose = TRUE,
+  ...
+)
+
+bf_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+bf_pointnull(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+bf_rope(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = rope_range(posterior, verbose = FALSE),
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'numeric'
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'stanreg'
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "location", "smooth_terms", "sigma", "zi",
+    "zero_inflated", "all"),
+  parameters = NULL,
+  ...
+)
+
+## S3 method for class 'brmsfit'
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "location", "smooth_terms", "sigma", "zi",
+    "zero_inflated", "all"),
+  parameters = NULL,
+  ...
+)
+
+## S3 method for class 'blavaan'
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'data.frame'
+bayesfactor_parameters(
+  posterior,
+  prior = NULL,
+  direction = "two-sided",
+  null = 0,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>A numerical vector, <code>stanreg</code> / <code>brmsfit</code> object,
+<code>emmGrid</code> or a data frame - representing a posterior distribution(s)
+from (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>prior</code></td>
+<td>
+<p>An object representing a prior distribution (see 'Details').</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>Test type (see 'Details'). One of <code>0</code>,
+<code>"two-sided"</code> (default, two tailed), <code>-1</code>, <code>"left"</code> (left
+tailed) or <code>1</code>, <code>"right"</code> (right tailed).</p>
+</td></tr>
+<tr valign="top"><td><code>null</code></td>
+<td>
+<p>Value of the null, either a scalar (for point-null) or a range
+(for a interval-null).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to and from other methods. (Can be used to pass
+arguments to internal <code><a href="../../logspline/help/logspline.html">logspline::logspline()</a></code>.)</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This method is used to compute Bayes factors based on prior and posterior
+distributions.
+</p>
+
+
+<h4>One-sided &amp; Dividing Tests (setting an order restriction)</h4>
+
+<p>One sided tests (controlled by <code>direction</code>) are conducted by restricting
+the prior and posterior of the non-null values (the &quot;alternative&quot;) to one
+side of the null only (<cite>Morey &amp; Wagenmakers, 2014</cite>). For example, if we
+have a prior hypothesis that the parameter should be positive, the
+alternative will be restricted to the region to the right of the null (point
+or interval). For example, for a Bayes factor comparing the &quot;null&quot; of <code>0-0.1</code>
+to the alternative <code style="white-space: pre;">&gt;0.1</code>, we would set
+<code>bayesfactor_parameters(null = c(0, 0.1), direction = "&gt;")</code>.
+<br /><br />
+It is also possible to compute a Bayes factor for <strong>dividing</strong>
+hypotheses - that is, for a null and alternative that are complementary,
+opposing one-sided hypotheses (<cite>Morey &amp; Wagenmakers, 2014</cite>). For
+example, for a Bayes factor comparing the &quot;null&quot; of <code style="white-space: pre;">&lt;0</code> to the alternative
+<code style="white-space: pre;">&gt;0</code>, we would set <code>bayesfactor_parameters(null = c(-Inf, 0))</code>.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the (log) Bayes factor representing evidence
+<em>against</em> the null  (Use <code>as.numeric()</code> to extract the non-log Bayes
+factors; see examples).
+</p>
+
+
+<h3>Setting the correct <code>prior</code></h3>
+
+<p>For the computation of Bayes factors, the model priors must be proper priors
+(at the very least they should be <em>not flat</em>, and it is preferable that
+they be <em>informative</em>); As the priors for the alternative get wider, the
+likelihood of the null value(s) increases, to the extreme that for completely
+flat priors the null is infinitely more favorable than the alternative (this
+is called <em>the Jeffreys-Lindley-Bartlett paradox</em>). Thus, you should
+only ever try (or want) to compute a Bayes factor when you have an informed
+prior.
+<br /><br />
+(Note that by default, <code>brms::brm()</code> uses flat priors for fixed-effects;
+See example below.)
+<br /><br />
+It is important to provide the correct <code>prior</code> for meaningful results.
+</p>
+
+<ul>
+<li><p> When <code>posterior</code> is a numerical vector, <code>prior</code> should also be a numerical vector.
+</p>
+</li>
+<li><p> When <code>posterior</code> is a <code>data.frame</code>, <code>prior</code> should also be a <code>data.frame</code>, with matching column order.
+</p>
+</li>
+<li><p> When <code>posterior</code> is a <code>stanreg</code>, <code>brmsfit</code> or other supported Bayesian model: </p>
+
+<ul>
+<li> <p><code>prior</code> can be set to <code>NULL</code>, in which case prior samples are drawn internally.
+</p>
+</li>
+<li> <p><code>prior</code> can also be a model equivalent to <code>posterior</code> but with samples from
+the priors <em>only</em>. See <code><a href="../../bayestestR/help/unupdate.html">unupdate()</a></code>.
+</p>
+</li>
+<li> <p><strong>Note:</strong> When <code>posterior</code> is a <code>brmsfit_multiple</code> model, <code>prior</code> <strong>must</strong> be provided.
+</p>
+</li></ul>
+
+</li>
+<li><p> When <code>posterior</code> is an <code>emmGrid</code> / <code>emm_list</code> object: </p>
+
+<ul>
+<li> <p><code>prior</code> should also be an <code>emmGrid</code> / <code>emm_list</code> object equivalent to <code>posterior</code> but
+created with a model of priors samples <em>only</em>. See <code><a href="../../bayestestR/help/unupdate.html">unupdate()</a></code>.
+</p>
+</li>
+<li> <p><code>prior</code> can also be the original (posterior) <em>model</em>. If so, the function will try to
+update the <code>emmGrid</code> / <code>emm_list</code> to use the <code><a href="../../bayestestR/help/unupdate.html">unupdate()</a></code>d prior-model.
+(<em>This cannot be done for <code>brmsfit</code> models.</em>)
+</p>
+</li>
+<li> <p><strong>Note</strong>: When the <code>emmGrid</code> has undergone any transformations (<code>"log"</code>, <code>"response"</code>, etc.),
+or <code>regrid</code>ing, then <code>prior</code> must be an <code>emmGrid</code> object, as stated above.
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>Interpreting Bayes Factors</h3>
+
+<p>A Bayes factor greater than 1 can be interpreted as evidence against the
+null, at which one convention is that a Bayes factor greater than 3 can be
+considered as &quot;substantial&quot; evidence against the null (and vice versa, a
+Bayes factor smaller than 1/3 indicates substantial evidence in favor of the
+null-model) (<cite>Wetzels et al. 2011</cite>).
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a
+<a href="https://easystats.github.io/see/articles/bayestestR.html"><code>plot()</code>-method</a>
+implemented in the
+<a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Mattan S. Ben-Shachar
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Wagenmakers, E. J., Lodewyckx, T., Kuriyal, H., and Grasman, R. (2010).
+Bayesian hypothesis testing for psychologists: A tutorial on the
+Savage-Dickey method. Cognitive psychology, 60(3), 158-189.
+</p>
+</li>
+<li><p> Heck, D. W. (2019). A caveat on the Savage–Dickey density ratio: The
+case of computing Bayes factors for regression parameters. British Journal of
+Mathematical and Statistical Psychology, 72(2), 316-333.
+</p>
+</li>
+<li><p> Morey, R. D., &amp; Wagenmakers, E. J. (2014). Simple relation between
+Bayesian order-restricted and point-null hypothesis tests. Statistics &amp;
+Probability Letters, 92, 121-124.
+</p>
+</li>
+<li><p> Morey, R. D., &amp; Rouder, J. N. (2011). Bayes factor approaches for
+testing interval null hypotheses. Psychological methods, 16(4), 406.
+</p>
+</li>
+<li><p> Liao, J. G., Midya, V., &amp; Berg, A. (2020). Connecting and contrasting
+the Bayes factor and a modified ROPE procedure for testing interval null
+hypotheses. The American Statistician, 1-19.
+</p>
+</li>
+<li><p> Wetzels, R., Matzke, D., Lee, M. D., Rouder, J. N., Iverson, G. J., and
+Wagenmakers, E.-J. (2011). Statistical Evidence in Experimental Psychology:
+An Empirical Comparison Using 855 t Tests. Perspectives on Psychological
+Science, 6(3), 291–298. doi: <a href="https://doi.org/10.1177/1745691611406923">10.1177/1745691611406923</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+prior &lt;- distribution_normal(1000, mean = 0, sd = 1)
+posterior &lt;- distribution_normal(1000, mean = .5, sd = .3)
+(BF_pars &lt;- bayesfactor_parameters(posterior, prior, verbose = FALSE))
+
+as.numeric(BF_pars)
+
+
+
+# rstanarm models
+# ---------------
+contrasts(sleep$group) &lt;- contr.equalprior_pairs # see vingette
+stan_model &lt;- suppressWarnings(stan_lmer(
+  extra ~ group + (1 | ID),
+  data = sleep,
+  refresh = 0
+))
+bayesfactor_parameters(stan_model, verbose = FALSE)
+bayesfactor_parameters(stan_model, null = rope_range(stan_model))
+
+# emmGrid objects
+# ---------------
+group_diff &lt;- pairs(emmeans(stan_model, ~group, data = sleep))
+bayesfactor_parameters(group_diff, prior = stan_model, verbose = FALSE)
+
+# Or
+# group_diff_prior &lt;- pairs(emmeans(unupdate(stan_model), ~group))
+# bayesfactor_parameters(group_diff, prior = group_diff_prior, verbose = FALSE)
+
+
+
+# brms models
+# -----------
+## Not run: 
+contrasts(sleep$group) &lt;- contr.equalprior_pairs # see vingette
+my_custom_priors &lt;-
+  set_prior("student_t(3, 0, 1)", class = "b") +
+  set_prior("student_t(3, 0, 1)", class = "sd", group = "ID")
+
+brms_model &lt;- suppressWarnings(brm(extra ~ group + (1 | ID),
+  data = sleep,
+  prior = my_custom_priors,
+  refresh = 0
+))
+bayesfactor_parameters(brms_model, verbose = FALSE)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compressing and decompressing files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compressFile {R.utils}"><tr><td>compressFile {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compressing and decompressing files</h2>
+
+<h3>Description</h3>
+
+<p>Compressing and decompressing files such as gzip:ed and bzip2:ed files.
+</p>
+<p><em>
+NOTE: The default (<code>remove=TRUE</code>) behavior is that
+the input file is removed after that the output file
+is fully created and closed.
+</em>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ ## Default S3 method:
+compressFile(filename, destname=sprintf("%s.%s", filename, ext), ext, FUN,
+  temporary=FALSE, skip=FALSE, overwrite=FALSE, remove=TRUE, BFR.SIZE=1e+07, ...)
+ ## Default S3 method:
+decompressFile(filename, destname=gsub(sprintf("[.]%s$", ext), "", filename,
+  ignore.case = TRUE), ext, FUN, temporary=FALSE, skip=FALSE, overwrite=FALSE,
+  remove=TRUE, BFR.SIZE=1e+07, ...)
+ ## Default S3 method:
+isCompressedFile(filename, method=c("extension", "content"), ext, fileClass, ...)
+ ## Default S3 method:
+bzip2(filename, ..., ext="bz2", FUN=bzfile)
+ ## Default S3 method:
+bunzip2(filename, ..., ext="bz2", FUN=bzfile)
+ ## Default S3 method:
+gzip(filename, ..., ext="gz", FUN=gzfile)
+ ## Default S3 method:
+gunzip(filename, ..., ext="gz", FUN=gzfile)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Pathname of input file.</p>
+</td></tr>
+<tr valign="top"><td><code>destname</code></td>
+<td>
+<p>Pathname of output file.</p>
+</td></tr>
+<tr valign="top"><td><code>temporary</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the output file is created in a
+temporary directory.</p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and the output file already exists,
+the output file is returned as is.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and the output file already exists,
+the file is silently overwritten, otherwise an exception is
+thrown (unless <code>skip</code> is <code><a href="../../base/help/logical.html">TRUE</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>remove</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the input file is removed afterward,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>BFR.SIZE</code></td>
+<td>
+<p>The number of bytes read in each chunk.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to the underlying function or alternatively not used.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying how to infer whether
+a file is compressed or not.</p>
+</td></tr>
+<tr valign="top"><td><code>ext, fileClass, FUN</code></td>
+<td>
+<p>(internal) Filename extension, file class,
+and a connection <code><a href="../../base/help/function.html">function</a></code> used to read from/write to file.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Internally <code>bzfile()</code> and <code>gzfile()</code>
+(see <code><a href="../../base/help/connections.html">connections</a></code>) are used to read (write) files.
+If the process is interrupted before completed, the partially written
+output file is automatically removed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the pathname of the output file.
+The number of bytes processed is returned as an attribute.
+</p>
+<p><code>isCompressedFile()</code>, <code>isGzipped()</code> and <code>isBzipped()</code>
+return a <code><a href="../../base/help/logical.html">logical</a></code>.
+Note that with <code>method = "extension"</code> (default), only the filename
+extension is used to infer whether the file is compressed or not.
+Specifically, it does not matter whether the file actually exists or not.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## bzip2
+  cat(file="foo.txt", "Hello world!")
+  print(isBzipped("foo.txt"))
+  print(isBzipped("foo.txt.bz2"))
+
+  bzip2("foo.txt")
+  print(file.info("foo.txt.bz2"))
+  print(isBzipped("foo.txt"))
+  print(isBzipped("foo.txt.bz2"))
+
+  bunzip2("foo.txt.bz2")
+  print(file.info("foo.txt"))
+
+  ## gzip
+  cat(file="foo.txt", "Hello world!")
+  print(isGzipped("foo.txt"))
+  print(isGzipped("foo.txt.gz"))
+
+  gzip("foo.txt")
+  print(file.info("foo.txt.gz"))
+  print(isGzipped("foo.txt"))
+  print(isGzipped("foo.txt.gz"))
+
+  gunzip("foo.txt.gz")
+  print(file.info("foo.txt"))
+
+  ## Cleanup
+  file.remove("foo.txt")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

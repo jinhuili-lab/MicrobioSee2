@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lines Method for Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for lines.polynomial {polynom}"><tr><td>lines.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lines Method for Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Add a polynomial to an existing plot usually as a line plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+lines(x, len = 1000, xlim = NULL, ylim = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"polynomial"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>len</code></td>
+<td>
+<p>size of vector at which evaluations are to be made.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>the range of x and y values with sensible defaults.</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for the <code><a href="../../graphics/html/lines.html">lines</a></code>
+generic.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a method for the generic function <code><a href="../../graphics/html/lines.html">lines</a></code>.
+</p>
+<p>Lines representing the given polynomial are added to an existing
+plot.  Values outside the current plot region are not shown.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/lines.html">lines</a></code>,
+<code><a href="../../graphics/html/points.html">points</a></code>,
+<code><a href="../../polynom/help/points.polynomial.html">points.polynomial</a></code>,
+<code><a href="../../graphics/html/plot.default.html">plot</a></code>,
+<code><a href="../../polynom/help/plot.polynomial.html">plot.polynomial</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot  (poly.calc(-1:5))
+lines (poly.calc( 2:4), lty = 2)
+points(poly.calc(-2:6), pch = 4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

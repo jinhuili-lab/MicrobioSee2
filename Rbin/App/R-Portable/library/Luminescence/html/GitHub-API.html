@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: GitHub API</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for GitHub-API {Luminescence}"><tr><td>GitHub-API {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>GitHub API</h2>
+
+<h3>Description</h3>
+
+<p>R Interface to the GitHub API v3.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+github_commits(user = "r-lum", repo = "luminescence", branch = "master", n = 5)
+
+github_branches(user = "r-lum", repo = "luminescence")
+
+github_issues(user = "r-lum", repo = "luminescence", verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>user</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+GitHub user name (defaults to <code>'r-lum'</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>repo</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+name of a GitHub repository (defaults to <code>'luminescence'</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>branch</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+branch of a GitHub repository (defaults to <code>'master'</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+number of commits returned (defaults to 5).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+print the output to the console (defaults to <code>TRUE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions can be used to query a specific repository hosted on GitHub. <br />
+</p>
+<p><code>github_commits</code> lists the most recent <code>n</code> commits of a specific branch of a repository.
+</p>
+<p><code>github_branches</code> can be used to list all current branches of a
+repository and returns the corresponding SHA hash as well as an installation
+command to install the branch in R via the 'devtools' package.
+</p>
+<p><code>github_issues</code> lists all open issues for a repository in valid YAML.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>github_commits</code>: <a href="../../base/html/data.frame.html">data.frame</a> with columns:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,1]</code> </td><td style="text-align: left;"> SHA </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,2]</code> </td><td style="text-align: left;"> AUTHOR </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,3]</code> </td><td style="text-align: left;"> DATE </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,4]</code> </td><td style="text-align: left;"> MESSAGE </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><code>github_branches</code>: <a href="../../base/html/data.frame.html">data.frame</a> with columns:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,1]</code> </td><td style="text-align: left;"> BRANCH </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,2]</code> </td><td style="text-align: left;"> SHA </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[ ,3]</code> </td><td style="text-align: left;"> INSTALL </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><code>github_commits</code>: Nested <a href="../../base/html/list.html">list</a> with <code>n</code> elements.
+Each commit element is a list with elements:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[1]]</code> </td><td style="text-align: left;"> NUMBER </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[2]]</code> </td><td style="text-align: left;"> TITLE </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[3]]</code> </td><td style="text-align: left;"> BODY </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[4]]</code> </td><td style="text-align: left;"> CREATED </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[5]]</code> </td><td style="text-align: left;"> UPDATED </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[6]]</code> </td><td style="text-align: left;"> CREATOR </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[7]]</code> </td><td style="text-align: left;"> URL </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">[[8]]</code> </td><td style="text-align: left;"> STATUS </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. GitHub-API(): GitHub API. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>GitHub Developer API v3. <a href="https://developer.github.com/v3/">https://developer.github.com/v3/</a>, last accessed: 10/01/2017.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+github_branches(user = "r-lum", repo = "luminescence")
+github_issues(user = "r-lum", repo = "luminescence")
+github_commits(user = "r-lum", repo = "luminescence", branch = "master", n = 10)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

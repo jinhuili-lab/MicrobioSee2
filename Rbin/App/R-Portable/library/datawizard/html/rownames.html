@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tools for working with row names or row ids</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rownames_as_column {datawizard}"><tr><td>rownames_as_column {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tools for working with row names or row ids</h2>
+
+<h3>Description</h3>
+
+<p>Tools for working with row names or row ids
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rownames_as_column(x, var = "rowname")
+
+column_as_rownames(x, var = "rowname")
+
+rowid_as_column(x, var = "rowid")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>var</code></td>
+<td>
+<p>Name of column to use for row names/ids. For <code>column_as_rownames()</code>,
+this argument can be the variable name or the column number. For
+<code>rownames_as_column()</code> and <code>rowid_as_column()</code>, the column name must not
+already exist in the data.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These are similar to <code>tibble</code>'s functions <code>column_to_rownames()</code>,
+<code>rownames_to_column()</code> and <code>rowid_to_column()</code>. Note that the behavior of
+<code>rowid_as_column()</code> is different for grouped dataframe: instead of making
+the rowid unique across the full dataframe, it creates rowid per group.
+Therefore, there can be several rows with the same rowid if they belong to
+different groups.
+</p>
+<p>If you are familiar with <code>dplyr</code>, this is similar to doing the following:
+</p>
+<div class="sourceCode r"><pre>data |&gt;
+  group_by(grp) |&gt;
+  mutate(id = row_number()) |&gt;
+  ungroup()
+</pre></div>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Convert between row names and column --------------------------------
+test &lt;- rownames_as_column(mtcars, var = "car")
+test
+head(column_as_rownames(test, var = "car"))
+
+test_data &lt;- head(iris)
+
+rowid_as_column(test_data)
+rowid_as_column(test_data, var = "my_id")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

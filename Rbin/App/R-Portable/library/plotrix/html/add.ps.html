@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: add p-values from t-tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add.ps {plotrix}"><tr><td>add.ps {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+add p-values from t-tests
+</h2>
+
+<h3>Description</h3>
+
+<p>Adds p-values comparing the different cells at each x-axis position with a
+reference cell. Uses a syntax similar to <span class="samp">raw.means.plot2</span>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ add.ps(data, col.id, col.offset, col.x, col.value, fun.aggregate = "mean",
+ ref.offset = 1, prefixes,alternative = c("two.sided", "less", "greater"),
+ mu = 0, paired = FALSE, var.equal = FALSE, lty = 0, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>A <span class="samp">data.frame</span>
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.id</code></td>
+<td>
+
+<p><span class="samp">character</span> vector specifying the id column.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.offset</code></td>
+<td>
+
+<p><span class="samp">character</span> vector specifying the offset column.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.x</code></td>
+<td>
+
+<p><span class="samp">character</span> vector specifying the x-axis column.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col.value</code></td>
+<td>
+
+<p><span class="samp">character</span> vector specifying the data column.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun.aggregate</code></td>
+<td>
+
+<p>Function or function name used for aggregating the results. Default is
+<span class="samp">"mean"</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ref.offset</code></td>
+<td>
+
+<p>Scalar <span class="samp">numeric</span> indicating the reference level to be tested against.
+The default is 1 corresponding to <span class="samp">levels(factor(d[,col.offset]))[1]</span>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>prefixes</code></td>
+<td>
+
+<p><span class="samp">character</span> vector of the indices for the p-values. If missing
+corresponds to <span class="samp">levels(factor(d.new[,col.offset]))[-ref.offset]</span>. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+
+<p>same as in <a href="../../stats/html/t.test.html">t.test</a>
+</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+
+<p>same as in <a href="../../stats/html/t.test.html">t.test</a>
+</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+
+<p>same as in <a href="../../stats/html/t.test.html">t.test</a>
+</p>
+</td></tr>
+<tr valign="top"><td><code>var.equal</code></td>
+<td>
+
+<p>same as in <a href="../../stats/html/t.test.html">t.test</a>
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p>line type of axis, Default is 0 (i.e., no line).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments passed to axis.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function computes t-tests comparing the values at each x-axis position
+for each condition against the reference condition at and adds the p-values
+to the axis.
+</p>
+<p>This functions uses the same syntax as <a href="../../plotrix/help/raw.means.plot2.html">raw.means.plot2</a> and
+should be used in addition to it. Note that values are ordered according to
+the <span class="samp">col.id</span> so <span class="samp">paired = TRUE</span> should be fine.
+</p>
+
+
+<h3>Value</h3>
+
+<p>axis is plotted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Singmann
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/raw.means.plot.html">raw.means.plot</a> as the accompanying main functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+#The examples uses the OBrienKaiser dataset from car and needs reshape.
+# This extends the examples from raw.means.plot
+require(reshape)
+require(car)
+data(OBrienKaiser)
+OBKnew &lt;- cbind(factor(1:nrow(OBrienKaiser)), OBrienKaiser)
+colnames(OBKnew)[1] &lt;- "id"
+OBK.long &lt;- melt(OBKnew)
+OBK.long[, c("measurement", "time")] &lt;-
+ t(vapply(strsplit(as.character(OBK.long$variable), "\\."),  "[", c("", "")))
+
+# For this example the position at each x-axis are within-subject comparisons!
+raw.means.plot2(OBK.long, "id", "measurement", "gender", "value")
+ add.ps(OBK.long, "id", "measurement", "gender", "value", paired = TRUE)
+ #reference is "fup"
+
+raw.means.plot2(OBK.long, "id", "measurement", "gender", "value")
+add.ps(OBK.long, "id", "measurement", "gender", "value", ref.offset = 2,
+ paired = TRUE) #reference is "post"
+
+# Use R's standard (i.e., Welch test)
+raw.means.plot2(OBK.long, "id", "treatment", "gender", "value")
+add.ps(OBK.long, "id", "treatment", "gender", "value",
+ prefixes = c("p(control vs. A)", "p(control vs. B)"))
+
+# Use standard t-test
+raw.means.plot2(OBK.long, "id", "treatment", "gender", "value")
+add.ps(OBK.long, "id", "treatment", "gender", "value", var.equal = TRUE,
+ prefixes = c("p(control vs. A)", "p(control vs. B)"))
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

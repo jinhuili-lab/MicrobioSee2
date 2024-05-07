@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check if tokens are aligned</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for token_is_on_aligned_line {styler}"><tr><td>token_is_on_aligned_line {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check if tokens are aligned</h2>
+
+<h3>Description</h3>
+
+<p>If all tokens are aligned, <code>TRUE</code> is returned, otherwise <code>FALSE</code>. The
+function only checks for alignment of function calls. This can be
+recycled conveniently later if needed as a vector with length &gt; 1.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+token_is_on_aligned_line(pd_flat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A flat parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Multiple lines are called aligned if the following conditions hold for all
+but the first line of the expression:
+</p>
+
+<ul>
+<li><p> lag spaces of column 1 must agree.
+</p>
+</li>
+<li><p> spacing around comma (0 before, &gt; 1 after) and spacing around <code>=</code> (at least
+one around).
+</p>
+</li>
+<li><p> all positions of commas of col &gt; 2 must agree (needs recursive creation of
+<code>text</code>).
+</p>
+</li></ul>
+
+<p>Because of the last requirement, this function is very expensive to run. For
+this reason, the following approach is taken:
+</p>
+
+<ul>
+<li><p> Only invoke the function when certain that alignment is possible.
+</p>
+</li>
+<li><p> Check the cheap conditions first.
+</p>
+</li>
+<li><p> For the recursive creation of text, greedily check column by column to make
+sure we can stop as soon as we found that columns are not aligned.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+library("magrittr")
+withr::with_options(
+  list(styler.cache_name = NULL), # temporarily deactivate cache
+  {
+    transformers &lt;- tidyverse_style()
+    pd_nested &lt;- compute_parse_data_nested(c(
+      "call(",
+      "  ab = 1L,",
+      "  a  = 2",
+      ")"
+    )) %&gt;%
+      styler:::post_visit(transformers$initialize)
+    nest &lt;- pd_nested$child[[1L]]
+    styler:::token_is_on_aligned_line(nest)
+  }
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

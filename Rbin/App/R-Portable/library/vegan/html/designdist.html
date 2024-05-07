@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Design your own Dissimilarities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for designdist {vegan}"><tr><td>designdist {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Design your own Dissimilarities </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>designdist</code> lets you define your own dissimilarities
+using terms for shared and total quantities, number of rows and number
+of columns. The shared and total quantities can be binary, quadratic
+or minimum terms. In binary terms, the shared component is number of
+shared species, and totals are numbers of species on sites. The
+quadratic terms are cross-products and sums of squares, and minimum
+terms are sums of parallel minima and row totals. Function
+<code>chaodist</code> lets you define your own dissimilarities using terms
+that are supposed to take into account the &ldquo;unseen species&rdquo;
+(see Chao et al., 2005 and Details in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+designdist(x, method = "(A+B-2*J)/(A+B)",
+           terms = c("binary", "quadratic", "minimum"), 
+           abcd = FALSE, alphagamma = FALSE, name)
+chaodist(x, method = "1 - 2*U*V/(U+V)", name)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Input data. </p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Equation for your dissimilarities. This can use terms
+<code>J</code> for shared quantity, <code>A</code> and <code>B</code> for totals,
+<code>N</code> for the number of rows (sites) and <code>P</code> for the
+number of columns (species) or in <code>chaodist</code> it can use terms
+<code>U</code> and <code>V</code>. The equation can also contain any <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+functions that accepts vector arguments and returns vectors of the
+same length. </p>
+</td></tr>
+<tr valign="top"><td><code>terms</code></td>
+<td>
+<p>How shared and total components are found. For vectors
+<code>x</code> and <code>y</code> the  <code>"quadratic"</code> terms are <code>J = sum(x*y)</code>,
+<code>A = sum(x^2)</code>, <code>B = sum(y^2)</code>, and <code>"minimum"</code> terms
+are <code>J = sum(pmin(x,y))</code>, <code>A = sum(x)</code> and <code>B = sum(y)</code>, 
+and <code>"binary"</code> terms are either of these after transforming
+data into binary form (shared number of species, and number of
+species for each row). </p>
+</td></tr>
+<tr valign="top"><td><code>abcd</code></td>
+<td>
+<p>Use 2x2 contingency table notation for binary data:
+<i>a</i> is the number of shared species, <i>b</i> and <i>c</i> are the
+numbers of species occurring only one of the sites but not in both,
+and <i>d</i> is the number of species that occur on neither of the sites.</p>
+</td></tr>
+<tr valign="top"><td><code>alphagamma</code></td>
+<td>
+<p>Use beta diversity notation with terms
+<code>alpha</code> for average alpha diversity for compared sites,
+<code>gamma</code> for diversity in pooled sites, and <code>delta</code> for the
+absolute value of difference of average <code>alpha</code> and alpha
+diversities of compared sites. Terms <code>A</code> and
+<code>B</code> refer to alpha diversities of compared sites.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name you want to use for your index. The default is to
+combine the <code>method</code> equation and <code>terms</code> argument.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Most popular dissimilarity measures in ecology can be expressed with
+the help of terms <code>J</code>, <code>A</code> and <code>B</code>, and some also involve
+matrix dimensions <code>N</code> and <code>P</code>. Some examples you can define in
+<code>designdist</code> are:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code>A+B-2*J</code> </td><td style="text-align: left;"> <code>"quadratic"</code> </td><td style="text-align: left;"> squared Euclidean </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>A+B-2*J</code> </td><td style="text-align: left;"> <code>"minimum"</code> </td><td style="text-align: left;"> Manhattan </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>(A+B-2*J)/(A+B)</code> </td><td style="text-align: left;"> <code>"minimum"</code> </td><td style="text-align: left;"> Bray-Curtis </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>(A+B-2*J)/(A+B)</code> </td><td style="text-align: left;"> <code>"binary"</code> </td><td style="text-align: left;">
+    Sørensen </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> 
+    <code>(A+B-2*J)/(A+B-J)</code> </td><td style="text-align: left;"> <code>"binary"</code> </td><td style="text-align: left;"> Jaccard </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>(A+B-2*J)/(A+B-J)</code> </td><td style="text-align: left;"> <code>"minimum"</code> </td><td style="text-align: left;">
+    Ružička </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>(A+B-2*J)/(A+B-J)</code> </td><td style="text-align: left;"> <code>"quadratic"</code> </td><td style="text-align: left;">
+    (dis)similarity ratio </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>1-J/sqrt(A*B)</code> </td><td style="text-align: left;"> <code>"binary"</code> </td><td style="text-align: left;"> Ochiai </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>1-J/sqrt(A*B)</code> </td><td style="text-align: left;"> <code>"quadratic"</code> </td><td style="text-align: left;"> cosine
+    complement </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code>1-phyper(J-1, A, P-A, B)</code> </td><td style="text-align: left;"> <code>"binary"</code> </td><td style="text-align: left;"> Raup-Crick (but see <code><a href="../../vegan/help/raupcrick.html">raupcrick</a></code>)
+  </td>
+</tr>
+
+</table>
+
+<p>The function <code>designdist</code> can implement most dissimilarity
+indices in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or elsewhere, and it can also be
+used to implement many other indices, amongst them, most of those
+described in Legendre &amp; Legendre (2012). It can also be used to
+implement all indices of beta diversity described in Koleff et
+al. (2003), but there also is a specific function
+<code><a href="../../vegan/help/betadiver.html">betadiver</a></code> for the purpose.
+</p>
+<p>If you want to implement binary dissimilarities based on the 2x2
+contingency table notation, you can set <code>abcd = TRUE</code>. In this
+notation <code>a = J</code>, <code>b = A-J</code>, <code>c = B-J</code>, <code>d = P-A-B+J</code>. 
+This notation is often used instead of the more more
+tangible default notation for reasons that are opaque to me.
+</p>
+<p>With <code>alphagamma = TRUE</code> it is possible to use beta diversity
+notation with terms <code>alpha</code> for average alpha diversity and
+<code>gamma</code> for gamma diversity in two compared sites. The terms
+are calculated as <code>alpha = (A+B)/2</code>, <code>gamma = A+B-J</code> and
+<code>delta = abs(A-B)/2</code>.  Terms <code>A</code> and <code>B</code> are also
+available and give the alpha diversities of the individual compared
+sites.  The beta diversity terms may make sense only for binary
+terms (so that diversities are expressed in numbers of species), but
+they are calculated for quadratic and minimum terms as well (with a
+warning).
+</p>
+<p>Function <code>chaodist</code> is similar to <code>designgist</code>, but uses
+terms <code>U</code> and <code>V</code> of Chao et al. (2005). These terms are
+supposed to take into account the effects of unseen species. Both
+<code>U</code> and <code>V</code> are scaled to range <i>0 &hellip; 1</i>. They take
+the place of <code>A</code> and <code>B</code> and the product <code>U*V</code> is used
+in the place of <code>J</code> of <code>designdist</code>.  Function
+<code>chaodist</code> can implement any commonly used Chao et al. (2005)
+style dissimilarity:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+  <code>1 - 2*U*V/(U+V)</code> </td><td style="text-align: left;"> Sørensen type </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>1 - U*V/(U+V-U*V)</code> </td><td style="text-align: left;"> Jaccard type </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>1 - sqrt(U*V)</code> </td><td style="text-align: left;"> Ochiai type </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code>(pmin(U,V) - U*V)/pmin(U,V)</code> </td><td style="text-align: left;"> Simpson type
+  </td>
+</tr>
+
+</table>
+
+<p>Function <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> implements Jaccard-type Chao distance,
+and its documentation contains more complete discussion on the
+calculation of the terms.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>designdist</code> returns an object of class <code><a href="../../stats/html/dist.html">dist</a></code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>designdist</code> does not use compiled code, but it is based on
+vectorized <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> code. The <code>designdist</code> function can be much
+faster than <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, although the latter uses compiled
+code. However, <code>designdist</code> cannot skip missing values and uses
+much more memory during calculations.
+</p>
+<p>The use of sum terms can be numerically unstable. In particularly,
+when these terms are large, the precision may be lost. The risk is
+large when the number of columns is high, and particularly large with
+quadratic terms. For precise calculations it is better to use
+functions like <code><a href="../../stats/html/dist.html">dist</a></code> and <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> which are
+more robust against numerical problems.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Chao, A., Chazdon, R. L., Colwell, R. K. and Shen, T. (2005) A new
+statistical approach for assessing similarity of species composition
+with incidence and abundance data. <em>Ecology Letters</em> <strong>8</strong>,
+148&ndash;159.
+</p>
+<p>Koleff, P., Gaston, K.J. and Lennon, J.J. (2003) Measuring beta
+diversity for presence&ndash;absence data. <em>J. Animal Ecol.</em>
+<strong>72</strong>, 367&ndash;382. 
+</p>
+<p>Legendre, P. and Legendre, L. (2012) <em>Numerical Ecology</em>. 3rd
+English ed. Elsevier
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, <code><a href="../../vegan/help/betadiver.html">betadiver</a></code>, <code><a href="../../stats/html/dist.html">dist</a></code>,
+<code><a href="../../vegan/help/raupcrick.html">raupcrick</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+## Four ways of calculating the same Sørensen dissimilarity
+d0 &lt;- vegdist(BCI, "bray", binary = TRUE)
+d1 &lt;- designdist(BCI, "(A+B-2*J)/(A+B)")
+d2 &lt;- designdist(BCI, "(b+c)/(2*a+b+c)", abcd = TRUE)
+d3 &lt;- designdist(BCI, "gamma/alpha - 1", alphagamma = TRUE)
+## Arrhenius dissimilarity: the value of z in the species-area model
+## S = c*A^z when combining two sites of equal areas, where S is the
+## number of species, A is the area, and c and z are model parameters.
+## The A below is not the area (which cancels out), but number of
+## species in one of the sites, as defined in designdist().
+dis &lt;- designdist(BCI, "(log(A+B-J)-log(A+B)+log(2))/log(2)")
+## This can be used in clustering or ordination...
+ordiplot(cmdscale(dis))
+## ... or in analysing beta diversity (without gradients)
+summary(dis)
+  </pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

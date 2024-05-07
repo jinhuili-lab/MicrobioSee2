@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: General S4 class for representing multiple odds model...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BFodds-class {BayesFactor}"><tr><td>BFodds-class {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>General S4 class for representing multiple odds model comparisons, all against the same model</h2>
+
+<h3>Description</h3>
+
+<p>The <code>BFodds</code> class is a general S4 class for representing models model comparison via prior or posterior odds.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'numeric,BFodds'
+e1 / e2
+
+## S4 method for signature 'BFodds,BFodds'
+e1 / e2
+
+## S4 method for signature 'BFodds,BFBayesFactor'
+e1 * e2
+
+## S4 method for signature 'BFodds,index,missing,missing'
+x[i, j, ..., drop = TRUE]
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e1</code></td>
+<td>
+<p>Numerator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>e2</code></td>
+<td>
+<p>Denominator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>BFodds object</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>indices indicating elements to extract</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+<p>unused for BFodds objects</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to related methods</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>BFodds</code> objects can be inverted by taking the reciprocal and can
+be divided by one another, provided both objects have the same denominator. In addition,
+the <code>t</code> (transpose) method can be used to invert odds objects.
+</p>
+
+<p>The <code>BFodds</code> class has the following slots defined:
+</p>
+<dl>
+<dt>numerator</dt><dd><p>a list of models all inheriting <code>BFmodel</code>, each providing a single numerator</p>
+</dd>
+<dt>denominator</dt><dd><p>a single <code>BFmodel</code> object serving as the denominator for all model comparisons</p>
+</dd>
+<dt>logodds</dt><dd><p>a data frame containing information about the (log) prior odds between each numerator and the denominator</p>
+</dd>
+<dt>bayesFactor</dt><dd><p>a <code>BFBayesFactor</code> object (possibly) containing the evidence from the data.</p>
+</dd>
+<dt>version</dt><dd><p>character string giving the version and revision number of the package that the model was created in</p>
+</dd>
+</dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Combine child and internal child</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for combine_children {styler}"><tr><td>combine_children {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Combine child and internal child</h2>
+
+<h3>Description</h3>
+
+<p>Binds two parse tables together and arranges them so that the tokens are in
+the correct order.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+combine_children(child, internal_child)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>child</code></td>
+<td>
+<p>A parse table or <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>internal_child</code></td>
+<td>
+<p>A parse table or <code>NULL</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Essentially, this is a wrapper around vctrs::vec_rbind()], but
+returns <code>NULL</code> if the result of vctrs::vec_rbind()] is a data frame with
+zero rows.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

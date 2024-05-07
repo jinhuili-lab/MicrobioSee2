@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shortest Probability Interval (SPI)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for spi {bayestestR}"><tr><td>spi {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shortest Probability Interval (SPI)</h2>
+
+<h3>Description</h3>
+
+<p>Compute the <strong>Shortest Probability Interval (SPI)</strong> of posterior distributions.
+The SPI is a more computationally stable HDI. The implementation is based on
+the algorithm from the <strong>SPIn</strong> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+spi(x, ...)
+
+## S3 method for class 'numeric'
+spi(x, ci = 0.95, verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+spi(
+  x,
+  ci = 0.95,
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'brmsfit'
+spi(
+  x,
+  ci = 0.95,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'get_predicted'
+spi(x, ci = 0.95, use_iterations = FALSE, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector representing a posterior distribution, or a data frame of such
+vectors. Can also be a Bayesian model. <strong>bayestestR</strong> supports a wide range
+of models (see, for example, <code>methods("hdi")</code>) and not all of those are
+documented in the 'Usage' section, because methods for other classes mostly
+resemble the arguments of the <code>.numeric</code> or <code>.data.frame</code>methods.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the (credible) interval - CI
+(between 0 and 1) to be estimated. Default to <code>.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+<tr valign="top"><td><code>use_iterations</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and <code>x</code> is a <code>get_predicted</code> object,
+(returned by <code><a href="../../insight/help/get_predicted.html">insight::get_predicted()</a></code>), the function is applied to the
+iterations instead of the predictions. This only applies to models that return
+iterations for predicted values (e.g., <code>brmsfit</code> models).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The SPI is an alternative method to the HDI (<code><a href="../../bayestestR/help/hdi.html">hdi()</a></code>) to quantify
+uncertainty of (posterior) distributions. The SPI is said to be more stable
+than the HDI, because, the <em>&quot;HDI can be noisy (that is, have a high Monte Carlo error)&quot;</em>
+(Liu et al. 2015). Furthermore, the HDI is sensitive to additional assumptions,
+in particular assumptions related to the different estimation methods, which
+can make the HDI less accurate or reliable.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with following columns:
+</p>
+
+<ul>
+<li> <p><code>Parameter</code> The model parameter(s), if <code>x</code> is a model-object. If <code>x</code> is a
+vector, this column is missing.
+</p>
+</li>
+<li> <p><code>CI</code> The probability of the credible interval.
+</p>
+</li>
+<li> <p><code>CI_low</code>, <code>CI_high</code> The lower and upper credible interval limits for the parameters.
+</p>
+</li></ul>
+
+
+
+<h3>Note</h3>
+
+<p>The code to compute the SPI was adapted from the <strong>SPIn</strong> package,
+and slightly modified to be more robust for Stan models. Thus, credits go
+to Ying Liu for the original SPI algorithm and R implementation.
+</p>
+
+
+<h3>References</h3>
+
+<p>Liu, Y., Gelman, A., &amp; Zheng, T. (2015). Simulation-efficient shortest probability intervals. Statistics and Computing, 25(4), 809–819. https://doi.org/10.1007/s11222-015-9563-8
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other ci: 
+<code><a href="../../bayestestR/help/bci.html">bci</a>()</code>,
+<code><a href="../../bayestestR/help/ci.html">ci</a>()</code>,
+<code><a href="../../bayestestR/help/cwi.html">cwi</a>()</code>,
+<code><a href="../../bayestestR/help/eti.html">eti</a>()</code>,
+<code><a href="../../bayestestR/help/hdi.html">hdi</a>()</code>,
+<code><a href="../../bayestestR/help/si.html">si</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+
+posterior &lt;- rnorm(1000)
+spi(posterior)
+spi(posterior, ci = c(0.80, 0.89, 0.95))
+
+df &lt;- data.frame(replicate(4, rnorm(100)))
+spi(df)
+spi(df, ci = c(0.80, 0.89, 0.95))
+
+library(rstanarm)
+model &lt;- suppressWarnings(
+  stan_glm(mpg ~ wt + gear, data = mtcars, chains = 2, iter = 200, refresh = 0)
+)
+spi(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

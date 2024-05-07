@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Automatically serve golem external resources</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bundle_resources {golem}"><tr><td>bundle_resources {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Automatically serve golem external resources</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper around <code>htmltools::htmlDependency</code> that
+automatically bundles the CSS and JavaScript files in <code>inst/app/www</code>
+and which are created by <code>golem::add_css_file()</code> , <code>golem::add_js_file()</code>
+and <code>golem::add_js_handler()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bundle_resources(
+  path,
+  app_title,
+  name = "golem_resources",
+  version = "0.0.1",
+  meta = NULL,
+  head = NULL,
+  attachment = NULL,
+  package = NULL,
+  all_files = TRUE,
+  app_builder = "golem",
+  with_sparkles = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>The path to the folder where the external files are located.</p>
+</td></tr>
+<tr valign="top"><td><code>app_title</code></td>
+<td>
+<p>The title of the app, to be used as an application title.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Library name</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>Library version</p>
+</td></tr>
+<tr valign="top"><td><code>meta</code></td>
+<td>
+<p>Named list of meta tags to insert into document head</p>
+</td></tr>
+<tr valign="top"><td><code>head</code></td>
+<td>
+<p>Arbitrary lines of HTML to insert into the document head</p>
+</td></tr>
+<tr valign="top"><td><code>attachment</code></td>
+<td>
+<p>Attachment(s) to include within the document head. See
+Details.</p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>An R package name to indicate where to find the <code>src</code>
+directory when <code>src</code> is a relative path (see
+<code><a href="../../htmltools/help/resolveDependencies.html">resolveDependencies()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>all_files</code></td>
+<td>
+<p>Whether all files under the <code>src</code> directory are
+dependency files. If <code>FALSE</code>, only the files specified in
+<code>script</code>, <code>stylesheet</code>, and <code>attachment</code> are treated as
+dependency files.</p>
+</td></tr>
+<tr valign="top"><td><code>app_builder</code></td>
+<td>
+<p>The name of the app builder to add as a meta tag.
+Turn to NULL if you don't want this meta tag to be included.</p>
+</td></tr>
+<tr valign="top"><td><code>with_sparkles</code></td>
+<td>
+<p>C'est quand que tu vas mettre des paillettes dans ma vie Kevin?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function also preload <code><a href="../../golem/help/activate_js.html">activate_js()</a></code> which allows to
+use preconfigured JavaScript functions via <code><a href="../../golem/help/invoke_js.html">invoke_js()</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>an htmlDependency
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Make a key for 'R.cache'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cache_make_key {styler}"><tr><td>cache_make_key {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Make a key for <code>R.cache</code></h2>
+
+<h3>Description</h3>
+
+<p>This is used to determine if caching already corresponds to a style guide.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cache_make_key(text, transformers, more_specs)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Code to create a cache for. This should be styled text, as the
+approach used by styler does not cache input, but styled code.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A list of transformer functions, because we can only
+know if text is already correct if we know which transformer function it
+should be styled with.</p>
+</td></tr>
+<tr valign="top"><td><code>more_specs</code></td>
+<td>
+<p>A named vector coercible to character that determines the
+styling but are style guide independent, such as <code>include_roxygen_examples</code>
+or <code>base_indention</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>We need to compare:
+</p>
+
+<ul>
+<li><p> text to style. Will be passed to hash function as is.
+</p>
+</li>
+<li><p> styler version. Not an issue because for every version of styler, we build
+a new cache.
+</p>
+</li>
+<li><p> transformers. Cannot easily hash them because two environments won't be
+identical even if they contain the same objects (see 'Experiments'). Simple
+<code>as.character(transformers)</code> will not consider infinitively recursive
+code dependencies.
+To fix this, transformers must have names and version number as described
+in <code><a href="../../styler/help/create_style_guide.html">create_style_guide()</a></code>. Now, the only way to fool the cache invalidation
+is to replace a transformer with the same function body (but changing
+the function definition of the functions called in that body) interactively
+without changing version number of name at the same time.
+Remaining problem: <code>purrr::partial()</code> calls will render generic code, e.g.
+see <code>as.character(list(purrr::partial(sum, x = 4)))</code>. For that reason,
+all arguments passed to a <code>purrr::partial()</code> call must be put in the
+style guide under <code>more_specs_style_guide</code>.
+</p>
+</li></ul>
+
+
+
+<h3>Experiments</h3>
+
+<p>There is unexplainable behavior in conjunction with hashing and
+environments:
+</p>
+
+<ul>
+<li><p> Functions created with <code>purrr::partial()</code> are not identical when compared
+with <code>identical()</code>
+(<a href="https://stackoverflow.com/questions/58656033/when-are-purrrpartial-ized-functions-identical">StackOverflow</a>)
+</p>
+</li>
+<li><p> except when they have the exact same parent environment, which must be an
+object created and then passed to <code>purrr::partial(.env = ...)</code>, not
+created in-place.
+</p>
+</li>
+<li> <p><code>purrr::partial()</code> seems to ignore <code>.env</code> after version 0.2.5, so until
+this is fixed, we'd have to work with version 0.2.5.
+</p>
+</li>
+<li><p> Our caching backend package, <code>R.cache</code>, uses
+<code>R.cache:::getChecksum.default</code> (which uses <code>digest::digest()</code>) to hash the
+input. The latter does not seem to care if the environments are exactly
+equal (see 'Examples').
+</p>
+</li>
+<li><p> However, under some circumstances, it does: Commit 9c94c022 (if not
+overwritten / rebased by now) contains a reprex. Otherwise, search for
+43219ixmypi in commit messages and restore this commit to reproduce the
+behavior.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+add &lt;- function(x, y) {
+  x + y
+}
+add1 &lt;- purrr::partial(add, x = 1)
+add2 &lt;- purrr::partial(add, x = 1)
+identical(add1, add2)
+identical(digest::digest(add1), digest::digest(add2))
+identical(digest::digest(styler::tidyverse_style()), digest::digest(styler::tidyverse_style()))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

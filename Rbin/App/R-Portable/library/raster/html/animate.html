@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Animate layers of a Raster* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for animate {raster}"><tr><td>animate {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Animate layers of a Raster* object</h2>
+
+<h3>Description</h3>
+
+<p>Animate (sequentially plot) the layers of a RasterStack or RasterBrick* object to create a movie
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterStackBrick'
+animate(x, pause=0.25, main, zlim, maxpixels=50000, n=10, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>pause</code></td>
+<td>
+<p>numeric. How long should be the pause be between layers?</p>
+</td></tr>  
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>title for each layer. If not supplied the z-value is used if available. Otherwise the names are used.</p>
+</td></tr>  
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>numeric vector of lenght 2. Range of values to plot</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer &gt; 0. Maximum number of cells to use for the plot. If <code>maxpixels &lt; ncell(x)</code>, <code>sampleRegular</code> is used before plotting</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>integer &gt; 0. Number of loops</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../raster/help/plot.html">plot</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>None
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/plot.html">plot</a></code>, <code><a href="../../raster/help/spplot.html">spplot</a></code>, <code><a href="../../raster/help/plotRGB.html">plotRGB</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+animate(b, n=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

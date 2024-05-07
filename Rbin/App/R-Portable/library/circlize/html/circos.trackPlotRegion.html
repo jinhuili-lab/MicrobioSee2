@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create plotting regions for a whole track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.trackPlotRegion {circlize}"><tr><td>circos.trackPlotRegion {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Create plotting regions for a whole track
+</h2>
+
+<h3>Description</h3>
+
+<p>Create plotting regions for a whole track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.trackPlotRegion(
+    sectors = NULL,
+    x = NULL, y = NULL,
+    ylim = NULL,
+    force.ylim = TRUE,
+    track.index = NULL,
+    track.height = circos.par("track.height"),
+    track.margin = circos.par("track.margin"),
+    cell.padding = circos.par("cell.padding"),
+    bg.col = NA,
+    bg.border = "black",
+    bg.lty = par("lty"),
+    bg.lwd = par("lwd"),
+    panel.fun = function(x, y) {NULL},
+    factors = sectors)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A <code><a href="../../base/html/factor.html">factor</a></code> or a character vector which represents categories of data, if it is <code>NULL</code>, then it uses all sector index.</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>The same as <code>sectors</code>. It will be removed in future versions. </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data on x-axis. It is only used if <code>panel.fun</code> is set.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data on y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Range of data on y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>force.ylim</code></td>
+<td>
+<p>Whether to force all cells in the track to share the same <code>ylim</code>. Normally, all cells on a same track should have same <code>ylim</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track which is going to be created/updated. If the specified track has already been created, this function just updated corresponding track with new plot. If the specified track is <code>NULL</code> or has not been created, this function just creates it. Note the value for this argument should not exceed maximum track index plus 1.</p>
+</td></tr>
+<tr valign="top"><td><code>track.height</code></td>
+<td>
+<p>Height of the track. It is the percentage to the radius of the unit circles. The value can be set by <code><a href="../../circlize/help/uh.html">uh</a></code> to an absolute unit. If updating a track (with proper <code>track.index</code> value), this argument is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>track.margin</code></td>
+<td>
+<p>only affect current track</p>
+</td></tr>
+<tr valign="top"><td><code>cell.padding</code></td>
+<td>
+<p>only affect current track</p>
+</td></tr>
+<tr valign="top"><td><code>bg.col</code></td>
+<td>
+<p>Background color for the plotting regions. It can be vector which has the same length of sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>bg.border</code></td>
+<td>
+<p>Color for the border of the plotting regions. It can be vector which has the same length of sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lty</code></td>
+<td>
+<p>Line style for the border of the plotting regions. It can be vector which has the same length of sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lwd</code></td>
+<td>
+<p>Line width for the border of the plotting regions. It can be vector which has the same length of sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>panel.fun</code></td>
+<td>
+<p>Panel function to add graphics in each cell, see &quot;details&quot; section and vignette for explanation.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function tends to be a high-level plotting function, which means,
+you must first call this function to create plotting regions, then those
+low-level graphic function such as <code><a href="../../circlize/help/circos.points.html">circos.points</a></code>, <code><a href="../../circlize/help/circos.lines.html">circos.lines</a></code> can be
+applied.
+</p>
+<p>Currently, all the cells that are created in a same track sharing same height, which means,
+there is no cell has larger height than others.
+</p>
+<p>Since ranges for values on x-axis has already been defined by <code><a href="../../circlize/help/circos.initialize.html">circos.initialize</a></code>, only
+ranges for values on y-axis should be specified in this function.
+There are two ways to identify the ranges for values on y-axes either by <code>y</code>
+or <code>ylim</code>. If <code>y</code> is set, it must has the same length as <code>factors</code> and the <code>ylim</code> for each cell is calculated
+from y values. Also, the ylim can be specified from <code>ylim</code> which can be a two-element vector or a matrix which
+has two columns and the number of rows is the same as the length of the levels of the factors.
+</p>
+<p>If there is no enough space for the new track or the new track overlaps with other tracks,
+there will be an error.
+</p>
+<p>If <code>factors</code> does not cover all sectors, the cells in remaining unselected
+sectors would also be created but without drawing anything. The <code>ylim</code> for these cells
+are the same as that in the last created cell.
+</p>
+<p>The function can also update a already-created track if the index for the track
+is specified. If updating an existed track, those parameters related to the position (such as track height and track margin)
+of the plotting region can not be changed.
+</p>
+
+
+<h3>Panel</h3>
+
+<p><code>panel.fun</code> provides a convenient way to add graphics in each cell when initializing the
+tracks. The self-defined function needs two arguments: <code>x</code> and <code>y</code> which correspond to the data points
+in the current cell. When <code>factors</code>, <code>x</code>, and <code>y</code> are set in <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>, a subset of <code>x</code>
+and <code>y</code> are split by <code>factors</code> and are sent to <code>panel.fun</code> in the &quot;current&quot; cell.
+<code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code> creates plotting regions one by one on the track and
+<code>panel.fun</code> adds graphics in the 'current' cell after the plotting region for a certain cell has been
+created.
+</p>
+<p>See vignette for examples of how to use this feature.</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html">https://jokergoo.github.io/circlize_book/book/circular-layout.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(letters[1:8], xlim = c(0, 1))
+set.seed(123)
+df = data.frame(fa = sample(letters[1:8], 100, replace = TRUE),
+                x = runif(100), y = rnorm(100))
+circos.track(ylim = c(0, 1), bg.col = rand_color(8))
+circos.track(df$fa, x = df$x, y = df$y, panel.fun = function(x, y) {
+    circos.points(x, y)
+}, track.height = 0.2, bg.border = rand_color(8))
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

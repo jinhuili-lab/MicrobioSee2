@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Legend with grouped bars, lines or symbols</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for legendg {plotrix}"><tr><td>legendg {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Legend with grouped bars, lines or symbols</h2>
+
+<h3>Description</h3>
+
+<p>Displays a legend with more than one rectangle, symbol or line.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ legendg(x,y=NULL,legend,fill=NULL,col=par("col"),          
+ border=list("black"),lty,lwd,pch=NULL,angle=45,density=NULL,       
+ bty="o",bg=par("bg"),box.lwd=par("lwd"),box.lty=par("lty"), 
+ box.col=par("fg"),pt.bg=NA,cex=1,pt.cex=cex,pt.lwd=lwd,  
+ pt.space=1,xjust=0,yjust=1,x.intersp=1,y.intersp=1,
+ adj=c(0,0.5),text.width=NULL,text.col=par("col"),merge=FALSE,
+ trace=FALSE,plot=TRUE,ncol=1,horiz=FALSE,title=NULL,
+ inset=0,xpd,title.col=text.col)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Position of the legend as in <span class="samp">legend</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>Labels for the legend as in <span class="samp">legend</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p>List of fill colors for the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color(s), perhaps as a list, for the symbols.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color(s) for the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type, currently ignored and set to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width, currently ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>List of symbols for the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>angle,density</code></td>
+<td>
+<p>Currently ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>bty</code></td>
+<td>
+<p>Legend box type to be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Background color for the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>box.lwd,box.lty,box.col</code></td>
+<td>
+<p>Line width, type and color
+for the surrounding box.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for text.</p>
+</td></tr>
+<tr valign="top"><td><code>pt.bg,pt.cex,pt.lwd</code></td>
+<td>
+<p>Background color, character
+expansion and line width for the symbols.</p>
+</td></tr>
+<tr valign="top"><td><code>pt.space</code></td>
+<td>
+<p>Spacing for the symbols as a multiplier
+for <span class="samp">strwidth("O")</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>xjust,yjust</code></td>
+<td>
+<p>Justification for the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>x.intersp,y.intersp</code></td>
+<td>
+<p>x and y character spacing for
+the legend text.</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>Text adjustment.</p>
+</td></tr>
+<tr valign="top"><td><code>text.width,text.col</code></td>
+<td>
+<p>Width and color of the legend text.</p>
+</td></tr>
+<tr valign="top"><td><code>merge</code></td>
+<td>
+<p>Whether to merge points and lines.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Show how the legend is calculated.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>Whether to plot the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>ncol</code></td>
+<td>
+<p>Number of columns in the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>horiz</code></td>
+<td>
+<p>Whether to display a horizontal legend.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Title for the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>inset</code></td>
+<td>
+<p>Inset distances for use with keywords.</p>
+</td></tr>
+<tr valign="top"><td><code>xpd</code></td>
+<td>
+<p>An optional value for <span class="samp">par(xpd=)</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>title.col</code></td>
+<td>
+<p>Color for the legend title.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">legendg</span> calls <span class="samp">legend</span> to display a legend with a
+blank space to the left of the labels. It then attempts to display
+groups of colored rectangles or symbols in that space depending
+upon the contents of either <span class="samp">fill</span> or <span class="samp">pch</span>. These
+should be in the form of a list with the number of elements equal
+to the number of labels, and one or more fills or symbols for each
+label. <span class="samp">legendg</span> will display up to four fills or symbols
+next to each label, allowing the user to label a group of these
+rather than just one per label.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The value returned by <span class="samp">legend</span> returned invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/legend.html">legend</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(0.5,0.5,xlim=c(0,1),ylim=c(0,1),type="n",
+  main="Test of grouped legend function")
+ legendg(0.5,0.8,c("one","two","three"),pch=list(1,2:3,4:6),
+  col=list(1,2:3,4:6),pt.space=1.5)
+ legendg(0.5,0.5,c("one","two","three"),fill=list(1,2:3,4:6))
+ # fake a line/point with text points
+ legendg(0.2,0.25,c("letter","number"),
+  pch=list(c("-","A","-"),c("-","1","-")),
+  col=list(rep(2,3),rep(3,3)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

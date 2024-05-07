@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display text in a radial line</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for radialtext {plotrix}"><tr><td>radialtext {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display text in a radial line</h2>
+
+<h3>Description</h3>
+
+<p>Displays a string in a radial line, rotating it to flow in the radial
+direction and optionally scaling each letter's size according to its
+distance from the center.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ radialtext(x, center=c(0,0), start=NA, middle=1, end=NA, angle=0,
+  deg=NA, expand=0, stretch=1, nice=TRUE, cex=NA, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A character string.</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>The center of the circular area in x/y user units.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>The starting distance of the string from the center in
+x/y user units.</p>
+</td></tr>
+<tr valign="top"><td><code>middle</code></td>
+<td>
+<p>The middle distance of the string from the center in
+x/y user units.</p>
+</td></tr>
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>The ending distance of the string from the center in
+x/y user units.</p>
+</td></tr>
+<tr valign="top"><td><code>angle</code></td>
+<td>
+<p>The angular position of the string in radians.</p>
+</td></tr>
+<tr valign="top"><td><code>deg</code></td>
+<td>
+<p>The angular position of the string in degrees
+(takes precedence if not NA).</p>
+</td></tr>
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>Size expansion factor for characters, used only if
+<span class="samp">start</span> specified.</p>
+</td></tr>
+<tr valign="top"><td><code>stretch</code></td>
+<td>
+<p>How much to stretch the string for appearance, 1 for none.</p>
+</td></tr>
+<tr valign="top"><td><code>nice</code></td>
+<td>
+<p>TRUE to auto-flip text to keep it upright, FALSE to let
+it be upside down.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>The overall character expansion factor, NA for par(&quot;cex&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">text</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This may not work on all devices, as not all graphic devices can rotate text to
+arbitrary angles. The output looks best on a Postscript or similar device that can
+rotate text without distortion. Rotated text often looks very ragged on small bitmaps.
+If the user passes a value for <span class="samp">start</span>, this will override a value for
+<span class="samp">middle</span> or <span class="samp">end</span>. Likewise, a value for <span class="samp">end</span> will override a
+value for <span class="samp">middle</span>. Also, a value for <span class="samp">deg</span> overrides any value passed
+to <span class="samp">angle</span>. If <span class="samp">expand</span> is 0, all characters will be the same size,
+while a value of 1 will scale characters so that one that is twice
+as far from the center will be twice as large. Negative values are permitted too,
+but <span class="samp">expand</span> is only used if <span class="samp">start</span> was specified.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ted Toal</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/text.html">text</a>, <a href="../../plotrix/help/arctext.html">arctext</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(0, xlim=c(1,5), ylim=c(1,5), main="Test of radialtext",
+  xlab="", ylab="", type="n")
+ points(3, 3, pch=20)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  col="blue")
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=1.2, angle=pi/4, cex=0.8)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  middle=1.2, angle=pi/4+0.1, cex=0.8)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  end=1.2, angle=pi/4+0.2, cex=0.8)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.5, deg=135, cex=0.8, col="green")
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.5, deg=145, cex=0.8, stretch=2)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.5, deg=20, expand=0, col="red")
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.5, deg=250, expand=0.35)
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.75, deg=225, expand=1, col="gold")
+ radialtext("uncooked spaghetti", center=c(3,3),
+  start=0.5, deg=325, expand=-0.25, cex=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

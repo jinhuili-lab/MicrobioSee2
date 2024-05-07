@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: generate population prediction sample from parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pop_pred_samp {bbmle}"><tr><td>pop_pred_samp {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>generate population prediction sample from parameters</h2>
+
+<h3>Description</h3>
+
+<p>This [EXPERIMENTAL] function combines several sampling tricks to compute a version of an importance sample (based on flat priors) for the parameters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pop_pred_samp(
+  object,
+  n = 1000,
+  n_imp = n * 10,
+  return_wts = FALSE,
+  impsamp = FALSE,
+  PDify = FALSE,
+  PDmethod = NULL,
+  Sigma = vcov(object),
+  tol = 1e-06,
+  return_all = FALSE,
+  rmvnorm_method = c("mvtnorm", "MASS"),
+  fix_params = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a fitted <code>mle2</code> object</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of samples to return</p>
+</td></tr>
+<tr valign="top"><td><code>n_imp</code></td>
+<td>
+<p>number of total samples from which to draw, if doing importance sampling</p>
+</td></tr>
+<tr valign="top"><td><code>return_wts</code></td>
+<td>
+<p>return a column giving the weights of the samples, for use in weighted summaries?</p>
+</td></tr>
+<tr valign="top"><td><code>impsamp</code></td>
+<td>
+<p>subsample values (with replacement) based on their weights?</p>
+</td></tr>
+<tr valign="top"><td><code>PDify</code></td>
+<td>
+<p>use Gill and King generalized-inverse procedure to correct non-positive-definite variance-covariance matrix if necessary?</p>
+</td></tr>
+<tr valign="top"><td><code>PDmethod</code></td>
+<td>
+<p>method for fixing non-positive-definite covariance matrices</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>tolerance for detecting small eigenvalues</p>
+</td></tr>
+<tr valign="top"><td><code>return_all</code></td>
+<td>
+<p>return a matrix including all values, and weights (rather than taking a sample)</p>
+</td></tr>
+<tr valign="top"><td><code>rmvnorm_method</code></td>
+<td>
+<p>package to use for generating MVN samples</p>
+</td></tr>
+<tr valign="top"><td><code>fix_params</code></td>
+<td>
+<p>parameters to fix (in addition to parameters that were fixed during estimation)</p>
+</td></tr>
+<tr valign="top"><td><code>Sigma</code></td>
+<td>
+<p>covariance matrix for sampling</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters to pass to the negative log-likelihood function</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Gill, Jeff, and Gary King. &quot;What to Do When Your Hessian Is Not Invertible: Alternatives to Model Respecification in Nonlinear Estimation.&quot; Sociological Methods &amp; Research 33, no. 1 (2004): 54-87.
+Lande, Russ and Steinar Engen and Bernt-Erik Saether, Stochastic Population Dynamics in Ecology and Conservation. Oxford University Press, 2003.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

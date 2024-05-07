@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform files with transformer functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for transform_files {styler}"><tr><td>transform_files {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transform files with transformer functions</h2>
+
+<h3>Description</h3>
+
+<p><code>transform_files</code> applies transformations to file contents and writes back
+the result.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+transform_files(
+  files,
+  transformers,
+  include_roxygen_examples,
+  base_indention,
+  dry
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>files</code></td>
+<td>
+<p>A character vector with paths to the file that should be
+transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A list of transformer functions that operate on flat
+parse tables.</p>
+</td></tr>
+<tr valign="top"><td><code>include_roxygen_examples</code></td>
+<td>
+<p>Whether or not to style code in roxygen
+examples.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>dry</code></td>
+<td>
+<p>To indicate whether styler should run in <em>dry</em> mode, i.e. refrain
+from writing back to files .<code>"on"</code> and <code>"fail"</code> both don't write back, the
+latter returns an error if the input code is not identical to the result
+of styling. &quot;off&quot;, the default, writes back if the input and output of
+styling are not identical.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns a data frame that indicates for each file considered for
+styling whether or not it was actually changed (or would be changed when
+<code>dry</code> is not &quot;off&quot;).
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

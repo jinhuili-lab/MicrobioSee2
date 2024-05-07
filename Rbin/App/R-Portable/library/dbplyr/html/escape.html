@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Escape/quote a string.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for escape {dbplyr}"><tr><td>escape {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Escape/quote a string.</h2>
+
+<h3>Description</h3>
+
+<p><code>escape()</code> requires you to provide a database connection to control the
+details of escaping. <code>escape_ansi()</code> uses the SQL 92 ANSI standard.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+escape(x, parens = NA, collapse = " ", con = NULL)
+
+escape_ansi(x, parens = NA, collapse = "")
+
+sql_vector(x, parens = NA, collapse = " ", con = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object to escape. Existing sql vectors will be left as is,
+character vectors are escaped with single quotes, numeric vectors have
+trailing <code>.0</code> added if they're whole numbers, identifiers are
+escaped with double quotes.</p>
+</td></tr>
+<tr valign="top"><td><code>parens, collapse</code></td>
+<td>
+<p>Controls behaviour when multiple values are supplied.
+<code>parens</code> should be a logical flag, or if <code>NA</code>, will wrap in
+parens if length &gt; 1.
+</p>
+<p>Default behaviour: lists are always wrapped in parens and separated by
+commas, identifiers are separated by commas and never wrapped,
+atomic vectors are separated by spaces and wrapped in parens if needed.</p>
+</td></tr>
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Database connection.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Doubles vs. integers
+escape_ansi(1:5)
+escape_ansi(c(1, 5.4))
+
+# String vs known sql vs. sql identifier
+escape_ansi("X")
+escape_ansi(sql("X"))
+escape_ansi(ident("X"))
+
+# Escaping is idempotent
+escape_ansi("X")
+escape_ansi(escape_ansi("X"))
+escape_ansi(escape_ansi(escape_ansi("X")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

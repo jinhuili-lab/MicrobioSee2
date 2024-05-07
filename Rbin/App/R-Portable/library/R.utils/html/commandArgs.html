@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract command-line arguments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for commandArgs {R.utils}"><tr><td>commandArgs {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract command-line arguments</h2>
+
+<h3>Description</h3>
+
+<p>Provides access to a copy of the command-line arguments supplied when
+this <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> session was invoked.  This function is backward compatible with
+<code><a href="../../base/help/commandArgs.html">commandArgs</a></code>() of the <span class="pkg">base</span> package, but adds more
+features.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+commandArgs(trailingOnly=FALSE, asValues=FALSE, defaults=NULL, always=NULL, adhoc=FALSE,
+  unique=FALSE, excludeReserved=FALSE, excludeEnvVars=FALSE, os=NULL, .args=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>trailingOnly</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, only arguments after <code>--args</code>
+are returned.</p>
+</td></tr>
+<tr valign="top"><td><code>asValues</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, a named <code><a href="../../base/help/list.html">list</a></code> is returned, where command
+line arguments of type <code>--foo</code> will be returned as <code><a href="../../base/help/logical.html">TRUE</a></code> with
+name <code>foo</code>, and arguments of type <code>-foo=value</code> will be
+returned as <code><a href="../../base/help/character.html">character</a></code> string <code>value</code> with name <code>foo</code>.
+In addition, if <code>-foo value</code> is given, this is interpreted
+as <code>-foo=value</code>, as long as <code>value</code> does not start with
+a double dash (<code>--</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>defaults</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> or a named <code><a href="../../base/help/list.html">list</a></code> of default
+arguments.  Any command-line or fixed arguments will override
+default arguments with the same name.</p>
+</td></tr>
+<tr valign="top"><td><code>always</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> or a named <code><a href="../../base/help/list.html">list</a></code> of fixed
+arguments.  These will override default and command-line
+arguments with the same name.</p>
+</td></tr>
+<tr valign="top"><td><code>adhoc</code></td>
+<td>
+<p>(ignored if <code>asValues=FALSE</code>) If <code><a href="../../base/help/logical.html">TRUE</a></code>, then
+additional coercion of <code><a href="../../base/help/character.html">character</a></code> command-line arguments to
+more specific data types is performed, iff possible.</p>
+</td></tr>
+<tr valign="top"><td><code>unique</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the returned set of arguments contains only
+unique arguments such that no two arguments have the same name.
+If duplicates exists, it is only the last one that is kept.</p>
+</td></tr>
+<tr valign="top"><td><code>excludeReserved</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, arguments reserved by <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> are excluded,
+otherwise not. Which the reserved arguments are depends on operating
+system. For details, see Appendix B on &quot;Invoking R&quot; in
+<em>An Introduction to R</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>excludeEnvVars</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, arguments that assigns environment
+variable are excluded, otherwise not. As described in <code>R --help</code>,
+these are arguments of format &lt;key&gt;=&lt;value&gt;.</p>
+</td></tr>
+<tr valign="top"><td><code>os</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of <code><a href="../../base/help/character.html">character</a></code> strings specifying which set of
+reserved arguments to be used. Possible values are <code>"unix"</code>,
+<code>"mac"</code>, <code>"windows"</code>, <code>"ANY"</code> or <code>"current"</code>.
+If <code>"current"</code>, the current platform is used. If <code>"ANY"</code> or
+<code><a href="../../base/help/NULL.html">NULL</a></code>, all three OSs are assumed for total cross-platform
+compatibility.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>A named <code><a href="../../base/help/list.html">list</a></code> of arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>.args</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of command-line arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to <code><a href="../../base/help/commandArgs.html">commandArgs</a></code>() of the <span class="pkg">base</span> package.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>If <code>asValue</code> is <code><a href="../../base/help/logical.html">FALSE</a></code>, a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> is returned, which
+contains the name of the executable and the non-parsed user-supplied
+arguments.
+</p>
+<p>If <code>asValue</code> is <code><a href="../../base/help/logical.html">TRUE</a></code>, a named <code><a href="../../base/help/list.html">list</a></code> containing is returned, which
+contains the the executable and the parsed user-supplied arguments.
+</p>
+<p>The first returned element is the name of the executable by which
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> was invoked.  As far as I am aware, the exact form of this element
+is platform dependent. It may be the fully qualified name, or simply
+the last component (or basename) of the application.
+The returned attribute <code>isReserved</code> is a <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code>
+specifying if the corresponding command-line argument is a reserved
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> argument or not.
+</p>
+
+
+<h3>Backward compatibility</h3>
+
+<p>This function should be fully backward compatible with the same
+function in the <span class="pkg">base</span> package, except when littler is used
+(see below).
+</p>
+
+
+<h3>Compatibility with littler</h3>
+
+<p>The littler package provides the <code>r</code> binary, which parses
+user command-line options and assigns them to character vector
+<code>argv</code> in the global environment.
+The <code>commandArgs()</code> of this package recognizes <code>argv</code>
+arguments as well.
+</p>
+
+
+<h3>Coercing to non-character data types</h3>
+
+<p>When <code>asValues</code> is <code><a href="../../base/help/logical.html">TRUE</a></code>, the command-line arguments are
+returned as a named <code><a href="../../base/help/list.html">list</a></code>.  By default, the values of these
+arguments are <code><a href="../../base/help/character.html">character</a></code> strings.
+However, any command-line argument that share name with one of
+the 'always' or 'default' arguments, then its value is coerced to
+the corresponding data type (via <code><a href="../../methods/help/as.html">as</a></code>).
+This provides a mechanism for specifying data types other than
+<code><a href="../../base/help/character.html">character</a></code> strings.
+</p>
+<p>Furthermore, when <code>asValues</code> and <code>adhoc</code> are <code><a href="../../base/help/logical.html">TRUE</a></code>, any
+remaining character string command-line arguments are coerced to more
+specific data types (via <code><a href="../../utils/help/type.convert.html">type.convert</a></code>), if possible.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For a more user friendly solution, see <code><a href="../../R.utils/help/cmdArgs.html">cmdArgs</a></code>().
+Internally <code><a href="../../base/help/commandArgs.html">commandArgs</a></code>() is used.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+######################################################################
+# Non-parsed command-line arguments
+######################################################################
+# Display how this instance of R was invoked.
+cmd &lt;- paste(commandArgs(), collapse=" ")
+cat("How R was invoked:\n");
+cat(cmd, "\n")
+
+# Get all arguments
+args &lt;- commandArgs()
+print(args)
+
+# Get only "private" arguments and not the name of the R executable.
+args &lt;- commandArgs(excludeReserved=TRUE)[-1]
+print(args)
+
+# Assert backward compatibility
+args0 &lt;- base::commandArgs()
+args &lt;- commandArgs()
+stopifnot(all.equal(args, args0, check.attributes=FALSE))
+
+
+######################################################################
+# Parsed command-line arguments
+######################################################################
+# Get all arguments as a named list, e.g. if R is started as:
+#
+#   R DATAPATH=../data --args --root="do da" --foo bar --details --a=2
+#
+# then 'args' below will equal
+#
+#   list(R=NA, DATAPATH="../data" args=TRUE, root="do da",
+#        foo="bar", details=TRUE, a="2")
+args &lt;- commandArgs(asValues=TRUE)
+str(args)
+
+# Turn arguments into R variables
+args &lt;- commandArgs(asValues=TRUE, excludeReserved=TRUE)[-1]
+keys &lt;- attachLocally(args)
+cat("Command-line arguments attached to global environment:\n");
+print(keys);
+str(mget(keys, envir=globalenv()))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

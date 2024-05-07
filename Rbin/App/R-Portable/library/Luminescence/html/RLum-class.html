@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;RLum&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for RLum-class {Luminescence}"><tr><td>RLum-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"RLum"</code></h2>
+
+<h3>Description</h3>
+
+<p>Abstract class for data in the package Luminescence
+Subclasses are:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RLum'
+replicate_RLum(object, times = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a> (<strong>required</strong>):
+an object of class <a href="../../Luminescence/help/RLum-class.html">RLum</a></p>
+</td></tr>
+<tr valign="top"><td><code>times</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+number for times each element is repeated element</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>RLum-class</strong><br />
+|<br />
+|&mdash;-<a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a><br />
+|&mdash;-|&ndash; <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a><br />
+|&mdash;-|&ndash; <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a><br />
+|&mdash;-|&ndash; <a href="../../Luminescence/help/RLum.Data.Image-class.html">RLum.Data.Image</a><br />
+|&mdash;-<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a><br />
+|&mdash;-<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>
+</p>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>replicate_RLum</code>: Replication method RLum-objects
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>originator</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> containing the name of the producing
+function for the object. Set automatically by using the function <a href="../../Luminescence/help/set_RLum.html">set_RLum</a>.</p>
+</dd>
+<dt><code>info</code></dt><dd><p>Object of class <a href="../../base/html/list.html">list</a> for additional information on the object itself</p>
+</dd>
+<dt><code>.uid</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> for a unique object identifier. This id is
+usually calculated using the internal function <code>create_UID()</code> if the function <a href="../../Luminescence/help/set_RLum.html">set_RLum</a>
+is called.</p>
+</dd>
+<dt><code>.pid</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> for a parent id. This allows nesting RLum-objects
+at will. The parent id can be the uid of another object.</p>
+</dd>
+</dl>
+
+
+<h3>Objects from the Class</h3>
+
+<p>A virtual Class: No objects can be created from it.
+</p>
+
+
+<h3>Class version</h3>
+
+<p>0.4.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. RLum-class(): Class 'RLum'. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>RLum</code> is a virtual class.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>, <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/RLum.Data.Image-class.html">RLum.Data.Image</a>,
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/methods_RLum.html">methods_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("RLum")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

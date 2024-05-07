@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read values from disk</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readAll {raster}"><tr><td>readAll {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read values from disk</h2>
+
+<h3>Description</h3>
+
+<p>Read all values from a raster file associated with a Raster* object into memory. This function should normally not be used. In most cases <code><a href="../help/getValues.html">getValues</a></code> or <code><a href="../help/getValuesBlock.html">getValuesBlock</a></code> is more appropriate as <code>readAll</code> will fail when there is no file associated with the RasterLayer (values may only exist in memory). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+readAll(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a Raster* object</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/getValues.html">getValues</a></code>, <code><a href="../help/getValuesBlock.html">getValuesBlock</a></code>, <code><a href="../help/extract.html">extract</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+r &lt;- readAll(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

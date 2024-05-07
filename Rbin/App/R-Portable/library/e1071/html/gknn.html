@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generalized k-Nearest Neighbors Classification or Regression</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gknn {e1071}"><tr><td>gknn {e1071}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generalized k-Nearest Neighbors Classification or Regression</h2>
+
+<h3>Description</h3>
+
+<p><code>gknn</code> is an implementation of the k-nearest neighbours algorithm making use of general distance measures. A formula interface is provided.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'formula'
+gknn(formula, data = NULL, ..., subset, na.action = na.pass, scale = TRUE)
+## Default S3 method:
+gknn(x, y, k = 1, method = NULL, 
+                       scale = TRUE, use_all = TRUE, 
+                       FUN = mean, ...)
+## S3 method for class 'gknn'
+predict(object, newdata, 
+                         type = c("class", "votes", "prob"), 
+                         ...,
+                         na.action = na.pass)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a symbolic description of the model to be fit.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame containing the variables in the model.
+By default the variables are taken from the environment which
+&lsquo;gknn&rsquo; is called from.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a data matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a response vector with one label for each row/component of
+<code>x</code>. Can be either a factor (for classification tasks)
+or a numeric vector (for regression).</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>number of neighbours considered.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>a logical vector indicating the variables to be
+scaled. If <code>scale</code> is of length 1, the value is recycled as
+many times as needed.
+By default, numeric <em>matrices</em> are scaled to zero mean and unit variance. The center and scale
+values are returned and used for later predictions.
+Note that the default metric for data frames is the Gower metric
+which <em>standardizes</em> the values to the unit interval.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Argument passed to <code>dist()</code> from the <code>proxy</code> package to select the distance metric used: a function, or a mnemonic string referencing the distance measure. Defaults to <code>"Euclidean"</code> for metric matrices, to <code>"Jaccard"</code> for logical matrices and to <code>"Gower"</code> for data frames.
+</p>
+</td></tr>
+<tr valign="top"><td><code>use_all</code></td>
+<td>
+<p>controls handling of ties. If true, all distances equal to the kth largest are included. If false, a random selection of distances equal to the kth is chosen to use exactly k neighbours.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>function used to aggregate the k nearest target values in case of regression.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>object of class <code>gknn</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>matrix or data frame with new instances.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character specifying the return type in case of class
+predictions: for <code>"class"</code>, the class labels; for <code>"prob"</code>, the class distribution for all k neighbours considered; for <code>"votes"</code>, the raw counts.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters passed to <code>dist()</code></p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>An index vector specifying the cases to be used in the
+training sample.  (NOTE: If given, this argument must be
+named.)</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>A function to specify the action to be taken if <code>NA</code>s are
+found. The default action is <code>na.pass</code>. (NOTE: If given, this argument must be named.)</p>
+</td></tr>	
+</table>
+
+
+<h3>Value</h3>
+
+<p>For <code>gknn()</code>, an object of class <code>"gknn"</code> containing the data and the specified parameters. For <code>predict.gknn()</code>, a vector of predictions, or a matrix with votes for all classes. In case of an overall class tie, the predicted class is chosen by random.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Meyer (<a href="mailto:David.Meyer@R-project.org">David.Meyer@R-project.org</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../proxy/help/dist.html">dist</a></code> (in package <span class="pkg">proxy</span>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(iris)
+
+model &lt;- gknn(Species ~ ., data = iris)
+predict(model, iris[c(1, 51, 101),])
+
+test = c(45:50, 95:100, 145:150)
+
+model &lt;- gknn(Species ~ ., data = iris[-test,], k = 3, method = "Manhattan")
+predict(model, iris[test,], type = "votes")
+
+model &lt;- gknn(Species ~ ., data = iris[-test], k = 3, method = "Manhattan")
+predict(model, iris[test,], type = "prob")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>e1071</em> version 1.7-9 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

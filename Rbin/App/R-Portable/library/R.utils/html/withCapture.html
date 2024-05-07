@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluates an expression and captures the code and/or the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withCapture {R.utils}"><tr><td>withCapture {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluates an expression and captures the code and/or the output</h2>
+
+<h3>Description</h3>
+
+<p>Evaluates an expression and captures the code and/or the output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withCapture(expr, replace=getOption("withCapture/substitute", ".x."), code=TRUE,
+  output=code, ..., max.deparse.length=getOption("max.deparse.length", 10000), trim=TRUE,
+  newline=getOption("withCapture/newline", TRUE), collapse="\n", envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>replace</code></td>
+<td>
+<p>An optional named <code><a href="../../base/help/list.html">list</a></code> used for substituting
+symbols with other strings.</p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the deparsed code of the expression is echoed.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the output of each evaluated subexpression
+is echoed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../help/sourceTo.html">sourceTo</a></code>
+which in turn passes arguments to <code><a href="../../base/help/source.html">source</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>max.deparse.length</code></td>
+<td>
+<p>A positive <code><a href="../../base/help/integer.html">integer</a></code> specifying the maximum
+length of a deparsed expression, before truncating it.</p>
+</td></tr>
+<tr valign="top"><td><code>trim</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the captured rows are trimmed.</p>
+</td></tr>
+<tr valign="top"><td><code>newline</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and <code>collapse</code> is non-<code><a href="../../base/help/NULL.html">NULL</a></code>, a newline
+is appended at the end.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string used for collapsing the captured
+rows.  If <code><a href="../../base/help/NULL.html">NULL</a></code>, the rows are not collapsed.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression is evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string class 'CapturedEvaluation'.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+print(withCapture({
+ n &lt;- 3
+ n
+
+ for (kk in 1:3) {
+   printf("Iteration #%d\n", kk)
+ }
+
+ print(Sys.time())
+
+ type &lt;- "horse"
+ type
+}))
+
+## &gt; n &lt;- 3
+## &gt; n
+## [1] 3
+## &gt; for (kk in 1:3) {
+## +     printf("Iteration #%d\n", kk)
+## + }
+## Iteration #1
+## Iteration #2
+## Iteration #3
+## &gt; print(Sys.time())
+## [1] "2011-11-06 11:06:32 PST"
+## &gt; type &lt;- "horse"
+## &gt; type
+## [1] "horse"
+
+
+# Automatic "variable" substitute
+# (disable with relabel=NULL)
+a &lt;- 2
+b &lt;- "Hello world!"
+
+print(withCapture({
+ x &lt;- .a.
+ s &lt;- .b.
+ x
+ s
+}))
+
+## &gt; x &lt;- 2
+## &gt; s &lt;- "Hello world!"
+## &gt; x
+## [1] 2
+## &gt; s
+## [1] "Hello world!"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

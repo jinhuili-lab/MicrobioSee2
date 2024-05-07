@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Arithmetic with Raster* objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arith-methods {raster}"><tr><td>Arith-methods {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Arithmetic with Raster* objects</h2>
+
+<h3>Description</h3>
+
+<p>Standard arithmetic operators for computations with Raster* objects and numeric values. The following operators are available:
+<code> +, -, *, /, ^, %%, %/% </code>
+</p>
+<p>The input Raster* objects should have the same extent, origin and resolution. If only the extent differs, the computation will continue for 
+the intersection of the Raster objects. Operators are applied on a cell by cell basis.
+For a RasterLayer, numeric values are recycled by row.  For a RasterStack or RasterBrick, recycling is done by layer. 
+RasterLayer objects can be combined RasterStack/Brick objects, in which case the RasterLayer is 'recycled'.
+When using multiple RasterStack or RasterBrick objects, the number of layers of these objects needs to be the same. 
+</p>
+<p>In addition to arithmetic with Raster* objects, the following operations are supported for SpatialPolygons* objects.
+Given SpatialPolygon objects <code>x</code> and <code>y</code>:
+</p>
+<p><code>x+y</code> is the same as <code><a href="../../raster/help/union.html">union</a>(x, y)</code>. For SpatialLines* and SpatialPoints* it is equivalent to <code><a href="../../raster/help/bind.html">bind</a>(x, y)</code>
+</p>
+<p><code>x*y</code> is the same as <code><a href="../../raster/help/intersect.html">intersect</a>(x, y)</code>
+</p>
+<p><code>x-y</code> is the same as <code><a href="../../raster/help/erase.html">erase</a>(x, y)</code>
+</p>
+
+
+<h3>Details</h3>
+
+<p>If the values of the output Raster* cannot be held in memory, they will be saved to a temporary file. 
+You can use <code><a href="../../base/html/options.html">options</a></code> to set the default file format, datatype and progress bar.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A Raster* object, and in some cases the side effect of a new file on disk.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/Math-methods.html">Math-methods</a></code>, <code><a href="../help/overlay.html">overlay</a></code>, <code><a href="../help/calc.html">calc</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster(ncols=10, nrows=10)
+values(r1) &lt;- runif(ncell(r1))
+r2 &lt;- setValues(r1, 1:ncell(r1) / ncell(r1) )
+r3 &lt;- r1 + r2
+r2 &lt;- r1 / 10
+r3 &lt;- r1 * (r2 - 1 + r1^2 / r2)
+
+# recycling by row
+r4 &lt;- r1 * 0 + 1:ncol(r1)
+
+# multi-layer object mutiplication, no recycling
+b1 &lt;- brick(r1, r2, r3)
+b2 &lt;- b1 * 10
+
+# recycling by layer
+b3 &lt;- b1 + c(1, 5, 10)
+
+# addition of the cell-values of two RasterBrick objects
+b3 &lt;- b2 + b1
+
+# summing two RasterBricks and one RasterLayer. The RasterLayer is 'recycled'
+b3 &lt;- b1 + b2 + r1
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

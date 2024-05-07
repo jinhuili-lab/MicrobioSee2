@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for model parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_parameters_model {see}"><tr><td>plot.see_parameters_model {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for model parameters</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>parameters::model_parameters()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_parameters_model'
+plot(
+  x,
+  show_intercept = FALSE,
+  size_point = 0.8,
+  size_text = NA,
+  sort = NULL,
+  n_columns = NULL,
+  type = c("forest", "funnel"),
+  weight_points = TRUE,
+  show_labels = FALSE,
+  show_estimate = TRUE,
+  show_interval = TRUE,
+  show_density = FALSE,
+  log_scale = FALSE,
+  ...
+)
+
+## S3 method for class 'see_parameters_sem'
+plot(
+  x,
+  data = NULL,
+  component = c("regression", "correlation", "loading"),
+  type = component,
+  threshold_coefficient = NULL,
+  threshold_p = NULL,
+  ci = TRUE,
+  size_point = 22,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>show_intercept</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the intercept-parameter is included
+in the plot. By default, it is hidden because in many cases the
+intercept-parameter has a posterior distribution on a very different
+location, so density curves of posterior distributions for other parameters
+are hardly visible.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>The behavior of this argument depends on the plotting contexts.
+</p>
+
+<ul>
+<li> <p><em>Plotting model parameters</em>:
+If <code>NULL</code>, coefficients are plotted in the order as they appear in the
+summary. Setting <code>sort = "ascending"</code> or <code>sort = "descending"</code> sorts
+coefficients in ascending or descending order, respectively.
+Setting <code>sort = TRUE</code> is the same as <code>sort = "ascending"</code>.
+</p>
+</li>
+<li> <p><em>Plotting Bayes factors</em>:
+Sort pie-slices by posterior probability (descending)?
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>n_columns</code></td>
+<td>
+<p>For models with multiple components (like fixed and random,
+count and zero-inflated), defines the number of columns for the
+panel-layout. If <code>NULL</code>, a single, integrated plot is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character indicating the type of plot. Only applies for model
+parameters from meta-analysis objects (e.g. <span class="pkg">metafor</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>weight_points</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, for meta-analysis objects, point
+size will be adjusted according to the study-weights.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, text labels are displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>show_estimate</code></td>
+<td>
+<p>Should the point estimate of each parameter be shown?
+(default: <code>TRUE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>show_interval</code></td>
+<td>
+<p>Should the compatibility interval(s) of each parameter
+be shown? (default: <code>TRUE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>show_density</code></td>
+<td>
+<p>Should the compatibility density (i.e., posterior,
+bootstrap, or confidence density) of each parameter be shown?
+(default: <code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>log_scale</code></td>
+<td>
+<p>Should exponentiated coefficients (e.g., odds-ratios) be
+plotted on a log scale? (default: <code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original data used to create this object. Can be a
+statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Character indicating which component of the model should be
+plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold_coefficient</code></td>
+<td>
+<p>Numeric, threshold at which value coefficients will be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold_p</code></td>
+<td>
+<p>Numeric, threshold at which value p-values will be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Logical, whether confidence intervals should be added to the plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+m &lt;- lm(mpg ~ wt + cyl + gear + disp, data = mtcars)
+result &lt;- model_parameters(m)
+result
+plot(result)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

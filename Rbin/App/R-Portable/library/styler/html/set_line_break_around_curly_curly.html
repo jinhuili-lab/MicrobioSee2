@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Styling around \{\{</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set_line_break_around_curly_curly {styler}"><tr><td>set_line_break_around_curly_curly {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Styling around <code style="white-space: pre;">\{\{</code></h2>
+
+<h3>Description</h3>
+
+<p>With {rlang} version 0.4, a new syntactic sugar is introduced, the
+curly-curly operator. It interprets this code in a special way:
+<code style="white-space: pre;">call(\{\{ x \}\})</code>. See this
+<a href="https://www.tidyverse.org/blog/2019/06/rlang-0-4-0/">blog post</a>
+on the topic. Here, the curly-curly sugar is understood as two opening
+curly braces, followed by an expression followed by two closing curly braces,
+e.g. <code style="white-space: pre;">\{\{1\}\}</code>. <code style="white-space: pre;">\{\{1\} + 1\}</code> does not contain the curly-curly syntactic
+sugar according to the above definition. On the other hand <code style="white-space: pre;">\{\{ x + y \}\}</code>
+is recognized by styler as containing it (and is parsable code)
+but will most likely give an error at runtime because the way the syntactic
+sugar is defined in rlang is to use a single token within curly-curly. In
+addition, because rlang parses <code style="white-space: pre;">\{\{</code> in a special way (just as <code style="white-space: pre;">!!</code>), the
+expression <code style="white-space: pre;">\{\{ x \}\}</code> will give a runtime error when used outside of a
+context that is capable of handling it, e.g. on the top-level (that is, not
+within function call like <code style="white-space: pre;">rlang_fun(\{\{ x \}\})</code>) or within a base R
+function such as <code><a href="../../base/html/c.html">c()</a></code>. However, these differences are assumed to be
+irrelevant for styling curly-curly, as much as they were for styling <code style="white-space: pre;">!!</code>.
+curly-curly affects styling of line break and spaces, namely:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set_line_break_around_curly_curly(pd)
+
+set_space_in_curly_curly(pd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> No line break after first or second <code style="white-space: pre;">\{</code>, before third and fourth <code style="white-space: pre;">\{</code>.
+</p>
+</li>
+<li><p> No space after first and third <code style="white-space: pre;">\{</code>, one space after second and before
+third <code style="white-space: pre;">\}</code>.
+</p>
+</li>
+<li><p> No line breaks within curly-curly, e.g. <code style="white-space: pre;">\{\{ x \}\}</code> can only contain line
+breaks after the last brace or before the first brace. But these are not
+dependent on curly-curly specifically.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>style_text_without_curly_curly
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

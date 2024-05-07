@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tell me what the next terminal is</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for next_terminal {styler}"><tr><td>next_terminal {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tell me what the next terminal is</h2>
+
+<h3>Description</h3>
+
+<p>If the first is a terminal, return it. If not, go inside it and search the
+next terminal
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+next_terminal(
+  pd,
+  stack = FALSE,
+  vars = c("pos_id", "token", "text"),
+  tokens_exclude = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A nest.</p>
+</td></tr>
+<tr valign="top"><td><code>stack</code></td>
+<td>
+<p>Whether or not to also return information on the tokens that
+are between <code>pd</code> and the first terminal, so the returned data frame can be
+understood as a transition path from <code>pd</code> to the next terminal, instead of
+the information at the terminal only. The order is inside-out,
+i.e. the first non-terminal on top, the terminal last.</p>
+</td></tr>
+<tr valign="top"><td><code>vars</code></td>
+<td>
+<p>The variables to return.</p>
+</td></tr>
+<tr valign="top"><td><code>tokens_exclude</code></td>
+<td>
+<p>A vector with tokens to exclude. This can be helpful if
+one wants to find the next token that is not a comment for example.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a data frame (which is <strong>not</strong> a valid parse table for
+<code>stack = TRUE</code>), with <code>vars</code> and another variable <code>position</code> that denotes
+the index each element in the transition. This can be helpful in conjunction
+with <code><a href="../../purrr/help/pluck.html">purrr::pluck()</a></code> or <code><a href="../../purrr/help/modify_in.html">purrr::modify_in()</a></code> to reach the terminal in the
+nested structure.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+withr::with_options(
+  list(styler.cache_name = NULL), # temporarily deactivate cache
+  {
+    pd &lt;- compute_parse_data_nested("if (TRUE) f()")
+    styler:::next_terminal(pd)
+  }
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

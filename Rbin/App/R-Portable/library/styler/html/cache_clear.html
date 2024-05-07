@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Clear the cache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cache_clear {styler}"><tr><td>cache_clear {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Clear the cache</h2>
+
+<h3>Description</h3>
+
+<p>Clears the cache that stores which files are already styled. You won't be
+able to undo this. Note that the file corresponding to the cache (a folder
+on your file system) won't be deleted, but it will be empty after calling
+<code>cache_clear</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cache_clear(cache_name = NULL, ask = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cache_name</code></td>
+<td>
+<p>The name of the styler cache to use. If
+<code>NULL</code>, the option &quot;styler.cache_name&quot; is considered which defaults to
+the version of styler used.</p>
+</td></tr>
+<tr valign="top"><td><code>ask</code></td>
+<td>
+<p>Whether or not to interactively ask the user again.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Each version of styler has its own cache by default, because styling is
+potentially different with different versions of styler.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other cache managers: 
+<code><a href="../../styler/help/cache_activate.html">cache_activate</a>()</code>,
+<code><a href="../../styler/help/cache_info.html">cache_info</a>()</code>,
+<code><a href="../../styler/help/caching.html">caching</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

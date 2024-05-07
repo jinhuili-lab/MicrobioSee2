@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fitting and Deconvolution of OSL Lifetime Components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fit_OSLLifeTimes {Luminescence}"><tr><td>fit_OSLLifeTimes {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fitting and Deconvolution of OSL Lifetime Components</h2>
+
+<h3>Description</h3>
+
+<p>Fitting and Deconvolution of OSL Lifetime Components
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fit_OSLLifeTimes(
+  object,
+  tp = 0,
+  signal_range = NULL,
+  n.components = NULL,
+  method_control = list(),
+  plot = TRUE,
+  plot_simple = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../base/html/data.frame.html">data.frame</a> or <a href="../../base/html/matrix.html">matrix</a> <strong>(required)</strong>:
+Input object containing the data to be analysed. All objects can be provided also as list for an automated
+processing. Please note: <code>NA</code> values are automatically removed and the dataset should comprise at least 5 data points.</p>
+</td></tr>
+<tr valign="top"><td><code>tp</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>): option to account for the stimulation pulse width. For off-time measurements
+the default value is 0. <code>tp</code> has the same unit as the measurement data, e.g., µs. Please set this parameter
+carefully, if it all, otherwise you may heavily bias your fit results.</p>
+</td></tr>
+<tr valign="top"><td><code>signal_range</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): allows to set a channel range, by default all channels are used, e.g.
+<code>signal_range = c(2,100)</code> considers only channels 2 to 100 and <code>signal_range = c(2)</code> considers only channels
+from channel 2 onwards.</p>
+</td></tr>
+<tr valign="top"><td><code>n.components</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): Fix the number of components. If set the algorithm will try
+to fit the number of predefined components. If nothing is set, the algorithm will try to find the best number
+of components.</p>
+</td></tr>
+<tr valign="top"><td><code>method_control</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>): Named to allow a more fine control of the fitting process. See details
+for allowed options.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): Enable/disable plot output</p>
+</td></tr>
+<tr valign="top"><td><code>plot_simple</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): Enable/disable reduced plot output. If <code>TRUE</code>, no
+residual plot is shown, however, plot output can be combined using the standard R layout options,
+such as <code>par(mfrow = c(2,2))</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): Enable/disable terminal feedback</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>parameters passed to <a href="../../graphics/html/plot.default.html">plot.default</a> to control the plot output, supported are:
+<code>main</code>, <code>xlab</code>, <code>ylab</code>, <code>log</code>, <code>xlim</code>, <code>ylim</code>, <code>col</code>, <code>lty</code>, <code>legend.pos</code>, <code>legend.text</code>. If the input
+object is of type <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> this arguments can be provided as a <a href="../../base/html/list.html">list</a>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function intends to provide an easy access to pulsed optically stimulated luminescence (POSL) data,
+in order determine signal lifetimes. The fitting is currently optimised to work with the off-time flank of POSL measurements
+only. For the signal deconvolution, a differential evolution optimisation is combined with nonlinear least-square fitting
+following the approach by Bluszcz &amp; Adamiec (2006).
+</p>
+<p><strong>Component deconvolution algorithm</strong>
+</p>
+<p>The component deconvolution consists of two steps:
+</p>
+<p>(1) Adaptation phase
+</p>
+<p>In the adaptation phase the function tries to figure out the optimal and statistically justified
+number of signal components following roughly the approach suggested by Bluszcz &amp; Adamiec (2006). In
+contrast to their work, for the optimisation by differential evolution here the package <code>'DEoptim'</code> is used.
+</p>
+<p>The function to be optimized has the form:
+</p>
+<p style="text-align: center;"><i>&chi;^2 = &sum;(w * (n_i/c - &sum;(A_i * exp(-x/(tau_i + t_p))))^2)</i></p>
+
+<p>with <i>w = 1</i> for unweighted regression analysis (<code>method_control = list(weights = FALSE)</code>) or
+<i>w = c^2/n_i</i> for weighted regression analysis. The default values is <code>TRUE</code>.
+</p>
+<p style="text-align: center;"><i>F = (&Delta;&chi;^2 / 2) / (&chi;^2/(N - 2*m - 2))</i></p>
+
+<p>(2) Final fitting
+</p>
+<p><strong><code>method_control</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Parameter</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>p</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> controls the probability for the F statistic reference values. For a significance level of 5 % a value of 0.95 (the default) should be added, for 1 %, a value of 0.99 is sufficient: 1 &gt; p &gt; 0 (cf. <a href="../../stats/help/Fdist.html">stats::FDist</a>)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>seed</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> set the seed for the random number generator, provide a value here to get reproducible results </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DEoptim.trace</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables the tracing of the differential evolution (cf. <a href="../../DEoptim/help/DEoptim.control.html">DEoptim::DEoptim.control</a>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DEoptim.itermax</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> controls the number of the allowed generations (cf. <a href="../../DEoptim/help/DEoptim.control.html">DEoptim::DEoptim.control</a>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>weights</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables the weighting for the start parameter estimation and fitting (see equations above).
+The default values is <code>TRUE</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>nlsLM.trace</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables trace mode for the nls fitting (<a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>), can be used to identify convergence problems, default is <code>FALSE</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>nlsLM.upper</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables upper parameter boundary, default is <code>TRUE</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>nlsLM.lower</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables lower parameter boundary, default is <code>TRUE</code>
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$data</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the final fit matrix </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$start_matrix</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the start matrix used for the fitting </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$total_counts</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> Photon count sum </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$fit</code> </td><td style="text-align: left;"> <code>nls</code> </td><td style="text-align: left;"> the fit object returned by <a href="../../minpack.lm/help/nls.lm.html">minpack.lm::nls.lm</a> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ TERMINAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>Terminal output is only shown of the argument <code>verbose = TRUE</code>.
+</p>
+<p><em>(1) Start parameter and component adaption</em><br />
+Trave of the parameter adaptation process
+</p>
+<p><em>(2) Fitting results (sorted by ascending tau)</em><br />
+The fitting results sorted by ascending tau value. Please note
+that if you access the <code>nls</code> fitting object, the values are not sorted.
+</p>
+<p><em>(3) Further information</em><br />
+</p>
+
+<ul>
+<li><p> The photon count sum
+</p>
+</li>
+<li><p> Durbin-Watson residual statistic to asses whether the residuals are correlated, ideally
+the residuals should be not correlated at all. Rough measures are: <br />
+D = 0: the residuals are systematically correlated <br />
+D = 2: the residuals are randomly distributed <br />
+D = 4: the residuals are systematically anti-correlated<br />
+</p>
+</li></ul>
+
+<p>You should be suspicious if D differs largely from 2.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ PLOT OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>A plot showing the original data and the fit so far possible. The lower plot shows the
+residuals of the fit.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.5
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Schmidt, C., 2021. fit_OSLLifeTimes(): Fitting and Deconvolution of OSL Lifetime Components. Function version 0.1.5. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University,
+Christoph Schmidt, University of Bayreuth (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Bluszcz, A., Adamiec, G., 2006. Application of differential evolution to fitting OSL decay curves.
+Radiation Measurements 41, 886-891. doi: <a href="https://doi.org/10.1016/j.radmeas.2006.05.016">10.1016/j.radmeas.2006.05.016</a><br />
+</p>
+<p>Durbin, J., Watson, G.S., 1950. Testing for Serial Correlation in Least Squares Regression: I.
+Biometrika 37, 409-21. doi:10.2307/2332391
+</p>
+<p><strong>Further reading</strong>
+</p>
+<p>Hughes, I., Hase, T., 2010. Measurements and Their Uncertainties. Oxford University Press.
+</p>
+<p>Storn, R., Price, K., 1997. Differential Evolution –
+A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces.
+Journal of Global Optimization 11, 341–359.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../minpack.lm/help/nls.lm.html">minpack.lm::nls.lm</a>, <a href="../../DEoptim/help/DEoptim.html">DEoptim::DEoptim</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load example data
+data(ExampleData.TR_OSL, envir = environment())
+
+##fit lifetimes (short run)
+fit_OSLLifeTimes(
+ object = ExampleData.TR_OSL,
+ n.components = 1)
+
+##long example
+## Not run: 
+fit_OSLLifeTimes(
+object = ExampleData.TR_OSL)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

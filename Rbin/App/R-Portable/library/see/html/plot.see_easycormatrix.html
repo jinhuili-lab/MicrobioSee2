@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for correlation matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_easycormatrix {see}"><tr><td>plot.see_easycormatrix {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for correlation matrices</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>correlation::correlation()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_easycormatrix'
+plot(
+  x,
+  show_labels = FALSE,
+  show_p = FALSE,
+  show_legend = TRUE,
+  size_point = 1,
+  size_text = 3.5,
+  digits = 3,
+  type = c("circle", "tile"),
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, correlation values are displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>show_p</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, <em>p</em>-values or significant level is
+displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>show_legend</code></td>
+<td>
+<p>Logical, show (<code>TRUE</code>) or hide (<code>FALSE</code>) legend.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of decimals used for values.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character vector, indicating the type of plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(correlation)
+data(mtcars)
+result &lt;- correlation(mtcars[, -c(8:9)])
+s &lt;- summary(result)
+plot(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

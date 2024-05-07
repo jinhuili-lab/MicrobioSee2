@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scale numbers into a new range</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rescale {plotrix}"><tr><td>rescale {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scale numbers into a new range</h2>
+
+<h3>Description</h3>
+
+<p>Scale a vector or matrix of numbers into a new range.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ rescale(x,newrange)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector, matrix or data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>newrange</code></td>
+<td>
+<p>The minimum and maximum value of the range into which
+<span class="samp">x</span> will be scaled.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">rescale</span> performs a simple linear conversion of <span class="samp">x</span> into the
+range specified by <span class="samp">newrange</span>. Only numeric vectors, matrices or data
+frames with some variation will be accepted. NAs are now preserved - 
+formerly the function would fail.
+</p>
+
+
+<h3>Value</h3>
+
+<p>On success, the rescaled object, otherwise the original object.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # scale one vector into the range of another
+ normal.counts&lt;-rnorm(100)
+ normal.tab&lt;-tabulate(cut(normal.counts,breaks=seq(-3,3,by=1)))
+ normal.density&lt;-rescale(dnorm(seq(-3,3,length=100)),range(normal.tab))
+ # now plot them
+ plot(c(-2.5,-1.5,-0.5,0.5,1.5,2.5),normal.tab,xlab="X values",
+  type="h",col="green")
+ lines(seq(-3,3,length=100),normal.density,col="blue")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

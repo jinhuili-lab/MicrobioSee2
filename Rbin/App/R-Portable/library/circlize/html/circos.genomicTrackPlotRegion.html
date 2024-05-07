@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a track for genomic graphics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicTrackPlotRegion {circlize}"><tr><td>circos.genomicTrackPlotRegion {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Create a track for genomic graphics
+</h2>
+
+<h3>Description</h3>
+
+<p>Create a track for genomic graphics
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicTrackPlotRegion(
+    data = NULL,
+    ylim = NULL,
+    stack = FALSE,
+    numeric.column = NULL,
+    jitter = 0,
+    panel.fun = function(region, value, ...) {NULL},
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A bed-file-like data frame or a list of data frames
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>If it is <code>NULL</code>, the value will be calculated from data. If <code>stack</code> is set to <code>TRUE</code>, this value is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>stack</code></td>
+<td>
+<p>whether to plot in a &quot;stack&quot; mode.
+</p>
+</td></tr>
+<tr valign="top"><td><code>numeric.column</code></td>
+<td>
+<p>Columns of numeric values in <code>data</code> that will be used for plotting. 
+If <code>data</code> is a data frame list, <code>numeric.column</code> should be either length of one or length of <code>data</code>.
+If value of <code>numeric.column</code> is not set, its value will depend on the structure of <code>data</code>.
+If <code>data</code> is a data frame, the default value for <code>numeric.column</code> is all the numeric column starting from the fourth column.
+If <code>data</code> is a list of data frame, the default value for <code>numeric.column</code> is a vector which have the same length as <code>data</code>
+and the value in default <code>numeric.column</code> is the index of the first numeric column in corresponding data frame.
+</p>
+</td></tr>
+<tr valign="top"><td><code>jitter</code></td>
+<td>
+<p>Numeric. Only works for adding points in <code>circos.genomicTrackPlotRegion</code> under <code>stack</code> mode
+</p>
+</td></tr>
+<tr valign="top"><td><code>panel.fun</code></td>
+<td>
+<p>Self-defined function which will be applied on each sector. Please not it is different
+from that in <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>. In this function, there are two arguments (<code>region</code> and <code>value</code>) plus <code>...</code>.
+In them, <code>region</code> is a two-column data frame with start positions and end positions in current genomic category (e.g. chromosome). 
+<code>value</code> is a data frame which is derived from <code>data</code> but excluding the first three columns. Rows in <code>value</code> correspond to 
+rows in <code>region</code>. <code>...</code> is mandatory and is used to pass internal parameters to other functions. The definition of
+<code>value</code> will be different according to different input data (data frame or list of data frame) and different settings (stacked or not), 
+please refer to 'details' section and vignettes to detailed explanation.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Similar as <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>, users can add customized graphics by <code>panel.fun</code>, but the behaviour of <code>panel.fun</code>
+will change depending on users' input data and <code>stack</code> setting.
+</p>
+<p>When <code>data</code> is a single data frame, <code>region</code> in <code>panel.fun</code> is a data frame containing the second and third column in <code>data</code> in 'current' genomic category (e.g. current chromosome).
+<code>value</code> is also a data frame containing columns in <code>data</code> excluding the first three columns.
+</p>
+<p>When <code>data</code> is a list containing data frames, <code>panel.fun</code> will be applied iteratively on each data frame, thus, 
+<code>region</code> is extracted from the data frame which is in the current iteration. For example, if <code>data</code> contains two data frames, <code>panel.fun</code>
+will be applied with the first data frame in current chromosome and then applied with the second data frame in the same chromosome.
+</p>
+<p>If <code>stack</code> is set to <code>TRUE</code>, <code>ylim</code> will be re-defined. in <code>stack</code> mode, the y-axis will be splitted into several part
+with equal height and graphics will be drawn on each 'horizontal' lines (y = 1, 2, ...). In this case:
+</p>
+<p>When <code>data</code> is a single data frame containing one or more numeric columns, each numeric column defined in <code>numeric.column</code> will be treated as a single unit. 
+<code>ylim</code> is re-defined to <code>c(0.5, n+0.5)</code> in which <code>n</code> is number of numeric columns. <code>panel.fun</code> will be applied iteratively on each numeric column. In each
+iteration, in <code>panel.fun</code>, <code>region</code> is still the genomic regions in current genomic category, but <code>value</code> contains current numeric column plus all non-numeric columns.
+Under <code>stack</code> mode, in <code>panel.fun</code>, all low-level genomic graphical functions will draw on the 'horizontal line' <code>y = i</code> in which <code>i</code> is the index of current numeric column 
+and the value of <code>i</code> can be obtained by <code><a href="../../circlize/help/getI.html">getI</a></code>.
+</p>
+<p>When <code>data</code> is a list containing data frames, each data frame will be treated as a single unit. The situation is quite similar as described in previous paragraph.
+<code>ylim</code> is re-defined to <code>c(0.5, n+0.5)</code> in which <code>n</code> is number of data frames. <code>panel.fun</code> will be applied iteratively on each data frame. In each
+iteration, in <code>panel.fun</code>, <code>region</code> is still the genomic regions in current genomic category, and <code>value</code> contains columns in current data frame excluding the first three columns.
+Under <code>stack</code> mode, in <code>panel.fun</code>, all low-level genomic graphical functions will draw on the 'horizontal line' <code>y = i</code> in which <code>i</code> is the index of current data frame.
+</p>
+<p>Being different from <code>panel.fun</code> in <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>, there should be an additional argument <code>...</code> in <code>panel.fun</code>. This additional
+argument is used to pass hidden values to low-level graphical functions. So if you are using functions like <code>circos.genomicPoints</code>, you should also
+add <code>...</code> as an additional argument into <code>circos.genomicPoints</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/genomic-plotting-region.html">https://jokergoo.github.io/circlize_book/book/genomic-plotting-region.html</a> and <a href="https://jokergoo.github.io/circlize_book/book/modes-of-input.html">https://jokergoo.github.io/circlize_book/book/modes-of-input.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

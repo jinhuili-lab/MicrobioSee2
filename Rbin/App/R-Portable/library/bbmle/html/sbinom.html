@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Abstract definitions of distributions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sbinom {bbmle}"><tr><td>sbinom {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Abstract definitions of distributions</h2>
+
+<h3>Description</h3>
+
+<p>Functions returning values for summary statistics
+(mean, median, etc.) of distributions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sbeta(shape1, shape2)
+sbetabinom(size, prob, theta)
+sbinom(size, prob)
+snbinom(size, prob, mu)
+snorm(mean, sd)
+spois(lambda)
+slnorm(meanlog, sdlog)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>prob</code></td>
+<td>
+<p>probability as defined for <code><a href="../../stats/html/Binomial.html">dbinom</a></code>,
+<code><a href="../../stats/html/NegBinomial.html">dnbinom</a></code>, or beta-binomial distribution
+(<code>dbetabinom</code> in the <code>emdbook</code> package)</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>size parameter as defined for
+<code><a href="../../stats/html/Binomial.html">dbinom</a></code> or <code>dbetabinom</code>
+in the <code>emdbook</code> package, or size/overdispersion parameter
+as in <code><a href="../../stats/html/NegBinomial.html">dnbinom</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>mean parameter as defined for <code><a href="../../stats/html/Normal.html">dnorm</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>mean parameter as defined for <code><a href="../../stats/html/NegBinomial.html">dnbinom</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>standard deviation parameter as defined for <code><a href="../../stats/html/Normal.html">dnorm</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>shape1</code></td>
+<td>
+<p>shape parameter for <code><a href="../../stats/html/Beta.html">dbeta</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>shape2</code></td>
+<td>
+<p>shape parameter for <code><a href="../../stats/html/Beta.html">dbeta</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>rate parameter as defined for <code><a href="../../stats/html/Poisson.html">dpois</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>overdispersion parameter for beta-binomial
+(see <code>dbetabinom</code> in the <code>emdbook</code> package)</p>
+</td></tr>
+<tr valign="top"><td><code>meanlog</code></td>
+<td>
+<p>as defined for <code><a href="../../stats/html/Lognormal.html">dlnorm</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>sdlog</code></td>
+<td>
+<p>as defined for <code><a href="../../stats/html/Lognormal.html">dlnorm</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<table summary="R valueblock">
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>name of the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>[parameters]</code></td>
+<td>
+<p>input parameters for the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>theoretical mean of the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>median</code></td>
+<td>
+<p>theoretical median of the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>theoretical mode of the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>variance</code></td>
+<td>
+<p>theoretical variance of the distribution</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>theoretical standard deviation of the distribution</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>these definitions are tentative, subject to change
+as I figure this out better.  Perhaps construct functions
+that return functions? Strip down results? Do more
+automatically?</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/Binomial.html">dbinom</a></code>, <code><a href="../../stats/html/Poisson.html">dpois</a></code>, <code><a href="../../stats/html/Normal.html">dnorm</a></code>, <code><a href="../../stats/html/NegBinomial.html">dnbinom</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  sbinom(prob=0.2,size=10)
+  snbinom(mu=2,size=1.2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

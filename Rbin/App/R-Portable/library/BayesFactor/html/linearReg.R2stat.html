@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use R^2 statistic to compute Bayes factor for regression...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for linearReg.R2stat {BayesFactor}"><tr><td>linearReg.R2stat {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use R^2 statistic to compute Bayes factor for regression designs</h2>
+
+<h3>Description</h3>
+
+<p>Using the classical R^2 test statistic for (linear) regression designs, this
+function computes the corresponding Bayes factor test.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+linearReg.R2stat(N, p, R2, rscale = "medium", simple = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>N</code></td>
+<td>
+<p>number of observations</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>number of predictors in model, excluding intercept</p>
+</td></tr>
+<tr valign="top"><td><code>R2</code></td>
+<td>
+<p>proportion of variance accounted for by the predictors, excluding
+intercept</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>numeric prior scale</p>
+</td></tr>
+<tr valign="top"><td><code>simple</code></td>
+<td>
+<p>if <code>TRUE</code>, return only the Bayes factor</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used to compute the Bayes factor corresponding to a
+multiple regression, using the classical R^2 (coefficient of determination)
+statistic.  It can be used when you don't have access to the full data set
+for analysis by <code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>, but you do have the test statistic.
+</p>
+<p>For details about the model, see the help for <code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code>,
+and the references therein.
+</p>
+<p>The Bayes factor is computed via Gaussian quadrature.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>simple</code> is <code>TRUE</code>, returns the Bayes factor (against the
+intercept-only null). If <code>FALSE</code>, the function returns a
+vector of length 3 containing the computed log(e) Bayes factor,
+along with a proportional error estimate on the Bayes factor and the method used to compute it.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>) and Jeffrey N.
+Rouder (<a href="mailto:rouderj@missouri.edu">rouderj@missouri.edu</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Liang, F. and Paulo, R. and Molina, G. and Clyde, M. A. and
+Berger, J. O. (2008). Mixtures of g-priors for Bayesian Variable
+Selection. Journal of the American Statistical Association, 103, pp.
+410-423
+</p>
+<p>Rouder, J. N.  and Morey, R. D. (in press, Multivariate Behavioral Research). Bayesian testing in
+regression.
+</p>
+<p>Perception and Cognition Lab (University of Missouri): Bayes factor
+calculators. <a href="http://pcl.missouri.edu/bayesfactor">http://pcl.missouri.edu/bayesfactor</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/integrate.html">integrate</a></code>, <code><a href="../../stats/html/lm.html">lm</a></code>; see
+<code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code> for the intended interface to this function, using
+the full data set.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Use attitude data set
+data(attitude)
+## Scatterplot
+lm1 = lm(rating~complaints,data=attitude)
+plot(attitude$complaints,attitude$rating)
+abline(lm1)
+## Traditional analysis
+## p value is highly significant
+summary(lm1)
+
+## Bayes factor
+## The Bayes factor is over 400,000;
+## the data strongly favor hypothesis that
+## the slope is not 0.
+result = linearReg.R2stat(30,1,0.6813)
+exp(result[['bf']])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

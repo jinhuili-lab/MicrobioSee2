@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Type of model parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for parameters_type {parameters}"><tr><td>parameters_type {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Type of model parameters</h2>
+
+<h3>Description</h3>
+
+<p>In a regression model, the parameters do not all have the meaning. For
+instance, the intercept has to be interpreted as theoretical outcome value
+under some conditions (when predictors are set to 0), whereas other
+coefficients are to be interpreted as amounts of change. Others, such as
+interactions, represent changes in another of the parameter. The
+<code>parameters_type</code> function attempts to retrieve information and meaning
+of parameters. It outputs a dataframe of information for each parameters,
+such as the <code>Type</code> (whether the parameter corresponds to a factor or a
+numeric predictor, or whether it is a (regular) interaction or a nested
+one), the <code>Link</code> (whether the parameter can be interpreted as a mean
+value, the slope of an association or a difference between two levels) and,
+in the case of interactions, which other parameters is impacted by which
+parameter.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parameters_type(model, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+
+model &lt;- lm(Sepal.Length ~ Petal.Length + Species, data = iris)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Species + poly(Sepal.Width, 2), data = iris)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Species + poly(Sepal.Width, 2, raw = TRUE), data = iris)
+parameters_type(model)
+
+# Interactions
+model &lt;- lm(Sepal.Length ~ Sepal.Width * Species, data = iris)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Sepal.Width * Species * Petal.Length, data = iris)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Species * Sepal.Width, data = iris)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Species / Sepal.Width, data = iris)
+parameters_type(model)
+
+
+# Complex interactions
+data &lt;- iris
+data$fac2 &lt;- ifelse(data$Sepal.Width &gt; mean(data$Sepal.Width), "A", "B")
+model &lt;- lm(Sepal.Length ~ Species / fac2 / Petal.Length, data = data)
+parameters_type(model)
+
+model &lt;- lm(Sepal.Length ~ Species / fac2 * Petal.Length, data = data)
+parameters_type(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

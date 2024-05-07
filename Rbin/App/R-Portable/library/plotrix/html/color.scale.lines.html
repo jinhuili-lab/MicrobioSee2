@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Line segments with scaled colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for color.scale.lines {plotrix}"><tr><td>color.scale.lines {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Line segments with scaled colors</h2>
+
+<h3>Description</h3>
+
+<p>Display line segments with colors scaled to numeric values.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ color.scale.lines(x,y,reds,greens,blues,col=NA,colvar=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Numeric vectors or a list with at least two components,
+the first two of which must be named x and y.</p>
+</td></tr>
+<tr valign="top"><td><code>reds,greens,blues</code></td>
+<td>
+<p>Color ranges into which to scale the
+numeric values.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>One or more colors to use for the resultant lines. Will
+be recycled if necessary.</p>
+</td></tr>
+<tr valign="top"><td><code>colvar</code></td>
+<td>
+<p>A numeric vector from which to scale the colors.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">segments</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">color.scale.lines</span> displays line segments that can be individually
+colored according to a variety of methods. In order of precedence, if
+<span class="samp">col</span> is not NA, the color values passed will be used. If
+<span class="samp">colvar</span> is not NA, the function will call <span class="samp">color.scale</span> with
+the three color range arguments to determine the line colors. If
+<span class="samp">colvar</span> is the same length as <span class="samp">length(x)-1</span>, exactly enough 
+colors for the number of lines displayed will be calculated. If shorter,
+some colors will be recycled and if longer, some colors will not be used.
+Finally, the values in <span class="samp">y</span> will be color-scaled if both of the above
+arguments are NA. Thus the user can pass predetermined colors, use colors
+scaled from an arbitrary vector of numerical values or use the <span class="samp">y</span>
+values. See <span class="samp">color.scale</span> for an explanation of specifying color
+ranges.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>The function is useful for highlighting a numeric dimension or adding
+an extra &quot;dimension&quot; to a plot.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/color.scale.html">color.scale</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # color a random walk "hot" (red) to "cold" (blue) on its distance
+ # from the starting point
+ x&lt;-c(0,cumsum(rnorm(99)))
+ y&lt;-c(0,cumsum(rnorm(99)))
+ xydist&lt;-sqrt(x*x+y*y)
+ plot(x,y,main="Random walk plot",xlab="X",ylab="Y",type="n")
+ color.scale.lines(x,y,c(1,1,0),0,c(0,1,1),colvar=xydist,lwd=2)
+ boxed.labels(x,y,labels=1:100,border=FALSE,cex=0.5)
+ # now color the lines to show whether each step went away from
+ # or toward the starting position
+ color.scale.lines(x,y,col=2+(diff(xydist)&gt;0))
+ boxed.labels(x,y,labels=1:100,border=FALSE,cex=0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ensure correct positional information for stylerignore...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for apply_stylerignore {styler}"><tr><td>apply_stylerignore {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Ensure correct positional information for stylerignore expressions</h2>
+
+<h3>Description</h3>
+
+<p>Ensure correct positional information for stylerignore expressions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply_stylerignore(flattened_pd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flattened_pd</code></td>
+<td>
+<p>A flattened parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> Get the positional information for tokens with a stylerignore tag from
+<code>env_current</code>, which recorded that information from the input text.
+</p>
+</li>
+<li><p> Replace the computed lag_newlines and lag_spaces information in the parse
+table with this information.
+</p>
+</li>
+<li><p> Because we may remove or add tokens when applying the transformers, it is
+not save to merge via the pos_id of each token in a stylerignore sequence.
+We assume that the start and stop markers are the same after styling, so we
+join all tokens that were initially in a stylerignore sequence via the
+first pos_id in that stylerignore sequence.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

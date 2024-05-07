@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets a variable by name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for eget {R.utils}"><tr><td>eget {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets a variable by name</h2>
+
+<h3>Description</h3>
+
+<p>Gets a variable by name.  If non-existing, the default value is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+eget(..., coerce=TRUE, envir=parent.frame(), inherits=FALSE, mode="default",
+  cmdArg=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named arguments <code>name</code> and <code>default</code>, where
+<code>name</code> must be a <code><a href="../../base/help/character.html">character</a></code> string and <code>default</code> is
+an optional default value (if not given, it's <code><a href="../../base/help/NULL.html">NULL</a></code>).
+Alternatively, <code>name</code> and <code>default</code> can be given as
+a named argument (e.g. <code>n=42</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>coerce</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the returned value is coerced to the class
+of the default value (unless <code><a href="../../base/help/NULL.html">NULL</a></code>) using <code><a href="../../methods/help/as.html">as</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>A <code><a href="../../base/help/environment.html">environment</a></code> or a named <code><a href="../../base/help/list.html">list</a></code> where to look
+for the variable.  Only if <code>envir</code> is an <code><a href="../../base/help/environment.html">environment</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>inherits</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> specifying whether the enclosing frames
+of the environment should be searched or not.</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the mode of the object to
+retrieve.  Only if <code>envir</code> is an <code><a href="../../base/help/environment.html">environment</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cmdArg</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the corresponding command-line argument
+is used as the default value.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>ecget(...)</code> is short for <code>eget(..., cmdArg=TRUE)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>To retrieve command-line arguments, see <code><a href="../help/cmdArg.html">cmdArg</a></code>.
+See also <code><a href="../../base/help/mget.html">mget</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Get variable 'a' if it exists, otherwise return the default value.
+value &lt;- eget("a", default=42L)
+print(value) # 42L
+
+# Short version doing the same
+value &lt;- eget(a=42L)
+print(value) # 42L
+
+# Same, but look for the variable in 'envir' (here a list)
+value &lt;- eget("a", default=42L, envir=list(a=1))
+print(value) # 1L
+
+# Get variable 'n', which defaults to command-line argument
+# 'n' ('-n' or '--n'), which in turn defaults to 42L.
+value &lt;- eget(n=cmdArg(n=42L))
+print(value)
+
+# Equivalently.
+value &lt;- ecget(n=42L)
+print(value)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for distance {raster}"><tr><td>distance {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distance</h2>
+
+<h3>Description</h3>
+
+<p>For a single <code>RasterLayer</code> (<code>y</code> is missing) this method computes the distance, for all cells that are <code>NA</code>, to the nearest cell that is not <code>NA</code>.
+The distance unit is in meters if the RasterLayer is not projected (<code>+proj=longlat</code>) and in map units (typically also meters) when it is projected.
+</p>
+<p>If two <code>RasterLayer</code> objects are provided, the cell-value distances are computed. 
+If two <code>Spatial</code> vector type objects are provided, the distances between pairs of geographic object are computed. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,missing'
+distance(x, y, filename='', doEdge=TRUE, ...)
+## S4 method for signature 'RasterLayer,RasterLayer'
+distance(x, y, ...)
+## S4 method for signature 'Spatial,Spatial'
+distance(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>missing, RasterLayer or Spatial object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character. Filename for the output RasterLayer (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>doEdge</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the <code><a href="../../raster/help/boundaries.html">boundaries</a></code> function is called first. This may be efficient in cases where you compute the distance to large blobs. Calling <code>boundaries</code> determines the edge cells that matter for distance computation</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/distanceFromPoints.html">distanceFromPoints</a></code>,  <code><a href="../help/gridDistance.html">gridDistance</a></code>,  <code><a href="../help/pointDistance.html">pointDistance</a></code>  
+</p>
+<p>See the <code>gdistance</code> package for more advanced distances, and the <code>geosphere</code> package for great-circle distances (and more) between points in longitude/latitude coordinates.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=36,nrow=18)
+values(r) &lt;- NA
+r[500] &lt;- 1
+dist &lt;- distance(r) 
+#plot(dist / 1000)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

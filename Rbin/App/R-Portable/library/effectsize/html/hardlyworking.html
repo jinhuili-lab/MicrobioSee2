@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Workers' Salary and Other Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hardlyworking {effectsize}"><tr><td>hardlyworking {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Workers' Salary and Other Information</h2>
+
+<h3>Description</h3>
+
+<p>A sample (simulated) dataset, used in tests and some examples.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 500 rows and 5 variables:
+</p>
+
+<dl>
+<dt>salary</dt><dd><p>Salary, in Shmekels</p>
+</dd>
+<dt>xtra_hours</dt><dd><p>Number of overtime hours (on average, per week)</p>
+</dd>
+<dt>n_comps</dt><dd><p>Number of compliments given to the boss (observed over the last week)</p>
+</dd>
+<dt>age</dt><dd><p>Age in years</p>
+</dd>
+<dt>seniority</dt><dd><p>How many years with the company</p>
+</dd>
+<dt>is_senior</dt><dd><p>Has this person been working here for more than 4 years?</p>
+</dd>
+</dl>
+
+<div class="sourceCode r"><pre>data("hardlyworking")
+head(hardlyworking, n = 5)
+#&gt;     salary xtra_hours n_comps age seniority is_senior
+#&gt; 1 19744.65       4.16       1  32         3     FALSE
+#&gt; 2 11301.95       1.62       0  34         3     FALSE
+#&gt; 3 20635.62       1.19       3  33         5      TRUE
+#&gt; 4 23047.16       7.19       1  35         3     FALSE
+#&gt; 5 27342.15      11.26       0  33         4     FALSE
+</pre></div>
+
+
+<h3>See Also</h3>
+
+<p>Other effect size datasets: 
+<code><a href="../../effectsize/help/Music_preferences.html">Music_preferences</a></code>,
+<code><a href="../../effectsize/help/Music_preferences2.html">Music_preferences2</a></code>,
+<code><a href="../../effectsize/help/RCT_table.html">RCT_table</a></code>,
+<code><a href="../../effectsize/help/Smoking_FASD.html">Smoking_FASD</a></code>,
+<code><a href="../../effectsize/help/food_class.html">food_class</a></code>,
+<code><a href="../../effectsize/help/rouder2016.html">rouder2016</a></code>,
+<code><a href="../../effectsize/help/screening_test.html">screening_test</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coordinates of the Extent of a Raster object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Extreme coordinates {raster}"><tr><td>Extreme coordinates {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coordinates of the Extent of a Raster object</h2>
+
+<h3>Description</h3>
+
+<p>These functions return or set the extreme coordinates of a Raster* object; and return them for Spatial* objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+xmin(x)
+xmax(x)
+ymin(x)
+ymax(x)
+
+xmin(x, ...) &lt;- value
+xmax(x, ...) &lt;- value
+ymin(x, ...) &lt;- value
+ymax(x, ...) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Extent object</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>numeric. x or y coordinate</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>numeric
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/extent.html">extent</a></code>,  <code><a href="../help/dimensions.html">dimensions</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+r &lt;- raster(xmn=-0.5, xmx = 9.5, ncols=10)
+xmin(r)
+xmax(r)
+ymin(r)
+ymax(r)
+xmin(r) &lt;- -180
+xmax(r) &lt;- 180
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

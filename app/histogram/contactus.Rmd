@@ -1,0 +1,58 @@
+## About MicrobioSee2
+
+- MicrobioSee2, a desktop software for microbiome data visualization.
+
+- The guide of MicrobioSee can be availbale at [here](https://microbiosee.github.io/).
+
+- ``` Less is more.```
+
+---
+
+## Contact us
+
+- Jinhui Li 
+
+- Saint Louis University, MO, US.
+
+- E-mail: ijinhui@foxmail.com
+
+- Github: https://github.com/jinhuili-lab/MicrobioSee2
+
+---  
+## Cite US
+
+Jinhui Li, Kaarunya Nachimuthu, Abdur Rahman Syed Ali, et al. MicrobioSee2: a desktop software for microbiome data visualization.
+ 
+## Update Log
+
+- 2024-5-5
+We developed a Windows client for MicrobioSee, and macos version is being developed. This version also is a final project of Bioinformatics course in SLU.
+
+- 2022-3-6
+Congratulations, our manuscript has been accepted by frontiers in genetics.
+  > Jinhui Li, Yimeng Sang, Sen Zeng, Shuming Mo, Zufan Zhang, Sheng He, Xinying Li, Guijiao Su, Jianping Liao, and Chengjian Jiang. MicrobioSee: a web-based visualization toolkit for multi-omics of microbiology. Frontiers in Genetics. 2022. 13: 853612. DOI: 10.3389/fgene.2022.853612.
+
+- 2022-12-30
+Totol 17 tools were developed and can be availbale at: https://microbiosee.gxu.edu.cn/
+
+- 2021-11-23
+We have completed the migration of all services. After that, the update log is moved to the Instruction
+
+- 2021-11-17
+The tutorials were made into videos posted on YouTube and Bilibili.
+
+- 2021-11-14
+Debuged the Stacked Bar Charts.
+
+- 2021-11-10
+Sorted out the code and added the funciton of upset map
+
+- 2021-11-03
+Completed documentation of instructions.
+Fixed known bugs.
+
+- 2021-9-1
+Major development work completed.
+
+
+![MicrobioSee Copyright@Jinhui](https://jinhuili-lab.github.io/assets/img/path.jpg)

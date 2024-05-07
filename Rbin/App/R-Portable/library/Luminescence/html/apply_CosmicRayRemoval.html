@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to remove cosmic rays from an RLum.Data.Spectrum S4...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for apply_CosmicRayRemoval {Luminescence}"><tr><td>apply_CosmicRayRemoval {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to remove cosmic rays from an RLum.Data.Spectrum S4 class object</h2>
+
+<h3>Description</h3>
+
+<p>The function provides several methods for cosmic-ray removal and spectrum
+smoothing <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> objects and such objects embedded in <a href="../../base/html/list.html">list</a> or
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply_CosmicRayRemoval(
+  object,
+  method = "smooth",
+  method.Pych.smoothing = 2,
+  method.Pych.threshold_factor = 3,
+  MARGIN = 2,
+  verbose = FALSE,
+  plot = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> or <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>): input
+object to be treated. This can be also provided as <a href="../../base/html/list.html">list</a>. If an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object
+is provided, only the <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> objects are treated. Please note: this mixing of
+objects do not work for a list of <code>RLum.Data</code> objects.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+Defines method that is applied for cosmic ray removal. Allowed methods are
+<code>smooth</code>, the default, (<a href="../../stats/html/smooth.html">smooth</a>), <code>smooth.spline</code> (<a href="../../stats/html/smooth.spline.html">smooth.spline</a>)
+and <code>Pych</code>. See details for further information.</p>
+</td></tr>
+<tr valign="top"><td><code>method.Pych.smoothing</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+Smoothing parameter for cosmic ray removal according to Pych (2003).
+The value defines how many neighbouring values in each frame are used for smoothing
+(e.g., <code>2</code> means that the two previous and two following values are used).</p>
+</td></tr>
+<tr valign="top"><td><code>method.Pych.threshold_factor</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+Threshold for zero-bins in the histogram. Small values mean that more peaks
+are removed, but signal might be also affected by this removal.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+on which part the function cosmic ray removal should be applied on:
+</p>
+
+<ul>
+<li><p> 1 = along the time axis (line by line),
+</p>
+</li>
+<li><p> 2 = along the wavelength axis (column by column).
+</p>
+</li></ul>
+
+<p><strong>Note:</strong> This argument currently only affects the methods <code>smooth</code> and <code>smooth.spline</code></p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+Option to suppress terminal output.,</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+If <code>TRUE</code> the histograms used for the cosmic-ray removal are returned as plot
+including the used threshold. Note: A separate plot is returned for each frame!
+Currently only for <code>method = "Pych"</code> a graphical output is provided.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments and graphical parameters that will be passed
+to the <a href="../../stats/html/smooth.html">smooth</a> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong><code>method = "Pych"</code></strong>
+</p>
+<p>This method applies the cosmic-ray removal algorithm described by Pych
+(2003). Some aspects that are different to the publication:
+</p>
+
+<ul>
+<li><p> For interpolation between neighbouring values the median and not the mean is used.
+</p>
+</li>
+<li><p> The number of breaks to construct the histogram is set to: <code>length(number.of.input.values)/2</code>
+</p>
+</li></ul>
+
+<p>For further details see references below.
+</p>
+<p><strong><code>method = "smooth"</code></strong>
+</p>
+<p>Method uses the function <a href="../../stats/html/smooth.html">smooth</a> to remove cosmic rays.
+</p>
+<p>Arguments that can be passed are: <code>kind</code>, <code>twiceit</code>
+</p>
+<p><strong><code>method = "smooth.spline"</code></strong>
+</p>
+<p>Method uses the function <a href="../../stats/html/smooth.spline.html">smooth.spline</a> to remove cosmic rays.
+</p>
+<p>Arguments that can be passed are: <code>spar</code>
+</p>
+<p><strong>How to combine methods?</strong>
+</p>
+<p>Different methods can be combined by applying the method repeatedly to the
+dataset (see example).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns same object as input.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.3.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. apply_CosmicRayRemoval(): Function to remove cosmic rays from an RLum.Data.Spectrum S4 class object. Function version 0.3.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Pych, W., 2003. A Fast Algorithm for Cosmic-Ray Removal from
+Single Images. Astrophysics 116, 148-153.
+<a href="https://arxiv.org/pdf/astro-ph/0311290.pdf?origin=publication_detail">https://arxiv.org/pdf/astro-ph/0311290.pdf?origin=publication_detail</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../stats/html/smooth.html">smooth</a>, <a href="../../stats/html/smooth.spline.html">smooth.spline</a>,
+<a href="../../Luminescence/help/apply_CosmicRayRemoval.html">apply_CosmicRayRemoval</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) - use with your own data and combine (uncomment for usage)
+## run two times the default method and smooth with another method
+## your.spectrum &lt;- apply_CosmicRayRemoval(your.spectrum, method = "Pych")
+## your.spectrum &lt;- apply_CosmicRayRemoval(your.spectrum, method = "Pych")
+## your.spectrum &lt;- apply_CosmicRayRemoval(your.spectrum, method = "smooth")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

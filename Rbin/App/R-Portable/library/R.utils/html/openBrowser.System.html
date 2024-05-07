@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Opens an HTML document using the OS default HTML browser</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for System$openBrowser {R.utils}"><tr><td>System$openBrowser {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Opens an HTML document using the OS default HTML browser</h2>
+
+<h3>Description</h3>
+
+<p>Opens an HTML document using the OS default HTML browser. Note that this
+call is dependent on the operating system (currently only Windows and
+Unix are supported).
+The document given by <code>query</code> can either be a local file or a
+web page. If the <code>query</code> was given as non-url string, i.e. as a
+standard file pathname, the method will automatically check if the
+file exists and conform the query to a correct url starting with
+<code>file:</code>. The used url will be returned as a string.
+</p>
+<p>Any suggestion how implement this on Apple system are welcome!
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## System$openBrowser(query, ...)
+
+## Don't use the below:
+## S3 method for class 'System'
+openBrowser(this, query, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>query</code></td>
+<td>
+<p>The path to document to be opened by the browser.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It is hard to create a good cross-platform <code>openBrowser()</code> method,
+but here is one try.
+</p>
+<p>In the following text <code>&lt;browser&gt;</code> is the value returned by
+<code>getOption("browser")</code> and <code>&lt;url&gt;</code> is the URL conformed
+query, which starts with either <code>file:</code> or <code>http:</code>.
+</p>
+<p>On a <em>Windows</em> system, if <code>&lt;browser&gt;</code> is not <code><a href="../../base/help/NULL.html">NULL</a></code>,
+first
+</p>
+<p><code>shell.exec(&lt;browser&gt; &lt;url&gt;)</code>
+</p>
+<p>is tried. If this fails, then
+</p>
+<p><code>shell.exec(&lt;url&gt;)</code>
+</p>
+<p>is tried. Using this latter approach will <em>not</em> guarantee that
+an HTML browser will open the url, e.g. depending on the Windows file
+associations, a <code>*.txt</code> file might be opened by NotePad. However,
+it will most likely open something.
+If <code>&lt;browser&gt;</code> contains spaces, make sure it is quoted.
+</p>
+<p>On <em>Unix</em> systems, <code>system()</code> will be used to call:
+</p>
+<p><code> &lt;browser&gt; -remote "openURL(&lt;url&gt;)" 2&gt; /dev/null || &lt;browser&gt; &lt;url&gt; &amp;</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the url of the <code>query</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/System.html">System</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+  System$openBrowser("https://www.r-project.org/")
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

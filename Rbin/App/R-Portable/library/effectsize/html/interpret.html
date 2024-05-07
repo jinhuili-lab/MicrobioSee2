@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generic Function for Interpretation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret {effectsize}"><tr><td>interpret {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generic Function for Interpretation</h2>
+
+<h3>Description</h3>
+
+<p>Interpret a value based on a set of rules. See <code><a href="../../effectsize/help/rules.html">rules()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret(x, ...)
+
+## S3 method for class 'numeric'
+interpret(x, rules, name = attr(rules, "rule_name"), ...)
+
+## S3 method for class 'effectsize_table'
+interpret(x, rules, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector of value break points (edges defining categories), or a data
+frame of class <code>effectsize_table</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>. When <code>x</code> is a data frame, can be a name of an
+established set of rules.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of the set of rules (will be printed).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li><p> For numeric input: A character vector of interpretations.
+</p>
+</li>
+<li><p> For data frames: the <code>x</code> input with an additional <code>Interpretation</code> column.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/rules.html">rules()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rules_grid &lt;- rules(c(0.01, 0.05), c("very significant", "significant", "not significant"))
+interpret(0.001, rules_grid)
+interpret(0.021, rules_grid)
+interpret(0.08, rules_grid)
+interpret(c(0.01, 0.005, 0.08), rules_grid)
+
+interpret(c(0.35, 0.15), c("small" = 0.2, "large" = 0.4), name = "Cohen's Rules")
+interpret(c(0.35, 0.15), rules(c(0.2, 0.4), c("small", "medium", "large")))
+
+# ----------
+d &lt;- cohens_d(mpg ~ am, data = mtcars)
+interpret(d, rules = "cohen1988")
+
+d &lt;- glass_delta(mpg ~ am, data = mtcars)
+interpret(d, rules = "gignac2016")
+
+interpret(d, rules = rules(1, c("tiny", "yeah okay")))
+
+m &lt;- lm(formula = wt ~ am * cyl, data = mtcars)
+eta2 &lt;- eta_squared(m)
+interpret(eta2, rules = "field2013")
+
+X &lt;- chisq.test(mtcars$am, mtcars$cyl == 8)
+interpret(oddsratio(X), rules = "chen2010")
+interpret(cramers_v(X), "lovakov2021")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

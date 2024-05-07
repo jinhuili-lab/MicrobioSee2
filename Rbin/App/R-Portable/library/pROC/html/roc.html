@@ -1,0 +1,572 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Build a ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for roc {pROC}"><tr><td>roc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Build a ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This is the main function of the pROC package. It builds a ROC
+curve and returns a &ldquo;roc&rdquo; object, a list of class
+&ldquo;roc&rdquo;. This object can be <code>print</code>ed, <code>plot</code>ted, or
+passed to the functions <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>,
+<code><a href="../../pROC/help/smooth.roc.html">smooth.roc</a></code> and <code><a href="../../pROC/help/coords.html">coords</a></code>. Additionally, two
+<code>roc</code> objects can be compared with <code><a href="../../pROC/help/roc.test.html">roc.test</a></code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+roc(...)
+## S3 method for class 'formula'
+roc(formula, data, ...)
+## S3 method for class 'data.frame'
+roc(data, response, predictor,
+ret = c("roc", "coords", "all_coords"), ...)
+## Default S3 method:
+roc(response, predictor, controls, cases,
+density.controls, density.cases,
+levels=base::levels(as.factor(response)), percent=FALSE, na.rm=TRUE,
+direction=c("auto", "&lt;", "&gt;"), algorithm = 6, quiet = FALSE, 
+smooth=FALSE, auc=TRUE, ci=FALSE, plot=FALSE, smooth.method="binormal",
+smooth.n=512, ci.method=NULL, density=NULL, ...)
+roc_(data, response, predictor, ret = c("roc", "coords", "all_coords"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>a factor, numeric or character vector of
+responses (true class), typically encoded with 0 (controls) and 1 (cases).
+Only two classes can be used in a ROC curve. If the vector
+contains more than two unique values, or if their order could be
+ambiguous, use <code>levels</code> to specify which values must be used as
+control and case value.
+If the first argument was a <code><a href="../../base/html/data.frame.html">data.frame</a></code>, <code>response</code>
+should be the name of the column in <code>data</code> containing the
+response, quoted for <code>roc_</code>, and optionally quoted for 
+<code>roc.data.frame</code> (non-standard evaluation or NSE).
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor</code></td>
+<td>
+<p>a <code><a href="../../base/html/numeric.html">numeric</a></code> or <code><a href="../../base/html/factor.html">ordered</a></code> vector
+of the same length than <code>response</code>, containing the predicted
+value of each observation.
+If the first argument was a <code><a href="../../base/html/data.frame.html">data.frame</a></code>, <code>predictor</code>
+should be the name of the column in <code>data</code> containing the
+predictor, quoted for <code>roc_</code>, and optionally quoted for 
+<code>roc.data.frame</code> (non-standard evaluation or NSE).
+</p>
+</td></tr>
+<tr valign="top"><td><code>controls, cases</code></td>
+<td>
+<p>instead of <code>response</code>, <code>predictor</code>,
+the data can be supplied as two <code><a href="../../base/html/numeric.html">numeric</a></code> or
+<code><a href="../../base/html/factor.html">ordered</a></code> vectors containing the predictor
+values for control and case observations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>density.controls, density.cases</code></td>
+<td>
+<p>a smoothed ROC curve can be
+built directly from two densities on identical <code>x</code> points, as in
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>a formula of the type <code>response~predictor</code>. If mulitple predictors 
+are passed, a named list of <code>roc</code> objects will be returned. Additional arguments
+<code>data</code> and <code>subset</code>, but not <code>na.action</code> are supported, see 
+<code><a href="../../stats/html/model.frame.html">model.frame</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>the value of the response for controls and cases
+respectively. By default, the first two values of
+<code>levels(as.factor(response))</code> are taken, and the remaining levels are ignored.
+It usually captures two-class factor data correctly, but will
+frequently fail for other data types (response factor with more than 2 levels,
+or for example if your response is coded &ldquo;controls&rdquo; and &ldquo;cases&rdquo;,
+the levels will be inverted) and must then be specified here.
+If your data is coded as <code>0</code> and <code>1</code> with <code>0</code>
+being the controls, you can safely omit this argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>if the sensitivities, specificities and AUC must be
+given in percent (<code>TRUE</code>) or in fraction (<code>FALSE</code>, default).
+</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>if <code>TRUE</code>, the <code>NA</code> values will be removed
+(ignored by <code>roc.formula</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>in which direction to make the comparison?
+&ldquo;auto&rdquo; (default): automatically define in which group the
+median is higher and take the direction accordingly.
+&ldquo;&gt;&rdquo;: if the predictor values for the control group are
+higher than the values of the case group (controls &gt; t &gt;= cases).
+&ldquo;&lt;&rdquo;: if the predictor values for the control group are lower
+or equal than the values of the case group (controls &lt; t &lt;= cases).
+You should set this explicity to &ldquo;&gt;&rdquo; or &ldquo;&lt;&rdquo; whenever
+you are resampling or randomizing the data, otherwise the 
+curves will be biased towards higher AUC values.
+</p>
+</td></tr>
+<tr valign="top"><td><code>algorithm</code></td>
+<td>
+<p>the method used to compute sensitivity and specificity, 
+an integer of length 1 between <code>0</code> and <code>6</code>.
+<code>1</code>: a safe, well-tested, pure-<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> code that is efficient when the 
+number of thresholds is low. It goes with O(T*N).
+<code>2</code>: an alternative pure-<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> algorithm that goes in
+O(N). Typically faster than <code>1</code> when the number of thresholds of
+the ROC curve is above 1000. Less tested than <code>1</code>.
+<code>3</code>: a C++ 
+implementation of <code>1</code>, about 3-5x faster. Typically the fastest with
+ROC curves with less than 50-100 thresholds, but has a very bad worst-case
+when that number increases.
+<code>4</code> (debug only, slow):
+runs algorithms 1 to 3 and makes sure they return the same values.
+<code>5</code>: select <code>2</code> or <code>3</code> based on the number of thresholds.
+<code>6</code> (default): quickly select the algorithm on the class of the data: <code>2</code>
+for <code><a href="../../base/html/numeric.html">numeric</a></code> and <code>3</code> for <code><a href="../../base/html/factor.html">ordered</a></code>.
+<code>0</code>: use <span class="pkg">microbenchmark</span> to choose between <code>2</code> and <code>3</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ret</code></td>
+<td>
+<p>for <code>roc.data.frame</code> only, whether to return the
+threshold sensitivity and specificity at all thresholds (&ldquo;coords&rdquo;),
+all the coordinates at all thresholds (&ldquo;all_coords&rdquo;) or the
+<code>roc</code> object (&ldquo;roc&rdquo;).</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>set to <code>TRUE</code> to turn off <code><a href="../../base/html/message.html">message</a></code>s
+when <code>direction</code> and <code>levels</code> are auto-detected.
+</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p>if TRUE, the ROC curve is passed to <code><a href="../../pROC/help/smooth.html">smooth</a></code>
+to be smoothed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>compute the area under the curve (AUC)? If <code>TRUE</code>
+(default), additional arguments can be passed to <code><a href="../../pROC/help/auc.html">auc</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>compute the confidence interval (CI)? If set to <code>TRUE</code>, 
+additional arguments can be passed to <code><a href="../../pROC/help/ci.html">ci</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>plot the ROC curve? If <code>TRUE</code>, additional
+arguments can be passed to <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>smooth.method, smooth.n, ci.method</code></td>
+<td>
+<p>in <code>roc.formula</code> and
+<code>roc.default</code>, the <code>method</code> and <code>n</code> arguments to
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> (if <code>smooth=TRUE</code>) and
+<code>of="auc"</code>) must be passed as
+<code>smooth.method</code>, <code>smooth.n</code> and <code>ci.method</code> to avoid confusions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>density</code></td>
+<td>
+<p><code>density</code> argument passed to <code><a href="../../pROC/help/smooth.roc.html">smooth</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods, and
+especially:
+</p>
+
+<ul>
+<li> <p><code><a href="../../pROC/help/auc.html">auc</a></code>: <code>partial.auc</code>, <code>partial.auc.focus</code>, <code>partial.auc.correct</code>.
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/ci.html">ci</a></code>: <code>of</code>, <code>conf.level</code>, <code>boot.n</code>, <code>boot.stratified</code>, <code>progress</code>
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>:, <code>reuse.auc</code>, <code>method</code>
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>: <code>thresholds</code>
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/ci.se.html">ci.se</a></code>: <code>sensitivities</code>
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>: <code>specificities</code>
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>: <code>add</code>, <code>col</code> and most
+other arguments to the <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code> function. See
+<code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code> directly for more details.
+</p>
+</li>
+<li> <p><code><a href="../../pROC/help/smooth.html">smooth</a></code>: <code>method</code>, <code>n</code>, and all other
+arguments. See <code><a href="../../pROC/help/smooth.html">smooth</a></code> for more details.
+</p>
+</li></ul>
+
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function's main job is to build a ROC object. See the
+&ldquo;Value&rdquo; section to this page for more details. Before
+returning, it will call (in this order) the <code><a href="../../pROC/help/smooth.roc.html">smooth</a></code>,
+<code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code> and <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>
+functions if <code>smooth</code> <code>auc</code>, <code>ci</code> and <code>plot.roc</code>
+(respectively) arguments are set to TRUE. By default, only <code>auc</code>
+is called.
+</p>
+<p>Data can be provided as <code>response, predictor</code>, where the
+predictor is the numeric (or ordered) level of the evaluated signal, and
+the response encodes the observation class (control or case). The
+<code>level</code> argument specifies which response level must be taken as
+controls (first value of <code>level</code>) or cases (second). It can
+safely be ignored when the response is encoded as <code>0</code> and
+<code>1</code>, but it will frequently fail otherwise. By default, the first
+two values of <code>levels(as.factor(response))</code> are taken, and the
+remaining levels are ignored. This means that if your response is
+coded &ldquo;control&rdquo; and &ldquo;case&rdquo;, the levels will be
+inverted.
+</p>
+<p>In some cases, it is more convenient to pass the data as
+<code>controls, cases</code>, but both arguments are ignored if
+<code>response, predictor</code> was specified to non-<code>NULL</code> values.
+It is also possible to pass density data with <code>density.controls,
+  density.cases</code>, which will result in a smoothed ROC curve even if
+<code>smooth=FALSE</code>, but are ignored if <code>response, predictor</code> or
+<code>controls, cases</code> are provided.
+</p>
+<p>Specifications for <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code> and
+<code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code> are not kept if <code>auc</code>, <code>ci</code> or <code>plot</code> are set to
+<code>FALSE</code>. Especially, in the following case:
+</p>
+<pre>
+    myRoc &lt;- roc(..., auc.polygon=TRUE, grid=TRUE, plot=FALSE)
+    plot(myRoc)
+  </pre>
+<p>the plot will not have the AUC polygon nor the grid. Similarly, when
+comparing &ldquo;roc&rdquo; objects, the following is not possible:
+</p>
+<pre>
+    roc1 &lt;- roc(..., partial.auc=c(1, 0.8), auc=FALSE)
+    roc2 &lt;- roc(..., partial.auc=c(1, 0.8), auc=FALSE)
+    roc.test(roc1, roc2)
+  </pre>
+<p>This will produce a test on the full AUC, not the partial AUC. To make
+a comparison on the partial AUC, you must repeat the specifications
+when calling <code><a href="../../pROC/help/roc.test.html">roc.test</a></code>:
+</p>
+<pre>
+    roc.test(roc1, roc2, partial.auc=c(1, 0.8))
+  </pre>
+<p>Note that if <code>roc</code> was called with <code>auc=TRUE</code>, the latter syntax will not
+allow redefining the AUC specifications. You must use <code>reuse.auc=FALSE</code> for that.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If the data contained any <code>NA</code> value and <code>na.rm=FALSE</code>, <code>NA</code> is
+returned. Otherwise, if <code>smooth=FALSE</code>, a list of class
+&ldquo;roc&rdquo; with the following fields: 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>if called with <code>auc=TRUE</code>, a numeric of class &ldquo;auc&rdquo; as
+defined in <code><a href="../../pROC/help/auc.html">auc</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>if called with <code>ci=TRUE</code>, a numeric of class &ldquo;ci&rdquo; as
+defined in <code><a href="../../pROC/help/ci.html">ci</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>the response vector. Patients whose response is not
+<code><a href="../../base/html/match.html">%in%</a></code> <code>levels</code> are discarded. If <code>NA</code> values
+were removed, a <code>na.action</code> attribute similar
+to <code><a href="../../stats/html/na.fail.html">na.omit</a></code> stores the row numbers. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor</code></td>
+<td>
+<p>the predictor vector converted to numeric as used to build the ROC
+curve. Patients whose response is not <code><a href="../../base/html/match.html">%in%</a></code> <code>levels</code> are discarded. If
+<code>NA</code> values were removed, a <code>na.action</code> attribute similar
+to <code><a href="../../stats/html/na.fail.html">na.omit</a></code> stores the row numbers.
+</p>
+</td></tr>
+<tr valign="top"><td><code>original.predictor, original.response</code></td>
+<td>
+<p>the response and predictor vectors as passed in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>the levels of the response as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>controls</code></td>
+<td>
+<p>the predictor values for the control observations.</p>
+</td></tr>
+<tr valign="top"><td><code>cases</code></td>
+<td>
+<p>the predictor values for the cases.</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>if the sensitivities, specificities and AUC are
+reported in percent, as defined in argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>the direction of the comparison, as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>fun.sesp</code></td>
+<td>
+<p>the function used to compute sensitivities and specificities.
+Will be re-used in bootstrap operations.</p>
+</td></tr>
+<tr valign="top"><td><code>sensitivities</code></td>
+<td>
+<p>the sensitivities defining the ROC curve.</p>
+</td></tr>
+<tr valign="top"><td><code>specificities</code></td>
+<td>
+<p>the specificities defining the ROC curve.</p>
+</td></tr>
+<tr valign="top"><td><code>thresholds</code></td>
+<td>
+<p>the thresholds at which the sensitivities and
+specificities were computed. See below for details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>how the function was called. See <code><a href="../../base/html/match.call.html">match.call</a></code> for
+more details.
+</p>
+</td></tr>
+</table>
+<p>If <code>smooth=TRUE</code> a list of class &ldquo;smooth.roc&rdquo; as returned
+by <code><a href="../../pROC/help/smooth.html">smooth</a></code>, with or without additional elements
+<code>auc</code> and <code>ci</code> (according to the call).
+</p>
+
+
+<h3>Thresholds</h3>
+
+<p>Thresholds are selected as the means between any two consecutive values 
+observed in the data. This choice is aimed to facilitate their interpretation,
+as any data point will be unambiguously positive or negative
+regardless of whether the comparison operator includes equality
+or not.
+</p>
+<p>In rare cases it might not be possible to represent the
+mean between two consecutive values, or one might want to use a custom 
+threshold. In those cases, the semantic of the comparison
+is as follows: with <code>direction = '&gt;'</code>,
+observations are positive when they are smaller than or equal 
+(<code>&lt;=</code>) to the threshold.
+With <code>direction = '&lt;'</code>, observations are positive when they
+are greater than or equal (<code>&gt;=</code>) to the threshold.
+</p>
+<p>As a corollary, thresholds do not correspond to actual values
+in the data.
+</p>
+
+
+<h3>Experimental: pipelines</h3>
+
+<p>Since version 1.15.0, the <code>roc</code> function can be used in pipelines, for instance with <span class="pkg">dplyr</span> or <span class="pkg">magrittr</span>. This is still a highly experimental feature and will change significantly in future versions  (see <a href="https://github.com/xrobin/pROC/issues/54">issue 54</a>).
+The <code>roc.data.frame</code> method supports both standard and non-standard evaluation (NSE):
+</p>
+<pre>
+library(dplyr)
+# Standard evaluation:
+aSAH %&gt;%
+    filter(gender == "Female") %&gt;%
+    roc("outcome", "s100b")
+# Non-Standard Evaluation:
+aSAH %&gt;%
+    filter(gender == "Female") %&gt;%
+    roc(outcome, s100b)
+	</pre>
+<p>For tasks involving programming and variable column names, the <code>roc_</code> function provides
+standard evaluation:
+</p>
+<pre>
+# Standard evaluation:
+aSAH %&gt;%
+    filter(gender == "Female") %&gt;%
+    roc_("outcome", "s100b")
+    </pre>
+<p>By default it returns the <code><a href="../../pROC/help/roc.html">roc</a></code> object, which can then be piped to
+the <code><a href="../../pROC/help/coords.html">coords</a></code> function to extract coordinates that can be used
+in further pipelines.
+</p>
+<pre>
+# Returns thresholds, sensitivities and specificities:
+aSAH  %&gt;%
+    roc(outcome, s100b) %&gt;%
+    coords(transpose = FALSE) %&gt;%
+    filter(sensitivity &gt; 0.6, 
+           specificity &gt; 0.6)
+
+# Returns all existing coordinates, then select precision and recall:
+aSAH  %&gt;%
+    roc(outcome, s100b) %&gt;%
+    coords(ret = "all", transpose = FALSE) %&gt;%
+    select(precision, recall)
+    </pre>
+
+
+<h3>Errors</h3>
+
+<p>If no control or case observation exist for the given levels of
+response, no ROC curve can be built and an error is triggered with
+message &ldquo;No control observation&rdquo; or &ldquo;No case
+observation&rdquo;.
+</p>
+<p>If the predictor is not a numeric or ordered, as defined by
+<code><a href="../../base/html/numeric.html">as.numeric</a></code> or <code><a href="../../base/html/factor.html">as.ordered</a></code>, the message
+&ldquo;Predictor must be numeric or ordered&rdquo; is returned.
+</p>
+<p>The message &ldquo;No valid data provided&rdquo; is issued when the data
+wasn't properly passed. Remember you need both <code>response</code> and
+<code>predictor</code> of the same (not null) length, or both <code>controls</code>
+and <code>cases</code>. Combinations such as <code>predictor</code> and
+<code>cases</code> are not valid and will trigger this error.
+</p>
+<p>Infinite values of the predictor cannot always be thresholded by
+infinity and can cause ROC curves to not reach 0 or 100% 
+specificity or sensitivity. Since version 1.13.0, pROC returns <code>NaN</code>
+with a warning message &ldquo;Infinite value(s) in predictor&rdquo; if
+<code>predictor</code> contains any <a href="../../base/html/is.finite.html">infinite</a> values.
+</p>
+
+
+<h3>References</h3>
+
+<p>Tom Fawcett (2006) &ldquo;An introduction to ROC analysis&rdquo;. <em>Pattern
+Recognition Letters</em> <b>27</b>, 861&ndash;874. DOI:
+doi: <a href="https://doi.org/10.1016/j.patrec.2005.10.010">10.1016/j.patrec.2005.10.010</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>, <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>, <code><a href="../../pROC/help/print.roc.html">print.roc</a></code>, <code><a href="../../pROC/help/roc.test.html">roc.test</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Basic example
+roc(aSAH$outcome, aSAH$s100b,
+    levels=c("Good", "Poor"))
+# As levels aSAH$outcome == c("Good", "Poor"),
+# this is equivalent to:
+roc(aSAH$outcome, aSAH$s100b)
+# In some cases, ignoring levels could lead to unexpected results
+# Equivalent syntaxes:
+roc(outcome ~ s100b, aSAH)
+roc(aSAH$outcome ~ aSAH$s100b)
+with(aSAH, roc(outcome, s100b))
+with(aSAH, roc(outcome ~ s100b))
+
+# With a formula:
+roc(outcome ~ s100b, data=aSAH)
+
+## Not run: 
+library(dplyr)
+aSAH %&gt;%
+    filter(gender == "Female") %&gt;%
+    roc(outcome, s100b)
+
+## End(Not run)
+
+# Using subset (only with formula)
+roc(outcome ~ s100b, data=aSAH, subset=(gender == "Male"))
+roc(outcome ~ s100b, data=aSAH, subset=(gender == "Female"))
+
+# With numeric controls/cases
+roc(controls=aSAH$s100b[aSAH$outcome=="Good"], cases=aSAH$s100b[aSAH$outcome=="Poor"])
+# With ordered controls/cases
+roc(controls=aSAH$wfns[aSAH$outcome=="Good"], cases=aSAH$wfns[aSAH$outcome=="Poor"])
+
+# Inverted the levels: "Poor" are now controls and "Good" cases:
+roc(aSAH$outcome, aSAH$s100b,
+    levels=c("Poor", "Good"))
+
+# The result was exactly the same because of direction="auto".
+# The following will give an AUC &lt; 0.5:
+roc(aSAH$outcome, aSAH$s100b,
+    levels=c("Poor", "Good"), direction="&lt;")
+
+# If we are sure about levels and direction auto-detection,
+# we can turn off the messages:
+roc(aSAH$outcome, aSAH$s100b, quiet = TRUE)
+
+# If we prefer counting in percent:
+roc(aSAH$outcome, aSAH$s100b, percent=TRUE)
+
+# Plot and CI (see plot.roc and ci for more options):
+roc(aSAH$outcome, aSAH$s100b,
+    percent=TRUE, plot=TRUE, ci=TRUE)
+
+# Smoothed ROC curve
+roc(aSAH$outcome, aSAH$s100b, smooth=TRUE)
+# this is not identical to
+smooth(roc(aSAH$outcome, aSAH$s100b))
+# because in the latter case, the returned object contains no AUC
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

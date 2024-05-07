@@ -1,0 +1,41 @@
+Package: googleVis
+Type: Package
+Title: R Interface to Google Charts
+Version: 0.7.1
+Date: 2023-03-01
+Authors@R: c(person("Markus", "Gesmann", role = c("aut", "cre"),
+    email = "markus.gesmann@googlemail.com"),
+    person("Diego", "de Castillo", role = "aut",
+    email = "decastillo@gmail.com"),
+    person("Joe", "Cheng", role = "ctb",
+    email = "joe@rstudio.com"),
+    person("Ashley", "Baldry", role = "ctb"),
+    person("Durey", "Ingeniería", role = "ctb"))
+Description: R interface to Google's chart tools, allowing users
+    to create interactive charts based on data frames. Charts
+    are displayed locally via the R HTTP help server. A modern
+    browser with an Internet connection is required. The data 
+    remains local and is not uploaded to Google.
+Depends: R (>= 3.0.2)
+Imports: methods, jsonlite, utils
+Suggests: shiny (>= 0.4.0), httpuv (>= 1.2.0), knitr (>= 1.5),
+        rmarkdown, markdown, data.table
+License: GPL (>= 2)
+URL: https://mages.github.io/googleVis/
+BugReports: https://github.com/mages/googleVis/issues
+LazyLoad: yes
+LazyData: yes
+VignetteBuilder: knitr, rmarkdown
+RoxygenNote: 7.2.3
+Encoding: UTF-8
+NeedsCompilation: no
+Packaged: 2023-03-01 20:11:17 UTC; mages
+Author: Markus Gesmann [aut, cre],
+  Diego de Castillo [aut],
+  Joe Cheng [ctb],
+  Ashley Baldry [ctb],
+  Durey Ingeniería [ctb]
+Maintainer: Markus Gesmann <markus.gesmann@googlemail.com>
+Repository: CRAN
+Date/Publication: 2023-03-01 20:30:02 UTC
+Built: R 4.1.3; ; 2023-04-17 13:25:38 UTC; windows

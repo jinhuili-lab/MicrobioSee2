@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a measure of dispersion.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dispersion {plotrix}"><tr><td>dispersion {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display a measure of dispersion. </h2>
+
+<h3>Description</h3>
+
+<p>Display lines or capped bars at specified points on a plot representing
+measures of dispersion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ dispersion(x,y,ulim,llim=ulim,intervals=TRUE,arrow.cap=0.01,arrow.gap=NA,
+  type="a",fill=NA,lty=NA,pch=NA,border=NA,col=par("fg"),display.na=TRUE,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>x and y position of the centers of the bars</p>
+</td></tr>
+<tr valign="top"><td><code>ulim,llim</code></td>
+<td>
+<p>The extent of the dispersion measures.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.cap</code></td>
+<td>
+<p>The width of the cap at the outer end of each bar
+as a proportion of the width of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.gap</code></td>
+<td>
+<p>The gap to leave at the inner end of each bar.
+Defaults to two thirds of the height of a capital &quot;O&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p>Whether the limits are intervals (TRUE) or absolute values
+(FALSE).</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>What type of display to use.</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p>Color to fill between the lines if <span class="samp">type</span> is not NULL and
+<span class="samp">fill</span> is not NA.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type for redrawing the lines if necessary.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Symbol for redrawing the points if necessary.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Line type for drawing a border on the confidence band.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color for the lines or capped bars.</p>
+</td></tr>
+<tr valign="top"><td><code>display.na</code></td>
+<td>
+<p>Whether to display NA values as lines going off the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">arrows</span> or <span class="samp">lines</span>
+depending upon <span class="samp">type</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">dispersion</span> displays a measure of dispersion on an existing plot.
+Currently it will display either vertical lines with caps (error bars) or lines
+that form a &quot;confidence band&quot; around a line of central tendency. If <span class="samp">fill</span>
+is not NA and <span class="samp">type</span> is <span class="samp">"l"</span>, a polygon will be drawn between the
+confidence lines. Remember that any points or lines within the confidence band
+will be obscured, so pass point and/or line types as in the second example.
+</p>
+<p>The default behavior is to display an undefined dispersion (e.g. a variance with
+only one observation) as a line going off the plot. If <span class="samp">display.na</span> is FALSE,
+NA values will not be displayed, allowing the user to show only upper or lower
+dispersion limits.
+</p>
+<p>The <span class="samp">intervals</span> argument allows the user to pass the limits as either
+intervals (the default) or absolute values.
+</p>
+<p>If <span class="samp">arrow.gap</span> is greater than or equal to the upper or lower
+limit for a bar, <span class="samp">segments</span> is used to draw the upper and
+lower caps with no bars to avoid zero length arrows.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/arrows.html">arrows</a>, <a href="../../graphics/html/segments.html">segments</a>,<a href="../../graphics/html/lines.html">lines</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ disptest&lt;-matrix(rnorm(200),nrow=20)
+ disptest.means&lt;-rowMeans(disptest)
+ row.order&lt;-order(disptest.means)
+ se.disptest&lt;-unlist(apply(disptest,1,std.error))
+ plot(disptest.means[row.order],main="Dispersion as error bars",
+  ylim=c(min(disptest.means-se.disptest),max(disptest.means+se.disptest)),
+  xlab="Occasion",ylab="Value")
+ dispersion(1:20,disptest.means[row.order],se.disptest[row.order])
+ plot(disptest.means[row.order],main="Dispersion as confidence band",
+  ylim=c(min(disptest.means-se.disptest),max(disptest.means+se.disptest)),
+  xlab="Occasion",ylab="Value")
+ dispersion(1:20,disptest.means[row.order],se.disptest[row.order],type="l",
+  fill="#eeccee",lty=2,pch=1)
+ disptest2&lt;-matrix(sample(c(TRUE,FALSE),200,TRUE),nrow=10)
+ disptest.prop&lt;-rowMeans(disptest2)
+ disptest.ulim&lt;-disptest.llim&lt;-rep(NA,10)
+ for(i in 1:10) {
+  disptest.ulim[i]&lt;-binciWu(disptest2[i,],20)
+  disptest.llim[i]&lt;-binciWl(disptest2[i,],20)
+ }
+ plot(disptest.prop,main="Dispersion as binomial confidence intervals",
+  ylim=c(min(disptest.llim),max(disptest.ulim)),
+  xlab="Sample",ylab="Proportion")
+ dispersion(1:10,disptest.prop,disptest.ulim,disptest.llim,
+  interval=FALSE,lty=2,pch=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

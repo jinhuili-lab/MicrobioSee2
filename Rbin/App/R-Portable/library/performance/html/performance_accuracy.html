@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Accuracy of predictions from model fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for performance_accuracy {performance}"><tr><td>performance_accuracy {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Accuracy of predictions from model fit</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates the predictive accuracy of linear
+or logistic regression models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performance_accuracy(
+  model,
+  method = c("cv", "boot"),
+  k = 5,
+  n = 1000,
+  ci = 0.95,
+  verbose = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A linear or logistic regression model. A mixed-effects model is
+also accepted.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Character string, indicating whether cross-validation
+(<code>method = "cv"</code>) or bootstrapping (<code>method = "boot"</code>) is used to
+compute the accuracy values.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>The number of folds for the k-fold cross-validation.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Number of bootstrap-samples.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>The level of the confidence interval.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For linear models, the accuracy is the correlation coefficient
+between the actual and the predicted value of the outcome. For
+logistic regression models, the accuracy corresponds to the
+AUC-value, calculated with the <code>bayestestR::auc()</code>-function.
+<br /> <br />
+The accuracy is the mean value of multiple correlation resp.
+AUC-values, which are either computed with cross-validation
+or non-parametric bootstrapping (see argument <code>method</code>).
+The standard error is the standard deviation of the computed
+correlation resp. AUC-values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with three values: The <code>Accuracy</code> of the model
+predictions, i.e. the proportion of accurately predicted values from the
+model, its standard error, <code>SE</code>, and the <code>Method</code> used to compute
+the accuracy.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(mpg ~ wt + cyl, data = mtcars)
+performance_accuracy(model)
+
+model &lt;- glm(vs ~ wt + mpg, data = mtcars, family = "binomial")
+performance_accuracy(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;RLum.Analysis&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for RLum.Analysis-class {Luminescence}"><tr><td>RLum.Analysis-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"RLum.Analysis"</code></h2>
+
+<h3>Description</h3>
+
+<p>Object class to represent analysis data for protocol analysis, i.e. all curves,
+spectra etc. from one measurements. Objects from this class are produced,
+by e.g. <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>, <a href="../../Luminescence/help/read_Daybreak2R.html">read_Daybreak2R</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RLum.Analysis'
+show(object)
+
+## S4 method for signature 'RLum.Analysis'
+set_RLum(
+  class,
+  originator,
+  .uid,
+  .pid,
+  protocol = NA_character_,
+  records = list(),
+  info = list()
+)
+
+## S4 method for signature 'RLum.Analysis'
+get_RLum(
+  object,
+  record.id = NULL,
+  recordType = NULL,
+  curveType = NULL,
+  RLum.type = NULL,
+  protocol = "UNKNOWN",
+  get.index = NULL,
+  drop = TRUE,
+  recursive = TRUE,
+  info.object = NULL,
+  subset = NULL,
+  env = parent.frame(2)
+)
+
+## S4 method for signature 'RLum.Analysis'
+structure_RLum(object, fullExtent = FALSE)
+
+## S4 method for signature 'RLum.Analysis'
+length_RLum(object)
+
+## S4 method for signature 'RLum.Analysis'
+names_RLum(object)
+
+## S4 method for signature 'RLum.Analysis'
+smooth_RLum(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <code><a href="../../Luminescence/help/names_RLum.html">names_RLum</a></code>, <code><a href="../../Luminescence/help/length_RLum.html">length_RLum</a></code>, <code><a href="../../Luminescence/help/structure_RLum.html">structure_RLum</a></code> (<strong>required</strong>):
+an object of class <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a></p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+name of the <code>RLum</code> class to be created</p>
+</td></tr>
+<tr valign="top"><td><code>originator</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+contains the name of the calling function (the function that produces this object);
+can be set manually.</p>
+</td></tr>
+<tr valign="top"><td><code>.uid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+sets an unique ID for this object using the internal C++ function <code>create_UID</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.pid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+option to provide a parent id for nesting at will.</p>
+</td></tr>
+<tr valign="top"><td><code>protocol</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+sets protocol type for analysis object. Value may be used by subsequent analysis functions.</p>
+</td></tr>
+<tr valign="top"><td><code>records</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/list.html">list</a> (<strong>required</strong>):
+list of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code> <a href="../../base/html/list.html">list</a> (<em>optional</em>):
+a list containing additional info data for the object
+</p>
+<p><strong><code>set_RLum</code></strong>:
+</p>
+<p>Returns an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object.</p>
+</td></tr>
+<tr valign="top"><td><code>record.id</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/numeric.html">numeric</a> or <a href="../../base/html/logical.html">logical</a> (<em>optional</em>):
+IDs of specific records. If of type <code>logical</code> the entire id range is assumed
+and <code>TRUE</code> and <code>FALSE</code> indicates the selection.</p>
+</td></tr>
+<tr valign="top"><td><code>recordType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+record type (e.g., &quot;OSL&quot;). Can be also a vector, for multiple matching,
+e.g., <code>recordType = c("OSL", "IRSL")</code></p>
+</td></tr>
+<tr valign="top"><td><code>curveType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+curve type (e.g. &quot;predefined&quot; or &quot;measured&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>RLum.type</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+RLum object type. Defaults to &quot;RLum.Data.Curve&quot; and &quot;RLum.Data.Spectrum&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>get.index</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/logical.html">logical</a> (<em>optional</em>):
+return a numeric vector with the index of each element in the RLum.Analysis object.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+coerce to the next possible layer (which are <code>RLum.Data</code>-objects),
+<code>drop = FALSE</code> keeps the original <code>RLum.Analysis</code></p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if <code>TRUE</code> (the default) and the result of the <code>get_RLum()</code> request is a single
+object this object will be unlisted, means only the object itself and no
+list containing exactly one object is returned. Mostly this makes things
+easier, however, if this method is used within a loop this might be undesired.</p>
+</td></tr>
+<tr valign="top"><td><code>info.object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+name of the wanted info element</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/expression.html">expression</a> (<em>optional</em>):
+logical expression indicating elements or rows to keep: missing values are
+taken as false. This argument takes precedence over all other arguments,
+meaning they are not considered when subsetting the object.</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>: <a href="../../base/html/environment.html">environment</a> (<em>with default</em>):
+An environment passed to <a href="../../base/html/eval.html">eval</a> as the enclosure. This argument is only
+relevant when subsetting the object and should not be used manually.</p>
+</td></tr>
+<tr valign="top"><td><code>fullExtent</code></td>
+<td>
+<p><a href="../../Luminescence/help/structure_RLum.html">structure_RLum</a>; <a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+extents the returned <code>data.frame</code> to its full extent, i.e. all info elements
+are part of the return as well. The default value is <code>FALSE</code> as the data
+frame might become rather big.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to underlying methods</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><strong><code>get_RLum</code></strong>:
+</p>
+<p>Returns:
+</p>
+
+<ol>
+<li> <p><a href="../../base/html/list.html">list</a> of <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a> objects or
+</p>
+</li>
+<li><p> Single <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a> object, if only one object is contained and <code>recursive = FALSE</code> or
+</p>
+</li>
+<li> <p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects for <code>drop = FALSE</code>
+</p>
+</li></ol>
+
+<p><strong><code>structure_RLum</code></strong>:
+</p>
+<p>Returns <a href="../../methods/html/setOldClass.html">data.frame</a> showing the structure.
+</p>
+<p><strong><code>length_RLum</code></strong>
+</p>
+<p>Returns the number records in this object.
+</p>
+<p><strong><code>names_RLum</code></strong>
+</p>
+<p>Returns the names of the record types (<code>recordType</code>) in this object.
+</p>
+<p><strong><code>smooth_RLum</code></strong>
+</p>
+<p>Same object as input, after smoothing
+</p>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>show</code>: Show structure of <code>RLum.Analysis</code> object
+</p>
+</li>
+<li> <p><code>set_RLum</code>: Construction method for <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects.
+</p>
+</li>
+<li> <p><code>get_RLum</code>: Accessor method for RLum.Analysis object.
+</p>
+<p>The slots record.id, recordType, curveType and RLum.type are optional to allow for records
+limited by their id (list index number), their record type (e.g. recordType = &quot;OSL&quot;)
+or object type.
+</p>
+<p>Example: curve type (e.g. curveType = &quot;predefined&quot; or curveType =&quot;measured&quot;)
+</p>
+<p>The selection of a specific RLum.type object superimposes the default selection.
+Currently supported objects are: RLum.Data.Curve and RLum.Data.Spectrum
+</p>
+</li>
+<li> <p><code>structure_RLum</code>: Method to show the structure of an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object.
+</p>
+</li>
+<li> <p><code>length_RLum</code>: Returns the length of the object, i.e., number of stored records.
+</p>
+</li>
+<li> <p><code>names_RLum</code>: Returns the names of the <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a> objects objects (same as shown with the show method)
+</p>
+</li>
+<li> <p><code>smooth_RLum</code>: Smoothing of <code>RLum.Data</code> objects contained in this <code>RLum.Analysis</code> object
+<a href="../../zoo/help/rollmean.html">zoo::rollmean</a> or <a href="../../zoo/help/rollmean.html">zoo::rollmedian</a>. In particular the internal
+function <code>.smoothing</code> is used.
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>protocol</code></dt><dd><p>Object of class <a href="../../base/html/character.html">character</a> describing the applied measurement protocol</p>
+</dd>
+<dt><code>records</code></dt><dd><p>Object of class <a href="../../base/html/list.html">list</a> containing objects of class <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a></p>
+</dd>
+</dl>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>set_RLum("RLum.Analysis", ...)</code>.
+</p>
+
+
+<h3>Class version</h3>
+
+<p>0.4.16
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. RLum.Analysis-class(): Class 'RLum.Analysis'. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The method <a href="../../Luminescence/help/structure_RLum.html">structure_RLum</a> is currently just available for objects
+containing <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/Risoe.BINfileData2RLum.Analysis.html">Risoe.BINfileData2RLum.Analysis</a>,
+<a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/RLum-class.html">RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("RLum.Analysis")
+
+##set empty object
+set_RLum(class = "RLum.Analysis")
+
+###use example data
+##load data
+data(ExampleData.RLum.Analysis, envir = environment())
+
+##show curves in object
+get_RLum(IRSAR.RF.Data)
+
+##show only the first object, but by keeping the object
+get_RLum(IRSAR.RF.Data, record.id = 1, drop = FALSE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

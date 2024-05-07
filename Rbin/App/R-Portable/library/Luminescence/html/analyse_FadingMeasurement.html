@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Analyse fading measurements and returns the fading rate per...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for analyse_FadingMeasurement {Luminescence}"><tr><td>analyse_FadingMeasurement {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyse fading measurements and returns the fading rate per decade (g-value)</h2>
+
+<h3>Description</h3>
+
+<p>The function analysis fading measurements and returns a fading rate including an error estimation.
+The function is not limited to standard fading measurements, as can be seen, e.g., Huntley and
+Lamothe (2001). Additionally, the density of recombination centres (rho') is estimated after
+Kars et al. (2008).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+analyse_FadingMeasurement(
+  object,
+  structure = c("Lx", "Tx"),
+  signal.integral,
+  background.integral,
+  t_star = "half",
+  n.MC = 100,
+  verbose = TRUE,
+  plot = TRUE,
+  plot.single = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+input object with the measurement data. Alternatively, a <a href="../../base/html/list.html">list</a> containing <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+objects or a <a href="../../base/html/data.frame.html">data.frame</a> with three columns
+(x = LxTx, y = LxTx error, z = time since irradiation) can be provided.
+Can also be a wide table, i.e. a <a href="../../base/html/data.frame.html">data.frame</a> with a number of columns divisible by 3
+and where each triplet has the before mentioned column structure.
+</p>
+<p><strong>Please note: The input object should solely consists of the curve needed for the data analysis, i.e.
+only IRSL curves representing Lx (and Tx)</strong>
+</p>
+<p>If data from multiple aliquots are provided please <strong>see the details below</strong> with regard to
+Lx/Tx normalisation. <strong>The function assumes that all your measurements are related to
+one (comparable) sample. If you to treat independent samples, you have use this function
+in a loop.</strong></p>
+</td></tr>
+<tr valign="top"><td><code>structure</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+sets the structure of the measurement data. Allowed are <code>'Lx'</code> or <code>c('Lx','Tx')</code>.
+Other input is ignored</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>): vector with channels for the signal integral
+(e.g., <code>c(1:10)</code>). Not required if a <code>data.frame</code> with <code>LxTx</code> values is provided.</p>
+</td></tr>
+<tr valign="top"><td><code>background.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>): vector with channels for the background integral
+(e.g., <code>c(90:100)</code>). Not required if a <code>data.frame</code> with <code>LxTx</code> values is provided.</p>
+</td></tr>
+<tr valign="top"><td><code>t_star</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+method for calculating the time elapsed since irradiation if input is <strong>not</strong> a <code>data.frame</code>.
+Options are: <code>'half'</code> (the default), <code style="white-space: pre;">'half_complex</code>, which uses the long equation in Auclair et al. 2003, and
+and <code>'end'</code>, which takes the time between irradiation and the measurement step.
+Alternatively, <code>t_star</code> can be a function with one parameter which works on <code>t1</code>.
+For more information see details. <br />
+</p>
+<p><em><code>t_star</code> has no effect if the input is a <a href="../../base/html/data.frame.html">data.frame</a>, because this input comes
+without irradiation times.</em></p>
+</td></tr>
+<tr valign="top"><td><code>n.MC</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+number for Monte Carlo runs for the error estimation</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables/disables verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables/disables plot output</p>
+</td></tr>
+<tr valign="top"><td><code>plot.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables/disables single plot mode, i.e. one plot window per plot.
+Alternatively a vector specifying the plot to be drawn, e.g.,
+<code>plot.single = c(3,4)</code> draws only the last two plots</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>(<em>optional</em>) further arguments that can be passed to internally used functions. Supported arguments:
+<code>xlab</code>, <code>log</code>, <code>mtext</code> and <code>xlim</code> for the two first curve plots, and <code>ylim</code> for the fading
+curve plot. For further plot customization please use the numerical output of the functions for
+own plots.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All provided output corresponds to the <i>tc</i> value obtained by this analysis. Additionally
+in the output object the g-value normalised to 2-days is provided. The output of this function
+can be passed to the function <a href="../../Luminescence/help/calc_FadingCorr.html">calc_FadingCorr</a>.
+</p>
+<p><strong>Fitting and error estimation</strong>
+</p>
+<p>For the fitting the function <a href="../../stats/help/lm.html">stats::lm</a> is used without applying weights. For the
+error estimation all input values, except <code>tc</code>, as the precision can be considered as sufficiently
+high enough with regard to the underlying problem, are sampled assuming a normal distribution
+for each value with the value as the mean and the provided uncertainty as standard deviation.
+</p>
+<p><strong>The options for <code>t_star</code></strong>
+</p>
+
+<ul>
+<li><p><code>t_star = "half"</code> (the default) The calculation follows the simplified
+version in Auclair et al. (2003), which reads
+</p>
+<p style="text-align: center;"><i>t_{star} := t_1 + (t_2 - t_1)/2</i></p>
+
+</li>
+<li><p><code>t_star = "half_complex"</code> This option applies the complex function shown in Auclair et al. (2003),
+which is derived from Aitken (1985) appendix F, equations 9 and 11.
+It reads </p>
+<p style="text-align: center;"><i>t_{star} = t0 * 10^[(t_2 log(t_2/t_0) - t_1 log(t_1/t_0) - 0.43(t_2 - t_1))/(t_2 - t_1)]</i></p>
+
+<p>where 0.43 = <i>1/ln(10)</i>. t0, which is an arbitrary constant, is set to 1.
+Please note that the equation in Auclair et al. (2003) is incorrect
+insofar that it reads <i>10exp(...)</i>, where the base should be 10 and not the Euler's number.
+Here we use the correct version (base 10).
+</p>
+</li>
+<li><p><code>t_star = "end"</code> This option uses the simplest possible form for <code>t_star</code> which is the time since
+irradiation without taking into account any addition parameter and it equals t1 in Auclair et al. (2003)
+</p>
+</li>
+<li><p><code style="white-space: pre;">t_star = &lt;function&gt;</code> This last option allows you to provide an R function object that works on t1 and
+gives you all possible freedom. For instance, you may want to define the following
+function <code>fun &lt;- function(x) {x^2}</code>, this would square all values of t1, because internally
+it calls <code>fun(t1)</code>. The name of the function does not matter.
+</p>
+</li></ul>
+
+<p><strong>Density of recombination centres</strong>
+</p>
+<p>The density of recombination centres, expressed by the dimensionless variable rho', is estimated
+by fitting equation 5 in Kars et al. 2008 to the data. For the fitting the function
+<a href="../../stats/help/nls.html">stats::nls</a> is used without applying weights. For the error estimation the same
+procedure as for the g-value is applied (see above).
+</p>
+<p><strong>Multiple aliquots &amp; Lx/Tx normalisation</strong>
+</p>
+<p>Be aware that this function will always normalise all <code>Lx/Tx</code> values by the <code>Lx/Tx</code> value of the
+prompt measurement of the first aliquot. This implicitly assumes that there are no systematic
+inter-aliquot variations in <code>Lx/Tx</code> values. If deemed necessary to normalise the <code>Lx/Tx</code> values
+of each aliquot by its individual prompt measurement please do so <strong>before</strong> running
+<a href="../../Luminescence/help/analyse_FadingMeasurement.html">analyse_FadingMeasurement</a> and provide the already normalised values for <code>object</code> instead.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned:
+</p>
+<p>Slot: <strong>@data</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>OBJECT</strong> </td><td style="text-align: left;"> <strong>TYPE</strong> </td><td style="text-align: left;"> <strong>COMMENT</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>fading_results</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> results of the fading measurement in a table </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>fit</code> </td><td style="text-align: left;"> <code>lm</code> </td><td style="text-align: left;"> object returned by the used linear fitting function <a href="../../stats/help/lm.html">stats::lm</a></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>rho_prime</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> results of rho' estimation after Kars et al. (2008) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>LxTx_table</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> Lx/Tx table, if curve data had been provided </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>irr.times</code> </td><td style="text-align: left;"> <code>integer</code> </td><td style="text-align: left;"> vector with the irradiation times in seconds </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Slot: <strong>@info</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>OBJECT</strong> </td><td style="text-align: left;"> <code>TYPE</code> </td><td style="text-align: left;"> <code>COMMENT</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>call</code> </td><td style="text-align: left;"> <code>call</code> </td><td style="text-align: left;"> the original function call</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>0.1.20
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Burow, C., 2021. analyse_FadingMeasurement(): Analyse fading measurements and returns the fading rate per decade (g-value). Function version 0.1.20. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Aitken, M.J., 1985. Thermoluminescence dating, Studies in archaeological science.
+Academic Press, London, Orlando.
+</p>
+<p>Auclair, M., Lamothe, M., Huot, S., 2003. Measurement of anomalous fading for feldspar IRSL using
+SAR. Radiation Measurements 37, 487-492. doi: <a href="https://doi.org/10.1016/S1350-4487(03)00018-0">10.1016/S1350-4487(03)00018-0</a>
+</p>
+<p>Huntley, D.J., Lamothe, M., 2001. Ubiquity of anomalous fading in K-feldspars and the measurement
+and correction for it in optical dating. Canadian Journal of Earth Sciences 38,
+1093-1106. doi: <code>10.1139/cjes-38-7-1093</code>
+</p>
+<p>Kars, R.H., Wallinga, J., Cohen, K.M., 2008. A new approach towards anomalous
+fading correction for feldspar  IRSL dating-tests on samples in field saturation.
+Radiation Measurements 43, 786-790. doi: <a href="https://doi.org/10.1016/j.radmeas.2008.01.021">10.1016/j.radmeas.2008.01.021</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>, <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>,
+<a href="../../Luminescence/help/extract_IrradiationTimes.html">extract_IrradiationTimes</a>, <a href="../../Luminescence/help/calc_FadingCorr.html">calc_FadingCorr</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## load example data (sample UNIL/NB123, see ?ExampleData.Fading)
+data("ExampleData.Fading", envir = environment())
+
+##(1) get fading measurement data (here a three column data.frame)
+fading_data &lt;- ExampleData.Fading$fading.data$IR50
+
+##(2) run analysis
+g_value &lt;- analyse_FadingMeasurement(
+fading_data,
+plot = TRUE,
+verbose = TRUE,
+n.MC = 10)
+
+##(3) this can be further used in the function
+## to correct the age according to Huntley &amp; Lamothe, 2001
+results &lt;- calc_FadingCorr(
+age.faded = c(100,2),
+g_value = g_value,
+n.MC = 10)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

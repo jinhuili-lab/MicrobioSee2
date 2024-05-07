@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot filter combinations along with the (optional) net...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_FilterCombinations {Luminescence}"><tr><td>plot_FilterCombinations {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot filter combinations along with the (optional) net transmission window</h2>
+
+<h3>Description</h3>
+
+<p>The function allows to plot transmission windows for different filters. Missing data for specific
+wavelengths are automatically interpolated for the given filter data using the function <a href="../../stats/html/approxfun.html">approx</a>.
+With that a standardised output is reached and a net transmission window can be shown.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_FilterCombinations(
+  filters,
+  wavelength_range = 200:1000,
+  show_net_transmission = TRUE,
+  interactive = FALSE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filters</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<strong>required</strong>):
+a named list of filter data for each filter to be shown.
+The filter data itself should be either provided as <a href="../../base/html/data.frame.html">data.frame</a> or <a href="../../base/html/matrix.html">matrix</a>.
+(for more options s. Details)</p>
+</td></tr>
+<tr valign="top"><td><code>wavelength_range</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+wavelength range used for the interpolation</p>
+</td></tr>
+<tr valign="top"><td><code>show_net_transmission</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+show net transmission window as polygon.</p>
+</td></tr>
+<tr valign="top"><td><code>interactive</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enable/disable interactive plot</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables the plot output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that can be passed to control the plot output.
+Supported are <code>main</code>, <code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code>, <code>type</code>, <code>lty</code>, <code>lwd</code>.
+For non common plotting parameters see the details section.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Calculations</strong>
+</p>
+<p><strong>Net transmission window</strong>
+</p>
+<p>The net transmission window of two filters is approximated by
+</p>
+<p style="text-align: center;"><i>T_{final} = T_{1} * T_{2}</i></p>
+
+<p><strong>Optical density</strong>
+</p>
+<p style="text-align: center;"><i>OD = -log(T)</i></p>
+
+<p><strong>Total optical density</strong>
+</p>
+<p style="text-align: center;"><i>OD_{total} = OD_{1} +  OD_{2}</i></p>
+
+<p>Please consider using own calculations for more precise values.
+</p>
+<p><strong>How to provide input data?</strong>
+</p>
+<p><em>CASE 1</em>
+</p>
+<p>The function expects that all filter values are either of type <code>matrix</code> or <code>data.frame</code>
+with two columns. The first columns contains the wavelength, the second the relative transmission
+(but not in percentage, i.e. the maximum transmission can be only become 1).
+</p>
+<p>In this case only the transmission window is show as provided. Changes in filter thickness and
+reflection factor are not considered.
+</p>
+<p><em>CASE 2</em>
+</p>
+<p>The filter data itself are provided as list element containing a <code>matrix</code> or
+<code>data.frame</code> and additional information on the thickness of the filter, e.g.,
+<code>list(filter1 = list(filter_matrix, d = 2))</code>.
+The given filter data are always considered as standard input and the filter thickness value
+is taken into account by
+</p>
+<p style="text-align: center;"><i>Transmission = Transmission^(d)</i></p>
+
+<p>with d given in the same dimension as the original filter data.
+</p>
+<p><em>CASE 3</em>
+</p>
+<p>Same as CASE 2 but additionally a reflection factor P is provided, e.g.,
+<code>list(filter1 = list(filter_matrix, d = 2, P = 0.9))</code>.
+The final transmission becomes:
+</p>
+<p style="text-align: center;"><i>Transmission = Transmission^(d) * P</i></p>
+
+<p><strong>Advanced plotting parameters</strong>
+</p>
+<p>The following further non-common plotting parameters can be passed to the function:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong><code>Argument</code></strong> </td><td style="text-align: left;"> <strong><code>Datatype</code></strong> </td><td style="text-align: left;"> <strong><code>Description</code></strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>legend</code> </td><td style="text-align: left;"> <code>logical</code> </td><td style="text-align: left;"> enable/disable legend </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>legend.pos</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> change legend position (<a href="../../graphics/help/legend.html">graphics::legend</a>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>legend.text</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> same as the argument <code>legend</code> in (<a href="../../graphics/help/legend.html">graphics::legend</a>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>net_transmission.col</code> </td><td style="text-align: left;"> <code>col</code> </td><td style="text-align: left;"> colour of net transmission window polygon </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>net_transmission.col_lines</code> </td><td style="text-align: left;"> <code>col</code> </td><td style="text-align: left;"> colour of net transmission window polygon lines </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>net_transmission.density</code> </td><td style="text-align: left;">  <code>numeric</code> </td><td style="text-align: left;"> specify line density in the transmission polygon </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>grid</code> </td><td style="text-align: left;"> <code>list</code> </td><td style="text-align: left;"> full list of arguments that can be passed to the function <a href="../../graphics/help/grid.html">graphics::grid</a>
+</td>
+</tr>
+
+</table>
+
+<p>For further modifications standard additional R plot functions are recommend, e.g., the legend
+can be fully customised by disabling the standard legend and use the function <a href="../../graphics/help/legend.html">graphics::legend</a>
+instead.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 object of type <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>.
+</p>
+<p><strong>@data</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong><code>Object</code></strong> </td><td style="text-align: left;"> <strong><code>Type</code></strong> <strong><code>Description</code></strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>net_transmission_window</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the resulting net transmission window </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>OD_total</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the total optical density</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>filter_matrix</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the filter matrix used for plotting
+</td>
+</tr>
+
+</table>
+
+<p><strong>@info</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Object</strong> </td><td style="text-align: left;"> <strong>Type</strong> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>call</code> </td><td style="text-align: left;"> <a href="../../base/html/call.html">call</a> </td><td style="text-align: left;"> the original function call
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>0.3.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. plot_FilterCombinations(): Plot filter combinations along with the (optional) net transmission window. Function version 0.3.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../stats/html/approxfun.html">approx</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## (For legal reasons no real filter data are provided)
+
+## Create filter sets
+filter1 &lt;- density(rnorm(100, mean = 450, sd = 20))
+filter1 &lt;- matrix(c(filter1$x, filter1$y/max(filter1$y)), ncol = 2)
+filter2 &lt;- matrix(c(200:799,rep(c(0,0.8,0),each = 200)), ncol = 2)
+
+## Example 1 (standard)
+plot_FilterCombinations(filters = list(filter1, filter2))
+
+## Example 2 (with d and P value and name for filter 2)
+results &lt;- plot_FilterCombinations(
+filters = list(filter_1 = filter1, Rectangle = list(filter2, d = 2, P = 0.6)))
+results
+
+## Example 3 show optical density
+plot(results$OD_total)
+
+## Not run: 
+##Example 4
+##show the filters using the interactive mode
+plot_FilterCombinations(filters = list(filter1, filter2), interactive = TRUE)
+
+
+## End(Not run)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

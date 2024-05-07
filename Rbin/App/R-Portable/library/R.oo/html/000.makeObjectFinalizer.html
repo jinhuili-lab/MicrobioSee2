@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a standalone finalizer function for Object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for .makeObjectFinalizer {R.oo}"><tr><td>.makeObjectFinalizer {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a standalone finalizer function for Object</h2>
+
+<h3>Description</h3>
+
+<p>Creates a standalone finalizer function for Object, which assumes only that the <span class="pkg">base</span> package is available.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+.makeObjectFinalizer(this, reloadRoo=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>this</code></td>
+<td>
+<p>The <code><a href="../help/Object.html">Object</a></code> to be finalized.</p>
+</td></tr>
+<tr valign="top"><td><code>reloadRoo</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the finalizer will try to temporary
+reload the <span class="pkg">R.oo</span> package if not loaded.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The created finalizer is reentrant.
+This is always the case when the <span class="pkg">R.oo</span> package is already
+loaded when the finalizer is called.
+It is also always the case on R v2.15.2 Patched r61487 and beyond.
+In other cases, the finalizer inspects the call stack
+(via <code><a href="../../base/html/sys.parent.html">sys.calls</a></code>()) to check whether <code><a href="../../base/help/parse.html">parse</a></code>()
+has been called or not.  If it is on the call stack, it indicates
+that <code><a href="../../base/help/parse.html">parse</a></code>() triggered the garbage collection, and
+the <span class="pkg">R.oo</span> package will <em>not</em> be reloaded in order to
+avoid risking <code><a href="../../base/help/parse.html">parse</a></code>() being called again.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/function.html">function</a></code> that can be passed to <code><a href="../../base/help/reg.finalizer.html">reg.finalizer</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

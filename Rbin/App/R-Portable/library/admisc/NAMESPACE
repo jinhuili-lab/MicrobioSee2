@@ -1,0 +1,112 @@
+importFrom("utils", "read.csv", "write.csv", "write.table", "capture.output", "installed.packages", "packageDescription", "compareVersion", "remove.packages", "tail")
+importFrom("stats", "na.omit", "dist", "relevel")
+importFrom("methods", "is")
+importFrom("grDevices", "hcl")
+useDynLib(admisc, .registration = TRUE)
+
+export(
+    altb,
+    alteb,
+    agtb,
+    agteb,
+    aeqb,
+    aneqb,
+    anyTagged,
+    asNumeric,
+        curlyBrackets,
+        insideBrackets,
+        outsideBrackets,
+        roundBrackets,
+        squareBrackets,
+        expandBrackets,
+    checkMV,
+    checkSubset,
+    classify,
+    coerceMode,
+    combnk,
+    compute,
+    mvSOP,
+    dashes,
+    expand,
+    export,
+    factorize,
+    finvert,
+    frelevel,
+    getInfo,
+    getLevels,
+    getMatrix,
+    getName,
+    getTag,
+    hasTag,
+    hclr,
+    intersection,
+    inside,
+    invert,
+    listRDA,
+    makeTag,
+    padLeft,
+    padRight,
+    padBoth,
+    permutations,
+    asSOP,
+    possibleNumeric,
+    prettyString,
+    prettyTable,
+    deMorgan,
+    objRDA,
+    negate,
+    numdec,
+    recode,
+        hastilde,
+        notilde,
+        tildae,
+        tilde1st,
+    recreate,
+    reload,
+    replaceText,
+    scan.clipboard,
+    simplify,
+    sop,
+    splitstr,
+    sortExpressions,
+    stopError,
+    translate,
+    trimstr,
+    tryCatchWEM,
+    uninstall,
+    unload,
+    checkValid,
+    validateNames,
+    verify,
+    wholeNumeric,
+    writePrimeimp,
+    unlockEnvironment,
+    
+        splitMainComponents,
+        splitBrackets,
+        removeSingleStars,
+        splitPluses,
+        splitStars,
+        splitTildas,
+        solveBrackets,
+        simplifyList,
+        getNonChars,
+
+    using
+)
+
+
+S3method(print, "admisc_factorize")
+S3method(print, "admisc_intersection")
+S3method(print, "admisc_translate")
+S3method(print, "admisc_deMorgan")
+S3method(print, "admisc_simplify")
+S3method(print, "admisc_fobject")
+
+S3method(recode, default)
+S3method(recode, declared)
+S3method(asNumeric, default)
+S3method(asNumeric, factor)
+S3method(asNumeric, declared)
+S3method(inside, data.frame)
+S3method(using, data.frame)

@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert roxygen comments to Rd code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for emulate_rd {styler}"><tr><td>emulate_rd {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert roxygen comments to Rd code</h2>
+
+<h3>Description</h3>
+
+<p>We leverage roxygen2 workhorse function <code><a href="../../roxygen2/help/roc_proc_text.html">roxygen2::roc_proc_text()</a></code> if
+our input contains character that have to be escaped. Since this is an
+expensive operation, we opt out of it and perform a simple
+<code>remove_roxygen_mask()</code> when there are no characters to escape.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+emulate_rd(roxygen)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

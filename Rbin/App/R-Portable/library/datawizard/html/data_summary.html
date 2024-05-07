@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_summary {datawizard}"><tr><td>data_summary {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize data</h2>
+
+<h3>Description</h3>
+
+<p>This function can be used to compute summary statistics for a
+data frame or a matrix.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_summary(x, ...)
+
+## S3 method for class 'data.frame'
+data_summary(x, ..., by = NULL, include_na = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A (grouped) data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>One or more named expressions that define the new variable name
+and the function to compute the summary statistic. Example:
+<code>mean_sepal_width = mean(Sepal.Width)</code>. The expression can also be provided
+as a character string, e.g. <code>"mean_sepal_width = mean(Sepal.Width)"</code>. The
+summary function <code>n()</code> can be used to count the number of observations.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>Optional character string, indicating the name of a variable in <code>x</code>.
+If supplied, the data will be split by this variable and summary statistics
+will be computed for each group.</p>
+</td></tr>
+<tr valign="top"><td><code>include_na</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, missing values are included as a level
+in the grouping variable. If <code>FALSE</code>, missing values are omitted from the
+grouping variable.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the requested summary statistics.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(iris)
+data_summary(iris, MW = mean(Sepal.Width), SD = sd(Sepal.Width))
+data_summary(
+  iris,
+  MW = mean(Sepal.Width),
+  SD = sd(Sepal.Width),
+  by = "Species"
+)
+
+# same as
+d &lt;- data_group(iris, "Species")
+data_summary(d, MW = mean(Sepal.Width), SD = sd(Sepal.Width))
+
+# multiple groups
+data(mtcars)
+data_summary(mtcars, MW = mean(mpg), SD = sd(mpg), by = c("am", "gear"))
+
+# expressions can also be supplied as character strings
+data_summary(mtcars, "MW = mean(mpg)", "SD = sd(mpg)", by = c("am", "gear"))
+
+# count observations within groups
+data_summary(mtcars, observations = n(), by = c("am", "gear"))
+
+# first and last observations of "mpg" within groups
+data_summary(
+  mtcars,
+  first = mpg[1],
+  last = mpg[length(mpg)],
+  by = c("am", "gear")
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

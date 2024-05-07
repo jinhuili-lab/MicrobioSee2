@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a RasterLayer object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for raster {raster}"><tr><td>raster {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a RasterLayer object</h2>
+
+<h3>Description</h3>
+
+<p>Methods to create a RasterLayer object. RasterLayer objects can be created from scratch, a file, an Extent object, a matrix, an 'image' object, or from a Raster*, Spatial*, im (spatstat) asc, kasc (adehabitat*), grf (geoR) or kde object.
+</p>
+<p>In many cases, e.g. when a RasterLayer is created from a file, it does (initially) not contain any cell (pixel) values in (RAM) memory, it only has the parameters that describe the RasterLayer. You can access cell-values with <code><a href="../help/getValues.html">getValues</a>, <a href="../help/extract.html">extract</a></code> and related functions. You can assign new values with  <code><a href="../help/setValues.html">setValues</a></code> and with <code><a href="../help/replacement.html">replacement</a></code>.
+</p>
+<p>For an overview of the functions in the raster package have a look here: <code><a href="../../raster/help/raster-package.html">raster-package</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'character'
+raster(x, band=1, ...)
+
+## S4 method for signature 'RasterLayer'
+raster(x) 
+
+## S4 method for signature 'RasterStack'
+raster(x, layer=0) 
+
+## S4 method for signature 'RasterBrick'
+raster(x, layer=0) 
+
+## S4 method for signature 'missing'
+raster(nrows=180, ncols=360, xmn=-180, xmx=180, ymn=-90, ymx=90, 
+		crs, ext, resolution, vals=NULL)
+
+## S4 method for signature 'Extent'
+raster(x, nrows=10, ncols=10, crs="", ...)
+
+## S4 method for signature 'matrix'
+raster(x, xmn=0, xmx=1, ymn=0, ymx=1, crs="", template=NULL)
+
+## S4 method for signature 'Spatial'
+raster(x, origin, ...) 
+
+## S4 method for signature 'SpatialGrid'
+raster(x, layer=1, values=TRUE)
+
+## S4 method for signature 'SpatialPixels'
+raster(x, layer=1, values=TRUE)
+
+## S4 method for signature 'sf'
+raster(x, origin, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>filename (character), Extent, Raster*, sf, SpatialPixels*, SpatialGrid*, object, 'image', matrix, im, or missing. Supported file types are the 'native' raster package format and those that can be read via <code>rgdal</code> (see <code><a href="../../rgdal/help/readGDAL.html">readGDAL</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>band</code></td>
+<td>
+<p>integer. The layer to use in a multi-layer file</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments, see Details </p>
+</td></tr>  
+<tr valign="top"><td><code>layer</code></td>
+<td>
+<p>integer. The layer (variable) to use in a multi-layer file, or the layer to extract from a RasterStack/Brick or SpatialPixelsDataFrame or SpatialGridDataFrame. An empty RasterLayer (no associated values) is returned if <code>layer=0</code></p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the cell values of '<code>x</code>' are copied to the RasterLayer object that is returned</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p>integer &gt; 0. Number of rows</p>
+</td></tr>
+<tr valign="top"><td><code>ncols</code></td>
+<td>
+<p>integer &gt; 0. Number of columns</p>
+</td></tr>
+<tr valign="top"><td><code>xmn</code></td>
+<td>
+<p>minimum x coordinate (left border)</p>
+</td></tr>
+<tr valign="top"><td><code>xmx</code></td>
+<td>
+<p>maximum x coordinate (right border)</p>
+</td></tr>
+<tr valign="top"><td><code>ymn</code></td>
+<td>
+<p>minimum y coordinate (bottom border)</p>
+</td></tr>
+<tr valign="top"><td><code>ymx</code></td>
+<td>
+<p>maximum y coordinate (top border)</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>object of class Extent. If present, the arguments xmn, xmx, ymn and ynx are ignored</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>character or object of class CRS. PROJ.4 type description of a Coordinate Reference System (map projection). If this argument is missing, and the x coordinates are within -360 .. 360 and the y coordinates are within -90 .. 90, &quot;+proj=longlat +datum=WGS84&quot; is used. Also see under Details if <code>x</code> is a character (filename)</p>
+</td></tr>
+<tr valign="top"><td><code>resolution</code></td>
+<td>
+<p>numeric vector of length 1 or 2 to set the resolution (see <code><a href="../../raster/help/res.html">res</a></code>). If this argument is used, arguments <code>ncols</code> and <code>nrows</code> are ignored </p>
+</td></tr>
+<tr valign="top"><td><code>vals</code></td>
+<td>
+<p>optional. Values for the new RasterLayer. Accepted formats are as for <code><a href="../../raster/help/setValues.html">setValues</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>origin</code></td>
+<td>
+<p>minimum y coordinate (bottom border)</p>
+</td></tr>
+<tr valign="top"><td><code>template</code></td>
+<td>
+<p>Raster* or Extent object used to set the extent (and CRS in case of a Raster* object). If not <code>NULL</code>, arguments <code>xmn</code>, <code>xmx</code>, <code>ymn</code>, <code>ymx</code> and <code>crs</code> (unless <code>template</code> is an Extent object) are ignored</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>x</code> is a filename, the following additional variables are recognized:
+</p>
+<p><code>sub</code>: positive integer. Subdataset number for a file with subdatasets
+</p>
+<p><code>native</code>: logical.  Default is <code>FALSE</code> except when package <code>rgdal</code> is missing. If <code>TRUE</code>, reading and writing of IDRISI, BIL, BSQ, BIP, SAGA, and Arc ASCII files is done with native (raster package) drivers, rather then via rgdal. 'raster' and netcdf format files are always read with native drivers. 
+</p>
+<p><code>RAT</code>: logical. The default is <code>TRUE</code>, in which case a raster attribute table is created for files that have one
+</p>
+<p><code>offset</code>: integer. To indicate the number of header rows on non-standard ascii files (rarely useful; use with caution)
+</p>
+<p><code>crs</code>: character. PROJ.4 string to set the CRS. Ignored when the file provides a CRS description that can be interpreted.
+</p>
+<p>If <code>x</code> represents a <b>NetCDF</b> file, the following additional variable is recognized:
+</p>
+<p><code>varname</code>: character. The variable name, such as 'tasmax' or 'pr'. If not supplied and the file has multiple variables are a guess will be made (and reported)
+</p>
+<p><code>lvar</code>: integer &gt; 0 (default=3). To select the 'level variable' (3rd dimension variable) to use, if the file has 4 dimensions (e.g. depth instead of time)<br />
+</p>
+<p><code>level</code>: integer &gt; 0 (default=1). To select the 'level' (4th dimension variable) to use, if the file has 4 dimensions, e.g. to create a RasterBrick of weather over time at a certain height. <br />
+</p>
+<p>To use NetCDF files the <code>ncdf4</code> package needs to be available. It is assumed that these files follow, or are compatible with, the CF-1 convention (The GMT format may also work). If the ncdf file does not have a standard extension (which is used to recognize the file format), you can use argument <code>ncdf=TRUE</code> to indicate the format.
+</p>
+<p>If <code>x</code> is a <code>Spatial</code> or an <code>Extent</code> object, additional arguments are for the method with signature <code>'missing'</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/stack.html">stack</a>, <a href="../help/brick.html">brick</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create a RasterLayer object from a file
+#   N.B.: For your own files, omit the 'system.file' and 'package="raster"' bits
+#   these are just to get the path to files installed with the package
+
+f &lt;- system.file("external/test.grd", package="raster")
+f
+r &lt;- raster(f)
+
+logo &lt;- raster(system.file("external/rlogo.grd", package="raster")) 
+
+
+#from scratch
+r1 &lt;- raster(nrows=108, ncols=21, xmn=0, xmx=10)
+
+#from an Extent object
+e &lt;- extent(r)
+r2 &lt;- raster(e)
+
+#from another Raster* object
+r3 &lt;- raster(r)
+s &lt;- stack(r, r, r)
+r4 &lt;- raster(s)
+r5 &lt;- raster(s, 3)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

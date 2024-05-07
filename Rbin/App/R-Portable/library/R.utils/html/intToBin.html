@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Converts an integer to a binary/octal/hexadecimal number</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for intToBin {R.utils}"><tr><td>intToBin {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Converts an integer to a binary/octal/hexadecimal number</h2>
+
+<h3>Description</h3>
+
+<p>Converts an integer to a binary/octal/hexadecimal number.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ intToBin(x)
+ intToOct(x)
+ intToHex(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> vector of integers to be converted.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For <code>length(x)</code> &gt; 1, the number of characters in each of returned
+elements is the same and driven by the <code>x</code> element that requires
+the highest number of character - all other elements are padded with
+zeros (or ones for negative values).  This is why we for instance get
+<code>intToHex(15) == "f"</code> but <code>intToHex(15:16) == c("0f", "10")</code>.
+</p>
+<p>The supported range for <code>intToHex()</code>, <code>intToOct()</code>, and
+<code>intToBin()</code> is that of <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> integers, i.e.
+<code>[-.Machine$integer.max, +.Machine$integer.max]</code> where.
+<code>.Machine$integer.max</code> is <i>2^31-1</i>.
+This limitation is there such that negative values can be converted too.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string of length <code>length(x)</code>.
+For coercions out of range, <code>NA_character_</code> is returned for
+such elements.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

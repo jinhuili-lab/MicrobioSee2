@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Histogram &quot;stacked&quot; by categories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for histStack {plotrix}"><tr><td>histStack {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Histogram &quot;stacked&quot; by categories</h2>
+
+<h3>Description</h3>
+
+<p>Histogram of a quantitative variable with bars that are &quot;stacked&quot; by the
+values of a factor variable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ histStack(x,...)
+
+ ## S3 method for class 'formula'
+histStack(x,data,breaks="Sturges",col="rainbow",
+  right=TRUE,main="",xlab=NULL,legend.pos=NULL,cex.legend=0.75,...)
+
+ ## Default S3 method:
+histStack(x,z,breaks="Sturges",col="rainbow",
+  right=TRUE,main="",xlab=NULL,legend.pos=NULL,cex.legend=0.75,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector of quantitative data or a formula of the form x~z
+(see z below).</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>A vector of categorical data (a factor) that will define the
+&ldquo;stacks&rdquo;.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame that contains both x and z.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>Breaks to use in categorizing values of x.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Either a vector of colors in any legitimate form or a
+character string that specifies a function that requires only the length
+of the vector as an argument and will return a vector of colors with that
+length. (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+<p>A logical that indicates whether the bins are right-open
+(left-closed; =TRUE) or right-closed (left-open; =FALSE; default).</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>A character string that forms the main title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>A character string for labeling the x-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>legend.pos</code></td>
+<td>
+<p>A character string or two numeric values indicating the
+position for the stacking legend.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.legend</code></td>
+<td>
+<p>A numeric character expansion value for the legend.
+Values less than 1 will make the legend smaller.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments sent to the hist function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">histStack</span> displays a &ldquo;stacked histogram&rdquo; while using many of
+the same arguments as hist(). The argument <span class="samp">z</span> will be converted to a
+factor with a warning if it is not already a factor.
+</p>
+<p>The color functions in <span class="pkg">grDevices</span> (e.g. &quot;gray.colors&quot;) should always
+be valid when passed as the <span class="samp">col</span> argument. Any function that will
+return a vector of <span class="samp">n</span> colors when called with a single argument
+<span class="samp">n</span> and that exists in the current environment should work. An error
+will occur if length(col)==1 and the value is not a function as described
+for <span class="samp">col</span> (e.g., <span class="samp">col="blue"</span> will result in an error).If fewer
+colors than levels of <span class="samp">z</span> are passed, they will be recycled.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil. A plot is displayed.</p>
+
+
+<h3>Note</h3>
+
+<p>This function is currently experimental.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Derek Ogle with modifications by Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/hist.html">hist</a>, <a href="../../graphics/html/legend.html">legend</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(409)
+ df&lt;-data.frame(len=rnorm(100)+5,
+  grp=sample(c("A","B","C","D"),100,replace=TRUE))
+ histStack(len~grp,data=df,main="Default (rainbow) colors",
+  xlab="Length category")
+ histStack(len~grp,data=df,col="heat.colors",main="Heat colors",
+  xlab="Length category",legend.pos="topright")
+ histStack(len~grp,data=df,col=2:5,main="Colors by number",
+  xlab="Length category",legend.pos=c(2.8,18))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

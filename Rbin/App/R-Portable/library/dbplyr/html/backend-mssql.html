@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Backend: SQL server</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for backend-mssql {dbplyr}"><tr><td>backend-mssql {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Backend: SQL server</h2>
+
+<h3>Description</h3>
+
+<p>See <code>vignette("translate-function")</code> and <code>vignette("translate-verb")</code> for
+details of overall translation technology. Key differences for this backend
+are:
+</p>
+
+<ul>
+<li> <p><code>SELECT</code> uses <code>TOP</code> not <code>LIMIT</code>
+</p>
+</li>
+<li><p> Automatically prefixes <code style="white-space: pre;">#</code> to create temporary tables. Add the prefix
+yourself to avoid the message.
+</p>
+</li>
+<li><p> String basics: <code>paste()</code>, <code>substr()</code>, <code>nchar()</code>
+</p>
+</li>
+<li><p> Custom types for <code style="white-space: pre;">as.*</code> functions
+</p>
+</li>
+<li><p> Lubridate extraction functions, <code>year()</code>, <code>month()</code>, <code>day()</code> etc
+</p>
+</li>
+<li><p> Semi-automated bit &lt;-&gt; boolean translation (see below)
+</p>
+</li></ul>
+
+<p>Use <code>simulate_mssql()</code> with <code>lazy_frame()</code> to see simulated SQL without
+converting to live access database.
+</p>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>Version of MS SQL to simulate. Currently only, difference is
+that 15.0 and above will use <code>TRY_CAST()</code> instead of <code>CAST()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Bit vs boolean</h3>
+
+<p>SQL server uses two incompatible types to represent <code>TRUE</code> and <code>FALSE</code>
+values:
+</p>
+
+<ul>
+<li><p> The <code>BOOLEAN</code> type is the result of logical comparisons (e.g. <code>x &gt; y</code>)
+and can be used <code>WHERE</code> but not to create new columns in <code>SELECT</code>.
+<a href="https://docs.microsoft.com/en-us/sql/t-sql/language-elements/comparison-operators-transact-sql">https://docs.microsoft.com/en-us/sql/t-sql/language-elements/comparison-operators-transact-sql</a>
+</p>
+</li>
+<li><p> The <code>BIT</code> type is a special type of numeric column used to store
+<code>TRUE</code> and <code>FALSE</code> values, but can't be used in <code>WHERE</code> clauses.
+<a href="https://docs.microsoft.com/en-us/sql/t-sql/data-types/bit-transact-sql?view=sql-server-ver15">https://docs.microsoft.com/en-us/sql/t-sql/data-types/bit-transact-sql?view=sql-server-ver15</a>
+</p>
+</li></ul>
+
+<p>dbplyr does its best to automatically create the correct type when needed,
+but can't do it 100% correctly because it does not have a full type
+inference system. This means that you many need to manually do conversions
+from time to time.
+</p>
+
+<ul>
+<li><p> To convert from bit to boolean use <code>x == 1</code>
+</p>
+</li>
+<li><p> To convert from boolean to bit use <code style="white-space: pre;">as.logical(if(x, 0, 1))</code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+lf &lt;- lazy_frame(a = TRUE, b = 1, c = 2, d = "z", con = simulate_mssql())
+lf %&gt;% head()
+lf %&gt;% transmute(x = paste(b, c, d))
+
+# Can use boolean as is:
+lf %&gt;% filter(c &gt; d)
+# Need to convert from boolean to bit:
+lf %&gt;% transmute(x = c &gt; d)
+# Can use boolean as is:
+lf %&gt;% transmute(x = ifelse(c &gt; d, "c", "d"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

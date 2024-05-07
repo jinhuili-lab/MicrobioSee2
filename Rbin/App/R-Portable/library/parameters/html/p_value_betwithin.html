@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Between-within approximation for SEs, CIs and p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci_betwithin {parameters}"><tr><td>ci_betwithin {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Between-within approximation for SEs, CIs and p-values</h2>
+
+<h3>Description</h3>
+
+<p>Approximation of degrees of freedom based on a &quot;between-within&quot; heuristic.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ci_betwithin(model, ci = 0.95, ...)
+
+dof_betwithin(model)
+
+p_value_betwithin(model, dof = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A mixed model.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments</p>
+</td></tr>
+<tr valign="top"><td><code>dof</code></td>
+<td>
+<p>Degrees of Freedom.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Small Sample Cluster corrected Degrees of Freedom</h4>
+
+<p>Inferential statistics (like p-values, confidence intervals and
+standard errors) may be biased in mixed models when the number of clusters
+is small (even if the sample size of level-1 units is high). In such cases
+it is recommended to approximate a more accurate number of degrees of freedom
+for such inferential statistics (see <em>Li and Redden 2015</em>). The
+<em>Between-within</em> denominator degrees of freedom approximation is
+recommended in particular for (generalized) linear mixed models with repeated
+measurements (longitudinal design). <code>dof_betwithin()</code> implements a heuristic
+based on the between-within approach. <strong>Note</strong> that this implementation
+does not return exactly the same results as shown in <em>Li and Redden 2015</em>,
+but similar.
+</p>
+
+
+
+<h4>Degrees of Freedom for Longitudinal Designs (Repeated Measures)</h4>
+
+<p>In particular for repeated measure designs (longitudinal data analysis),
+the <em>between-within</em> heuristic is likely to be more accurate than simply
+using the residual or infinite degrees of freedom, because <code>dof_betwithin()</code>
+returns different degrees of freedom for within-cluster and between-cluster
+effects.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Elff, M.; Heisig, J.P.; Schaeffer, M.; Shikano, S. (2019). Multilevel
+Analysis with Few Clusters: Improving Likelihood-based Methods to Provide
+Unbiased Estimates and Accurate Inference, British Journal of Political Science.
+</p>
+</li>
+<li><p> Li, P., Redden, D. T. (2015). Comparing denominator degrees of freedom
+approximations for the generalized linear mixed model in analyzing binary
+outcome in small sample cluster-randomized trials. BMC Medical Research
+Methodology, 15(1), 38. doi: <a href="https://doi.org/10.1186/s12874-015-0026-x">10.1186/s12874-015-0026-x</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code>dof_betwithin()</code> is a small helper-function to calculate approximated
+degrees of freedom of model parameters, based on the &quot;between-within&quot; heuristic.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("lme4")) {
+  data(sleepstudy)
+  model &lt;- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+  dof_betwithin(model)
+  p_value_betwithin(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Self-Starting nls Species-Area Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for SSarrhenius {vegan}"><tr><td>SSarrhenius {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Self-Starting nls Species-Area Models
+</h2>
+
+<h3>Description</h3>
+
+<p>These functions provide self-starting species-area models for
+non-linear regression (<code><a href="../../stats/html/nls.html">nls</a></code>). They can also be used for
+fitting species accumulation models in
+<code><a href="../../vegan/help/fitspecaccum.html">fitspecaccum</a></code>. These models (and many more) are reviewed
+by Dengler (2009).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+SSarrhenius(area, k, z)
+SSgleason(area, k, slope)
+SSgitay(area, k, slope)
+SSlomolino(area, Asym, xmid, slope)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>area</code></td>
+<td>
+
+<p>Area or size of the sample: the independent variable.
+</p>
+</td></tr>
+<tr valign="top"><td><code>k, z, slope, Asym, xmid</code></td>
+<td>
+
+<p>Estimated model parameters: see Details.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>All these functions are assumed to be used for species richness
+(number of species) as the independent variable, and area or sample
+size as the independent variable. Basically, these define least
+squares models of untransformed data, and will differ from models
+for transformed species richness or models with non-Gaussian error.
+</p>
+<p>The Arrhenius model (<code>SSarrhenius</code>) is the expression
+<code>k*area^z</code>. This is the most classical model that can be found in
+any textbook of ecology (and also in Dengler 2009). Parameter <code>z</code>
+is the steepness of the species-area curve, and <code>k</code> is the
+expected number of species in a unit area.
+</p>
+<p>The Gleason model (<code>SSgleason</code>) is a linear expression 
+<code>k + slope*log(area)</code> (Dengler 200). This is a linear model,  
+and starting values give the final estimates; it is provided to 
+ease comparison with other models.
+</p>
+<p>The Gitay model (<code>SSgitay</code>) is a quadratic logarithmic expression
+<code>(k + slope*log(area))^2</code> (Gitay et al. 1991, Dengler
+2009). Parameter <code>slope</code> is the steepness of the species-area
+curve, and <code>k</code> is the square root of expected richness in a unit
+area. 
+</p>
+<p>The Lomolino model (<code>SSlomolino</code>) is
+<code>Asym/(1 + slope^log(xmid/area))</code> (Lomolino 2000, Dengler 2009).
+Parameter <code>Asym</code> is the asymptotic maximum number of species,
+<code>slope</code> is the maximum slope of increase of richness, and
+<code>xmid</code> is the  area where half of the maximum richness is
+achieved. 
+</p>
+<p>In addition to these models, several other models studied by Dengler
+(2009) are available in standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> self-starting models:
+Michaelis-Menten (<code><a href="../../stats/html/SSmicmen.html">SSmicmen</a></code>), Gompertz
+(<code><a href="../../stats/html/SSgompertz.html">SSgompertz</a></code>), logistic (<code><a href="../../stats/html/SSlogis.html">SSlogis</a></code>), Weibull
+(<code><a href="../../stats/html/SSweibull.html">SSweibull</a></code>), and some others that may be useful.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric vector of the same length as <code>area</code>. It is the value of
+the expression of each model. If all arguments are names of objects
+the gradient matrix with respect to these names is attached as an
+attribute named <code>gradient</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen.
+</p>
+
+
+<h3>References</h3>
+
+<p>Dengler, J. (2009) Which function describes the species-area
+relationship best? A review and empirical evaluation. <em>Journal of
+Biogeography</em> 36, 728&ndash;744.
+</p>
+<p>Gitay, H., Roxburgh, S.H. &amp; Wilson, J.B. (1991) Species-area
+relationship in a New Zealand tussock grassland, with implications for
+nature reserve design and for community structure. <em>Journal of
+Vegetation Science</em> 2, 113&ndash;118.
+</p>
+<p>Lomolino, M. V. (2000) Ecology's most general, yet protean pattern:
+the species-area relationship. <em>Journal of Biogeography</em> 27,
+17&ndash;26. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/nls.html">nls</a></code>, <code><a href="../../vegan/help/fitspecaccum.html">fitspecaccum</a></code>. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Get species area data: sipoo.map gives the areas of islands
+data(sipoo, sipoo.map)
+S &lt;- specnumber(sipoo)
+plot(S ~ area, sipoo.map,  xlab = "Island Area (ha)",
+  ylab = "Number of Species", ylim = c(1, max(S)))
+## The Arrhenius model
+marr &lt;- nls(S ~ SSarrhenius(area, k, z), data=sipoo.map)
+marr
+## confidence limits from profile likelihood
+confint(marr)
+## draw a line
+xtmp &lt;- with(sipoo.map, seq(min(area), max(area), len=51))
+lines(xtmp, predict(marr, newdata=data.frame(area = xtmp)), lwd=2)
+## The normal way is to use linear regression on log-log data,
+## but this will be different from the previous:
+mloglog &lt;- lm(log(S) ~ log(area), data=sipoo.map)
+mloglog
+lines(xtmp, exp(predict(mloglog, newdata=data.frame(area=xtmp))),
+   lty=2)
+## Gleason: log-linear
+mgle &lt;- nls(S ~ SSgleason(area, k, slope), sipoo.map)
+lines(xtmp, predict(mgle, newdata=data.frame(area=xtmp)),
+  lwd=2, col=2)
+## Gitay: quadratic of log-linear
+mgit &lt;- nls(S ~ SSgitay(area, k, slope), sipoo.map)
+lines(xtmp, predict(mgit, newdata=data.frame(area=xtmp)),
+  lwd=2, col = 3)
+## Lomolino: using original names of the parameters (Lomolino 2000):
+mlom &lt;- nls(S ~ SSlomolino(area, Smax, A50, Hill), sipoo.map)
+mlom
+lines(xtmp, predict(mlom, newdata=data.frame(area=xtmp)),
+  lwd=2, col = 4)
+## One canned model of standard R:
+mmic &lt;- nls(S ~ SSmicmen(area, slope, Asym), sipoo.map)
+lines(xtmp, predict(mmic, newdata = data.frame(area=xtmp)),
+  lwd =2, col = 5)
+legend("bottomright", c("Arrhenius", "log-log linear", "Gleason", "Gitay", 
+  "Lomolino", "Michaelis-Menten"), col=c(1,1,2,3,4,5), lwd=c(2,1,2,2,2,2), 
+   lty=c(1,2,1,1,1,1))
+## compare models (AIC)
+allmods &lt;- list(Arrhenius = marr, Gleason = mgle, Gitay = mgit, 
+   Lomolino = mlom, MicMen= mmic)
+sapply(allmods, AIC)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

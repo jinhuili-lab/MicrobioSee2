@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A point/line plotting routine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for brkdn.plot {plotrix}"><tr><td>brkdn.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A point/line plotting routine</h2>
+
+<h3>Description</h3>
+
+<p>Display a point/line plot of breakdowns of one or more variables.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ brkdn.plot(vars,groups=NULL,obs=NULL,data,mct="mean",md="std.error",
+ stagger=NULL,dispbar=TRUE,main="Breakdown plot",xlab=NULL,ylab=NULL,xaxlab=NA,
+ ylim=NA,type="b",pch=1,lty=1,col=par("fg"),staxx=FALSE,yat=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>vars</code></td>
+<td>
+<p>The names or indices of one or more columns in a data frame.
+The columns must contain numeric data. If only one variable is to be
+broken down, vars can be a formula.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>The name or index of a column in a data frame that classifies
+the values in <span class="samp">vars</span> into different, usually fixed effect, levels.</p>
+</td></tr>
+<tr valign="top"><td><code>obs</code></td>
+<td>
+<p>The name or index of a column in a data frame that classifies
+the values in <span class="samp">vars</span> into different, usually random effect, levels.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>mct</code></td>
+<td>
+<p>The measure of central tendency to calculate for each group.</p>
+</td></tr>
+<tr valign="top"><td><code>md</code></td>
+<td>
+<p>The measure of dispersion to calculate, NA for none.</p>
+</td></tr>
+<tr valign="top"><td><code>stagger</code></td>
+<td>
+<p>The amount to offset the successive values at each horizontal
+position as a proportion of the width of the plot. The calculated default
+is usually adequate. Pass zero for none.</p>
+</td></tr>
+<tr valign="top"><td><code>dispbar</code></td>
+<td>
+<p>Whether to display the measures of dispersion as bars.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title at the top of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>The labels for the X and Y axes respectively. There are
+defaults, but they are basic.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxlab</code></td>
+<td>
+<p>Optional labels for the horizontal axis ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Optional vertical limits for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Whether to plot symbols, lines or both (as in <span class="samp">plot</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Symbol(s) to plot.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type(s) to plot.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color(s) for the symbols and lines.</p>
+</td></tr>
+<tr valign="top"><td><code>staxx</code></td>
+<td>
+<p>Whether to call <a href="../../plotrix/help/staxlab.html">staxlab</a> to display the X axis
+labels.</p>
+</td></tr>
+<tr valign="top"><td><code>yat</code></td>
+<td>
+<p>Optional y axis tick positions.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">brkdn.plot</span> displays a plot useful for visualizing the breakdown of a
+response measure by two factors, or more than one response measure by either
+a factor representing something like levels of treatment (<span class="samp">groups</span>) or
+something like repeated observations (<span class="samp">obs</span>). For example, if
+observations are made at different times on data objects that receive
+different treatments, the <span class="samp">groups</span> factor will display the measures
+of central tendency as points/lines with the same color, symbol and line type,
+while the <span class="samp">obs</span> factor will be represented as horizontal positions on the
+plot. If <span class="samp">obs</span> is numeric, its unique values will be used as the 
+positions, if not, 1 to the number of unique values. This is a common way of 
+representing changes over time intervals for experimental groups.
+</p>
+<p>If only one numeric variable is to be broken down, <span class="samp">vars</span> may be a
+formula like <span class="samp">var~groups+obs</span>. The position of the two factors to break
+down the variable is fixed - the second term will be interpreted as &quot;groups&quot;
+and the third, if present, will be interpreted as &quot;obs&quot;.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of two matrices of dimension <span class="samp">length(levels(groups))</span> by 
+<span class="samp">length(levels(obs))</span>. The first contains the measures of central
+tendency calculated and its name is the name of the function passed as
+<span class="samp">mct</span>. The second contains the measures of dispersion and its name
+is the name of the function passed as <span class="samp">md</span>.
+</p>
+<p>If both <span class="samp">groups</span> and <span class="samp">obs</span> are not NULL, the rows of each matrix
+will be the <span class="samp">groups</span> and the columns the <span class="samp">obs</span>. If <span class="samp">obs</span>
+is NULL, the rows will be the <span class="samp">groups</span> and the columns the <span class="samp">vars</span>.
+If <span class="samp">groups</span> is NULL, the rows will be the <span class="samp">vars</span> and the columns
+the <span class="samp">obs</span>. That is, if <span class="samp">vars</span> has more than one element, if
+<span class="samp">obs</span> is NULL, the elements of <span class="samp">vars</span> will be considered to
+represent observations, while if <span class="samp">groups</span> is NULL, they will be
+considered to represent groups. At least one of <span class="samp">groups</span> and <span class="samp">obs</span>
+must be not NULL or there is no point in using <span class="samp">brkdn.plot</span>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/dispersion.html">dispersion</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ test.df&lt;-data.frame(a=rnorm(80)+4,b=rnorm(80)+4,c=rep(LETTERS[1:4],each=20),
+  d=rep(rep(letters[1:4],each=4),5))
+ # first use the default values
+ brkdn.plot("a","c","d",test.df,pch=1:4,col=1:4)
+ # now jazz it up a bit using medians and median absolute deviations
+ # and some enhancements
+ bp&lt;-brkdn.plot(a~c+d,data=test.df,main="Test of the breakdown plot",
+  mct="median",md="mad",xlab="Temperature range", ylab="Cognition",
+  xaxlab=c("10-15","16-20","21-25","25-30"),pch=1:4,lty=1:4,col=1:4)
+ es&lt;-emptyspace(bp)
+ legend(es,legend=c("Sydney","Gosford","Karuah","Brisbane"),pch=1:4,
+  col=1:4,lty=1:4,xjust=0.5,yjust=0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

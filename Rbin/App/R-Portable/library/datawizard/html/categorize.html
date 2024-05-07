@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Recode (or &quot;cut&quot; / &quot;bin&quot;) data into groups of values.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for categorize {datawizard}"><tr><td>categorize {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Recode (or &quot;cut&quot; / &quot;bin&quot;) data into groups of values.</h2>
+
+<h3>Description</h3>
+
+<p>This functions divides the range of variables into intervals and recodes
+the values inside these intervals according to their related interval.
+It is basically a wrapper around base R's <code>cut()</code>, providing a simplified
+and more accessible way to define the interval breaks (cut-off values).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+categorize(x, ...)
+
+## S3 method for class 'numeric'
+categorize(
+  x,
+  split = "median",
+  n_groups = NULL,
+  range = NULL,
+  lowest = 1,
+  labels = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'data.frame'
+categorize(
+  x,
+  select = NULL,
+  exclude = NULL,
+  split = "median",
+  n_groups = NULL,
+  range = NULL,
+  lowest = 1,
+  labels = NULL,
+  append = FALSE,
+  ignore_case = FALSE,
+  regex = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A (grouped) data frame, numeric vector or factor.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>not used.</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>Character vector, indicating at which breaks to split variables,
+or numeric values with values indicating breaks. If character, may be one
+of <code>"median"</code>, <code>"mean"</code>, <code>"quantile"</code>, <code>"equal_length"</code>, or <code>"equal_range"</code>.
+<code>"median"</code> or <code>"mean"</code> will return dichotomous variables, split at their
+mean or median, respectively. <code>"quantile"</code> and <code>"equal_length"</code> will split
+the variable into <code>n_groups</code> groups, where each group refers to an interval
+of a specific range of values. Thus, the length of each interval will be
+based on the number of groups. <code>"equal_range"</code> also splits the variable
+into multiple groups, however, the length of the interval is given, and
+the number of resulting groups (and hence, the number of breaks) will be
+determined by how many intervals can be generated, based on the full range
+of the variable.</p>
+</td></tr>
+<tr valign="top"><td><code>n_groups</code></td>
+<td>
+<p>If <code>split</code> is <code>"quantile"</code> or <code>"equal_length"</code>, this defines
+the number of requested groups (i.e. resulting number of levels or values)
+for the recoded variable(s). <code>"quantile"</code> will define intervals based
+on the distribution of the variable, while <code>"equal_length"</code> tries to
+divide the range of the variable into pieces of equal length.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>If <code>split = "equal_range"</code>, this defines the range of values
+that are recoded into a new value.</p>
+</td></tr>
+<tr valign="top"><td><code>lowest</code></td>
+<td>
+<p>Minimum value of the recoded variable(s). If <code>NULL</code> (the default),
+for numeric variables, the minimum of the original input is preserved. For
+factors, the default minimum is <code>1</code>. For <code>split = "equal_range"</code>, the
+default minimum is always <code>1</code>, unless specified otherwise in <code>lowest</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Character vector of value labels. If not <code>NULL</code>, <code>categorize()</code>
+will returns factors instead of numeric variables, with <code>labels</code> used
+for labelling the factor levels. Can also be <code>"mean"</code> or <code>"median"</code> for a
+factor with labels as the mean/median of each groups.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Variables that will be included when performing the required
+tasks. Can be either
+</p>
+
+<ul>
+<li><p> a variable specified as a literal variable name (e.g., <code>column_name</code>),
+</p>
+</li>
+<li><p> a string with the variable name (e.g., <code>"column_name"</code>), or a character
+vector of variable names (e.g., <code>c("col1", "col2", "col3")</code>),
+</p>
+</li>
+<li><p> a formula with variable names (e.g., <code>~column_1 + column_2</code>),
+</p>
+</li>
+<li><p> a vector of positive integers, giving the positions counting from the left
+(e.g. <code>1</code> or <code>c(1, 3, 5)</code>),
+</p>
+</li>
+<li><p> a vector of negative integers, giving the positions counting from the
+right (e.g., <code>-1</code> or <code>-1:-3</code>),
+</p>
+</li>
+<li><p> one of the following select-helpers: <code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, a range using <code>:</code> or <code>regex("")</code>. <code>starts_with()</code>,
+<code>ends_with()</code>, and  <code>contains()</code> accept several patterns, e.g
+<code>starts_with("Sep", "Petal")</code>.
+</p>
+</li>
+<li><p> or a function testing for logical conditions, e.g. <code>is.numeric()</code> (or
+<code>is.numeric</code>), or any user-defined function that selects the variables
+for which the function returns <code>TRUE</code> (like: <code>foo &lt;- function(x) mean(x) &gt; 3</code>),
+</p>
+</li>
+<li><p> ranges specified via literal variable names, select-helpers (except
+<code>regex()</code>) and (user-defined) functions can be negated, i.e. return
+non-matching elements, when prefixed with a <code>-</code>, e.g. <code>-ends_with("")</code>,
+<code>-is.numeric</code> or <code>-(Sepal.Width:Petal.Length)</code>. <strong>Note:</strong> Negation means
+that matches are <em>excluded</em>, and thus, the <code>exclude</code> argument can be
+used alternatively. For instance, <code>select=-ends_with("Length")</code> (with
+<code>-</code>) is equivalent to <code>exclude=ends_with("Length")</code> (no <code>-</code>). In case
+negation should not work as expected, use the <code>exclude</code> argument instead.
+</p>
+</li></ul>
+
+<p>If <code>NULL</code>, selects all columns. Patterns that found no matches are silently
+ignored, e.g. <code>find_columns(iris, select = c("Species", "Test"))</code> will just
+return <code>"Species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>See <code>select</code>, however, column names matched by the pattern
+from <code>exclude</code> will be excluded instead of selected. If <code>NULL</code> (the default),
+excludes no columns.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>Logical or string. If <code>TRUE</code>, recoded or converted variables
+get new column names and are appended (column bind) to <code>x</code>, thus returning
+both the original and the recoded variables. The new columns get a suffix,
+based on the calling function: <code>"_r"</code> for recode functions, <code>"_n"</code> for
+<code>to_numeric()</code>, <code>"_f"</code> for <code>to_factor()</code>, or <code>"_s"</code> for
+<code>slide()</code>. If <code>append=FALSE</code>, original variables in <code>x</code> will be
+overwritten by their recoded versions. If a character value, recoded
+variables are appended with new column names (using the defined suffix) to
+the original data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and when one of the select-helpers or
+a regular expression is used in <code>select</code>, ignores lower/upper case in the
+search pattern when matching against variable names.</p>
+</td></tr>
+<tr valign="top"><td><code>regex</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the search pattern from <code>select</code> will be
+treated as regular expression. When <code>regex = TRUE</code>, select <em>must</em> be a
+character string (or a variable containing a character string) and is not
+allowed to be one of the supported select-helpers or a character vector
+of length &gt; 1. <code>regex = TRUE</code> is comparable to using one of the two
+select-helpers, <code>select = contains("")</code> or <code>select = regex("")</code>, however,
+since the select-helpers may not work when called from inside other
+functions (see 'Details'), this argument may be used as workaround.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>x</code>, recoded into groups. By default <code>x</code> is numeric, unless <code>labels</code>
+is specified. In this case, a factor is returned, where the factor levels
+(i.e. recoded groups are labelled accordingly.
+</p>
+
+
+<h3>Splits and breaks (cut-off values)</h3>
+
+<p>Breaks are in general <em>exclusive</em>, this means that these values indicate
+the lower bound of the next group or interval to begin. Take a simple
+example, a numeric variable with values from 1 to 9. The median would be 5,
+thus the first interval ranges from 1-4 and is recoded into 1, while 5-9
+would turn into 2 (compare <code>cbind(1:9, categorize(1:9))</code>). The same variable,
+using <code>split = "quantile"</code> and <code>n_groups = 3</code> would define breaks at 3.67
+and 6.33 (see <code>quantile(1:9, probs = c(1/3, 2/3))</code>), which means that values
+from 1 to 3 belong to the first interval and are recoded into 1 (because
+the next interval starts at 3.67), 4 to 6 into 2 and 7 to 9 into 3.
+</p>
+
+
+<h3>Recoding into groups with equal size or range</h3>
+
+<p><code>split = "equal_length"</code> and <code>split = "equal_range"</code> try to divide the
+range of <code>x</code> into intervals of similar (or same) length. The difference is
+that <code>split = "equal_length"</code> will divide the range of <code>x</code> into <code>n_groups</code>
+pieces and thereby defining the intervals used as breaks (hence, it is
+equivalent to <code>cut(x, breaks = n_groups)</code>), while  <code>split = "equal_range"</code>
+will cut <code>x</code> into intervals that all have the length of <code>range</code>, where the
+first interval by defaults starts at <code>1</code>. The lowest (or starting) value
+of that interval can be defined using the <code>lowest</code> argument.
+</p>
+
+
+<h3>Selection of variables - the <code>select</code> argument</h3>
+
+<p>For most functions that have a <code>select</code> argument (including this function),
+the complete input data frame is returned, even when <code>select</code> only selects
+a range of variables. That is, the function is only applied to those variables
+that have a match in <code>select</code>, while all other variables remain unchanged.
+In other words: for this function, <code>select</code> will not omit any non-included
+variables, so that the returned data frame will include all variables
+from the input data frame.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> Functions to rename stuff: <code><a href="../../datawizard/help/data_rename.html">data_rename()</a></code>, <code><a href="../../datawizard/help/data_rename_rows.html">data_rename_rows()</a></code>, <code><a href="../../datawizard/help/data_addprefix.html">data_addprefix()</a></code>, <code><a href="../../datawizard/help/data_addsuffix.html">data_addsuffix()</a></code>
+</p>
+</li>
+<li><p> Functions to reorder or remove columns: <code><a href="../../datawizard/help/data_reorder.html">data_reorder()</a></code>, <code><a href="../../datawizard/help/data_relocate.html">data_relocate()</a></code>, <code><a href="../../datawizard/help/data_remove.html">data_remove()</a></code>
+</p>
+</li>
+<li><p> Functions to reshape, pivot or rotate data frames: <code><a href="../../datawizard/help/data_to_long.html">data_to_long()</a></code>, <code><a href="../../datawizard/help/data_to_wide.html">data_to_wide()</a></code>, <code><a href="../../datawizard/help/data_rotate.html">data_rotate()</a></code>
+</p>
+</li>
+<li><p> Functions to recode data: <code><a href="../../datawizard/help/rescale.html">rescale()</a></code>, <code><a href="../../datawizard/help/reverse.html">reverse()</a></code>, <code><a href="../../datawizard/help/categorize.html">categorize()</a></code>, <code><a href="../../datawizard/help/recode_values.html">recode_values()</a></code>, <code><a href="../../datawizard/help/slide.html">slide()</a></code>
+</p>
+</li>
+<li><p> Functions to standardize, normalize, rank-transform: <code><a href="../../datawizard/help/center.html">center()</a></code>, <code><a href="../../datawizard/help/standardize.html">standardize()</a></code>, <code><a href="../../datawizard/help/normalize.html">normalize()</a></code>, <code><a href="../../datawizard/help/ranktransform.html">ranktransform()</a></code>, <code><a href="../../datawizard/help/winsorize.html">winsorize()</a></code>
+</p>
+</li>
+<li><p> Split and merge data frames: <code><a href="../../datawizard/help/data_partition.html">data_partition()</a></code>, <code><a href="../../datawizard/help/data_merge.html">data_merge()</a></code>
+</p>
+</li>
+<li><p> Functions to find or select columns: <code><a href="../../datawizard/help/data_select.html">data_select()</a></code>, <code><a href="../../datawizard/help/data_find.html">data_find()</a></code>
+</p>
+</li>
+<li><p> Functions to filter rows: <code><a href="../../datawizard/help/data_match.html">data_match()</a></code>, <code><a href="../../datawizard/help/data_filter.html">data_filter()</a></code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+x &lt;- sample(1:10, size = 50, replace = TRUE)
+
+table(x)
+
+# by default, at median
+table(categorize(x))
+
+# into 3 groups, based on distribution (quantiles)
+table(categorize(x, split = "quantile", n_groups = 3))
+
+# into 3 groups, user-defined break
+table(categorize(x, split = c(3, 5)))
+
+set.seed(123)
+x &lt;- sample(1:100, size = 500, replace = TRUE)
+
+# into 5 groups, try to recode into intervals of similar length,
+# i.e. the range within groups is the same for all groups
+table(categorize(x, split = "equal_length", n_groups = 5))
+
+# into 5 groups, try to return same range within groups
+# i.e. 1-20, 21-40, 41-60, etc. Since the range of "x" is
+# 1-100, and we have a range of 20, this results into 5
+# groups, and thus is for this particular case identical
+# to the previous result.
+table(categorize(x, split = "equal_range", range = 20))
+
+# return factor with value labels instead of numeric value
+set.seed(123)
+x &lt;- sample(1:10, size = 30, replace = TRUE)
+categorize(x, "equal_length", n_groups = 3)
+categorize(x, "equal_length", n_groups = 3, labels = c("low", "mid", "high"))
+
+# cut numeric into groups with the mean or median as a label name
+x &lt;- sample(1:10, size = 30, replace = TRUE)
+categorize(x, "equal_length", n_groups = 3, labels = "mean")
+categorize(x, "equal_length", n_groups = 3, labels = "median")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

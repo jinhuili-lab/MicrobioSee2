@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for Bayes Factors for a single parameter</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_bayesfactor_parameters {see}"><tr><td>plot.see_bayesfactor_parameters {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for Bayes Factors for a single parameter</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>bayestestR::bayesfactor_parameters()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_bayesfactor_parameters'
+plot(
+  x,
+  size_point = 2,
+  rope_color = "#0171D3",
+  rope_alpha = 0.2,
+  show_intercept = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_color</code></td>
+<td>
+<p>Character specifying color of ROPE ribbon.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_alpha</code></td>
+<td>
+<p>Numeric specifying transparency level of ROPE ribbon.</p>
+</td></tr>
+<tr valign="top"><td><code>show_intercept</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the intercept-parameter is included
+in the plot. By default, it is hidden because in many cases the
+intercept-parameter has a posterior distribution on a very different
+location, so density curves of posterior distributions for other parameters
+are hardly visible.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

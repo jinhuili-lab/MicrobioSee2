@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from Cluster Models (k-means, ...)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.dbscan {parameters}"><tr><td>model_parameters.dbscan {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from Cluster Models (k-means, ...)</h2>
+
+<h3>Description</h3>
+
+<p>Format cluster models obtained for example by <code><a href="../../stats/html/kmeans.html">kmeans()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'dbscan'
+model_parameters(model, data = NULL, clusters = NULL, ...)
+
+## S3 method for class 'hclust'
+model_parameters(model, data = NULL, clusters = NULL, ...)
+
+## S3 method for class 'pvclust'
+model_parameters(model, data = NULL, clusters = NULL, ci = 0.95, ...)
+
+## S3 method for class 'kmeans'
+model_parameters(model, ...)
+
+## S3 method for class 'hkmeans'
+model_parameters(model, ...)
+
+## S3 method for class 'Mclust'
+model_parameters(model, data = NULL, clusters = NULL, ...)
+
+## S3 method for class 'pam'
+model_parameters(model, data = NULL, clusters = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Cluster model.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data.frame.</p>
+</td></tr>
+<tr valign="top"><td><code>clusters</code></td>
+<td>
+<p>A vector with clusters assignments (must be same length as rows in data).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# DBSCAN ---------------------------
+if (require("dbscan", quietly = TRUE)) {
+  model &lt;- dbscan::dbscan(iris[1:4], eps = 1.45, minPts = 10)
+
+  rez &lt;- model_parameters(model, iris[1:4])
+  rez
+
+  # Get clusters
+  predict(rez)
+
+  # Clusters centers in long form
+  attributes(rez)$means
+
+  # Between and Total Sum of Squares
+  attributes(rez)$Sum_Squares_Total
+  attributes(rez)$Sum_Squares_Between
+
+  # HDBSCAN
+  model &lt;- dbscan::hdbscan(iris[1:4], minPts = 10)
+  model_parameters(model, iris[1:4])
+}
+
+#
+# Hierarchical clustering (hclust) ---------------------------
+data &lt;- iris[1:4]
+model &lt;- hclust(dist(data))
+clusters &lt;- cutree(model, 3)
+
+rez &lt;- model_parameters(model, data, clusters)
+rez
+
+# Get clusters
+predict(rez)
+
+# Clusters centers in long form
+attributes(rez)$means
+
+# Between and Total Sum of Squares
+attributes(rez)$Total_Sum_Squares
+attributes(rez)$Between_Sum_Squares
+
+#
+# pvclust (finds "significant" clusters) ---------------------------
+if (require("pvclust", quietly = TRUE)) {
+  data &lt;- iris[1:4]
+  # NOTE: pvclust works on transposed data
+  model &lt;- pvclust::pvclust(datawizard::data_transpose(data, verbose = FALSE),
+    method.dist = "euclidean",
+    nboot = 50,
+    quiet = TRUE
+  )
+
+  rez &lt;- model_parameters(model, data, ci = 0.90)
+  rez
+
+  # Get clusters
+  predict(rez)
+
+  # Clusters centers in long form
+  attributes(rez)$means
+
+  # Between and Total Sum of Squares
+  attributes(rez)$Sum_Squares_Total
+  attributes(rez)$Sum_Squares_Between
+}
+
+
+#
+# K-means -------------------------------
+model &lt;- kmeans(iris[1:4], centers = 3)
+rez &lt;- model_parameters(model)
+rez
+
+# Get clusters
+predict(rez)
+
+# Clusters centers in long form
+attributes(rez)$means
+
+# Between and Total Sum of Squares
+attributes(rez)$Sum_Squares_Total
+attributes(rez)$Sum_Squares_Between
+
+
+#
+# Hierarchical K-means (factoextra::hkclust) ----------------------
+if (require("factoextra", quietly = TRUE)) {
+  data &lt;- iris[1:4]
+  model &lt;- factoextra::hkmeans(data, k = 3)
+
+  rez &lt;- model_parameters(model)
+  rez
+
+  # Get clusters
+  predict(rez)
+
+  # Clusters centers in long form
+  attributes(rez)$means
+
+  # Between and Total Sum of Squares
+  attributes(rez)$Sum_Squares_Total
+  attributes(rez)$Sum_Squares_Between
+}
+
+if (require("mclust", quietly = TRUE)) {
+  model &lt;- mclust::Mclust(iris[1:4], verbose = FALSE)
+  model_parameters(model)
+}
+
+#
+# K-Medoids (PAM and HPAM) ==============
+if (require("cluster", quietly = TRUE)) {
+  model &lt;- cluster::pam(iris[1:4], k = 3)
+  model_parameters(model)
+}
+if (require("fpc", quietly = TRUE)) {
+  model &lt;- fpc::pamk(iris[1:4], criterion = "ch")
+  model_parameters(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

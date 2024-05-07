@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets the on R CMD check if the current R session was launched...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for queryRCmdCheck {R.utils}"><tr><td>queryRCmdCheck {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets the  on R CMD check if the current R session was launched by it</h2>
+
+<h3>Description</h3>
+
+<p>Gets the  on R CMD check if the current R session was launched by it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+queryRCmdCheck(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns <code><a href="../../base/help/character.html">character</a></code> string
+<code>"checkingTests"</code> if 'R CMD check' runs one one of the package tests,
+and <code>"checkingExamples"</code> if it runs one of the package examples.
+If the current R session was not launched by 'R CMD check',
+then <code>"notRunning"</code> is returned.
+</p>
+
+
+<h3>Limitations</h3>
+
+<p>This function only works if the working directory has not been changed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+status &lt;- queryRCmdCheck()
+if (status != "notRunning") {
+  cat("The current R session was launched by R CMD check. Status: ", status, "\n")
+} else {
+  cat("The current R session was not launched by R CMD check.\n")
+}
+
+# Display how R was launched
+print(base::commandArgs())
+
+# Display loaded packages etc.
+print(search())
+
+# Display current working directory
+print(getwd())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

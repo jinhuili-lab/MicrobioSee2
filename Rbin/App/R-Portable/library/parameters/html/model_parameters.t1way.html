@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from robust statistical objects in 'WRS2'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.t1way {parameters}"><tr><td>model_parameters.t1way {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from robust statistical objects in <code>WRS2</code></h2>
+
+<h3>Description</h3>
+
+<p>Parameters from robust statistical objects in <code>WRS2</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 't1way'
+model_parameters(model, keep = NULL, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Object from <code>WRS2</code> package.</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("WRS2") &amp;&amp; packageVersion("WRS2") &gt;= "1.1.3") {
+  model &lt;- t1way(libido ~ dose, data = viagra)
+  model_parameters(model)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

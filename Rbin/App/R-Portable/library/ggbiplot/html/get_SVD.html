@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract the SVD components from a PCA-like object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_SVD {ggbiplot}"><tr><td>get_SVD {ggbiplot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract the SVD components from a PCA-like object</h2>
+
+<h3>Description</h3>
+
+<p>Biplots are based on the Singular Value Decomposition, which for a data matrix is
+</p>
+<p style="text-align: center;"><i>\mathbf{X} / &radic;{n} = \mathbf{U} \mathbf{D} \mathbf{V}^T</i></p>
+
+<p>but these are computed and returned in quite different
+forms by various PCA-like methods. This function provides a common interface, returning
+the components with standard names.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_SVD(pcobj)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pcobj</code></td>
+<td>
+<p>an object returned by <code><a href="../../stats/help/prcomp.html">prcomp</a></code>, <code><a href="../../stats/help/princomp.html">princomp</a></code>, 
+<code><a href="../../FactoMineR/help/PCA.html">PCA</a></code>, <code><a href="../../ade4/help/dudi.pca.html">dudi.pca</a></code>, or <code><a href="../../MASS/help/lda.html">lda</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of four elements
+</p>
+
+<dl>
+<dt>n</dt><dd><p>The sample size on which the analysis was based</p>
+</dd>
+<dt>U</dt><dd><p>Left singular vectors, giving observation scores</p>
+</dd>
+<dt>D</dt><dd><p>vector of singular values, the diagonal elements of the matrix <i>\mathbf{D}</i>, which are also the square roots
+of the eigenvalues of <i>\mathbf{X} \mathbf{X}'</i></p>
+</dd>
+<dt>V</dt><dd><p>Right singular vectors, giving variable loadings</p>
+</dd>
+</dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(crime)
+crime.pca &lt;- 
+  crime |&gt; 
+  dplyr::select(where(is.numeric)) |&gt;
+  prcomp(scale. = TRUE)
+
+crime.svd &lt;- get_SVD(crime.pca)
+names(crime.svd)
+crime.svd$D
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggbiplot</em> version 0.6.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

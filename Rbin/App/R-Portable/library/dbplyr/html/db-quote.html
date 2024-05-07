@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: SQL escaping/quoting generics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for db-quote {dbplyr}"><tr><td>db-quote {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>SQL escaping/quoting generics</h2>
+
+<h3>Description</h3>
+
+<p>These generics translate individual values into SQL. The core
+generics are <code><a href="../../DBI/help/dbQuoteIdentifier.html">DBI::dbQuoteIdentifier()</a></code> and<a href="../../DBI/help/dbQuoteString.html">DBI::dbQuoteString</a>
+for quoting identifiers and strings, but dbplyr needs additional
+tools for inserting logical, date, date-time, and raw values into
+queries.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sql_escape_logical(con, x)
+
+sql_escape_date(con, x)
+
+sql_escape_datetime(con, x)
+
+sql_escape_raw(con, x)
+</pre>
+
+
+<h3>See Also</h3>
+
+<p>Other generic: 
+<code><a href="../../dbplyr/help/db-sql.html">db-sql</a></code>,
+<code><a href="../../dbplyr/help/db_connection_describe.html">db_connection_describe</a>()</code>,
+<code><a href="../../dbplyr/help/db_copy_to.html">db_copy_to</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+con &lt;- simulate_dbi()
+sql_escape_logical(con, c(TRUE, FALSE, NA))
+sql_escape_date(con, Sys.Date())
+sql_escape_date(con, Sys.time())
+sql_escape_raw(con, charToRaw("hi"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

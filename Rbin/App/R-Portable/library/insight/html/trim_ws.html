@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Small helper functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for trim_ws {insight}"><tr><td>trim_ws {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Small helper functions</h2>
+
+<h3>Description</h3>
+
+<p>Collection of small helper functions. <code>trim_ws()</code> is an
+efficient function to trim leading and trailing whitespaces from character
+vectors or strings. <code>n_unique()</code> returns the number of unique values in a
+vector. <code>has_single_value()</code> is equivalent to <code>n_unique() == 1</code> but is faster.
+<code>safe_deparse()</code> is comparable to <code>deparse1()</code>, i.e. it can safely
+deparse very long expressions into a single string. <code>safe_deparse_symbol()</code>
+only deparses a substituted expressions when possible, which can be much faster
+than <code>deparse(substitute())</code> for those cases where <code>substitute()</code> returns no
+valid object name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+trim_ws(x, ...)
+
+## S3 method for class 'data.frame'
+trim_ws(x, character_only = TRUE, ...)
+
+n_unique(x, ...)
+
+## Default S3 method:
+n_unique(x, na.rm = TRUE, ...)
+
+safe_deparse(x, ...)
+
+safe_deparse_symbol(x)
+
+has_single_value(x, na.rm = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A (character) vector, or for some functions may also be a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>character_only</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and <code>x</code> is a data frame or list,
+only processes character vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Logical, if missing values should be removed from the input.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li> <p><code>n_unique()</code>: For a vector, <code>n_unique</code> always returns an integer value,
+even if the input is <code>NULL</code> (the return value will be <code>0</code> then). For data
+frames or lists, <code>n_unique()</code> returns a named numeric vector, with the
+number of unique values for each element.
+</p>
+</li>
+<li> <p><code>has_single_value()</code>: <code>TRUE</code> if <code>x</code> has only one unique value,
+<code>FALSE</code> otherwise.
+</p>
+</li>
+<li> <p><code>trim_ws()</code>: A character vector, where trailing and leading white spaces
+are removed.
+</p>
+</li>
+<li> <p><code>safe_deparse()</code>: A character string of the unevaluated expression or symbol.
+</p>
+</li>
+<li> <p><code>safe_deparse_symbol()</code>: A character string of the unevaluated expression
+or symbol, if <code>x</code> was a symbol. If <code>x</code> is no symbol (i.e. if <code>is.name(x)</code>
+would return <code>FALSE</code>), <code>NULL</code> is returned.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+trim_ws("  no space!  ")
+n_unique(iris$Species)
+has_single_value(c(1, 1, 2))
+
+# safe_deparse_symbol() compared to deparse(substitute())
+safe_deparse_symbol(as.name("test"))
+deparse(substitute(as.name("test")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

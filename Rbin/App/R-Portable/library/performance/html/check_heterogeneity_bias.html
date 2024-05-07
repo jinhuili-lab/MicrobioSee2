@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check model predictor for heterogeneity bias</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_heterogeneity_bias {performance}"><tr><td>check_heterogeneity_bias {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check model predictor for heterogeneity bias</h2>
+
+<h3>Description</h3>
+
+<p><code>check_heterogeneity_bias()</code> checks if model predictors or variables may
+cause a heterogeneity bias, i.e. if variables have a within- and/or
+between-effect (<em>Bell and Jones, 2015</em>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_heterogeneity_bias(x, select = NULL, group = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame or a mixed model object.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Character vector (or formula) with names of variables to select
+that should be checked. If <code>x</code> is a mixed model object, this argument
+will be ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>Character vector (or formula) with the name of the variable that
+indicates the group- or cluster-ID. If <code>x</code> is a model object, this
+argument will be ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Bell A, Jones K. 2015. Explaining Fixed Effects: Random Effects
+Modeling of Time-Series Cross-Sectional and Panel Data. Political Science
+Research and Methods, 3(1), 133–153.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>For further details, read the vignette
+<a href="https://easystats.github.io/parameters/articles/demean.html">https://easystats.github.io/parameters/articles/demean.html</a> and also
+see documentation for <code><a href="../../datawizard/help/demean.html">datawizard::demean()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(iris)
+iris$ID &lt;- sample(1:4, nrow(iris), replace = TRUE) # fake-ID
+check_heterogeneity_bias(iris, select = c("Sepal.Length", "Petal.Length"), group = "ID")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

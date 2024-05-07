@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display an axis with values having a multiplier</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for axis.mult {plotrix}"><tr><td>axis.mult {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display an axis with values having a multiplier </h2>
+
+<h3>Description</h3>
+
+<p>An axis is displayed on an existing plot where the tick values are divided
+by a multiplier and the multiplier is displayed next to the axis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ axis.mult(side=1,at=NULL,labels,mult=1,mult.label,mult.line,
+  mult.labelpos=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>which side to display</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>where to place the tick marks - defaults to <span class="samp">axTicks()</span></p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>tick labels - defaults to at/mult</p>
+</td></tr>
+<tr valign="top"><td><code>mult</code></td>
+<td>
+<p>the multiplier factor</p>
+</td></tr>
+<tr valign="top"><td><code>mult.label</code></td>
+<td>
+<p>the label to show the multiplier - defaults to &quot;x mult&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>mult.line</code></td>
+<td>
+<p>the margin line upon which to show the multiplier</p>
+</td></tr>
+<tr valign="top"><td><code>mult.labelpos</code></td>
+<td>
+<p>where to place <span class="samp">mult.label</span> - defaults to centered
+and outside the axis tick labels</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">axis</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">axis.mult</span> automates the process of displaying an axis with a 
+multiplier applied to the tick values. By default it will divide the
+default axis tick labels by <span class="samp">mult</span> and place <span class="samp">mult.label</span>
+where <span class="samp">xlab</span> or <span class="samp">ylab</span> would normally appear. Thus the plot
+call should set the relevant label to an empty string in such cases.
+It is simplest to call <span class="samp">plot</span> with <span class="samp">axes=FALSE</span> and then 
+display the box and any standard axes before calling <span class="samp">axis.mult</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>While <span class="samp">axis.mult</span> will try to display an axis on any side, the top
+and right margins will require adjustment using <span class="samp">par</span> for
+<span class="samp">axis.mult</span> to display properly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/axis.html">axis</a>, <a href="../../graphics/html/mtext.html">mtext</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(1:10 * 0.001, 1:10 * 100,axes = FALSE, xlab = "", ylab = "",
+  main = "Axis multipliers")
+ box()
+ axis.mult(1, mult = 0.001)
+ axis.mult(2, mult = 100)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

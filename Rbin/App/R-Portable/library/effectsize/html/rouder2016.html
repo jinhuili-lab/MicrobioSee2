@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Jeff Rouder's Example Dataset for Repeated Measures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rouder2016 {effectsize}"><tr><td>rouder2016 {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Jeff Rouder's Example Dataset for Repeated Measures</h2>
+
+<h3>Description</h3>
+
+<p>A dataset &quot;with 25 people each observing 50 trials in 2 conditions&quot;,
+published as <code>effectSizePuzzler.txt</code> by Jeff Rouder on March 24, 2016
+(<em>http://jeffrouder.blogspot.com/2016/03/the-effect-size-puzzler.html</em>).
+<br /><br />
+The data is used in examples and tests of <code><a href="../../effectsize/help/rm_d.html">rm_d()</a></code>.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 2500 rows and 3 variables:
+</p>
+
+<dl>
+<dt>id</dt><dd><p>participant: 1...25</p>
+</dd>
+<dt>cond</dt><dd><p>condition: 1,2</p>
+</dd>
+<dt>rt</dt><dd><p>response time in seconds</p>
+</dd>
+</dl>
+
+<div class="sourceCode r"><pre>data("rouder2016")
+head(rouder2016, n = 5)
+#&gt;   id cond    rt
+#&gt; 1  1    1 0.560
+#&gt; 2  1    1 0.930
+#&gt; 3  1    1 0.795
+#&gt; 4  1    1 0.615
+#&gt; 5  1    1 1.028
+</pre></div>
+
+
+<h3>See Also</h3>
+
+<p>Other effect size datasets: 
+<code><a href="../../effectsize/help/Music_preferences.html">Music_preferences</a></code>,
+<code><a href="../../effectsize/help/Music_preferences2.html">Music_preferences2</a></code>,
+<code><a href="../../effectsize/help/RCT_table.html">RCT_table</a></code>,
+<code><a href="../../effectsize/help/Smoking_FASD.html">Smoking_FASD</a></code>,
+<code><a href="../../effectsize/help/food_class.html">food_class</a></code>,
+<code><a href="../../effectsize/help/hardlyworking.html">hardlyworking</a></code>,
+<code><a href="../../effectsize/help/screening_test.html">screening_test</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

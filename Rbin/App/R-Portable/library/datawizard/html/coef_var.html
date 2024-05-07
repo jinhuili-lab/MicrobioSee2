@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the coefficient of variation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for coef_var {datawizard}"><tr><td>coef_var {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the coefficient of variation</h2>
+
+<h3>Description</h3>
+
+<p>Compute the coefficient of variation (CV, ratio of the standard deviation to
+the mean, <i>&sigma;/&mu;</i>) for a set of numeric values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coef_var(x, ...)
+
+distribution_coef_var(x, ...)
+
+## S3 method for class 'numeric'
+coef_var(
+  x,
+  mu = NULL,
+  sigma = NULL,
+  method = c("standard", "unbiased", "median_mad", "qcd"),
+  trim = 0,
+  remove_na = FALSE,
+  n = NULL,
+  na.rm = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector of ratio scale (see details), or vector of values than can be coerced to one.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to computation functions.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>A numeric vector of mean values to use to compute the coefficient
+of variation. If supplied, <code>x</code> is not used to compute the mean.</p>
+</td></tr>
+<tr valign="top"><td><code>sigma</code></td>
+<td>
+<p>A numeric vector of standard deviation values to use to compute the coefficient
+of variation. If supplied, <code>x</code> is not used to compute the SD.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method to use to compute the CV. Can be <code>"standard"</code> to compute
+by dividing the standard deviation by the mean, <code>"unbiased"</code> for the
+unbiased estimator for normally distributed data, or one of two robust
+alternatives: <code>"median_mad"</code> to divide the median by the <code><a href="../../stats/help/mad.html">stats::mad()</a></code>,
+or <code>"qcd"</code> (quartile coefficient of dispersion, interquartile range divided
+by the sum of the quartiles [twice the midhinge]: <i>(Q_3 - Q_1)/(Q_3 + Q_1)</i>.</p>
+</td></tr>
+<tr valign="top"><td><code>trim</code></td>
+<td>
+<p>the fraction (0 to 0.5) of values to be trimmed from
+each end of <code>x</code> before the mean and standard deviation (or other measures)
+are computed. Values of <code>trim</code> outside the range of (0 to 0.5) are taken
+as the nearest endpoint.</p>
+</td></tr>
+<tr valign="top"><td><code>remove_na</code></td>
+<td>
+<p>Logical. Should <code>NA</code> values be removed before computing (<code>TRUE</code>)
+or not (<code>FALSE</code>, default)?</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>If <code>method = "unbiased"</code> and both <code>mu</code> and <code>sigma</code> are provided (not
+computed from <code>x</code>), what sample size to use to adjust the computed CV
+for small-sample bias?</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Deprecated. Please use <code>remove_na</code> instead.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>CV is only applicable of values taken on a ratio scale: values that have a
+<em>fixed</em> meaningfully defined 0 (which is either the lowest or highest
+possible value), and that ratios between them are interpretable For example,
+how many sandwiches have I eaten this week? 0 means &quot;none&quot; and 20 sandwiches
+is 4 times more than 5 sandwiches. If I were to center the number of
+sandwiches, it will no longer be on a ratio scale (0 is no &quot;none&quot; it is the
+mean, and the ratio between 4 and -2 is not meaningful). Scaling a ratio
+scale still results in a ratio scale. So I can re define &quot;how many half
+sandwiches did I eat this week ( = sandwiches * 0.5) and 0 would still mean
+&quot;none&quot;, and 20 half-sandwiches is still 4 times more than 5 half-sandwiches.
+</p>
+<p>This means that CV is <strong>NOT</strong> invariant to shifting, but it is to scaling:
+</p>
+<div class="sourceCode r"><pre>sandwiches &lt;- c(0, 4, 15, 0, 0, 5, 2, 7)
+coef_var(sandwiches)
+#&gt; [1] 1.239094
+
+coef_var(sandwiches / 2) # same
+#&gt; [1] 1.239094
+
+coef_var(sandwiches + 4) # different! 0 is no longer meaningful!
+#&gt; [1] 0.6290784
+</pre></div>
+
+
+<h3>Value</h3>
+
+<p>The computed coefficient of variation for <code>x</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+coef_var(1:10)
+coef_var(c(1:10, 100), method = "median_mad")
+coef_var(c(1:10, 100), method = "qcd")
+coef_var(mu = 10, sigma = 20)
+coef_var(mu = 10, sigma = 20, method = "unbiased", n = 30)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

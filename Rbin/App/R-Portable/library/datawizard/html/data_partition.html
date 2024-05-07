@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Partition data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_partition {datawizard}"><tr><td>data_partition {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Partition data</h2>
+
+<h3>Description</h3>
+
+<p>Creates data partitions (for instance, a training and a test set) based on a
+data frame that can also be stratified (i.e., evenly spread a given factor)
+using the <code>group</code> argument.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_partition(
+  data,
+  proportion = 0.7,
+  group = NULL,
+  seed = NULL,
+  row_id = ".row_id",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame, or an object that can be coerced to a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>proportion</code></td>
+<td>
+<p>Scalar (between 0 and 1) or numeric vector, indicating the
+proportion(s) of the training set(s). The sum of <code>proportion</code> must not be
+greater than 1. The remaining part will be used for the test set.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>A character vector indicating the name(s) of the column(s) used
+for stratified partitioning.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>A random number generator seed. Enter an integer (e.g. 123) so
+that the random sampling will be the same each time you run the function.</p>
+</td></tr>
+<tr valign="top"><td><code>row_id</code></td>
+<td>
+<p>Character string, indicating the name of the column that
+contains the row-id's.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle messages and warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to or from other functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of data frames. The list includes one training set per given
+proportion and the remaining data as test set. List elements of training
+sets are named after the given proportions (e.g., <code style="white-space: pre;">$p_0.7</code>), the test set
+is named <code style="white-space: pre;">$test</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> Functions to rename stuff: <code><a href="../../datawizard/help/data_rename.html">data_rename()</a></code>, <code><a href="../../datawizard/help/data_rename_rows.html">data_rename_rows()</a></code>, <code><a href="../../datawizard/help/data_addprefix.html">data_addprefix()</a></code>, <code><a href="../../datawizard/help/data_addsuffix.html">data_addsuffix()</a></code>
+</p>
+</li>
+<li><p> Functions to reorder or remove columns: <code><a href="../../datawizard/help/data_reorder.html">data_reorder()</a></code>, <code><a href="../../datawizard/help/data_relocate.html">data_relocate()</a></code>, <code><a href="../../datawizard/help/data_remove.html">data_remove()</a></code>
+</p>
+</li>
+<li><p> Functions to reshape, pivot or rotate data frames: <code><a href="../../datawizard/help/data_to_long.html">data_to_long()</a></code>, <code><a href="../../datawizard/help/data_to_wide.html">data_to_wide()</a></code>, <code><a href="../../datawizard/help/data_rotate.html">data_rotate()</a></code>
+</p>
+</li>
+<li><p> Functions to recode data: <code><a href="../../datawizard/help/rescale.html">rescale()</a></code>, <code><a href="../../datawizard/help/reverse.html">reverse()</a></code>, <code><a href="../../datawizard/help/categorize.html">categorize()</a></code>, <code><a href="../../datawizard/help/recode_values.html">recode_values()</a></code>, <code><a href="../../datawizard/help/slide.html">slide()</a></code>
+</p>
+</li>
+<li><p> Functions to standardize, normalize, rank-transform: <code><a href="../../datawizard/help/center.html">center()</a></code>, <code><a href="../../datawizard/help/standardize.html">standardize()</a></code>, <code><a href="../../datawizard/help/normalize.html">normalize()</a></code>, <code><a href="../../datawizard/help/ranktransform.html">ranktransform()</a></code>, <code><a href="../../datawizard/help/winsorize.html">winsorize()</a></code>
+</p>
+</li>
+<li><p> Split and merge data frames: <code><a href="../../datawizard/help/data_partition.html">data_partition()</a></code>, <code><a href="../../datawizard/help/data_merge.html">data_merge()</a></code>
+</p>
+</li>
+<li><p> Functions to find or select columns: <code><a href="../../datawizard/help/data_select.html">data_select()</a></code>, <code><a href="../../datawizard/help/data_find.html">data_find()</a></code>
+</p>
+</li>
+<li><p> Functions to filter rows: <code><a href="../../datawizard/help/data_match.html">data_match()</a></code>, <code><a href="../../datawizard/help/data_filter.html">data_filter()</a></code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(iris)
+out &lt;- data_partition(iris, proportion = 0.9)
+out$test
+nrow(out$p_0.9)
+
+# Stratify by group (equal proportions of each species)
+out &lt;- data_partition(iris, proportion = 0.9, group = "Species")
+out$test
+
+# Create multiple partitions
+out &lt;- data_partition(iris, proportion = c(0.3, 0.3))
+lapply(out, head)
+
+# Create multiple partitions, stratified by group - 30% equally sampled
+# from species in first training set, 50% in second training set and
+# remaining 20% equally sampled from each species in test set.
+out &lt;- data_partition(iris, proportion = c(0.3, 0.5), group = "Species")
+lapply(out, function(i) table(i$Species))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

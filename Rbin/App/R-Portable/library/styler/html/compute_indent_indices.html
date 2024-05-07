@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the indices that need indention</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compute_indent_indices {styler}"><tr><td>compute_indent_indices {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the indices that need indention</h2>
+
+<h3>Description</h3>
+
+<p>Based on <code>token</code>, find the rows in <code>pd</code> that need to be indented.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compute_indent_indices(pd, token_opening, token_closing = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>token_opening</code></td>
+<td>
+<p>A character vector with tokens that could induce
+indention for subsequent tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>token_closing</code></td>
+<td>
+<p>A character vector with tokens that could terminate
+indention for previous tokens. If <code>NULL</code> (the default), indention should
+end with the last token in the parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Two cases are fundamentally different:
+</p>
+
+<ul>
+<li><p> Indention based on operators (e.g '+'), where all subsequent tokens should
+be indented.
+</p>
+</li>
+<li><p> Indention based on braces (e.g. '('), where just the tokens between the
+opening and the closing brace have to be indented.
+</p>
+</li></ul>
+
+<p>To cover the second case, we need <code>token_closing</code> because it cannot be taken
+for granted that <code>token_closing</code> is always the last token in <code>pd</code>. For
+example in if-else expressions, this is not the case and indenting
+everything between '(' and the penultimate token would result in the wrong
+formatting.
+</p>
+
+
+<h3>Handing of <code>[[</code></h3>
+
+<p>Since text <code>[[</code> has token <code>"LBB"</code> and text <code style="white-space: pre;">]]</code> is parsed as two independent
+<code style="white-space: pre;">]</code> (see 'Examples'), indention has to stop at the first <code style="white-space: pre;">]</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+styler:::parse_text("a[1]")
+styler:::parse_text("a[[1\n]]")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

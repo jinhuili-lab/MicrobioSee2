@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use t statistic to compute Bayes factor for one- and two-...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ttest.tstat {BayesFactor}"><tr><td>ttest.tstat {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use t statistic to compute Bayes factor for one- and two- sample designs</h2>
+
+<h3>Description</h3>
+
+<p>Using the classical t test statistic for a one- or two-sample design, this
+function computes the corresponding Bayes factor test.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ttest.tstat(t, n1, n2 = 0, nullInterval = NULL, rscale = "medium",
+  complement = FALSE, simple = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>classical t statistic</p>
+</td></tr>
+<tr valign="top"><td><code>n1</code></td>
+<td>
+<p>size of first group (or only group, for one-sample tests)</p>
+</td></tr>
+<tr valign="top"><td><code>n2</code></td>
+<td>
+<p>size of second group, for independent-groups tests</p>
+</td></tr>
+<tr valign="top"><td><code>nullInterval</code></td>
+<td>
+<p>optional vector of length 2 containing lower and upper bounds of an interval hypothesis to test, in standardized units</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>numeric prior scale</p>
+</td></tr>
+<tr valign="top"><td><code>complement</code></td>
+<td>
+<p>if <code>TRUE</code>, compute the Bayes factor against the complement of the interval</p>
+</td></tr>
+<tr valign="top"><td><code>simple</code></td>
+<td>
+<p>if <code>TRUE</code>, return only the Bayes factor</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function can be used to compute the Bayes factor corresponding to a
+one-sample, a paired-sample, or an independent-groups t test, using the
+classical t statistic.  It can be used when you don't have access to the
+full data set for analysis by <code><a href="../../BayesFactor/help/ttestBF.html">ttestBF</a></code>, but you do have the
+test statistic.
+</p>
+<p>For details about the model, see the help for <code><a href="../../BayesFactor/help/ttestBF.html">ttestBF</a></code>, and the
+references therein.
+</p>
+<p>The Bayes factor is computed via Gaussian quadrature.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>simple</code> is <code>TRUE</code>, returns the Bayes factor (against the
+null). If <code>FALSE</code>, the function returns a
+vector of length 3 containing the computed log(e) Bayes factor,
+along with a proportional error estimate on the Bayes factor and the method used to compute it.
+</p>
+
+
+<h3>Note</h3>
+
+<p>In version 0.9.9, the behaviour of this function has changed in order to produce more uniform results. In
+version 0.9.8 and before, this function returned two Bayes factors when <code>nullInterval</code> was
+non-<code>NULL</code>: the Bayes factor for the interval versus the null, and the Bayes factor for the complement of
+the interval versus the null. Starting in version 0.9.9, in order to get the Bayes factor for the complement, it is required to
+set the <code>complement</code> argument to <code>TRUE</code>, and the function only returns one Bayes factor.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>) and Jeffrey N.
+Rouder (<a href="mailto:rouderj@missouri.edu">rouderj@missouri.edu</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Morey, R. D. &amp; Rouder, J. N. (2011). Bayes Factor Approaches for
+Testing Interval Null Hypotheses. Psychological Methods, 16, 406-419
+</p>
+<p>Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., &amp; Iverson, G.
+(2009). Bayesian t-tests for accepting and rejecting the null hypothesis.
+Psychonomic Bulletin &amp; Review, 16, 225-237
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/integrate.html">integrate</a></code>, <code><a href="../../stats/html/t.test.html">t.test</a></code>; see
+<code><a href="../../BayesFactor/help/ttestBF.html">ttestBF</a></code> for the intended interface to this function, using
+the full data set.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Classical example: Student's sleep data
+data(sleep)
+plot(extra ~ group, data = sleep)
+
+## t.test() gives a t value of -4.0621
+t.test(extra ~ group, data = sleep, paired=TRUE)
+## Gives a Bayes factor of about 15
+## in favor of the alternative hypothesis
+result &lt;- ttest.tstat(t = -4.0621, n1 = 10)
+exp(result[['bf']])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

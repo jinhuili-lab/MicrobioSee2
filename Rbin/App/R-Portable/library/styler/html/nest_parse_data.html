@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nest a flat parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for nest_parse_data {styler}"><tr><td>nest_parse_data {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nest a flat parse table</h2>
+
+<h3>Description</h3>
+
+<p><code>nest_parse_data</code> groups <code>pd_flat</code> into a parse table with tokens that are
+a parent to other tokens (called internal) and such that are not (called
+child). Then, the token in child are joined to their parents in internal
+and all token information of the children is nested into a column &quot;child&quot;.
+This is done recursively until we are only left with a nested data frame that
+contains one row: The nested parse table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nest_parse_data(pd_flat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A flat parse table including both terminals and non-terminals.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A nested parse table.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../styler/help/compute_parse_data_nested.html">compute_parse_data_nested()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

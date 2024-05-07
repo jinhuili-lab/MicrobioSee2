@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the proportion of specified values in a vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for propbrk {plotrix}"><tr><td>propbrk {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the proportion of specified values in a vector</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the proportion of values in a vector that are equal to a specified
+value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ propbrk(x,trueval=TRUE,na.rm=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a character, factor or numeric vector.</p>
+</td></tr>
+<tr valign="top"><td><code>trueval</code></td>
+<td>
+<p>the value to be matched in <span class="samp">x</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>whether to remove NA values.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">propbrk</span> calculates the proportion of values matching a specified value.
+It is mainly to allow proportions to be calculated in the <span class="samp">brkdnNest</span>
+function. It always discards NAs in <span class="samp">x</span> when summing the number equal to
+<span class="samp">trueval</span>, but respects the <span class="samp">na.rm</span> argument when calculating the
+total number of values in <span class="samp">x</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/brkdnNest.html">brkdnNest</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ propbrk(sample(LETTERS,100,TRUE),trueval="M")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

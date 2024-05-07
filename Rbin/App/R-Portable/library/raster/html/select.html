@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Geometric subsetting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for select {raster}"><tr><td>select {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Geometric subsetting
+</h2>
+
+<h3>Description</h3>
+
+<p>Geometrically subset Raster* or Spatial* objects by drawing on a plot (map).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+select(x, use='rec', ...)
+
+## S4 method for signature 'Spatial'
+select(x, use='rec', draw=TRUE, col='cyan', size=2, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster*, SpatialPoints*, SpatialLines*, or SpatialPolygons*</p>
+</td></tr>
+<tr valign="top"><td><code>use</code></td>
+<td>
+<p>character: 'rec' or 'pol'. To use a rectangle or a polygon for selecting</p>
+</td></tr>
+<tr valign="top"><td><code>draw</code></td>
+<td>
+<p>logical. Add the selected features to the plot?</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color to use to draw the selected features (when <code>draw=TRUE)</code></p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>integer &gt; 0. Size to draw the selected features with (when <code>draw=TRUE)</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* or Spatial* object
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/click.html">click</a>, <a href="../../raster/help/crop.html">crop</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+
+# select a subset of a RasterLayer
+r &lt;- raster(nrow=10, ncol=10)
+values(r) &lt;- 1:ncell(r)
+plot(r)
+s &lt;- select(r) # now click on the map twice
+
+# plot the selection on a new canvas:
+x11()
+plot(s)
+
+
+# select a subset of a SpatialPolygons object
+p1 &lt;- rbind(c(-180,-20), c(-140,55), c(10, 0), c(-140,-60), c(-180,-20))
+hole &lt;- rbind(c(-150,-20), c(-100,-10), c(-110,20), c(-150,-20))
+p2 &lt;- rbind(c(-10,0), c(140,60), c(160,0), c(140,-55), c(-10,0))
+p3 &lt;- rbind(c(-125,0), c(0,60), c(40,5), c(15,-45), c(-125,0))
+pols &lt;- SpatialPolygons( list(  Polygons(list(Polygon(p1), Polygon(hole)), 1),
+      Polygons(list(Polygon(p2)), 2), Polygons(list(Polygon(p3)), 3)))
+pols@polygons[[1]]@Polygons[[2]]@hole &lt;- TRUE
+
+plot(pols, col=rainbow(3))
+ps &lt;- select(pols) # now click on the map twice
+ps
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

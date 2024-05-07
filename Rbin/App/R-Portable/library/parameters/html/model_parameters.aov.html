@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from ANOVAs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.aov {parameters}"><tr><td>model_parameters.aov {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from ANOVAs</h2>
+
+<h3>Description</h3>
+
+<p>Parameters from ANOVAs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'aov'
+model_parameters(
+  model,
+  type = NULL,
+  df_error = NULL,
+  ci = NULL,
+  alternative = NULL,
+  test = NULL,
+  power = FALSE,
+  effectsize_type = NULL,
+  keep = NULL,
+  drop = NULL,
+  table_wide = FALSE,
+  verbose = TRUE,
+  omega_squared = NULL,
+  eta_squared = NULL,
+  epsilon_squared = NULL,
+  ...
+)
+
+## S3 method for class 'afex_aov'
+model_parameters(
+  model,
+  effectsize_type = NULL,
+  df_error = NULL,
+  type = NULL,
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Object of class <code><a href="../../stats/html/aov.html">aov()</a></code>, <code><a href="../../stats/html/anova.html">anova()</a></code>,
+<code>aovlist</code>, <code>Gam</code>, <code><a href="../../stats/html/manova.html">manova()</a></code>, <code>Anova.mlm</code>,
+<code>afex_aov</code> or <code>maov</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Numeric, type of sums of squares. May be 1, 2 or 3. If 2 or 3,
+ANOVA-tables using <code>car::Anova()</code> will be returned. (Ignored for
+<code>afex_aov</code>.)</p>
+</td></tr>
+<tr valign="top"><td><code>df_error</code></td>
+<td>
+<p>Denominator degrees of freedom (or degrees of freedom of the
+error estimate, i.e., the residuals). This is used to compute effect sizes
+for ANOVA-tables from mixed models. See 'Examples'. (Ignored for
+<code>afex_aov</code>.)</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level for effect sizes specified in
+<code>effectsize_type</code>. The default, <code>NULL</code>, will compute no confidence
+intervals. <code>ci</code> should be a scalar between 0 and 1.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>A character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed
+(e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See section <em>One-Sided CIs</em> in
+the <a href="https://easystats.github.io/effectsize/">effectsize_CIs vignette</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>String, indicating the type of test for <code>Anova.mlm</code> to be
+returned. If <code>"multivariate"</code> (or <code>NULL</code>), returns the summary of
+the multivariate test (that is also given by the <code>print</code>-method). If
+<code>test = "univariate"</code>, returns the summary of the univariate test.</p>
+</td></tr>
+<tr valign="top"><td><code>power</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, adds a column with power for each
+parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>effectsize_type</code></td>
+<td>
+<p>The effect size of interest. Not that possibly not all
+effect sizes are applicable to the model object. See 'Details'. For Anova
+models, can also be a character vector with multiple effect size names.</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>table_wide</code></td>
+<td>
+<p>Logical that decides whether the ANOVA table should be in
+wide format, i.e. should the numerator and denominator degrees of freedom
+be in the same row. Default: <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>omega_squared, eta_squared, epsilon_squared</code></td>
+<td>
+<p>Deprecated. Please use <code>effectsize_type</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../effectsize/help/effectsize.html">effectsize::effectsize()</a></code>. For example,
+to calculate <em>partial</em> effect sizes types, use <code>partial = TRUE</code>. For objects
+of class <code>htest</code> or <code>BFBayesFactor</code>, <code>adjust = TRUE</code> can be used to return
+bias-corrected effect sizes, which is advisable for small samples and large
+tables. See also
+<a href="https://easystats.github.io/effectsize/reference/eta_squared.html"><code>?effectsize::eta_squared</code></a>
+for arguments <code>partial</code> and <code>generalized</code>;
+<a href="https://easystats.github.io/effectsize/reference/phi.html"><code>?effectsize::phi</code></a>
+for <code>adjust</code>; and
+<a href="https://easystats.github.io/effectsize/reference/oddsratio.html"><code>?effectsize::oddratio</code></a>
+for <code>log</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> For an object of class <code>htest</code>, data is extracted via <code><a href="../../insight/help/get_data.html">insight::get_data()</a></code>, and passed to the relevant function according to:
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default), <code>"hedges_g"</code>, or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+
+<ul>
+<li><p> For a <strong>Paired t-test</strong>: depending on <code>type</code>: <code>"rm_rm"</code>, <code>"rm_av"</code>, <code>"rm_b"</code>, <code>"rm_d"</code>, <code>"rm_z"</code>.
+</p>
+</li></ul>
+
+</li>
+<li><p> A <strong>Chi-squared tests of independence</strong> or <strong>Fisher's Exact Test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"tschuprows_t"</code>, <code>"phi"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>Chi-squared tests of goodness-of-fit</strong>, depending on <code>type</code>: <code>"fei"</code> (default) <code>"cohens_w"</code>, <code>"pearsons_c"</code>
+</p>
+</li>
+<li><p> A <strong>One-way ANOVA test</strong>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> A <strong>McNemar test</strong> returns <em>Cohen's g</em>.
+</p>
+</li>
+<li><p> A <strong>Wilcoxon test</strong> depending on <code>type</code>: returns &quot;<code>rank_biserial</code>&quot; correlation (default) or one of <code>"p_superiority"</code>, <code>"vda"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>Kruskal-Wallis test</strong> depending on <code>type</code>: <code>"epsilon"</code> (default) or <code>"eta"</code>.
+</p>
+</li>
+<li><p> A <strong>Friedman test</strong> returns <em>Kendall's W</em>.
+(Where applicable, <code>ci</code> and <code>alternative</code> are taken from the <code>htest</code> if not otherwise provided.)
+</p>
+</li></ul>
+
+</li>
+<li><p> For an object of class <code>BFBayesFactor</code>, using <code><a href="../../bayestestR/help/describe_posterior.html">bayestestR::describe_posterior()</a></code>,
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default) or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>correlation test</strong> returns <em>r</em>.
+</p>
+</li>
+<li><p> A <strong>contingency table test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"phi"</code>, <code>"tschuprows_t"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, or <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>proportion test</strong> returns <em>p</em>.
+</p>
+</li></ul>
+
+</li>
+<li><p> Objects of class <code>anova</code>, <code>aov</code>, <code>aovlist</code> or <code>afex_aov</code>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> Other objects are passed to <code><a href="../help/standardize_parameters.html">parameters::standardize_parameters()</a></code>.
+</p>
+</li></ul>
+
+<p><strong>For statistical models it is recommended to directly use the listed
+functions, for the full range of options they provide.</strong>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For ANOVA-tables from mixed models (i.e. <code>anova(lmer())</code>), only
+partial or adjusted effect sizes can be computed. Note that type 3 ANOVAs
+with interactions involved only give sensible and informative results when
+covariates are mean-centred and factors are coded with orthogonal contrasts
+(such as those produced by <code>contr.sum</code>, <code>contr.poly</code>, or
+<code>contr.helmert</code>, but <em>not</em> by the default <code>contr.treatment</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+df &lt;- iris
+df$Sepal.Big &lt;- ifelse(df$Sepal.Width &gt;= 3, "Yes", "No")
+
+model &lt;- aov(Sepal.Length ~ Sepal.Big, data = df)
+model_parameters(model)
+
+model_parameters(model, effectsize_type = c("omega", "eta"), ci = 0.9)
+
+model &lt;- anova(lm(Sepal.Length ~ Sepal.Big, data = df))
+model_parameters(model)
+model_parameters(
+  model,
+  effectsize_type = c("omega", "eta", "epsilon"),
+  alternative = "greater"
+)
+
+model &lt;- aov(Sepal.Length ~ Sepal.Big + Error(Species), data = df)
+model_parameters(model)
+
+
+
+df &lt;- iris
+df$Sepal.Big &lt;- ifelse(df$Sepal.Width &gt;= 3, "Yes", "No")
+mm &lt;- lme4::lmer(Sepal.Length ~ Sepal.Big + Petal.Width + (1 | Species), data = df)
+model &lt;- anova(mm)
+
+# simple parameters table
+model_parameters(model)
+
+# parameters table including effect sizes
+model_parameters(
+  model,
+  effectsize_type = "eta",
+  ci = 0.9,
+  df_error = dof_satterthwaite(mm)[2:3]
+)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

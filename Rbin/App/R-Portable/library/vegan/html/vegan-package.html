@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Community Ecology Package: Ordination, Diversity and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vegan-package {vegan}"><tr><td>vegan-package {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Community Ecology Package: Ordination, Diversity and Dissimilarities
+</h2>
+
+<h3>Description</h3>
+
+<p> The <span class="pkg">vegan</span> package provides tools for descriptive
+community ecology. It has most basic functions of diversity analysis,
+community ordination and dissimilarity analysis. Most of its
+multivariate tools can be used for other data types as well.  </p>
+
+
+<h3>Details</h3>
+
+<p>The functions in the <span class="pkg">vegan</span> package contain tools for
+diversity analysis, ordination methods and tools for the analysis of
+dissimilarities. Together with the <span class="pkg">labdsv</span> package, the <span class="pkg">vegan</span>
+package provides most standard tools of descriptive community
+analysis. Package <span class="pkg">ade4</span> provides an alternative comprehensive
+package, and several other packages complement <span class="pkg">vegan</span> and provide
+tools for deeper analysis in specific fields. Package
+<span class="pkg">BiodiversityR</span> provides a GUI for a large subset of <span class="pkg">vegan</span>
+functionality.
+</p>
+<p>The <span class="pkg">vegan</span> package is developed at GitHub
+(<a href="https://github.com/vegandevs/vegan/">https://github.com/vegandevs/vegan/</a>).  GitHub provides up-to-date
+information and forums for bug reports.
+</p>
+<p>Most important changes in <span class="pkg">vegan</span> documents can be read with
+<code>news(package="vegan")</code> and vignettes can be browsed with
+<code>browseVignettes("vegan")</code>. The vignettes include a <span class="pkg">vegan</span>
+FAQ, discussion on design decisions, short introduction to ordination
+and discussion on diversity methods.
+
+
+
+</p>
+<p>To see the preferable citation of the package, type
+<code>citation("vegan")</code>.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> The <span class="pkg">vegan</span> development team is Jari Oksanen,
+F. Guillaume Blanchet, Roeland Kindt, Pierre Legendre, Peter
+R. Minchin, R. B. O'Hara, Gavin L. Simpson, Peter Solymos, M. Henry
+H. Stevens, Helene Wagner.  Many other people have contributed to
+individual functions: see credits in function help pages.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### Example 1: Unconstrained ordination
+## NMDS
+data(varespec)
+data(varechem)
+ord &lt;- metaMDS(varespec)
+plot(ord, type = "t")
+## Fit environmental variables
+ef &lt;- envfit(ord, varechem)
+ef
+plot(ef, p.max = 0.05)
+### Example 2: Constrained ordination (RDA)
+## The example uses formula interface to define the model
+data(dune)
+data(dune.env)
+## No constraints: PCA
+mod0 &lt;- rda(dune ~ 1, dune.env)
+mod0
+plot(mod0)
+## All environmental variables: Full model
+mod1 &lt;- rda(dune ~ ., dune.env)
+mod1
+plot(mod1)
+## Automatic selection of variables by permutation P-values
+mod &lt;- ordistep(mod0, scope=formula(mod1))
+mod
+plot(mod)
+## Permutation test for all variables
+anova(mod)
+## Permutation test of "type III" effects, or significance when a term
+## is added to the model after all other terms
+anova(mod, by = "margin")
+## Plot only sample plots, use different symbols and draw SD ellipses 
+## for Managemenet classes
+plot(mod, display = "sites", type = "n")
+with(dune.env, points(mod, disp = "si", pch = as.numeric(Management)))
+with(dune.env, legend("topleft", levels(Management), pch = 1:4,
+  title = "Management"))
+with(dune.env, ordiellipse(mod, Management, label = TRUE))
+## add fitted surface of diversity to the model
+ordisurf(mod, diversity(dune), add = TRUE)
+### Example 3: analysis of dissimilarites a.k.a. non-parametric
+### permutational anova
+adonis(dune ~ ., dune.env)
+adonis(dune ~ Management + Moisture, dune.env)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

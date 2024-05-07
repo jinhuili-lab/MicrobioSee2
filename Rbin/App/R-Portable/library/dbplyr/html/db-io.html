@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Database I/O generics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for db-io {dbplyr}"><tr><td>db-io {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Database I/O generics</h2>
+
+<h3>Description</h3>
+
+<p>These generics are responsible for getting data into and out of the
+database. They should be used a last resort - only use them when you can't
+make a backend work by providing methods for DBI generics, or for dbplyr's
+SQL generation generics. They tend to be most needed when a backend has
+special handling of temporary tables.
+</p>
+
+<ul>
+<li> <p><code>db_copy_to()</code> implements <code><a href="../../dbplyr/help/copy_to.src_sql.html">copy_to.src_sql()</a></code> by calling
+<code>db_write_table()</code> (which calls <code><a href="../../DBI/help/dbWriteTable.html">DBI::dbWriteTable()</a></code>) to transfer the
+data, then optionally adds indexes (via <code><a href="../../dbplyr/help/sql_table_index.html">sql_table_index()</a></code>) and
+analyses (via <code><a href="../../dbplyr/help/sql_table_analyze.html">sql_table_analyze()</a></code>).
+</p>
+</li>
+<li> <p><code>db_compute()</code> implements <code><a href="../../dbplyr/help/compute.tbl_sql.html">compute.tbl_sql()</a></code> by calling
+<code><a href="../../dbplyr/help/sql_query_save.html">sql_query_save()</a></code> to create the table, then optionally adds indexes
+(via <code><a href="../../dbplyr/help/sql_table_index.html">sql_table_index()</a></code>) and analyses (via <code><a href="../../dbplyr/help/sql_table_analyze.html">sql_table_analyze()</a></code>).
+</p>
+</li>
+<li> <p><code>db_collect()</code> implements <code><a href="../../dbplyr/help/collect.tbl_sql.html">collect.tbl_sql()</a></code> using <code><a href="../../DBI/help/dbSendQuery.html">DBI::dbSendQuery()</a></code>
+and <code><a href="../../DBI/help/dbFetch.html">DBI::dbFetch()</a></code>.
+</p>
+</li>
+<li> <p><code>db_table_temporary()</code> is used for databases that have special naming
+schemes for temporary tables (e.g. SQL server and SAP HANA require
+temporary tables to start with <code style="white-space: pre;">#</code>)
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+db_copy_to(
+  con,
+  table,
+  values,
+  overwrite = FALSE,
+  types = NULL,
+  temporary = TRUE,
+  unique_indexes = NULL,
+  indexes = NULL,
+  analyze = TRUE,
+  ...,
+  in_transaction = TRUE
+)
+
+db_compute(
+  con,
+  table,
+  sql,
+  temporary = TRUE,
+  unique_indexes = list(),
+  indexes = list(),
+  analyze = TRUE,
+  ...
+)
+
+db_collect(con, sql, n = -1, warn_incomplete = TRUE, ...)
+
+db_table_temporary(con, table, temporary)
+</pre>
+
+
+<h3>See Also</h3>
+
+<p>Other generic: 
+<code><a href="../../dbplyr/help/db-sql.html">db-sql</a></code>,
+<code><a href="../../dbplyr/help/db_connection_describe.html">db_connection_describe</a>()</code>,
+<code><a href="../../dbplyr/help/sql_escape_logical.html">sql_escape_logical</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

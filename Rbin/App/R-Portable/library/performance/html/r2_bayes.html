@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bayesian R2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_bayes {performance}"><tr><td>r2_bayes {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bayesian R2</h2>
+
+<h3>Description</h3>
+
+<p>Compute R2 for Bayesian models. For mixed models (including a
+random part), it additionally computes the R2 related to the fixed effects
+only (marginal R2). While <code>r2_bayes()</code> returns a single R2 value,
+<code>r2_posterior()</code> returns a posterior sample of Bayesian R2 values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_bayes(model, robust = TRUE, ci = 0.95, verbose = TRUE, ...)
+
+r2_posterior(model, ...)
+
+## S3 method for class 'brmsfit'
+r2_posterior(model, verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+r2_posterior(model, verbose = TRUE, ...)
+
+## S3 method for class 'BFBayesFactor'
+r2_posterior(model, average = FALSE, prior_odds = NULL, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A Bayesian regression model (from <strong>brms</strong>,
+<strong>rstanarm</strong>, <strong>BayesFactor</strong>, etc).</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the median instead of mean is used to
+calculate the central tendency of the variances.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1) to be
+estimated.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>r2_posterior()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>average</code></td>
+<td>
+<p>Compute model-averaged index? See <code><a href="../../bayestestR/help/weighted_posteriors.html">bayestestR::weighted_posteriors()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>prior_odds</code></td>
+<td>
+<p>Optional vector of prior odds for the models compared to
+the first model (or the denominator, for <code>BFBayesFactor</code> objects). For
+<code>data.frame</code>s, this will be used as the basis of weighting.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>r2_bayes()</code> returns an &quot;unadjusted&quot; R2 value. See
+<code><a href="../../performance/help/r2_loo.html">r2_loo()</a></code> to calculate a LOO-adjusted R2, which comes
+conceptually closer to an adjusted R2 measure.
+</p>
+<p>For mixed models, the conditional and marginal R2 are returned. The marginal
+R2 considers only the variance of the fixed effects, while the conditional
+R2 takes both the fixed and random effects into account.
+</p>
+<p><code>r2_posterior()</code> is the actual workhorse for <code>r2_bayes()</code> and
+returns a posterior sample of Bayesian R2 values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the Bayesian R2 value. For mixed models, a list with the
+Bayesian R2 value and the marginal Bayesian R2 value. The standard errors
+and credible intervals for the R2 values are saved as attributes.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman, A., Goodrich, B., Gabry, J., and Vehtari, A. (2018).
+R-squared for Bayesian regression models. The American Statistician, 1–6.
+doi: <a href="https://doi.org/10.1080/00031305.2018.1549100">10.1080/00031305.2018.1549100</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(performance)
+
+model &lt;- suppressWarnings(rstanarm::stan_glm(
+  mpg ~ wt + cyl,
+  data = mtcars,
+  chains = 1,
+  iter = 500,
+  refresh = 0,
+  show_messages = FALSE
+))
+r2_bayes(model)
+
+model &lt;- suppressWarnings(rstanarm::stan_lmer(
+  Petal.Length ~ Petal.Width + (1 | Species),
+  data = iris,
+  chains = 1,
+  iter = 500,
+  refresh = 0
+))
+r2_bayes(model)
+
+
+
+model &lt;- suppressWarnings(brms::brm(
+  mpg ~ wt + cyl,
+  data = mtcars,
+  silent = 2,
+  refresh = 0
+))
+r2_bayes(model)
+
+model &lt;- suppressWarnings(brms::brm(
+  Petal.Length ~ Petal.Width + (1 | Species),
+  data = iris,
+  silent = 2,
+  refresh = 0
+))
+r2_bayes(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

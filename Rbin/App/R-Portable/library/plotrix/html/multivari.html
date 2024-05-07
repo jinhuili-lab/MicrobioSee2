@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to draw a multivari chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multivari {plotrix}"><tr><td>multivari {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Function to draw a multivari chart
+</h2>
+
+<h3>Description</h3>
+
+<p>A multivari chart of one quantitative response variable depending on two
+to four categorical variables can be drawn.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multivari(var, fac1, fac2, fac3 = NULL, fac4 = NULL, data, sort = FALSE,
+ fun = mean, pch = list(15, 16, 17), col = list("black", "blue", "red"),
+ col0 = "black", cex = 1, fac.cex = 2, xlab.depth = 3, legend = FALSE,
+ main = paste("multivari chart of", var), add = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>var</code></td>
+<td>
+<p>variable name (character string) or column index of response
+variable, required
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac1</code></td>
+<td>
+<p>variable name (character string) or column index of first
+level factor, required; precedes <code>fac2</code> and <code>fac3</code> (if present) in the hierarchy (see Details)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac2</code></td>
+<td>
+<p>variable name (character string) or column index of second
+level factor, required; follows <code>fac1</code> and precedes <code>fac3</code> (if present) 
+in the hierarchy (see Details)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac3</code></td>
+<td>
+<p>variable name (character string) or column index of third
+level factor, optional; if present, <code>fac3</code> is the last factor in the hierarchy (see Details)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac4</code></td>
+<td>
+
+<p>variable name (character string) or column index of fourth level factor,
+optional; can only be specified if there is also a third level factor;
+if present, this factor is the first in the hierarchy (see Details), and separate multivari charts for the first three factors are drawn for each level of this factor</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+
+<p>a data frame, required
+</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+
+<p>logical, specifying whether or not levels are sorted, when converting
+character vectors to factors (a single choice for all factors is needed); default: <code>FALSE</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+
+<p>a function to be used in aggregation; default: <code>mean</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+
+<p>a list of length 2 or 3, depending on whether or not <code>fac3</code> is
+specified; the ith list element can be an individual plotting symbol
+(like the usual <code>pch</code> entry) or a vector of plot symbols for each
+level of <code>fac_i</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>a list of length 2 or 3, depending on whether or not <code>fac3</code> is
+specified; the ith list element can be an individual color or a vector
+of colors for each level of <code>fac_i</code>; this color specification is
+used for the plot symbols of <code>fac_i</code> levels and for the lines
+connecting the symbols for the next level in the hierarchy
+</p>
+</td></tr>
+<tr valign="top"><td><code>col0</code></td>
+<td>
+
+<p>the color for the first line to be drawn
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+
+<p>the size of axis annotation text
+(annotation of the fourth level header is 1.5 times this size)
+</p>
+</td></tr>
+<tr valign="top"><td><code>fac.cex</code></td>
+<td>
+
+<p>a multiplier for <code>cex</code>; plot symbol sizes are <code>fac.cex*cex</code>;
+default: 2
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlab.depth</code></td>
+<td>
+
+<p>labels for the horizontal axis are printed down to this level of the
+hierarchy (default: 3); if the depth is reduced, different plot symbols
+should be used, and a legend should be drawn
+</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+
+<p>logical determining whether or not a legend should be drawn (default:
+FALSE); the function determines wether top right or bottom right yields
+a better position (it is not guaranteed that there is no overlab); if
+this does not work well, one can manually draw a legend in the outer
+margin
+</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+
+<p>title, as usual; a default is provided
+</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+
+<p>logical; add to an existing plot (which of course has to have suitable axis limits)?; default: FALSE;
+note that horizontal axis labeling will always be printed by function multivari, while vertical axis labeling will be omitted for <code>add=TRUE</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>further arguments to functions <code>plot</code>, <code>lines</code>, <code>points</code>, 
+<code>mtext</code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function is inspired by Minitabs behavior for multivari charts 
+(see also Bruno Scibilia's blog which is linked in the references). It
+does not attempt to visualize individual observations.
+</p>
+<p>A multivari chart mainly serves exploratory purposes.
+It works particularly well with balanced data, but can also be used for messy data. 
+<code>multivari</code> can visualize the dependence of a single quantitative variable on up to four factors (i.e., interactions of order up to four can be visualized). The display is hierarchical: for factors later in the hierarchy, conditional means given level combinations of factors earlier in the hierarchy are displayed. Therefore, the order of the
+factors can make a big difference in the display. If there is no natural
+order, it may be worthwhile to inspect several orders.
+</p>
+<p>For interactions with two factors only, it is often preferrable to use
+function <code><a href="../../stats/html/interaction.plot.html">interaction.plot</a></code> or <code><a href="../../plotrix/help/raw.means.plot.html">raw.means.plot</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a list of (lists of) data frames with summary statistics to be plotted
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ulrike Groemping
+</p>
+
+
+<h3>References</h3>
+
+<p>Scibilia, Bruno (2013). Using Multi-Vari Charts to Analyze Families of Variations. <a href="https://blog.minitab.com/en/using-variability-charts-to-analyze-call-center-wait-times">https://blog.minitab.com/en/using-variability-charts-to-analyze-call-center-wait-times</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See also <code><a href="../../stats/html/interaction.plot.html">interaction.plot</a></code>, <code><a href="../../plotrix/help/raw.means.plot.html">raw.means.plot</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+##---- Should be DIRECTLY executable !! ----
+##-- ==&gt;  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+## Not run: 
+require(car)
+multivari("cycles", "len", "load", "amp", data=Wool, 
+    col=list("black","red",c("grey70","grey45","grey20")),
+    pch=list(15,17,8), legend=TRUE, xlab.depth = 2, lwd=2)
+multivari("cycles", "load", "len", "amp", data=Wool, 
+    col=list("black",c("red","blue","darkgreen"),
+    c("grey70","grey45","grey20")),
+    pch=list(15,17,8), legend=TRUE, xlab.depth = 2, lwd=2)
+    
+## create a fake fourth factor
+fakedat &lt;- rbind(cbind(newfac="blabla",Wool),cbind(newfac="albalb",Wool))
+## make it character for demonstrating the effect of sort option
+fakedat$newfac &lt;- as.character(fakedat$newfac)
+
+## default: sort order in the data is respected (order of unique is used)
+multivari("cycles", "load", "len", "amp", "newfac", data=fakedat, 
+    col=list("black",c("red","blue","darkgreen"),
+    c("grey70","grey45","grey20")),
+    pch=list(15,17,8), legend=TRUE, xlab.depth = 2, lwd=2, cex=0.8)
+    
+## sort=TRUE: levels are sorted (order of sort(unique))
+multivari("cycles", "load", "len", "amp", "newfac", data=fakedat, 
+    col=list("black",c("red","blue","darkgreen"),
+    c("grey70","grey45","grey20")),
+    pch=list(15,17,8), legend=TRUE, xlab.depth = 2, lwd=2, cex=0.8,
+    sort=TRUE)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

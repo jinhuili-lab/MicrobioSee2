@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to apply spectral efficiency correction to...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for apply_EfficiencyCorrection {Luminescence}"><tr><td>apply_EfficiencyCorrection {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to apply spectral efficiency correction to RLum.Data.Spectrum S4
+class objects</h2>
+
+<h3>Description</h3>
+
+<p>The function allows spectral efficiency corrections for RLum.Data.Spectrum
+S4 class objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply_EfficiencyCorrection(object, spectral.efficiency)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> or <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+S4 object of class <code>RLum.Data.Spectrum</code>,  <code>RLum.Analysis</code>or a <a href="../../base/html/list.html">list</a> of such objects. Other objects in
+the list are skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>spectral.efficiency</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+Data set containing wavelengths (x-column) and relative spectral response values
+(y-column) (values between 0 and 1). The provided data will be used to correct all spectra if <code>object</code> is
+a <a href="../../base/html/list.html">list</a></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The efficiency correction is based on a spectral response dataset provided
+by the user. Usually the data set for the quantum efficiency is of lower
+resolution and values are interpolated for the required spectral resolution using
+the function <a href="../../stats/help/approxfun.html">stats::approx</a>
+</p>
+<p>If the energy calibration differs for both data set <code>NA</code> values are produces that
+will be removed from the matrix.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns same object as provided as input
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Friedrich, J., 2021. apply_EfficiencyCorrection(): Function to apply spectral efficiency correction to RLum.Data.Spectrum S4 class objects. Function version 0.2.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Please note that the spectral efficiency data from the camera alone may not
+sufficiently correct for spectral efficiency of the entire optical system
+(e.g., spectrometer, camera ...).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France)<br />
+Johannes Friedrich, University of Bayreuth (Germany)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) - use with your own data (uncomment for usage)
+## spectral.efficiency &lt;- read.csv("your data")
+##
+## your.spectrum &lt;- apply_EfficiencyCorrection(your.spectrum, )
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

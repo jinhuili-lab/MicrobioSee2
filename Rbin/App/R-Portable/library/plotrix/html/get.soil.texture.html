@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Enter soil texture data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get.soil.texture {plotrix}"><tr><td>get.soil.texture {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Enter soil texture data</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">get.soil.texture</span> calls <span class="samp">get.triprop</span> to allow the user to 
+enter soil textures as the proportions or percentages of three 
+components, sand, silt and clay.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ get.soil.texture(use.percentages=FALSE,cnames=c("sand","silt","clay"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>use.percentages</code></td>
+<td>
+<p>Logical - whether to treat the entries as
+percentages and scale to proportions.</p>
+</td></tr>
+<tr valign="top"><td><code>cnames</code></td>
+<td>
+<p>column names for the resulting three column matrix.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A matrix of the components of one or more soil samples.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sander Oom and Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/soil.texture.html">soil.texture</a>,<a href="../../plotrix/help/get.triprop.html">get.triprop</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ if(dev.interactive()) {
+  newsp&lt;-get.soil.texture()
+  # show the soil triangle
+  soil.texture()
+  # now plot the observations
+  show.soil.texture(newsp)
+ }
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: 'style_text()' without rules for \{\{</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for style_text_without_curly_curly {styler}"><tr><td>style_text_without_curly_curly {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2><code>style_text()</code> without rules for <code style="white-space: pre;">\{\{</code></h2>
+
+<h3>Description</h3>
+
+<p>This function mocks <code><a href="../../styler/help/style_text.html">style_text()</a></code>, but without taking into consideration the
+rules for the curly-curly syntactic sugar (introduced in rlang 0.4).
+This function (<code>style_text_without_curly_curly()</code>) is needed for testing
+only, namely to test indention
+with multiple curly braces in a sequence. It is important to maintain testing
+for indention rules even as the curly-curly expression is always kept on the
+same line in the tidyverse style guide because we should
+ensure the underlying mechanics for indention work correctly. When
+indention mechanisms are changed later, e.g. by simplifying
+<code><a href="../../styler/help/compute_indent_indices.html">compute_indent_indices()</a></code>, we must have
+a way of testing this without the interaction of <code style="white-space: pre;">\{\{</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+style_text_without_curly_curly(
+  text,
+  ...,
+  style = tidyverse_style,
+  transformers = style(...),
+  include_roxygen_examples = TRUE
+)
+</pre>
+
+
+<h3>See Also</h3>
+
+<p>set_line_break_around_curly_curly
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+styler:::style_text_without_curly_curly("rlang::list2({{ x }} := 2L)")
+styler:::style_text("rlang::list2({{ x }} := 3)")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: General S4 class for representing multiple model probability...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BFprobability-class {BayesFactor}"><tr><td>BFprobability-class {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>General S4 class for representing multiple model probability comparisons</h2>
+
+<h3>Description</h3>
+
+<p>The <code>BFprobability</code> class is a general S4 class for representing models model comparison via prior or posterior probabilities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BFprobability,numeric'
+e1 / e2
+
+## S4 method for signature 'BFprobability,numeric'
+e1 - e2
+
+## S4 method for signature 'BFprobability,index,missing,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'BFprobability,character'
+filterBF(x, name, perl = FALSE,
+  fixed = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e1</code></td>
+<td>
+<p>BFprobability object</p>
+</td></tr>
+<tr valign="top"><td><code>e2</code></td>
+<td>
+<p>new normalization constant</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>BFprobability object</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>indices indicating elements to extract</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+<p>unused for BFprobability objects</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to related methods</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>regular expression to search name</p>
+</td></tr>
+<tr valign="top"><td><code>perl</code></td>
+<td>
+<p>logical. Should perl-compatible regexps be used? See ?grepl for details.</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>logical. If TRUE, pattern is a string to be matched as is. See ?grepl for details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<p>The <code>BFprobability</code> class has the following slots defined:
+</p>
+<dl>
+<dt>odds</dt><dd><p>A BFodds object containing the models from which to compute the probabilities</p>
+</dd>
+<dt>normalize</dt><dd><p>the sum of the probabilities of all models (will often be 1.0)</p>
+</dd>
+<dt>version</dt><dd><p>character string giving the version and revision number of the package that the model was created in</p>
+</dd>
+</dl>
+
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

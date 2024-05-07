@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set gaps between tracks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set_track_gap {circlize}"><tr><td>set_track_gap {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Set gaps between tracks
+</h2>
+
+<h3>Description</h3>
+
+<p>Set gaps between tracks
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set_track_gap(gap = 0.02)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>gap</code></td>
+<td>
+<p>Gap between two tracks. Use <code><a href="../../circlize/help/mm_h.html">mm_h</a></code>/<code><a href="../../circlize/help/cm_h.html">cm_h</a></code>/<code><a href="../../circlize/help/inches_h.html">inches_h</a></code> to set in absolute units.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(letters[1:10], xlim = c(0, 1))
+circos.track(ylim = c(0, 1))
+set_track_gap(mm_h(2))
+circos.track(ylim = c(0, 1))
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Effect Size for Paired Contingency Tables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cohens_g {effectsize}"><tr><td>cohens_g {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Effect Size for Paired Contingency Tables</h2>
+
+<h3>Description</h3>
+
+<p>Cohen's <em>g</em> is an effect size of asymmetry (or marginal heterogeneity) for
+dependent (paired) contingency tables ranging between 0 (perfect symmetry)
+and 0.5 (perfect asymmetry) (see <code><a href="../../stats/help/mcnemar.test.html">stats::mcnemar.test()</a></code>). (Note this is not
+<em>not</em> a measure of (dis)agreement between the pairs, but of (a)symmetry.)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cohens_g(x, y = NULL, ci = 0.95, alternative = "two.sided", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector or matrix. <code>x</code> and <code>y</code> can also
+both be factors.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a numeric vector; ignored if <code>x</code> is a matrix.  If
+<code>x</code> is a factor, <code>y</code> should be a factor of the same length.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size (<code>Cohens_g</code>, <code>Risk_ratio</code>
+(possibly with the prefix <code>log_</code>), <code>Cohens_h</code>) and its CIs (<code>CI_low</code> and
+<code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals are based on the proportion (<i>P = g + 0.5</i>)
+confidence intervals returned by <code><a href="../../stats/help/prop.test.html">stats::prop.test()</a></code> (minus 0.5), which give
+a good close approximation.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Ed.). New York: Routledge.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other effect sizes for contingency table: 
+<code><a href="../../effectsize/help/oddsratio.html">oddsratio</a>()</code>,
+<code><a href="../../effectsize/help/phi.html">phi</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data("screening_test")
+
+phi(screening_test$Diagnosis, screening_test$Test1)
+
+phi(screening_test$Diagnosis, screening_test$Test2)
+
+# Both tests seem comparable - but are the tests actually different?
+
+(tests &lt;- table(Test1 = screening_test$Test1, Test2 = screening_test$Test2))
+
+mcnemar.test(tests)
+
+cohens_g(tests)
+
+# Test 2 gives a negative result more than test 1!
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

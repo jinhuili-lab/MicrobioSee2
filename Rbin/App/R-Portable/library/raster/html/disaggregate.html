@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Disaggregate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for disaggregate {raster}"><tr><td>disaggregate {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Disaggregate</h2>
+
+<h3>Description</h3>
+
+<p>Disaggregate a RasterLayer to create a new RasterLayer with a higher resolution (smaller cells). The values in the new RasterLayer are the same as in the larger original cells unless you specify <code>method="bilinear"</code>, in which case values are locally interpolated (using the <code><a href="../help/resample.html">resample</a></code> function).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+disaggregate(x, fact=NULL, method='', filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a Raster object</p>
+</td></tr>
+<tr valign="top"><td><code>fact</code></td>
+<td>
+<p>integer. amount of disaggregation expressed as number of cells (horizontally and vertically). This can be a single integer or two integers c(x,y), in which case the first one is the horizontal disaggregation factor and y the vertical disaggreation factor. If a single integer value is supplied, cells are disaggregated with the same factor in x and y direction</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Character. <code>''</code> or <code>'bilinear'</code>. If <code>'bilinear'</code>, values are locally interpolated (using the <code><a href="../help/resample.html">resample</a></code> function</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Jim Regetz</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/aggregate.html">aggregate</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=10, nrows=10)
+rd &lt;- disaggregate(r, fact=c(10, 2))
+ncol(rd)
+nrow(rd)
+values(r) &lt;- 1:ncell(r)
+rd &lt;- disaggregate(r, fact=c(4, 2), method='bilinear')
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

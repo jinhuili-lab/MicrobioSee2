@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get a data.frame with raster cell values, or coerce...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for as.data.frame {raster}"><tr><td>as.data.frame {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get a data.frame with raster cell values, or coerce SpatialPolygons, Lines, or Points to a data.frame</h2>
+
+<h3>Description</h3>
+
+<p><code>as.matrix</code> returns all values of a Raster* object as a matrix. For RasterLayers, rows and columns in the matrix represent rows and columns in the RasterLayer object. For other Raster* objects, the matrix returned by <code>as.matrix</code> has columns for each layer and rows for each cell.
+</p>
+<p><code>as.array</code> returns an array of matrices that are like those returned by <code>as.matrix</code> for a RasterLayer
+</p>
+<p>If there is insufficient memory to load all values, you can use <code><a href="../../raster/help/getValues.html">getValues</a></code> or <code><a href="../../raster/help/getValuesBlock.html">getValuesBlock</a></code> to read chunks of the file. You could also first use <code><a href="../../raster/help/sampleRegular.html">sampleRegular</a></code>
+</p>
+<p>The methods for Spatial* objects allow for easy creation of a data.frame with the coordinates and attributes; the default method only returns the attributes data.frame
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+as.data.frame(x, row.names=NULL, optional=FALSE, xy=FALSE, 
+              na.rm=FALSE, long=FALSE, ...)
+
+## S4 method for signature 'SpatialPolygons'
+as.data.frame(x, row.names=NULL, optional=FALSE,
+              xy=FALSE, centroids=TRUE, sepNA=FALSE, ...)
+
+## S4 method for signature 'SpatialLines'
+as.data.frame(x, row.names=NULL, optional=FALSE, 
+              xy=FALSE, sepNA=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p><code>NULL</code> or a character vector giving the row names for the data frame. Missing values are not allowed</p>
+</td></tr> 
+<tr valign="top"><td><code>optional</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, setting row names and converting column names (to syntactic names: see make.names) is optional</p>
+</td></tr>
+<tr valign="top"><td><code>xy</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, also return the spatial coordinates</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, remove rows with NA values. This can be particularly useful for very large datasets with many NA values</p>
+</td></tr>
+<tr valign="top"><td><code>long</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, values are <code><a href="../../stats/html/reshape.html">reshape</a>d</code> from a wide to a long format</p>
+</td></tr>
+<tr valign="top"><td><code>centroids</code></td>
+<td>
+<p>logical. If <code>TRUE</code> return the centroids instead of all spatial coordinates (only relevant if <code>xy=TRUE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>sepNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the parts of the spatial objects are separated by lines that are <code>NA</code> (only if <code>xy=TRUE</code> and, for polygons, if <code>centroids=FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments (none)</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>data.frame
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=3, nrow=3)
+values(r) &lt;- sqrt(1:ncell(r))
+r[3:5] &lt;- NA
+as.data.frame(r)
+s &lt;- stack(r, r*2)
+as.data.frame(s)
+as.data.frame(s, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

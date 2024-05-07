@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: U. S. Crimes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for crime {ggbiplot}"><tr><td>crime {ggbiplot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>U. S. Crimes</h2>
+
+<h3>Description</h3>
+
+<p>This dataset gives rates of occurrence (per 100,000 people)
+various serious crimes in each of the 50 U. S. states, 
+originally from the United States Statistical Abstracts (1970). The data
+were analyzed by John Hartigan (1975) in his book <em>Clustering Algorithms</em> and 
+were later reanalyzed by Friendly (1991).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(crime)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 50 observations on the following 10 variables.
+</p>
+
+<dl>
+<dt><code>state</code></dt><dd><p>state name, a character vector</p>
+</dd>
+<dt><code>murder</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>rape</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>robbery</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>assault</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>burglary</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>larceny</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>auto</code></dt><dd><p>auto thefts, a numeric vector</p>
+</dd>
+<dt><code>st</code></dt><dd><p>state abbreviation, a character vector</p>
+</dd>
+<dt><code>region</code></dt><dd><p>region of the U.S., a factor with levels <code>Northeast</code> <code>South</code> <code>North Central</code> <code>West</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>The data are originally from the United States Statistical Abstracts (1970).
+This dataset also appears in the SAS/Stat Sample library,
+<em>Getting Started Example for PROC PRINCOMP</em>, 
+<a href="https://support.sas.com/documentation/onlinedoc/stat/ex_code/131/princgs.html">https://support.sas.com/documentation/onlinedoc/stat/ex_code/131/princgs.html</a>, from which the
+current copy was derived.
+</p>
+
+
+<h3>References</h3>
+
+<p>Friendly, M. (1991). <em>SAS System for Statistical Graphics</em>. SAS Institute.
+</p>
+<p>Hartigan, J. A. (1975). <em>Clustering Algorithms</em>. John Wiley and Sons.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(crime)
+library(ggplot2)
+crime.pca &lt;- 
+  crime |&gt; 
+  dplyr::select(where(is.numeric)) |&gt;
+  prcomp(scale. = TRUE)
+
+ggbiplot(crime.pca,
+     labels = crime$st ,
+     circle = TRUE,
+     varname.size = 4,
+     varname.color = "red") +
+ theme_minimal(base_size = 14) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggbiplot</em> version 0.6.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

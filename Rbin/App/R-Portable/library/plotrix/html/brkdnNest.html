@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Perform a nested breakdown of numeric values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for brkdnNest {plotrix}"><tr><td>brkdnNest {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Perform a nested breakdown of numeric values</h2>
+
+<h3>Description</h3>
+
+<p>Breaks down a numeric or categorical element of a data frame
+by one or more categorical elements.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ brkdnNest(formula,data,FUN=c("mean","sd","sd","valid.n"),label1="Overall",
+  trueval=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A formula with a numeric element of a data frame on the left and
+one or more categorical elements on the right.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing the elements in <span class="samp">formula</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>The functions to be applied to successive breakdowns.</p>
+</td></tr>
+<tr valign="top"><td><code>label1</code></td>
+<td>
+<p>The label to use for the overall value of the first function.</p>
+</td></tr>
+<tr valign="top"><td><code>trueval</code></td>
+<td>
+<p>The value to use in calculating proportions or sums of a
+categorical response variable. See Details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">brkdnNest</span> performs a nested breakdown of an element of a data frame
+by one or more categorical elements. For each category and optional
+subcategories, the variable on the left of the formula is summarized as
+specified by the functions named in <span class="samp">FUN</span>.
+</p>
+<p>If <span class="samp">trueval</span> is not NA, brkdnNest will calculate the proportion of
+<span class="samp">trueval</span> values in the response variable out of the total valid
+responses. If the function <span class="samp">valid.n</span> is the first function in 
+<span class="samp">FUN</span>, the counts of the groups and subgroups will be returned.
+</p>
+<p>Two specialized summary functions are defined within <span class="samp">brkdnNest</span>.
+<span class="samp">sumbrk</span> returns the count of values in a factor equal to <span class="samp">trueval</span>,
+and <span class="samp">propbrk</span> returns the proportion of values equal to 
+<span class="samp">trueval</span>. Be aware that if a categorical variable is specified on 
+the left of the formula, functions which expect numeric data such as 
+<span class="samp">mean</span> should not be included in <span class="samp">FUN</span>.
+</p>
+<p>The user should take care when specifying different summary functions.
+<span class="samp">barNest</span> expects a summary measure as the first component of the list
+and measures of dispersion as the second and third. If two different measures
+of dispersion are passed, the first must calculate the upper and the second
+the lower measure.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with as many elements as there are functions in <span class="samp">FUN</span>. It is
+probably best to always specify four functions (summary measure, upper
+dispersion measure, lower dispersion measure and number of valid observations)
+even if this is redundant as in the default.
+</p>
+<p>This function is similar to <span class="samp">brkdn</span> in the <span class="pkg">prettyR</span> package, but
+is structured to be used with the <span class="samp">barNest</span> function. It produces one
+or more measures for the overall data, then the subsets of the data defined by
+the first variable to the right of the tilde, then the subsets defined by
+the first and second variable, and so on.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../base/html/by.html">by</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ brkdntest&lt;-data.frame(Age=rnorm(100,25,10),
+  Sex=factor(sample(c("M","F"),100,TRUE)),
+  Marital=sample(c("M","X","S","W"),100,TRUE),
+  Employ=sample(c("FT","PT","NO"),100,TRUE))
+ brkdnNest(formula=Age~Sex+Marital+Employ,data=brkdntest)
+ # show the proportion of unemployed with binomial confidence intervals
+ brkdnNest(formula=Employ~Sex+Marital,data=brkdntest,
+  FUN=c("propbrk","binciWu","binciWl"),trueval="NO")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

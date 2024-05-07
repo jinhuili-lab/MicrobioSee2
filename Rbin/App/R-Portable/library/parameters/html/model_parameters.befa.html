@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from Bayesian Exploratory Factor Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.befa {parameters}"><tr><td>model_parameters.befa {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from Bayesian Exploratory Factor Analysis</h2>
+
+<h3>Description</h3>
+
+<p>Format Bayesian Exploratory Factor Analysis objects from the BayesFM package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'befa'
+model_parameters(
+  model,
+  sort = FALSE,
+  centrality = "median",
+  dispersion = FALSE,
+  ci = 0.95,
+  ci_method = "eti",
+  test = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Bayesian EFA created by the <code>BayesFM::befa</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>Sort the loadings.</p>
+</td></tr>
+<tr valign="top"><td><code>centrality</code></td>
+<td>
+<p>The point-estimates (centrality indices) to compute. Character
+(vector) or list with one or more of these options: <code>"median"</code>, <code>"mean"</code>, <code>"MAP"</code>
+(see <code><a href="../../bayestestR/help/map_estimate.html">map_estimate()</a></code>), <code>"trimmed"</code> (which is just <code>mean(x, trim = threshold)</code>),
+<code>"mode"</code> or <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, computes indices of dispersion related
+to the estimate(s) (<code>SD</code> and <code>MAD</code> for <code>mean</code> and <code>median</code>, respectively).
+Dispersion is not available for <code>"MAP"</code> or <code>"mode"</code> centrality indices.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The type of index used for Credible Interval. Can be
+<code>"ETI"</code> (default, see <code><a href="../../bayestestR/help/eti.html">eti()</a></code>), <code>"HDI"</code>
+(see <code><a href="../../bayestestR/help/hdi.html">hdi()</a></code>), <code>"BCI"</code> (see
+<code><a href="../../bayestestR/help/bci.html">bci()</a></code>), <code>"SPI"</code> (see <code><a href="../../bayestestR/help/spi.html">spi()</a></code>), or
+<code>"SI"</code> (see <code><a href="../../bayestestR/help/si.html">si()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The indices of effect existence to compute. Character (vector) or
+list with one or more of these options: <code>"p_direction"</code> (or <code>"pd"</code>),
+<code>"rope"</code>, <code>"p_map"</code>, <code>"equivalence_test"</code> (or <code>"equitest"</code>),
+<code>"bayesfactor"</code> (or <code>"bf"</code>) or <code>"all"</code> to compute all tests.
+For each &quot;test&quot;, the corresponding <span class="pkg">bayestestR</span> function is called
+(e.g. <code><a href="../../bayestestR/help/rope.html">rope()</a></code> or <code><a href="../../bayestestR/help/p_direction.html">p_direction()</a></code>) and its results
+included in the summary output.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame of loadings.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+
+if (require("BayesFM")) {
+  efa &lt;- BayesFM::befa(mtcars, iter = 1000)
+  results &lt;- model_parameters(efa, sort = TRUE, verbose = FALSE)
+  results
+  efa_to_cfa(results, verbose = FALSE)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

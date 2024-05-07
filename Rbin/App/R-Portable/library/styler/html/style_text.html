@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Style a string</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for style_text {styler}"><tr><td>style_text {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Style a string</h2>
+
+<h3>Description</h3>
+
+<p>Styles a character vector. Each element of the character vector corresponds
+to one line of code.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+style_text(
+  text,
+  ...,
+  style = tidyverse_style,
+  transformers = style(...),
+  include_roxygen_examples = TRUE,
+  base_indention = 0L
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>A character vector with text to style.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed on to the <code>style</code> function,
+see <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code> for the default argument.</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>A function that creates a style guide to use, by default
+<code><a href="../../styler/help/tidyverse_style.html">tidyverse_style</a></code>. Not used
+further except to construct the argument <code>transformers</code>. See
+<code><a href="../../styler/help/style_guides.html">style_guides()</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A set of transformer functions. This argument is most
+conveniently constructed via the <code>style</code> argument and <code>...</code>. See
+'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>include_roxygen_examples</code></td>
+<td>
+<p>Whether or not to style code in roxygen
+examples.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other stylers: 
+<code><a href="../../styler/help/style_dir.html">style_dir</a>()</code>,
+<code><a href="../../styler/help/style_file.html">style_file</a>()</code>,
+<code><a href="../../styler/help/style_pkg.html">style_pkg</a>()</code>,
+<code><a href="../../styler/help/styler_addins.html">styler_addins</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+style_text("call( 1)")
+style_text("1    + 1", strict = FALSE)
+
+# the following is identical (because of ... and defaults)
+# but the first is most convenient:
+style_text("a&lt;-3++1", strict = TRUE)
+style_text("a&lt;-3++1", style = tidyverse_style, strict = TRUE)
+style_text("a&lt;-3++1", transformers = tidyverse_style(strict = TRUE))
+
+# more invasive scopes include less invasive scopes by default
+style_text("a%&gt;%b", scope = "spaces")
+style_text("a%&gt;%b; a", scope = "line_breaks")
+style_text("a%&gt;%b; a", scope = "tokens")
+
+# opt out with I() to only style specific levels
+style_text("a%&gt;%b; a", scope = I("tokens"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

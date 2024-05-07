@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cohen's _U_s and Other Common Language Effect Sizes (CLES)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for p_superiority {effectsize}"><tr><td>p_superiority {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cohen's <em>U</em>s and Other Common Language Effect Sizes (CLES)</h2>
+
+<h3>Description</h3>
+
+<p>Cohen's <i>U_1</i>, <i>U_2</i>, and <i>U_3</i>, probability of superiority,
+proportion of overlap, Wilcoxon-Mann-Whitney odds, and Vargha and Delaney's
+<em>A</em> are CLESs. These are effect sizes that represent differences between two
+(independent) distributions in probabilistic terms (See details). Pair with
+any reported <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code> or <code><a href="../../stats/help/wilcox.test.html">stats::wilcox.test()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+p_superiority(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  paired = FALSE,
+  parametric = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+cohens_u1(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  parametric = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+cohens_u2(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  parametric = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+cohens_u3(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  parametric = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+p_overlap(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  parametric = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+vd_a(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+wmw_odds(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  paired = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A numeric vector, or a character name of one in <code>data</code>.
+Any missing values (<code>NA</code>s) are dropped from the resulting vector.
+<code>x</code> can also be a formula (see <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>), in which case <code>y</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>a number indicating the true value of the mean (or
+difference in means if you are performing a two sample test).</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>If <code>TRUE</code>, the values of <code>x</code> and <code>y</code> are considered as paired.
+This produces an effect size that is equivalent to the one-sample effect
+size on <code>x - y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parametric</code></td>
+<td>
+<p>Use parametric estimation (see <code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>) or
+non-parametric estimation (see <code><a href="../../effectsize/help/rank_biserial.html">rank_biserial()</a></code>). See details.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of bootstrap replicates for computing confidence
+intervals. Only applies when <code>ci</code> is not <code>NULL</code> and <code>parametric = FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These measures of effect size present group differences in probabilistic
+terms:
+</p>
+
+<ul>
+<li> <p><strong>Probability of superiority</strong> is the probability that, when sampling an
+observation from each of the groups at random, that the observation from
+the second group will be larger than the sample from the first group. For
+the one-sample (or paired) case, it is the probability that the sample (or
+difference) is larger than <em>mu</em>. (Vargha and Delaney's <em>A</em> is an alias for
+the non-parametric <em>probability of superiority</em>.)
+</p>
+</li>
+<li> <p><strong>Cohen's <i>U_1</i></strong> is the proportion of the total of both distributions
+that does not overlap.
+</p>
+</li>
+<li> <p><strong>Cohen's <i>U_2</i></strong> is the proportion of one of the groups that exceeds
+<em>the same proportion</em> in the other group.
+</p>
+</li>
+<li> <p><strong>Cohen's <i>U_3</i></strong> is the proportion of the second group that is smaller
+than the median of the first group.
+</p>
+</li>
+<li> <p><strong>Overlap</strong> (OVL) is the proportional overlap between the distributions.
+(When <code>parametric = FALSE</code>, <code><a href="../../bayestestR/help/overlap.html">bayestestR::overlap()</a></code> is used.)
+</p>
+</li></ul>
+
+<p>Wilcoxon-Mann-Whitney odds are the <em>odds</em> of
+non-parametric superiority (via <code><a href="../../effectsize/help/probs_to_odds.html">probs_to_odds()</a></code>), that is the odds that,
+when sampling an observation from each of the groups at random, that the
+observation from the second group will be larger than the sample from the
+first group.
+</p>
+<p>Where <i>U_1</i>, <i>U_2</i>, and <em>Overlap</em> are agnostic to the direction of
+the difference between the groups, <i>U_3</i> and probability of superiority
+are not.
+</p>
+<p>The parametric version of these effects assumes normality of both populations
+and homoscedasticity. If those are not met, the non parametric versions
+should be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame containing the common language effect sizes (and
+optionally their CIs).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>For parametric CLES, the CIs are transformed CIs for Cohen's <em>d</em> (see
+<code><a href="../../effectsize/help/d_to_u3.html">d_to_u3()</a></code>). For non-parametric (<code>parametric = FALSE</code>) CLES, the CI of
+<em>Pr(superiority)</em> is a transformed CI of the rank-biserial correlation
+(<code><a href="../../effectsize/help/rb_to_p_superiority.html">rb_to_p_superiority()</a></code>), while for all others, confidence intervals are
+estimated using the bootstrap method (using the <code>{boot}</code> package).
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Bootstrapped CIs</h3>
+
+<p>Some effect sizes are directionless&ndash;they do have a minimum value that would
+be interpreted as &quot;no effect&quot;, but they cannot cross it. For example, a null
+value of <a href="../../effectsize/help/kendalls_w.html">Kendall's W</a> is 0, indicating no difference between
+groups, but it can never have a negative value. Same goes for
+<a href="../../effectsize/help/cohens_u2.html">U2</a> and <a href="../../effectsize/help/p_overlap.html">Overlap</a>: the null value of <i>U_2</i> is
+0.5, but it can never be smaller than 0.5; am <em>Overlap</em> of 1 means &quot;full
+overlap&quot; (no difference), but it cannot be larger than 1.
+<br /><br />
+When bootstrapping CIs for such effect sizes, the bounds of the CIs will
+never cross (and often will never cover) the null. Therefore, these CIs
+should not be used for statistical inference.
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>If <code>mu</code> is not 0, the effect size represents the difference between the
+first <em>shifted sample</em> (by <code>mu</code>) and the second sample.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1977). Statistical power analysis for the behavioral sciences.
+New York: Routledge.
+</p>
+</li>
+<li><p> Reiser, B., &amp; Faraggi, D. (1999). Confidence intervals for the overlapping
+coefficient: the normal equal variance case. Journal of the Royal Statistical
+Society, 48(3), 413-418.
+</p>
+</li>
+<li><p> Ruscio, J. (2008). A probability-based measure of effect size: robustness
+to base rates and other factors. Psychological methods, 13(1), 19–30.
+</p>
+</li>
+<li><p> Vargha, A., &amp; Delaney, H. D. (2000). A critique and improvement of the CL
+common language effect size statistics of McGraw and Wong. Journal of
+Educational and Behavioral Statistics, 25(2), 101-132.
+</p>
+</li>
+<li><p> O’Brien, R. G., &amp; Castelloe, J. (2006, March). Exploiting the link between
+the Wilcoxon-Mann-Whitney test and a simple odds statistic.
+In Proceedings of the Thirty-first Annual SAS Users Group International
+Conference (pp. 209-31). Cary, NC: SAS Institute.
+</p>
+</li>
+<li><p> Agresti, A. (1980). Generalized odds ratios for ordinal data.
+Biometrics, 59-67.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/sd_pooled.html">sd_pooled()</a></code>
+</p>
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d</a>()</code>,
+<code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d</a>()</code>,
+<code><a href="../../effectsize/help/means_ratio.html">means_ratio</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>,
+<code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d</a>()</code>
+</p>
+<p>Other rank-based effect sizes: 
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>,
+<code><a href="../../effectsize/help/rank_epsilon_squared.html">rank_epsilon_squared</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cohens_u2(mpg ~ am, data = mtcars)
+
+p_superiority(mpg ~ am, data = mtcars, parametric = FALSE)
+
+wmw_odds(mpg ~ am, data = mtcars)
+
+x &lt;- c(1.83, 0.5, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.3)
+y &lt;- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+
+p_overlap(x, y)
+p_overlap(y, x) # direction of effect does not matter
+
+cohens_u3(x, y)
+cohens_u3(y, x) # direction of effect does matter
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

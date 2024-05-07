@@ -1,0 +1,13 @@
+bibentry(
+  bibtype="Article",
+  title="{see}: An {R} Package for Visualizing Statistical Models",
+  author=c(person("Daniel", "Lüdecke"), person("Indrajeet", "Patil"), person("Mattan S.", "Ben-Shachar"), person("Brenton M.", "Wiernik"), person("Philip", "Waggoner"), person("Dominique", "Makowski")),
+  journal="Journal of Open Source Software",
+  year = 2021,
+  volume = 6,
+  number = 64,
+  pages = 3393,
+  doi = "10.21105/joss.03393",
+  textVersion = "Lüdecke et al., (2021). see: An R Package for Visualizing Statistical Models. Journal of Open Source Software,
+  6(64), 3393. https://doi.org/10.21105/joss.03393"
+)

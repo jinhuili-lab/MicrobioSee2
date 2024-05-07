@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Clamp values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for clamp {raster}"><tr><td>clamp {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Clamp values</h2>
+
+<h3>Description</h3>
+
+<p>Clamp values to a minimum and maximum value. That is, all values below the lower clamp value and above the upper clamp value become NA (or the lower/upper value if <code>useValue=TRUE</code>) 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+clamp(x, lower=-Inf, upper=Inf, useValues=TRUE, filename="", ...)
+## S4 method for signature 'numeric'
+clamp(x, lower=-Inf, upper=Inf, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer, or numeric vector</p>
+</td></tr>
+<tr valign="top"><td><code>lower</code></td>
+<td>
+<p>numeric. lowest value</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+<p>numeric. highest value</p>
+</td></tr>
+<tr valign="top"><td><code>useValues</code></td>
+<td>
+<p>logical. If <code>FALSE</code> values outside the clamping range become <code>NA</code>, if <code>TRUE</code>, they get the extreme values</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename for the output RasterLayer (optional)</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster object
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/reclassify.html">reclassify</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=12, nrows=12)
+values(r) &lt;- 1:ncell(r)
+rc &lt;- clamp(r, 25, 75) 
+rc
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Capture and post-process the output of 'style_file' without...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for catch_style_file_output {styler}"><tr><td>catch_style_file_output {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Capture and post-process the output of <code>style_file</code> without causing side
+effects</h2>
+
+<h3>Description</h3>
+
+<p>Capture and post-process the output of <code>style_file</code> without causing side
+effects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+catch_style_file_output(file_in)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file_in</code></td>
+<td>
+<p>A vector with paths relative to <code>tests/testthat</code> the path
+to the reference file.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list. Each element is a character vector with the captured output of
+<code><a href="../../styler/help/style_file.html">style_file()</a></code> called on
+<code>file_in</code> ran in a temp dir to avoid side effects on the input file (because
+the next time the test would ran, the file would not need styling). The
+styling is carried out with a temporary working directory change to keep
+filenames relative and avoid portability issues in the exact output
+comparison which is needed when the system that runs the unit testing (CI)
+is a different system than the one that created the reference value.
+This also implies that the ruler width, which depend on the path
+length, will again have the same width on all systems and is independent of
+how many characters the path of the temporary directory has.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

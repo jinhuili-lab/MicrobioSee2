@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the union(s) of set intersections.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getZones {venn}"><tr><td>getZones {venn}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the union(s) of set intersections.</h2>
+
+<h3>Description</h3>
+
+<p>This function uses a metacommand to calculate the shape of a specific
+zone or a list of zones.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getZones(ints, nofsets, ellipse = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ints</code></td>
+<td>
+<p>A vector of decimal numbers specific to a list of set intersection.</p>
+</td></tr>
+<tr valign="top"><td><code>nofsets</code></td>
+<td>
+<p>The number of sets.</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse</code></td>
+<td>
+<p>Logical, get the zones from the shape of an ellipse, where possible</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A &quot;zone&quot; is a union of set intersections. There are exactly <code>2^k</code> intersections
+in a Venn diagram, where <code>k</code> is the number of sets. To highlight an entire set,
+we need a union of all possible intersections which form that set.
+</p>
+<p>In a 3 sets diagram, the (overall) first set is composed by four intersections:<br />
+<code>100</code> for what is in the first set but outside sets 2 and outside set 3<br />
+<code>101</code> for the intersection between sets 1 and 3, outside set 2<br />
+<code>110</code> for the intersection between sets 1 and 2, outside set 3<br />
+<code>111</code> for the intersection between all three sets.
+</p>
+<p>The decimal representation for these intersections is calculated as:<br />
+<code>100 = 2^2 = 4</code><br />
+<code>101 = 2^2 + 2^0 = 5</code><br />
+<code>110 = 2^2 + 2^1 = 6</code><br />
+<code>111 = 2^2 + 2^1 + 2^0 = 7</code><br />
+</p>
+<p>The argument <code>ellipse</code> retrieves the data from the shape of an ellipse, and it only
+works with 4 and 5 sets.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of self-enclosed polygons, for each independent zone.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+venn("1--")
+
+zone &lt;- getZones(4:7, 3)
+# a list of length 1
+
+polygon(zone[[1]], col="lightblue")
+
+
+# for 5 sets, the content of the 5th set but not in the first set is a
+# list of two zones
+
+venn("0---1")
+
+zones &lt;- getZones(seq(1, 15, by = 2), 5)
+# this time a list of length 2
+
+# (re)coloring the first zone (union)
+polygon(zones[[1]], col="lightblue")
+
+# and the second zone (union)
+polygon(zones[[2]], col="lightblue")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>venn</em> version 1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

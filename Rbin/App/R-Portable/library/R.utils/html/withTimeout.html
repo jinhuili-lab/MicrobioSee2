@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression and interrupts it if it takes too...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withTimeout {R.utils}"><tr><td>withTimeout {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression and interrupts it if it takes too long</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression and interrupts it if it takes too long.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withTimeout(expr, substitute=TRUE, envir=parent.frame(), timeout, cpu=timeout,
+  elapsed=timeout, onTimeout=c("error", "warning", "silent"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should
+be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>timeout, cpu, elapsed</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> specifying the maximum number
+of seconds the expression is allowed to run before being
+interrupted by the timeout.  The <code>cpu</code> and <code>elapsed</code>
+arguments can be used to specify whether time should be measured
+in CPU time or in wall time.</p>
+</td></tr>
+<tr valign="top"><td><code>onTimeout</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> specifying what action to take if
+a timeout event occurs.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This method utilizes <code><a href="../../base/help/setTimeLimit.html">setTimeLimit</a></code>() by first setting the
+timeout limits, then evaluating the expression that may or may not
+timeout.  The method is guaranteed to reset the timeout limits to be
+infinitely long upon exiting, regardless whether it returns normally
+or preemptively due to a timeout or an error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+If timed out, <code><a href="../../base/help/NULL.html">NULL</a></code> is returned if <code>onTimeout</code> was
+<code>"warning"</code> or <code>"silent"</code>.
+If <code>"error"</code> a <code><a href="../../R.utils/help/TimeoutException.html">TimeoutException</a></code> is thrown.
+</p>
+
+
+<h3>Known limitation: Not everything can be timed out</h3>
+
+<p>In order to understand when this function works and when it does not,
+it is useful to know that it utilizes R's built-in time-out mechanism,
+which sets the limits on what is possible and not.
+From <code><a href="../../base/help/setTimeLimit.html">setTimeLimit</a></code>(), we learn that:
+</p>
+<p><em>&quot;Time limits are checked whenever a user interrupt could occur.
+This will happen frequently in R code and during Sys.sleep(*), but
+only at points in compiled C and Fortran code identified by the
+code author.&quot;</em>
+</p>
+<p>More precisely, if a function is implemented in native code (e.g. C)
+and the developer of that function does not check for user interrupts,
+then you cannot interrupt that function neither via a user interrupt
+(e.g. Ctrl-C) <em>nor via the built-in time out mechanism</em>.
+To change this, you need to contact the developer of that piece of
+code and ask them to check for R user interrupts in their native code.
+</p>
+<p>Furthermore, it is not possible to interrupt/break out of a &quot;readline&quot;
+prompt (e.g. <code><a href="../../base/help/readline.html">readline</a></code>() and <code><a href="../../base/help/readLines.html">readLines</a></code>()) using
+timeouts; the timeout exception will not be thrown until after the user
+completes the prompt (i.e. after pressing ENTER).
+</p>
+<p>System calls via <code><a href="../../base/help/system.html">system</a></code>() and <code>system2()</code> cannot be
+timed out via the above mechanisms.  However, in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> (&gt;= 3.5.0) these
+functions have argument <code>timeout</code> providing their own independent
+timeout mechanism.
+</p>
+<p>Other examples of calls that do <em>not</em> support timeout are &quot;atomic&quot;
+calls that may take very long such as large object allocation and
+<code>rnorm(n)</code> where <code>n</code> is very large.
+</p>
+<p>(*) Note that on Unix and macOS, <code>Sys.sleep(time)</code> will signal a
+timeout error only <em>after</em> <code>time</code> seconds passed,
+regardless of <code>timeout</code> limit (&lt; <code>time</code>).
+</p>
+
+
+<h3>Known limitation: May fail when temporarily switching language</h3>
+
+<p><code>withTimeout()</code> does <em>not</em> handle the case when the expression
+evaluated <em>temporarily</em> switches the language used by R, e.g.
+assume we run in a non-French locale and call:
+</p>
+<pre>
+ withTimeout({
+   olang &lt;- Sys.getenv("LANGUAGE")
+   on.exit(Sys.setenv(LANGUAGE=olang))
+   Sys.setenv(LANGUAGE="fr")
+   repeat Sys.sleep(0.1)
+ }, timeout = 1.0, onTimeout = "warning")
+ </pre>
+<p>In this case, the error message produced by <code><a href="../../base/help/setTimeLimit.html">setTimeLimit</a></code>() is
+in French, i.e. 'la limite de temps est atteinte'.  However, when
+<code>withTimeout()</code> inspects this message, it can <em>not</em> know that
+French was used, and will therefore not check against the French template
+message for timeout errors.  Because of this, <code>withTimeout()</code> fails
+to detect the timeout error (and therefore also deescalate it to a
+warning in this example).
+</p>
+<p><em>Comment</em>: This appears to only fail on MS Windows and macOS,
+whereas on Linux, <code>withTimeout()</code> appears to work, but it is
+unknown why there is a difference between operating systems in this
+case.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] R help thread 'Time out for a R Function' on 2010-12-07.
+<a href="https://stat.ethz.ch/pipermail/r-help/2010-December/262316.html">https://stat.ethz.ch/pipermail/r-help/2010-December/262316.html</a> <br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression and
+<code><a href="../../base/help/setTimeLimit.html">setTimeLimit</a></code>() is used to control for timeout events.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+# Function that takes "a long" time to run
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+foo &lt;- function() {
+  print("Tic")
+  for (kk in 1:100) {
+    print(kk)
+    Sys.sleep(0.1)
+  }
+  print("Tac")
+}
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+# Evaluate code, if it takes too long, generate
+# a timeout by throwing a TimeoutException.
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+res &lt;- NULL
+tryCatch({
+  res &lt;- withTimeout({
+    foo()
+  }, timeout = 0.75)
+}, TimeoutException = function(ex) {
+  message("Timeout. Skipping.")
+})
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+# Evaluate code, if it takes too long, generate
+# a timeout returning NULL and generate a warning.
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+res &lt;- withTimeout({
+  foo()
+}, timeout = 0.75, onTimeout = "warning")
+
+
+# The same using an expression object
+expr &lt;- quote(foo())
+res &lt;- withTimeout(expr, substitute = FALSE,
+                   timeout = 0.75, onTimeout = "warning")
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+# Evaluate code, if it takes too long, generate
+# a timeout, and return silently NULL.
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+res &lt;- withTimeout({
+  foo()
+}, timeout = 0.75, onTimeout = "silent")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

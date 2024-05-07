@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Run a collection of tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for test_collection {styler}"><tr><td>test_collection {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run a collection of tests</h2>
+
+<h3>Description</h3>
+
+<p>Run transformations on all *-in.R files in a test directory and compare them
+with their *-out.R counterpart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+test_collection(
+  test,
+  sub_test = NULL,
+  dry = "off",
+  write_tree = NA,
+  transformer,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The test to run. It corresponds to a folder name in
+tests/testthat.</p>
+</td></tr>
+<tr valign="top"><td><code>sub_test</code></td>
+<td>
+<p>A regex pattern to further reduce the amount of test files
+to be tested in the test. <code>sub_test</code> must match the beginning of file
+names in tests/testthat. <code>NULL</code> matches all files.</p>
+</td></tr>
+<tr valign="top"><td><code>dry</code></td>
+<td>
+<p>To indicate whether styler should run in <em>dry</em> mode, i.e. refrain
+from writing back to files .<code>"on"</code> and <code>"fail"</code> both don't write back, the
+latter returns an error if the input code is not identical to the result
+of styling. &quot;off&quot;, the default, writes back if the input and output of
+styling are not identical.</p>
+</td></tr>
+<tr valign="top"><td><code>write_tree</code></td>
+<td>
+<p>Whether or not the tree structure of the test should be
+computed and written to a file. Note that this needs R &gt;= 3.2
+(see <code><a href="../../styler/help/set_arg_write_tree.html">set_arg_write_tree()</a></code>). If the argument is set to <code>NA</code>, the function
+determines whether R &gt;= 3.2 is in use and if so, trees will be written.</p>
+</td></tr>
+<tr valign="top"><td><code>transformer</code></td>
+<td>
+<p>A function to apply to the content of <code>in_item</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to transformer function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Each file name that matches <code>test</code> and <code>sub_test</code> and ends with
+&quot;-in.R&quot; is considered as an input to test. Its counterpart,
+the reference to compare it against is the *-out.R file. It is constructed
+by taking the substring of the *-in.R file before the
+last dash and adding -out.R. In contrast to older versions of this
+function, every *-out.R file has just one in file.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

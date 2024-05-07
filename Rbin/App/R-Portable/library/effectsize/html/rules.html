@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an Interpretation Grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rules {effectsize}"><tr><td>rules {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an Interpretation Grid</h2>
+
+<h3>Description</h3>
+
+<p>Create a container for interpretation rules of thumb. Usually used in conjunction with <a href="../../effectsize/help/interpret.html">interpret</a>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rules(values, labels = NULL, name = NULL, right = TRUE)
+
+is.rules(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>Vector of reference values (edges defining categories or
+critical values).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels associated with each category. If <code>NULL</code>, will try to
+infer it from <code>values</code> (if it is a named vector or a list), otherwise, will
+return the breakpoints.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of the set of rules (will be printed).</p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+<p>logical, for threshold-type rules, indicating if the thresholds
+themselves should be included in the interval to the right (lower values)
+or in the interval to the left (higher values).</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An arbitrary R object.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/interpret.html">interpret()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+rules(c(0.05), c("significant", "not significant"), right = FALSE)
+rules(c(0.2, 0.5, 0.8), c("small", "medium", "large"))
+rules(c("small" = 0.2, "medium" = 0.5), name = "Cohen's Rules")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

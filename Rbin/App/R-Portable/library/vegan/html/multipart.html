@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiplicative Diversity Partitioning</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multipart {vegan}"><tr><td>multipart {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiplicative Diversity Partitioning</h2>
+
+<h3>Description</h3>
+
+<p>In multiplicative diversity partitioning, mean values of alpha diversity at lower levels of a sampling
+hierarchy are compared to the total diversity in the entire data set or the pooled samples (gamma diversity).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multipart(...)
+## Default S3 method:
+multipart(y, x, index=c("renyi", "tsallis"), scales = 1,
+    global = FALSE, relative = FALSE, nsimul=99, method = "r2dtable", ...)
+## S3 method for class 'formula'
+multipart(formula, data, index=c("renyi", "tsallis"), scales = 1,
+    global = FALSE, relative = FALSE, nsimul=99, method = "r2dtable", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A community matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix with same number of rows as in <code>y</code>, columns
+coding the levels of sampling hierarchy. The number of groups within
+the hierarchy must decrease from left to right. If <code>x</code> is missing,
+two levels are assumed: each row is a group in the first level, and
+all rows are in the same group in the second level.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A two sided model formula in the form <code>y ~ x</code>,
+where <code>y</code> is the community data matrix with samples as rows and
+species as column. Right hand side (<code>x</code>) must be grouping variables
+referring to levels of sampling hierarchy, terms from right to left will
+be treated as nested (first column is the lowest,
+last is the highest level, at least two levels specified).
+Interaction terms are not allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame where to look for variables defined in the
+right hand side of <code>formula</code>. If missing, variables are looked
+in the global environment.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>Character, the entropy index to be calculated (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>relative</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> then beta diversity is
+standardized by its maximum (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+<p>Numeric, of length 1, the order of the generalized
+diversity index to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>global</code></td>
+<td>
+<p>Logical, indicates the calculation of beta diversity values,
+see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>nsimul</code></td>
+<td>
+<p>Number of permutations to use.  If <code>nsimul = 0</code>,
+only the <code>FUN</code> argument is evaluated.
+It is thus possible to reuse the statistic values
+without a null model.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Null model method: either a name (character string) of
+a method defined in <code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code> or a
+<code><a href="../../vegan/help/commsim.html">commsim</a></code> function.
+The default <code>"r2dtable"</code> keeps row sums and column sums fixed.
+See <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> for Details and Examples.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>, i.e.
+<code>method</code>, <code>thin</code> or <code>burnin</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Multiplicative diversity partitioning is based on Whittaker's (1972) ideas,
+that has recently been generalised to one parametric diversity families
+(i.e. Rényi and Tsallis) by Jost (2006, 2007).
+Jost recommends to use the numbers equivalents (Hill numbers),
+instead of pure diversities, and proofs, that this satisfies the
+multiplicative partitioning requirements.
+</p>
+<p>The current implementation of <code>multipart</code> calculates Hill numbers
+based on the functions <code><a href="../../vegan/help/renyi.html">renyi</a></code> and <code><a href="../../vegan/help/tsallis.html">tsallis</a></code>
+(provided as <code>index</code> argument).
+If values for more than one <code>scales</code> are desired,
+it should be done in separate runs, because it adds extra dimensionality
+to the implementation, which has not been resolved efficiently.
+</p>
+<p>Alpha diversities are then the averages of these Hill numbers for
+each hierarchy levels, the global gamma diversity is the alpha value
+calculated for the highest hierarchy level.
+When <code>global = TRUE</code>, beta is calculated relative to the global gamma value:
+</p>
+<p style="text-align: center;"><i>beta_i = gamma / alpha_i</i></p>
+
+<p>when <code>global = FALSE</code>, beta is calculated relative to local
+gamma values (local gamma means the diversity calculated for a particular
+cluster based on the pooled abundance vector):
+</p>
+<p style="text-align: center;"><i>beta_ij = alpha_(i+1)j / mean(alpha_i)</i></p>
+
+<p>where <i>j</i> is a particular cluster at hierarchy level <i>i</i>.
+Then beta diversity value for level <i>i</i> is the mean of the beta
+values of the clusters at that level, <i>&beta;_{i} = mean(&beta;_{ij})</i>.
+</p>
+<p>If <code>relative = TRUE</code>, the respective beta diversity values are
+standardized by their maximum possible values (<i>mean(&beta;_{ij}) / &beta;_{max,ij}</i>)
+given as <i>&beta;_{max,ij} = n_{j}</i> (the number of lower level units
+in a given cluster <i>j</i>).
+</p>
+<p>The expected diversity components are calculated <code>nsimul</code>
+times by individual based randomization of the community data matrix.
+This is done by the <code>"r2dtable"</code> method in <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> by default.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"multipart"</code> with same structure as
+<code>"oecosimu"</code> objects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Péter Sólymos, <a href="mailto:solymos@ualberta.ca">solymos@ualberta.ca</a></p>
+
+
+<h3>References</h3>
+
+<p>Jost, L. (2006). Entropy and diversity.
+<em>Oikos</em>, <b>113</b>, 363&ndash;375.
+</p>
+<p>Jost, L. (2007). Partitioning diversity into independent alpha and beta components.
+<em>Ecology</em>, <b>88</b>, 2427&ndash;2439.
+</p>
+<p>Whittaker, R. (1972). Evolution and measurement of species diversity.
+<em>Taxon</em>, <b>21</b>, 213&ndash;251.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../vegan/help/adipart.html">adipart</a></code> for additive diversity partitioning,
+<code><a href="../../vegan/help/hiersimu.html">hiersimu</a></code> for hierarchical null model testing
+and <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> for permutation settings and calculating <i>p</i>-values.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## NOTE: 'nsimul' argument usually needs to be &gt;= 99
+## here much lower value is used for demonstration
+
+data(mite)
+data(mite.xy)
+data(mite.env)
+## Function to get equal area partitions of the mite data
+cutter &lt;- function (x, cut = seq(0, 10, by = 2.5)) {
+    out &lt;- rep(1, length(x))
+    for (i in 2:(length(cut) - 1))
+        out[which(x &gt; cut[i] &amp; x &lt;= cut[(i + 1)])] &lt;- i
+    return(out)}
+## The hierarchy of sample aggregation
+levsm &lt;- with(mite.xy, data.frame(
+    l1=1:nrow(mite),
+    l2=cutter(y, cut = seq(0, 10, by = 2.5)),
+    l3=cutter(y, cut = seq(0, 10, by = 5)),
+    l4=cutter(y, cut = seq(0, 10, by = 10))))
+## Multiplicative diversity partitioning
+multipart(mite, levsm, index="renyi", scales=1, nsimul=19)
+multipart(mite ~ ., levsm, index="renyi", scales=1, nsimul=19)
+multipart(mite ~ ., levsm, index="renyi", scales=1, nsimul=19, relative=TRUE)
+multipart(mite ~ ., levsm, index="renyi", scales=1, nsimul=19, global=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

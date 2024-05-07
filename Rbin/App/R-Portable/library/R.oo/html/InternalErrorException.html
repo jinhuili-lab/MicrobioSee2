@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: InternalErrorException represents internal errors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for InternalErrorException {R.oo}"><tr><td>InternalErrorException {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>InternalErrorException represents internal errors</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.oo <br />
+<b>Class InternalErrorException</b><br />
+</p>
+<p><code><a href="../help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>try-error</code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>condition</code><br />
+<code>~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~+--</code><code>error</code><br />
+<code>~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~+--</code><code>simpleError</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~+--</code><code><a href="../help/Exception.html">Exception</a></code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~~~~~~+--</code><code>InternalErrorException</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>InternalErrorException</b><br />
+extends <a href="../help/Exception.html">Exception</a><br />
+</p>
+<p>InternalErrorException represents internal errors that are likely to be due to implementation errors done by
+the author of a specific package and not because the user made an error.
+Errors that are due to unexpected input to functions etc falls under
+this error type.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+InternalErrorException(..., package=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any arguments accepted by <code><a href="../../R.oo/help/Exception.html">Exception</a></code></p>
+</td></tr></table>
+<p>.
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>The name (<code><a href="../../base/help/character.html">character</a></code> string) of the package where the
+error exists. Can also be a <code><a href="../../R.oo/help/Package.html">Package</a></code> object. If <code><a href="../../base/help/NULL.html">NULL</a></code>, the
+source of the error is assumed to be unknown.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getMessage.InternalErrorException.html">getMessage</a></code> </td><td style="text-align: left;"> Gets the message of the exception.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getPackage.InternalErrorException.html">getPackage</a></code> </td><td style="text-align: left;"> Gets the suspicious package likely to contain an error.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Exception</b>:<br />
+as.character, getCall, getCalls, getLastException, getMessage, getStackTrace, getWhen, print, printStackTrace, throw
+</p>
+<p><b>Methods inherited from error</b>:<br />
+as.character, throw
+</p>
+<p><b>Methods inherited from condition</b>:<br />
+abort, as.character, conditionCall, conditionMessage, print
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For detailed information about exceptions see <code><a href="../../R.oo/help/Exception.html">Exception</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

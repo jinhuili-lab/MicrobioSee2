@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Abbreviates a Botanical or Zoological Latin Name into an...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for make.cepnames {vegan}"><tr><td>make.cepnames {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Abbreviates a Botanical or Zoological Latin Name into an Eight-character Name</h2>
+
+<h3>Description</h3>
+
+<p>A standard CEP name has four first letters of the generic name and
+four first letters of the specific epithet of a Latin name. The last
+epithet, that may be a subspecific name, is used in the current
+function. If the name has only one component, it is abbreviated to
+eight characters (see <code><a href="../../base/html/abbreviate.html">abbreviate</a></code>).
+The returned names are made unique with function
+<code><a href="../../base/html/make.unique.html">make.unique</a></code> which adds numbers to the end of CEP names if needed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make.cepnames(names, seconditem = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>The names to be formatted into CEP names. </p>
+</td></tr>
+<tr valign="top"><td><code>seconditem</code></td>
+<td>
+<p>Take always the second item of the original name
+to the abbreviated name instead of the last original item
+(default).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Cornell Ecology Programs (CEP) used eight-letter
+abbreviations for species and site names. In species, the names were
+formed by taking four first letters of the generic name and four
+first letters of the specific or subspecific epithet. The current
+function first makes valid <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> names using <code><a href="../../base/html/make.names.html">make.names</a></code>,
+and then splits these into elements. The CEP name is made by taking
+the four first letters of the first element, and four first letters
+of the last (default) or the second element (with 
+<code>seconditem = TRUE</code>). If there was only one name element, it is
+<code><a href="../../base/html/abbreviate.html">abbreviate</a></code>d to eight letters. Finally, the names are
+made unique which may add numbers to duplicated names.
+</p>
+<p>The CEP names were originally used, because old <code>FORTRAN IV</code>
+did not have <code>CHARACTER</code> data type, but text had to be stored
+in numerical variables, which in popular computers could hold four
+characters. In modern times, there is no reason for this limitation,
+but ecologists are used to these names, and they may be practical to
+avoid congestion in ordination plots.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function returns CEP names.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function is simpleminded and rigid. You must write a better one if
+you need.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/make.names.html">make.names</a></code>, <code><a href="../../base/html/strsplit.html">strsplit</a></code>,
+<code><a href="../../base/html/substr.html">substring</a></code>, <code><a href="../../base/html/paste.html">paste</a></code>, <code><a href="../../base/html/abbreviate.html">abbreviate</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+make.cepnames(c("Aa maderoi", "Poa sp.", "Cladina rangiferina",
+"Cladonia cornuta", "Cladonia cornuta var. groenlandica",
+"Cladonia rangiformis", "Bryoerythrophyllum"))
+data(BCI)
+colnames(BCI) &lt;- make.cepnames(colnames(BCI))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

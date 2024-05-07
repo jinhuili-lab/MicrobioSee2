@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place staggered or angled labels on an axis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for staxlab {plotrix}"><tr><td>staxlab {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Place staggered or angled labels on an axis </h2>
+
+<h3>Description</h3>
+
+<p>Places labels on an axis in a regular staggered order or at an angle
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ staxlab(side=1,at,labels,nlines=2,top.line=0.5,line.spacing=0.8,
+  srt=NULL,ticklen=0.03,adj=1,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>axis on which to place the labels, as in <span class="samp">axis</span></p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>where to place the labels in user units, as in <span class="samp">axis</span></p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>text strings</p>
+</td></tr>
+<tr valign="top"><td><code>nlines</code></td>
+<td>
+<p>How many lines to use to stagger the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>top.line</code></td>
+<td>
+<p>Distance from the axis to place the first line of text.</p>
+</td></tr>
+<tr valign="top"><td><code>line.spacing</code></td>
+<td>
+<p>Spacing between lines of text labels.</p>
+</td></tr> 
+<tr valign="top"><td><code>srt</code></td>
+<td>
+<p>Text rotation.</p>
+</td></tr>
+<tr valign="top"><td><code>ticklen</code></td>
+<td>
+<p>Proportion of plot height in user units to place text
+below the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>horizontal adjustment of the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to <span class="samp">mtext</span> or <span class="samp">text</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>This function is mainly useful when either long axis labels or a large
+number of labels are to be placed without overlapping. It staggers the 
+labels along the axis specified. The user may wish to increase the space
+beneath the plot using <span class="samp">mar</span> before calling <span class="samp">staxlab</span>. It is
+probably only useful on the bottom or left side of the plot.
+</p>
+<p>If <span class="samp">srt</span> is not NULL, the labels will be rotated <span class="samp">srt</span> degrees
+and placed below the plot. This method will only place labels at the
+bottom. Note that this option only works on the lower and left axes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon (thanks to Tim Elwell-Sutton for the log axis fix)</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/mtext.html">mtext</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-rnorm(12)
+ plot(x,axes=FALSE)
+ box()
+ months&lt;-c("January","February","March","April","May","June",
+  "July","August","September","October","November","December")
+ staxlab(1,1:12,months)
+ plot(x,axes=FALSE)
+ box()
+ staxlab(1,1:12,months,srt=45)
+ ylabels&lt;-round(seq(min(x),max(x),length.out=10),3)
+ staxlab(2,ylabels,ylabels,srt=45)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the coordinates of a vector type Spatial* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for geom {raster}"><tr><td>geom {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the coordinates of a vector type Spatial* object</h2>
+
+<h3>Description</h3>
+
+<p>Extract the coordinates of a Spatial object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'SpatialPolygons'
+geom(x, sepNA=FALSE, ...)
+## S4 method for signature 'SpatialLines'
+geom(x, sepNA=FALSE, ...)
+## S4 method for signature 'SpatialPoints'
+geom(x, ...)
+## S4 method for signature 'data.frame'
+geom(x, d, gt, crs, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>SpatialPolygons*, SpatialLines*, or SpatialPoints* object; or a data.frame</p>
+</td></tr>
+<tr valign="top"><td><code>sepNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, geometries are separated by a row with <code>NA</code> values</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments, none implemented</p>
+</td></tr>
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>data.frame that matches the number of objects in data.frame <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>gt</code></td>
+<td>
+<p>character. geometry type. Must be one of &quot;polygons&quot;, &quot;lines&quot;, &quot;points&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>character. PROJ.4 crs string</p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>Matrix with 6, (5 SpatialLines), or 3 (SpatialPoints) columns. object (sequential object number) part (sequential part number within the object; not for SpatialPoints), cump (cumulative part number; not for SpatialPoints), hole (is this a hole or not; only for SpatialPolygons), x (x coordinate or longitude), y (y coordinate or latitude)
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../sp/help/coordinates.html">coordinates</a></code>, <code><a href="../../sp/help/geometry-methods.html">geometry</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+p &lt;- readRDS(system.file("external/lux.rds", package="raster"))
+x &lt;- geom(p)
+head(x)
+	
+# and back to a SpatialPolygonsDataFrame	
+x &lt;- data.frame(x)
+sp &lt;- as(x, "SpatialPolygons")
+crs(sp) &lt;- crs(p)
+spdf &lt;- SpatialPolygonsDataFrame(sp, data.frame(p), match.ID=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

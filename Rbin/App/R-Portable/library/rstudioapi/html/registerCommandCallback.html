@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Register Command Callback</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for registerCommandCallback {rstudioapi}"><tr><td>registerCommandCallback {rstudioapi}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Register Command Callback</h2>
+
+<h3>Description</h3>
+
+<p>Registers a callback to be executed when an RStudio command is invoked.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+registerCommandCallback(commandId, callback)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>commandId</code></td>
+<td>
+<p>The ID of the command to listen for.</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>A function to execute when the command is invoked.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>RStudio commands can be invoked from menus, toolbars, keyboard shortcuts,
+and the Command Palette, as well as the RStudio API. The callback will
+be executed whenever the command is invoked, regardless of how the
+invocation was triggered.
+</p>
+<p>See the RStudio Server Professional Administration Guide appendix for a list
+of supported command IDs.
+</p>
+<p>The callback is executed <em>after</em> the command has been run, but as
+some commands initiate asynchronous processes, there is no guarantee that
+the command has finished its work when the callback is invoked.
+</p>
+<p>If you're having trouble figuring out the ID of a command you want to listen
+for, it can be helpful to discover it by listening to the full command stream;
+see the example in <code><a href="../../rstudioapi/help/registerCommandStreamCallback.html">registerCommandStreamCallback</a></code> for details.
+</p>
+<p>Note that no error will be raised if you use a command ID that does not exist.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A handle representing the registration. Pass this handle
+to <code><a href="../../rstudioapi/help/unregisterCommandCallback.html">unregisterCommandCallback</a></code> to unregister the callback.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The <code>registerCommandCallback</code> function was introduced in RStudio 1.4.1589.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../rstudioapi/help/unregisterCommandCallback.html">unregisterCommandCallback</a></code> to unregister the callback, and
+<code><a href="../../rstudioapi/help/registerCommandStreamCallback.html">registerCommandStreamCallback</a></code> to be notified whenever <em>any</em> command
+is executed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+# Set up a callback to display an encouraging dialog whenever 
+# the user knits a document
+handle &lt;- rstudioapi::registerCommandCallback(
+  "knitDocument", 
+  function() {
+    rstudioapi::showDialog(
+      "Achievement",
+      "Congratulations, you have knitted a document. Well done."
+    )
+  })
+
+# Knit the document interactively and observe the dialog
+
+# Later: Unregister the callback
+rstudioapi::unregisterCommandCallback(handle)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rstudioapi</em> version 0.16.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stretch</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stretch {raster}"><tr><td>stretch {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stretch</h2>
+
+<h3>Description</h3>
+
+<p>Linear stretch of values in a Raster object. Provide the desired output range (minv and maxv) and the lower and upper bounds in the original data, either as quantiles (if <code>minq=0</code> and <code>maxq=1</code> you use the minimum and maximum cell values), or as actual values (<code>smin</code> and <code>smax</code>; e.g. precomputed quantile values). If <code>smin</code> and <code>smax</code> are both not <code>NA</code>, <code>minq</code> and <code>maxq</code> are ignored.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+stretch(x, minv=0, maxv=255, minq=0, maxq=1, smin=NA, smax=NA,
+          samplesize=1000000, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster object</p>
+</td></tr> 
+<tr valign="top"><td><code>minv</code></td>
+<td>
+<p>numeric &gt;= 0 and smaller than maxv. lower bound of stretched value</p>
+</td></tr>
+<tr valign="top"><td><code>maxv</code></td>
+<td>
+<p>numeric &lt;= 255 and larger than maxv. upper bound of stretched value</p>
+</td></tr>
+<tr valign="top"><td><code>minq</code></td>
+<td>
+<p>numeric &gt;= 0 and smaller than maxq. lower quantile bound of original value. Ignored if smin is supplied</p>
+</td></tr>
+<tr valign="top"><td><code>maxq</code></td>
+<td>
+<p>numeric &lt;= 1 and larger than minq. upper quantile bound of original value. Ignored if smax is supplied</p>
+</td></tr>
+<tr valign="top"><td><code>smin</code></td>
+<td>
+<p>numeric &lt; smax. user supplied lower value for the layers, to be used instead of a quantile computed by the function itself</p>
+</td></tr>
+<tr valign="top"><td><code>smax</code></td>
+<td>
+<p>numeric &gt; smin. user supplied upper value for the layers, to be used instead of a quantile computed by the function itself</p>
+</td></tr>
+<tr valign="top"><td><code>samplesize</code></td>
+<td>
+<p>numeric &gt; 1. If samplesize &lt; ncell(x), a regular sample of samplesize is taken from x to compute the quantiles (to speed things up)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename for the output Raster object (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster
+</p>
+
+
+<h3>See Also</h3>
+
+<p>stretch argument in <code><a href="../../raster/help/plotRGB.html">plotRGB</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nc=10, nr=10)
+values(r) &lt;- rep(1:2, 50)
+stretch(r)
+s &lt;- stack(r, r*2)
+stretch(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

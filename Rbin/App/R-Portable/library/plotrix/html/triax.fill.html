@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Triangle plot fill</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for triax.fill {plotrix}"><tr><td>triax.fill {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Triangle plot fill</h2>
+
+<h3>Description</h3>
+
+<p>Fill a triangle plot with smaller triangles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ triax.fill(col)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>List of colors (see Details).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In order for <span class="samp">triax.fill</span> to fill an existing plot that has
+been created by a call to <span class="samp">triax.plot</span>, the user must supply
+a list of fill colors. The first element of the list must begin with
+at least one value that can be interpreted as a color. The second
+element must begin with at least three such values, and so on, adding
+two values for each element of the list. Each list element will be
+displayed as a row of colored triangles starting at the top of the
+plot. The number of elements in the list determines the number of
+rows that will be displayed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/triax.plot.html">triax.plot</a>,<a href="../../plotrix/help/color.scale.html">color.scale</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # the data will be something like response at different proportions
+ fillval&lt;-list(0,c(0,0.1,0),c(0,0.1,0.2,0.1,0),
+  c(0,0.1,0.2,0.3,0.2,0.1,0),c(0,0.1,0.2,0.3,0.4,0.3,0.2,0.1,0),
+  c(0,0.1,0.2,0.3,0.4,0.5,0.4,0.3,0.2,0.1,0),
+  c(0,0,0.1,0.2,0.3,0.4,0.5,0.4,0.3,0.2,0.1,0,0),
+  c(0,0,0,0.1,0.1,0.2,0.3,0.4,0.3,0.2,0.1,0.1,0,0,0))
+ # use some method of converting values to colors
+ fillcol&lt;-sapply(fillval,function(x) {x*10+1} )
+ oldpar&lt;-triax.plot(main="Test of triax.fill function")
+ triax.fill(fillcol)
+ par(oldpar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

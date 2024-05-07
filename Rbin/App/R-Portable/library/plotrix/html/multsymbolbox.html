@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw boxes filled with symbols</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multsymbolbox {plotrix}"><tr><td>multsymbolbox {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Draw boxes filled with symbols</h2>
+
+<h3>Description</h3>
+
+<p>Draw boxes on the current figure filled with symbols representing
+individual counts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ multsymbolbox(x1,y1,x2,y2,tot,relw=0.8,fg=par("fg"),bg=par("bg"),
+  box=TRUE,debug=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>numeric vector: left sides of boxes</p>
+</td></tr>
+<tr valign="top"><td><code>y1</code></td>
+<td>
+<p>numeric vector: bottom sides of boxes</p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+<p>numeric vector: right sides of boxes</p>
+</td></tr>
+<tr valign="top"><td><code>y2</code></td>
+<td>
+<p>numeric vector: top sides of boxes</p>
+</td></tr>
+<tr valign="top"><td><code>tot</code></td>
+<td>
+<p>numeric vector: total numbers of symbols to put in each box</p>
+</td></tr>
+<tr valign="top"><td><code>relw</code></td>
+<td>
+<p>relative width (relative to height) of symbols</p>
+</td></tr></table>
+<p>n
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>fg</code></td>
+<td>
+<p>foreground color(s)</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>background color(s)</p>
+</td></tr>
+<tr valign="top"><td><code>box</code></td>
+<td>
+<p>(logical) draw box borders?</p>
+</td></tr>
+<tr valign="top"><td><code>debug</code></td>
+<td>
+<p>debug output?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to polygon() for drawing boxes</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>none
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(1:10,1:10,type="n")
+ multsymbolbox(c(2,4),5,c(4,5),8,tot=c(10,8))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

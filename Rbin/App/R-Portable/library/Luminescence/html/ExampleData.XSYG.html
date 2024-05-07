@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example data for a SAR OSL measurement and a TL spectrum...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ExampleData.XSYG {Luminescence}"><tr><td>ExampleData.XSYG {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example data for a SAR OSL measurement and a TL spectrum using a lexsyg
+reader</h2>
+
+<h3>Description</h3>
+
+<p>Example data from a SAR OSL measurement and a TL spectrum for package
+Luminescence imported from a Freiberg Instruments XSYG file using the
+function <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>.
+</p>
+
+
+<h3>Format</h3>
+
+<p><code>OSL.SARMeasurement</code>: SAR OSL measurement data
+</p>
+<p>The data contain two elements: (a) <code style="white-space: pre;">$Sequence.Header</code> is a
+<a href="../../base/html/data.frame.html">data.frame</a> with metadata from the measurement,(b)
+<code>Sequence.Object</code> contains an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object
+for further analysis.
+</p>
+<p><code>TL.Spectrum</code>: TL spectrum data
+</p>
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> object for further analysis. The
+spectrum was cleaned from cosmic-rays using the function
+</p>
+<p><code>apply_CosmicRayRemoval</code>. Note that no quantum efficiency calibration
+was performed.
+</p>
+
+
+<h3>Version</h3>
+
+<p>0.1
+</p>
+
+
+<h3>Source</h3>
+
+<p><strong>OSL.SARMeasurement</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Lab: </td><td style="text-align: left;"> Luminescence Laboratory Giessen</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab-Code: </td><td style="text-align: left;"> no code</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Location: </td><td style="text-align: left;"> not specified</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Material: </td><td style="text-align: left;"> Coarse grain quartz  on steel cups on lexsyg research reader</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> unpublished
+</td>
+</tr>
+
+</table>
+
+<p><strong>TL.Spectrum</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Lab: </td><td style="text-align: left;"> Luminescence Laboratory Giessen</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab-Code: </td><td style="text-align: left;"> BT753</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Location: </td><td style="text-align: left;"> Dolni Vestonice/Czech Republic</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Material: </td><td style="text-align: left;"> Fine grain polymineral on steel cups on lexsyg research reader</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> Fuchs et al., 2013 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Spectrum: </td><td style="text-align: left;"> Integration time 19 s, channel time 20 s</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Heating: </td><td style="text-align: left;"> 1 K/s, up to 500 deg. C
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>References</h3>
+
+<p>Unpublished data measured to serve as example data for that
+package. Location origin of sample BT753 is given here:
+</p>
+<p>Fuchs, M., Kreutzer, S., Rousseau, D.D., Antoine, P., Hatte, C., Lagroix,
+F., Moine, O., Gauthier, C., Svoboda, J., Lisa, L., 2013. The loess sequence
+of Dolni Vestonice, Czech Republic: A new OSL-based chronology of the Last
+Climatic Cycle. Boreas, 42, 664&ndash;677.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>,
+<a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>, <a href="../../Luminescence/help/plot_RLum.Analysis.html">plot_RLum.Analysis</a>, <a href="../../Luminescence/help/plot_RLum.Data.Spectrum.html">plot_RLum.Data.Spectrum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+##show data
+data(ExampleData.XSYG, envir = environment())
+
+## =========================================
+##(1) OSL.SARMeasurement
+OSL.SARMeasurement
+
+##show $Sequence.Object
+OSL.SARMeasurement$Sequence.Object
+
+##grep OSL curves and plot the first curve
+OSLcurve &lt;- get_RLum(OSL.SARMeasurement$Sequence.Object,
+recordType="OSL")[[1]]
+plot_RLum(OSLcurve)
+
+## =========================================
+##(2) TL.Spectrum
+TL.Spectrum
+
+##plot simple spectrum (2D)
+plot_RLum.Data.Spectrum(TL.Spectrum,
+                        plot.type="contour",
+                        xlim = c(310,750),
+                        ylim = c(0,300),
+                        bin.rows=10,
+                        bin.cols = 1)
+
+##plot 3d spectrum (uncomment for usage)
+# plot_RLum.Data.Spectrum(TL.Spectrum, plot.type="persp",
+# xlim = c(310,750), ylim = c(0,300), bin.rows=10,
+# bin.cols = 1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A custom theme specifically for use with ridgeline plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for theme_ridges {ggridges}"><tr><td>theme_ridges {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A custom theme specifically for use with ridgeline plots</h2>
+
+<h3>Description</h3>
+
+<p>This theme has some special modifications that make ridgeline plots look better, such as properly aligned y axis labels.
+It can draw plots with and without background grids (see examples).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+theme_ridges(
+  font_size = 14,
+  font_family = "",
+  line_size = 0.5,
+  grid = TRUE,
+  center_axis_labels = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>font_size</code></td>
+<td>
+<p>Overall font size. Default is 14.</p>
+</td></tr>
+<tr valign="top"><td><code>font_family</code></td>
+<td>
+<p>Default font family.</p>
+</td></tr>
+<tr valign="top"><td><code>line_size</code></td>
+<td>
+<p>Default line size.</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>If <code>TRUE</code> (default), a background grid is drawn. If <code>FALSE</code>, background is left empty.</p>
+</td></tr>
+<tr valign="top"><td><code>center_axis_labels</code></td>
+<td>
+<p>If <code>TRUE</code>, axis labels are drawn centered. If <code>FALSE</code> (default), axis lables are
+drawn right/top-aligned.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The theme.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+# Example with background grid
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
+  geom_density_ridges(rel_min_height = 0.005) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_ridges()
+
+# Example without background grid
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species)) +
+  geom_density_ridges() +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_ridges(grid = FALSE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

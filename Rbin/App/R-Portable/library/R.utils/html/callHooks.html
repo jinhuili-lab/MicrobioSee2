@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Call hook functions by hook name</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for callHooks {R.utils}"><tr><td>callHooks {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Call hook functions by hook name</h2>
+
+<h3>Description</h3>
+
+<p>Call hook functions by hook name.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+callHooks(hookName, ..., removeCalledHooks=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>hookName</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the hook name.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Argument passed to each hook function.</p>
+</td></tr>
+<tr valign="top"><td><code>removeCalledHooks</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, called hook functions are removed,
+otherwise not.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) whatever <code><a href="../../R.utils/help/callHooks.list.html">callHooks.list</a></code>() returns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, after retrieving hook functions, <code><a href="../../R.utils/help/callHooks.list.html">callHooks.list</a></code>() is
+called.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Example 1
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# First, clean up if called more than once
+setHook("myFunction.onEnter", NULL, action="replace")
+setHook("myFunction.onExit", NULL, action="replace")
+
+runConference &lt;- function(...) {
+  callHooks("myFunction.onEnter")
+  cat("Speaker A: Hello there...\n")
+  callHooks("myFunction.onExit")
+}
+
+setHook("myFunction.onEnter", function(...) {
+  cat("Chair: Welcome to our conference.\n")
+})
+
+setHook("myFunction.onEnter", function(...) {
+  cat("Chair: Please welcome Speaker A!\n")
+})
+
+setHook("myFunction.onExit", function(...) {
+  cat("Chair: Please thanks Speaker A!\n")
+})
+
+runConference()
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Example 2
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+setHook("randomNumber", NULL, action="replace")
+setHook("randomNumber", rnorm)      # By function
+setHook("randomNumber", "rexp")     # By name
+setHook("randomNumber", "runiff")   # Non-existing name
+setHook("randomNumber", .GlobalEnv) # Not a function
+
+res &lt;- callHooks("randomNumber", n=1)
+str(res)
+cat("Number of hooks: ", length(res), "\n")
+isErroneous &lt;- unlist(lapply(res, FUN=function(x) !is.null(x$exception)))
+cat("Erroneous hooks: ", sum(isErroneous), "\n")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

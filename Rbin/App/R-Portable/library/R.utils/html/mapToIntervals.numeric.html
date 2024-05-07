@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Maps values to intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mapToIntervals.numeric {R.utils}"><tr><td>mapToIntervals.numeric {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Maps values to intervals</h2>
+
+<h3>Description</h3>
+
+<p>Maps values to intervals by returning an index <code><a href="../../base/help/vector.html">vector</a></code> specifying the (first)
+interval that each value maps to, if any.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'numeric'
+mapToIntervals(x, intervals, includeLower=TRUE, includeUpper=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of K values to be matched.</p>
+</td></tr>
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p>The N intervals to be matched against.
+If an Nx2 <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/matrix.html">matrix</a></code>, the first column should be the lower
+bounds and the second column the upper bounds of each interval.
+If a <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length 2N, each consecutive pair should
+be the lower and upper bounds of an interval.
+</p>
+</td></tr>
+<tr valign="top"><td><code>includeLower, includeUpper</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the lower (upper) bound
+of <em>each</em> interval is included in the test, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an <code><a href="../../base/help/integer.html">integer</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length K.
+Values that do not map to any interval have return value <code><a href="../../base/help/NA.html">NA</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/inAnyInterval.html">inAnyInterval</a></code>().
+<code><a href="../../base/help/match.html">match</a></code>().
+<code><a href="../../base/help/findInterval.html">findInterval</a></code>().
+<code><a href="../../base/help/cut.html">cut</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

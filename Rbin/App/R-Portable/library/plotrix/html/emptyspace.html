@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find an empty space on a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for emptyspace {plotrix}"><tr><td>emptyspace {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Find an empty space on a plot </h2>
+
+<h3>Description</h3>
+
+<p>Try to find the largest empty rectangle on a plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ emptyspace(x,y=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>x and y positions of the points on the plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">emptyspace</span> searches the pairs of points on the plot to find
+the largest rectangular space within which none of the points lie.
+It does not guarantee that the space will be large enough to fit a
+legend or text.
+</p>
+<p>Two alternatives are the <span class="samp">largest.empty</span> function in the 
+<span class="pkg">Hmisc</span> package and the <span class="samp">maxEmptyRect</span> function. While
+<span class="samp">maxEmptyRect</span> will generally outperform <span class="samp">emptyspace</span>,
+<span class="samp">emptyspace</span> will sometimes find a slightly smaller, but
+&quot;squarer&quot; rectangle.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <span class="samp">x</span> and <span class="samp">y</span> coordinates of the center of the rectangle
+found.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ray Brownrigg</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-rnorm(100)
+ y&lt;-rnorm(100)
+ plot(x,y,main="Find the empty space",xlab="X",ylab="Y")
+ es&lt;-emptyspace(x,y)
+ # use a transparent background so that any overplotted points are shown
+ boxed.labels(es,labels="Here is the\nempty space",bg="transparent")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

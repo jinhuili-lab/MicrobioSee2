@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set spacing of token to a certain level</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for style_space_around_token {styler}"><tr><td>style_space_around_token {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set spacing of token to a certain level</h2>
+
+<h3>Description</h3>
+
+<p>Set the spacing of all <code>tokens</code> in <code>pd_flat</code> to <code>level</code> if <code>strict = TRUE</code> or
+to at least to <code>level</code> if <code>strict = FALSE</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+style_space_around_token(
+  pd_flat,
+  strict,
+  tokens,
+  level_before,
+  level_after = level_before
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A nest or a flat parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>strict</code></td>
+<td>
+<p>Whether the rules should be applied strictly or not.</p>
+</td></tr>
+<tr valign="top"><td><code>tokens</code></td>
+<td>
+<p>Character vector with tokens that should be styled.</p>
+</td></tr>
+<tr valign="top"><td><code>level_before, level_after</code></td>
+<td>
+<p>Scalar indicating the amount of spaces that
+should be inserted around the <code>tokens</code> on the left and right position
+respectively.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

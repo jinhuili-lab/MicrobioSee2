@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: SQL generation generics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for db-sql {dbplyr}"><tr><td>db-sql {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>SQL generation generics</h2>
+
+<h3>Description</h3>
+
+<p>SQL translation:
+</p>
+
+<ul>
+<li> <p><code>sql_expr_matches(con, x, y)</code> generates an alternative to <code>x = y</code> when a
+pair of <code>NULL</code>s should match. The default translation uses a <code style="white-space: pre;">CASE WHEN</code>
+as described in <a href="https://modern-sql.com/feature/is-distinct-from">https://modern-sql.com/feature/is-distinct-from</a>.
+</p>
+</li>
+<li> <p><code>sql_translation(con)</code> generates a SQL translation environment.
+</p>
+</li></ul>
+
+<p>Tables:
+</p>
+
+<ul>
+<li> <p><code>sql_table_analyze(con, table)</code> generates SQL that &quot;analyzes&quot; the table,
+ensuring that the database has up-to-date statistics for use in the query
+planner. It called from <code><a href="../../dplyr/html/copy_to.html">copy_to()</a></code> when <code>analyze = TRUE</code>.
+</p>
+</li>
+<li> <p><code>sql_table_index()</code> generates SQL for adding an index to table. The
+</p>
+</li></ul>
+
+<p>Query manipulation:
+</p>
+
+<ul>
+<li> <p><code>sql_query_explain(con, sql)</code> generates SQL that &quot;explains&quot; a query,
+i.e. generates a query plan describing what indexes etc that the
+database will use.
+</p>
+</li>
+<li> <p><code>sql_query_fields()</code> generates SQL for a 0-row result that is used to
+capture field names in <code><a href="../../dbplyr/help/tbl_sql.html">tbl_sql()</a></code>
+</p>
+</li>
+<li> <p><code>sql_query_save(con, sql)</code> generates SQL for saving a query into a
+(temporary) table.
+</p>
+</li>
+<li> <p><code>sql_query_wrap(con, from)</code> generates SQL for wrapping a query into a
+subquery.
+</p>
+</li></ul>
+
+<p>Query generation:
+</p>
+
+<ul>
+<li> <p><code>sql_query_select()</code> generate SQL for a <code>SELECT</code> query
+</p>
+</li>
+<li> <p><code>sql_query_join()</code> generate SQL for joins
+</p>
+</li>
+<li> <p><code>sql_query_semi_join()</code> generate SQL for semi- and anti-joins
+</p>
+</li>
+<li> <p><code>sql_query_set_op()</code> generate SQL for <code>UNION</code>, <code>INTERSECT</code>, and <code>EXCEPT</code>
+queries.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+sql_expr_matches(con, x, y)
+
+sql_translation(con)
+
+sql_table_analyze(con, table, ...)
+
+sql_table_index(con, table, columns, name = NULL, unique = FALSE, ...)
+
+sql_query_explain(con, sql, ...)
+
+sql_query_fields(con, sql, ...)
+
+sql_query_save(con, sql, name, temporary = TRUE, ...)
+
+sql_query_wrap(con, from, name = unique_subquery_name(), ...)
+
+sql_query_rows(con, sql, ...)
+
+sql_query_select(
+  con,
+  select,
+  from,
+  where = NULL,
+  group_by = NULL,
+  having = NULL,
+  order_by = NULL,
+  limit = NULL,
+  distinct = FALSE,
+  ...,
+  subquery = FALSE
+)
+
+sql_query_join(
+  con,
+  x,
+  y,
+  vars,
+  type = "inner",
+  by = NULL,
+  na_matches = FALSE,
+  ...
+)
+
+sql_query_semi_join(con, x, y, anti = FALSE, by = NULL, ...)
+
+sql_query_set_op(con, x, y, method, ..., all = FALSE)
+</pre>
+
+
+<h3>dbplyr 2.0.0</h3>
+
+<p>Many <code style="white-space: pre;">dplyr::db_*</code> generics have been replaced by <code style="white-space: pre;">dbplyr::sql_*</code> generics.
+To update your backend, you'll need to extract the SQL generation out of your
+existing code, and place it in a new method for a dbplyr <code>sql_</code> generic.
+</p>
+
+<ul>
+<li> <p><code>dplyr::db_analyze()</code> is replaced by <code>dbplyr::sql_table_analyze()</code>
+</p>
+</li>
+<li> <p><code>dplyr::db_explain()</code> is replaced by <code>dbplyr::sql_query_explain()</code>
+</p>
+</li>
+<li> <p><code>dplyr::db_create_index()</code> is replaced by <code>dbplyr::sql_table_index()</code>
+</p>
+</li>
+<li> <p><code>dplyr::db_query_fields()</code> is replaced by <code>dbplyr::sql_query_fields()</code>
+</p>
+</li>
+<li> <p><code>dplyr::db_query_rows()</code> is no longer used; you can delete it
+</p>
+</li>
+<li> <p><code>dplyr::db_save_query()</code> is replaced by <code>dbplyr::sql_query_save()</code>
+</p>
+</li></ul>
+
+<p>The query generating functions have also changed names. Their behaviour is
+unchanged, so you just need to rename the generic and import from dbplyr
+instead of dplyr.
+</p>
+
+<ul>
+<li> <p><code>dplyr::sql_select()</code> is replaced by <code>dbplyr::sql_query_select()</code>
+</p>
+</li>
+<li> <p><code>dplyr::sql_join()</code> is replaced by <code>dbplyr::sql_query_join()</code>
+</p>
+</li>
+<li> <p><code>dplyr::sql_semi_join()</code> is replaced by <code>dbplyr::sql_query_semi_join()</code>
+</p>
+</li>
+<li> <p><code>dplyr::sql_set_op()</code> is replaced by <code>dbplyr::sql_query_set_op()</code>
+</p>
+</li>
+<li> <p><code>dplyr::sql_subquery()</code> is replaced by <code>dbplyr::sql_query_wrap()</code>
+</p>
+</li></ul>
+
+<p>Learn more in <code>vignette("backend-2.0")</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other generic: 
+<code><a href="../../dbplyr/help/db_connection_describe.html">db_connection_describe</a>()</code>,
+<code><a href="../../dbplyr/help/db_copy_to.html">db_copy_to</a>()</code>,
+<code><a href="../../dbplyr/help/sql_escape_logical.html">sql_escape_logical</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add genomic axes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicAxis {circlize}"><tr><td>circos.genomicAxis {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add genomic axes
+</h2>
+
+<h3>Description</h3>
+
+<p>Add genomic axes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicAxis(
+    h = "top",
+    major.at = NULL,
+    labels = NULL,
+    major.by = NULL,
+    tickLabelsStartFromZero = TRUE,
+    labels.cex = 0.4*par("cex"),
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>Position of the axes. &quot;top&quot; or &quot;bottom&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>major.at</code></td>
+<td>
+<p>Major breaks. If <code>major.at</code> is set, <code>major.by</code> is ignored.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>labels corresponding to <code>major.at</code>. If <code>labels</code> is set, <code>major.at</code> must be set.
+</p>
+</td></tr>
+<tr valign="top"><td><code>major.by</code></td>
+<td>
+<p>Increment of major ticks. It is calculated automatically if the value is not set (about every 10 degrees there is a major tick).
+</p>
+</td></tr>
+<tr valign="top"><td><code>tickLabelsStartFromZero</code></td>
+<td>
+<p>Whether axis tick labels start from 0? This will only affect the axis labels while not affect x-values in cells.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels.cex</code></td>
+<td>
+<p>The font size for the axis tick labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments pass to <code><a href="../../circlize/help/circos.axis.html">circos.axis</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It assigns proper tick labels under genomic coordinate.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#genomic-axes">https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#genomic-axes</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initializeWithIdeogram(chromosome.index = paste0("chr", 1:4), plotType = NULL)
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) circos.genomicAxis())
+circos.track(ylim = c(0, 1), track.height = 0.1)
+circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
+    circos.genomicAxis(h = "bottom", direction = "inside")
+})
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

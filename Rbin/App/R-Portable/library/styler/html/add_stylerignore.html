@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adds the stylerignore column</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_stylerignore {styler}"><tr><td>add_stylerignore {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Adds the stylerignore column</h2>
+
+<h3>Description</h3>
+
+<p>If a token should be ignored, the column is set to <code>TRUE</code>,
+otherwise to <code>FALSE</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_stylerignore(pd_flat)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A token is ignored iff one of the two conditions hold:
+</p>
+
+<ul>
+<li><p> it falls between a start and a stop marker whereas the markers are on
+their own line. Which tokens are recognized as markers is controlled with
+the R options <code>styler.ignore_start</code> and <code>styler.ignore_stop</code>.
+</p>
+</li>
+<li><p> it is not a comment, but the last token on the line is a marker.
+</p>
+</li></ul>
+
+<p>See examples in <a href="../../styler/help/stylerignore.html">stylerignore</a>. Note that you should reuse the stylerignore
+column to compute switch points or similar and not a plain
+<code>pd$text %in% option_read("styler.ignore_start")</code> because that will fail to
+give correct switch points in the case stylerignore sequences are invalid.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

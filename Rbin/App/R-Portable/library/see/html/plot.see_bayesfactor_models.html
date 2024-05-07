@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for Bayes Factors for model comparison</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_bayesfactor_models {see}"><tr><td>plot.see_bayesfactor_models {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for Bayes Factors for model comparison</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>bayestestR::bayesfactor_models()</code> function.
+These plots visualize the <strong>posterior probabilities</strong> of the compared models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_bayesfactor_models'
+plot(
+  x,
+  n_pies = c("one", "many"),
+  value = c("none", "BF", "probability"),
+  sort = FALSE,
+  log = FALSE,
+  prior_odds = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>n_pies</code></td>
+<td>
+<p>Number of pies.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>What value to display.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>The behavior of this argument depends on the plotting contexts.
+</p>
+
+<ul>
+<li> <p><em>Plotting model parameters</em>:
+If <code>NULL</code>, coefficients are plotted in the order as they appear in the
+summary. Setting <code>sort = "ascending"</code> or <code>sort = "descending"</code> sorts
+coefficients in ascending or descending order, respectively.
+Setting <code>sort = TRUE</code> is the same as <code>sort = "ascending"</code>.
+</p>
+</li>
+<li> <p><em>Plotting Bayes factors</em>:
+Sort pie-slices by posterior probability (descending)?
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Logical that decides whether to display log-transformed Bayes
+factors.</p>
+</td></tr>
+<tr valign="top"><td><code>prior_odds</code></td>
+<td>
+<p>An optional vector of prior odds for the models. See
+<code>BayesFactor::priorOdds</code>. As the size of the pizza slices corresponds to
+posterior probability (which is a function of prior probability and the
+Bayes Factor), custom <code>prior_odds</code> will change the slices' size.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+library(see)
+
+lm0 &lt;- lm(qsec ~ 1, data = mtcars)
+lm1 &lt;- lm(qsec ~ drat, data = mtcars)
+lm2 &lt;- lm(qsec ~ wt, data = mtcars)
+lm3 &lt;- lm(qsec ~ drat + wt, data = mtcars)
+
+result &lt;- bayesfactor_models(lm1, lm2, lm3, denominator = lm0)
+
+plot(result, n_pies = "one", value = "probability", sort = TRUE) +
+  scale_fill_pizza(reverse = TRUE)
+
+plot(result, n_pies = "many", value = "BF", log = TRUE) +
+  scale_fill_pizza(reverse = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

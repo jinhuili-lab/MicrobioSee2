@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get coordinates in the figure region in user units.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getFigCtr {plotrix}"><tr><td>getFigCtr {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get coordinates in the figure region in user units.</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the coordinates of a proportional point of the figure
+region in user units.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ getFigCtr(pos=c(0.5,0.5))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>The proportion of the figure region to find (see Details).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">getFigCtr</span> reads parameters about the current plot and calculates the
+vertical and horizontal centers of the figure region by default. This is 
+typically useful for placing a centered title on plots where the left and
+right margins are very different.
+</p>
+<p>By changing <span class="samp">pos</span>, any proportional points of the figure region can be
+returned. For example, <span class="samp">pos=c(0,0)</span> will return the left and bottom
+coordinates of the figure region.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A two element vector containing the coordinates of the center of the
+figure region in user units.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon (thanks to Karl Brand for the adjustable coordinates)</p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

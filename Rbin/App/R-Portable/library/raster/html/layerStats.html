@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Correlation and (weighted) covariance</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for layerStats {raster}"><tr><td>layerStats {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Correlation and (weighted) covariance</h2>
+
+<h3>Description</h3>
+
+<p>Compute correlation and (weighted) covariance for multi-layer Raster objects. Like <code><a href="../../raster/help/cellStats.html">cellStats</a></code> this function returns a few values, not a Raster* object (see <code><a href="../../raster/help/Summary-methods.html">Summary-methods</a></code> for that). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+layerStats(x, stat, w, asSample=TRUE, na.rm=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterStack or RasterBrick for which to compute a statistic</p>
+</td></tr>
+<tr valign="top"><td><code>stat</code></td>
+<td>
+<p>Character. The statistic to compute: either 'cov' (covariance), 'weighted.cov' (weighted covariance), or 'pearson' (correlation coefficient)</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>RasterLayer with the weights (should have the same extent, resolution and number of layers as <code>x</code>) to compute the weighted covariance</p>
+</td></tr>
+<tr valign="top"><td><code>asSample</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the statistic for a sample (denominator is <code>n-1</code>) is computed, rather than for the population (denominator is <code>n</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Logical. Should missing values be removed?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments (none implemetned)</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>List with two items: the correlation or (weighted) covariance matrix, and the (weighted) means.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jonathan A. Greenberg &amp; Robert Hijmans. Weighted covariance based on code by Mort Canty</p>
+
+
+<h3>References</h3>
+
+<p>For the weighted covariance:
+</p>
+
+<ul>
+<li> <p>Canty, M.J. and A.A. Nielsen, 2008. Automatic radiometric normalization of multitemporal satellite imagery with the iteratively re-weighted MAD transformation. Remote Sensing of Environment 112:1025-1036.
+</p>
+</li>
+<li> <p>Nielsen, A.A., 2007. The regularized iteratively reweighted MAD method for change detection in multi- and hyperspectral data. IEEE Transactions on Image Processing 16(2):463-478. 
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/cellStats.html">cellStats</a></code>, <code><a href="../../stats/html/cov.wt.html">cov.wt</a></code>, <code><a href="../help/weighted.mean.html">weighted.mean</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+layerStats(b, 'pearson')
+
+layerStats(b, 'cov')
+
+# weigh by column number
+w &lt;- init(b, v='col')
+layerStats(b, 'weighted.cov', w=w)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

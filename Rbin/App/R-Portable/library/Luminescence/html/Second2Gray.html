@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Converting equivalent dose values from seconds (s) to Gray...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Second2Gray {Luminescence}"><tr><td>Second2Gray {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Converting equivalent dose values from seconds (s) to Gray (Gy)</h2>
+
+<h3>Description</h3>
+
+<p>Conversion of absorbed radiation dose in seconds (s) to the SI unit Gray
+(Gy) including error propagation. Normally used for equivalent dose data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Second2Gray(data, dose.rate, error.propagation = "omit")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+input values, structure: data (<code>values[,1]</code>) and data error (<code>values [,2]</code>)
+are required</p>
+</td></tr>
+<tr valign="top"><td><code>dose.rate</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../base/html/data.frame.html">data.frame</a> or <a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+<code>RLum.Results</code> needs to be originated from the function <a href="../../Luminescence/help/calc_SourceDoseRate.html">calc_SourceDoseRate</a>,
+for <code>vector</code> dose rate in Gy/s and dose rate error in Gy/s</p>
+</td></tr>
+<tr valign="top"><td><code>error.propagation</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+error propagation method used for error calculation (<code>omit</code>, <code>gaussian</code> or
+<code>absolute</code>), see details for further information</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Calculation of De values from seconds (s) to Gray (Gy)
+</p>
+<p style="text-align: center;"><i>De [Gy] = De [s] * Dose Rate [Gy/s])</i></p>
+
+<p>Provided calculation error propagation methods for error calculation
+(with <code>'se'</code> as the standard error and <code>'DR'</code> of the dose rate of the beta-source):
+</p>
+<p><strong>(1) <code>omit</code></strong> (default)
+</p>
+<p style="text-align: center;"><i>se(De) [Gy] = se(De) [s] * DR [Gy/s]</i></p>
+
+<p>In this case the standard error of the dose rate of the beta-source is
+treated as systematic (i.e. non-random), it error propagation is omitted.
+However, the error must be considered during calculation of the final age.
+(cf. Aitken, 1985, pp. 242). This approach can be seen as method (2) (gaussian)
+for the case the (random) standard error of the beta-source calibration is
+0. Which particular method is requested depends on the situation and cannot
+be prescriptive.
+</p>
+<p><strong>(2) <code>gaussian</code></strong> error propagation
+</p>
+<p style="text-align: center;"><i>se(De) [Gy] = &radic;((DR [Gy/s] * se(De) [s])^2 + (De [s] * se(DR) [Gy/s])^2)</i></p>
+
+<p>Applicable under the assumption that errors of <code>De</code> and <code>se</code> are uncorrelated.
+</p>
+<p><strong>(3) <code>absolute</code></strong> error propagation
+</p>
+<p style="text-align: center;"><i>se(De) [Gy]= abs(DR [Gy/s] * se(De) [s]) + abs(De [s] * se(DR) [Gy/s])</i></p>
+
+<p>Applicable under the assumption that errors of <code>De</code> and <code>se</code> are correlated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <a href="../../base/html/data.frame.html">data.frame</a> with converted values.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.6.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Dietze, M., Fuchs, M.C., 2021. Second2Gray(): Converting equivalent dose values from seconds (s) to Gray (Gy). Function version 0.6.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>If no or a wrong error propagation method is given, the execution of the function is
+stopped. Furthermore, if a <code>data.frame</code> is provided for the dose rate values is has to
+be of the same length as the data frame provided with the argument <code>data</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)<br />
+Michael Dietze, GFZ Potsdam (Germany)<br />
+Margret C. Fuchs, HZDR, Helmholtz-Institute Freiberg for Resource Technology (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Aitken, M.J., 1985. Thermoluminescence dating. Academic Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_SourceDoseRate.html">calc_SourceDoseRate</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(A) for known source dose rate at date of measurement
+## - load De data from the example data help file
+data(ExampleData.DeValues, envir = environment())
+## - convert De(s) to De(Gy)
+Second2Gray(ExampleData.DeValues$BT998, c(0.0438,0.0019))
+
+
+
+
+
+##(B) for source dose rate calibration data
+## - calculate source dose rate first
+dose.rate &lt;-  calc_SourceDoseRate(measurement.date = "2012-01-27",
+                                  calib.date = "2014-12-19",
+                                  calib.dose.rate = 0.0438,
+                                  calib.error = 0.0019)
+# read example data
+data(ExampleData.DeValues, envir = environment())
+
+# apply dose.rate to convert De(s) to De(Gy)
+Second2Gray(ExampleData.DeValues$BT998, dose.rate)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

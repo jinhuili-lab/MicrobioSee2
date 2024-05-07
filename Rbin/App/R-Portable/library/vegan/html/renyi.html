@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Renyi and Hill Diversities and Corresponding Accumulation...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for renyi {vegan}"><tr><td>renyi {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Renyi and Hill Diversities and Corresponding Accumulation Curves </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>renyi</code>  find Rényi diversities with any
+scale or the corresponding Hill number (Hill 1973).  Function
+<code>renyiaccum</code> finds these statistics with accumulating sites.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+renyi(x, scales = c(0, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, Inf),
+   hill = FALSE)
+## S3 method for class 'renyi'
+plot(x, ...)
+renyiaccum(x, scales = c(0, 0.5, 1, 2, 4, Inf), permutations = 100,
+    raw = FALSE, collector = FALSE, subset, ...)
+## S3 method for class 'renyiaccum'
+plot(x, what = c("Collector", "mean", "Qnt 0.025", "Qnt 0.975"),
+    type = "l",
+    ...)
+## S3 method for class 'renyiaccum'
+persp(x, theta = 220, col = heat.colors(100), zlim, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data matrix or plotting object. </p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+<p>Scales of Rényi diversity.</p>
+</td></tr>
+<tr valign="top"><td><code>hill</code></td>
+<td>
+<p>Calculate Hill numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Usually an integer giving the number
+permutations, but can also be a list of control values for the
+permutations as returned by the function <code><a href="../../permute/help/how.html">how</a></code>,
+or a permutation matrix where each row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>raw</code></td>
+<td>
+<p>if <code>FALSE</code> then return summary statistics of
+permutations, and if <code>TRUE</code> then returns the individual
+permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>collector</code></td>
+<td>
+<p>Accumulate the diversities in the order the sites are
+in the data set, and the collector curve can be plotted against
+summary of permutations. The argument is ignored if <code>raw = TRUE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>logical expression indicating sites (rows) to keep: missing
+values are taken as <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>Items to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of plot, where <code>type = "l"</code> means lines.</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>Angle defining the viewing direction (azimuthal) in
+<code><a href="../../graphics/html/persp.html">persp</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colours used for surface. Single colour will be passed on,
+and vector colours will be
+selected by the midpoint of a rectangle in <code><a href="../../graphics/html/persp.html">persp</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Limits of vertical axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments which are passed to <code>renyi</code> and
+to graphical functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Common <code><a href="../../vegan/help/diversity.html">diversity</a></code> indices are special cases of
+Rényi diversity
+</p>
+<p style="text-align: center;"><i>H.a = 1/(1-a) log
+    sum(p^a)</i></p>
+
+<p>where <i>a</i> is a scale parameter, and Hill (1975) suggested to
+use so-called &lsquo;Hill numbers&rsquo; defined as <i>N.a =
+    exp(H.a)</i>.  Some Hill numbers are the number of species with
+<i>a = 0</i>, <i>exp(H')</i> or the exponent of Shannon
+diversity with <i>a = 1</i>, inverse Simpson with <i>a = 2</i> and
+<i>1/max(p)</i> with <i>a = Inf</i>. According
+to the theory of diversity ordering, one community can be regarded as
+more diverse than another only if its Rényi diversities are all higher
+(Tóthmérész  1995).
+</p>
+<p>The <code>plot</code> method for <code>renyi</code> uses <span class="pkg">lattice</span> graphics,
+and displays the diversity values against each scale in separate panel
+for each site together with minimum, maximum and median values in the
+complete data.
+</p>
+<p>Function <code>renyiaccum</code> is similar to <code><a href="../../vegan/help/specaccum.html">specaccum</a></code> but
+finds Rényi or Hill diversities at given <code>scales</code>
+for random permutations of accumulated sites.  Its <code>plot</code>
+function uses <span class="pkg">lattice</span> function <code><a href="../../lattice/help/xyplot.html">xyplot</a></code>
+to display the accumulation curves for each value of <code>scales</code>
+in a separate panel.  In addition, it has a <code>persp</code> method to
+plot the diversity surface against scale and number and
+sites. Similar dynamic graphics can be made with
+<code><a href="../../vegan3d/help/rgl.renyiaccum.html">rgl.renyiaccum</a></code> in <span class="pkg">vegan3d</span> package.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>renyi</code> returns a data frame of selected
+indices.  Function <code>renyiaccum</code> with argument <code>raw = FALSE</code>
+returns a three-dimensional array, where the first dimension are the
+accumulated sites, second dimension are the diversity scales, and
+third dimension are the summary statistics <code>mean</code>, <code>stdev</code>,
+<code>min</code>, <code>max</code>, <code>Qnt 0.025</code> and <code>Qnt 0.975</code>.  With
+argument <code>raw = TRUE</code> the statistics on the third dimension are
+replaced with individual permutation results.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Roeland Kindt and Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Hill, M.O. (1973). Diversity and evenness: a unifying notation and its
+consequences. <em>Ecology</em> 54, 427&ndash;473.
+</p>
+<p>Kindt, R., Van Damme, P., Simons, A.J. (2006). Tree diversity in western
+Kenya: using profiles to characterise richness and
+evenness. <em>Biodiversity and Conservation</em> 15, 1253&ndash;1270.
+</p>
+<p>Tóthmérész, B. (1995). Comparison of different methods for diversity
+ordering. <em>Journal of Vegetation Science</em> 6, 283&ndash;290.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/diversity.html">diversity</a></code> for diversity indices, and
+<code><a href="../../vegan/help/specaccum.html">specaccum</a></code> for ordinary species accumulation curves, and
+<code><a href="../../lattice/help/xyplot.html">xyplot</a></code>, <code><a href="../../graphics/html/persp.html">persp</a></code> and
+<code><a href="../../vegan3d/help/rgl.renyiaccum.html">rgl.renyiaccum</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+i &lt;- sample(nrow(BCI), 12)
+mod &lt;- renyi(BCI[i,])
+plot(mod)
+mod &lt;- renyiaccum(BCI[i,])
+plot(mod, as.table=TRUE, col = c(1, 2, 2))
+persp(mod)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

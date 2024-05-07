@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check model for homogeneity of variances</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_homogeneity {performance}"><tr><td>check_homogeneity {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check model for homogeneity of variances</h2>
+
+<h3>Description</h3>
+
+<p>Check model for homogeneity of variances between groups described
+by independent variables in a model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_homogeneity(x, method = c("bartlett", "fligner", "levene", "auto"), ...)
+
+## S3 method for class 'afex_aov'
+check_homogeneity(x, method = "levene", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A linear model or an ANOVA object.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Name of the method (underlying test) that should be performed
+to check the homogeneity of variances. May either be <code>"levene"</code> for
+Levene's Test for Homogeneity of Variance, <code>"bartlett"</code> for the
+Bartlett test (assuming normal distributed samples or groups),
+<code>"fligner"</code> for the Fligner-Killeen test (rank-based, non-parametric
+test), or <code>"auto"</code>. In the latter case, Bartlett test is used if the
+model response is normal distributed, else Fligner-Killeen test is used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed down to <code>car::leveneTest()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns the p-value of the test statistics. A p-value &lt;
+0.05 indicates a significant difference in the variance between the groups.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/performance.html"><code>plot()</code>-method</a>
+implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other functions to check model assumptions and and assess model quality: 
+<code><a href="../../performance/help/check_autocorrelation.html">check_autocorrelation</a>()</code>,
+<code><a href="../../performance/help/check_collinearity.html">check_collinearity</a>()</code>,
+<code><a href="../../performance/help/check_convergence.html">check_convergence</a>()</code>,
+<code><a href="../../performance/help/check_heteroscedasticity.html">check_heteroscedasticity</a>()</code>,
+<code><a href="../../performance/help/check_model.html">check_model</a>()</code>,
+<code><a href="../../performance/help/check_outliers.html">check_outliers</a>()</code>,
+<code><a href="../../performance/help/check_overdispersion.html">check_overdispersion</a>()</code>,
+<code><a href="../../performance/help/check_predictions.html">check_predictions</a>()</code>,
+<code><a href="../../performance/help/check_singularity.html">check_singularity</a>()</code>,
+<code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;&lt;- lm(len ~ supp + dose, data = ToothGrowth)
+check_homogeneity(model)
+
+# plot results
+if (require("see")) {
+  result &lt;- check_homogeneity(model)
+  plot(result)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

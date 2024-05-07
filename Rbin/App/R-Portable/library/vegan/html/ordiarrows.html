@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add Arrows and Line Segments to Ordination Diagrams</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordiarrows {vegan}"><tr><td>ordiarrows {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add Arrows and Line Segments to Ordination Diagrams</h2>
+
+<h3>Description</h3>
+
+<p> Functions to add arrows, line segments, regular grids of
+points. The ordination diagrams can be produced by <code>vegan</code>
+<code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>, <code><a href="../../vegan/help/plot.decorana.html">plot.decorana</a></code> or
+<code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code>.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordiarrows(ord, groups, levels, replicates, order.by, display = "sites",
+         col = 1, show.groups, startmark, label = FALSE, length = 0.1, ...)
+ordisegments(ord, groups, levels, replicates, order.by, display = "sites",
+         col = 1, show.groups, label = FALSE, ...)
+ordigrid(ord, levels, replicates, display = "sites",  lty = c(1,1), 
+         col = c(1,1), lwd = c(1,1), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p>An ordination object or an <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code> object. </p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Factor giving the groups for which the graphical item is
+drawn. </p>
+</td></tr>
+<tr valign="top"><td><code>levels, replicates</code></td>
+<td>
+<p>Alternatively, regular
+groups can be defined with arguments <code>levels</code> and
+<code>replicates</code>, where <code>levels</code> gives the number of groups,
+and <code>replicates</code> the number of successive items at the same
+group.</p>
+</td></tr>
+<tr valign="top"><td><code>order.by</code></td>
+<td>
+<p>Order points by increasing order of this variable
+within <code>groups</code>. Reverse sign of the variable for decreasing
+ordering.</p>
+</td></tr> 
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Item to displayed. </p>
+</td></tr>
+<tr valign="top"><td><code>show.groups</code></td>
+<td>
+<p>Show only given groups. This can be a vector, or
+<code>TRUE</code> if you want to show items for which condition is
+<code>TRUE</code>. This argument makes it possible to use different
+colours and line types for groups. The default is to show all groups. </p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Label the <code>groups</code> by their names. In
+<code>ordiellipse</code>, <code>ordihull</code> and <code>ordispider</code> the the
+group name is in the centroid of the object, in <code>ordiarrows</code>
+in the start of the arrow, and in <code>ordisegments</code> at both
+ends. <code>ordiellipse</code> and <code>ordihull</code> use standard
+<code><a href="../../graphics/html/text.html">text</a></code>, and others use <code><a href="../../vegan/help/ordilabel.html">ordilabel</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>startmark</code></td>
+<td>
+<p>plotting character used to mark the first item. The
+default is to use no mark, and for instance, <code>startmark = 1</code>
+will draw a circle.  For other plotting characters, see <code>pch</code>
+in <code><a href="../../graphics/html/points.html">points</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour of lines, <code>label</code> borders and
+<code>startmark</code> in <code>ordiarrows</code> and
+<code>ordisegments</code>. This can be a vector recycled for
+<code>groups</code>. In <code>ordigrid</code> it can be a vector of length 2
+used for <code>levels</code> and <code>replicates</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>length</code></td>
+<td>
+<p>Length of edges of the arrow head (in inches).</p>
+</td></tr>
+<tr valign="top"><td><code>lty, lwd</code></td>
+<td>
+<p>Line type, line width used for 
+<code>level</code>s and <code>replicate</code>s in <code>ordigrid</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to graphical functions such as
+<code><a href="../../graphics/html/lines.html">lines</a></code>, <code><a href="../../graphics/html/segments.html">segments</a></code>, <code><a href="../../graphics/html/arrows.html">arrows</a></code>,
+or to <code><a href="../../vegan/help/scores.html">scores</a></code> to select axes and scaling etc. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Function <code>ordiarrows</code> draws <code><a href="../../graphics/html/arrows.html">arrows</a></code> and
+<code>ordisegments</code> draws line <code><a href="../../graphics/html/segments.html">segments</a></code> between
+successive items in the groups. Function <code>ordigrid</code> draws line
+<code><a href="../../graphics/html/segments.html">segments</a></code> both within the groups and for the
+corresponding items among the groups.
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions add graphical items to ordination graph: You must
+draw a graph first.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p>The functions pass parameters to basic graphical functions, and
+you may wish to change the default values in <code><a href="../../graphics/html/arrows.html">arrows</a></code>,
+<code><a href="../../graphics/html/lines.html">lines</a></code> and <code><a href="../../graphics/html/segments.html">segments</a></code>. You can pass
+parameters to <code><a href="../../vegan/help/scores.html">scores</a></code> as well. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+example(pyrifos)
+mod &lt;- rda(pyrifos)
+plot(mod, type = "n")
+## Annual succession by ditches, colour by dose
+ordiarrows(mod, ditch, label = TRUE, col = as.numeric(dose))
+legend("topright", levels(dose), lty=1, col=1:5, title="Dose")
+## Show only control and highest Pyrifos treatment
+plot(mod, type = "n")
+ordiarrows(mod, ditch, label = TRUE, 
+   show.groups = c("2", "3", "5", "11"))
+ordiarrows(mod, ditch, label = TRUE, show = c("6", "9"),
+   col = 2)
+legend("topright", c("Control", "Pyrifos 44"), lty = 1, col = c(1,2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

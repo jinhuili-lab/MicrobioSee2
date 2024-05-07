@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Concatenating vectors into human-readable strings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hpaste {R.utils}"><tr><td>hpaste {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Concatenating vectors into human-readable strings</h2>
+
+<h3>Description</h3>
+
+<p>Concatenating vectors into human-readable strings such as &quot;1, 2, 3, ..., 10&quot;.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+hpaste(..., sep="", collapse=", ", lastCollapse=NULL,
+  maxHead=if (missing(lastCollapse)) 3 else Inf,
+  maxTail=if (is.finite(maxHead)) 1 else Inf, abbreviate="...", empty=character(0L))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be pasted.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string used to concatenate the arguments
+in <code>...</code>, if more than one.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse, lastCollapse</code></td>
+<td>
+<p>The <code><a href="../../base/help/character.html">character</a></code> strings to collapse
+the elements together, where <code>lastCollapse</code> is specifying
+the collapse string used between the last two elements.
+If <code>lastCollapse</code> is <code><a href="../../base/help/NULL.html">NULL</a></code> (default), it is corresponds
+to using the default collapse.</p>
+</td></tr>
+<tr valign="top"><td><code>maxHead, maxTail, abbreviate</code></td>
+<td>
+<p>Non-negative <code><a href="../../base/help/integer.html">integer</a></code>s (also <code><a href="../../base/help/is.finite.html">Inf</a></code>)
+specifying the maximum number of elements of the beginning and
+then end of the vector to be outputted.  If <code>n = length(x)</code>
+is greater than <code>maxHead+maxTail+1</code>, then <code>x</code> is
+truncated to consist of <code>x[1:maxHead]</code>, <code>abbreviate</code>,
+and <code>x[(n-maxTail+1):n]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>empty</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string, or <code>character(0)</code> (default),
+to be returned in case the result is of length zero.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>hpaste(..., sep=" ", maxHead=Inf)</code> corresponds to
+<code>paste(..., sep=" ", collapse=", ")</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally <code><a href="../../base/help/paste.html">paste</a></code>() is used.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Some vectors
+x &lt;- 1:6
+y &lt;- 10:1
+z &lt;- LETTERS[x]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Abbreviation of output vector
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+printf("x = %s.\n", hpaste(x))
+## x = 1, 2, 3, ..., 6.
+
+printf("x = %s.\n", hpaste(x, maxHead=2))
+## x = 1, 2, ..., 6.
+
+printf("x = %s.\n", hpaste(x, maxHead=3)) # Default
+## x = 1, 2, 3, ..., 6.
+
+# It will never output 1, 2, 3, 4, ..., 6
+printf("x = %s.\n", hpaste(x, maxHead=4))
+## x = 1, 2, 3, 4, 5, 6.
+
+# Showing the tail
+printf("x = %s.\n", hpaste(x, maxHead=1, maxTail=2))
+## x = 1, ..., 5, 6.
+
+# Turning off abbreviation
+printf("y = %s.\n", hpaste(y, maxHead=Inf))
+## y = 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+
+## ...or simply
+printf("y = %s.\n", paste(y, collapse=", "))
+## y = 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Adding a special separator before the last element
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Change last separator
+printf("x = %s.\n", hpaste(x, lastCollapse=", and "))
+## x = 1, 2, 3, 4, 5, and 6.
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Backward compatibility with paste()
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+s1 &lt;- hpaste(x, maxHead=Inf)
+s2 &lt;- paste(x, collapse=", ")
+printf("s = %s.\n", s1);
+stopifnot(identical(s1, s2))
+
+s1 &lt;- hpaste('&lt;', x, '&gt;', maxHead=Inf)
+s2 &lt;- paste('&lt;', x, '&gt;', sep="", collapse=", ")
+printf("s = %s.\n", s1);
+stopifnot(identical(s1, s2))
+
+s1 &lt;- hpaste(x, y, z, sep="/", maxHead=Inf)
+s2 &lt;- paste(x, y, z, sep="/", collapse=", ")
+printf("s = %s.\n", s1);
+stopifnot(identical(s1, s2))
+
+s1 &lt;- hpaste(x, collapse=NULL, maxHead=Inf)
+s2 &lt;- paste(x, collapse=NULL)
+stopifnot(identical(s1, s2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

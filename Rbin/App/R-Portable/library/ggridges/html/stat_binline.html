@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stat for histogram ridgeline plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stat_binline {ggridges}"><tr><td>stat_binline {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stat for histogram ridgeline plots</h2>
+
+<h3>Description</h3>
+
+<p>Works like <code>stat_bin</code> except that the output is a ridgeline describing the histogram rather than
+a set of counts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stat_binline(
+  mapping = NULL,
+  data = NULL,
+  geom = "density_ridges",
+  position = "identity",
+  ...,
+  binwidth = NULL,
+  bins = NULL,
+  center = NULL,
+  boundary = NULL,
+  breaks = NULL,
+  closed = c("right", "left"),
+  pad = TRUE,
+  draw_baseline = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="../../ggplot2/help/aes.html">aes()</a></code> or
+<code><a href="../../ggplot2/help/aes_.html">aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="../../ggplot2/help/ggplot.html">ggplot()</a></code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data. All objects will be fortified to produce a data frame. See
+<code><a href="../../ggplot2/help/fortify.html">fortify()</a></code> for which variables will be created.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame</code>, and
+will be used as the layer data. A <code>function</code> can be created
+from a <code>formula</code> (e.g. <code>~ head(.x, 10)</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>geom</code></td>
+<td>
+<p>Use to override the default connection between
+<code>geom_histogram()</code>/<code>geom_freqpoly()</code> and <code>stat_bin()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed on to <code><a href="../../ggplot2/help/layer.html">layer()</a></code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td></tr>
+<tr valign="top"><td><code>binwidth</code></td>
+<td>
+<p>The width of the bins. Can be specified as a numeric value
+or as a function that calculates width from unscaled x. Here, &quot;unscaled x&quot;
+refers to the original x values in the data, before application of any
+scale transformation. When specifying a function along with a grouping
+structure, the function will be called once per group.
+The default is to use the number of bins in <code>bins</code>,
+covering the range of the data. You should always override
+this value, exploring multiple widths to find the best to illustrate the
+stories in your data.
+</p>
+<p>The bin width of a date variable is the number of days in each time; the
+bin width of a time variable is the number of seconds.</p>
+</td></tr>
+<tr valign="top"><td><code>bins</code></td>
+<td>
+<p>Number of bins. Overridden by <code>binwidth</code>. Defaults to 30.</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>bin position specifiers. Only one, <code>center</code> or
+<code>boundary</code>, may be specified for a single plot. <code>center</code> specifies the
+center of one of the bins. <code>boundary</code> specifies the boundary between two
+bins. Note that if either is above or below the range of the data, things
+will be shifted by the appropriate integer multiple of <code>binwidth</code>.
+For example, to center on integers use <code>binwidth = 1</code> and <code>center = 0</code>, even
+if <code>0</code> is outside the range of the data. Alternatively, this same alignment
+can be specified with <code>binwidth = 1</code> and <code>boundary = 0.5</code>, even if <code>0.5</code> is
+outside the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>boundary</code></td>
+<td>
+<p>bin position specifiers. Only one, <code>center</code> or
+<code>boundary</code>, may be specified for a single plot. <code>center</code> specifies the
+center of one of the bins. <code>boundary</code> specifies the boundary between two
+bins. Note that if either is above or below the range of the data, things
+will be shifted by the appropriate integer multiple of <code>binwidth</code>.
+For example, to center on integers use <code>binwidth = 1</code> and <code>center = 0</code>, even
+if <code>0</code> is outside the range of the data. Alternatively, this same alignment
+can be specified with <code>binwidth = 1</code> and <code>boundary = 0.5</code>, even if <code>0.5</code> is
+outside the range of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>Alternatively, you can supply a numeric vector giving
+the bin boundaries. Overrides <code>binwidth</code>, <code>bins</code>, <code>center</code>,
+and <code>boundary</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>closed</code></td>
+<td>
+<p>One of <code>"right"</code> or <code>"left"</code> indicating whether right
+or left edges of bins are included in the bin.</p>
+</td></tr>
+<tr valign="top"><td><code>pad</code></td>
+<td>
+<p>If <code>TRUE</code>, adds empty bins at either end of x. This ensures that the binline always goes
+back down to 0. Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>draw_baseline</code></td>
+<td>
+<p>If <code>FALSE</code>, removes lines along 0 counts. Defaults to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.
+It can also be a named logical vector to finely select the aesthetics to
+display.</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code><a href="../../ggplot2/help/borders.html">borders()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
+  geom_density_ridges(stat = "binline", bins = 20, scale = 2.2) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  coord_cartesian(clip = "off") +
+  theme_ridges()
+
+ggplot(iris, aes(x = Sepal.Length, y = Species, group = Species, fill = Species)) +
+  stat_binline(bins = 20, scale = 2.2, draw_baseline = FALSE) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_fill_grey() +
+  coord_cartesian(clip = "off") +
+  theme_ridges() +
+  theme(legend.position = 'none')
+
+library(ggplot2movies)
+ggplot(movies[movies$year&gt;1989,], aes(x = length, y = year, fill = factor(year))) +
+   stat_binline(scale = 1.9, bins = 40) +
+   scale_x_continuous(limits = c(1, 180), expand = c(0, 0)) +
+   scale_y_reverse(expand = c(0, 0)) +
+   scale_fill_viridis_d(begin = 0.3, option = "B") +
+   coord_cartesian(clip = "off") +
+   labs(title = "Movie lengths 1990 - 2005")
+   theme_ridges() +
+   theme(legend.position = "none")
+
+count_data &lt;- data.frame(
+  group = rep(letters[1:5], each = 10),
+  mean = rep(1:5, each = 10)
+)
+count_data$group &lt;- factor(count_data$group, levels = letters[5:1])
+count_data$count &lt;- rpois(nrow(count_data), count_data$mean)
+
+ggplot(count_data, aes(x = count, y = group, group = group)) +
+  geom_density_ridges2(
+    stat = "binline",
+    aes(fill = group),
+    binwidth = 1,
+    scale = 0.95
+  ) +
+  geom_text(
+    stat = "bin",
+    aes(y = group + 0.9*stat(count/max(count)),
+    label = ifelse(stat(count) &gt; 0, stat(count), "")),
+    vjust = 1.2, size = 3, color = "white", binwidth = 1
+  ) +
+  scale_x_continuous(breaks = c(0:12), limits = c(-.5, 13), expand = c(0, 0)) +
+  scale_y_discrete(expand = c(0, 0)) +
+  scale_fill_cyclical(values = c("#0000B0", "#7070D0")) +
+  guides(y = "none") +
+  coord_cartesian(clip = "off") +
+  theme_ridges(grid = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

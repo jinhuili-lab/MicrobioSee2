@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Screeplot for Principal Components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ggscreeplot {ggbiplot}"><tr><td>ggscreeplot {ggbiplot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Screeplot for Principal Components</h2>
+
+<h3>Description</h3>
+
+<p>Produces scree plots (Cattell, 1966) of the variance proportions explained by each dimension against dimension number from 
+various PCA-like dimension reduction techniques.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ggscreeplot(
+  pcobj,
+  type = c("pev", "cev"),
+  size = 4,
+  shape = 19,
+  color = "black",
+  linetype = 1,
+  linewidth = 1
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pcobj</code></td>
+<td>
+<p>an object returned by <code><a href="../../stats/help/prcomp.html">prcomp</a></code>, <code><a href="../../stats/help/princomp.html">princomp</a></code>, 
+<code><a href="../../FactoMineR/help/PCA.html">PCA</a></code>, <code><a href="../../ade4/help/dudi.pca.html">dudi.pca</a></code>, or <code><a href="../../MASS/help/lda.html">lda</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>the type of scree plot, one of <code>c('pev', 'cev')</code>.
+<code>'pev'</code> plots the proportion of explained variance, i.e. the eigenvalues divided by the trace. 
+<code>'cev'</code> plots the cumulative proportion of explained variance, i.e. the partial sum of the first k eigenvalues divided by the trace.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>point size</p>
+</td></tr>
+<tr valign="top"><td><code>shape</code></td>
+<td>
+<p>shape of the points. Default: 19, a filled circle.</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p>color for points and line. Default: <code>"black"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>linetype</code></td>
+<td>
+<p>type of line</p>
+</td></tr>
+<tr valign="top"><td><code>linewidth</code></td>
+<td>
+<p>width of line</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2 object with the aesthetics <code>x = PC, y = yvar</code>
+</p>
+
+
+<h3>References</h3>
+
+<p>Cattell, R. B. (1966). The Scree Test For The Number Of Factors. <em>Multivariate Behavioral Research</em>, 1, 245–276.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(wine)
+wine.pca &lt;- prcomp(wine, scale. = TRUE)
+ggscreeplot(wine.pca)
+
+# show horizontal lines for 80, 90% of cumulative variance
+ggscreeplot(wine.pca, type = "cev") +
+  geom_hline(yintercept = c(0.8, 0.9), color = "blue") 
+
+# Make a fancy screeplot, higlighting the scree starting at component 4
+data(crime)
+crime.pca &lt;- 
+  crime |&gt; 
+  dplyr::select(where(is.numeric)) |&gt;
+  prcomp(scale. = TRUE)
+  
+(crime.eig &lt;- crime.pca |&gt; 
+   broom::tidy(matrix = "eigenvalues"))
+
+ggscreeplot(crime.pca) +
+  stat_smooth(data = crime.eig |&gt; dplyr::filter(PC&gt;=4), 
+              aes(x=PC, y=percent), method = "lm", 
+              se = FALSE,
+              fullrange = TRUE) 
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggbiplot</em> version 0.6.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot confidence intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.ci {pROC}"><tr><td>plot.ci {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot confidence intervals
+</h2>
+
+<h3>Description</h3>
+
+<p>This function adds confidence intervals to a ROC curve plot, either as
+bars or as a confidence shape.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'ci.thresholds'
+plot(x, length=.01*ifelse(attr(x,
+  "roc")$percent, 100, 1), col=par("fg"), ...)
+## S3 method for class 'ci.sp'
+plot(x, type=c("bars", "shape"), length=.01*ifelse(attr(x,
+"roc")$percent, 100, 1), col=ifelse(type=="bars", par("fg"),
+"gainsboro"), no.roc=FALSE, ...)
+## S3 method for class 'ci.se'
+plot(x, type=c("bars", "shape"), length=.01*ifelse(attr(x,
+"roc")$percent, 100, 1), col=ifelse(type=="bars", par("fg"),
+"gainsboro"), no.roc=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a confidence interval object from the functions
+<code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code> or <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>type of plot, &ldquo;bars&rdquo; or &ldquo;shape&rdquo;. Can be
+shortened to &ldquo;b&rdquo; or &ldquo;s&rdquo;. &ldquo;shape&rdquo; is only available for
+<code>ci.se</code> and <code>ci.sp</code>, not for <code>ci.thresholds</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>length</code></td>
+<td>
+<p>the length (as plot coordinates) of the bar ticks. Only
+if <code>type="bars"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>no.roc</code></td>
+<td>
+
+<p>if <code>FALSE</code>, the ROC line is re-added over the
+shape. Otherwise if <code>TRUE</code>, only the shape is plotted. Ignored
+if <code>type="bars"</code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color of the bars or shape.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments for <code><a href="../../graphics/html/segments.html">segments</a></code> (if
+<code>type="bars"</code>) or <code><a href="../../graphics/html/polygon.html">polygon</a></code> (if
+<code>type="shape"</code>).
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function adds confidence intervals to a ROC curve plot, either as
+bars or as a confidence shape, depending on the state of the
+<code>type</code> argument. The shape is plotted over the ROC curve, so that
+the curve is re-plotted unless <code>no.roc=TRUE</code>.
+</p>
+<p>Graphical functions are called with <a href="../../base/html/warning.html">suppressWarnings</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns the confidence interval object invisibly.
+</p>
+
+
+<h3>Warnings</h3>
+
+<p>With <code>type="shape"</code>, the warning &ldquo;Low definition shape&rdquo; is
+issued when the shape is defined by less than 15 confidence
+intervals. In such a case, the shape is not well defined and the ROC
+curve could pass outside the shape. To get a better shape, increase
+the number of intervals, for example with:
+</p>
+<pre>plot(ci.sp(rocobj, sensitivities=seq(0, 1, .01)), type="shape")</pre>
+
+
+<h3>References</h3>
+
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>, <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+## Not run: 
+# Start a ROC plot
+rocobj &lt;- plot.roc(aSAH$outcome, aSAH$s100b)
+plot(rocobj)
+# Thresholds
+ci.thresolds.obj &lt;- ci.thresholds(rocobj)
+plot(ci.thresolds.obj)
+# Specificities
+plot(rocobj) # restart a new plot
+ci.sp.obj &lt;- ci.sp(rocobj, boot.n=500)
+plot(ci.sp.obj)
+# Sensitivities
+plot(rocobj) # restart a new plot
+ci.se.obj &lt;- ci(rocobj, of="se", boot.n=500)
+plot(ci.se.obj)
+
+# Plotting a shape. We need more
+ci.sp.obj &lt;- ci.sp(rocobj, sensitivities=seq(0, 1, .01), boot.n=100)
+plot(rocobj) # restart a new plot
+plot(ci.sp.obj, type="shape", col="blue")
+
+# Direct syntax (response, predictor):
+plot.roc(aSAH$outcome, aSAH$s100b,
+         ci=TRUE, of="thresholds")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

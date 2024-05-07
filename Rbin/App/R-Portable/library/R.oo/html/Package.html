@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The Package class provides methods for accessing package...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Package {R.oo}"><tr><td>Package {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The Package class provides methods for accessing package information</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.oo <br />
+<b>Class Package</b><br />
+</p>
+<p><code><a href="../help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>Package</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public class <b>Package</b><br />
+extends <a href="../help/Object.html">Object</a><br />
+</p>
+<p>Creates a Package that can be thrown and caught. The <code>Package</code>
+class is the root class of all other <code>Package</code> classes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Package(name=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>Name of the package.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/as.character.Package.html">as.character</a></code> </td><td style="text-align: left;"> Gets a string representation of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getAuthor.Package.html">getAuthor</a></code> </td><td style="text-align: left;"> Gets the Author of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getBundle.Package.html">getBundle</a></code> </td><td style="text-align: left;"> Gets the Bundle that this package might belong to.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getBundlePackages.Package.html">getBundlePackages</a></code> </td><td style="text-align: left;"> Gets the names of the other packages that is in the same bundle as this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getChangeLog.Package.html">getChangeLog</a></code> </td><td style="text-align: left;"> Gets the change log of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getClasses.Package.html">getClasses</a></code> </td><td style="text-align: left;"> Gets all classes of a package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getContents.Package.html">getContents</a></code> </td><td style="text-align: left;"> Gets the contents of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getContribUrl.Package.html">getContribUrl</a></code> </td><td style="text-align: left;"> Gets the URL(s) from where this package can be installed.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDataPath.Package.html">getDataPath</a></code> </td><td style="text-align: left;"> Gets the path to the data (data/) directory of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDate.Package.html">getDate</a></code> </td><td style="text-align: left;"> Gets the date when package was build.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDescription.Package.html">getDescription</a></code> </td><td style="text-align: left;"> Gets the description of the package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDescriptionFile.Package.html">getDescriptionFile</a></code> </td><td style="text-align: left;"> Gets the description file of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDevelUrl.Package.html">getDevelUrl</a></code> </td><td style="text-align: left;"> Gets the URL(s) from where the developers version of this package can be installed.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getDocPath.Package.html">getDocPath</a></code> </td><td style="text-align: left;"> Gets the path to the accompanying documentation (doc/) directory of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getEnvironment.Package.html">getEnvironment</a></code> </td><td style="text-align: left;"> Gets the environment of a loaded package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getExamplePath.Package.html">getExamplePath</a></code> </td><td style="text-align: left;"> Gets the path to the example (R-ex/) directory of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getHistory</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getHowToCite.Package.html">getHowToCite</a></code> </td><td style="text-align: left;"> Gets the citation of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getLicense.Package.html">getLicense</a></code> </td><td style="text-align: left;"> Gets the License of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getMaintainer.Package.html">getMaintainer</a></code> </td><td style="text-align: left;"> Gets the Maintainer of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getName.Package.html">getName</a></code> </td><td style="text-align: left;"> Gets the name of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getNews</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getPath.Package.html">getPath</a></code> </td><td style="text-align: left;"> Gets the library (system) path to this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getPosition.Package.html">getPosition</a></code> </td><td style="text-align: left;"> Gets the search path position of the package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getTitle.Package.html">getTitle</a></code> </td><td style="text-align: left;"> Gets the Title of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getUrl.Package.html">getUrl</a></code> </td><td style="text-align: left;"> Gets the URL of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/getVersion.Package.html">getVersion</a></code> </td><td style="text-align: left;"> Gets the version of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/isLoaded.Package.html">isLoaded</a></code> </td><td style="text-align: left;"> Checks if the package is installed on the search path or not.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/isOlderThan.Package.html">isOlderThan</a></code> </td><td style="text-align: left;"> Checks if the package is older than a given version.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/ll.Package.html">ll</a></code> </td><td style="text-align: left;"> Generates a list of informative properties of all members of the package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/load.Package.html">load</a></code> </td><td style="text-align: left;"> Loads a package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/showChangeLog.Package.html">showChangeLog</a></code> </td><td style="text-align: left;"> Show the change log of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/showContents.Package.html">showContents</a></code> </td><td style="text-align: left;"> Show the CONTENTS file of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/showDescriptionFile.Package.html">showDescriptionFile</a></code> </td><td style="text-align: left;"> Show the DESCRIPTION file of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>showHistory</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/showHowToCite.Package.html">showHowToCite</a></code> </td><td style="text-align: left;"> Show the HOWTOCITE file of this package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>showNews</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/startupMessage.Package.html">startupMessage</a></code> </td><td style="text-align: left;"> Generates a 'package successfully loaded' package startup message.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code><a href="../help/unload.Package.html">unload</a></code> </td><td style="text-align: left;"> Unloads a package.</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: # By defining .onAttach() as follows in zzz.R for a package, an
+# instance of class Package with the same name as the package will
+# be made available on the search path. More over, the code below
+# will also inform the user that the package has been loaded:
+#
+#  &gt; library(R.oo)
+#  R.oo v0.52 (2003/04/13) was successfully loaded.
+#
+.onAttach &lt;- function(libname, pkgname) {
+  pkg &lt;- Package(pkgname)
+  assign(pkgname, pkg, pos=getPosition(pkg))
+  cat(getName(pkg), " v", getVersion(pkg), " (", getDate(pkg), ")",
+    " was successfully loaded.\n", sep="")
+}
+
+# The Package class works for any packages, loaded or not.
+
+# Some information about the base package
+pkg &lt;- Package("base")
+print(pkg)
+# [1] "Package: base v3.6.2 is loaded (pos=14).  Title: The R Base Package.
+# The official webpage is NA and the maintainer is R Core Team &lt;R-core@
+# r-project.org&gt;.  The package is installed in /usr/lib/R/library/base/.
+# License: Part of R 3.6.2.  Description: Base R functions.  Type
+# showNews(base) for package history, and ?base for help."
+print(list.files(Package("base")$dataPath))
+
+# Some information about the R.oo package
+print(R.oo::R.oo)
+# [1] "Package: R.oo v1.23.0-9000 .  Title: R Object-Oriented Programming
+# with or without References.  The official webpage is https://github.com/
+# HenrikBengtsson/R.oo and the maintainer is Henrik Bengtsson.  The package
+# is installed in /home/alice/R/x86_64-pc-linux-gnu-library/3.6/R.oo/.
+# License: LGPL (&gt;= 2.1).  Description: Methods and classes for object-
+# oriented programming in R with or without references.  Large effort has
+# been made on making definition of methods as simple as possible with a
+# minimum of maintenance for package developers.  The package has been
+# developed since 2001 and is now considered very stable.  This is a
+# cross-platform package implemented in pure R that defines standard S3
+# classes without any tricks.  Type showNews(R.oo) for package history,
+# and ?R.oo for help."
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

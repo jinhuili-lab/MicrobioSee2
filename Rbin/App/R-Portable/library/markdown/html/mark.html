@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Render Markdown to an output format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mark {markdown}"><tr><td>mark {markdown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Render Markdown to an output format</h2>
+
+<h3>Description</h3>
+
+<p>Render Markdown to an output format via the <span class="pkg">commonmark</span> package. The
+function <code>mark_html()</code> is a shorthand of <code>mark(format = 'html', template = TRUE)</code>, and <code>mark_latex()</code> is a shorthand of <code>mark(format = 'latex', template = TRUE)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mark(
+  file = NULL,
+  output = NULL,
+  text = NULL,
+  format = c("html", "latex"),
+  options = NULL,
+  template = FALSE,
+  meta = list()
+)
+
+mark_html(..., template = TRUE)
+
+mark_latex(..., template = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Path to an input file. If not provided, it is presumed that the
+<code>text</code> argument will be used instead. This argument can also take a
+character vector of Markdown text directly. To avoid ambiguity in the
+latter case, a single character string input will be treated as a file if
+the file exists. If a string should be treated as Markdown text when it
+happens to be a file path, wrap it in <code><a href="../../base/html/AsIs.html">I()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>Output file path. If not character, the results will be
+returned as a character vector. If not specified and the input is a file
+path, the output file path will have the same base name as the input file,
+with an extension corresponding to the <code>format</code> argument, e.g.,
+<code>mark('foo.md', format = 'latex')</code> will generate an output file
+&lsquo;<span class="file">foo.tex</span>&rsquo; by default.</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>A character vector of the Markdown text. By default, it is read
+from <code>file</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>An output format supported by <span class="pkg">commonmark</span>, e.g., <code>'html'</code>,
+<code>'man'</code>, and <code>'text'</code>, etc. See the
+<code><a href="../../commonmark/help/commonmark.html">markdown_*()</a></code> renderers in <span class="pkg">commonmark</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>options</code></td>
+<td>
+<p>Options to be passed to the renderer. See <code><a href="../../markdown/help/markdown_options.html">markdown_options()</a></code>
+for details. This argument can take either a character vector of the form
+<code>"+option1 option2-option3"</code> (use <code>+</code> or a space to enable an option, and
+<code>-</code> to disable an option), or a list of the form <code>list(option1 = value1, option2 = value2, ...)</code>. A string <code>"+option1"</code> is equivalent to
+<code>list(option1 = TRUE)</code>, and <code>"-option2"</code> means <code>list(option2 = FALSE)</code>.
+Options that do not take logical values must be specified via a list, e.g.,
+<code>list(width = 30)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>template</code></td>
+<td>
+<p>Path to a template file. The default value is
+<code>getOption('markdown.FORMAT.template', markdown:::pkg_file('resources', 'markdown.FORMAT'))</code> where <code>FORMAT</code> is the output format name (<code>html</code> or
+<code>latex</code>). It can also take a logical value: <code>TRUE</code> means to use the default
+template, and <code>FALSE</code> means to generate only a fragment without using any
+template.</p>
+</td></tr>
+<tr valign="top"><td><code>meta</code></td>
+<td>
+<p>A named list of metadata. Elements in the metadata will be used
+to fill out the template by their names and values, e.g., <code>list(title = ...)</code> will replace the <code style="white-space: pre;">$title$</code> variable in the template. See the Section
+&ldquo;YAML metadata&rdquo; in the vignette <code>vignette('intro', package = 'markdown')</code> for supported variables.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be passed to <code>mark()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisible <code>NULL</code> when output is to a file, otherwise a character
+vector of the rendered output.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The spec of GitHub Flavored Markdown:
+<a href="https://github.github.com/gfm/">https://github.github.com/gfm/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(markdown)
+mark(c("Hello _World_!", "", "Welcome to **markdown**."))
+# a few corner cases
+mark(character(0))
+mark("")
+# if input happens to be a file path but should be treated as text, use I()
+mark(I("This is *not* a file.md"))
+# that's equivalent to
+mark(text = "This is *not* a file.md")
+
+mark_html("Hello _World_!", template = FALSE)
+# write HTML to an output file
+mark_html("_Hello_, **World**!", output = tempfile())
+
+mark_latex("Hello _World_!", template = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>markdown</em> version 1.12 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

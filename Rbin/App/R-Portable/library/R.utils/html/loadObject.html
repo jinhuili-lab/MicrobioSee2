@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Method to load object from a file or a connection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for loadObject {R.utils}"><tr><td>loadObject {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Method to load object from a file or a connection</h2>
+
+<h3>Description</h3>
+
+<p>Method to load object from a file or a connection, which previously have been saved using <code><a href="../../R.utils/help/saveObject.html">saveObject</a></code>().
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+loadObject(file, path=NULL, format=c("auto", "xdr", "rds"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A filename or <code><a href="../../base/help/connections.html">connection</a></code> to read the object from.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>The path where the file exists.</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>File format.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The main difference from this method and <code><a href="../../base/help/load.html">load</a></code>() in the
+<span class="pkg">base</span> package, is that this one returns the object read rather
+than storing it in the global environment by its default name.
+This makes it possible to load objects back using any variable name.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the saved object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/saveObject.html">saveObject</a></code>() to save an object to file.
+Internally <code><a href="../../base/help/load.html">load</a></code>() is used.
+See also <code><a href="../../R.utils/help/loadToEnv.html">loadToEnv</a></code>().
+See also <code><a href="../../base/help/saveRDS.html">saveRDS</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

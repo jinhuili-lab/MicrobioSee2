@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: [Partial] Distance-based Redundancy Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for capscale {vegan}"><tr><td>capscale {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>[Partial] Distance-based Redundancy Analysis </h2>
+
+<h3>Description</h3>
+
+<p>Distance-based redundancy analysis (dbRDA) is an ordination method
+similar to Redundancy Analysis (<code><a href="../../vegan/help/rda.html">rda</a></code>), but it allows
+non-Euclidean dissimilarity indices, such as Manhattan or
+Bray&ndash;Curtis distance. Despite this non-Euclidean feature, the analysis
+is strictly linear and metric. If called with Euclidean distance,
+the results are identical to <code><a href="../../vegan/help/rda.html">rda</a></code>, but dbRDA
+will be less efficient. Functions <code>capscale</code> and <code>dbrda</code> are
+constrained versions of metric scaling, a.k.a. principal coordinates
+analysis, which are based on the Euclidean distance but can be used,
+and are more useful, with other dissimilarity measures. The functions
+can also perform unconstrained principal coordinates analysis,
+optionally using extended dissimilarities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+capscale(formula, data, distance = "euclidean", sqrt.dist = FALSE,
+    comm = NULL, add = FALSE,  dfun = vegdist, metaMDSdist = FALSE,
+    na.action = na.fail, subset = NULL, ...)
+dbrda(formula, data, distance = "euclidean", sqrt.dist = FALSE,
+    add = FALSE, dfun = vegdist, metaMDSdist = FALSE,
+    na.action = na.fail, subset = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>Model formula. The function can be called only with the
+formula interface. Most usual features of <code><a href="../../stats/html/formula.html">formula</a></code> hold,
+especially as defined in <code><a href="../../vegan/help/cca.html">cca</a></code> and <code><a href="../../vegan/help/rda.html">rda</a></code>. The
+LHS must be either a community data matrix or a dissimilarity matrix,
+e.g., from
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code>.
+If the LHS is a data matrix, function <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or
+function given in <code>dfun</code>
+will be used to find the dissimilarities. The RHS defines the
+constraints. The constraints can be continuous variables or factors,
+they can be transformed within the formula, and they can have
+interactions as in a typical <code><a href="../../stats/html/formula.html">formula</a></code>. The RHS can have a
+special term <code>Condition</code> that defines variables to be
+&ldquo;partialled out&rdquo; before constraints, just like in <code><a href="../../vegan/help/rda.html">rda</a></code>
+or <code><a href="../../vegan/help/cca.html">cca</a></code>. This allows the use of partial dbRDA.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> Data frame containing the variables on the right hand side of
+the model formula. </p>
+</td></tr>
+<tr valign="top"><td><code>distance</code></td>
+<td>
+<p>The name of the dissimilarity (or distance) index if
+the LHS of the <code>formula</code> is a data frame instead of
+dissimilarity matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>sqrt.dist</code></td>
+<td>
+<p>Take square roots of dissimilarities. See section
+<code>Details</code> below.</p>
+</td></tr>
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p> Community data frame which will be used for finding
+species scores when the LHS of the <code>formula</code> was a
+dissimilarity matrix. This is not used if the LHS is a data
+frame. If this is not supplied, the &ldquo;species scores&rdquo; are
+unavailable when dissimilarities were supplied. N.B., this is
+only available in <code>capscale</code>: <code>dbrda</code> does not return
+species scores. Function <code><a href="../../vegan/help/sppscores.html">sppscores</a></code> can be used to add
+species scores if they are missing.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add a constant to the non-diagonal dissimilarities such
+that all eigenvalues are non-negative in the underlying Principal
+Co-ordinates Analysis (see <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code> for
+details). <code>"lingoes"</code> (or <code>TRUE</code>) uses the
+recommended method of Legendre &amp; Anderson (1999: &ldquo;method
+1&rdquo;) and <code>"cailliez"</code> uses their &ldquo;method 2&rdquo;. The
+latter is the only one in <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dfun</code></td>
+<td>
+<p>Distance or dissimilarity function used. Any function
+returning standard <code>"dist"</code> and taking the index name as the
+first argument can be used. </p>
+</td></tr>
+<tr valign="top"><td><code>metaMDSdist</code></td>
+<td>
+<p>Use <code><a href="../../vegan/help/metaMDSdist.html">metaMDSdist</a></code> similarly as in
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>. This means automatic data transformation and
+using extended flexible shortest path dissimilarities (function
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code>) when there are many dissimilarities based on
+no shared species.</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>Handling of missing values in constraints or
+conditions. The default (<code><a href="../../stats/html/na.fail.html">na.fail</a></code>) is to stop
+with missing values. Choices <code><a href="../../stats/html/na.fail.html">na.omit</a></code> and
+<code><a href="../../stats/html/na.fail.html">na.exclude</a></code> delete rows with missing values, but
+differ in representation of results. With <code>na.omit</code> only
+non-missing site scores are shown, but <code>na.exclude</code> gives
+<code>NA</code> for scores of missing observations. Unlike in
+<code><a href="../../vegan/help/rda.html">rda</a></code>, no WA scores are available for missing
+constraints or conditions.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>Subset of data rows. This can be a logical vector
+which is <code>TRUE</code> for kept observations, or a logical
+expression which can contain variables in the working
+environment, <code>data</code> or species names of the community data
+(if given in the formula or as <code>comm</code> argument).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to underlying functions (e.g.,
+<code><a href="../../vegan/help/metaMDSdist.html">metaMDSdist</a></code>).  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Functions <code>capscale</code> and <code>dbrda</code> provide two alternative
+implementations of dbRDA. Function <code>capscale</code> is based on
+Legendre &amp; Anderson (1999): the dissimilarity data are first
+ordinated using metric scaling, and the ordination results are
+analysed as <code><a href="../../vegan/help/rda.html">rda</a></code>. Function <code>dbrda</code> is based on
+McArdle &amp; Anderson (2001) and directly decomposes
+dissimilarities. It does not use <code><a href="../../vegan/help/rda.html">rda</a></code> but a parallel
+implementation adapted for analysing dissimilarities and returns a
+subset of <code><a href="../../vegan/help/rda.html">rda</a></code> items. With Euclidean distances both
+results are identical to <code><a href="../../vegan/help/rda.html">rda</a></code>.  Other dissimilarities
+may give negative eigenvalues associated with imaginary
+axes. Negative eigenvalues are handled differently: <code>capscale</code>
+ignores imaginary axes and analyses only real axes with positive
+eigenvalues, and <code>dbrda</code> directly analyses dissimilarities and
+can give negative eigenvalues in any component.
+</p>
+<p>If the user supplied a community data frame instead of
+dissimilarities, the functions will find dissimilarities using
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or distance function given in <code>dfun</code> with
+specified <code>distance</code>. The functions will accept distance
+objects from <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, <code><a href="../../stats/html/dist.html">dist</a></code>, or any other
+method producing compatible objects. The constraining variables can be
+continuous or factors or both, they can have interaction terms, or
+they can be transformed in the call. Moreover, there can be a
+special term <code>Condition</code> just like in <code><a href="../../vegan/help/rda.html">rda</a></code> and
+<code><a href="../../vegan/help/cca.html">cca</a></code> so that &ldquo;partial&rdquo; analysis can be performed.
+</p>
+<p>Function <code>dbrda</code> does not return species scores, and they can
+also be missing in <code>capscale</code>, but they can be added after the
+analysis using function <code><a href="../../vegan/help/sppscores.html">sppscores</a></code>.
+</p>
+<p>Non-Euclidean dissimilarities can produce negative eigenvalues
+(Legendre &amp; Anderson 1999, McArdle &amp; Anderson 2001).  If there are
+negative eigenvalues, the printed output of <code>capscale</code> will add
+a column with sums of positive eigenvalues and an item of sum of
+negative eigenvalues, and <code>dbrda</code> will add a column giving the
+number of real dimensions with positive eigenvalues.  If negative
+eigenvalues are disturbing, functions let you to distort the
+dissimilarities so that only non-negative eigenvalues will be
+produced with argument <code>add = TRUE</code>. Alternatively, with
+<code>sqrt.dist = TRUE</code>, square roots of dissimilarities will be
+used which may help in avoiding negative eigenvalues (Legendre &amp;
+Anderson 1999).
+</p>
+<p>The functions can be also used to perform ordinary metric scaling
+a.k.a. principal coordinates analysis by using a formula with only a
+constant on the left hand side, or <code>comm ~ 1</code>. With
+<code>metaMDSdist = TRUE</code>, the function can do automatic data
+standardization and use extended dissimilarities using function
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code> similarly as in non-metric multidimensional
+scaling with <code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The functions return an object of class <code>capscale</code> or
+<code>dbrda</code> which inherits from <code><a href="../../vegan/help/rda.html">rda</a></code>. See
+<code><a href="../../vegan/help/cca.object.html">cca.object</a></code> for description of the result object.
+</p>
+
+
+<h3>Note</h3>
+
+<p> The function <code>capscale</code> was originally developed as a
+variant of constrained analysis of proximities (Anderson &amp; Willis
+2003), but these developments made it similar to dbRDA. However, it
+discards the imaginary dimensions with negative eigenvalues and
+ordination and significance tests area only based on real dimensions
+and positive eigenvalues.
+</p>
+<p>The inertia is named after the dissimilarity index as defined in the
+dissimilarity data, or as <code>unknown distance</code> if such
+information is missing. If the largest original dissimilarity was
+larger than 4, <code>capscale</code> handles input similarly as <code>rda</code>
+and bases its analysis on variance instead of sum of
+squares. Keyword <code>mean</code> is added to the inertia in these cases,
+e.g. with Euclidean and Manhattan distances.  Inertia is based on
+squared index, and keyword <code>squared</code> is added to the name of
+distance, unless data were square root transformed (argument
+<code>sqrt.dist=TRUE</code>). If an additive constant was used with
+argument <code>add</code>, <code>Lingoes</code> or <code>Cailliez adjusted</code> is
+added to the the name of inertia, and the value of the constant is
+printed.</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Anderson, M.J. &amp; Willis, T.J. (2003). Canonical analysis of principal
+coordinates: a useful method of constrained ordination for
+ecology. <em>Ecology</em> 84, 511&ndash;525.
+</p>
+<p>Gower, J.C. (1985). Properties of Euclidean and non-Euclidean
+distance matrices. <em>Linear Algebra and its Applications</em> 67, 81&ndash;97.
+</p>
+<p>Legendre, P. &amp; Anderson, M. J. (1999). Distance-based redundancy
+analysis: testing multispecies responses in multifactorial ecological
+experiments. <em>Ecological Monographs</em> 69, 1&ndash;24.
+</p>
+<p>Legendre, P. &amp; Legendre, L. (2012).  <em>Numerical Ecology</em>. 3rd English
+Edition. Elsevier.
+</p>
+<p>McArdle, B.H. &amp; Anderson, M.J. (2001). Fitting multivariate models
+to community data: a comment on distance-based redundancy
+analysis. <em>Ecology</em> 82, 290&ndash;297.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>,
+<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>, <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>,
+<code><a href="../../stats/html/dist.html">dist</a></code>, <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>, <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code>
+for underlying and related functions. Function <code><a href="../../vegan/help/sppscores.html">sppscores</a></code>
+can add species scores or replace existing species scores.
+</p>
+<p>The function returns similar result object as <code><a href="../../vegan/help/rda.html">rda</a></code> (see
+<code><a href="../../vegan/help/cca.object.html">cca.object</a></code>). This section for <code><a href="../../vegan/help/rda.html">rda</a></code> gives a
+more complete list of functions that can be used to access and
+analyse dbRDA results.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+## Basic Analysis
+vare.cap &lt;- capscale(varespec ~ N + P + K + Condition(Al), varechem,
+                     dist="bray")
+vare.cap
+plot(vare.cap)
+anova(vare.cap)
+## Avoid negative eigenvalues with additive constant
+capscale(varespec ~ N + P + K + Condition(Al), varechem,
+                     dist="bray", add =TRUE)
+## Avoid negative eigenvalues by taking square roots of dissimilarities
+capscale(varespec ~ N + P + K + Condition(Al), varechem,
+                     dist = "bray", sqrt.dist= TRUE)
+## Principal coordinates analysis with extended dissimilarities
+capscale(varespec ~ 1, dist="bray", metaMDS = TRUE)
+## dbrda
+dbrda(varespec ~ N + P + K + Condition(Al), varechem,
+                     dist="bray")
+## avoid negative eigenvalues also with Jaccard distances
+dbrda(varespec ~ N + P + K + Condition(Al), varechem,
+                     dist="jaccard")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

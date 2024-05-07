@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identifies and removes DLLs of packages already unloaded</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gcDLLs {R.utils}"><tr><td>gcDLLs {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identifies and removes DLLs of packages already unloaded</h2>
+
+<h3>Description</h3>
+
+<p>Identifies and removes DLLs of packages already unloaded.
+When packages are unloaded, they are ideally also unloading any
+DLLs (also known as a dynamic shared object or library) they
+have loaded.  Unfortunately, not all package do this resulting
+in &quot;stray&quot; DLLs still being loaded and occupying <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>'s limited
+registry.  These functions identifies and removes such DLLs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gcDLLs(gc=TRUE, quiet=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>gc</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, if there are stray DLLs, then the garbage collector is run before unloading those DLLs.  This is done in order to trigger any finalizers, of which some may need those DLLs, to be called.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">FALSE</a></code>, a message is outputted for every stray DLL that is unloaded.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If a library fails to unload, an informative warning is generated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the set of stray DLLs identified.
+</p>
+
+
+<h3>How to unload DLLs in package (for package developers)</h3>
+
+<p>To unload a package DLL whenever the package in unloaded, add the
+following to your package:
+</p>
+<pre>
+  .onUnload &lt;- function(libpath) {
+      ## (1) Force finalizers to be called before removing the DLL
+      ##     in case some of them need the DLL.
+      gc()
+
+      ## (2) Unload the DLL for this package
+      library.dynam.unload(.packageName, libpath)
+  }
+  </pre>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/getLoadedDLLs.html">getLoadedDLLs</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

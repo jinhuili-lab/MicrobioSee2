@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: convert profile to data frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for as.data.frame.profile.mle2 {bbmle}"><tr><td>as.data.frame.profile.mle2 {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>convert profile to data frame</h2>
+
+<h3>Description</h3>
+
+<p>converts a profile of a fitted mle2 object
+to a data frame
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'profile.mle2'
+as.data.frame(x, row.names=NULL,
+optional=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a profile object</p>
+</td></tr>
+<tr valign="top"><td><code>row.names</code></td>
+<td>
+<p>row names (unused)</p>
+</td></tr>
+<tr valign="top"><td><code>optional</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a data frame with columns
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>param</code></td>
+<td>
+<p>name of parameter being profiled</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>signed square root of the deviance difference from the
+minimum</p>
+</td></tr>
+<tr valign="top"><td><code>parameter values</code></td>
+<td>
+<p>named par.vals.parname</p>
+</td></tr>
+<tr valign="top"><td><code>focal</code></td>
+<td>
+<p>value of focal parameter: redundant, but included for
+plotting convenience</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## use as.data.frame and lattice to plot profiles
+  x &lt;- 0:10
+  y &lt;- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+  library(bbmle)
+  LL &lt;- function(ymax=15, xhalf=6) {
+        -sum(stats::dpois(y, lambda=ymax/(1+x/xhalf), log=TRUE))
+    }
+  ## uses default parameters of LL
+  fit1 &lt;- mle2(LL)
+  p1 &lt;- profile(fit1)
+  d1 &lt;- as.data.frame(p1)
+  library(lattice)
+  xyplot(abs(z)~focal|param,data=d1,
+    subset=abs(z)&lt;3,
+    type="b",
+    xlab="",
+    ylab=expression(paste(abs(z),
+    " (square root of ",Delta," deviance)")),
+    scale=list(x=list(relation="free")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

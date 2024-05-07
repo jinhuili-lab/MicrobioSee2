@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for p_value {parameters}"><tr><td>p_value {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>p-values</h2>
+
+<h3>Description</h3>
+
+<p>This function attempts to return, or compute, p-values of a model's
+parameters. See the documentation for your object's class:
+</p>
+
+<ul>
+<li> <p><a href="../../parameters/help/p_value.BFBayesFactor.html">Bayesian models</a> (<strong>rstanarm</strong>, <strong>brms</strong>, <strong>MCMCglmm</strong>, ...)
+</p>
+</li>
+<li> <p><a href="../../parameters/help/p_value.zeroinfl.html">Zero-inflated models</a> (<code>hurdle</code>, <code>zeroinfl</code>, <code>zerocount</code>, ...)
+</p>
+</li>
+<li> <p><a href="../../parameters/help/p_value.poissonmfx.html">Marginal effects models</a> (<strong>mfx</strong>)
+</p>
+</li>
+<li> <p><a href="../../parameters/help/p_value.DirichletRegModel.html">Models with special components</a> (<code>DirichletRegModel</code>, <code>clm2</code>, <code>cgam</code>, ...)
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+p_value(model, ...)
+
+## Default S3 method:
+p_value(
+  model,
+  dof = NULL,
+  method = NULL,
+  component = "all",
+  vcov = NULL,
+  vcov_args = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'emmGrid'
+p_value(model, ci = 0.95, adjust = "none", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments</p>
+</td></tr>
+<tr valign="top"><td><code>dof</code></td>
+<td>
+<p>Number of degrees of freedom to be used when calculating
+confidence intervals. If <code>NULL</code> (default), the degrees of freedom are
+retrieved by calling <code><a href="../../parameters/help/degrees_of_freedom.html">degrees_of_freedom()</a></code> with
+approximation method defined in <code>method</code>. If not <code>NULL</code>, use this argument
+to override the default degrees of freedom used to compute confidence
+intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method for computing degrees of freedom for
+confidence intervals (CI) and the related p-values. Allowed are following
+options (which vary depending on the model class): <code>"residual"</code>,
+<code>"normal"</code>, <code>"likelihood"</code>, <code>"satterthwaite"</code>, <code>"kenward"</code>, <code>"wald"</code>,
+<code>"profile"</code>, <code>"boot"</code>, <code>"uniroot"</code>, <code>"ml1"</code>, <code>"betwithin"</code>, <code>"hdi"</code>,
+<code>"quantile"</code>, <code>"ci"</code>, <code>"eti"</code>, <code>"si"</code>, <code>"bci"</code>, or <code>"bcai"</code>. See section
+<em>Confidence intervals and approximation of degrees of freedom</em> in
+<code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> for further details.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Model component for which parameters should be shown. See
+the documentation for your object's class in <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> or
+<code><a href="../../parameters/help/p_value.html">p_value()</a></code> for further details.</p>
+</td></tr>
+<tr valign="top"><td><code>vcov</code></td>
+<td>
+<p>Variance-covariance matrix used to compute uncertainty estimates
+(e.g., for robust standard errors). This argument accepts a covariance matrix,
+a function which returns a covariance matrix, or a string which identifies
+the function to be used to compute the covariance matrix.
+</p>
+
+<ul>
+<li><p> A covariance matrix
+</p>
+</li>
+<li><p> A function which returns a covariance matrix (e.g., <code>stats::vcov()</code>)
+</p>
+</li>
+<li><p> A string which indicates the kind of uncertainty estimates to return.
+</p>
+
+<ul>
+<li><p> Heteroskedasticity-consistent: <code>"vcovHC"</code>, <code>"HC"</code>, <code>"HC0"</code>, <code>"HC1"</code>,
+<code>"HC2"</code>, <code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, <code>"HC5"</code>. See <code>?sandwich::vcovHC</code>.
+</p>
+</li>
+<li><p> Cluster-robust: <code>"vcovCR"</code>, <code>"CR0"</code>, <code>"CR1"</code>, <code>"CR1p"</code>, <code>"CR1S"</code>, <code>"CR2"</code>,
+<code>"CR3"</code>. See <code>?clubSandwich::vcovCR</code>.
+</p>
+</li>
+<li><p> Bootstrap: <code>"vcovBS"</code>, <code>"xy"</code>, <code>"residual"</code>, <code>"wild"</code>, <code>"mammen"</code>, <code>"webb"</code>.
+See <code>?sandwich::vcovBS</code>.
+</p>
+</li>
+<li><p> Other <code>sandwich</code> package functions: <code>"vcovHAC"</code>, <code>"vcovPC"</code>, <code>"vcovCL"</code>, <code>"vcovPL"</code>.
+</p>
+</li></ul>
+
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>vcov_args</code></td>
+<td>
+<p>List of arguments to be passed to the function identified by
+the <code>vcov</code> argument. This function is typically supplied by the <strong>sandwich</strong>
+or <strong>clubSandwich</strong> packages. Please refer to their documentation (e.g.,
+<code>?sandwich::vcovHAC</code>) to see the list of available arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Character value naming the method used to adjust p-values or
+confidence intervals. See <code>?emmeans::summary.emmGrid</code> for details.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with at least two columns: the parameter names and the
+p-values. Depending on the model, may also include columns for model
+components etc.
+</p>
+
+
+<h3>Confidence intervals and approximation of degrees of freedom</h3>
+
+<p>There are different ways of approximating the degrees of freedom depending
+on different assumptions about the nature of the model and its sampling
+distribution. The <code>ci_method</code> argument modulates the method for computing degrees
+of freedom (df) that are used to calculate confidence intervals (CI) and the
+related p-values. Following options are allowed, depending on the model
+class:
+</p>
+<p><strong>Classical methods:</strong>
+</p>
+<p>Classical inference is generally based on the <strong>Wald method</strong>.
+The Wald approach to inference computes a test statistic by dividing the
+parameter estimate by its standard error (Coefficient / SE),
+then comparing this statistic against a t- or normal distribution.
+This approach can be used to compute CIs and p-values.
+</p>
+<p><code>"wald"</code>:
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em>. For <em>linear models</em>, CIs
+computed using the Wald method (SE and a <em>t-distribution with residual df</em>);
+p-values computed using the Wald method with a <em>t-distribution with residual df</em>.
+For other models, CIs computed using the Wald method (SE and a <em>normal distribution</em>);
+p-values computed using the Wald method with a <em>normal distribution</em>.
+</p>
+</li></ul>
+
+<p><code>"normal"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em>. Compute Wald CIs and p-values,
+but always use a normal distribution.
+</p>
+</li></ul>
+
+<p><code>"residual"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em>. Compute Wald CIs and p-values,
+but always use a <em>t-distribution with residual df</em> when possible. If the
+residual df for a model cannot be determined, a normal distribution is
+used instead.
+</p>
+</li></ul>
+
+<p><strong>Methods for mixed models:</strong>
+</p>
+<p>Compared to fixed effects (or single-level) models, determining appropriate
+df for Wald-based inference in mixed models is more difficult.
+See <a href="https://bbolker.github.io/mixedmodels-misc/glmmFAQ.html#what-are-the-p-values-listed-by-summaryglmerfit-etc.-are-they-reliable">the R GLMM FAQ</a>
+for a discussion.
+</p>
+<p>Several approximate methods for computing df are available, but you should
+also consider instead using profile likelihood (<code>"profile"</code>) or bootstrap (&quot;<code style="white-space: pre;">boot"</code>)
+CIs and p-values instead.
+</p>
+<p><code>"satterthwaite"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>linear mixed models</em>. CIs computed using the
+Wald method (SE and a <em>t-distribution with Satterthwaite df</em>); p-values
+computed using the Wald method with a <em>t-distribution with Satterthwaite df</em>.
+</p>
+</li></ul>
+
+<p><code>"kenward"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>linear mixed models</em>. CIs computed using the Wald
+method (<em>Kenward-Roger SE</em> and a <em>t-distribution with Kenward-Roger df</em>);
+p-values computed using the Wald method with <em>Kenward-Roger SE and t-distribution with Kenward-Roger df</em>.
+</p>
+</li></ul>
+
+<p><code>"ml1"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>linear mixed models</em>. CIs computed using the Wald
+method (SE and a <em>t-distribution with m-l-1 approximated df</em>); p-values
+computed using the Wald method with a <em>t-distribution with m-l-1 approximated df</em>.
+See <code><a href="../../parameters/help/ci_ml1.html">ci_ml1()</a></code>.
+</p>
+</li></ul>
+
+<p><code>"betwithin"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>linear mixed models</em> and <em>generalized linear mixed models</em>.
+CIs computed using the Wald method (SE and a <em>t-distribution with between-within df</em>);
+p-values computed using the Wald method with a <em>t-distribution with between-within df</em>.
+See <code><a href="../../parameters/help/ci_betwithin.html">ci_betwithin()</a></code>.
+</p>
+</li></ul>
+
+<p><strong>Likelihood-based methods:</strong>
+</p>
+<p>Likelihood-based inference is based on comparing the likelihood for the
+maximum-likelihood estimate to the the likelihood for models with one or more
+parameter values changed (e.g., set to zero or a range of alternative values).
+Likelihood ratios for the maximum-likelihood and alternative models are compared
+to a <i>&chi;</i>-squared distribution to compute CIs and p-values.
+</p>
+<p><code>"profile"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em> of class <code>glm</code>, <code>polr</code>, <code>merMod</code> or <code>glmmTMB</code>.
+CIs computed by <em>profiling the likelihood curve for a parameter</em>, using
+linear interpolation to find where likelihood ratio equals a critical value;
+p-values computed using the Wald method with a <em>normal-distribution</em> (note:
+this might change in a future update!)
+</p>
+</li></ul>
+
+<p><code>"uniroot"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em> of class <code>glmmTMB</code>. CIs
+computed by <em>profiling the likelihood curve for a parameter</em>, using root
+finding to find where likelihood ratio equals a critical value; p-values
+computed using the Wald method with a <em>normal-distribution</em> (note: this
+might change in a future update!)
+</p>
+</li></ul>
+
+<p><strong>Methods for bootstrapped or Bayesian models:</strong>
+</p>
+<p>Bootstrap-based inference is based on <strong>resampling</strong> and refitting the model
+to the resampled datasets. The distribution of parameter estimates across
+resampled datasets is used to approximate the parameter's sampling
+distribution. Depending on the type of model, several different methods for
+bootstrapping and constructing CIs and p-values from the bootstrap
+distribution are available.
+</p>
+<p>For Bayesian models, inference is based on drawing samples from the model
+posterior distribution.
+</p>
+<p><code>"quantile"</code> (or <code>"eti"</code>)
+</p>
+
+<ul>
+<li><p> Applies to <em>all models (including Bayesian models)</em>.
+For non-Bayesian models, only applies if <code>bootstrap = TRUE</code>. CIs computed
+as <em>equal tailed intervals</em> using the quantiles of the bootstrap or
+posterior samples; p-values are based on the <em>probability of direction</em>.
+See <code><a href="../../bayestestR/help/eti.html">bayestestR::eti()</a></code>.
+</p>
+</li></ul>
+
+<p><code>"hdi"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>all models (including Bayesian models)</em>. For non-Bayesian
+models, only applies if <code>bootstrap = TRUE</code>. CIs computed as <em>highest density intervals</em>
+for the bootstrap or posterior samples; p-values are based on the <em>probability of direction</em>.
+See <code><a href="../../bayestestR/help/hdi.html">bayestestR::hdi()</a></code>.
+</p>
+</li></ul>
+
+<p><code>"bci"</code> (or <code>"bcai"</code>)
+</p>
+
+<ul>
+<li><p> Applies to <em>all models (including Bayesian models)</em>.
+For non-Bayesian models, only applies if <code>bootstrap = TRUE</code>. CIs computed
+as <em>bias corrected and accelerated intervals</em> for the bootstrap or
+posterior samples; p-values are based on the <em>probability of direction</em>.
+See <code><a href="../../bayestestR/help/bci.html">bayestestR::bci()</a></code>.
+</p>
+</li></ul>
+
+<p><code>"si"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>Bayesian models</em> with proper priors. CIs computed as
+<em>support intervals</em> comparing the posterior samples against the prior samples;
+p-values are based on the <em>probability of direction</em>. See <code><a href="../../bayestestR/help/si.html">bayestestR::si()</a></code>.
+</p>
+</li></ul>
+
+<p><code>"boot"</code>
+</p>
+
+<ul>
+<li><p> Applies to <em>non-Bayesian models</em> of class <code>merMod</code>. CIs computed
+using <em>parametric bootstrapping</em> (simulating data from the fitted model);
+p-values computed using the Wald method with a <em>normal-distribution)</em>
+(note: this might change in a future update!).
+</p>
+</li></ul>
+
+<p>For all iteration-based methods other than <code>"boot"</code>
+(<code>"hdi"</code>, <code>"quantile"</code>, <code>"ci"</code>, <code>"eti"</code>, <code>"si"</code>, <code>"bci"</code>, <code>"bcai"</code>),
+p-values are based on the probability of direction (<code><a href="../../bayestestR/help/p_direction.html">bayestestR::p_direction()</a></code>),
+which is converted into a p-value using <code><a href="../../bayestestR/help/pd_to_p.html">bayestestR::pd_to_p()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(iris)
+model &lt;- lm(Petal.Length ~ Sepal.Length + Species, data = iris)
+p_value(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

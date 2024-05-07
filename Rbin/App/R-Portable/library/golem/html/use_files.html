@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_external_js_file {golem}"><tr><td>use_external_js_file {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use Files</h2>
+
+<h3>Description</h3>
+
+<p>These functions download files from external sources and put them inside the <code>inst/app/www</code> directory.
+The <code>use_internal_</code> functions will copy internal files, while <code>use_external_</code> will try to download them
+from a remote location.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_external_js_file(
+  url,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_external_css_file(
+  url,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_external_html_template(
+  url,
+  name = "template.html",
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_external_file(
+  url,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_internal_js_file(
+  path,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_internal_css_file(
+  path,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_internal_html_template(
+  path,
+  name = "template.html",
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+
+use_internal_file(
+  path,
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = FALSE,
+  dir_create = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>String representation of URL for the file to be downloaded</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the module.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dir</code></td>
+<td>
+<p>Path to the dir where the file while be created.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Should the created file be opened?</p>
+</td></tr>
+<tr valign="top"><td><code>dir_create</code></td>
+<td>
+<p>Creates the directory if it doesn't exist, default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>String representation of the local path for the file to be implemented (use_file only)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path to the file, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>See <code>?htmltools::htmlTemplate</code> and <code style="white-space: pre;">https://shiny.rstudio.com/articles/templates.html</code>
+for more information about <code>htmlTemplate</code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

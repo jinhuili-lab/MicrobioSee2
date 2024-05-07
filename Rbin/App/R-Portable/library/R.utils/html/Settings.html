@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class for applicational settings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Settings {R.utils}"><tr><td>Settings {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class for applicational settings</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class Settings</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code><a href="../help/Options.html">Options</a></code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>Settings</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>Settings</b><br />
+extends <a href="../help/Options.html">Options</a><br />
+</p>
+<p>Class for applicational settings.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Settings(basename=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>basename</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the basename of the settings file.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to constructor of superclass <a href="../../R.utils/help/Options.html">Options</a>.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>findSettings</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getLoadedPathname</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>isModified</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>loadAnywhere</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>promptAndSave</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>saveAnywhere</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Options</b>:<br />
+as.character, as.list, equals, getLeaves, getOption, hasOption, names, nbrOfOptions, setOption, str
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Load settings with package and save on exit</h3>
+
+<p>Here is a generic <code>.First.lib()</code> function for loading settings
+with package. It also (almost) assures that the package is detached
+when R finishes. See <code><a href="../../R.utils/help/onSessionExit.html">onSessionExit</a></code>() why it is not guaranteed!
+</p>
+<p>The almost generic <code>.Last.lib()</code> function, which will prompt
+user to save settings, is called when a package is detached.
+</p>
+<p>It is custom to put these functions in a file named <code>zzz.R</code>.
+</p>
+<p><b>.First.lib():</b>
+</p>
+<pre>
+  .First.lib &lt;- function(libname, pkgname) {
+    # Write a welcome message when package is loaded
+    pkg &lt;- Package(pkgname)
+    assign(pkgname, pkg, pos=getPosition(pkg))
+
+    # Read settings file ".&lt;pkgname&gt;Settings" and store it in package
+    # variable '&lt;pkgname&gt;Settings'.
+    varname &lt;- paste(pkgname, "Settings")
+    basename &lt;- paste(".", varname, sep="")
+    settings &lt;- Settings$loadAnywhere(basename, verbose=TRUE)
+    if (is.null(settings))
+      settings &lt;- Settings(basename)
+    assign(varname, settings, pos=getPosition(pkg))
+
+    # Detach package when R finishes, which will save package settings too.
+    onSessionExit(function(...) detachPackage(pkgname))
+
+    packageStartupMessage(getName(pkg), " v", getVersion(pkg),
+        " (", getDate(pkg), ") successfully loaded. See ?", pkgname,
+        " for help.\n", sep="")
+  } # .First.lib()
+ </pre>
+<p><b>.Last.lib():</b>
+</p>
+<pre>
+  .Last.lib &lt;- function(libpath) {
+    pkgname &lt;- "&lt;package name&gt;"
+
+    # Prompt and save package settings when package is detached.
+    varname &lt;- paste(pkgname, "Settings", sep="")
+    if (exists(varname)) {
+      settings &lt;- get(varname)
+      if (inherits(settings, "Settings"))
+        promptAndSave(settings)
+    }
+  } # .Last.lib()
+ </pre>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Load settings from file, or create default settings
+basename &lt;- "some.settings"
+settings &lt;- Settings$loadAnywhere(basename)
+if (is.null(settings))
+  settings &lt;- Settings(basename)
+
+# Set default options, if missing.
+setOption(settings, "graphics/verbose", TRUE, overwrite=FALSE)
+setOption(settings, "io/verbose", Verbose(threshold=-1), overwrite=FALSE)
+
+# Save and reload settings
+path &lt;- tempdir()
+saveAnywhere(settings, path=path)
+settings2 &lt;- Settings$loadAnywhere(basename, paths=path)
+
+# Clean up
+file.remove(getLoadedPathname(settings2))
+
+# Assert correctness
+stopifnot(equals(settings, settings2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

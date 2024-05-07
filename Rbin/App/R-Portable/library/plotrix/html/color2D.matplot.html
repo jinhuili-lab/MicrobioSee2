@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a numeric matrix as color matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for color2D.matplot {plotrix}"><tr><td>color2D.matplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a numeric matrix as color matrix</h2>
+
+<h3>Description</h3>
+
+<p>Display the values of a numeric 2D matrix or data frame as colored
+rectangles or hexagons.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ color2D.matplot(x,cs1=c(0,1),cs2=c(0,1),cs3=c(0,1),
+  extremes=NA,cellcolors=NA,show.legend=FALSE,nslices=10,xlab="Column",
+  ylab="Row",do.hex=FALSE,axes=TRUE,show.values=FALSE,vcol=NA,vcex=1,
+  border="black",na.color=NA,xrange=NULL,color.spec="rgb",yrev=TRUE,
+  xat=NULL,yat=NULL,Hinton=FALSE,add=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>data values</p>
+</td></tr>
+<tr valign="top"><td><code>cs1,cs2,cs3</code></td>
+<td>
+<p>the color parameters that will be scaled to represent
+the range of numeric values. (see <span class="samp">color.scale</span>)</p>
+</td></tr>
+<tr valign="top"><td><code>extremes</code></td>
+<td>
+<p>The colors for the extreme values of <span class="samp">x</span>. Takes
+precedence over the color ranges.</p>
+</td></tr>
+<tr valign="top"><td><code>cellcolors</code></td>
+<td>
+<p>A precalculated matrix of cell colors. This must have
+the same number of rows and columns as the matrix or it will be
+uninformative. It can be a vector, but be careTakes precedence over both <span class="samp">extremes</span>
+and color ranges.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>whether to display a color legend with the
+extreme numeric values in the lower left corner of the plot. This will
+force the color specification to &quot;rgb&quot;, so if this is different from
+the color specification requested, call <span class="samp">color.legend</span> separately.</p>
+</td></tr>
+<tr valign="top"><td><code>nslices</code></td>
+<td>
+<p>The number of color &quot;slices&quot; in the legend.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>axis labels for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>do.hex</code></td>
+<td>
+<p>plot packed hexagons instead of rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Whether to suppress the default axis labelling.</p>
+</td></tr>
+<tr valign="top"><td><code>show.values</code></td>
+<td>
+<p>Whether to display the numeric values of <span class="samp">x</span>.
+This also controls the number of decimal places displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>vcol</code></td>
+<td>
+<p>The color for the value display. If NA, the values are displayed
+in black or white depending upon the darkness of the cell color.</p>
+</td></tr>
+<tr valign="top"><td><code>vcex</code></td>
+<td>
+<p>The character expansion for the value display.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The color(s) for the borders of the cells. Pass NA
+if no border is  wanted.</p>
+</td></tr>
+<tr valign="top"><td><code>na.color</code></td>
+<td>
+<p>The color to use for NA values of <span class="samp">x</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>xrange</code></td>
+<td>
+<p>An explicit range for the transformation of colors.
+see <span class="samp">color.scale</span></p>
+</td></tr>
+<tr valign="top"><td><code>color.spec</code></td>
+<td>
+<p>The color specification system to use.</p>
+</td></tr>
+<tr valign="top"><td><code>yrev</code></td>
+<td>
+<p>Whether to reverse the order of the y-axis to display the
+cells in &quot;reading&quot; order (left to right and top to bottom) if TRUE,
+or in the order of a typical plot (left to right and bottom to top) if
+FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>xat,yat</code></td>
+<td>
+<p>Values at which to place tick marks to override <span class="samp">pretty</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>Hinton</code></td>
+<td>
+<p>Whether to display a Hinton diagram in which the magnitude of
+cell values is proportional to the size of the squares and the sign is
+indicated by the color of the squares.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>If TRUE, no plot is created and the rectangles are displayed over
+whatever is on the current device (see the &quot;iris&quot; example).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Displays a plot with the same number of rectangular or hexagonal cells as
+there are numeric values in the matrix or data frame. Each rectangle is
+colored to represent its corresponding value. The rectangles are arranged
+in the conventional display of a 2D matrix with rows beginning at the top
+and columns at the left. To get the rows beginning at the bottom, use
+<span class="samp">yrev=FALSE</span>. The color scale defaults to black for the minimum
+value and white for the maximum.
+</p>
+<p>The user will have to adjust the plot device dimensions to get regular
+squares or hexagons, especially when the matrix is not square. As the
+margins are not equivalent for all display devices, this is currently
+a matter of trial and error. Drawing hexagons is quite slow.
+</p>
+<p><span class="samp">show.values</span> and <span class="samp">show.legend</span> are also used to control the
+number of decimal places displayed if the values or legend are shown.
+<span class="samp">TRUE</span> will give one decimal place, <span class="samp">2</span> two, and so on.
+</p>
+<p>if <span class="samp">Hinton</span> is TRUE, a Hinton diagram in which the sizes of the
+squares are proportional to the absolute value of <span class="samp">x</span> and the colors
+of the squares indicate the sign of the <span class="samp">x</span> values will be displayed.
+This only works with squares.
+</p>
+<p>If <span class="samp">add</span> is true, the color matrix is added to the current plot. This
+is probably only useful when displaying plots that are mostly transparent.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>The function <a href="../../graphics/html/image.html">image</a> performs almost the same when passed a
+matrix of values without grid positions, except that it assigns values to
+a specified list of colors rather than calculating a color for each distinct
+value.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon (thanks to Ashoka Polpitiya for <span class="samp">axes</span>)</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/color.scale.html">color.scale</a>, <a href="../../plotrix/help/fill.corner.html">fill.corner</a>, <a href="../../graphics/html/image.html">image</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-matrix(rnorm(1024),nrow=32)
+ # simulate a correlation matrix with values -0.5 to 0.5
+ x&lt;-rescale(x,c(-0.5,0.5))
+ # add a column with the extreme values (-1,1) to calculate
+ # the colors, then drop the extra column in the result
+ cellcol&lt;-color.scale(cbind(x,c(-1,rep(1,31))),c(0,1),0,c(1,0))[,1:32]
+ color2D.matplot(x,cellcolors=cellcol,main="Blue to red correlations")
+ # do the legend call separately to get the full range
+ color.legend(0,-4,10,-3,legend=c(-1,-0.5,0,0.5,1),
+  rect.col=color.scale(c(-1,-0.5,0,0.5,1),c(0,1),0,c(1,0)),align="rb")
+ x&lt;-matrix(rnorm(100),nrow=10)
+ # generate colors that show negative values in red to brown
+ # and positive in blue-green to green
+ cellcol&lt;-matrix(rep("#000000",100),nrow=10)
+ cellcol[x&lt;0]&lt;-color.scale(x[x&lt;0],c(1,0.8),c(0,0.8),0)
+ cellcol[x&gt;0]&lt;-color.scale(x[x&gt;0],0,c(0.8,1),c(0.8,0))
+ # now do hexagons without borders
+ color2D.matplot(x,cellcolors=cellcol,xlab="Columns",ylab="Rows",
+  do.hex=TRUE,main="2D matrix plot (hexagons)",border=NA)
+ # for this one, we have to do the color legend separately
+ # because of the two part color scaling
+ legval&lt;-seq(min(x),max(x),length.out=6)
+ legcol&lt;-rep("#000000",6)
+ legcol[legval&lt;0]&lt;-color.scale(legval[legval&lt;0],c(1,0.8),c(0,0.8),0)
+ legcol[legval&gt;0]&lt;-color.scale(legval[legval&gt;0],0,c(0.8,1),c(0.8,0))
+ color.legend(0,-1.8,3,-1.4,round(c(min(x),0,max(x)),1),rect.col=legcol)
+ # do a color only association plot
+ xt&lt;-table(sample(1:10,100,TRUE),sample(1:10,100,TRUE))
+ observed&lt;-xt[,rev(1:dim(xt)[2])]
+ expected&lt;-outer(rowSums(observed),colSums(observed),"*")/sum(xt)
+ deviates&lt;-(observed-expected)/sqrt(expected)
+ cellcol&lt;-matrix(rep("#000000",100),nrow=10)
+ cellcol[deviates&lt;0]&lt;-
+  color.scale(deviates[deviates&lt;0],c(1,0.8),c(0,0.5),0)
+ cellcol[deviates&gt;0]&lt;-
+  color.scale(deviates[deviates&gt;0],0,c(0.7,0.8),c(0.5,0))
+ color2D.matplot(x=round(deviates,2),cellcolors=cellcol,
+  show.values=TRUE,main="Association plot")
+ # Hinton diagram
+ border.col&lt;-color.scale(x,extremes=2:3)
+ color2D.matplot(x,extremes=c(2,3),main="Hinton diagram (green +, red -)",
+  Hinton=TRUE,border=border.col)
+ # waffle plot of percentages with two contributing elements
+ waffle.col&lt;-fill.corner(c(rep("red",18),rep("blue",45)),10,10)
+ color2D.matplot(matrix(1:100,nrow=10),cellcolors=waffle.col,yrev=FALSE,
+  border="lightgray",xlab="",ylab="",main="Waffle plot",axes=FALSE)
+ # coarse density plot of the iris petal data
+ spnames&lt;-unique(iris$Species)
+ spcols&lt;-c("red","green","blue")
+ matmax&lt;-list()
+ cindx&lt;-1
+ for(isp in spnames) {
+  petal_mat&lt;-makeDensityMatrix(iris[iris$Species == isp,"Petal.Length"],
+   iris[iris$Species == isp,"Petal.Width"],
+   nx=20,ny=20,xlim=c(1,7),ylim=c(0,2.5),geocoord=FALSE)
+  # center the maximum markers in the cells
+  matmax[[cindx]]&lt;-lapply(find_max_cell(petal_mat),"-",0.5)
+  if(isp == "setosa")
+   color2D.matplot(petal_mat,main="Iris petal length by petal width",
+    xlab="Petal length (cm)",ylab="Petal width (cm)",axes=FALSE,
+    cellcolors=color.scale(petal_mat,extremes=spcols[cindx],alpha=c(0,1)),
+    border=NA,yrev=FALSE)
+  else
+   color2D.matplot(petal_mat,border=NA,yrev=FALSE,add=TRUE,
+   cellcolors=color.scale(petal_mat,extremes=spcols[cindx],alpha=c(0,1)))
+  cindx&lt;-cindx+1
+ }
+ axis(1,at=seq(0,20,by=3.33),labels=1:7)
+ axis(2,at=seq(0,20,length.out=4),labels=seq(1,2.5,by=0.5))
+ legend(1,6,paste0(spnames,"(",1:3,")"),fill=c("red","green","blue"))
+ for(cindx in 1:3)
+  text(matmax[[cindx]],as.character(cindx),col="white",cex=1.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

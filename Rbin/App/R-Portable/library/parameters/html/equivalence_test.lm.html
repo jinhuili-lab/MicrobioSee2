@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Equivalence test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for equivalence_test.lm {parameters}"><tr><td>equivalence_test.lm {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Equivalence test</h2>
+
+<h3>Description</h3>
+
+<p>Compute the (conditional) equivalence test for frequentist models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lm'
+equivalence_test(
+  x,
+  range = "default",
+  ci = 0.95,
+  rule = "classic",
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'merMod'
+equivalence_test(
+  x,
+  range = "default",
+  ci = 0.95,
+  rule = "classic",
+  effects = c("fixed", "random"),
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'ggeffects'
+equivalence_test(
+  x,
+  range = "default",
+  rule = "classic",
+  test = "pairwise",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>The range of practical equivalence of an effect. May be
+<code>"default"</code>, to automatically define this range based on properties of the
+model's data.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>rule</code></td>
+<td>
+<p>Character, indicating the rules when testing for practical
+equivalence. Can be <code>"bayes"</code>, <code>"classic"</code> or <code>"cet"</code>. See
+'Details'.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should parameters for fixed effects (<code>"fixed"</code>), random
+effects (<code>"random"</code>), or both (<code>"all"</code>) be returned? Only applies
+to mixed models. May be abbreviated. If the calculation of random effects
+parameters takes too long, you may use <code>effects = "fixed"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>Hypothesis test for computing contrasts or pairwise comparisons.
+See <a href="https://strengejacke.github.io/ggeffects/reference/test_predictions.html"><code>?ggeffects::test_predictions</code></a>
+for details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In classical null hypothesis significance testing (NHST) within a frequentist
+framework, it is not possible to accept the null hypothesis, H0 - unlike
+in Bayesian statistics, where such probability statements are possible.
+&quot;<a href="../../base/html/dots.html">...</a> one can only reject the null hypothesis if the test
+statistics falls into the critical region(s), or fail to reject this
+hypothesis. In the latter case, all we can say is that no significant effect
+was observed, but one cannot conclude that the null hypothesis is true.&quot;
+(<em>Pernet 2017</em>). One way to address this issues without Bayesian methods
+is <em>Equivalence Testing</em>, as implemented in <code>equivalence_test()</code>.
+While you either can reject the null hypothesis or claim an inconclusive result
+in NHST, the equivalence test - according to <em>Pernet</em> - adds a third category,
+<em>&quot;accept&quot;</em>. Roughly speaking, the idea behind equivalence testing in a
+frequentist framework is to check whether an estimate and its uncertainty
+(i.e. confidence interval) falls within a region of &quot;practical equivalence&quot;.
+Depending on the rule for this test (see below), statistical significance
+does not necessarily indicate whether the null hypothesis can be rejected or
+not, i.e. the classical interpretation of the p-value may differ from the
+results returned from the equivalence test.
+</p>
+
+
+<h4>Calculation of equivalence testing</h4>
+
+
+<ul>
+<li><p> &quot;bayes&quot; - Bayesian rule (Kruschke 2018)
+</p>
+<p>This rule follows the &quot;HDI+ROPE decision rule&quot; (<em>Kruschke, 2014, 2018</em>) used
+for the <code><a href="../../bayestestR/help/equivalence_test.html">Bayesian counterpart()</a></code>. This
+means, if the confidence intervals are completely outside the ROPE, the
+&quot;null hypothesis&quot; for this parameter is &quot;rejected&quot;. If the ROPE
+completely covers the CI, the null hypothesis is accepted. Else, it's
+undecided whether to accept or reject the null hypothesis. Desirable
+results are low proportions inside the ROPE (the closer to zero the
+better).
+</p>
+</li>
+<li><p> &quot;classic&quot; - The TOST rule (Lakens 2017)
+</p>
+<p>This rule follows the &quot;TOST rule&quot;, i.e. a two one-sided test procedure
+(<em>Lakens 2017</em>). Following this rule, practical equivalence of an effect
+(i.e. H0) is <em>rejected</em>, when the coefficient is statistically significant
+<em>and</em> the narrow confidence intervals (i.e. <code>1-2*alpha</code>) <em>include</em> or
+<em>exceed</em> the ROPE boundaries. Practical equivalence is assumed
+(i.e. H0 &quot;accepted&quot;) when the narrow confidence intervals are completely
+inside the ROPE, no matter if the effect is statistically significant
+or not. Else, the decision whether to accept or reject practical
+equivalence is undecided.
+</p>
+</li>
+<li><p> &quot;cet&quot; - Conditional Equivalence Testing (Campbell/Gustafson 2018)
+</p>
+<p>The Conditional Equivalence Testing as described by <em>Campbell and
+Gustafson 2018</em>. According to this rule, practical equivalence is
+rejected when the coefficient is statistically significant. When the
+effect is <em>not</em> significant and the narrow confidence intervals are
+completely inside the ROPE, we accept (i.e. assume) practical equivalence,
+else it is undecided.
+</p>
+</li></ul>
+
+
+
+
+<h4>Levels of Confidence Intervals used for Equivalence Testing</h4>
+
+<p>For <code>rule = "classic"</code>, &quot;narrow&quot; confidence intervals are used for
+equivalence testing. &quot;Narrow&quot; means, the the intervals is not 1 - alpha,
+but 1 - 2 * alpha. Thus, if <code>ci = .95</code>, alpha is assumed to be 0.05
+and internally a ci-level of 0.90 is used. <code>rule = "cet"</code> uses
+both regular and narrow confidence intervals, while <code>rule = "bayes"</code>
+only uses the regular intervals.
+</p>
+
+
+
+<h4>p-Values</h4>
+
+<p>The equivalence p-value is the area of the (cumulative) confidence
+distribution that is outside of the region of equivalence. It can be
+interpreted as p-value for <em>rejecting</em> the alternative hypothesis
+and <em>accepting</em> the &quot;null hypothesis&quot; (i.e. assuming practical
+equivalence). That is, a high p-value means we reject the assumption of
+practical equivalence and accept the alternative hypothesis.
+</p>
+
+
+
+<h4>Second Generation p-Value (SGPV)</h4>
+
+<p>Second generation p-values (SGPV) were proposed as a statistic that
+represents <em>the proportion of data-supported hypotheses that are also null
+hypotheses</em> <em>(Blume et al. 2018, Lakens and Delacre 2020)</em>. It represents the
+proportion of the confidence interval range that is inside the ROPE.
+</p>
+
+
+
+<h4>ROPE range</h4>
+
+<p>Some attention is required for finding suitable values for the ROPE limits
+(argument <code>range</code>). See 'Details' in <code><a href="../../bayestestR/help/rope_range.html">bayestestR::rope_range()</a></code>
+for further information.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/parameters.html"><code>plot()</code>-method</a>
+implemented in the <a href="https://easystats.github.io/see/"><strong>see</strong>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Blume, J. D., D'Agostino McGowan, L., Dupont, W. D., &amp; Greevy, R. A.
+(2018). Second-generation p-values: Improved rigor, reproducibility, &amp;
+transparency in statistical analyses. PLOS ONE, 13(3), e0188299.
+https://doi.org/10.1371/journal.pone.0188299
+</p>
+</li>
+<li><p> Campbell, H., &amp; Gustafson, P. (2018). Conditional equivalence
+testing: An alternative remedy for publication bias. PLOS ONE, 13(4),
+e0195145. doi: 10.1371/journal.pone.0195145
+</p>
+</li>
+<li><p> Kruschke, J. K. (2014). Doing Bayesian data analysis: A tutorial with
+R, JAGS, and Stan. Academic Press
+</p>
+</li>
+<li><p> Kruschke, J. K. (2018). Rejecting or accepting parameter values in
+Bayesian estimation. Advances in Methods and Practices in Psychological
+Science, 1(2), 270-280. doi: 10.1177/2515245918771304
+</p>
+</li>
+<li><p> Lakens, D. (2017). Equivalence Tests: A Practical Primer for t Tests,
+Correlations, and Meta-Analyses. Social Psychological and Personality
+Science, 8(4), 355–362. doi: 10.1177/1948550617697177
+</p>
+</li>
+<li><p> Lakens, D., &amp; Delacre, M. (2020). Equivalence Testing and the Second
+Generation P-Value. Meta-Psychology, 4.
+https://doi.org/10.15626/MP.2018.933
+</p>
+</li>
+<li><p> Pernet, C. (2017). Null hypothesis significance testing: A guide to
+commonly misunderstood concepts and recommendations for good practice.
+F1000Research, 4, 621. doi: 10.12688/f1000research.6963.5
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>For more details, see <code><a href="../../bayestestR/help/equivalence_test.html">bayestestR::equivalence_test()</a></code>.
+Further readings can be found in the references.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(qol_cancer)
+model &lt;- lm(QoL ~ time + age + education, data = qol_cancer)
+
+# default rule
+equivalence_test(model)
+
+# conditional equivalence test
+equivalence_test(model, rule = "cet")
+
+# plot method
+if (require("see", quietly = TRUE)) {
+  result &lt;- equivalence_test(model)
+  plot(result)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

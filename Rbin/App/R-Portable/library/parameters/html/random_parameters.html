@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary information from random effects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for random_parameters {parameters}"><tr><td>random_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summary information from random effects</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts the different variance components of a
+mixed model and returns the result as a data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+random_parameters(model, component = "conditional")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A mixed effects model (including <code>stanreg</code> models).</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should all parameters, parameters for the conditional model,
+for the zero-inflation part of the model, or the dispersion model be returned?
+Applies to models with zero-inflation and/or dispersion component. <code>component</code>
+may be one of <code>"conditional"</code>, <code>"zi"</code>, <code>"zero-inflated"</code>, <code>"dispersion"</code> or
+<code>"all"</code> (default). May be abbreviated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The variance components are obtained from <code><a href="../../insight/help/get_variance.html">insight::get_variance()</a></code> and
+are denoted as following:
+</p>
+
+
+<h4>Within-group (or residual) variance</h4>
+
+<p>The residual variance, &sigma;<sup>2</sup><sub>&epsilon;</sub>,
+is the sum of the distribution-specific variance and the variance due to additive dispersion.
+It indicates the <em>within-group variance</em>.
+</p>
+
+
+
+<h4>Between-group random intercept variance</h4>
+
+<p>The random intercept variance, or <em>between-group</em> variance
+for the intercept (&tau;<sub>00</sub>),
+is obtained from <code>VarCorr()</code>. It indicates how much groups
+or subjects differ from each other.
+</p>
+
+
+
+<h4>Between-group random slope variance</h4>
+
+<p>The random slope variance, or <em>between-group</em> variance
+for the slopes (&tau;<sub>11</sub>)
+is obtained from <code>VarCorr()</code>. This measure is only available
+for mixed models with random slopes. It indicates how much groups
+or subjects differ from each other according to their slopes.
+</p>
+
+
+
+<h4>Random slope-intercept correlation</h4>
+
+<p>The random slope-intercept correlation
+(&rho;<sub>01</sub>)
+is obtained from <code>VarCorr()</code>. This measure is only available
+for mixed models with random intercepts and slopes.
+</p>
+<p><strong>Note:</strong> For the within-group and between-group variance, variance
+and standard deviations (which are simply the square root of the variance)
+are shown.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with random effects statistics for the variance components,
+including number of levels per random effect group, as well as complete
+observations in the model.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("lme4")) {
+  data(sleepstudy)
+  model &lt;- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+  random_parameters(model)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

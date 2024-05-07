@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set the extent of a RasterLayer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for setExtent {raster}"><tr><td>setExtent {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set the extent of a RasterLayer</h2>
+
+<h3>Description</h3>
+
+<p>setExtent sets the extent of a Raster* object. Either by providing a new Extent object or by setting the extreme
+coordinates one by one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+setExtent(x, ext, keepres=FALSE, snap=FALSE)
+extent(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p> An object of class Extent (which you can create with <code><a href="../help/extent.html">extent</a></code>, or an object that has an extent (e.g. a Raster* or Spatial* object) ) </p>
+</td></tr>   
+<tr valign="top"><td><code>keepres</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the resolution of the cells will stay the same after adjusting the bounding box (by adjusting the number of rows and columns). 
+If <code>FALSE</code>, the number of rows and columns will stay the same, and the resolution will be adjusted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>snap</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the extent is adjusted so that the cells of the input and output RasterLayer are aligned</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>An object of class Extent (which you can create with <code><a href="../help/extent.html">extent</a></code> )</p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>a Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+  <p><code><a href="../help/extent.html">extent</a></code>, <code><a href="../help/Extent-class.html">Extent-class</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster()
+bb &lt;- extent(-10, 10, -20, 20)
+extent(r) &lt;- bb
+r &lt;- setExtent(r, bb, keepres=TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

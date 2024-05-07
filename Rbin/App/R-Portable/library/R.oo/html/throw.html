@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Throws an Exception</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for throw {R.oo}"><tr><td>throw {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Throws an Exception</h2>
+
+<h3>Description</h3>
+
+<p>Throws an exception similar to <code>stop()</code>, but with support for
+<code><a href="../../R.oo/help/Exception.html">Exception</a></code> classes. The first argument (<code>object</code>) is by
+default pasted together with other arguments (<code>...</code>) and with separator
+<code>sep=""</code>.  For instance, to throw an exception, write
+</p>
+<p><code>throw("Value out of range: ", value, ".")</code>.
+</p>
+<p>which is short for
+</p>
+<p><code>throw(Exception("Value out of range: ", value, "."))</code>.
+</p>
+<p>Note that <code>throw()</code> can be defined for classes inheriting
+<code><a href="../../R.oo/help/Exception.html">Exception</a></code>, which can then be caught (or not)
+using <code><a href="../../base/help/conditions.html">tryCatch</a>()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+throw(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>One or several strings that are concatenated and collapsed
+into on message string.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>See the <code><a href="../../R.oo/help/Exception.html">Exception</a></code> class for more detailed information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  rbern &lt;- function(n=1, prob=1/2) {
+    if (prob &lt; 0 || prob &gt; 1)
+      throw("Argument 'prob' is out of range: ", prob)
+    rbinom(n=n, size=1, prob=prob)
+  }
+
+  rbern(10, 0.4)
+  # [1] 0 1 0 0 0 1 0 0 1 0
+  tryCatch(rbern(10, 10*0.4),
+    error=function(ex) {}
+  )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a RasterStack object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stack {raster}"><tr><td>stack {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a RasterStack object</h2>
+
+<h3>Description</h3>
+
+<p>A RasterStack is a collection of RasterLayer objects with the same spatial extent and resolution. A RasterStack can be created from RasterLayer objects, or from raster files, or both. It can also be created from a SpatialPixelsDataFrame or a SpatialGridDataFrame object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'character'
+stack(x, ..., bands=NULL, varname="", native=FALSE, RAT=TRUE, quick=FALSE)
+
+## S4 method for signature 'Raster'
+stack(x, ..., layers=NULL)
+
+## S4 method for signature 'missing'
+stack(x)
+
+## S4 method for signature 'list'
+stack(x, bands=NULL, native=FALSE, RAT=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>filename (character), Raster* object, missing (to create an empty RasterStack), SpatialGrid*, SpatialPixels*, or list (of filenames and/or Raster* objects). If <code>x</code> is a list, additional arguments <code>...</code> are ignored</p>
+</td></tr>
+<tr valign="top"><td><code>bands</code></td>
+<td>
+<p>integer. which bands (layers) of the file should be used (default is all layers)</p>
+</td></tr>
+<tr valign="top"><td><code>layers</code></td>
+<td>
+<p>integer (or character with layer names) indicating which layers of a RasterBrick should be used (default is all layers)</p>
+</td></tr>
+<tr valign="top"><td><code>native</code></td>
+<td>
+<p>logical. If <code>TRUE</code> native drivers are used instead of gdal drivers (where available, such as for  BIL and Arc-ASCII files)</p>
+</td></tr>
+<tr valign="top"><td><code>RAT</code></td>
+<td>
+<p>logical. If <code>TRUE</code> a raster attribute table is created for files that have one</p>
+</td></tr>
+<tr valign="top"><td><code>quick</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the extent and resolution of the objects are not compared. This speeds up the creation of the RasteStack but should be use with great caution. Only use this option when you are absolutely sure that all the data in all the files are aligned, and you need to create RasterStack for many (&gt;100) files</p>
+</td></tr>
+<tr valign="top"><td><code>varname</code></td>
+<td>
+<p>character. To select the variable of interest in a NetCDF file (see <code><a href="../../raster/help/raster.html">raster</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional filenames or Raster* objects</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterStack
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/addLayer.html">addLayer</a>, <a href="../help/addLayer.html">dropLayer</a>, <a href="../help/raster.html">raster</a>, <a href="../help/brick.html">brick</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# file with one layer
+fn &lt;- system.file("external/test.grd", package="raster")
+s &lt;- stack(fn, fn)
+r &lt;- raster(fn)
+s &lt;- stack(r, fn) 
+nlayers(s)
+
+# file with three layers
+slogo &lt;- stack(system.file("external/rlogo.grd", package="raster")) 
+nlayers(slogo)
+slogo
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

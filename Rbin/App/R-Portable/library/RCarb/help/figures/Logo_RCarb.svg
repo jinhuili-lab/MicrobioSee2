@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1644 1853" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g id="Artboard1" transform="matrix(0.810731,0,0,0.992012,98.2143,89.5044)">
+        <rect x="-121.143" y="-90.225" width="2027.74" height="1867.26" style="fill:none;"/>
+        <g id="Layer-1" serif:id="Layer 1" transform="matrix(5.13939,0,0,4.20022,-107.697,-88.8517)">
+            <g transform="matrix(0.68817,0,0,0.689263,-98.9765,-67.3476)">
+                <path d="M427.657,112.882L694.69,267.053L694.69,575.397L427.657,729.569L160.623,575.397L160.623,267.053L427.657,112.882Z" style="fill:rgb(192,255,185);stroke:rgb(179,0,144);stroke-width:14.52px;"/>
+            </g>
+            <g transform="matrix(-1.24835,0,0,1.24835,373.107,-163.865)">
+                <rect x="103.947" y="177.237" width="79.37" height="79.37" style="fill:rgb(244,150,25);"/>
+            </g>
+            <g transform="matrix(-1.24835,0,0,1.24835,240.967,90.8832)">
+                <rect x="51.021" y="75.203" width="79.37" height="79.37" style="fill:rgb(62,72,108);"/>
+            </g>
+            <g transform="matrix(-1.24835,0,0,1.24835,508.665,90.8832)">
+                <rect x="158.242" y="75.203" width="79.37" height="79.37" style="fill:rgb(62,72,108);"/>
+            </g>
+            <g transform="matrix(1,0,0,1,0.784504,78.8535)">
+                <text x="93.307px" y="276.194px" style="font-family:'OpenSans', 'Open Sans', sans-serif;font-size:70px;fill:rgb(29,29,27);">R</text>
+                <text x="136.575px" y="276.194px" style="font-family:'OpenSans-Light', 'Open Sans', sans-serif;font-weight:300;font-size:70px;fill:rgb(29,29,27);">Carb</text>
+            </g>
+            <g transform="matrix(1,0,0,1,35.1155,30.2622)">
+                <text x="109.405px" y="107.058px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:80px;fill:rgb(29,29,27);">Ca</text>
+            </g>
+            <g transform="matrix(1,0,0,1,41.5639,36.8435)">
+                <text x="108.971px" y="35.443px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:14px;fill:rgb(29,29,27);">20</text>
+            </g>
+            <g transform="matrix(1,0,0,1,24.4612,56.7044)">
+                <text x="71.864px" y="209.094px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:80px;fill:white;">H</text>
+            </g>
+            <g transform="matrix(1,0,0,1,28.1722,62.1837)">
+                <text x="55.047px" y="137.479px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:14px;fill:white;">1</text>
+            </g>
+            <g transform="matrix(1,0,0,1,53.3899,55.6005)">
+                <text x="178.748px" y="209.093px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:80px;fill:white;">O</text>
+            </g>
+            <g transform="matrix(1,0,0,1,55.048,62.1842)">
+                <text x="163.266px" y="137.481px" style="font-family:'OpenSans-Semibold', 'Open Sans', sans-serif;font-weight:600;font-size:14px;fill:white;">8</text>
+            </g>
+            <g transform="matrix(0,1.24835,1.24835,0,202.058,170.661)">
+                <path d="M-5.928,-5.928L5.928,-5.928" style="fill:none;fill-rule:nonzero;stroke:rgb(60,59,58);stroke-width:1.34px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;"/>
+            </g>
+            <g transform="matrix(1.24835,0,0,1.24835,184.264,193.02)">
+                <path d="M0,-14.42L8.326,0L16.653,-14.42L0,-14.42Z" style="fill:rgb(60,59,58);fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Defunct GitHub Actions workflows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_github_actions {usethis}"><tr><td>use_github_actions {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Defunct GitHub Actions workflows</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="../help/figures/lifecycle-deprecated.svg" alt='[Deprecated]' /></a>
+</p>
+
+<ul>
+<li> <p><code>use_github_actions()</code> is deprecated because it was just an alias
+for <code><a href="../../usethis/help/use_github_action_check_release.html">use_github_action_check_release()</a></code>.
+</p>
+</li>
+<li> <p><code>use_github_action_check_full()</code> is overkill for most packages and is
+not recommended.
+</p>
+</li>
+<li> <p><code>use_github_action_check_release()</code>, <code>use_github_action_check_standard()</code>,
+and <code>use_github_action_pr_commands()</code> are deprecated in favor of
+<code><a href="../../usethis/help/use_github_action.html">use_github_action()</a></code>, which can now suggest specific workflows to use.
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+use_github_actions()
+
+use_github_action_check_release(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_standard(
+  save_as = "R-CMD-check.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_pr_commands(
+  save_as = "pr-commands.yaml",
+  ref = NULL,
+  ignore = TRUE,
+  open = FALSE
+)
+
+use_github_action_check_full(
+  save_as = "R-CMD-check.yaml",
+  ignore = TRUE,
+  open = FALSE,
+  repo_spec = NULL
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

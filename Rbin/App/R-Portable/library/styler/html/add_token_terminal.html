@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add information about previous / next token to each terminal</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_token_terminal {styler}"><tr><td>add_token_terminal {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add information about previous / next token to each terminal</h2>
+
+<h3>Description</h3>
+
+<p>Note that this does function must be called in <code><a href="../../styler/help/compute_parse_data_nested.html">compute_parse_data_nested()</a></code>
+and we cannot wait to initialize this attribute until <code><a href="../../styler/help/apply_transformers.html">apply_transformers()</a></code>,
+where all other attributes are initialized with
+<code><a href="../../styler/help/default_style_guide_attributes.html">default_style_guide_attributes()</a></code> (when using <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code>) because
+for cached code, we don't build up the nested structure and leave it shallow
+(to speed up things), see also <code><a href="../../styler/help/shallowify.html">shallowify()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_terminal_token_after(pd_flat)
+
+add_terminal_token_before(pd_flat)
+
+add_attributes_caching(pd_flat, transformers, more_specs)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_flat</code></td>
+<td>
+<p>A flat parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>Passed to <code><a href="../../styler/help/cache_make_key.html">cache_make_key()</a></code> to generate a key.</p>
+</td></tr>
+<tr valign="top"><td><code>more_specs</code></td>
+<td>
+<p>Passed to <code><a href="../../styler/help/cache_make_key.html">cache_make_key()</a></code> to generate a key.</p>
+</td></tr>
+</table>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>add_attributes_caching()</code>: Initializes <code>newlines</code> and <code>lag_newlines</code>.
+</p>
+</li></ul>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

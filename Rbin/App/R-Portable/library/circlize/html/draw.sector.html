@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw sectors or rings in a circle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for draw.sector {circlize}"><tr><td>draw.sector {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw sectors or rings in a circle
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw sectors or rings in a circle
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+draw.sector(
+    start.degree = 0,
+    end.degree = 360,
+    rou1 = 1,
+    rou2 = NULL,
+    center = c(0, 0),
+    clock.wise = TRUE,
+    col = NA,
+    border = "black",
+    lwd = par("lwd"),
+    lty = par("lty"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>start.degree</code></td>
+<td>
+<p>start degree for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>end.degree</code></td>
+<td>
+<p>end degree for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>rou1</code></td>
+<td>
+<p>Radius for one of the arc in the sector</p>
+</td></tr>
+<tr valign="top"><td><code>rou2</code></td>
+<td>
+<p>Radius for the other arc in the sector</p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>Center of the circle</p>
+</td></tr>
+<tr valign="top"><td><code>clock.wise</code></td>
+<td>
+<p>The direction from <code>start.degree</code> to <code>end.degree</code></p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Filled color</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line style</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If the interval between <code>start</code> and <code>end</code> (larger or equal to 360 or smaller or equal to -360)
+it would draw a full circle or ring. If <code>rou2</code> is set, it would draw part of a ring.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot(c(-1, 1), c(-1, 1), type = "n", axes = FALSE, ann = FALSE, asp = 1)
+draw.sector(20, 0)
+draw.sector(30, 60, rou1 = 0.8, rou2 = 0.5, clock.wise = FALSE, col = "#FF000080")
+draw.sector(350, 1000, col = "#00FF0080", border = NA)
+draw.sector(0, 180, rou1 = 0.25, center = c(-0.5, 0.5), border = 2, lwd = 2, lty = 2)
+draw.sector(0, 360, rou1 = 0.7, rou2 = 0.6, col = "#0000FF80")
+
+sectors = letters[1:8]
+circos.initialize(sectors, xlim = c(0, 1))
+for(i in 1:3) {
+    circos.trackPlotRegion(ylim = c(0, 1))
+}
+circos.info(plot = TRUE)
+
+draw.sector(get.cell.meta.data("cell.start.degree", sector.index = "a"),
+            get.cell.meta.data("cell.end.degree", sector.index = "a"),
+            rou1 = 1, col = "#FF000040")
+
+draw.sector(0, 360,
+    rou1 = get.cell.meta.data("cell.top.radius", track.index = 1),
+    rou2 = get.cell.meta.data("cell.bottom.radius", track.index = 1),
+    col = "#00FF0040")
+
+draw.sector(get.cell.meta.data("cell.start.degree", sector.index = "e"),
+            get.cell.meta.data("cell.end.degree", sector.index = "f"),
+            get.cell.meta.data("cell.top.radius", track.index = 2),
+            get.cell.meta.data("cell.bottom.radius", track.index = 3),
+            col = "#0000FF40")
+
+pos = circlize(c(0.2, 0.8), c(0.2, 0.8), sector.index = "h", track.index = 2)
+draw.sector(pos[1, "theta"], pos[2, "theta"], pos[1, "rou"], pos[2, "rou"],
+    clock.wise = TRUE, col = "#00FFFF40")
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

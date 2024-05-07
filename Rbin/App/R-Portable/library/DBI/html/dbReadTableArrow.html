@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read database tables as Arrow objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbReadTableArrow {DBI}"><tr><td>dbReadTableArrow {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read database tables as Arrow objects</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="../help/figures/lifecycle-experimental.svg" alt='[Experimental]' /></a>
+</p>
+<p>Reads a database table as an Arrow object.
+Use <code><a href="../../DBI/help/dbReadTable.html">dbReadTable()</a></code> instead to obtain a data frame.
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+dbReadTableArrow(conn, name, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>conn</code></td>
+<td>
+<p>A <a href="../../DBI/help/DBIConnection-class.html">DBIConnection</a> object, as returned by
+<code><a href="../../DBI/help/dbConnect.html">dbConnect()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The table name, passed on to <code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier()</a></code>. Options are:
+</p>
+
+<ul>
+<li><p> a character string with the unquoted DBMS table name,
+e.g. <code>"table_name"</code>,
+</p>
+</li>
+<li><p> a call to <code><a href="../../DBI/help/Id.html">Id()</a></code> with components to the fully qualified table name,
+e.g. <code>Id(schema = "my_schema", table = "table_name")</code>
+</p>
+</li>
+<li><p> a call to <code><a href="../../DBI/help/SQL.html">SQL()</a></code> with the quoted and fully qualified table name
+given verbatim, e.g. <code>SQL('"my_schema"."table_name"')</code>
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed on to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function returns an Arrow object.
+Convert it to a data frame with <code><a href="../../base/html/as.data.frame.html">as.data.frame()</a></code> or
+use <code><a href="../../DBI/help/dbReadTable.html">dbReadTable()</a></code> to obtain a data frame.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>dbReadTableArrow()</code> returns an Arrow object that contains the complete data
+from the remote table, effectively the result of calling <code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow()</a></code> with
+<code style="white-space: pre;">SELECT * FROM &lt;name&gt;</code>.
+</p>
+<p>An empty table is returned as an Arrow object with zero rows.
+</p>
+
+
+<h3>Failure modes</h3>
+
+<p>An error is raised if the table does not exist.
+</p>
+<p>An error is raised when calling this method for a closed
+or invalid connection.
+An error is raised
+if <code>name</code> cannot be processed with <code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier()</a></code> or
+if this results in a non-scalar.
+</p>
+
+
+<h3>Specification</h3>
+
+<p>The <code>name</code> argument is processed as follows,
+to support databases that allow non-syntactic names for their objects:
+</p>
+
+<ul>
+<li><p> If an unquoted table name as string: <code>dbReadTableArrow()</code> will do the
+quoting,
+perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code>
+</p>
+</li>
+<li><p> If the result of a call to <code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier()</a></code>: no more quoting is done
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other DBIConnection generics: 
+<code><a href="../../DBI/help/DBIConnection-class.html">DBIConnection-class</a></code>,
+<code><a href="../../DBI/help/dbAppendTable.html">dbAppendTable</a>()</code>,
+<code><a href="../../DBI/help/dbAppendTableArrow.html">dbAppendTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTable.html">dbCreateTable</a>()</code>,
+<code><a href="../../DBI/help/dbCreateTableArrow.html">dbCreateTableArrow</a>()</code>,
+<code><a href="../../DBI/help/dbDataType.html">dbDataType</a>()</code>,
+<code><a href="../../DBI/help/dbDisconnect.html">dbDisconnect</a>()</code>,
+<code><a href="../../DBI/help/dbExecute.html">dbExecute</a>()</code>,
+<code><a href="../../DBI/help/dbExistsTable.html">dbExistsTable</a>()</code>,
+<code><a href="../../DBI/help/dbGetException.html">dbGetException</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbGetQuery.html">dbGetQuery</a>()</code>,
+<code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbIsReadOnly.html">dbIsReadOnly</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbListFields.html">dbListFields</a>()</code>,
+<code><a href="../../DBI/help/dbListObjects.html">dbListObjects</a>()</code>,
+<code><a href="../../DBI/help/dbListResults.html">dbListResults</a>()</code>,
+<code><a href="../../DBI/help/dbListTables.html">dbListTables</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteIdentifier.html">dbQuoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbReadTable.html">dbReadTable</a>()</code>,
+<code><a href="../../DBI/help/dbRemoveTable.html">dbRemoveTable</a>()</code>,
+<code><a href="../../DBI/help/dbSendQuery.html">dbSendQuery</a>()</code>,
+<code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement</a>()</code>,
+<code><a href="../../DBI/help/dbUnquoteIdentifier.html">dbUnquoteIdentifier</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTable.html">dbWriteTable</a>()</code>,
+<code><a href="../../DBI/help/dbWriteTableArrow.html">dbWriteTableArrow</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Read data as Arrow table
+con &lt;- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbWriteTable(con, "mtcars", mtcars[1:10, ])
+dbReadTableArrow(con, "mtcars")
+
+dbDisconnect(con)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

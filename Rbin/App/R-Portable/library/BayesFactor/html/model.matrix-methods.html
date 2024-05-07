@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Design matrices for Bayes factor linear models analyses.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model.matrix,BFBayesFactor-method {BayesFactor}"><tr><td>model.matrix,BFBayesFactor-method {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Design matrices for Bayes factor linear models analyses.</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the design matrix used for computation of the Bayes factor
+for the numerator of a <code>BFBayesFactor</code> object. There must not be more
+than one numerator in the <code>BFBayesFactor</code> object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BFBayesFactor'
+model.matrix(object, ...)
+
+## S4 method for signature 'BFBayesFactorTop'
+model.matrix(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a BayesFactor object with a single numerator</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to and from related methods</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the design matrix for the corresponding model. The 'gMap' attribute of the returned
+matrix contains the mapping from columns of the design matrix to g parameters
+</p>
+
+
+<h3>References</h3>
+
+<p>Rouder, J. N., Morey, R. D., Speckman, P. L., Province, J. M., (2012)
+Default Bayes Factors for ANOVA Designs. Journal of Mathematical
+Psychology.  56.  p. 356-374.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Gets the design matrix for a simple analysis
+data(sleep)
+
+bf = anovaBF(extra ~ group + ID, data = sleep, whichRandom="ID", progress=FALSE)
+X = model.matrix(bf)
+
+## Show dimensions of X (should be 20 by 12)
+dim(X)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

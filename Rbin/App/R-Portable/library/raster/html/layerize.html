@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Layerize</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for layerize {raster}"><tr><td>layerize {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Layerize</h2>
+
+<h3>Description</h3>
+
+<p>Create a RasterBrick with a Boolean layer for each class (value, or subset of the values) in a RasterLayer. For example, if the cell values of a RasterLayer indicate what vegetation type they are, this function will create a layer (presence/absence; dummy variable) for each of these classes. Classes and cell values are always truncated to integers.
+</p>
+<p>You can supply a second spatially overlapping RasterLayer with larger cells (do not use smaller cells!). In this case the cell values are counts for each class. A similar result might be obtained more efficiently by using layerize with a single RasterLayer followed by <code><a href="../../raster/help/aggregate.html">aggregate</a>(x,  , sum)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,missing'
+layerize(x, classes=NULL, falseNA=FALSE, filename='', ...)
+
+## S4 method for signature 'RasterLayer,RasterLayer'
+layerize(x, y, classes=NULL, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>RasterLayer or missing</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>numeric. The values (classes) for which layers should be made. If <code>NULL</code> all classes are used</p>
+</td></tr>
+<tr valign="top"><td><code>falseNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, cells that are not of the class represented by a layer are <code>NA</code> rather then <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterBrick
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=20, ncol=20)
+values(r) &lt;- c(rep(NA, 50), rep(1:5, 70))
+b &lt;- layerize(r)
+
+r2 &lt;- raster(nrow=5, ncol=5)
+b2 &lt;- layerize(r, r2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

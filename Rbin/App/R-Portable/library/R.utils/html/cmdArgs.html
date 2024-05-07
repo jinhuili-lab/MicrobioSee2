@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simple access to parsed command-line arguments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cmdArgs {R.utils}"><tr><td>cmdArgs {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simple access to parsed command-line arguments</h2>
+
+<h3>Description</h3>
+
+<p>Simple access to parsed command-line arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  cmdArgs(args=NULL, names=NULL, unique=TRUE, ..., .args=NULL)
+  cmdArg(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>A named <code><a href="../../base/help/list.html">list</a></code> of arguments.</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying the arguments to be
+returned.  If <code><a href="../../base/help/NULL.html">NULL</a></code>, all arguments are returned.</p>
+</td></tr>
+<tr valign="top"><td><code>unique</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, only unique arguments are returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>For <code>cmdArgs()</code>, additional arguments passed to
+<code><a href="../../R.utils/help/commandArgs.html">commandArgs</a></code>(), e.g. <code>defaults</code> and <code>always</code>.
+For <code>cmdArg()</code>, named arguments <code>name</code> and
+<code>default</code>, where <code>name</code> must be a <code><a href="../../base/help/character.html">character</a></code> string
+and <code>default</code> is an optional default value (if not given,
+it's <code><a href="../../base/help/NULL.html">NULL</a></code>). Alternatively, <code>name</code> and <code>default</code> can
+be given as a named argument (e.g. <code>n=42</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>.args</code></td>
+<td>
+<p>(advanced/internal) A named <code><a href="../../base/help/list.html">list</a></code> of parsed
+command-line arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>cmdArgs()</code> returns a named <code><a href="../../base/help/list.html">list</a></code> with command-line arguments.
+<code>cmdArg()</code> return the value of the requested command-line argument.
+</p>
+
+
+<h3>Coercing to non-character data types</h3>
+
+<p>The value of each command-line argument is returned as a <code><a href="../../base/help/character.html">character</a></code>
+string, unless an argument share name with ditto in the (optional)
+arguments <code>always</code> and <code>default</code> in case the retrieved
+value is coerced to that of the latter.
+Finally, remaining character string command-line arguments are
+coerced to <code><a href="../../base/help/numeric.html">numeric</a></code>s (via <code><a href="../../base/help/as.numeric.html">as.numeric</a></code>()), if possible,
+that is unless the coerced value becomes <code><a href="../../base/help/NA.html">NA</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../R.utils/help/commandArgs.html">commandArgs</a></code>() is used.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+args &lt;- cmdArgs()
+cat("User command-line arguments used when invoking R:\n")
+str(args)
+
+# Retrieve command line argument 'n', e.g. '-n 13' or '--n=13'
+n &lt;- cmdArg("n", 42L)
+printf("Argument n=%d\n", n)
+
+# Short version doing the same
+n &lt;- cmdArg(n=42L)
+printf("Argument n=%d\n", n)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

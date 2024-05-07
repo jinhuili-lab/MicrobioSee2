@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: General S4 class for representing multiple Bayes factor model...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BFBayesFactor-class {BayesFactor}"><tr><td>BFBayesFactor-class {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>General S4 class for representing multiple Bayes factor model comparisons, all against the same model</h2>
+
+<h3>Description</h3>
+
+<p>The <code>BFBayesFactor</code> class is a general S4 class for representing models model comparison via Bayes factor.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'numeric,BFBayesFactor'
+e1 / e2
+
+## S4 method for signature 'BFBayesFactor,BFBayesFactor'
+e1 / e2
+
+## S4 method for signature 'BFBayesFactor,index,missing,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'BFBayesFactor'
+t(x)
+
+## S4 method for signature 'BFBayesFactor'
+which.max(x)
+
+## S4 method for signature 'BFBayesFactor'
+which.min(x)
+
+## S4 method for signature 'BFBayesFactor'
+is.na(x)
+
+## S4 method for signature 'BFBayesFactor,BFodds'
+e1 * e2
+
+## S4 method for signature 'BFBayesFactorTop,index,missing,missing'
+x[i, j, ...,
+  drop = TRUE]
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>e1</code></td>
+<td>
+<p>Numerator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>e2</code></td>
+<td>
+<p>Denominator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>BFBayesFactor object</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>indices indicating elements to extract</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+<p>unused for BFBayesFactor objects</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to related methods</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>BFBayesFactor</code> objects can be inverted by taking the reciprocal and can
+be divided by one another, provided both objects have the same denominator. In addition,
+the <code>t</code> (transpose) method can be used to invert Bayes factor objects.
+</p>
+
+<p>The <code>BFBayesFactor</code> class has the following slots defined:
+</p>
+<dl>
+<dt>numerator</dt><dd><p>a list of models all inheriting <code>BFmodel</code>, each providing a single denominator</p>
+</dd>
+<dt>denominator</dt><dd><p>a single <code>BFmodel</code> object serving as the denominator for all model comparisons</p>
+</dd>
+<dt>bayesFactor</dt><dd><p>a data frame containing information about the comparison between each numerator and the denominator</p>
+</dd>
+<dt>data</dt><dd><p>a data frame containing the data used for the comparison</p>
+</dd>
+<dt>version</dt><dd><p>character string giving the version and revision number of the package that the model was created in</p>
+</dd>
+</dl>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+## Compute some Bayes factors to demonstrate division and indexing
+data(puzzles)
+bfs &lt;- anovaBF(RT ~ shape*color + ID, data = puzzles, whichRandom = "ID", progress=FALSE)
+
+## First and second models can be separated; they remain BFBayesFactor objects
+b1 = bfs[1]
+b2 = bfs[2]
+b1
+
+## We can invert them, or divide them to obtain new model comparisons
+1/b1
+b1 / b2
+
+## Use transpose to create a BFBayesFactorList
+t(bfs)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

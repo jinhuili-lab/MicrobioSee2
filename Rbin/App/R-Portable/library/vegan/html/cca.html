@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: [Partial] [Constrained] Correspondence Analysis and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cca {vegan}"><tr><td>cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> [Partial] [Constrained] Correspondence Analysis and Redundancy
+Analysis </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>cca</code> performs correspondence analysis, or optionally
+constrained correspondence analysis (a.k.a. canonical correspondence
+analysis), or optionally partial constrained correspondence
+analysis. Function <code>rda</code> performs redundancy analysis, or
+optionally principal components analysis.
+These are all very popular ordination techniques in community ecology.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'formula'
+cca(formula, data, na.action = na.fail, subset = NULL,
+  ...)
+## S3 method for class 'formula'
+rda(formula, data, scale=FALSE, na.action = na.fail,
+  subset = NULL, ...)
+## Default S3 method:
+cca(X, Y, Z, ...)
+## Default S3 method:
+rda(X, Y, Z, scale=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>Model formula, where the left hand side gives the
+community data matrix, right hand side gives the constraining variables,
+and conditioning variables can be given within a special function
+<code>Condition</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Data frame containing the variables on the right hand side
+of the model formula.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p> Community data matrix. </p>
+</td></tr>
+<tr valign="top"><td><code>Y</code></td>
+<td>
+<p> Constraining matrix, typically of environmental variables.
+Can be missing. If this is a <code>data.frame</code>, it will be
+expanded to a <code><a href="../../stats/html/model.matrix.html">model.matrix</a></code> where factors are
+expanded to contrasts (&ldquo;dummy variables&rdquo;). It is better to
+use <code>formula</code> instead of this argument, and some further
+analyses only work when <code>formula</code> was used.</p>
+</td></tr>
+<tr valign="top"><td><code>Z</code></td>
+<td>
+<p> Conditioning matrix, the effect of which is removed
+(&ldquo;partialled out&rdquo;) before next step. Can be missing. If this is a
+<code>data.frame</code>, it is expanded similarly as constraining
+matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Scale species to unit variance (like correlations).</p>
+</td></tr>
+<tr valign="top"><td><code>na.action</code></td>
+<td>
+<p>Handling of missing values in constraints or
+conditions. The default (<code><a href="../../stats/html/na.fail.html">na.fail</a></code>) is to stop with
+missing value. Choice <code><a href="../../stats/html/na.fail.html">na.omit</a></code> removes all rows with
+missing values. Choice <code><a href="../../stats/html/na.fail.html">na.exclude</a></code> keeps all
+observations but gives <code>NA</code> for results that cannot be
+calculated. The WA scores of rows may be found also for missing
+values in constraints. Missing values are never allowed in
+dependent community data. </p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>Subset of data rows. This can be a logical vector which
+is <code>TRUE</code> for kept observations, or a logical expression which
+can contain variables in the working environment, <code>data</code> or
+species names of the community data.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments for <code>print</code> or <code>plot</code> functions
+(ignored in other functions).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Since their introduction (ter Braak 1986), constrained, or canonical,
+correspondence analysis and its spin-off, redundancy analysis, have
+been the most popular ordination methods in community ecology.
+Functions <code>cca</code> and <code>rda</code> are  similar to popular
+proprietary software <code>Canoco</code>, although the implementation is
+completely different.  The functions are based on Legendre &amp;
+Legendre's (2012) algorithm: in <code>cca</code>
+Chi-square transformed data matrix is subjected to weighted linear
+regression on constraining variables, and the fitted values are
+submitted to correspondence analysis performed via singular value
+decomposition (<code><a href="../../base/html/svd.html">svd</a></code>). Function <code>rda</code> is similar, but uses
+ordinary, unweighted linear regression and unweighted SVD. Legendre &amp;
+Legendre (2012), Table 11.5 (p. 650) give a skeleton of the RDA
+algorithm of <span class="pkg">vegan</span>. The algorithm of CCA is similar, but
+involves standardization by row and column weights.
+</p>
+<p>The functions can be called either with matrix-like entries for
+community data and constraints, or with formula interface.  In
+general, the formula interface is preferred, because it allows a
+better control of the model and allows factor constraints. Some
+analyses of ordination results are only possible if model was fitted
+with formula (e.g., most cases of <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>, automatic
+model building).
+</p>
+<p>In the following sections, <code>X</code>, <code>Y</code> and <code>Z</code>, although
+referred to as matrices, are more commonly data frames.
+</p>
+<p>In the matrix interface, the
+community data matrix <code>X</code> must be given, but the other data
+matrices may be omitted, and the corresponding stage of analysis is
+skipped.  If matrix <code>Z</code> is supplied, its effects are removed from
+the community matrix, and the residual matrix is submitted to the next
+stage.  This is called partial correspondence or redundancy
+analysis.  If matrix
+<code>Y</code> is supplied, it is used to constrain the ordination,
+resulting in constrained or canonical correspondence analysis, or
+redundancy analysis.
+Finally, the residual is submitted to ordinary correspondence
+analysis (or principal components analysis).  If both matrices
+<code>Z</code> and <code>Y</code> are missing, the
+data matrix is analysed by ordinary correspondence analysis (or
+principal components analysis).
+</p>
+<p>Instead of separate matrices, the model can be defined using a model
+<code><a href="../../stats/html/formula.html">formula</a></code>.  The left hand side must be the
+community data matrix (<code>X</code>).  The right hand side defines the
+constraining model.
+The constraints can contain ordered or unordered factors,
+interactions among variables and functions of variables.  The defined
+<code><a href="../../stats/html/contrasts.html">contrasts</a></code> are honoured in <code><a href="../../base/html/factor.html">factor</a></code>
+variables.  The constraints can also be matrices (but not data
+frames).
+The formula can include a special term <code>Condition</code>
+for conditioning variables (&ldquo;covariables&rdquo;) partialled out before
+analysis.  So the following commands are equivalent:
+<code>cca(X, Y, Z)</code>,  <code>cca(X ~ Y + Condition(Z))</code>, where <code>Y</code>
+and <code>Z</code> refer to constraints and conditions matrices respectively.
+</p>
+<p>Constrained correspondence analysis is indeed a constrained method:
+CCA does not try to display all variation in the
+data, but only the part that can be explained by the used constraints.
+Consequently, the results are strongly dependent on the set of
+constraints and their transformations or interactions among the
+constraints.  The shotgun method is to use all environmental variables
+as constraints.  However, such exploratory problems are better
+analysed with
+unconstrained methods such as correspondence analysis
+(<code><a href="../../vegan/help/decorana.html">decorana</a></code>, <code><a href="../../MASS/help/corresp.html">corresp</a></code>) or non-metric
+multidimensional scaling (<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>) and
+environmental interpretation after analysis
+(<code><a href="../../vegan/help/envfit.html">envfit</a></code>, <code><a href="../../vegan/help/ordisurf.html">ordisurf</a></code>).
+CCA is a good choice if the user has
+clear and strong <em>a priori</em> hypotheses on constraints and is not
+interested in the major structure in the data set.  
+</p>
+<p>CCA is able to correct the curve artefact commonly found in
+correspondence analysis by forcing the configuration into linear
+constraints.  However, the curve artefact can be avoided only with a
+low number of constraints that do not have a curvilinear relation with
+each other.  The curve can reappear even with two badly chosen
+constraints or a single factor.  Although the formula interface makes it
+easy to include polynomial or interaction terms, such terms often
+produce curved artefacts (that are difficult to interpret), these
+should probably be avoided.
+</p>
+<p>According to folklore, <code>rda</code> should be used with &ldquo;short
+gradients&rdquo; rather than <code>cca</code>. However, this is not based
+on research which finds methods based on Euclidean metric as uniformly
+weaker than those based on Chi-squared metric.  However, standardized
+Euclidean distance may be an appropriate measures (see Hellinger
+standardization in <code><a href="../../vegan/help/decostand.html">decostand</a></code> in particular).
+</p>
+<p>Partial CCA (pCCA; or alternatively partial RDA) can be used to remove
+the effect of some
+conditioning or background or random variables or
+covariables before CCA proper.  In fact, pCCA compares models
+<code>cca(X ~ Z)</code> and <code>cca(X ~ Y + Z)</code> and attributes their
+difference to the effect of <code>Y</code> cleansed of the effect of
+<code>Z</code>.  Some people have used the method for extracting
+&ldquo;components of variance&rdquo; in CCA.  However, if the effect of
+variables together is stronger than sum of both separately, this can
+increase total Chi-square after partialling out some
+variation, and give negative &ldquo;components of variance&rdquo;.  In general,
+such components of &ldquo;variance&rdquo; are not to be trusted due to
+interactions between two sets of variables.
+</p>
+<p>The functions have <code>summary</code> and <code>plot</code> methods which are
+documented separately (see <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>, <code><a href="../../vegan/help/summary.cca.html">summary.cca</a></code>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>cca</code> returns a huge object of class <code>cca</code>, which
+is described separately in <code><a href="../../vegan/help/cca.object.html">cca.object</a></code>.
+</p>
+<p>Function <code>rda</code> returns an object of class <code>rda</code> which
+inherits from class <code>cca</code> and is described in <code><a href="../../vegan/help/cca.object.html">cca.object</a></code>.
+The scaling used in <code>rda</code> scores is described in a separate
+vignette with this package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>The responsible author was Jari Oksanen, but the code borrows heavily
+from Dave Roberts (Montana State University, USA).
+</p>
+
+
+<h3>References</h3>
+
+<p> The original method was by ter Braak, but the current
+implementation follows Legendre and Legendre.
+</p>
+<p>Legendre, P. and Legendre, L. (2012) <em>Numerical Ecology</em>. 3rd English
+ed. Elsevier.
+</p>
+<p>McCune, B. (1997) Influence of noisy environmental data on canonical
+correspondence analysis. <em>Ecology</em> <strong>78</strong>, 2617-2623.
+</p>
+<p>Palmer, M. W. (1993) Putting things in even better order: The
+advantages of canonical correspondence analysis.  <em>Ecology</em>
+<strong>74</strong>,2215-2230. 
+</p>
+<p>Ter Braak, C. J. F. (1986) Canonical Correspondence Analysis: a new
+eigenvector technique for multivariate direct gradient
+analysis. <em>Ecology</em> <strong>67</strong>, 1167-1179.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>This help page describes two constrained ordination functions,
+<code>cca</code> and <code>rda</code>.  A related method, distance-based
+redundancy analysis (dbRDA) is described separately
+(<code><a href="../../vegan/help/capscale.html">capscale</a></code>). All these functions return similar objects
+(described in <code><a href="../../vegan/help/cca.object.html">cca.object</a></code>). There are numerous support
+functions that can be used to access the result object. In the list
+below, functions of type <code>cca</code> will handle all three constrained
+ordination objects, and functions of <code>rda</code> only handle <code>rda</code>
+and <code><a href="../../vegan/help/capscale.html">capscale</a></code> results.
+</p>
+<p>The main plotting functions are <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code> for all
+methods, and <code><a href="../../vegan/help/biplot.rda.html">biplot.rda</a></code> for RDA and dbRDA.  However,
+generic <span class="pkg">vegan</span> plotting functions can also handle the results.
+The scores can be accessed and scaled with <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code>,
+and summarized with <code><a href="../../vegan/help/summary.cca.html">summary.cca</a></code>. The eigenvalues can
+be accessed with <code><a href="../../vegan/help/eigenvals.cca.html">eigenvals.cca</a></code> and the regression
+coefficients for constraints with <code><a href="../../vegan/help/coef.cca.html">coef.cca</a></code>.  The
+eigenvalues can be plotted with <code><a href="../../vegan/help/screeplot.cca.html">screeplot.cca</a></code>, and the
+(adjusted) <i>R-squared</i> can be found with
+<code><a href="../../vegan/help/RsquareAdj.rda.html">RsquareAdj.rda</a></code>. The scores can be also calculated for
+new data sets with <code><a href="../../vegan/help/predict.cca.html">predict.cca</a></code> which allows adding
+points to ordinations.  The values of constraints can be inferred
+from ordination and community composition with
+<code><a href="../../vegan/help/calibrate.cca.html">calibrate.cca</a></code>.
+</p>
+<p>Diagnostic statistics can be found with <code><a href="../../vegan/help/goodness.cca.html">goodness.cca</a></code>,
+<code><a href="../../vegan/help/inertcomp.html">inertcomp</a></code>, <code><a href="../../vegan/help/spenvcor.html">spenvcor</a></code>,
+<code><a href="../../vegan/help/intersetcor.html">intersetcor</a></code>, <code><a href="../../vegan/help/tolerance.cca.html">tolerance.cca</a></code>, and
+<code><a href="../../vegan/help/vif.cca.html">vif.cca</a></code>.  Function <code><a href="../../vegan/help/as.mlm.cca.html">as.mlm.cca</a></code> refits the
+result object as a multiple <code><a href="../../stats/html/lm.html">lm</a></code> object, and this allows
+finding influence statistics (<code><a href="../../stats/html/lm.influence.html">lm.influence</a></code>,
+<code><a href="../../stats/html/influence.measures.html">cooks.distance</a></code> etc.).
+</p>
+<p>Permutation based significance for the overall model, single
+constraining variables or axes can be found with
+<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>.  Automatic model building with <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+<code><a href="../../stats/html/step.html">step</a></code> function is possible with
+<code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code>, <code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> and
+<code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>.  Functions <code><a href="../../vegan/help/ordistep.html">ordistep</a></code> and
+<code><a href="../../vegan/help/ordiR2step.html">ordiR2step</a></code> (for RDA) are special functions for
+constrained ordination. Randomized data sets can be generated with
+<code><a href="../../vegan/help/simulate.cca.html">simulate.cca</a></code>.
+</p>
+<p>Separate methods based on constrained ordination model are principal
+response curves (<code><a href="../../vegan/help/prc.html">prc</a></code>) and variance partitioning between
+several components (<code><a href="../../vegan/help/varpart.html">varpart</a></code>).
+</p>
+<p>Design decisions are explained in <code><a href="../../utils/html/vignette.html">vignette</a></code>
+on &ldquo;Design decisions&rdquo; which can be accessed with
+<code>browseVignettes("vegan")</code>.
+</p>
+<p>Package <span class="pkg">ade4</span> provides alternative constrained ordination
+function <code><a href="../../ade4/help/pcaiv.html">pcaiv</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+## Common but bad way: use all variables you happen to have in your
+## environmental data matrix
+vare.cca &lt;- cca(varespec, varechem)
+vare.cca
+plot(vare.cca)
+## Formula interface and a better model
+vare.cca &lt;- cca(varespec ~ Al + P*(K + Baresoil), data=varechem)
+vare.cca
+plot(vare.cca)
+## Partialling out and negative components of variance
+cca(varespec ~ Ca, varechem)
+cca(varespec ~ Ca + Condition(pH), varechem)
+## RDA
+data(dune)
+data(dune.env)
+dune.Manure &lt;- rda(dune ~ Manure, dune.env)
+plot(dune.Manure) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

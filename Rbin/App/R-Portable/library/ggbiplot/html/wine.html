@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Wine dataset</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for wine {ggbiplot}"><tr><td>wine {ggbiplot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Wine dataset</h2>
+
+<h3>Description</h3>
+
+<p>Results of a chemical analysis of wines grown in the same region in Italy,
+derived from three different cultivars. The analysis determined the 
+quantities of 13 chemical constituents found in each of the three types of wines. 
+</p>
+<p>The grape varieties (cultivars), 'barolo', 'barbera', and 'grignolino', are indicated in <code>wine.class</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data(wine)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>A <code>wine</code> data frame consisting of 178 observations (rows) and
+13 columns and vector <code>wine.class</code> of factors indicating the cultivars.
+The variables are:
+</p>
+
+<dl>
+<dt><code>Alcohol</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>MalicAcid</code></dt><dd><p>Malic acid, a numeric vector</p>
+</dd>
+<dt><code>Ash</code></dt><dd><p>Ash, a numeric vector</p>
+</dd>
+<dt><code>AlcAsh</code></dt><dd><p>Alcalinity of ash, a numeric vector</p>
+</dd>
+<dt><code>Mg</code></dt><dd><p>Magnesium, a numeric vector</p>
+</dd>
+<dt><code>Phenols</code></dt><dd><p>total phenols, a numeric vector</p>
+</dd>
+<dt><code>Flav</code></dt><dd><p>Flavanoids, a numeric vector</p>
+</dd>
+<dt><code>NonFlavPhenols</code></dt><dd><p>Nonflavanoid phenols, a numeric vector</p>
+</dd>
+<dt><code>Proa</code></dt><dd><p>Proanthocyanins, a numeric vector</p>
+</dd>
+<dt><code>Color</code></dt><dd><p>Color intensity, a numeric vector</p>
+</dd>
+<dt><code>Hue</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>OD</code></dt><dd><p>D280/OD315 of diluted wines, a numeric vector</p>
+</dd>
+<dt><code>Proline</code></dt><dd><p>a numeric vector</p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>UCI Machine Learning Repository (<a href="http://archive.ics.uci.edu/ml/datasets/Wine">http://archive.ics.uci.edu/ml/datasets/Wine</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(wine)
+table(wine.class)
+
+wine.pca &lt;- prcomp(wine, scale. = TRUE)
+ggscreeplot(wine.pca)                                               
+ggbiplot(wine.pca, 
+         obs.scale = 1, var.scale = 1, 
+         groups = wine.class, ellipse = TRUE, circle = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggbiplot</em> version 0.6.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

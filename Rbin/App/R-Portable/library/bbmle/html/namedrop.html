@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: drop unneeded names from list elements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for namedrop {bbmle}"><tr><td>namedrop {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>drop unneeded names from list elements</h2>
+
+<h3>Description</h3>
+
+<p>goes through a list (containing a combination
+of single- and multiple-element vectors) and
+removes redundant names that will make trouble
+for mle
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+namedrop(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a list of named or unnamed, typically numeric, vectors</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>examines each element of <code>x</code>.  If the element has length
+one and is a named vector, the name is removed; if <code>length(x)</code>
+is greater than 1, but all the names are the same, the vector
+is renamed 
+</p>
+
+
+<h3>Value</h3>
+
+<p>the original list, with names removed/added
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x = list(a=c(a=1),b=c(d=1,d=2),c=c(a=1,b=2,c=3))
+names(unlist(namedrop(x)))
+names(unlist(namedrop(x)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

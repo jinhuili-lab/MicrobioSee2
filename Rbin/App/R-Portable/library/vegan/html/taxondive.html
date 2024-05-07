@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Indices of Taxonomic Diversity and Distinctness</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for taxondive {vegan}"><tr><td>taxondive {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Indices of Taxonomic Diversity and Distinctness </h2>
+
+<h3>Description</h3>
+
+<p>Function finds indices of taxonomic diversity and distinctness,
+which are averaged taxonomic distances among species or individuals in
+the community (Clarke &amp; Warwick 1998, 2001)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+taxondive(comm, dis, match.force = FALSE)
+taxa2dist(x, varstep = FALSE, check = TRUE, labels)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p>Community data. </p>
+</td></tr>
+<tr valign="top"><td><code>dis</code></td>
+<td>
+<p>Taxonomic distances among taxa in <code>comm</code>. This should
+be a <code><a href="../../stats/html/dist.html">dist</a></code> object or a symmetric square matrix. </p>
+</td></tr>
+<tr valign="top"><td><code>match.force</code></td>
+<td>
+<p>Force matching of column names in <code>comm</code> and
+labels in <code>dis</code>. If <code>FALSE</code>, matching only happens when
+dimensions differ, and in that case the species must be in identical
+order in both.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Classification table with a row for each species or other
+basic taxon, and columns
+for identifiers of its classification at higher levels.</p>
+</td></tr>
+<tr valign="top"><td><code>varstep</code></td>
+<td>
+<p>Vary step lengths between successive levels
+relative to proportional loss of the number of distinct classes.</p>
+</td></tr>
+<tr valign="top"><td><code>check</code></td>
+<td>
+<p>If <code>TRUE</code>, remove all redundant levels which are
+different for all rows or constant for all rows and regard each row
+as a different basal taxon (species). If <code>FALSE</code> all
+levels are retained and basal taxa (species) also must be coded as
+variables (columns). You will get a warning if species are not
+coded, but you can ignore this if that was your intention.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>The <code>labels</code> attribute of taxonomic distances. Row
+names will be used if this is not given. Species will be matched by
+these labels in <code>comm</code> and <code>dis</code> in <code>taxondive</code> if
+these have different dimensions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Clarke &amp; Warwick (1998, 2001) suggested several alternative indices of
+taxonomic diversity or distinctness. Two basic indices are called
+taxonomic diversity (<i>&Delta;</i>) and distinctness (<i>&Delta;^*</i>):
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+    <i>&Delta; = (&sum; &sum;_{i&lt;j} &omega;_{ij} x_i x_j)/(n (n-1) / 2)</i> </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+    <i>&Delta;^* = (&sum; &sum;_{i&lt;j} &omega;_{ij} x_i x_j)/(&sum; &sum;_{i&lt;j} x_i x_j) </i>
+  </td>
+</tr>
+
+</table>
+
+<p>The equations give the index value for a single site, and summation
+goes over species <i>i</i> and <i>j</i>. Here <i>&omega;</i> are taxonomic
+distances among taxa, and <i>x</i> are species abundances, and <i>n</i>
+is the total abundance for a site. 
+With presence/absence  data both indices reduce to the same index
+<i>&Delta;^+</i>, and for this index Clarke &amp; Warwick (1998) also have
+an estimate of its standard deviation. Clarke &amp; Warwick (2001) 
+presented two new indices: <i>s&Delta;^+</i> is the product of species
+richness and <i>&Delta;^+</i>, and index of variation in
+taxonomic distinctness (<i>&Lambda;^+</i>) defined as
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+    <i>&Lambda;^+ = (&sum; &sum;_{i&lt;j} &omega;_{ij}^2)/(n (n-1) / 2) - (&Delta;^+)^2</i>
+  </td>
+</tr>
+
+</table>
+
+<p>The <code>dis</code> argument must be species dissimilarities. These must be
+similar to dissimilarities produced by <code><a href="../../stats/html/dist.html">dist</a></code>. It is
+customary to have integer steps of taxonomic hierarchies, but other
+kind of dissimilarities can be used, such as those from phylogenetic
+trees or genetic differences.  Further, the <code>dis</code> need not be
+taxonomic, but other species classifications can be used. 
+</p>
+<p>Function <code>taxa2dist</code> can produce a suitable <code>dist</code> object
+from a classification table. Each species (or basic taxon) corresponds
+to a row of the classification table, and columns give the
+classification at different levels. With <code>varstep = FALSE</code> the
+successive levels will be separated by equal steps, and with
+<code>varstep = TRUE</code> the step length is relative to the proportional
+decrease in the number of classes (Clarke &amp; Warwick 1999).
+With <code>check = TRUE</code>, the function removes classes which are distinct for all
+species or which combine all species into one class, and assumes that
+each row presents a distinct basic taxon. The function scales
+the distances so that longest path length between
+taxa is 100 (not necessarily when <code>check = FALSE</code>). 
+</p>
+<p>Function <code>plot.taxondive</code> plots <i>&Delta;^+</i> against Number of
+species, together with expectation and its approximate 2*sd
+limits. Function <code>summary.taxondive</code> finds the <i>z</i> values and
+their significances from Normal distribution for <i>&Delta;^+</i>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function returns an object of class <code>taxondive</code> with following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Species </code></td>
+<td>
+<p>Number of species for each site.</p>
+</td></tr>
+<tr valign="top"><td><code>D, Dstar, Dplus, SDplus, Lambda</code></td>
+<td>
+<p><i>&Delta;</i>, <i>&Delta;^*</i>,
+<i>&Delta;^+</i>,  <i>s&Delta;^+</i> and <i>&Lambda;^+</i> 
+for each site.</p>
+</td></tr>
+<tr valign="top"><td><code>sd.Dplus</code></td>
+<td>
+<p>Standard deviation of <i>&Delta;^+</i>.</p>
+</td></tr>
+<tr valign="top"><td><code>ED, EDstar, EDplus</code></td>
+<td>
+<p>Expected values of corresponding
+statistics.</p>
+</td></tr>
+</table>
+<p>Function <code>taxa2dist</code> returns an object of class <code>"dist"</code>, with
+an attribute <code>"steps"</code> for the step lengths between successive levels.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function is still preliminary and may change. The scaling of
+taxonomic dissimilarities influences the results. If you multiply
+taxonomic distances (or step lengths) by a constant, the values of all
+Deltas will be multiplied with the same constant, and the value of
+<i>&Lambda;^+</i> by the square of the constant.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Clarke, K.R &amp; Warwick, R.M. (1998) A taxonomic distinctness index and
+its statistical properties. <em>Journal of Applied Ecology</em> 35,
+523&ndash;531.
+</p>
+<p>Clarke, K.R. &amp; Warwick, R.M. (1999) The taxonomic distinctness measure
+of biodiversity: weighting of step lengths between hierarchical
+levels. <em>Marine Ecology Progress Series</em> 184: 21&ndash;29.
+</p>
+<p>Clarke, K.R. &amp; Warwick, R.M. (2001) A further biodiversity index
+applicable to species lists: variation in taxonomic
+distinctness. <em>Marine Ecology Progress Series</em> 216, 265&ndash;278.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/diversity.html">diversity</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Preliminary: needs better data and some support functions
+data(dune)
+data(dune.taxon)
+# Taxonomic distances from a classification table with variable step lengths.
+taxdis &lt;- taxa2dist(dune.taxon, varstep=TRUE)
+plot(hclust(taxdis), hang = -1)
+# Indices
+mod &lt;- taxondive(dune, taxdis)
+mod
+summary(mod)
+plot(mod)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a Microsoft Windows Shortcut (.lnk file)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readWindowsShortcut {R.utils}"><tr><td>readWindowsShortcut {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a Microsoft Windows Shortcut (.lnk file)</h2>
+
+<h3>Description</h3>
+
+<p>Reads a Microsoft Windows Shortcut (.lnk file).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+readWindowsShortcut(con, verbose=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string (filename).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, extra information is written while reading.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The MIME type for a Windows Shortcut file is
+<code>application/x-ms-shortcut</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/list.html">list</a></code> structure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] Wotsit's Format, <a href="http://www.wotsit.org/">http://www.wotsit.org/</a>, 2005.<br />
+[2] Hager J, <em>The Windows Shortcut File Format</em>
+(as reverse-engineered by), version 1.0.<br />
+[3] Microsoft Developer Network, <em>IShellLink Interface</em>, 2018.
+<a href="https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinka">https://learn.microsoft.com/en-us/windows/win32/api/shobjidl_core/nn-shobjidl_core-ishelllinka</a> <br />
+[4] Andrews D, <em>Parsing Windows Shortcuts (lnk) files in java</em>,
+comp.lang.java.help, Aug 1999.
+<a href="https://groups.google.com/d/topic/comp.lang.java.help/ouFHsH1UgKI">https://groups.google.com/d/topic/comp.lang.java.help/ouFHsH1UgKI</a> <br />
+[5] Multiple authors, <em>Windows shell links</em> (in Tcl), Tcler's Wiki,
+April 2008. <a href="https://wiki.tcl-lang.org/1844">https://wiki.tcl-lang.org/1844</a> <br />
+[6] Daniel S. Bensen, <em>Shortcut File Format (.lnk)</em>, Stdlib.com,
+April 24, 2009. <br />
+<a href="https://web.archive.org/web/20110817051855/http://www.stdlib.com/art6-Shortcut-File-Format-lnk.html">https://web.archive.org/web/20110817051855/http://www.stdlib.com/art6-Shortcut-File-Format-lnk.html</a> (was http://www.stdlib.com/art6-Shortcut-File-Format-lnk.html)<br />
+[7] [MS-SHLLINK]: Shell Link (.LNK) Binary File Format, Microsoft Inc.,
+September 25, 2009. <br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/createWindowsShortcut.html">createWindowsShortcut</a></code>() and
+<code><a href="../../R.utils/help/filePath.html">filePath</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+pathname &lt;- system.file("data-ex/HISTORY.LNK", package="R.utils")
+lnk &lt;- readWindowsShortcut(pathname)
+
+# Print all information
+print(lnk)
+
+# Get the relative path to the target file
+history &lt;- file.path(dirname(pathname), lnk$relativePath)
+
+# Alternatively, everything in one call
+history &lt;- filePath(pathname, expandLinks="relative")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

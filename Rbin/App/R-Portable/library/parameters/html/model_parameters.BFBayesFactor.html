@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from BayesFactor objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.BFBayesFactor {parameters}"><tr><td>model_parameters.BFBayesFactor {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from BayesFactor objects</h2>
+
+<h3>Description</h3>
+
+<p>Parameters from <code>BFBayesFactor</code> objects from <code>{BayesFactor}</code> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'BFBayesFactor'
+model_parameters(
+  model,
+  centrality = "median",
+  dispersion = FALSE,
+  ci = 0.95,
+  ci_method = "eti",
+  test = "pd",
+  rope_range = "default",
+  rope_ci = 0.95,
+  priors = TRUE,
+  effectsize_type = NULL,
+  include_proportions = FALSE,
+  verbose = TRUE,
+  cohens_d = NULL,
+  cramers_v = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Object of class <code>BFBayesFactor</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>centrality</code></td>
+<td>
+<p>The point-estimates (centrality indices) to compute. Character
+(vector) or list with one or more of these options: <code>"median"</code>, <code>"mean"</code>, <code>"MAP"</code>
+(see <code><a href="../../bayestestR/help/map_estimate.html">map_estimate()</a></code>), <code>"trimmed"</code> (which is just <code>mean(x, trim = threshold)</code>),
+<code>"mode"</code> or <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dispersion</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, computes indices of dispersion related
+to the estimate(s) (<code>SD</code> and <code>MAD</code> for <code>mean</code> and <code>median</code>, respectively).
+Dispersion is not available for <code>"MAP"</code> or <code>"mode"</code> centrality indices.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The type of index used for Credible Interval. Can be
+<code>"ETI"</code> (default, see <code><a href="../../bayestestR/help/eti.html">eti()</a></code>), <code>"HDI"</code>
+(see <code><a href="../../bayestestR/help/hdi.html">hdi()</a></code>), <code>"BCI"</code> (see
+<code><a href="../../bayestestR/help/bci.html">bci()</a></code>), <code>"SPI"</code> (see <code><a href="../../bayestestR/help/spi.html">spi()</a></code>), or
+<code>"SI"</code> (see <code><a href="../../bayestestR/help/si.html">si()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The indices of effect existence to compute. Character (vector) or
+list with one or more of these options: <code>"p_direction"</code> (or <code>"pd"</code>),
+<code>"rope"</code>, <code>"p_map"</code>, <code>"equivalence_test"</code> (or <code>"equitest"</code>),
+<code>"bayesfactor"</code> (or <code>"bf"</code>) or <code>"all"</code> to compute all tests.
+For each &quot;test&quot;, the corresponding <span class="pkg">bayestestR</span> function is called
+(e.g. <code><a href="../../bayestestR/help/rope.html">rope()</a></code> or <code><a href="../../bayestestR/help/p_direction.html">p_direction()</a></code>) and its results
+included in the summary output.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_range</code></td>
+<td>
+<p>ROPE's lower and higher bounds. Should be a list of two
+values (e.g., <code>c(-0.1, 0.1)</code>) or <code>"default"</code>. If <code>"default"</code>,
+the bounds are set to <code>x +- 0.1*SD(response)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rope_ci</code></td>
+<td>
+<p>The Credible Interval (CI) probability, corresponding to the
+proportion of HDI, to use for the percentage in ROPE.</p>
+</td></tr>
+<tr valign="top"><td><code>priors</code></td>
+<td>
+<p>Add the prior used for each parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>effectsize_type</code></td>
+<td>
+<p>The effect size of interest. Not that possibly not all
+effect sizes are applicable to the model object. See 'Details'. For Anova
+models, can also be a character vector with multiple effect size names.</p>
+</td></tr>
+<tr valign="top"><td><code>include_proportions</code></td>
+<td>
+<p>Logical that decides whether to include posterior
+cell proportions/counts for Bayesian contingency table analysis (from
+<code>BayesFactor::contingencyTableBF()</code>). Defaults to <code>FALSE</code>, as this
+information is often redundant.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>cohens_d, cramers_v</code></td>
+<td>
+<p>Deprecated. Please use <code>effectsize_type</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments to be passed to or from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The meaning of the extracted parameters:
+</p>
+
+<ul>
+<li><p> For <code><a href="../../BayesFactor/help/ttestBF.html">BayesFactor::ttestBF()</a></code>: <code>Difference</code> is the raw difference between
+the means.
+</p>
+</li>
+<li><p> For <code><a href="../../BayesFactor/help/correlationBF.html">BayesFactor::correlationBF()</a></code>: <code>rho</code> is the linear correlation
+estimate (equivalent to Pearson's <em>r</em>).
+</p>
+</li>
+<li><p> For <code><a href="../../BayesFactor/help/lmBF.html">BayesFactor::lmBF()</a></code> / <code><a href="../../BayesFactor/help/generalTestBF.html">BayesFactor::generalTestBF()</a></code>
+/ <code><a href="../../BayesFactor/help/regressionBF.html">BayesFactor::regressionBF()</a></code> / <code><a href="../../BayesFactor/help/anovaBF.html">BayesFactor::anovaBF()</a></code>: in addition to
+parameters of the fixed and random effects, there are: <code>mu</code> is the
+(mean-centered) intercept; <code>sig2</code> is the model's sigma; <code>g</code> / <code style="white-space: pre;">g_*</code> are
+the <em>g</em> parameters; See the <em>Bayes Factors for ANOVAs</em> paper
+(doi: <a href="https://doi.org/10.1016/j.jmp.2012.08.001">10.1016/j.jmp.2012.08.001</a>).
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("BayesFactor")) {
+  # Bayesian t-test
+  model &lt;- ttestBF(x = rnorm(100, 1, 1))
+  model_parameters(model)
+  model_parameters(model, cohens_d = TRUE, ci = .9)
+
+  # Bayesian contingency table analysis
+  data(raceDolls)
+  bf &lt;- contingencyTableBF(raceDolls, sampleType = "indepMulti", fixedMargin = "cols")
+  model_parameters(bf,
+    centrality = "mean",
+    dispersion = TRUE,
+    verbose = FALSE,
+    effectsize_type = "cramers_v"
+  )
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

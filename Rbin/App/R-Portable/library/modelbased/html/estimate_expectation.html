@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model-based response estimates and uncertainty</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for estimate_expectation {modelbased}"><tr><td>estimate_expectation {modelbased}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model-based response estimates and uncertainty</h2>
+
+<h3>Description</h3>
+
+<p>After fitting a model, it is useful generate model-based estimates of the
+response variables for different combinations of predictor values. Such
+estimates can be used to make inferences about relationships between
+variables and to make predictions about individual cases.
+</p>
+<p>Model-based response estimates and uncertainty can be generated for both the
+conditional average response values (the regression line or expectation) and
+for predictions about individual cases. See below for details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+estimate_expectation(
+  model,
+  data = NULL,
+  ci = 0.95,
+  keep_iterations = FALSE,
+  ...
+)
+
+estimate_response(...)
+
+estimate_link(model, data = "grid", ci = 0.95, keep_iterations = FALSE, ...)
+
+estimate_prediction(
+  model,
+  data = NULL,
+  ci = 0.95,
+  keep_iterations = FALSE,
+  ...
+)
+
+estimate_relation(
+  model,
+  data = "grid",
+  ci = 0.95,
+  keep_iterations = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame with model's predictors to estimate the response. If
+<code>NULL</code>, the model's data is used. If &quot;grid&quot;, the model matrix is obtained
+(through <code><a href="../../insight/help/get_datagrid.html">insight::get_datagrid()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>keep_iterations</code></td>
+<td>
+<p>If <code>TRUE</code>, will keep all iterations (draws) of
+bootstrapped or Bayesian models. They will be added as additional columns
+named <code style="white-space: pre;">iter_1, iter_2, ...</code>. You can reshape them to a long format by
+running <code><a href="../../bayestestR/help/reshape_iterations.html">reshape_iterations()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>You can add all the additional control arguments from
+<code><a href="../../insight/help/get_datagrid.html">insight::get_datagrid()</a></code> (used when <code>data = "grid"</code>) and
+<code><a href="../../insight/help/get_predicted.html">insight::get_predicted()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame of predicted values and uncertainty intervals, with
+class <code>"estimate_predicted"</code>. Methods for <code><a href="../../modelbased/help/visualisation_recipe.estimate_predicted.html">visualisation_recipe()</a></code>
+and <code><a href="../../modelbased/help/visualisation_recipe.estimate_predicted.html">plot()</a></code> are available.
+</p>
+
+
+<h3>Expected (average) values</h3>
+
+<p>The most important way that various types of response estimates differ is in
+terms of what quantity is being estimated and the meaning of the uncertainty
+intervals. The major choices are <strong>expected values</strong> for uncertainty in the
+regression line and <strong>predicted values</strong> for uncertainty in the individual
+case predictions.
+</p>
+<p><strong>Expected values</strong> refer to the fitted regression line - the estimated
+<em>average</em> response value (i.e., the &quot;expectation&quot;) for individuals with
+specific predictor values. For example, in a linear model <em>y</em> = 2 + 3<em>x</em> +
+4<em>z</em> + <em>e</em>, the estimated average <em>y</em> for individuals with <em>x</em> = 1 and <em>z</em> =
+2 is 11.
+</p>
+<p>For expected values, uncertainty intervals refer to uncertainty in the
+estimated <strong>conditional average</strong> (where might the true regression line
+actually fall)? Uncertainty intervals for expected values are also called
+&quot;confidence intervals&quot;.
+</p>
+<p>Expected values and their uncertainty intervals are useful for describing the
+relationship between variables and for describing how precisely a model has
+been estimated.
+</p>
+<p>For generalized linear models, expected values are reported on one of two scales:
+</p>
+
+<ul>
+<li><p> The <strong>link scale</strong> refers to scale of the fitted regression line, after
+transformation by the link function. For example, for a logistic regression
+(logit binomial) model, the link scale gives expected log-odds. For a
+log-link Poisson model, the link scale gives the expected log-count.
+</p>
+</li>
+<li><p> The <strong>response scale</strong> refers to the original scale of the response
+variable (i.e., without any link function transformation). Expected values
+on the link scale are back-transformed to the original response variable
+metric (e.g., expected probabilities for binomial models, expected counts
+for Poisson models).
+</p>
+</li></ul>
+
+
+
+<h3>Individual case predictions</h3>
+
+<p>In contrast to expected values, <strong>predicted values</strong> refer to predictions for
+<strong>individual cases</strong>. Predicted values are also called &quot;posterior
+predictions&quot; or &quot;posterior predictive draws&quot;.
+</p>
+<p>For predicted values, uncertainty intervals refer to uncertainty in the
+<strong>individual response values for each case</strong> (where might any single case
+actually fall)? Uncertainty intervals for predicted values are also called
+&quot;prediction intervals&quot; or &quot;posterior predictive intervals&quot;.
+</p>
+<p>Predicted values and their uncertainty intervals are useful for forecasting
+the range of values that might be observed in new data, for making decisions
+about individual cases, and for checking if model predictions are reasonable
+(&quot;posterior predictive checks&quot;).
+</p>
+<p>Predicted values and intervals are always on the scale of the original
+response variable (not the link scale).
+</p>
+
+
+<h3>Functions for estimating predicted values and uncertainty</h3>
+
+<p><em>modelbased</em> provides 4 functions for generating model-based response
+estimates and their uncertainty:
+</p>
+
+<ul>
+<li> <p><strong><code>estimate_expectation()</code></strong>:
+</p>
+
+<ul>
+<li><p> Generates <strong>expected values</strong> (conditional average) on the <strong>response scale</strong>.
+</p>
+</li>
+<li><p> The uncertainty interval is a <em>confidence interval</em>.
+</p>
+</li>
+<li><p> By default, values are computed using the data used to fit the model.
+</p>
+</li></ul>
+
+</li>
+<li> <p><strong><code>estimate_link()</code></strong>:
+</p>
+
+<ul>
+<li><p> Generates <strong>expected values</strong> (conditional average) on the <strong>link scale</strong>.
+</p>
+</li>
+<li><p> The uncertainty interval is a <em>confidence interval</em>.
+</p>
+</li>
+<li><p> By default, values are computed using a reference grid spanning the
+observed range of predictor values (see <code><a href="../../modelbased/help/visualisation_matrix.html">visualisation_matrix()</a></code>).
+</p>
+</li></ul>
+
+</li>
+<li> <p><strong><code>estimate_prediction()</code></strong>:
+</p>
+
+<ul>
+<li><p> Generates <strong>predicted values</strong> (for individual cases) on the <strong>response scale</strong>.
+</p>
+</li>
+<li><p> The uncertainty interval is a <em>prediction interval</em>.
+</p>
+</li>
+<li><p> By default, values are computed using the data used to fit the model.
+</p>
+</li></ul>
+
+</li>
+<li> <p><strong><code>estimate_relation()</code></strong>:
+</p>
+
+<ul>
+<li><p> Like <code>estimate_expectation()</code>.
+</p>
+</li>
+<li><p> Useful for visualizing a model.
+</p>
+</li>
+<li><p> Generates <strong>expected values</strong> (conditional average) on the <strong>response scale</strong>.
+</p>
+</li>
+<li><p> The uncertainty interval is a <em>confidence interval</em>.
+</p>
+</li>
+<li><p> By default, values are computed using a reference grid spanning the
+observed range of predictor values (see <code><a href="../../modelbased/help/visualisation_matrix.html">visualisation_matrix()</a></code>).
+</p>
+</li></ul>
+
+</li></ul>
+
+<p><code>estimate_response()</code> is a deprecated alias for <code>estimate_expectation()</code>.
+</p>
+
+
+<h3>Data for predictions</h3>
+
+<p>If the <code>data = NULL</code>, values are estimated using the data used to fit the
+model. If <code>data = "grid"</code>, values are computed using a reference grid
+spanning the observed range of predictor values with
+<code><a href="../../modelbased/help/visualisation_matrix.html">visualisation_matrix()</a></code>. This can be useful for model visualization. The
+number of predictor values used for each variable can be controlled with the
+<code>length</code> argument. <code>data</code> can also be a data frame containing columns with
+names matching the model frame (see <code><a href="../../insight/help/get_data.html">insight::get_data()</a></code>). This can be used
+to generate model predictions for specific combinations of predictor values.
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions are built on top of <code><a href="../../insight/help/get_predicted.html">insight::get_predicted()</a></code> and correspond
+to different specifications of its parameters. It may be useful to read its
+<a href="https://easystats.github.io/insight/reference/get_predicted.html">documentation</a>,
+in particular the description of the <code>predict</code> argument for additional
+details on the difference between expected vs. predicted values and link vs.
+response scales.
+</p>
+<p>Additional control parameters can be used to control results from
+<code><a href="../../insight/help/get_datagrid.html">insight::get_datagrid()</a></code> (when <code>data = "grid"</code>) and from
+<code><a href="../../insight/help/get_predicted.html">insight::get_predicted()</a></code> (the function used internally to compute
+predictions).
+</p>
+<p>For plotting, check the examples in <code><a href="../../modelbased/help/visualisation_recipe.html">visualisation_recipe()</a></code>. Also check out
+the <a href="https://easystats.github.io/modelbased/articles/">Vignettes</a> and <a href="https://easystats.github.io/modelbased/index.html#features">README examples</a> for
+various examples, tutorials and usecases.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(modelbased)
+
+# Linear Models
+model &lt;- lm(mpg ~ wt, data = mtcars)
+
+# Get predicted and prediction interval (see insight::get_predicted)
+estimate_response(model)
+
+# Get expected values with confidence interval
+pred &lt;- estimate_relation(model)
+pred
+
+# Visualisation (see visualisation_recipe())
+if (require("see")) {
+  plot(pred)
+}
+
+# Standardize predictions
+pred &lt;- estimate_relation(lm(mpg ~ wt + am, data = mtcars))
+z &lt;- standardize(pred, include_response = FALSE)
+z
+unstandardize(z, include_response = FALSE)
+
+# Logistic Models
+model &lt;- glm(vs ~ wt, data = mtcars, family = "binomial")
+estimate_response(model)
+estimate_relation(model)
+
+# Mixed models
+if (require("lme4")) {
+  model &lt;- lmer(mpg ~ wt + (1 | gear), data = mtcars)
+  estimate_response(model)
+  estimate_relation(model)
+}
+
+# Bayesian models
+
+if (require("rstanarm")) {
+  model &lt;- rstanarm::stan_glm(mpg ~ wt, data = mtcars, refresh = 0, iter = 200)
+  estimate_response(model)
+  estimate_relation(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>modelbased</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

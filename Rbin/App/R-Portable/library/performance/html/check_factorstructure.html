@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check suitability of data for Factor Analysis (FA) with...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_factorstructure {performance}"><tr><td>check_factorstructure {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check suitability of data for Factor Analysis (FA) with Bartlett's Test of Sphericity and KMO</h2>
+
+<h3>Description</h3>
+
+<p>This checks whether the data is appropriate for Factor Analysis (FA) by
+running the Bartlett's Test of Sphericity and the Kaiser, Meyer, Olkin (KMO)
+Measure of Sampling Adequacy (MSA). See <strong>details</strong> below for more information
+about the interpretation and meaning of each test.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_factorstructure(x, n = NULL, ...)
+
+check_kmo(x, n = NULL, ...)
+
+check_sphericity_bartlett(x, n = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A dataframe or a correlation matrix. If the latter is passed, <code>n</code>
+must be provided.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>If a correlation matrix was passed, the number of observations must
+be specified.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Bartlett's Test of Sphericity</h4>
+
+<p>Bartlett's (1951) test of sphericity tests whether a matrix (of correlations)
+is significantly different from an identity matrix (filled with 0). It tests
+whether the correlation coefficients are all 0. The test computes the
+probability that the correlation matrix has significant correlations among at
+least some of the variables in a dataset, a prerequisite for factor analysis
+to work.
+</p>
+<p>While it is often suggested to check whether Bartlett’s test of sphericity is
+significant before starting with factor analysis, one needs to remember that
+the test is testing a pretty extreme scenario (that all correlations are non-significant).
+As the sample size increases, this test tends to be always significant, which
+makes it not particularly useful or informative in well-powered studies.
+</p>
+
+
+
+<h4>Kaiser, Meyer, Olkin (KMO)</h4>
+
+<p><em>(Measure of Sampling Adequacy (MSA) for Factor Analysis.)</em>
+</p>
+<p>Kaiser (1970) introduced a Measure of Sampling Adequacy (MSA), later modified
+by Kaiser and Rice (1974). The Kaiser-Meyer-Olkin (KMO) statistic, which can
+vary from 0 to 1, indicates the degree to which each variable in a set is
+predicted without error by the other variables.
+</p>
+<p>A value of 0 indicates that the sum of partial correlations is large relative
+to the sum correlations, indicating factor analysis is likely to be
+inappropriate. A KMO value close to 1 indicates that the sum of partial
+correlations is not large relative to the sum of correlations and so factor
+analysis should yield distinct and reliable factors. It means that patterns
+of correlations are relatively compact, and so factor analysis should yield
+distinct and reliable factors. Values smaller than 0.5 suggest that you should
+either collect more data or rethink which variables to include.
+</p>
+<p>Kaiser (1974) suggested that KMO &gt; .9 were marvelous, in the .80s,
+meritorious, in the .70s, middling, in the .60s, mediocre, in the .50s,
+miserable, and less than .5, unacceptable. Hair et al. (2006) suggest
+accepting a value &gt; 0.5. Values between 0.5 and 0.7 are mediocre, and values
+between 0.7 and 0.8 are good.
+</p>
+<p>Variables with individual KMO values below 0.5 could be considered for
+exclusion them from the analysis (note that you would need to re-compute the
+KMO indices as they are dependent on the whole dataset).
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A list of lists of indices related to sphericity and KMO.
+</p>
+
+
+<h3>References</h3>
+
+<p>This function is a wrapper around the <code>KMO</code> and the <code>cortest.bartlett()</code>
+functions in the <strong>psych</strong> package (Revelle, 2016).
+</p>
+
+<ul>
+<li><p> Revelle, W. (2016). How To: Use the psych package for Factor Analysis
+and data reduction.
+</p>
+</li>
+<li><p> Bartlett, M. S. (1951). The effect of standardization on a Chi-square
+approximation in factor analysis. Biometrika, 38(3/4), 337-344.
+</p>
+</li>
+<li><p> Kaiser, H. F. (1970). A second generation little jiffy.
+Psychometrika, 35(4), 401-415.
+</p>
+</li>
+<li><p> Kaiser, H. F., &amp; Rice, J. (1974). Little jiffy, mark IV. Educational
+and psychological measurement, 34(1), 111-117.
+</p>
+</li>
+<li><p> Kaiser, H. F. (1974). An index of factorial simplicity.
+Psychometrika, 39(1), 31-36.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../performance/help/check_clusterstructure.html">check_clusterstructure()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(performance)
+
+check_factorstructure(mtcars)
+
+# One can also pass a correlation matrix
+r &lt;- cor(mtcars)
+check_factorstructure(r, n = nrow(mtcars))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

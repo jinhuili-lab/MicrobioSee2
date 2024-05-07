@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Metaclustering</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cluster_meta {parameters}"><tr><td>cluster_meta {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Metaclustering</h2>
+
+<h3>Description</h3>
+
+<p>One of the core &quot;issue&quot; of statistical clustering is that, in many cases,
+different methods will give different results. The <strong>metaclustering</strong> approach
+proposed by <em>easystats</em> (that finds echoes in <em>consensus clustering</em>; see Monti
+et al., 2003) consists of treating the unique clustering solutions as a ensemble,
+from which we can derive a probability matrix. This matrix contains, for each
+pair of observations, the probability of being in the same cluster. For instance,
+if the 6th and the 9th row of a dataframe has been assigned to a similar cluster
+by 5 our of 10 clustering methods, then its probability of being grouped together
+is 0.5.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cluster_meta(list_of_clusters, rownames = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>list_of_clusters</code></td>
+<td>
+<p>A list of vectors with the clustering assignments from various methods.</p>
+</td></tr>
+<tr valign="top"><td><code>rownames</code></td>
+<td>
+<p>An optional vector of row.names for the matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Metaclustering is based on the hypothesis that, as each clustering algorithm
+embodies a different prism by which it sees the data, running an infinite
+amount of algorithms would result in the emergence of the &quot;true&quot; clusters.
+As the number of algorithms and parameters is finite, the probabilistic
+perspective is a useful proxy. This method is interesting where there is no
+obvious reasons to prefer one over another clustering method, as well as to
+investigate how robust some clusters are under different algorithms.
+</p>
+<p>This metaclustering probability matrix can be transformed into a dissimilarity
+matrix (such as the one produced by <code>dist()</code>) and submitted for instance to
+hierarchical clustering (<code>hclust()</code>). See the example below.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix containing all the pairwise (between each observation)
+probabilities of being clustered together by the methods.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data &lt;- iris[1:4]
+
+rez1 &lt;- cluster_analysis(data, n = 2, method = "kmeans")
+rez2 &lt;- cluster_analysis(data, n = 3, method = "kmeans")
+rez3 &lt;- cluster_analysis(data, n = 6, method = "kmeans")
+
+list_of_clusters &lt;- list(rez1, rez2, rez3)
+
+m &lt;- cluster_meta(list_of_clusters)
+
+# Visualize matrix without reordering
+heatmap(m, Rowv = NA, Colv = NA, scale = "none") # Without reordering
+# Reordered heatmap
+heatmap(m, scale = "none")
+
+# Extract 3 clusters
+predict(m, n = 3)
+
+# Convert to dissimilarity
+d &lt;- as.dist(abs(m - 1))
+model &lt;- hclust(d)
+plot(model, hang = -1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

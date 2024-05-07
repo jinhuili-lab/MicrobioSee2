@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Bar plot of a RasterLayer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for barplot {raster}"><tr><td>barplot {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Bar plot of a RasterLayer</h2>
+
+<h3>Description</h3>
+
+<p>Create a barplot of the values of a RasterLayer. For large datasets a regular sample with a size of approximately <code>maxpixels</code> is used.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+barplot(height, maxpixels=1000000, digits=0, breaks=NULL, col=rainbow, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer. To regularly subsample very large objects</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer used to determine how to <code><a href="../../base/html/Round.html">round</a></code> the values before tabulating. Set to <code>NULL</code> or to a large number if you do not want any rounding </p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>breaks used to group the data as in <code><a href="../../base/help/cut.html">cut</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>a color generating function such as <code><a href="../../grDevices/html/palettes.html">rainbow</a></code>, or a vector of colors</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments for plotting as in <code><a href="../../graphics/help/barplot.html">barplot</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector (or matrix, when <code>beside = TRUE</code>) of the coordinates of the bar midpoints, useful for adding to the graph. See <code><a href="../../graphics/help/barplot.html">barplot</a></code>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/hist.html">hist</a>, <a href="../../raster/help/boxplot.html">boxplot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+f &lt;- system.file("external/test.grd", package="raster")
+r &lt;- raster(f)
+barplot(r, digits=-2, las=2, ylab='Frequency')
+
+op &lt;- par(no.readonly = TRUE)
+par(mai = c(1, 2, .5, .5))
+barplot(r, breaks=10, col=c('red', 'blue'), horiz=TRUE, digits=NULL, las=1)
+par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get information of the circular plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.info {circlize}"><tr><td>circos.info {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Get information of the circular plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Get information of the circular plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.info(sector.index = NULL, track.index = NULL, plot = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Which sectors you want to look at? It can be a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Which tracks you want to look at? It can be a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>Whether to add information on the plot.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It tells you the basic parameters for sectors/tracks/cells. If both <code>sector.index</code>
+and <code>track.index</code> are set to <code>NULL</code>, the function would print index for
+all sectors and all tracks. If <code>sector.index</code> and/or <code>track.index</code> are set,
+the function would print <code>xlim</code>, <code>ylim</code>, <code>cell.xlim</code>, <code>cell.ylim</code>,
+<code>xplot</code>, <code>yplot</code>, <code>cell.width</code>, <code>cell.height</code>, <code>track.margin</code> and <code>cell.padding</code> for every cell in specified sectors and tracks.
+Also, the function will print index of your current sector and current track.
+</p>
+<p>If <code>plot</code> is set to <code>TRUE</code>, the function will plot the index of the sector and the track
+for each cell on the figure.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html#circos-info-and-circos-clear">https://jokergoo.github.io/circlize_book/book/circular-layout.html#circos-info-and-circos-clear</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

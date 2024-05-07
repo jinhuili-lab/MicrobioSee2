@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Pooled Indices of (Co)Deviation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sd_pooled {effectsize}"><tr><td>sd_pooled {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Pooled Indices of (Co)Deviation</h2>
+
+<h3>Description</h3>
+
+<p>The Pooled Standard Deviation is a weighted average of standard deviations
+for two or more groups, <em>assumed to have equal variance</em>. It represents the
+common deviation among the groups, around each of their respective means.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sd_pooled(x, y = NULL, data = NULL, verbose = TRUE, ...)
+
+mad_pooled(x, y = NULL, data = NULL, constant = 1.4826, verbose = TRUE, ...)
+
+cov_pooled(x, y = NULL, data = NULL, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A numeric vector, or a character name of one in <code>data</code>.
+Any missing values (<code>NA</code>s) are dropped from the resulting vector.
+<code>x</code> can also be a formula (see <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>), in which case <code>y</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>constant</code></td>
+<td>
+<p>scale factor.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The standard version is calculated as:
+</p>
+<p style="text-align: center;"><i>sqrt(sum(c(x - mean(x), y - mean(y))^2) / (n1 + n2 - 2))</i></p>
+
+<p>The robust version is calculated as:
+</p>
+<p style="text-align: center;"><i>mad(c(x - median(x), y - median(y)), constant = 1.4826)</i></p>
+
+
+
+<h3>Value</h3>
+
+<p>Numeric, the pooled standard deviation. For <code>cov_pooled()</code> a matrix.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>, <code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sd_pooled(mpg ~ am, data = mtcars)
+mad_pooled(mtcars$mpg, factor(mtcars$am))
+
+cov_pooled(mpg + hp + cyl ~ am, data = mtcars)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

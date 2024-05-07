@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Analyse SAR CW-OSL measurements.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Analyse_SAR.OSLdata {Luminescence}"><tr><td>Analyse_SAR.OSLdata {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyse SAR CW-OSL measurements.</h2>
+
+<h3>Description</h3>
+
+<p>The function analyses SAR CW-OSL curve data and provides a summary of the
+measured data for every position. The output of the function is optimised
+for SAR OSL measurements on quartz.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Analyse_SAR.OSLdata(
+  input.data,
+  signal.integral,
+  background.integral,
+  position,
+  run,
+  set,
+  dtype,
+  keep.SEL = FALSE,
+  info.measurement = "unkown measurement",
+  output.plot = FALSE,
+  output.plot.single = FALSE,
+  cex.global = 1,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input.data</code></td>
+<td>
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> (<strong>required</strong>):
+input data from a Risø BIN file, produced by the function <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>):
+channels used for the signal integral, e.g. <code>signal.integral=c(1:2)</code></p>
+</td></tr>
+<tr valign="top"><td><code>background.integral</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<strong>required</strong>):
+channels used for the background integral, e.g. <code>background.integral=c(85:100)</code></p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+reader positions that want to be analysed (e.g. <code>position=c(1:48)</code>.
+Empty positions are automatically omitted. If no value is given all
+positions are analysed by default.</p>
+</td></tr>
+<tr valign="top"><td><code>run</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+range of runs used for the analysis. If no value is given the range of the
+runs in the sequence is deduced from the <code>Risoe.BINfileData</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>set</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+range of sets used for the analysis. If no value is given the range of the
+sets in the sequence is deduced from the <code>Risoe.BINfileData</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>dtype</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+allows to further limit the curves by their data type (<code>DTYPE</code>),
+e.g., <code>dtype = c("Natural", "Dose")</code> limits the curves to this two data types.
+By default all values are allowed.
+See <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> for allowed data types.</p>
+</td></tr>
+<tr valign="top"><td><code>keep.SEL</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (default):
+option allowing to use the <code>SEL</code> element of the <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> manually.
+<strong>NOTE:</strong> In this case any limitation provided by <code>run</code>, <code>set</code> and <code>dtype</code>
+are ignored!</p>
+</td></tr>
+<tr valign="top"><td><code>info.measurement</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+option to provide information about the measurement on the plot
+output (e.g. name of the BIN or BINX file).</p>
+</td></tr>
+<tr valign="top"><td><code>output.plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output (<code>TRUE/FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>output.plot.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+single plot output (<code>TRUE/FALSE</code>) to allow for plotting the results in
+single plot windows. Requires <code>output.plot = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.global</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+global scaling factor.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function
+<a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a> (supported: <code>background.count.distribution</code>, <code>sigmab</code>,
+<code>sig0</code>; e.g., for instrumental error) and can be used to adjust the plot.
+Supported&quot; <code>mtext</code>, <code>log</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function works only for standard SAR protocol measurements introduced by
+Murray and Wintle (2000) with CW-OSL curves. For the calculation of the
+Lx/Tx value the function <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a> is used.
+</p>
+<p><strong>Provided rejection criteria</strong>
+</p>
+<p><code style="white-space: pre;">[recyling ratio]</code>: calculated for every repeated regeneration dose point.
+</p>
+<p><code style="white-space: pre;">[recuperation]</code>: recuperation rate calculated by comparing the <code>Lx/Tx</code> values of the zero
+regeneration point with the <code>Ln/Tn</code> value (the <code>Lx/Tx</code> ratio of the natural
+signal). For methodological background see Aitken and Smith (1988)
+</p>
+<p><code style="white-space: pre;">[IRSL/BOSL]</code>: the integrated counts (<code>signal.integral</code>) of an
+IRSL curve are compared to the integrated counts of the first regenerated
+dose point. It is assumed that IRSL curves got the same dose as the first
+regenerated dose point. <strong>Note:</strong> This is not the IR depletion ratio
+described by Duller (2003).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A plot (<em>optional</em>) and <a href="../../base/html/list.html">list</a> is returned containing the
+following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>LnLxTnTx</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> of all calculated Lx/Tx values including signal, background counts and the dose points.</p>
+</td></tr>
+<tr valign="top"><td><code>RejectionCriteria</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> with values that might by used as rejection criteria. NA is produced if no R0 dose point exists.</p>
+</td></tr>
+<tr valign="top"><td><code>SARParameters</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> of additional measurement parameters obtained from the BIN file, e.g. preheat or read temperature
+(not valid for all types of measurements).</p>
+</td></tr>
+</table>
+
+
+<h3>Function version</h3>
+
+<p>0.2.17
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Fuchs, M.C., 2021. Analyse_SAR.OSLdata(): Analyse SAR CW-OSL measurements.. Function version 0.2.17. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Rejection criteria are calculated but not considered during the
+analysis to discard values.
+</p>
+<p><strong>The analysis of IRSL data is not directly supported</strong>. You may want to
+consider using the functions <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a> or
+<a href="../../Luminescence/help/analyse_pIRIRSequence.html">analyse_pIRIRSequence</a> instead.
+</p>
+<p><strong>The development of this function will not be continued. We recommend to use the function <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a> or instead.</strong>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)<br />
+Margret C. Fuchs, HZDR, Freiberg (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Aitken, M.J. and Smith, B.W., 1988. Optical dating: recuperation
+after bleaching. Quaternary Science Reviews 7, 387-393.
+</p>
+<p>Duller, G., 2003. Distinguishing quartz and feldspar in single grain
+luminescence measurements. Radiation Measurements, 37 (2), 161-165.
+</p>
+<p>Murray, A.S. and Wintle, A.G., 2000. Luminescence dating of quartz using an
+improved single-aliquot regenerative-dose protocol. Radiation Measurements
+32, 57-73.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>, <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+##load data
+data(ExampleData.BINfileData, envir = environment())
+
+##analyse data
+output &lt;- Analyse_SAR.OSLdata(input.data = CWOSL.SAR.Data,
+                              signal.integral = c(1:5),
+                              background.integral = c(900:1000),
+                              position = c(1:1),
+                              output.plot = TRUE)
+
+##combine results relevant for further analysis
+output.SAR &lt;- data.frame(Dose = output$LnLxTnTx[[1]]$Dose,
+                         LxTx = output$LnLxTnTx[[1]]$LxTx,
+                         LxTx.Error = output$LnLxTnTx[[1]]$LxTx.Error)
+output.SAR
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

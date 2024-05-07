@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: dN/dS Ratio</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dnds {ape}"><tr><td>dnds {ape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>dN/dS Ratio</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the pairwise ratios dN/dS for a set of aligned
+DNA sequences using Li's (1993) method.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dnds(x, code = 1, codonstart = 1, quiet = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"DNAbin"</code> (matrix or list) with the
+aligned sequences.</p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>an integer value giving the genetic code to be
+used. Currently only 1 (standard code) and 2 (vertebrate mitochondrial
+code) are supported.</p>
+</td></tr>
+<tr valign="top"><td><code>codonstart</code></td>
+<td>
+<p>an integer giving where to start the translation. This
+should be 1, 2, or 3, but larger values are accepted and have for
+effect to start the translation further within the sequence.</p>
+</td></tr>
+<tr valign="top"><td><code>quiet</code></td>
+<td>
+<p>single logical value: whether to indicate progress of
+calculations.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>an object of class <code>"dist"</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Emmanuel Paradis</p>
+
+
+<h3>References</h3>
+
+<p>Li, W.-H. (1993) Unbiased estimation of the rates of synonymous and
+nonsynonymous substitution. <em>Journal of Molecular Evolution</em>,
+<b>36</b>, 96&ndash;99.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../ape/help/AAbin.html">AAbin</a></code>, <code><a href="../../ape/help/trans.html">trans</a></code>, <code><a href="../../ape/help/alview.html">alview</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(woodmouse)
+res &lt;- dnds(woodmouse, quiet = TRUE) # NOT correct
+res2 &lt;- dnds(woodmouse, code = 2, quiet = TRUE) # using the correct code
+identical(res, res2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ape</em> version 5.5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

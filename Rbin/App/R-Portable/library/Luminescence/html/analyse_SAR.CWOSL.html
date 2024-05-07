@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Analyse SAR CW-OSL measurements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for analyse_SAR.CWOSL {Luminescence}"><tr><td>analyse_SAR.CWOSL {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyse SAR CW-OSL measurements</h2>
+
+<h3>Description</h3>
+
+<p>The function performs a SAR CW-OSL analysis on an
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object including growth curve fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+analyse_SAR.CWOSL(
+  object,
+  signal.integral.min = NA,
+  signal.integral.max = NA,
+  background.integral.min = NA,
+  background.integral.max = NA,
+  OSL.component = NULL,
+  rejection.criteria = list(),
+  dose.points = NULL,
+  mtext.outer = "",
+  plot = TRUE,
+  plot_onePage = FALSE,
+  plot.single = FALSE,
+  onlyLxTxTable = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+input object containing data for analysis, alternatively a <a href="../../base/html/list.html">list</a> of
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects can be provided. The object should contain <strong>only</strong> curves
+considered part of the SAR protocol (see Details.)</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.min</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+lower bound of the signal integral. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/integer.html">integer</a>s, if <code>object</code> is
+of type <a href="../../base/html/list.html">list</a>. If the input is vector (e.g., <code>c(1,2)</code>) the 2nd value will be interpreted
+as the minimum signal integral for the <code>Tx</code> curve. Can be set to <code>NA</code>, in this
+case no integrals are taken into account.</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.max</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+upper bound of the signal integral. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/integer.html">integer</a>s, if <code>object</code> is
+of type <a href="../../base/html/list.html">list</a>. If the input is vector (e.g., <code>c(1,2)</code>) the 2nd value will be interpreted
+as the maximum signal integral for the <code>Tx</code> curve. Can be set to <code>NA</code>, in this
+case no integrals are taken into account.</p>
+</td></tr>
+<tr valign="top"><td><code>background.integral.min</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+lower bound of the background integral. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/integer.html">integer</a>s, if <code>object</code> is
+of type <a href="../../base/html/list.html">list</a>. If the input is vector (e.g., <code>c(1,2)</code>) the 2nd value will be interpreted
+as the minimum background integral for the <code>Tx</code> curve. Can be set to <code>NA</code>, in this
+case no integrals are taken into account.</p>
+</td></tr>
+<tr valign="top"><td><code>background.integral.max</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+upper bound of the background integral. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/integer.html">integer</a>s, if <code>object</code> is
+of type <a href="../../base/html/list.html">list</a>. If the input is vector (e.g., <code>c(1,2)</code>) the 2nd value will be interpreted
+as the maximum background integral for the <code>Tx</code> curve. Can be set to <code>NA</code>, in this
+case no integrals are taken into account.</p>
+</td></tr>
+<tr valign="top"><td><code>OSL.component</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> or <a href="../../base/html/integer.html">integer</a> (<em>optional</em>): s single index
+or a <a href="../../base/html/character.html">character</a> defining the signal component to be evaluated.
+It requires that the object was processed by <code style="white-space: pre;">[OSLdecomposition::RLum.OSL_decomposition]</code>.
+This argument can either be the name of the OSL component assigned by
+<code style="white-space: pre;">[OSLdecomposition::RLum.OSL_global_fitting]</code> or the index in the descending
+order of decay rates. Then <code>"1"</code> selects the fastest decaying component, <code>"2"</code>
+the second fastest and so on. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/integer.html">integer</a>s or strings (or mixed)
+If object is a <a href="../../base/html/list.html">list</a> and this parameter is provided as <a href="../../base/html/list.html">list</a> it alternates over
+the elements (aliquots) of the object list, e.g., <code>list(1,2)</code> processes the first
+aliquot with component <code>1</code> and the second aliquot with component <code>2</code>.
+<code>NULL</code> does not process any component.</p>
+</td></tr>
+<tr valign="top"><td><code>rejection.criteria</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>with default</em>):
+provide a <em>named</em> list and set rejection criteria in <strong>percentage</strong>
+for further calculation. Can be a <a href="../../base/html/list.html">list</a> in a <a href="../../base/html/list.html">list</a>, if <code>object</code> is of type <a href="../../base/html/list.html">list</a>.
+Note: If an <em>unnamed</em> <a href="../../base/html/list.html">list</a> is provided the new settings are ignored!
+</p>
+<p>Allowed arguments are <code>recycling.ratio</code>, <code>recuperation.rate</code>,
+<code>palaeodose.error</code>, <code>testdose.error</code> and <code>exceed.max.regpoint = TRUE/FALSE</code>.
+Example: <code>rejection.criteria = list(recycling.ratio = 10)</code>.
+Per default all numerical values are set to 10, <code>exceed.max.regpoint = TRUE</code>.
+Every criterion can be set to <code>NA</code>. In this value are calculated, but not considered, i.e.
+the RC.Status becomes always <code>'OK'</code></p>
+</td></tr>
+<tr valign="top"><td><code>dose.points</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+a numeric vector containing the dose points values. Using this argument
+overwrites dose point values extracted from other data. Can be a <a href="../../base/html/list.html">list</a> of
+<a href="../../base/html/numeric.html">numeric</a> vectors, if <code>object</code> is of type <a href="../../base/html/list.html">list</a></p>
+</td></tr>
+<tr valign="top"><td><code>mtext.outer</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+option to provide an outer margin <code>mtext</code>. Can be a <a href="../../base/html/list.html">list</a> of <a href="../../base/html/character.html">character</a>s,
+if <code>object</code> is of type <a href="../../base/html/list.html">list</a></p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enables or disables plot output.</p>
+</td></tr>
+<tr valign="top"><td><code>plot_onePage</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enables or disables on page plot output</p>
+</td></tr>
+<tr valign="top"><td><code>plot.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>) or <a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+single plot output (<code>TRUE/FALSE</code>) to allow for plotting the results in single plot windows.
+If a <a href="../../base/html/numeric.html">numeric</a> vector is provided the plots can be selected individually, i.e.
+<code>plot.single = c(1,2,3,4)</code> will plot the TL and Lx, Tx curves but not the legend (5) or the
+growth curve (6), (7) and (8) belong to rejection criteria plots. Requires
+<code>plot = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>onlyLxTxTable</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (with default): If <code>TRUE</code> the dose response
+curve fitting and plotting is skipped.
+This allows to get hands on the <code>Lx/Tx</code> table for large datasets
+without the need for a curve fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function
+<a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a> or <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>
+(supported: <code>background.count.distribution</code>, <code>sigmab</code>, <code>sig0</code>).
+<strong>Please note</strong> that if you consider to use the early light subtraction
+method you should provide your own <code>sigmab</code> value!</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function performs an analysis for a standard SAR protocol measurements
+introduced by Murray and Wintle (2000) with CW-OSL curves. For the
+calculation of the <code>Lx/Tx</code> value the function <a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a> is
+used. For <strong>changing the way the Lx/Tx error is calculated</strong> use the argument
+<code>background.count.distribution</code> and <code>sigmab</code>, which will be passed to the function
+<a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>.
+</p>
+<p><strong>What is part of a SAR sequence?</strong>
+</p>
+<p>The function is rather picky when it comes down to accepted curve input (OSL,IRSL,...) and structure.
+A SAR sequence is basically a set of $L_x/T_x$ curves. Hence, every 2nd curve
+is considered a shine-down curve related to the test dose. It also means that the number of
+curves for $L_x$ has to be equal to the number of $T_x$ curves, and that
+hotbleach curves <strong>do not</strong> belong into a SAR sequence; at least not for the analysis.
+Other curves allowed and processed are preheat curves, or preheat curves measured as TL, and
+irradiation curves. The later one indicates the duration of the irradiation, the
+dose and test dose points, e.g., as part of XSYG files.
+</p>
+<p><strong>Argument <code>object</code> is of type <code>list</code></strong>
+</p>
+<p>If the argument <code>object</code> is of type <a href="../../base/html/list.html">list</a> containing <strong>only</strong>
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects, the function re-calls itself as often as elements
+are in the list. This is useful if an entire measurement wanted to be analysed without
+writing separate for-loops. To gain in full control of the parameters (e.g., <code>dose.points</code>) for
+every aliquot (corresponding to one <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object in the list), in
+this case the arguments can be provided as <a href="../../base/html/list.html">list</a>. This <code>list</code> should
+be of similar length as the <code>list</code> provided with the argument <code>object</code>,
+otherwise the function will create an own list of the requested length.
+Function output will be just one single <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object.
+</p>
+<p>Please be careful when using this option. It may allow a fast an efficient data analysis, but
+the function may also break with an unclear error message, due to wrong input data.
+</p>
+<p><strong>Working with IRSL data</strong>
+</p>
+<p>The function was originally designed to work just for 'OSL' curves,
+following the principles of the SAR protocol. An IRSL measurement protocol
+may follow this procedure, e.g., post-IR IRSL protocol (Thomsen et al.,
+2008). Therefore this functions has been enhanced to work with IRSL data,
+however, the function is only capable of analysing curves that follow the
+SAR protocol structure, i.e., to analyse a post-IR IRSL protocol, curve data
+have to be pre-selected by the user to fit the standards of the SAR
+protocol, i.e., Lx,Tx,Lx,Tx and so on.
+</p>
+<p>Example: Imagine the measurement contains <code>pIRIR50</code> and <code>pIRIR225</code> IRSL curves.
+Only one curve type can be analysed at the same time: The <code>pIRIR50</code> curves or
+the <code>pIRIR225</code> curves.
+</p>
+<p><strong>Supported rejection criteria</strong>
+</p>
+<p><code style="white-space: pre;">[recycling.ratio]</code>: calculated for every repeated regeneration dose point.
+</p>
+<p><code style="white-space: pre;">[recuperation.rate]</code>: recuperation rate calculated by comparing the
+Lx/Tx values of the zero regeneration point with the <code>Ln/Tn</code> value (the 'Lx/Tx
+ratio of the natural signal). For methodological background see Aitken and
+Smith (1988).
+</p>
+<p><code style="white-space: pre;">[testdose.error]</code>: set the allowed error for the test dose, which per
+default should not exceed 10\
+</p>
+<p><code style="white-space: pre;">[palaeodose.error]</code>: set the allowed error for the De value, which per
+default should not exceed 10\
+</p>
+<p><strong>Irradiation times</strong>
+</p>
+<p>The function makes two attempts to extra irradiation data (dose points)
+automatically from the input object, if the argument <code>dose.points</code> was not
+set (aka set to <code>NULL</code>).
+</p>
+
+<ol>
+<li><p> It searches in every curve for an info object called <code>IRR_TIME</code>. If this was set, any value
+set here is taken as dose point.
+</p>
+</li>
+<li><p> If the object contains curves of type <code>irradiation</code>, the function tries to
+use this information to assign these values to the curves. However, the function
+does <strong>not</strong> overwrite values preset in <code>IRR_TIME</code>.
+</p>
+</li></ol>
+
+
+
+<h3>Value</h3>
+
+<p>A plot (<em>optional</em>) and an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is
+returned containing the following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> containing De-values, De-error and further parameters</p>
+</td></tr>
+<tr valign="top"><td><code>LnLxTnTx.values</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> of all calculated Lx/Tx values including signal,
+background counts and the dose points</p>
+</td></tr>
+<tr valign="top"><td><code>rejection.criteria</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> with values that might by used as rejection criteria.
+<code>NA</code> is produced if no R0 dose point exists.</p>
+</td></tr>
+<tr valign="top"><td><code>Formula</code></td>
+<td>
+<p><a href="../../stats/html/formula.html">formula</a> formula that have been used for the growth curve fitting </p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.9.13
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. analyse_SAR.CWOSL(): Analyse SAR CW-OSL measurements. Function version 0.9.13. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function must not be mixed up with the function
+<a href="../../Luminescence/help/Analyse_SAR.OSLdata.html">Analyse_SAR.OSLdata</a>, which works with
+<a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects.
+</p>
+<p><strong>The function currently does support only 'OSL', 'IRSL' and 'POSL' data!</strong>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University
+(United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Aitken, M.J. and Smith, B.W., 1988. Optical dating: recuperation
+after bleaching. Quaternary Science Reviews 7, 387-393.
+</p>
+<p>Duller, G., 2003. Distinguishing quartz and feldspar in single grain
+luminescence measurements. Radiation Measurements, 37 (2), 161-165.
+</p>
+<p>Murray, A.S. and Wintle, A.G., 2000. Luminescence dating of quartz using an
+improved single-aliquot regenerative-dose protocol. Radiation Measurements
+32, 57-73.
+</p>
+<p>Thomsen, K.J., Murray, A.S., Jain, M., Boetter-Jensen, L., 2008. Laboratory
+fading rates of various luminescence signals from feldspar-rich sediment
+extracts. Radiation Measurements 43, 1474-1486.
+doi:10.1016/j.radmeas.2008.06.002
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_OSLLxTxRatio.html">calc_OSLLxTxRatio</a>, <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>,
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+##ExampleData.BINfileData contains two BINfileData objects
+##CWOSL.SAR.Data and TL.SAR.Data
+data(ExampleData.BINfileData, envir = environment())
+
+##transform the values from the first position in a RLum.Analysis object
+object &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data, pos=1)
+
+##perform SAR analysis and set rejection criteria
+results &lt;- analyse_SAR.CWOSL(
+object = object,
+signal.integral.min = 1,
+signal.integral.max = 2,
+background.integral.min = 900,
+background.integral.max = 1000,
+log = "x",
+fit.method = "EXP",
+rejection.criteria = list(
+  recycling.ratio = 10,
+  recuperation.rate = 10,
+  testdose.error = 10,
+  palaeodose.error = 10,
+  exceed.max.regpoint = TRUE)
+)
+
+##show De results
+get_RLum(results)
+
+##show LnTnLxTx table
+get_RLum(results, data.object = "LnLxTnTx.table")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

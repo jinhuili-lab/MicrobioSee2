@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert (refit) a Bayesian model to frequentist</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_bayesian_as_frequentist {bayestestR}"><tr><td>convert_bayesian_as_frequentist {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert (refit) a Bayesian model to frequentist</h2>
+
+<h3>Description</h3>
+
+<p>Refit Bayesian model as frequentist. Can be useful for comparisons.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_bayesian_as_frequentist(model, data = NULL, REML = TRUE)
+
+bayesian_as_frequentist(model, data = NULL, REML = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A Bayesian model.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Data used by the model. If <code>NULL</code>, will try to extract it
+from the model.</p>
+</td></tr>
+<tr valign="top"><td><code>REML</code></td>
+<td>
+<p>For mixed effects, should models be estimated using
+restricted maximum likelihood (REML) (<code>TRUE</code>, default) or maximum
+likelihood (<code>FALSE</code>)?</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+# Rstanarm ----------------------
+# Simple regressions
+model &lt;- rstanarm::stan_glm(Sepal.Length ~ Species,
+  data = iris, chains = 2, refresh = 0
+)
+bayesian_as_frequentist(model)
+
+model &lt;- rstanarm::stan_glm(vs ~ mpg,
+  family = "binomial",
+  data = mtcars, chains = 2, refresh = 0
+)
+bayesian_as_frequentist(model)
+
+# Mixed models
+model &lt;- rstanarm::stan_glmer(
+  Sepal.Length ~ Petal.Length + (1 | Species),
+  data = iris, chains = 2, refresh = 0
+)
+bayesian_as_frequentist(model)
+
+model &lt;- rstanarm::stan_glmer(vs ~ mpg + (1 | cyl),
+  family = "binomial",
+  data = mtcars, chains = 2, refresh = 0
+)
+bayesian_as_frequentist(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

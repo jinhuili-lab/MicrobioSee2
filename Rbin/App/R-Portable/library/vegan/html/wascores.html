@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Weighted Averages Scores for Species</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for wascores {vegan}"><tr><td>wascores {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Weighted Averages Scores for Species </h2>
+
+<h3>Description</h3>
+
+<p>Computes Weighted Averages scores of species for ordination
+configuration or for environmental variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+wascores(x, w, expand=FALSE)
+eigengrad(x, w)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Environmental variables or ordination scores.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Weights: species abundances.</p>
+</td></tr>
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>Expand weighted averages so that they have the same
+weighted variance as the corresponding environmental variables.  </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>wascores</code> computes weighted averages. Weighted averages
+&ldquo;shrink&rdquo;: they cannot be more extreme than values used for
+calculating the averages. With <code>expand = TRUE</code>, the function
+&ldquo;deshrinks&rdquo; the weighted averages by making their biased
+weighted variance equal to the biased weighted variance of the
+corresponding environmental variable.  Function <code>eigengrad</code>
+returns the inverses of squared expansion factors or the attribute
+<code>shrinkage</code> of the <code>wascores</code> result for each environmental
+gradient.  This is equal to the constrained eigenvalue of
+<code><a href="../../vegan/help/cca.html">cca</a></code> when only this one gradient was used as a
+constraint, and describes the strength of the gradient.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>wascores</code> returns a matrix where species define rows
+and ordination axes or environmental variables define columns. If
+<code>expand = TRUE</code>, attribute <code>shrinkage</code> has the inverses of
+squared expansion factors or <code><a href="../../vegan/help/cca.html">cca</a></code> eigenvalues for the
+variable.  Function <code>eigengrad</code> returns only the <code>shrinkage</code>
+attribute.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>, <code><a href="../../vegan/help/cca.html">cca</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+vare.dist &lt;- vegdist(wisconsin(varespec))
+vare.mds &lt;- monoMDS(vare.dist)
+vare.points &lt;- postMDS(vare.mds$points, vare.dist)
+vare.wa &lt;- wascores(vare.points, varespec)
+plot(scores(vare.points), pch="+", asp=1)
+text(vare.wa, rownames(vare.wa), cex=0.8, col="blue")
+## Omit rare species (frequency &lt;= 4)
+freq &lt;- apply(varespec&gt;0, 2, sum)
+plot(scores(vare.points), pch="+", asp=1)
+text(vare.wa[freq &gt; 4,], rownames(vare.wa)[freq &gt; 4],cex=0.8,col="blue")
+## Works for environmental variables, too.
+wascores(varechem, varespec)
+## And the strengths of these variables are:
+eigengrad(varechem, varespec)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

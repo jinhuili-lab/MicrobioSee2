@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot confidence intervals/error bars</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plotCI {plotrix}"><tr><td>plotCI {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot confidence intervals/error bars</h2>
+
+<h3>Description</h3>
+
+<p>Given a set of x and y values and upper and lower bounds,
+this function plots the points with error bars.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ plotCI(x,y=NULL,uiw,liw=uiw,ui=NULL,li=NULL,err="y",
+  sfrac=0.01,gap=0,slty=par("lty"),add=FALSE,scol=NULL,pt.bg=par("bg"),...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The x coordinates of points in the plot</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>The y coordinates of points in the plot</p>
+</td></tr>
+<tr valign="top"><td><code>uiw</code></td>
+<td>
+<p>The width of the upper portion of the confidence region,
+or (if <span class="samp">liw</span> is missing) the width of both halves of
+the confidence region</p>
+</td></tr>
+<tr valign="top"><td><code>liw</code></td>
+<td>
+<p>The width of the lower portion of the confidence region (if
+missing, the function assumes symmetric confidence bounds)</p>
+</td></tr>
+<tr valign="top"><td><code>ui</code></td>
+<td>
+<p>The absolute upper limit of the confidence region</p>
+</td></tr>
+<tr valign="top"><td><code>li</code></td>
+<td>
+<p>The absolute lower limit of the confidence region</p>
+</td></tr>
+<tr valign="top"><td><code>err</code></td>
+<td>
+<p>The direction of error bars: &quot;x&quot; for horizontal, &quot;y&quot;
+for vertical (&quot;xy&quot; would be nice but is not implemented yet; don't
+know quite how everything would be specified.  See examples for
+composing a plot with simultaneous horizontal and vertical error bars)</p>
+</td></tr>
+<tr valign="top"><td><code>gap</code></td>
+<td>
+<p>Size of gap in error bars around points
+(default 0;gap=TRUE gives gap size of 0.01)</p>
+</td></tr>
+<tr valign="top"><td><code>sfrac</code></td>
+<td>
+<p>Scaling factor for the size of the &quot;serifs&quot; (end bars) on
+the confidence bars, in x-axis units</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>If FALSE (default), create a new plot; if TRUE, add error
+bars to an existing plot.</p>
+</td></tr>
+<tr valign="top"><td><code>slty</code></td>
+<td>
+<p>Line type of error bars</p>
+</td></tr>
+<tr valign="top"><td><code>scol</code></td>
+<td>
+<p>Color of error bars: if <span class="samp">col</span> is specified in the
+optional arguments, <span class="samp">scol</span> is set the same; otherwise it's set
+to <span class="samp">par(col)</span></p>
+</td></tr>
+<tr valign="top"><td><code>pt.bg</code></td>
+<td>
+<p>Background color of points (use pch=21, pt.bg=par(&quot;bg&quot;)
+to get open points superimposed on error bars)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any other parameters to be passed through to
+<a href="../../graphics/html/plot.default.html">plot.default</a>, <a href="../../graphics/html/points.html">points</a>,
+<a href="../../graphics/html/arrows.html">arrows</a>, etc. (e.g. <span class="samp">lwd</span>, <span class="samp">col</span>, <span class="samp">pch</span>,
+<span class="samp">axes</span>, <span class="samp">xlim</span>, <span class="samp">ylim</span>).  <span class="samp">xlim</span> and
+<span class="samp">ylim</span> are set by default to include all of the data points and
+error bars.  <span class="samp">xlab</span> and <span class="samp">ylab</span> are set to the names of
+<span class="samp">x</span> and <span class="samp">y</span>.  If <span class="samp">pch==NA</span>, no points are drawn
+(e.g. leaving room for text labels instead)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>invisible(x,y); creates a plot on the current device.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker (documentation and tweaking of a function provided by
+Bill Venables, additional feature ideas from Gregory Warnes)</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/boxplot.html">boxplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ y&lt;-runif(10)
+ err&lt;-runif(10)
+ plotCI(1:10,y,err,main="Basic plotCI")
+ plotCI(1:10,y,err,2*err,lwd=2,col="red",scol="blue",
+  main="Add colors to the points and error bars")
+ err.x&lt;-runif(10)
+ err.y&lt;-runif(10)
+ plotCI(1:10,y,err.y,pt.bg=par("bg"),pch=21,xlim=c(0,11),
+  main="plotCI with extra space on the x axis")
+ plotCI(1:10,y,err.x,pt.bg=par("bg"),pch=21,err="x",add=TRUE)
+ mtext("for adding horizontal error bars",3,0.5)
+ data(warpbreaks)
+ attach(warpbreaks)
+ wmeans&lt;-by(breaks,tension,mean)
+ wsd&lt;-by(breaks,tension,sd)
+ ## note that barplot() returns the midpoints of the bars, which plotCI
+ ##  uses as x-coordinates
+ plotCI(barplot(wmeans,col="gray",ylim=c(0,max(wmeans+wsd))),wmeans,wsd,add=TRUE)
+ ## using labels instead of points
+ labs&lt;-sample(LETTERS,replace=TRUE,size=10)
+ plotCI(1:10,y,err,pch=NA,gap=0.02,main="plotCI with labels at points")
+ text(1:10,y,labs)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

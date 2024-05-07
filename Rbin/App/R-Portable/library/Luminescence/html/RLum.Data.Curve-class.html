@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;RLum.Data.Curve&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for RLum.Data.Curve-class {Luminescence}"><tr><td>RLum.Data.Curve-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"RLum.Data.Curve"</code></h2>
+
+<h3>Description</h3>
+
+<p>Class for representing luminescence curve data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RLum.Data.Curve'
+show(object)
+
+## S4 method for signature 'RLum.Data.Curve'
+set_RLum(
+  class,
+  originator,
+  .uid,
+  .pid,
+  recordType = NA_character_,
+  curveType = NA_character_,
+  data = matrix(0, ncol = 2),
+  info = list()
+)
+
+## S4 method for signature 'RLum.Data.Curve'
+get_RLum(object, info.object = NULL)
+
+## S4 method for signature 'RLum.Data.Curve'
+length_RLum(object)
+
+## S4 method for signature 'RLum.Data.Curve'
+names_RLum(object)
+
+## S4 method for signature 'RLum.Data.Curve'
+bin_RLum.Data(object, bin_size = 2)
+
+## S4 method for signature 'RLum.Data.Curve'
+smooth_RLum(object, k = NULL, fill = NA, align = "right", method = "mean")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>, <code><a href="../../Luminescence/help/length_RLum.html">length_RLum</a></code>, <code><a href="../../Luminescence/help/names_RLum.html">names_RLum</a></code> (<strong>required</strong>):
+an object of class <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a></p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+name of the <code>RLum</code> class to create</p>
+</td></tr>
+<tr valign="top"><td><code>originator</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+contains the name of the calling function (the function that produces this object);
+can be set manually.</p>
+</td></tr>
+<tr valign="top"><td><code>.uid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+sets an unique ID for this object using the internal C++ function <code>create_UID</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.pid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+option to provide a parent id for nesting at will.</p>
+</td></tr>
+<tr valign="top"><td><code>recordType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+record type (e.g., &quot;OSL&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>curveType</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+curve type (e.g., &quot;predefined&quot; or &quot;measured&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/matrix.html">matrix</a> (<strong>required</strong>):
+raw curve data. If <code>data</code> itself is a <code>RLum.Data.Curve</code>-object this can be
+used to re-construct the object (s. details), i.e. modified parameters except
+<code>.uid</code>, <code>.pid</code> and <code>originator</code>. The rest will be subject to copy and paste unless provided.</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/list.html">list</a> (<em>optional</em>):
+info elements</p>
+</td></tr>
+<tr valign="top"><td><code>info.object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code> <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+name of the wanted info element</p>
+</td></tr>
+<tr valign="top"><td><code>bin_size</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+set number of channels used for each bin, e.g. <code>bin_size = 2</code> means that
+two channels are binned.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/smooth_RLum.html">smooth_RLum</a></code>; <a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+window for the rolling mean; must be odd for <code>rollmedian</code>.
+If nothing is set k is set automatically</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/smooth_RLum.html">smooth_RLum</a></code>; <a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+a vector defining the left and the right hand data</p>
+</td></tr>
+<tr valign="top"><td><code>align</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/smooth_RLum.html">smooth_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+specifying whether the index of the result should be left- or right-aligned
+or centred (default) compared to the rolling window of observations, allowed
+<code>"right"</code>, <code>"center"</code> and <code>"left"</code></p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/smooth_RLum.html">smooth_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+defines which method should be applied for the smoothing: <code>"mean"</code> or <code>"median"</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><strong><code>set_RLum</code></strong>
+</p>
+<p>Returns an <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> object.
+</p>
+<p><strong><code>get_RLum</code></strong>
+</p>
+
+<ol>
+<li><p> A <a href="../../base/html/matrix.html">matrix</a> with the curve values or
+</p>
+</li>
+<li><p> only the info object if <code>info.object</code> was set.
+</p>
+</li></ol>
+
+<p><strong><code>length_RLum</code></strong>
+</p>
+<p>Number of channels in the curve (row number of the matrix)
+</p>
+<p>**'names_RLum'**
+</p>
+<p>Names of the info elements (slot 'info')
+</p>
+<p><strong><code>bin_RLum.Data</code></strong>
+</p>
+<p>Same object as input, after applying the binning.
+</p>
+<p><strong><code>smooth_RLum</code></strong>
+</p>
+<p>Same object as input, after smoothing
+</p>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>show</code>: Show structure of <code>RLum.Data.Curve</code> object
+</p>
+</li>
+<li> <p><code>set_RLum</code>: Construction method for RLum.Data.Curve object. The slot info is optional
+and predefined as empty list by default.
+</p>
+</li>
+<li> <p><code>get_RLum</code>: Accessor method for RLum.Data.Curve object. The argument info.object is
+optional to directly access the info elements. If no info element name is
+provided, the raw curve data (matrix) will be returned.
+</p>
+</li>
+<li> <p><code>length_RLum</code>: Returns the length of the curve object, which is the maximum of the
+value time/temperature of the curve (corresponding to the stimulation length)
+</p>
+</li>
+<li> <p><code>names_RLum</code>: Returns the names info elements coming along with this curve object
+</p>
+</li>
+<li> <p><code>bin_RLum.Data</code>: Allows binning of specific objects
+</p>
+</li>
+<li> <p><code>smooth_RLum</code>: Smoothing of RLum.Data.Curve objects using the function <a href="../../zoo/help/rollmean.html">zoo::rollmean</a> or <a href="../../zoo/help/rollmean.html">zoo::rollmedian</a>.
+In particular the internal function <code>.smoothing</code> is used.
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>recordType</code></dt><dd><p>Object of class &quot;character&quot; containing the type of the curve (e.g. &quot;TL&quot; or &quot;OSL&quot;)</p>
+</dd>
+<dt><code>curveType</code></dt><dd><p>Object of class &quot;character&quot; containing curve type, allowed values are measured or predefined</p>
+</dd>
+<dt><code>data</code></dt><dd><p>Object of class <a href="../../base/html/matrix.html">matrix</a> containing curve x and y data.
+'data' can also be of type <code>RLum.Data.Curve</code> to change object values without
+deconstructing the object. For example:</p>
+<pre>set_RLum(class = 'RLum.Data.Curve',
+         data = Your.RLum.Data.Curve,
+         recordType = 'never seen before')
+</pre>
+<p>would just change the <code>recordType</code>. Missing arguments  the value is taken
+from the input object in 'data' (which is already an RLum.Data.Curve object
+in this example)</p>
+</dd>
+</dl>
+
+
+<h3>Create objects from this Class</h3>
+
+<p>Objects can be created by calls of the form
+<code>set_RLum(class = "RLum.Data.Curve", ...)</code>.
+</p>
+
+
+<h3>Class version</h3>
+
+<p>0.5.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. RLum.Data.Curve-class(): Class 'RLum.Data.Curve'. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The class should only contain data for a single curve. For additional
+elements the slot <code>info</code> can be used (e.g. providing additional heating
+ramp curve). Objects from the class <code>RLum.Data.Curve</code> are produced by other
+functions (partly within <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects),
+namely: <a href="../../Luminescence/help/Risoe.BINfileData2RLum.Analysis.html">Risoe.BINfileData2RLum.Analysis</a>, <a href="../../Luminescence/help/read_XSYG2R.html">read_XSYG2R</a>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, IRAMAT-CRP2A, UMR 5060, CNRS - Université Bordeaux Montaigne (France)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a>, <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>, <a href="../../Luminescence/help/merge_RLum.html">merge_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("RLum.Data.Curve")
+
+##set empty curve object
+set_RLum(class = "RLum.Data.Curve")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

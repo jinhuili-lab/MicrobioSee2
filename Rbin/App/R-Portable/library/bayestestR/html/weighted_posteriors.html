@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate posterior distributions weighted across models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for weighted_posteriors {bayestestR}"><tr><td>weighted_posteriors {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generate posterior distributions weighted across models</h2>
+
+<h3>Description</h3>
+
+<p>Extract posterior samples of parameters, weighted across models. Weighting is
+done by comparing posterior model probabilities, via <code><a href="../../bayestestR/help/bayesfactor_models.html">bayesfactor_models()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+weighted_posteriors(..., prior_odds = NULL, missing = 0, verbose = TRUE)
+
+## S3 method for class 'data.frame'
+weighted_posteriors(..., prior_odds = NULL, missing = 0, verbose = TRUE)
+
+## S3 method for class 'stanreg'
+weighted_posteriors(
+  ...,
+  prior_odds = NULL,
+  missing = 0,
+  verbose = TRUE,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL
+)
+
+## S3 method for class 'brmsfit'
+weighted_posteriors(
+  ...,
+  prior_odds = NULL,
+  missing = 0,
+  verbose = TRUE,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL
+)
+
+## S3 method for class 'blavaan'
+weighted_posteriors(
+  ...,
+  prior_odds = NULL,
+  missing = 0,
+  verbose = TRUE,
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL
+)
+
+## S3 method for class 'BFBayesFactor'
+weighted_posteriors(
+  ...,
+  prior_odds = NULL,
+  missing = 0,
+  verbose = TRUE,
+  iterations = 4000
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Fitted models (see details), all fit on the same data, or a single
+<code>BFBayesFactor</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>prior_odds</code></td>
+<td>
+<p>Optional vector of prior odds for the models compared to
+the first model (or the denominator, for <code>BFBayesFactor</code> objects). For
+<code>data.frame</code>s, this will be used as the basis of weighting.</p>
+</td></tr>
+<tr valign="top"><td><code>missing</code></td>
+<td>
+<p>An optional numeric value to use if a model does not contain a
+parameter that appears in other models. Defaults to 0.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>For <code>BayesFactor</code> models, how many posterior samples to draw.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note that across models some parameters might play different roles. For
+example, the parameter <code>A</code> plays a different role in the model <code>Y ~ A + B</code>
+(where it is a main effect) than it does in the model <code>Y ~ A + B + A:B</code>
+(where it is a simple effect). In many cases centering of predictors (mean
+subtracting for continuous variables, and effects coding via <code>contr.sum</code> or
+orthonormal coding via <code><a href="../../bayestestR/help/contr.equalprior_pairs.html">contr.equalprior_pairs</a></code> for factors) can reduce this
+issue. In any case you should be mindful of this issue.
+</p>
+<p>See <code><a href="../../bayestestR/help/bayesfactor_models.html">bayesfactor_models()</a></code> details for more info on passed models.
+</p>
+<p>Note that for <code>BayesFactor</code> models, posterior samples cannot be generated
+from intercept only models.
+</p>
+<p>This function is similar in function to <code>brms::posterior_average</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with posterior distributions (weighted across models) .
+</p>
+
+
+<h3>Note</h3>
+
+<p>For <code style="white-space: pre;">BayesFactor &lt; 0.9.12-4.3</code>, in some instances there might be
+some problems of duplicate columns of random effects in the resulting data
+frame.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Clyde, M., Desimone, H., &amp; Parmigiani, G. (1996). Prediction via
+orthogonalized model mixing. Journal of the American Statistical
+Association, 91(435), 1197-1208.
+</p>
+</li>
+<li><p> Hinne, M., Gronau, Q. F., van den Bergh, D., and Wagenmakers, E.
+(2019, March 25). A conceptual introduction to Bayesian Model Averaging.
+doi: <a href="https://doi.org/10.31234/osf.io/wgb64">10.31234/osf.io/wgb64</a>
+</p>
+</li>
+<li><p> Rouder, J. N., Haaf, J. M., &amp; Vandekerckhove, J. (2018). Bayesian
+inference for psychology, part IV: Parameter estimation and Bayes factors.
+Psychonomic bulletin &amp; review, 25(1), 102-113.
+</p>
+</li>
+<li><p> van den Bergh, D., Haaf, J. M., Ly, A., Rouder, J. N., &amp; Wagenmakers,
+E. J. (2019). A cautionary note on estimating effect size.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../bayestestR/help/bayesfactor_inclusion.html">bayesfactor_inclusion()</a></code> for Bayesian model averaging.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("rstanarm") &amp;&amp; require("see") &amp;&amp; interactive()) {
+  stan_m0 &lt;- suppressWarnings(stan_glm(extra ~ 1,
+    data = sleep,
+    family = gaussian(),
+    refresh = 0,
+    diagnostic_file = file.path(tempdir(), "df0.csv")
+  ))
+
+  stan_m1 &lt;- suppressWarnings(stan_glm(extra ~ group,
+    data = sleep,
+    family = gaussian(),
+    refresh = 0,
+    diagnostic_file = file.path(tempdir(), "df1.csv")
+  ))
+
+  res &lt;- weighted_posteriors(stan_m0, stan_m1, verbose = FALSE)
+
+  plot(eti(res))
+}
+
+## With BayesFactor
+if (require("BayesFactor")) {
+  extra_sleep &lt;- ttestBF(formula = extra ~ group, data = sleep)
+
+  wp &lt;- weighted_posteriors(extra_sleep, verbose = FALSE)
+
+  describe_posterior(extra_sleep, test = NULL, verbose = FALSE)
+  # also considers the null
+  describe_posterior(wp$delta, test = NULL, verbose = FALSE)
+}
+
+
+## weighted prediction distributions via data.frames
+if (require("rstanarm") &amp;&amp; interactive()) {
+  m0 &lt;- suppressWarnings(stan_glm(
+    mpg ~ 1,
+    data = mtcars,
+    family = gaussian(),
+    diagnostic_file = file.path(tempdir(), "df0.csv"),
+    refresh = 0
+  ))
+
+  m1 &lt;- suppressWarnings(stan_glm(
+    mpg ~ carb,
+    data = mtcars,
+    family = gaussian(),
+    diagnostic_file = file.path(tempdir(), "df1.csv"),
+    refresh = 0
+  ))
+
+  # Predictions:
+  pred_m0 &lt;- data.frame(posterior_predict(m0))
+  pred_m1 &lt;- data.frame(posterior_predict(m1))
+
+  BFmods &lt;- bayesfactor_models(m0, m1, verbose = FALSE)
+
+  wp &lt;- weighted_posteriors(
+    pred_m0, pred_m1,
+    prior_odds = as.numeric(BFmods)[2],
+    verbose = FALSE
+  )
+
+  # look at first 5 prediction intervals
+  hdi(pred_m0[1:5])
+  hdi(pred_m1[1:5])
+  hdi(wp[1:5]) # between, but closer to pred_m1
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

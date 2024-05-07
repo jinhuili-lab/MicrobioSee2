@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compile source code files containing Rdoc comments into Rd...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Rdoc$compile {R.oo}"><tr><td>Rdoc$compile {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compile source code files containing Rdoc comments into Rd files</h2>
+
+<h3>Description</h3>
+
+<p>Compile source code files containing Rdoc comments into Rd files.
+</p>
+<p><em>Note, the class and methods to be compiled have to be loaded into
+<span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> by for instance <code>library()</code> or  <code>source()</code> before calling
+this method.</em>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Rdoc$compile(filename=".*[.]R$", destPath=getManPath(this), showDeprecated=FALSE,
+##   addTimestamp=FALSE, locale="C", verbose=FALSE, source=FALSE, check=TRUE,
+##   debug=FALSE, ...)
+
+## Don't use the below:
+## S3 method for class 'Rdoc'
+compile(this, filename=".*[.]R$", destPath=getManPath(this), showDeprecated=FALSE,
+  addTimestamp=FALSE, locale="C", verbose=FALSE, source=FALSE, check=TRUE, debug=FALSE,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>The pathname or filename pattern of the Rdoc files to be
+compiled.</p>
+</td></tr>
+<tr valign="top"><td><code>destPath</code></td>
+<td>
+<p>The path where the generated Rd files should be saved.</p>
+</td></tr>
+<tr valign="top"><td><code>showDeprecated</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, Rd files are generated for deprecated
+objects too, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>addTimestamp</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, a date and time stamp is added to the
+Rd header comments.  This timestamp might be confusing for version
+control systems, which is why it can be turned off with <code><a href="../../base/help/logical.html">FALSE</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>locale</code></td>
+<td>
+<p>The locale to be set/used when compiling Rdoc comments.
+This help assuring strings are sorted the same way across systems.</p>
+</td></tr>
+<tr valign="top"><td><code>source</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the Rdoc files will be <code>source()</code>:ed first.
+This work of course only for Rdoc files that are R source files.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, detailed compilation information is printed.</p>
+</td></tr>
+<tr valign="top"><td><code>debug</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, extra debug information is printed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Rdoc.html">Rdoc</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

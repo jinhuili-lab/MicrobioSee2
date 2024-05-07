@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: General S4 class for representing a collection of Bayes...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BFBayesFactorList-class {BayesFactor}"><tr><td>BFBayesFactorList-class {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>General S4 class for representing a collection of Bayes factor model
+comprisons, each against a different denominator</h2>
+
+<h3>Description</h3>
+
+<p>The <code>BFBayesFactorList</code> class is a general S4 class for representing
+models model comparison via Bayes factor. See the examples for demonstrations
+of BFBayesFactorList methods.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BFBayesFactorList'
+t(x)
+
+## S4 method for signature 'numeric,BFBayesFactorList'
+e1 / e2
+
+## S4 method for signature 'BFBayesFactorList,index,index,missing'
+x[i, j, ..., drop = TRUE]
+
+## S4 method for signature 'BFBayesFactorList,index,missing,missing'
+x[i, j, ...,
+  drop = TRUE]
+
+## S4 method for signature 'BFBayesFactorList,missing,index,missing'
+x[i, j, ...,
+  drop = TRUE]
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a BFBayesFactorList object</p>
+</td></tr>
+<tr valign="top"><td><code>e1</code></td>
+<td>
+<p>Numerator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>e2</code></td>
+<td>
+<p>Denominator of the ratio</p>
+</td></tr>
+<tr valign="top"><td><code>i</code></td>
+<td>
+<p>indices specifying rows to extract</p>
+</td></tr>
+<tr valign="top"><td><code>j</code></td>
+<td>
+<p>indices specifying columns to extract</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to related methods</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>unused</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ <p><code>BFBayesFactorList</code> objects inherit from lists, and contain a
+single slot:
+</p>
+<dl>
+<dt>version</dt><dd><p>character string giving the version and revision number of the
+package that the model was created in</p>
+</dd>
+</dl>
+<p>Each element of the list contains a single
+<code>"<a href="../../BayesFactor/help/BFBayesFactor-class.html">BFBayesFactor</a>"</code> object. Each element of
+the list must have the same numerators, in the same order, as all the others.
+The list object is displayed as a matrix of Bayes factors. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Compute some Bayes factors to demonstrate Bayes factor lists
+data(puzzles)
+bfs &lt;- anovaBF(RT ~ shape*color + ID, data = puzzles, whichRandom = "ID", progress=FALSE)
+
+## Create a matrix of Bayes factors
+bfList &lt;- bfs / bfs
+bfList
+
+## Use indexing to select parts of the 'matrix'
+bfList[1,]
+bfList[,1]
+
+## We can use the t (transpose) function as well, to get back a BFBayesFactor
+t(bfList[2,])
+
+## Or transpose the whole matrix
+t(bfList)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

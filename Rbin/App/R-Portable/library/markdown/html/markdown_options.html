@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Markdown rendering options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for markdown_options {markdown}"><tr><td>markdown_options {markdown}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Markdown rendering options</h2>
+
+<h3>Description</h3>
+
+<p>A list of all options to control Markdown rendering. Options that are enabled
+by default are marked by a <code>+</code> prefix, and those disabled by default are
+marked by <code>-</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+markdown_options()
+</pre>
+
+
+<h3>Details</h3>
+
+<p>See <code>vignette('intro', package = 'markdown')</code> for the full list of options
+and their documentation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector of all available options.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# all available options
+markdown::markdown_options()
+
+library(markdown)
+
+# toc example
+mkd &lt;- c("# Header 1", "p1", "## Header 2", "p2")
+
+cat(mark(mkd, options = "+number_sections"))
+cat(mark(mkd, options = "+number_sections+toc"))
+
+# hard_wrap example
+cat(mark("foo\nbar\n"))
+cat(mark("foo\nbar\n", options = "hard_wrap"))
+
+# latex math example
+mkd &lt;- c(
+  "`$x$` is inline math $x$!", "", "Display style:", "", "$$x + y$$", "",
+  "\\begin{eqnarray}
+a^{2}+b^{2} &amp; = &amp; c^{2}\\\\
+\\sin^{2}(x)+\\cos^{2}(x) &amp; = &amp; 1
+\\end{eqnarray}"
+)
+
+cat(mark(mkd))
+cat(mark(mkd, options = "-latex_math"))
+
+# tables example (need 4 spaces at beginning of line here)
+cat(mark("
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+"))
+
+# but not here
+cat(mark("
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+", options = '-table'))
+
+# autolink example
+cat(mark("https://www.r-project.org/"))
+cat(mark("https://www.r-project.org/", options = "-autolink"))
+
+# strikethrough example
+cat(mark("~~awesome~~"))
+cat(mark("~~awesome~~", options = "-strikethrough"))
+
+# superscript and subscript examples
+cat(mark("2^10^"))
+cat(mark("2^10^", options = "-superscript"))
+cat(mark("H~2~O"))
+cat(mark("H~2~O", options = "-subscript"))
+
+# code blocks
+cat(mark('```r\n1 + 1;\n```'))
+cat(mark('```{.r}\n1 + 1;\n```'))
+cat(mark('```{.r .js}\n1 + 1;\n```'))
+cat(mark('```{.r .js #foo}\n1 + 1;\n```'))
+cat(mark('```{.r .js #foo style="color:red;"}\n1 + 1;\n```'))
+cat(mark('````\n```{r, echo=TRUE}\n1 + 1;\n```\n````'))
+
+# raw blocks
+cat(mark('```{=html}\n&lt;p&gt;raw HTML&lt;/p&gt;\n```'))
+cat(mark('```{=latex}\n&lt;p&gt;raw HTML&lt;/p&gt;\n```'))
+
+# skip_html tags
+mkd = '&lt;style&gt;a {}&lt;/style&gt;&lt;script type="text/javascript"&gt;console.log("No!");&lt;/script&gt;\n[Hello](#)'
+cat(mark(mkd))
+# TODO: wait for https://github.com/r-lib/commonmark/issues/15 to be fixed
+# cat(mark(mkd, options = "tagfilter"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>markdown</em> version 1.12 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

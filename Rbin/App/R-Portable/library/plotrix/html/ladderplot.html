@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ladder Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ladderplot {plotrix}"><tr><td>ladderplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Ladder Plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Makes a ladder plot, similar to <a href="../../MASS/help/parcoord.html">parcoord</a> but with more
+flexibility and graphical options.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ladderplot(x, ...)
+## Default S3 method:
+ladderplot(x, scale=FALSE, col=1, pch=19, lty=1, 
+xlim=c(0.5, ncol(x) + 0.5), ylim=range(x), vertical = TRUE, ordered=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A matrix or data frame with at least 2 columns.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+
+<p>Logical, if the original data columns should be scaled to the unit (0-1) interval.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>Color values to use for rows of <span class="samp">x</span>. If longer than 1, its value is recycled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+
+<p>Point type to use. If longer than 1, its value is recycled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p>Line type to use. If longer than 1, its value is recycled.
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+
+<p>Limits for axes.
+</p>
+</td></tr>
+<tr valign="top"><td><code>vertical</code></td>
+<td>
+
+<p>Logical, if the orientation of the ladderplot should be vertical or horizontal.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ordered</code></td>
+<td>
+
+<p>Logical, if the columns in <span class="samp">x</span> should be ordered.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Other arguments passed to the function <a href="../../graphics/html/stripchart.html">stripchart</a>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function uses <a href="../../graphics/html/stripchart.html">stripchart</a> to plot 1-D scatter plots for each column
+in <span class="samp">x</span>. Then points are joined by lines for each rows of <span class="samp">x</span>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Makes a plot as a side effect.
+Returns <span class="samp">NULL</span> invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter Solymos &lt;solymos@ualberta.ca&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/lines.html">lines</a>, <a href="../../graphics/html/points.html">points</a>, <a href="../../graphics/html/stripchart.html">stripchart</a>
+</p>
+<p>Almost identical function: <a href="../../MASS/help/parcoord.html">parcoord</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x&lt;-data.frame(A=c(1:10), B=c(2:11)+rnorm(10))
+y&lt;-data.frame(x, C=c(1:10)+rnorm(10))
+opar &lt;- par(mfrow=c(1,3))
+ladderplot(x)
+ladderplot(x, col=1:10, vertical=FALSE)
+ladderplot(y, col=1:10)
+par(opar)
+
+## examples from parcoord
+## Not run: 
+if (require(MASS)) {
+opar &lt;- par(mfrow=c(2,3))
+z1 &lt;- state.x77[, c(7, 4, 6, 2, 5, 3)]
+parcoord(z1, main="parcoord state.x77")
+ladderplot(z1, pch=NA, scale=TRUE, main="ladderplot state.x77 original")
+ladderplot(z1, main="ladderplot state.x77 original")
+ir &lt;- rbind(iris3[,,1], iris3[,,2], iris3[,,3])
+z2 &lt;- log(ir)[, c(3, 4, 2, 1)]
+parcoord(z2, col = 1 + (0:149))
+ladderplot(z2, scale=TRUE, col = 1 + (0:149),
+    main="ladderplot iris original")
+ladderplot(z2, col = 1 + (0:149))
+par(opar)
+}
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

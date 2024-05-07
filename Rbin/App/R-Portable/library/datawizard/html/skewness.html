@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Skewness and (Excess) Kurtosis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for skewness {datawizard}"><tr><td>skewness {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Skewness and (Excess) Kurtosis</h2>
+
+<h3>Description</h3>
+
+<p>Compute Skewness and (Excess) Kurtosis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+skewness(x, ...)
+
+## S3 method for class 'numeric'
+skewness(
+  x,
+  remove_na = TRUE,
+  type = "2",
+  iterations = NULL,
+  verbose = TRUE,
+  na.rm = TRUE,
+  ...
+)
+
+kurtosis(x, ...)
+
+## S3 method for class 'numeric'
+kurtosis(
+  x,
+  remove_na = TRUE,
+  type = "2",
+  iterations = NULL,
+  verbose = TRUE,
+  na.rm = TRUE,
+  ...
+)
+
+## S3 method for class 'parameters_kurtosis'
+print(x, digits = 3, test = FALSE, ...)
+
+## S3 method for class 'parameters_skewness'
+print(x, digits = 3, test = FALSE, ...)
+
+## S3 method for class 'parameters_skewness'
+summary(object, test = FALSE, ...)
+
+## S3 method for class 'parameters_kurtosis'
+summary(object, test = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector or data.frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>remove_na</code></td>
+<td>
+<p>Logical. Should <code>NA</code> values be removed before computing (<code>TRUE</code>)
+or not (<code>FALSE</code>, default)?</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of algorithm for computing skewness. May be one of <code>1</code>
+(or <code>"1"</code>, <code>"I"</code> or <code>"classic"</code>), <code>2</code> (or <code>"2"</code>,
+<code>"II"</code> or <code>"SPSS"</code> or <code>"SAS"</code>) or <code>3</code> (or  <code>"3"</code>,
+<code>"III"</code> or <code>"Minitab"</code>). See 'Details'.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of bootstrap replicates for computing standard
+errors. If <code>NULL</code> (default), parametric standard errors are computed.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Deprecated. Please use <code>remove_na</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of decimal places.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, tests if skewness or kurtosis is
+significantly different from zero.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object returned by <code>skewness()</code> or <code>kurtosis()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Skewness</h4>
+
+<p>Symmetric distributions have a <code>skewness</code> around zero, while
+a negative skewness values indicates a &quot;left-skewed&quot; distribution, and a
+positive skewness values indicates a &quot;right-skewed&quot; distribution. Examples
+for the relationship of skewness and distributions are:
+</p>
+
+<ul>
+<li><p> Normal distribution (and other symmetric distribution) has a skewness
+of 0
+</p>
+</li>
+<li><p> Half-normal distribution has a skewness just below 1
+</p>
+</li>
+<li><p> Exponential distribution has a skewness of 2
+</p>
+</li>
+<li><p> Lognormal distribution can have a skewness of any positive value,
+depending on its parameters
+</p>
+</li></ul>
+
+<p>(<cite>https://en.wikipedia.org/wiki/Skewness</cite>)
+</p>
+
+
+
+<h4>Types of Skewness</h4>
+
+<p><code>skewness()</code> supports three different methods for estimating skewness,
+as discussed in <cite>Joanes and Gill (1988)</cite>:
+</p>
+
+<ul>
+<li><p> Type &quot;1&quot; is the &quot;classical&quot; method, which is <code>g1 = (sum((x - mean(x))^3) / n) / (sum((x - mean(x))^2) / n)^1.5</code>
+</p>
+</li>
+<li><p> Type &quot;2&quot; first calculates the type-1 skewness, then adjusts the result:
+<code>G1 = g1 * sqrt(n * (n - 1)) / (n - 2)</code>. This is what SAS and SPSS
+usually return.
+</p>
+</li>
+<li><p> Type &quot;3&quot; first calculates the type-1 skewness, then adjusts the result:
+<code>b1 = g1 * ((1 - 1 / n))^1.5</code>. This is what Minitab usually returns.
+</p>
+</li></ul>
+
+
+
+
+<h4>Kurtosis</h4>
+
+<p>The <code>kurtosis</code> is a measure of &quot;tailedness&quot; of a distribution. A
+distribution with a kurtosis values of about zero is called &quot;mesokurtic&quot;. A
+kurtosis value larger than zero indicates a &quot;leptokurtic&quot; distribution with
+<em>fatter</em> tails. A kurtosis value below zero indicates a &quot;platykurtic&quot;
+distribution with <em>thinner</em> tails
+(<cite>https://en.wikipedia.org/wiki/Kurtosis</cite>).
+</p>
+
+
+
+<h4>Types of Kurtosis</h4>
+
+<p><code>kurtosis()</code> supports three different methods for estimating kurtosis,
+as discussed in <cite>Joanes and Gill (1988)</cite>:
+</p>
+
+<ul>
+<li><p> Type &quot;1&quot; is the &quot;classical&quot; method, which is <code>g2 = n * sum((x - mean(x))^4) / (sum((x - mean(x))^2)^2) - 3</code>.
+</p>
+</li>
+<li><p> Type &quot;2&quot; first calculates the type-1 kurtosis, then adjusts the result:
+<code>G2 = ((n + 1) * g2 + 6) * (n - 1)/((n - 2) * (n - 3))</code>. This is what
+SAS and SPSS usually return
+</p>
+</li>
+<li><p> Type &quot;3&quot; first calculates the type-1 kurtosis, then adjusts the result:
+<code>b2 = (g2 + 3) * (1 - 1 / n)^2 - 3</code>. This is what Minitab usually
+returns.
+</p>
+</li></ul>
+
+
+
+
+<h4>Standard Errors</h4>
+
+<p>It is recommended to compute empirical (bootstrapped) standard errors (via
+the <code>iterations</code> argument) than relying on analytic standard errors
+(<cite>Wright &amp; Herrington, 2011</cite>).
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>Values of skewness or kurtosis.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> D. N. Joanes and C. A. Gill (1998). Comparing measures of sample
+skewness and kurtosis. The Statistician, 47, 183–189.
+</p>
+</li>
+<li><p> Wright, D. B., &amp; Herrington, J. A. (2011). Problematic standard
+errors and confidence intervals for skewness and kurtosis. Behavior
+research methods, 43(1), 8-17.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+skewness(rnorm(1000))
+kurtosis(rnorm(1000))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

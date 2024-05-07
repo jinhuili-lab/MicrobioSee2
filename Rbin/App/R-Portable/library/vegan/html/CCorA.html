@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Canonical Correlation Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for CCorA {vegan}"><tr><td>CCorA {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Canonical Correlation Analysis</h2>
+
+<h3>Description</h3>
+
+<p>Canonical correlation analysis, following Brian McArdle's
+unpublished graduate course notes, plus improvements to allow the
+calculations in the case of very sparse and collinear matrices, and 
+permutation test of Pillai's trace statistic. </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+CCorA(Y, X, stand.Y=FALSE, stand.X=FALSE, permutations = 0, ...)
+
+## S3 method for class 'CCorA'
+biplot(x, plot.type="ov", xlabs, plot.axes = 1:2, int=0.5, 
+   col.Y="red", col.X="blue", cex=c(0.7,0.9), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Y</code></td>
+<td>
+<p> Left matrix (object class: <code>matrix</code> or <code>data.frame</code>). </p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p> Right matrix (object class: <code>matrix</code> or <code>data.frame</code>). </p>
+</td></tr>
+<tr valign="top"><td><code>stand.Y</code></td>
+<td>
+<p> Logical; should <code>Y</code> be standardized? </p>
+</td></tr>
+<tr valign="top"><td><code>stand.X</code></td>
+<td>
+<p> Logical; should <code>X</code> be standardized? </p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><code>CCoaR</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.type</code></td>
+<td>
+<p> A character string indicating which of the following 
+plots should be produced: <code>"objects"</code>, <code>"variables"</code>, <code>"ov"</code> 
+(separate graphs for objects and variables), or <code>"biplots"</code>. Any 
+unambiguous subset containing the first letters of these names can be used 
+instead of the full names. </p>
+</td></tr>
+<tr valign="top"><td><code>xlabs</code></td>
+<td>
+<p> Row labels. The default is to use row names, <code>NULL</code>
+uses row numbers instead, and <code>NA</code> suppresses plotting row names
+completely.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.axes</code></td>
+<td>
+<p> A vector with 2 values containing the order numbers of 
+the canonical axes to be plotted. Default: first two axes. </p>
+</td></tr>
+<tr valign="top"><td><code>int</code></td>
+<td>
+<p> Radius of the inner circles plotted as visual references in 
+the plots of the variables. Default: <code>int=0.5</code>. With <code>int=0</code>, 
+no inner circle is plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>col.Y</code></td>
+<td>
+<p> Color used for objects and variables in the first data 
+table (Y) plots. In biplots, the objects are in black. </p>
+</td></tr>
+<tr valign="top"><td><code>col.X</code></td>
+<td>
+<p> Color used for objects and variables in the second data 
+table (X) plots. </p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p> A vector with 2 values containing the size reduction factors 
+for the object and variable names, respectively, in the plots. 
+Default values: <code>cex=c(0.7,0.9)</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments passed to these functions. The function 
+<code>biplot.CCorA</code> passes graphical arguments to <code><a href="../../stats/html/biplot.html">biplot</a></code> 
+and <code><a href="../../stats/html/biplot.html">biplot.default</a></code>. <code>CCorA</code> currently ignores extra 
+arguments. </p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+<p>Canonical correlation analysis (Hotelling 1936) seeks linear
+combinations of the variables of <code>Y</code> that are maximally
+correlated to linear combinations of the variables of <code>X</code>. The
+analysis estimates the relationships and displays them in graphs.
+Pillai's trace statistic is computed and tested parametrically (F-test);
+a permutation test is also available.
+</p>
+<p>Algorithmic note &ndash; 
+The blunt approach would be to read the two matrices, compute the
+covariance matrices, then the matrix
+<code>S12 %*% inv(S22) %*% t(S12) %*% inv(S11)</code>.
+Its trace is Pillai's trace statistic. 
+This approach may fail, however, when there is heavy multicollinearity
+in very sparse data matrices. The safe approach is to replace all data
+matrices by their PCA object scores.
+</p>
+<p>The function can produce different types of plots depending on the option 
+chosen: 
+<code>"objects"</code> produces two plots of the objects, one in the space 
+of Y, the second in the space of X; 
+<code>"variables"</code> produces two plots of the variables, one of the variables 
+of Y in the space of Y, the second of the variables of X in the space of X; 
+<code>"ov"</code> produces four plots, two of the objects and two of the variables; 
+<code>"biplots"</code> produces two biplots, one for the first matrix (Y) and 
+one for second matrix (X) solutions. For biplots, the function passes all arguments 
+to <code><a href="../../stats/html/biplot.html">biplot.default</a></code>; consult its help page for configuring biplots.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>CCorA</code> returns a list containing the following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code> Pillai </code></td>
+<td>
+<p> Pillai's trace statistic = sum of the canonical
+eigenvalues. </p>
+</td></tr> 
+<tr valign="top"><td><code> Eigenvalues </code></td>
+<td>
+<p> Canonical eigenvalues. They are the squares of the
+canonical correlations. </p>
+</td></tr>
+<tr valign="top"><td><code> CanCorr </code></td>
+<td>
+<p> Canonical correlations. </p>
+</td></tr>
+<tr valign="top"><td><code> Mat.ranks </code></td>
+<td>
+<p> Ranks of matrices <code>Y</code> and <code>X</code>. </p>
+</td></tr>
+<tr valign="top"><td><code> RDA.Rsquares </code></td>
+<td>
+<p> Bimultivariate redundancy coefficients
+(R-squares) of RDAs of Y|X and X|Y. </p>
+</td></tr> 
+<tr valign="top"><td><code> RDA.adj.Rsq </code></td>
+<td>
+ <p><code>RDA.Rsquares</code> adjusted for <code>n</code> and the number 
+of explanatory variables. </p>
+</td></tr>
+<tr valign="top"><td><code> nperm </code></td>
+<td>
+<p> Number of permutations. </p>
+</td></tr>
+<tr valign="top"><td><code> p.Pillai </code></td>
+<td>
+<p> Parametric probability value associated with Pillai's trace. </p>
+</td></tr>
+<tr valign="top"><td><code> p.perm </code></td>
+<td>
+<p> Permutational probability associated with Pillai's trace. </p>
+</td></tr>
+<tr valign="top"><td><code> Cy </code></td>
+<td>
+<p> Object scores in Y biplot. </p>
+</td></tr>
+<tr valign="top"><td><code> Cx </code></td>
+<td>
+<p> Object scores in X biplot. </p>
+</td></tr>
+<tr valign="top"><td><code> corr.Y.Cy </code></td>
+<td>
+<p> Scores of Y variables in Y biplot, computed as cor(Y,Cy). </p>
+</td></tr>
+<tr valign="top"><td><code> corr.X.Cx </code></td>
+<td>
+<p> Scores of X variables in X biplot, computed as cor(X,Cx). </p>
+</td></tr>
+<tr valign="top"><td><code> corr.Y.Cx </code></td>
+<td>
+<p> cor(Y,Cy) available for plotting variables Y in space of X manually. </p>
+</td></tr>
+<tr valign="top"><td><code> corr.X.Cy </code></td>
+<td>
+<p> cor(X,Cx) available for plotting variables X in space of Y manually. </p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>A list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code> call </code></td>
+<td>
+<p> Call to the CCorA function. </p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Pierre Legendre, Departement de Sciences Biologiques,
+Universite de Montreal. Implemented in <span class="pkg">vegan</span> with the help of
+Jari Oksanen. </p>
+
+
+<h3>References</h3>
+
+ 
+<p>Hotelling, H. 1936. Relations between two sets of
+variates. <em>Biometrika</em> <strong>28</strong>: 321-377.
+</p>
+<p>Legendre, P. 2005. Species associations: the Kendall coefficient of 
+concordance revisited. <em>Journal of Agricultural, Biological, and 
+Environmental Statistics</em> <strong>10</strong>: 226-245.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Example using two mite groups. The mite data are available in vegan
+data(mite)
+# Two mite species associations (Legendre 2005, Fig. 4)
+group.1 &lt;- c(1,2,4:8,10:15,17,19:22,24,26:30)
+group.2 &lt;- c(3,9,16,18,23,25,31:35)
+# Separate Hellinger transformations of the two groups of species 
+mite.hel.1 &lt;- decostand(mite[,group.1], "hel")
+mite.hel.2 &lt;- decostand(mite[,group.2], "hel")
+rownames(mite.hel.1) = paste("S",1:nrow(mite),sep="")
+rownames(mite.hel.2) = paste("S",1:nrow(mite),sep="")
+out &lt;- CCorA(mite.hel.1, mite.hel.2)
+out
+biplot(out, "ob")                 # Two plots of objects
+biplot(out, "v", cex=c(0.7,0.6))  # Two plots of variables
+biplot(out, "ov", cex=c(0.7,0.6)) # Four plots (2 for objects, 2 for variables)
+biplot(out, "b", cex=c(0.7,0.6))  # Two biplots
+biplot(out, xlabs = NA, plot.axes = c(3,5))    # Plot axes 3, 5. No object names
+biplot(out, plot.type="biplots", xlabs = NULL) # Replace object names by numbers
+
+# Example using random numbers. No significant relationship is expected
+mat1 &lt;- matrix(rnorm(60),20,3)
+mat2 &lt;- matrix(rnorm(100),20,5)
+out2 = CCorA(mat1, mat2, permutations=99)
+out2
+biplot(out2, "b")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

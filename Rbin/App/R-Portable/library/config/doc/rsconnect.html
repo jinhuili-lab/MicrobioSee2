@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Using config with Posit Connect</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+<style type="text/css">.codeblock-label {color: #000;display: inline-block;border-top-left-radius: .5rem;border-top-right-radius: .5rem;padding: 0.25rem 0.75rem;background-color: #cccccc;margin-bottom: -0em;font-size: 0.875em;font-family: var(--bs-font-monospace);}.codeblock-label + div.sourceCode {margin-top: 0;}</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using config with Posit Connect</h1>
+
+
+
+<p>The purpose of the <code>config</code> package is to respond to
+environment variables that could be set to different values on different
+machines. Specifically, config reacts to the value of
+<code>R_CONFIG_ACTIVE</code>, and this allows you to set configurations
+for different machines, e.g. in dev or production.</p>
+<p>If you deploy your code to a Posit Connect instance, then you can use
+the fact that Connect sets the value of <code>R_CONFIG_ACTIVE</code> to
+<code>rsconnect</code>.</p>
+<p>This means you can create a configuration file using the value
+<code>rsconnect</code>, for example:</p>
+<p class="codeblock-label">
+config.yml
+</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">default</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data-sampled.csv&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">rsconnect</span><span class="kw">:</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data.csv&quot;</span></span></code></pre></div>
+<p>Note: this value can be configured by your system administrator, so
+check your own system configuration! See <a href="https://docs.posit.co/connect/admin/appendix/configuration/#R.ConfigActive" class="uri">https://docs.posit.co/connect/admin/appendix/configuration/#R.ConfigActive</a>
+for detail.</p>
+<div id="using-config-for-staging-and-prod-on-multiple-servers" class="section level2">
+<h2>Using config for staging and prod on multiple servers</h2>
+<p>Many customers of Posit Connect will have separate Connect instances
+for the purposes of separating staging and production.</p>
+<p>In this case, the system administrator needs to configure the
+<code>R_CONFIG_ACTIVE</code> environment variable to have different
+values on each machine. For example:</p>
+<ul>
+<li>On the staging server: <code>rsconnect-staging</code></li>
+<li>On the production server: <code>rsconnect-prod</code></li>
+</ul>
+<p>Using these example values, you could configure the
+<code>config.yml</code> file to look like this:</p>
+<p class="codeblock-label">
+config.yml
+</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">default</span><span class="kw">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data-sampled.csv&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">rsconnect</span><span class="kw">:</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">rsconnect-staging</span><span class="kw">:</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="at">  </span><span class="fu">inherits</span><span class="kw">:</span><span class="at"> rsconnect</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data-staging.csv&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">rsconnect-prod</span><span class="kw">:</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="at">  </span><span class="fu">inherits</span><span class="kw">:</span><span class="at"> rsconnect</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data.csv&quot;</span></span></code></pre></div>
+<p>Note that this configuration uses the inheritance of
+<code>config</code> yaml files, by having a common configuration for
+<code>rsconnect</code> and staging and prod configurations that inherit
+from the <code>rsconnect</code> configuration.</p>
+</div>
+<div id="using-config-for-staging-and-prod-on-a-single-server" class="section level2">
+<h2>Using config for staging and prod on a single server</h2>
+<p>You may have the use case that you use the same Connect instance to
+host two instances of your app, for staging (test) and production.</p>
+<p>In this use case you will soon run into the problem that an
+individual user can not change the the environment variable
+<code>R_CONFIG_ACTIVE</code>, since this is configured system-wide by
+the administrator.</p>
+<p>But you can still use <code>config</code> to set different values for
+staging and prod, by changing the environment variable that
+<code>config::get()</code> looks at.</p>
+<p>Specifically, you must specify a different <code>config</code>
+argument to <code>config::get()</code>. For example, you can create a
+new environment variable for your Connect app, called
+<code>R_CONFIG_ACTIVE_APP</code>, and then use
+<code>config::get()</code> like this:</p>
+<p class="codeblock-label">
+R
+</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>config<span class="sc">::</span><span class="fu">get</span>(<span class="st">&quot;trials&quot;</span>, <span class="at">config =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE_APP&quot;</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] 5</span></span></code></pre></div>
+<p>Again, this example utilizes the inheritance of <code>config</code>
+yaml files, by having a common configuration for <code>rsconnect</code>
+and staging and prod configurations that inherit from the
+<code>rsconnect</code> configuration.</p>
+<p>In such a case, you may have a <code>config.yml</code> file like
+this:</p>
+<p class="codeblock-label">
+config.yml
+</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">default</span><span class="kw">:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">5</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data-sampled.csv&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">rsconnect</span><span class="kw">:</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="at">  </span><span class="fu">trials</span><span class="kw">:</span><span class="at"> </span><span class="dv">30</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">staging</span><span class="kw">:</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="at">  </span><span class="fu">inherits</span><span class="kw">:</span><span class="at"> rsconnect</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data-staging.csv&quot;</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="at">  </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">prod</span><span class="kw">:</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="at">  </span><span class="fu">inherits</span><span class="kw">:</span><span class="at"> rsconnect</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="at">  </span><span class="fu">dataset</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;data.csv&quot;</span></span></code></pre></div>
+<p>If you configure the environment variable correctly, you should get
+the appropriate <code>dataset</code> values for staging
+(<code>data-staging.csv</code>) and prod (<code>data.csv</code>):</p>
+<p class="codeblock-label">
+R
+</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>config<span class="sc">::</span><span class="fu">get</span>(<span class="st">&quot;dataset&quot;</span>, <span class="at">config =</span> <span class="st">&quot;staging&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data-staging.csv&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>config<span class="sc">::</span><span class="fu">get</span>(<span class="st">&quot;dataset&quot;</span>, <span class="at">config =</span> <span class="st">&quot;prod&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.csv&quot;</span></span></code></pre></div>
+</div>
+<div id="a-utility-function-that-might-be-helpful" class="section level2">
+<h2>A utility function that might be helpful</h2>
+<p>If you are in the situation where you wish to use a different
+environment variable, you can potentially save a few keystrokes by
+defining a utility function that wraps around
+<code>config::get()</code>. Such a utility simply passes a different
+value for the <code>config</code> argument, like this:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>cfg_get_app <span class="ot">&lt;-</span> <span class="cf">function</span> (</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">value =</span> <span class="cn">NULL</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">config =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;R_CONFIG_ACTIVE_APP&quot;</span>, <span class="st">&quot;default&quot;</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  ...</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>) {</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  config<span class="sc">::</span><span class="fu">get</span>(<span class="at">value =</span> value, <span class="at">config =</span> config, ...)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>You can then call this function from your app:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">cfg_get_app</span>(<span class="st">&quot;value&quot;</span>)</span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

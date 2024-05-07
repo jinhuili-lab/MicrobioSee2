@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Obtain robust parse data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_parse_data {styler}"><tr><td>get_parse_data {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Obtain robust parse data</h2>
+
+<h3>Description</h3>
+
+<p>Wrapper around <code>utils::getParseData(parse(text = text))</code> that returns a flat
+parse table. When caching information should be added, make sure that
+the cache is activated with <code>cache_activate()</code> and both <code>transformers</code> and
+<code>cache_dir</code> are non-<code>NULL</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_parse_data(text, include_text = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>The text to parse.</p>
+</td></tr>
+<tr valign="top"><td><code>include_text</code></td>
+<td>
+<p>Passed to <code><a href="../../utils/help/getParseData.html">utils::getParseData()</a></code> as <code>includeText</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../utils/help/getParseData.html">utils::getParseData()</a></code>.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

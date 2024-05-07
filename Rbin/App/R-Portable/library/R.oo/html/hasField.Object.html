@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checks if a field exists or not</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hasField.Object {R.oo}"><tr><td>hasField.Object {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checks if a field exists or not</h2>
+
+<h3>Description</h3>
+
+<p>Checks if a field exists or not.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Object'
+hasField(this, field, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>field</code></td>
+<td>
+<p><code><a href="../../base/help/vector.html">vector</a></code> of fields to be checked if they exists or not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code> indicating for each field if it exists or not.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>To get the fields of an Object, see <code><a href="../help/getFields.Object.html">*getFields</a>()</code>.
+For more extensive information about the fields in an Object see
+<code><a href="../help/ll.Object.html">*ll</a>()</code>.
+For more information see <code><a href="../../R.oo/help/Object.html">Object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  obj &lt;- Object()
+  obj$x &lt;- 1:100
+  obj$y &lt;- 100:1
+  hasField(obj, c("x", "a", "b", "y"))
+
+  ## Not run: 
+  gives:
+
+  [1] TRUE FALSE FALSE TRUE
+  
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

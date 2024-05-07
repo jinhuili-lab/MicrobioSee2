@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for point estimates of posterior samples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_point_estimate {see}"><tr><td>plot.see_point_estimate {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for point estimates of posterior samples</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>bayestestR::point_estimate()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_point_estimate'
+plot(
+  x,
+  data = NULL,
+  size_point = 2,
+  size_text = 3.5,
+  panel = TRUE,
+  show_labels = TRUE,
+  show_intercept = FALSE,
+  priors = FALSE,
+  priors_alpha = 0.4,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original data used to create this object. Can be a
+statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, plots are arranged as panels; else,
+single plots are returned.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the text labels for the point
+estimates (i.e. <em>&quot;Mean&quot;</em>, <em>&quot;Median&quot;</em> and/or <em>&quot;MAP&quot;</em>) are
+shown. You may set <code>show_labels = FALSE</code> in case of overlapping
+labels, and add your own legend or footnote to the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>show_intercept</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the intercept-parameter is included
+in the plot. By default, it is hidden because in many cases the
+intercept-parameter has a posterior distribution on a very different
+location, so density curves of posterior distributions for other parameters
+are hardly visible.</p>
+</td></tr>
+<tr valign="top"><td><code>priors</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, prior distributions are simulated
+(using <code><a href="../../bayestestR/help/simulate_prior.html">bayestestR::simulate_prior()</a></code>) and added
+to the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>priors_alpha</code></td>
+<td>
+<p>Numeric value specifying alpha for the prior
+distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("bayestestR") &amp;&amp; require("rstanarm")) {
+  set.seed(123)
+  m &lt;- stan_glm(Sepal.Length ~ Petal.Width * Species, data = iris, refresh = 0)
+  result &lt;- point_estimate(m, centrality = "median")
+  result
+  plot(result)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Publish a GitHub release</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_github_release {usethis}"><tr><td>use_github_release {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Publish a GitHub release</h2>
+
+<h3>Description</h3>
+
+<p>Pushes the current branch (if safe) then publishes a GitHub release for the
+latest CRAN submission.
+</p>
+<p>If you use <code><a href="../../devtools/help/submit_cran.html">devtools::submit_cran()</a></code> to submit to CRAN, information about the
+submitted state is captured in a <code>CRAN-SUBMISSION</code> file.
+<code>use_github_release()</code> uses this info to populate the GitHub release notes
+and, after success, deletes the file. In the absence of such a file, we
+assume that current state (SHA of <code>HEAD</code>, package version, NEWS) is the
+submitted state.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_github_release(
+  publish = TRUE,
+  host = deprecated(),
+  auth_token = deprecated()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>publish</code></td>
+<td>
+<p>If <code>TRUE</code>, publishes a release. If <code>FALSE</code>, creates a draft
+release.</p>
+</td></tr>
+<tr valign="top"><td><code>host, auth_token</code></td>
+<td>
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated"><img src="../help/figures/lifecycle-deprecated.svg" alt='[Deprecated]' /></a>: No longer
+consulted now that usethis allows the gh package to lookup a token based on
+a URL determined from the current project's GitHub remotes.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

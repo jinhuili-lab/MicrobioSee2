@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret the Variance Inflation Factor (VIF)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_vif {effectsize}"><tr><td>interpret_vif {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret the Variance Inflation Factor (VIF)</h2>
+
+<h3>Description</h3>
+
+<p>Interpret VIF index of multicollinearity.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_vif(vif, rules = "default")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>vif</code></td>
+<td>
+<p>Value or vector of VIFs.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"default"</code> or a custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Default
+</p>
+
+<ul>
+<li> <p><strong>VIF &lt; 5</strong> - Low
+</p>
+</li>
+<li> <p><strong>5 &lt;= VIF &lt; 10</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>VIF &gt;= 10</strong> - High
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+interpret_vif(c(1.4, 30.4))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

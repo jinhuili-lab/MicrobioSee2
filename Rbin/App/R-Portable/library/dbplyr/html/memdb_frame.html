@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a database table in temporary in-memory database.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for memdb_frame {dbplyr}"><tr><td>memdb_frame {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a database table in temporary in-memory database.</h2>
+
+<h3>Description</h3>
+
+<p><code>memdb_frame()</code> works like <code><a href="../../tibble/help/tibble.html">tibble::tibble()</a></code>, but instead of creating a new
+data frame in R, it creates a table in <code><a href="../../dbplyr/help/src_memdb.html">src_memdb()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+memdb_frame(..., .name = unique_table_name())
+
+tbl_memdb(df, name = deparse(substitute(df)))
+
+src_memdb()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>&lt;<code><a href="../../rlang/help/dyn-dots.html">dynamic-dots</a></code>&gt;
+A set of name-value pairs. These arguments are
+processed with <code><a href="../../rlang/help/nse-defuse.html">rlang::quos()</a></code> and support unquote via <code><a href="../../rlang/html/injection-operator.html">!!</a></code> and
+unquote-splice via <code><a href="../../rlang/html/splice-operator.html">!!!</a></code>. Use <code style="white-space: pre;">:=</code> to create columns that start with a dot.
+</p>
+<p>Arguments are evaluated sequentially.
+You can refer to previously created elements directly or using the <a href="../../ggplot2/html/tidyeval.html">.data</a>
+pronoun.
+An existing <code>.data</code> pronoun, provided e.g. inside <code><a href="../../dplyr/help/mutate.html">dplyr::mutate()</a></code>,
+is not available.</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+<p>Data frame to copy</p>
+</td></tr>
+<tr valign="top"><td><code>name, .name</code></td>
+<td>
+<p>Name of table in database: defaults to a random name that's
+unlikely to conflict with an existing table.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr)
+df &lt;- memdb_frame(x = runif(100), y = runif(100))
+df %&gt;% arrange(x)
+df %&gt;% arrange(x) %&gt;% show_query()
+
+mtcars_db &lt;- tbl_memdb(mtcars)
+mtcars_db %&gt;% group_by(cyl) %&gt;% summarise(n = n()) %&gt;% show_query()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

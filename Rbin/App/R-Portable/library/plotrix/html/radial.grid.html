@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a radial grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for radial.grid {plotrix}"><tr><td>radial.grid {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a radial grid</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">radial.grid</span> displays a radial grid for the <span class="samp">radial.plot</span> and
+<span class="samp">radial.pie</span> functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ radial.grid(labels=NA,label.pos=NULL,radlab=FALSE,radial.lim=NULL,
+  start=0,clockwise=FALSE,label.prop=1.1,grid.pos=seq(0.25,1,0.25),
+  rad.col="gray",grid.col="gray",grid.bg="transparent",show.radial.grid=TRUE,
+  start.plot=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>The labels to display around the circumference of the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>label.pos</code></td>
+<td>
+<p>Radial positions for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>radlab</code></td>
+<td>
+<p>Whether to rotate the labels to a radial orientation.</p>
+</td></tr>
+<tr valign="top"><td><code>radial.lim</code></td>
+<td>
+<p>Optional radial limits for the circular plot. If specified,
+these must be the same as the radial limits of the original plot.</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>The zero position on the plot in the units of <span class="samp">label.pos</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>clockwise</code></td>
+<td>
+<p>Whether to increase angles clockwise rather than the
+default counterclockwise.</p>
+</td></tr>
+<tr valign="top"><td><code>label.prop</code></td>
+<td>
+<p>Proportion of <span class="samp">radial.lim</span> to place the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>grid.pos</code></td>
+<td>
+<p>Radial positions for the circular grid lines.</p>
+</td></tr>
+<tr valign="top"><td><code>rad.col</code></td>
+<td>
+<p>Color for the radial grid lines.</p>
+</td></tr>
+<tr valign="top"><td><code>grid.col</code></td>
+<td>
+<p>Color for the circumferential grid lines.</p>
+</td></tr>
+<tr valign="top"><td><code>grid.bg</code></td>
+<td>
+<p>Background color for the radial grid.</p>
+</td></tr>
+<tr valign="top"><td><code>show.radial.grid</code></td>
+<td>
+<p>Whether to display the radial lines on the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>start.plot</code></td>
+<td>
+<p>If TRUE, sets up a blank radial grid.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

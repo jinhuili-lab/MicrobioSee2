@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Closure to return a transformer function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for make_transformer {styler}"><tr><td>make_transformer {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Closure to return a transformer function</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a list of transformer functions as input and
+returns a function that can be applied to character strings
+that should be transformed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+make_transformer(
+  transformers,
+  include_roxygen_examples,
+  base_indention,
+  warn_empty = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A list of transformer functions that operate on flat
+parse tables.</p>
+</td></tr>
+<tr valign="top"><td><code>include_roxygen_examples</code></td>
+<td>
+<p>Whether or not to style code in roxygen
+examples.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>warn_empty</code></td>
+<td>
+<p>Whether or not a warning should be displayed when <code>text</code>
+does not contain any tokens.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

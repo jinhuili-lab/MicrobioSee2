@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Global options for the raster package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Options {raster}"><tr><td>Options {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Global options for the raster package</h2>
+
+<h3>Description</h3>
+
+<p>Set, inspect, reset, save a number of global options used by the raster package.
+</p>
+<p>Most of these options are used when writing files to disk. They can be ignored by specific functions if the corresponding argument is provided as an argument to these functions.
+</p>
+<p>The default location is returned by <code>rasterTmpDir</code>. It is the same as that of the R temp directory but you can change it (for the current session) with <code>rasterOptions(tmpdir="path")</code>.
+</p>
+<p>To permanently set any of these options, you can add them to <code>&lt;your R installation&gt;/etc/Rprofile.site&gt;</code>. For example, to change the default directory used to save temporary files, add a line like this: <code>options(rasterTmpDir='c:/temp/')</code> to that file. All temporary raster files in that folder that are older than 24 hrs are deleted when the raster package is loaded.
+</p>
+<p>Function <code>tmpDir</code> returns the location of the temporary files
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rasterOptions(format, overwrite, datatype, tmpdir, tmptime, progress,
+     timer, chunksize, maxmemory, memfrac, todisk, setfileext, tolerance,
+     standardnames, depracatedwarnings, addheader, default=FALSE)
+
+
+tmpDir(create=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>character. The default file format to use. See <code><a href="../help/writeFormats.html">writeFormats</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>logical. The default value for overwriting existing files. If <code>TRUE</code>, existing files will be overwritten</p>
+</td></tr>
+<tr valign="top"><td><code>datatype</code></td>
+<td>
+<p>character. The default data type to use. See <a href="../help/dataType.html">dataType</a></p>
+</td></tr>
+<tr valign="top"><td><code>tmpdir</code></td>
+<td>
+<p>character. The default location for writing temporary files; See <code><a href="../../raster/help/rasterTmpFile.html">rasterTmpFile</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>tmptime</code></td>
+<td>
+<p>number &gt; 1. The number of hours after which a temporary file will be deleted. As files are deleted when loading the raster package, this option is only useful if you  save this option so that it is loaded when starting a new session</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>character. Valid values are &quot;text&quot;,  &quot;window&quot; and &quot;&quot; (the default in most functions, no progress bar)</p>
+</td></tr>
+<tr valign="top"><td><code>timer</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the time it took to complete the function is printed</p>
+</td></tr>
+<tr valign="top"><td><code>chunksize</code></td>
+<td>
+<p>integer. Maximum number of bytes to read/write in a single chunk while processing (chunk by chunk) disk based Raster* objects</p>
+</td></tr>
+<tr valign="top"><td><code>maxmemory</code></td>
+<td>
+<p>numeric. Maximum number of bytes to read into memory. If a process is expected to require more than this value, <code><a href="../../raster/help/canProcessInMemory.html">canProcessInMemory</a></code> will return <code>FALSE</code> </p>
+</td></tr>
+<tr valign="top"><td><code>memfrac</code></td>
+<td>
+<p>numeric. Fraction of available RAM that may be used by a process</p>
+</td></tr>
+<tr valign="top"><td><code>todisk</code></td>
+<td>
+<p>logical. For debugging only. Default is <code>FALSE</code> and should normally not be changed. If <code>TRUE</code>, results are always written to disk, even if no filename is supplied (a temporary filename is used)</p>
+</td></tr>
+<tr valign="top"><td><code>setfileext</code></td>
+<td>
+<p>logical. Default is <code>TRUE</code>. If <code>TRUE</code>, the file extension will be changed when writing (if known for the file type). E.g. GTiff files will be saved with the .tif extension </p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>numeric. The tolerance used when comparing the origin and resolution of Raster* objects. Expressed as the fraction of a single cell. This should be a number between 0 and 0.5 </p>
+</td></tr>
+<tr valign="top"><td><code>standardnames</code></td>
+<td>
+<p>logical. Default is <code>TRUE</code>. Should <code><a href="../../raster/help/names.html">names</a></code> be standardized to be syntactically valid names (using <code><a href="../../base/html/make.names.html">make.names</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>depracatedwarnings</code></td>
+<td>
+<p>logical. If <code>TRUE</code> (the default) a warning is generated when a depracated (obsolete) function is used</p>
+</td></tr>
+<tr valign="top"><td><code>addheader</code></td>
+<td>
+<p>character. If not equal to <code>''</code> (the default) an additional header file is written when a raster format file (grd/gri) is written. Supported formats are as in <code><a href="../../raster/help/hdr.html">hdr</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, all options are set to their default values</p>
+</td></tr>
+<tr valign="top"><td><code>create</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the temporary files directory is created if it does not exist</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>list of the current options (invisibly). If no arguments are provided the options are printed.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../base/help/options.html">options</a></code>, <code><a href="../help/rasterTmpFile.html">rasterTmpFile</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+rasterOptions()
+rasterOptions(chunksize=2e+07)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

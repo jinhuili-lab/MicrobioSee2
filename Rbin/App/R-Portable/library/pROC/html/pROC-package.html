@@ -1,0 +1,560 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: pROC</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pROC-package {pROC}"><tr><td>pROC-package {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>pROC</h2>
+
+<h3>Description</h3>
+
+<p>Tools for visualizing, smoothing and comparing receiver operating
+characteristic (ROC curves). (Partial) area under the curve (AUC) can
+be compared with statistical tests based on U-statistics or
+bootstrap. Confidence intervals can be computed for (p)AUC or ROC
+curves. Sample size / power computation for one or two ROC curves are available.
+</p>
+
+
+<h3>Details</h3>
+
+<p>The basic unit of the pROC package is the <code><a href="../../pROC/help/roc.html">roc</a></code> function. It
+will build a ROC curve, smooth it if requested (if <code>smooth=TRUE</code>),
+compute the AUC (if <code>auc=TRUE</code>), the confidence interval (CI) if 
+requested (if <code>ci=TRUE</code>) and plot the curve if requested (if
+<code>plot=TRUE</code>). 
+</p>
+<p>The <code><a href="../../pROC/help/roc.html">roc</a></code> function will call <code><a href="../../pROC/help/smooth.roc.html">smooth</a></code>,
+<code><a href="../../pROC/help/auc.html">auc</a></code>,
+<code><a href="../../pROC/help/ci.html">ci</a></code> and <code><a href="../../pROC/help/plot.html">plot</a></code> as necessary. See these
+individual functions for the arguments that can be passed to them
+through <code><a href="../../pROC/help/roc.html">roc</a></code>. These function can be called separately.
+</p>
+<p>Two paired (that is <code><a href="../../pROC/help/roc.html">roc</a></code> objects with the same
+<code>response</code>) or unpaired (with different <code>response</code>) ROC
+curves can be compared with the <code><a href="../../pROC/help/roc.test.html">roc.test</a></code> function.
+</p>
+
+
+<h3>Citation</h3>
+
+<p>If you use pROC in published research, please cite the following paper:
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, Natalia Tiberti,
+Frédérique Lisacek, Jean-Charles Sanchez and Markus Müller (2011).
+&ldquo;pROC: an open-source package for R and S+ to analyze and compare ROC
+curves&rdquo;. <em>BMC Bioinformatics</em>, <b>12</b>, p. 77. DOI: 
+doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>
+</p>
+<p>Type <code>citation("pROC")</code> for a BibTeX entry.
+</p>
+<p>The authors would be glad to hear how pROC is employed. You are kindly
+encouraged to notify Xavier Robin &lt;pROC-cran@xavier.robin.name&gt;
+about any work you publish.
+</p>
+
+
+<h3>Abbreviations</h3>
+
+<p>The following abbreviations are employed extensively in this package:
+</p>
+
+<ul>
+<li><p> ROC: receiver operating characteristic
+</p>
+</li>
+<li><p> AUC: area under the ROC curve
+</p>
+</li>
+<li><p> pAUC: partial area under the ROC curve
+</p>
+</li>
+<li><p> CI: confidence interval
+</p>
+</li>
+<li><p> SP: specificity
+</p>
+</li>
+<li><p> SE: sensitivity
+</p>
+</li></ul>
+
+
+
+<h3>Functions</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/roc.html">roc</a></code> </td><td style="text-align: left;"> Build a ROC curve</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/are.paired.html">are.paired</a></code> </td><td style="text-align: left;"> Dertermine if two ROC curves are paired </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/auc.html">auc</a></code> </td><td style="text-align: left;"> Compute the area under the ROC curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.html">ci</a></code> </td><td style="text-align: left;"> Compute confidence intervals of a ROC curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code> </td><td style="text-align: left;"> Compute the CI of the AUC </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> </td><td style="text-align: left;"> Compute the CI of arbitrary coordinates </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.se.html">ci.se</a></code> </td><td style="text-align: left;"> Compute the CI of sensitivities at given specificities </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code> </td><td style="text-align: left;"> Compute the CI of specificities at given sensitivities </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code> </td><td style="text-align: left;"> Compute the CI of specificity and sensitivity of thresholds </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> </td><td style="text-align: left;"> Compute the CI of arbitrary coordinates </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/coords.html">coords</a></code> </td><td style="text-align: left;"> Coordinates of the ROC curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/cov.roc.html">cov</a></code> </td><td style="text-align: left;"> Covariance between two AUCs</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/ggroc.html">ggroc</a></code> </td><td style="text-align: left;"> Plot a ROC curve with <span class="pkg">ggplot2</span></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/has.partial.auc.html">has.partial.auc</a></code> </td><td style="text-align: left;"> Determine if the ROC curve have a partial AUC</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/lines.roc.html">lines.roc</a></code> </td><td style="text-align: left;"> Add a ROC line to a ROC plot </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/plot.ci.html">plot.ci</a></code> </td><td style="text-align: left;"> Plot CIs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/plot.roc.html">plot</a></code> </td><td style="text-align: left;"> Plot a ROC curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/power.roc.test.html">power.roc.test</a></code> </td><td style="text-align: left;"> Sample size and power computation </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/print.roc.html">print</a></code> </td><td style="text-align: left;"> Print a ROC curve object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/roc.test.html">roc.test</a></code> </td><td style="text-align: left;"> Compare two ROC curves </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> </td><td style="text-align: left;"> Smooth a ROC curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../pROC/help/var.roc.html">var</a></code> </td><td style="text-align: left;"> Variance of the AUC
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>Dataset</h3>
+
+<p>This package comes with a dataset of 141 patients with aneurysmal
+subarachnoid hemorrhage: <code><a href="../../pROC/help/aSAH.html">aSAH</a></code>.
+</p>
+
+
+<h3>Installing and using</h3>
+
+<p>To install this package, make sure you are connected to the internet and issue the following command in the R prompt:
+</p>
+<pre>
+    install.packages("pROC")
+  </pre>
+<p>To load the package in R:
+</p>
+<pre>
+    library(pROC)
+  </pre>
+
+
+<h3>Experimental: pipelines</h3>
+
+<p>Since version 1.15.0, the <code><a href="../../pROC/help/roc.html">roc</a></code> function can be used in pipelines, for instance with <span class="pkg">dplyr</span> or <span class="pkg">magrittr</span>. This is still a highly experimental feature and will change significantly in future versions  (see <a href="https://github.com/xrobin/pROC/issues/54">issue 54</a>).
+The <code><a href="../../pROC/help/roc.data.frame.html">roc.data.frame</a></code> method supports both standard and non-standard evaluation (NSE), and the <code><a href="../../pROC/help/roc_.html">roc_</a></code>
+function supports standard evaluation only.
+</p>
+<pre>
+library(dplyr)
+aSAH %&gt;% 
+    filter(gender == "Female") %&gt;%
+    roc(outcome, s100b)
+	</pre>
+<p>By default it returns the <code><a href="../../pROC/help/roc.html">roc</a></code> object, which can then be piped to
+the <code><a href="../../pROC/help/coords.html">coords</a></code> function to extract coordinates that can be used
+in further pipelines.
+</p>
+<pre>
+aSAH %&gt;% 
+    filter(gender == "Female") %&gt;%
+    roc(outcome, s100b) %&gt;%
+    coords(transpose=FALSE) %&gt;%
+    filter(sensitivity &gt; 0.6, 
+           specificity &gt; 0.6)
+	</pre>
+<p>More details and use cases are available in the <code><a href="../../pROC/help/roc.html">roc</a></code> help page.
+</p>
+
+
+<h3>Bootstrap</h3>
+
+<p>All the bootstrap operations for <a href="../../pROC/help/roc.test.html">significance testing</a>, <a href="../../pROC/help/ci.html">confidence interval</a>, <a href="../../pROC/help/var.html">variance</a> and <a href="../../pROC/help/cov.html">covariance</a> computation are performed with non-parametric stratified or non-stratified resampling (according to the <code>stratified</code> argument) and with the percentile method, as described in Carpenter and Bithell (2000) sections 2.1 and 3.3.
+</p>
+<p>Stratification of bootstrap can be controlled
+with <code>boot.stratified</code>. In stratified bootstrap (the default), each replicate
+contains the same number of cases and controls than the original
+sample. Stratification is especially useful if one group has only
+little observations, or if groups are not balanced.
+</p>
+<p>The number of bootstrap replicates is controlled by <code>boot.n</code>. Higher numbers will give a more precise estimate of the significance tests and confidence intervals
+but take more time to compute. 2000 is recommanded by Carpenter and Bithell (2000) for confidence intervals. In our experience this is sufficient for a good estimation of the 
+first significant digit only, so we recommend the use of 10000 bootstrap replicates to obtain a good estimate of the second significant digit whenever possible.
+</p>
+
+
+<h4>Progress bars</h4>
+
+<p>A progressbar shows the progress of bootstrap operations. It is handled by the <span class="pkg">plyr</span> package (Wickham, 2011),
+and is created by the <code>progress_*</code> family of functions.
+Sensible defaults are guessed during the package loading:
+</p>
+
+<ul>
+<li><p> In non-<a href="../../base/html/interactive.html">interactive</a> mode, no progressbar is displayed.
+</p>
+</li>
+<li><p> In embedded GNU Emacs &ldquo;ESS&rdquo;, a <code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code>
+</p>
+</li>
+<li><p> In Windows, a <code><a href="../../utils/html/winProgressBar.html">winProgressBar</a></code> bar.
+</p>
+</li>
+<li><p> In Windows, a <code>winProgressBar</code> bar.
+</p>
+</li>
+<li><p> In other systems with or without a graphical display, a <code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code>.
+</p>
+</li></ul>
+
+<p>The default can be changed with the option &ldquo;pROCProgress&rdquo;. The option must be a list with
+a <code>name</code> item setting the type of progress bar (&ldquo;none&rdquo;, &ldquo;win&rdquo;, &ldquo;tk&rdquo;
+or &ldquo;text&rdquo;). Optional items of the list are &ldquo;width&rdquo;, &ldquo;char&rdquo; and &ldquo;style&rdquo;,
+corresponding to the arguments to the underlying progressbar functions.
+For example, to force a text progress bar:
+</p>
+<pre>options(pROCProgress = list(name = "text", width = NA, char = "=", style = 3)</pre>
+<p>To inhibit the progress bars completely:
+</p>
+<pre>options(pROCProgress = list(name = "none"))</pre>
+
+
+
+<h3>Handling large datasets</h3>
+
+
+
+<h4>Algorithms</h4>
+
+<p>Over the years, a significant amount of time has been invested in making pROC run faster and faster.
+From the naive algorithm iterating over all thresholds implemented in the first version (<code>algorithm = 1</code>), we went to a
+C++ implementation (with <span class="pkg">Rcpp</span>, <code>algorithm = 3</code>), and a different algorithm using cummulative sum of responses sorted 
+by the predictor, which scales only with the number of data points, independently on the number of thresholds (<code>algorithm = 2</code>).
+The curves themselves are identical, but computation time has been decreased massively.
+</p>
+<p>Since version 1.12, pROC was able to automatically select the fastest algorithm for your dataset based on the number of thresholds of the ROC curve.
+Initially this number was around 1500 thresholds, above which algorithm 3 was selected. But with pROC 1.15 additional code profiling
+enabled us implement additional speedups that brought this number down to less than 100 thresholds. 
+As the detection of the number of thresholds itself can have a large impact comparatively (up to 10% now), a new <code>algorithm = 6</code>
+was implemented, which assumes that <code><a href="../../base/html/factor.html">ordered</a></code> datasets should have relatively few levels, and hence thresholds. These predictors
+are processed with <code>algorithm = 3</code>. Any numeric dataset is now assumed to have a sufficient number of thresholds 
+to be processed with <code>algorithm = 2</code> efficiently. In the off-chance that you have a very large numeric dataset with very few thresholds,
+<code>algorithm = 3</code> can be selected manually (in the call to <code><a href="../../pROC/help/roc.html">roc</a></code>). For instance with 5 thresholds you can
+expect a speedup of around to 3 times. This effect disappears altogether as soon as the curve gets to 50-100 thresholds.
+</p>
+<p>This simple selection should work in most cases. However if you are unsure or want to test it for yourself, use <code>algorithm=0</code> to run a quick benchmark between 2 and 3. Make sure <span class="pkg">microbenchmark</span> is installed. Beware, this is very slow as it will repeat the computation 10 times to obtain a decent estimate of each algorithm speed.
+</p>
+<pre>
+if (!requireNamespace("microbenchmark")) install.packages("microbenchmark")
+
+# First a ROC curve with many thresholds. Algorithm 2 is much faster.
+response &lt;- rbinom(5E3, 1, .5)
+predictor &lt;- rnorm(5E3)
+rocobj &lt;- roc(response, predictor, algorithm = 0)
+
+
+# Next a ROC curve with few thresholds but more data points
+response &lt;- rbinom(1E6, 1, .5)
+predictor &lt;- rpois(1E6, 1)
+rocobj &lt;- roc(response, predictor, algorithm = 0)
+    </pre>
+
+<p>Other functions have been optimized too, and bottlenecks removed. In particular, the <code>coords</code> function is orders of magnitude faster in pROC 1.15.
+The DeLong algorithm has been improved in versions 1.6, 1.7 and 1.9.1, and currently uses a much more efficient algorithm, both
+in computation time and memory footprint. We will keep working on improvements to make pROC more suited to large datasets in the future.
+</p>
+
+
+<h4>Boostrap</h4>
+
+<p>Bootstrap is typically slow because it involves repeatedly computing the ROC curve (or a part of it).
+</p>
+<p>Some bootstrap functions are faster than others. Typically, <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code> is the fastest, and <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> the slowest. Use <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code> only if the CI you need cannot be computed by the specialized CI functions <code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code> and <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>. Note that <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code> cannot be replaced anyway.
+</p>
+<p>A naive way to speed-up the boostrap is by removing the progress bar:
+</p>
+<pre>
+rocobj &lt;- roc(response, round(predictor))
+system.time(ci(rocobj))
+system.time(ci(rocobj, progress = "none"))
+    </pre>
+<p>It is of course possible to reduce the number of boostrap iterations. See the <code>boot.n</code> argument to <code><a href="../../pROC/help/ci.html">ci</a></code>. This will reduce the precision of the bootstrap estimate.
+</p>
+
+
+<h5>Parallel processing</h5>
+
+<p>Bootstrap operations can be performed in parallel. The backend provided by the <span class="pkg">plyr</span> package is used, which in turn relies on the <span class="pkg">foreach</span> package.
+</p>
+<p>To enable parallell processing, you first need to load an adaptor for the <span class="pkg">foreach</span> package (<span class="pkg">doMC</span>, <span class="pkg">doMPI</span>, <span class="pkg">doParallel</span>, <span class="pkg">doRedis</span>, <span class="pkg">doRNG</span> or <span class="pkg">doSNOW</span>)), register the backend, and set <code>parallel=TRUE</code>. 
+</p>
+<pre>
+library(doParallel)
+registerDoParallel(cl &lt;- makeCluster(getOption("mc.cores", 2)))
+ci(rocobj, method="bootstrap", parallel=TRUE)
+stopCluster(cl)
+  		</pre>
+<p>Progress bars are not available when parallel processing is enabled.
+</p>
+
+
+
+
+<h4>Using DeLong instead of boostrap</h4>
+
+<p>DeLong is an asymptotically exact method to evaluate the uncertainty of an AUC (DeLong <em>et al.</em> (1988)). Since version 1.9, pROC uses the algorithm proposed by Sun and Xu (2014) which has an O(N log N) complexity and is always faster than bootstrapping. By default, pROC will choose the DeLong method whenever possible.
+</p>
+<pre>
+rocobj &lt;- roc(response, round(predictor), algorithm=3)
+system.time(ci(rocobj, method="delong"))
+system.time(ci(rocobj, method="bootstrap", parallel = TRUE))
+    </pre>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Xavier Robin, Natacha Turck, Jean-Charles Sanchez and Markus Müller
+</p>
+<p>Maintainer: Xavier Robin &lt;pROC-cran@xavier.robin.name&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>James Carpenter and John Bithell (2000) &ldquo;Bootstrap condence intervals:
+when, which, what? A practical guide for medical statisticians&rdquo;.
+<em>Statistics in Medicine</em> <b>19</b>, 1141&ndash;1164.
+DOI: doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(20000515)19:9%3C1141::AID-SIM479%3E3.0.CO;2-F">10.1002/(SICI)1097-0258(20000515)19:9&lt;1141::AID-SIM479&gt;3.0.CO;2-F</a>.
+</p>
+<p>Elisabeth R. DeLong, David M. DeLong and Daniel L. Clarke-Pearson
+(1988) &ldquo;Comparing the areas under two or more correlated receiver
+operating characteristic curves: a nonparametric
+approach&rdquo;. <em>Biometrics</em> <b>44</b>, 837&ndash;845.
+</p>
+<p>Tom Fawcett (2006) &ldquo;An introduction to ROC analysis&rdquo;. <em>Pattern
+Recognition Letters</em> <b>27</b>, 861&ndash;874. DOI:
+doi: <a href="https://doi.org/10.1016/j.patrec.2005.10.010">10.1016/j.patrec.2005.10.010</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>Xu Sun and Weichao Xu (2014) &ldquo;Fast Implementation of DeLongs Algorithm for Comparing
+the Areas Under Correlated Receiver Operating Characteristic Curves&rdquo;. <em>IEEE Signal
+Processing Letters</em>, <b>21</b>, 1389&ndash;1393. 
+DOI: doi: <a href="https://doi.org/10.1109/LSP.2014.2337313">10.1109/LSP.2014.2337313</a>.
+</p>
+<p>Hadley Wickham (2011) &ldquo;The Split-Apply-Combine Strategy for Data Analysis&rdquo;. <em>Journal of Statistical Software</em>, <b>40</b>, 1&ndash;29.
+URL: <a href="https://www.jstatsoft.org/v40/i01">www.jstatsoft.org/v40/i01</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>CRAN packages <span class="pkg">ROCR</span>, <span class="pkg">verification</span> or Bioconductor's <span class="pkg">roc</span>
+for ROC curves.
+</p>
+<p>CRAN packages <span class="pkg">plyr</span>, <span class="pkg">MASS</span> and <span class="pkg">logcondens</span> employed in this package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+## Build a ROC object and compute the AUC ##
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+print(roc1)
+
+# With a formula
+roc(outcome ~ s100b, aSAH)
+# With pipes, dplyr-style:
+## Not run: 
+library(dplyr)
+aSAH %&gt;% roc(outcome, s100b)
+## End(Not run)
+
+# Create a few more curves for the next examples
+roc2 &lt;- roc(aSAH$outcome, aSAH$wfns)
+roc3 &lt;- roc(aSAH$outcome, aSAH$ndka)
+
+
+## AUC ##
+auc(roc1, partial.auc = c(1, .9))
+
+
+## Smooth ROC curve ##
+smooth(roc1)
+
+
+## Summary statistics
+var(roc1)
+cov(roc1, roc3)
+
+
+## Plot the curve ##
+plot(roc1)
+
+#  More plotting options, CI and plotting
+# with all-in-one syntax:
+roc4 &lt;- roc(aSAH$outcome,
+            aSAH$s100b, percent=TRUE,
+            # arguments for auc
+            partial.auc=c(100, 90), partial.auc.correct=TRUE,
+            partial.auc.focus="sens",
+            # arguments for ci
+            ci=TRUE, boot.n=100, ci.alpha=0.9, stratified=FALSE,
+            # arguments for plot
+            plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
+            print.auc=TRUE, show.thres=TRUE)
+
+# Add to an existing plot. Beware of 'percent' specification!
+roc5 &lt;- roc(aSAH$outcome, aSAH$wfns,
+            plot=TRUE, add=TRUE, percent=roc4$percent)
+
+
+## With ggplot2 ##
+if (require(ggplot2)) {
+# Create multiple curves to plot
+rocs &lt;- roc(outcome ~ wfns + s100b + ndka, data = aSAH)
+ggroc(rocs)
+}
+
+
+## Coordinates of the curve ##
+coords(roc1, "best", ret=c("threshold", "specificity", "1-npv"))
+coords(roc2, "local maximas", ret=c("threshold", "sens", "spec", "ppv", "npv"))
+
+
+## Confidence intervals ##
+
+# CI of the AUC
+ci(roc2)
+
+## Not run: 
+# CI of the curve
+sens.ci &lt;- ci.se(roc1, specificities=seq(0, 100, 5))
+plot(sens.ci, type="shape", col="lightblue")
+plot(sens.ci, type="bars")
+## End(Not run)
+
+# need to re-add roc2 over the shape
+plot(roc2, add=TRUE)
+
+## Not run: 
+# CI of thresholds
+plot(ci.thresholds(roc2))
+## End(Not run)
+
+# In parallel
+if (require(doParallel)) {
+    registerDoParallel(cl &lt;- makeCluster(getOption("mc.cores", 2L)))
+    ## Not run: ci(roc2, method="bootstrap", parallel=TRUE)
+    
+    stopCluster(cl)
+}
+
+
+## Comparisons ##
+
+# Test on the whole AUC
+roc.test(roc1, roc2, reuse.auc=FALSE)
+
+## Not run: 
+# Test on a portion of the whole AUC
+roc.test(roc1, roc2, reuse.auc=FALSE, partial.auc=c(100, 90),
+         partial.auc.focus="se", partial.auc.correct=TRUE)
+
+# With modified bootstrap parameters
+roc.test(roc1, roc2, reuse.auc=FALSE, partial.auc=c(100, 90),
+         partial.auc.correct=TRUE, boot.n=1000, boot.stratified=FALSE)
+## End(Not run)
+
+
+## Power &amp; sample size ##
+
+# Power
+# 1 curve
+power.roc.test(roc1)
+# 2 curves
+power.roc.test(roc3, roc2)
+
+# Sample size 
+# 1 curve
+power.roc.test(roc3, power = 0.9)
+# 2 curves
+power.roc.test(roc1, roc2, power = 0.9)
+
+# Also without ROC objects.
+# For instance what AUC would be significantly different from 0.5?
+power.roc.test(ncases=41, ncontrols=72, sig.level=0.05, power=0.95)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

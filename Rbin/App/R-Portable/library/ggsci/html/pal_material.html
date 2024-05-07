@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Material Design Color Palettes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pal_material {ggsci}"><tr><td>pal_material {ggsci}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Material Design Color Palettes</h2>
+
+<h3>Description</h3>
+
+<p>The Material Design color palettes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pal_material(palette = c("red", "pink", "purple", "deep-purple", "indigo",
+  "blue", "light-blue", "cyan", "teal", "green", "light-green", "lime",
+  "yellow", "amber", "orange", "deep-orange", "brown", "grey", "blue-grey"),
+  n = 10, alpha = 1, reverse = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Palette type.
+There are 19 available options:
+</p>
+
+<ul>
+<li> <p><code>"red"</code>
+</p>
+</li>
+<li> <p><code>"pink"</code>
+</p>
+</li>
+<li> <p><code>"purple"</code>
+</p>
+</li>
+<li> <p><code>"deep-purple"</code>
+</p>
+</li>
+<li> <p><code>"indigo"</code>
+</p>
+</li>
+<li> <p><code>"blue"</code>
+</p>
+</li>
+<li> <p><code>"light-blue"</code>
+</p>
+</li>
+<li> <p><code>"cyan"</code>
+</p>
+</li>
+<li> <p><code>"teal"</code>
+</p>
+</li>
+<li> <p><code>"green"</code>
+</p>
+</li>
+<li> <p><code>"light-green"</code>
+</p>
+</li>
+<li> <p><code>"lime"</code>
+</p>
+</li>
+<li> <p><code>"yellow"</code>
+</p>
+</li>
+<li> <p><code>"amber"</code>
+</p>
+</li>
+<li> <p><code>"orange"</code>,
+</p>
+</li>
+<li> <p><code>"deep-orange"</code>
+</p>
+</li>
+<li> <p><code>"brown"</code>
+</p>
+</li>
+<li> <p><code>"grey"</code>
+</p>
+</li>
+<li> <p><code>"blue-grey"</code></p>
+</li></ul>
+
+<p>See the <a href="https://material.io/guidelines/style/color.html">material
+design color guidelines</a> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Number of individual colors to be generated.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Transparency level, a real number in (0, 1].
+See <code>alpha</code> in <code><a href="../../grDevices/help/rgb.html">rgb</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>reverse</code></td>
+<td>
+<p>Logical. Should the order of the colors be reversed?</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Nan Xiao &lt;<a href="mailto:me@nanx.me">me@nanx.me</a>&gt; |
+&lt;<a href="https://nanx.me">https://nanx.me</a>&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library("scales")
+show_col(pal_material("indigo")(10))
+show_col(pal_material("indigo", n = 30, alpha = 0.6, reverse = TRUE)(30))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggsci</em> version 2.9 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

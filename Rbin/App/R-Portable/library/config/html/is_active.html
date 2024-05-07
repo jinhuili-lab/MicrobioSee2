@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test active configuration.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for is_active {config}"><tr><td>is_active {config}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test active configuration.</h2>
+
+<h3>Description</h3>
+
+<p>Check whether a configuration is currently active.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is_active(config)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>Configuration name</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The name of the currently active configuration is read from the
+<code>R_CONFIG_ACTIVE</code> environment variable. If the variable is not defined then
+the &quot;default&quot; configuration is used.
+</p>
+<p>To test for whether a configuration is active you should use the
+<code><a href="../../config/help/is_active.html">is_active()</a></code> function rather than inspecting the environment variable
+directly (this is to so that tests remain valid if other means of specifying
+configurations are introduced in the future).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Logical indicating whether the specified configuration is active
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../config/help/get.html">get()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>config</em> version 0.3.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

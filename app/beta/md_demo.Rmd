@@ -1,0 +1,114 @@
+# Beta diversity mapping description
+
+
+
+## Upload sample data
+
+You need to upload two data files including **sample OTU result file** and  **metadata file**.
+
+Such as
+
+| Sample | Achimill | Agrostol | Airaprae | Alopgeni | Anthodor | Bellpere | Bromhord | Chenalbu | Cirsarve | Comapalu | Eleopalu | Elymrepe | Empenigr | Hyporadi | Juncarti | Juncbufo | Lolipere | Planlanc | Poaprat | Poatriv | Ranuflam | Rumeacet | Sagiproc | Salirepe | Scorautu | Trifprat | Trifrepe | Vicilath | Bracruta | Callcusp |
+| ------ | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | ------- | ------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
+| 1      | 1        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 4        | 0        | 0        | 0        | 0        | 7        | 0        | 4       | 2       | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        | 0        |
+| 2      | 3        | 0        | 0        | 2        | 0        | 3        | 4        | 0        | 0        | 0        | 0        | 4        | 0        | 0        | 0        | 0        | 5        | 0        | 4       | 7       | 0        | 0        | 0        | 0        | 5        | 0        | 5        | 0        | 0        | 0        |
+| 3      | 0        | 4        | 0        | 7        | 0        | 2        | 0        | 0        | 0        | 0        | 0        | 4        | 0        | 0        | 0        | 0        | 6        | 0        | 5       | 6       | 0        | 0        | 0        | 0        | 2        | 0        | 2        | 0        | 2        | 0        |
+| 4      | 0        | 8        | 0        | 2        | 0        | 2        | 3        | 0        | 2        | 0        | 0        | 4        | 0        | 0        | 0        | 0        | 5        | 0        | 4       | 5       | 0        | 0        | 5        | 0        | 2        | 0        | 1        | 0        | 2        | 0        |
+| 5      | 2        | 0        | 0        | 0        | 4        | 2        | 2        | 0        | 0        | 0        | 0        | 4        | 0        | 0        | 0        | 0        | 2        | 5        | 2       | 6       | 0        | 5        | 0        | 0        | 3        | 2        | 2        | 0        | 2        | 0        |
+
+The first column is the sample id,the other column is the abundance of each indicator in different samples.
+
+| Sample | group |
+| ------ | ----- |
+| 1      | SF    |
+| 2      | BF    |
+| 3      | SF    |
+| 4      | SF    |
+| 5      | HF    |
+| 6      | HF    |
+| 7      | HF    |
+| 8      | HF    |
+| 9      | HF    |
+
+The first column is the sample id,the second column is the grouping of samples.
+
+**Paying attention, please ,you need to upload the file in the format of the sample data**.
+
+
+## Different beta diversity analysis tools
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153833.png" style="zoom: 50%;" />
+
+
+
+### Different drawing tools
+
+
+
+### PCoA
+
+**Dissimilarity index**, partial match to "manhattan", "euclidean", "canberra", "clark", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis", "chisq" or "chord".
+
+**The Jaccard and Bray-curtis dissimilarity** coefficients are **commonly** used in bioinformatics analysis and are the basis for calculating species similarity.
+
+It should be noted that the focus of these two dissimilarity coefficients is different.
+
+In analysis, Jaccard only considers the presence or absence of species in the sample, not the abundance.
+
+The Bray-curtis calculation not only considers the presence or absence of species in the sample, but also considers the relative abundance of different species.
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153834.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153835.png" style="zoom:33%;" />
+
+This button can choose whether to perform **R-value and P-value** calculations on the data.
+R^2 can quantify the strength of the relationship between the model response variable and the dependent variable.
+The p-value test can determine how reliable the fitted equation is.
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153836.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153837.png" style="zoom:33%;" />
+
+
+
+### PCA
+
+Whether to add labels to each point
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153838.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153839.png" style="zoom:33%;" />
+
+
+
+Adjust label position
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153840.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153841.png" style="zoom:33%;" />
+
+
+
+Adjust label font size
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153842.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153843.png" style="zoom:33%;" />
+
+
+
+Adjust the aspect ratio of the drawing
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153844.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153845.png" style="zoom:33%;" />
+
+
+
+### NMDS
+
+
+
+The function offers different standardization methods for community data:
+
+![](https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153846.png)
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153847.png" style="zoom:33%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153848.png" style="zoom:33%;" />
+
+**Dissimilarity index,** partial match to "manhattan", "euclidean", "canberra", "clark", "bray", "kulczynski", "jaccard", "gower", "altGower", "morisita", "horn", "mountford", "raup", "binomial", "chao", "cao", "mahalanobis", "chisq" or "chord".**It is the same as PCA distance matrix method.**
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153849.png" style="zoom:33%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112153850.png" style="zoom:33%;" />
+
+

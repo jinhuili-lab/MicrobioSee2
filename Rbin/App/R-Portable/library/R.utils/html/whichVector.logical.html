@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identifies TRUE elements in a logical vector</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for whichVector.logical {R.utils}"><tr><td>whichVector.logical {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identifies TRUE elements in a logical vector</h2>
+
+<h3>Description</h3>
+
+<p>Identifies TRUE elements in a logical vector.
+</p>
+<p><em>NOTE: <code><a href="../../base/help/which.html">which</a></code>() should be used instead of this method</em>
+unless you are running R (&lt; 2.11.0), for which this method is faster
+than <code><a href="../../base/help/which.html">which</a></code>() for <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code>s, especially when there
+are no missing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'logical'
+whichVector(x, na.rm=TRUE, use.names=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length N.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, missing values are treated as <code><a href="../../base/help/logical.html">FALSE</a></code>,
+otherwise they are returned as <code><a href="../../base/help/NA.html">NA</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>use.names</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the names attribute is preserved,
+otherwise it is not return.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an <code><a href="../../base/help/integer.html">integer</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length less or equal to N.
+</p>
+
+
+<h3>Benchmarking</h3>
+
+<p>In R v2.11.0 <code><a href="../../base/help/which.html">which</a></code>() was made approx. 10 times
+faster via a native implementation.  Because of this, this
+method is of little use and approximately 3 times slower.
+However, for earlier version of R, this method is still
+significantly faster.  For example,
+simple comparison on R v2.7.1 on Windows XP, show that
+this implementation can be more than twice as fast as
+<code><a href="../../base/help/which.html">which</a></code>(), especially when there are no missing
+value (and <code>na.rm=FALSE</code>) is used.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/which.html">which</a></code>()
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Simulate two large named logical vectors,
+# one with missing values one without
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+N &lt;- 1e6
+
+# Vector #1
+x &lt;- sample(c(TRUE, FALSE), size=N, replace=TRUE)
+names(x) &lt;- seq_along(x)
+
+# Vector #2
+y &lt;- x
+y[sample(N, size=0.1*N)] &lt;- NA
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Validate consistency
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+stopifnot(identical(which(x), whichVector(x)))
+stopifnot(identical(which(y), whichVector(y)))
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Benchmarking
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Number of iterations
+K &lt;- 5
+
+t1 &lt;- 0
+for (kk in 1:K) {
+  t1 &lt;- t1 + system.time({ idxs1 &lt;- which(x) })
+}
+ 
+t2 &lt;- 0
+for (kk in 1:K) {
+  t2 &lt;- t2 + system.time({ idxs2 &lt;- whichVector(x, na.rm=FALSE) })
+}
+ 
+cat(sprintf("whichVector(x, na.rm=FALSE)/which(x): %.2f\n", (t2/t1)[3]))
+stopifnot(identical(idxs1, idxs2))
+
+
+t1 &lt;- 0
+for (kk in 1:K) {
+  t1 &lt;- t1 + system.time({ idxs1 &lt;- which(y) })
+}
+ 
+t2 &lt;- 0
+for (kk in 1:K) {
+  t2 &lt;- t2 + system.time({ idxs2 &lt;- whichVector(y) })
+}
+ 
+cat(sprintf("whichVector(y)/which(y): %.2f\n", (t2/t1)[3]))
+stopifnot(identical(idxs1, idxs2))
+
+
+ 
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

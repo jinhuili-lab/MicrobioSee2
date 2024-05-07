@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: adds part of a colored circle to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plotcircle {shape}"><tr><td>plotcircle {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+adds part of a colored circle to a plot
+</h2>
+
+<h3>Description</h3>
+
+<p>adds (part of) a colored circle to a plot;
+an arrow can be drawn at a specified position
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotcircle(r = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r </code></td>
+<td>
+<p>radius of circle.
+</p>
+</td></tr>
+<tr valign="top"><td><code>... </code></td>
+<td>
+<p>arguments passed to function <a href="../../shape/help/plotellipse.html">plotellipse</a>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>plotcircle</code> calls <code>plotellipse</code>, making sure that the figure
+drawn effectively looks like a circle. 
+For graphs that have both axes of equal size, the circle will be equal 
+to the ellipse with equal rx and ry. See second example
+</p>
+<p>see <code><a href="../../shape/help/plotellipse.html">plotellipse</a></code> for details
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shape/help/plotellipse.html">plotellipse</a></code> to draw ellipses
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# symmetrical axes
+emptyplot(c(0, 1))
+plotcircle(mid = c(0.5, 0.5), r = 0.25, from = 0, to = 3*pi/2,
+           arrow = TRUE, arr.pos = 0.5, col = "red")
+# symmetrical
+plotellipse(mid = c(0.5, 0.5), rx = 0.2, ry = 0.2, 
+           arrow = TRUE, arr.pos = 0.5, col = "blue")
+
+
+#non-symmetrical axes
+emptyplot(c(0, 1), c(0, 2), main = "plotcircle", asp = FALSE)
+plotcircle(mid = c(0.5, 0.5), r = 0.25, from = 0, to = 3*pi/2,
+           arrow = TRUE, arr.pos = 0.5, col = "red")
+plotellipse(mid = c(0.5, 0.5), rx = 0.25, ry = 0.25, 
+           arrow = TRUE, arr.pos = 0.5, col = "blue")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

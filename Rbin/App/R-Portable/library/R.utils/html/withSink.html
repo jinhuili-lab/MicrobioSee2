@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression while temporarily diverting output</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withSink {R.utils}"><tr><td>withSink {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression while temporarily diverting output</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression while temporarily diverting output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withSink(expr, file, append=FALSE, type=c("output", "message"), substitute=TRUE,
+  envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A writable <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string naming the
+file to write to.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the diverted output is appended to the file,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying whether to divert output
+sent to the standard output or the standard error.
+See <code><a href="../../base/help/sink.html">sink</a></code>() for details.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Upon exit (also on errors), this function will close the requested
+&quot;sink&quot;.  If additional sinks (of any type) where also opened during
+the evaluation, those will also be closed with a warning.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/sink.html">sink</a></code>() is used to divert any output.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Divert standard output
+pathname &lt;- tempfile(fileext=".output.txt")
+res &lt;- withSink(file=pathname, {
+  print(letters)
+})
+mcat(readLines(pathname), sep="\n")
+
+
+# Divert standard error/messages
+pathname &lt;- tempfile(fileext=".message.txt")
+res &lt;- withSink(file=pathname, type="message", {
+  mprint(LETTERS)
+})
+mcat(readLines(pathname), sep="\n")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

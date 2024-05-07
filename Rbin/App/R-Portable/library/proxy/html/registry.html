@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Registry of proximities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pr_DB {proxy}"><tr><td>pr_DB {proxy}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Registry of proximities</h2>
+
+<h3>Description</h3>
+
+<p>Registry containing similarities and distances.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pr_DB
+pr_DB$get_field(name)
+pr_DB$get_fields()
+pr_DB$get_field_names()
+pr_DB$set_field(name, default = NA, type = NA, is_mandatory = FALSE,
+                is_modifiable = TRUE, validity_FUN = NULL)
+
+pr_DB$entry_exists(name)
+pr_DB$get_entry(name)
+pr_DB$get_entries(name = NULL, pattern = NULL)
+pr_DB$get_entry_names(name)
+pr_DB$set_entry(...)
+pr_DB$modify_entry(...)
+pr_DB$delete_entry(name)
+
+## S3 method for class 'pr_DB'
+summary(object, verbosity = c("short", "long"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>character string representing the name of an
+entry (case-insensitive).</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>regular expression to be matched to all fields of class
+<code>"character"</code> in all entries.</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>optional default value for the field.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>optional character string specifying the class to be
+required for this field. If <code>type</code> is a character vector with more
+than two elements, the entries will be used as fixed set of
+alternatives. If <code>type</code> is not a character string or vector, the
+class will be inferred from the argument given.</p>
+</td></tr>
+<tr valign="top"><td><code>is_mandatory</code></td>
+<td>
+<p>logical specifying whether new entries are required
+to have a value for this field.</p>
+</td></tr>
+<tr valign="top"><td><code>is_modifiable</code></td>
+<td>
+<p>logical specifying whether entries can be changed
+with respect to that field.</p>
+</td></tr>
+<tr valign="top"><td><code>validity_FUN</code></td>
+<td>
+<p>optional function or character string with the name of a
+function that checks the validity of a field entry. Such a function
+gets the value to be investigated as argument, and should stop with an
+error message if the value is not correct.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>a registry object.</p>
+</td></tr>
+<tr valign="top"><td><code>verbosity</code></td>
+<td>
+<p>controlling the verbosity of the output of the
+summary method for the registry. <code>"short"</code> gives just a list, <code>"long"</code>
+also gives the formulas.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>for <code>pr_DB$set_entry</code> and <code>pr_DB$modify_entry</code>:
+named list of fields to be modified in or added to the registry (see details).
+This must include the index field (<code>"names"</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>pr_DB</code> represents the registry of all proximity measures
+available. For each
+measure, it comprises meta-information that can be queried and
+extended. Also, new measures can be added. This is done using
+the following accessor functions of the <code>pr_DB</code> object:
+</p>
+<p><code>get_field_names()</code> returns a character
+vector with all field names. <code>get_field()</code> returns the information
+for a specific field as a list with components named as described
+above. <code>get_fields()</code> returns a list with all field
+entries. <code>set_field()</code> is used to create new fields in the
+repository (the default value will be set in all
+entries).
+</p>
+<p><code>get_entry_names()</code> returns a character vector with (the first
+alias of) all entries. <code>entry_exists()</code> is a predicate checking
+if an entry with the specified alias exists in the
+registry. <code>get_entry()</code> returns the specified entry if it exists (and, by
+default, gives an error if it does not). <code>get_entries()</code> is used to
+query more than one entry: either those matching <code>name</code> exactly, or
+those where the regular expression in <code>pattern</code> matches <em>any</em>
+character field in an entry. By default, all values are
+returned. <code>delete_entry</code> removes an existing entry from the
+registry (note that only user-provided entries can be deleted).
+<code>set_entry</code> and <code>modify_entry</code> require a named list
+of arguments used as field entries.
+At least the <code>names</code> index field is required. <code>set_entry</code>
+will check for all other mandatory fields. If specified in the field
+meta data, each field entry and the entry as a whole is checked for
+validity. Note that only user-specified fields and/or entries can be
+modified, the data shipped with the package are read-only.
+</p>
+<p>The registry fields currently available are as follows:
+</p>
+
+<dl>
+<dt>FUN</dt><dd><p>Function to register (see below).</p>
+</dd>
+<dt>names</dt><dd><p>Character vector with an alias(es) for the measure.</p>
+</dd>
+<dt>PREFUN</dt><dd><p>Optional function (or function name) for preprocessing
+code (see below).</p>
+</dd>
+<dt>POSTFUN</dt><dd><p>Optional function (or function name) for postprocessing
+code (see below).</p>
+</dd>
+<dt>distance</dt><dd><p>logical indicating whether this measure is a distance (<code>TRUE</code>)
+or similarity (<code>FALSE</code>).</p>
+</dd>
+<dt>convert</dt><dd><p>Optional Function or function name for converting
+between similarities and distances when needed.</p>
+</dd>
+<dt>type</dt><dd><p>Optional, the scale the measure applies to
+(<code>"metric"</code>, <code>"ordinal"</code>, <code>"nominal"</code>,
+<code>"binary"</code>, or <code>"other"</code>). If
+<code>NULL</code>, it is assumed to apply to some other unknown scale.</p>
+</dd>
+<dt>loop</dt><dd><p>logical indicating whether <code>FUN</code> is just a measure,
+and therefore, if <code><a href="../../proxy/help/dist.html">dist</a></code> shall do the loop over all pairs of
+observations/variables, or if <code>FUN</code> does the loop on its own.</p>
+</dd>
+<dt><code>C_FUN</code></dt><dd><p>logical indicating whether <code>FUN</code> is a C function.</p>
+</dd>
+<dt>abcd</dt><dd><p>logical; if <code>TRUE</code> and binary data (or data to be
+interpreted as such) are supplied, the number of concordant and
+discordant pairs is precomputed for every two binary data vectors and
+supplied to the measure function.</p>
+</dd>
+<dt>formula</dt><dd><p>Optional character string with the symbolic representation of
+the formula.</p>
+</dd>
+<dt>reference</dt><dd><p>Optional reference (character).</p>
+</dd>
+<dt>description</dt><dd><p>Optional description (character). Ideally,
+describes the context in which the measure can be applied.</p>
+</dd>  
+</dl>
+
+<p>A function specified as <code>FUN</code> parameter has mandatory arguments
+<code>x</code> and <code>y</code> (if <code>abcd</code> is <code>FALSE</code>), and <code>a</code>,
+<code>b</code>, <code>c</code>, <code>d</code>, <code>n</code> otherwise. Additionally, it gets
+all optional parameters specified by the user in the <code>...</code>
+argument of the <code><a href="../../proxy/help/dist.html">dist</a></code> and <code><a href="../../proxy/help/simil.html">simil</a></code> functions, possibly
+changed and/or complemented by the corresponding (optional)
+<code>PREFUN</code> function. It must return the
+(diss-)similarity value computed from the arguments.
+<code>x</code> and <code>y</code> are two vectors from the
+data matrix (matrices) supplied. If <code>abcd</code> is <code>FALSE</code>, it is
+assumed that binary measures will be used, and the number of all
+<code>n</code> concordant and discordant pairs (x\_k, y\_k)
+precomputed and supplied instead of <code>x</code> and
+<code>y</code>. <code>a</code>, <code>b</code>, <code>c</code>, and <code>d</code> are the counts of
+all (TRUE, TRUE), (TRUE, FALSE), (FALSE, TRUE), and (FALSE, FALSE)
+pairs, respectively.
+</p>
+<p>A function specified as <code>PREFUN</code> parameter has mandatory arguments
+<code>x</code>, <code>y</code>, <code>p</code>, and <code>reg_entry</code>, with <code>y</code> and
+<code>p</code> possibly being <code>NULL</code> depending on the task at
+hand. <code>x</code> and <code>y</code> are the data objects, <code>p</code> is a
+(possibly empty) list with all specified proximity parameters, and
+<code>reg_entry</code> is the registry entry (a named list containing all
+information specified in <code>reg_add</code>).
+The preprocessing function is allowed to change all these
+information, and if so, is required to return *all* arguments
+as a named list in the same order.
+</p>
+<p>A function specified as <code>POSTFUN</code> parameter has two mandatory
+arguments: <code>result</code> and <code>p</code>. <code>result</code> will contain the
+computed raw data, i.e. a vector of length <i>n * (n - 1) / 2</i> for
+auto-distances (see <code><a href="../../stats/help/dist.html">dist</a></code> for details on
+<code>dist</code> objects), or a matrix for cross-distances. <code>p</code> contains
+the specified proximity parameters. Post-processing functions need to
+return the <code>result</code> object (even if unmodified).
+</p>
+<p>A function specified as <code>convert</code> parameter should preserve the
+type of its argument.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Meyer <a href="mailto:David.Meyer@R-project.org">David.Meyer@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../proxy/help/dist.html">dist</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## create a new distance measure
+mydist &lt;- function(x,y) x * y
+
+## create a new entry in the registry with two aliases
+pr_DB$set_entry(FUN = mydist, names = c("test", "mydist"))
+
+## look it up (index is case insensitive):
+pr_DB$get_entry("TEST")
+
+## modify the content of the description field in the new entry
+pr_DB$modify_entry(names = "test", description = "foo function")
+
+## create a new field
+pr_DB$set_field("New")
+
+## look up the test entry again (two ways)
+pr_DB$get_entry("test")
+pr_DB[["test"]]
+
+## show total number of entries
+length(pr_DB)
+
+## show all entries (short list)
+pr_DB$get_entries(pattern = "foo")
+
+## show more details
+summary(pr_DB, "long")
+
+## get all entries in a list (and extract first two ones)
+pr_DB$get_entries()[1:2]
+
+## get all entries as a data frame (select first 3 fields)
+as.data.frame(pr_DB)[,1:3]
+
+## delete test entry
+pr_DB$delete_entry("test")
+
+## check if it is really gone
+pr_DB$entry_exists("test")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>proxy</em> version 0.4-26 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

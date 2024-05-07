@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The GSEA GenePattern Color Scales</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scale_color_gsea {ggsci}"><tr><td>scale_color_gsea {ggsci}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The GSEA GenePattern Color Scales</h2>
+
+<h3>Description</h3>
+
+<p>See <code><a href="../../ggsci/help/pal_gsea.html">pal_gsea</a></code> for details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scale_color_gsea(palette = c("default"), alpha = 1, reverse = FALSE, ...)
+
+scale_colour_gsea(palette = c("default"), alpha = 1, reverse = FALSE, ...)
+
+scale_fill_gsea(palette = c("default"), alpha = 1, reverse = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>palette</code></td>
+<td>
+<p>Palette type.
+Currently there is one available option: <code>"default"</code>
+(continuous palette with 12 base colors).</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Transparency level, a real number in (0, 1].
+See <code>alpha</code> in <code><a href="../../grDevices/help/rgb.html">rgb</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>reverse</code></td>
+<td>
+<p>Logical. Should the order of the colors be reversed?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters for <code><a href="../../ggplot2/help/discrete_scale.html">discrete_scale</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Nan Xiao &lt;<a href="mailto:me@nanx.me">me@nanx.me</a>&gt; |
+&lt;<a href="https://nanx.me">https://nanx.me</a>&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library("ggplot2")
+library("reshape2")
+data("mtcars")
+
+cor = cor(mtcars)
+cor_melt = melt(cor)
+
+ggplot(cor_melt,
+       aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile(colour = "black", size = 0.3) +
+  theme_bw() + scale_fill_gsea()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggsci</em> version 2.9 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

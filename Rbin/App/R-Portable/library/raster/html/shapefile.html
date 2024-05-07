@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read or write a shapefile</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for shapefile {raster}"><tr><td>shapefile {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Read or write a shapefile
+</h2>
+
+<h3>Description</h3>
+
+<p>Reading and writing of &quot;ESRI shapefile&quot; format spatial data. Only the three vector types (points, lines, and polygons) can be stored in shapefiles. 
+These are simple wrapper functions around readOGR and writeOGR (rgdal package). 
+A shapefile should consist of at least four files: .shp (the geometry), .dbf (the attributes), .shx (the index that links the two, and .prj (the coordinate reference system). If the .prj file is missing, a warning is given. If any other file is missing an error occurs (although one could in principle recover the .shx from the .shp file). Additional files are ignored.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'character'
+shapefile(x, stringsAsFactors=FALSE, verbose=FALSE, warnPRJ=TRUE, ...)
+
+## S4 method for signature 'Spatial'
+shapefile(x, filename='', overwrite=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>character (a file name, when reading a shapefile) or Spatial* object (when writing a shapefile)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename to write a shapefile</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>logical. Overwrite existing shapefile?</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, information about the file is printed</p>
+</td></tr>
+<tr valign="top"><td><code>warnPRJ</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a warning is given if there is no .prj file</p>
+</td></tr>
+<tr valign="top"><td><code>stringsAsFactors</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, strings are converted to factors</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to rgdal functions readOGR or writeOGR</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Spatial*DataFrame (reading). Nothing is returned when writing a shapefile.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require(rgdal)) {
+
+filename &lt;- system.file("external/lux.shp", package="raster")
+filename
+p &lt;- shapefile(filename)
+
+## Not run: 
+shapefile(p, 'copy.shp')
+
+## End(Not run)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

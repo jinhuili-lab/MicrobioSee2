@@ -1,0 +1,255 @@
+---
+title: "md_demo"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+# 玫瑰图
+*柱状图的变种
+![](paper_use_code_files/1.jpg)
+```
+df<-data.frame(x=LETTERS[1:6],
+               y=sample(1:10,6))
+
+library(ggplot2)
+
+ggplot(df,aes(x=x,y=y))+
+  geom_col(aes(fill=x),show.legend = F)+
+  coord_polar()
+```
+![](paper_use_code_files/2.jpg)
+```
+x<-1:180
+x
+y<-sin(10*x*pi/180)
+
+df<-data.frame(x=x,y=abs(y))
+
+df$yz<-df$y*df$z
+
+ggplot(data=df,aes(x=x,y=y))+
+  geom_area(fill="blue",
+            alpha=0.5,
+            color="black")+
+  coord_polar()+
+  theme_bw()+
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        axis.title = element_blank())
+```
+![](paper_use_code_files/3.jpg)
+
+## 完整代码
+```
+library(tidyverse)
+library(ggplot2)
+
+set.seed(123456)
+
+df<-data.frame(x=LETTERS[1:10],
+               y=sample(1:20,10))
+df
+
+x<-1:180
+x
+y<-sin(10*x*pi/180)
+
+df1<-data.frame(x1=x,
+               y1=abs(y),
+               var=gl(10,18,labels = LETTERS[1:10]))
+df1
+merge(df1,df,by.x = 'var',by.y = 'x') %>% 
+  mutate(new_y=y1*y) -> df2
+  
+ggplot(data=df2,aes(x=x,y=new_y))+
+  geom_area(aes(fill=var),
+            alpha=0.8,
+            color="black",
+            show.legend = F)+
+  coord_polar()+
+  theme_bw()+
+  theme(axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        panel.border = element_blank(),
+        axis.title = element_blank())+
+  scale_x_continuous(breaks = seq(9,180,18),
+                     labels = df$x)+
+  geom_text(data=df,aes(x=seq(9,180,18),
+                         y=y+1,
+                         label=y))
+```
+![](paper_use_code_files/4.jpg)
+
+[python实现](https://www.codesansar.com/python-programming-examples/plot-rose-curves.htm)
+[R,本文参考](https://mp.weixin.qq.com/s/XG76Xz88UUOm864hh57vow)
+
+# 堆叠柱状图
+# 海盗图
+当因变量（Dependent variable）为数值型，自变量（Independent variable）为分类变量时，可以选择箱形图，柱状图，或小提琴图等等。
+* 1. 原始数据，通常为点。
+* 2. 柱状图形：显示数据的集中趋势（如：中位数，均数）。
+* 3. 密度图：呈现数据的分布。
+* 4. 统计推断：如95%可信区间等。
+```
+library(yarrr) #预先安装
+# 基础版本的海盗图；选择两个变量作为作图的数据：weight作为因变量，Diet作为自变量。ChickWeight为自带数据
+pirateplot(weight ~ Diet, 
+           data = ChickWeight, 
+		   theme = 1,   #1，3好看一些
+           main = "Pirate plot", 
+           inf.method = "ci", # 下方海盗图中部位置的框指的是可信区间 	
+           bar.f.o = 0.2) # 调整柱状图部分的颜色深度，数值从0-1
+#  pal = "decision" #自选调色板 
+#  piratepal(palette = "all") # 所有颜色
+```
+[本文参考](https://mp.weixin.qq.com/s/DvO3JZTYZ3fGbv65UbMkcA)
+	
+# ROC曲线绘制 
+```
+# 真阳性（True Positive , TP）被模型预测为正的正样本；
+
+# 假阴性（False Negative , FN）被模型预测为负的正样本；
+
+# 假阳性（False Positive , FP）被模型预测为正的负样本；
+
+# 真阴性（True Negative , TN）被模型预测为负的负样本。
+# ROC曲线 y轴为TPR（击中率）；x轴为1-TNR（虚报率）
+# 准确率(Precision) =  TP/（TP+FP）
+
+# F1 = 2 * P * R / (P + R)  同时描绘了准确率和灵敏度
+
+# AUC：ROC曲线下面积
+```
+
+```
+#逻辑回归
+library(pROC) #输入一列真实的分类，一列模型的预测概率
+
+## 实战1：逻辑回归ROC
+library(rio);library(tidyverse)
+library(car)
+library(mlogit)
+Cured = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+Intervention = c("NO", "NO", "YES", "NO", "NO", "NO", "YES","NO", "NO", "NO", "NO", "NO", "YES","YES","YES","YES", "NO","YES", "YES", "YES", "YES", "NO" )
+Duration = c(7, 7,6, 5, 7, 4, 7, 6, 3, 7, 6, 3, 8, 8, 7, 9, 9, 7, 8, 5, 10, 9)
+A = data.frame(Cured,Intervention,Duration)
+M1 = glm(data = A, Cured~Intervention,family = binomial()) #二项分布（二元）
+M2 = glm(data = A, Cured~Intervention+Duration,family = binomial()) # JASP中的factor和cov类似
+## ROC曲线的绘制
+Yhat1 = predict(M1,A,type = 'response') #预测概率值  注意逻辑回归里面type选response
+Yhat2 = predict(M2,A,type = 'response') #预测概率值
+A$cured;Yhat1;Yhat2
+modelroc = roc(A$Cured,Yhat1)
+modelroc2 = roc(A$Cured,Yhat2)
+
+plot(modelroc,print.auc=T,auc.polygon=T,max.auc.polygon=T,print.thres=T,auc.polygon.col='skyblue' ,main="ROC", percent=TRUE)
+lines(modelroc2,col=2)
+auc(A$Cured,Yhat1);auc(A$Cured,Yhat2) #计算AUC值
+
+#ggplot画风的ROC 
+(g=ggroc(list(modelroc,modelroc2),legacy.axes = T,lwd=1.5))
+g+theme_minimal() + ggtitle("My ROC curve") + 
+  geom_segment(aes(x = 0, xend = 1, y = 0, yend = 1), color="grey", linetype="dashed")
+```
+![ROC](paper_use_code_files/7.jpg)
+
+
+# 机器学习与特征抽取
+```
+library(phyloseq)
+library(randomForest)
+library(tidyverse)
+#数据整理和随机僧林
+# 包在github上不是很容易安装
+#library(ggClusterNet)
+# data(ps)
+
+map = as.data.frame(sample_data(ps))
+head(map)
+
+#-scaleing relative abundancce#----
+ps_rela  = transform_sample_counts(ps, function(x) x / sum(x) );ps_rela
+mapping = as.data.frame(sample_data(ps_rela))
+otutab = as.data.frame((vegan_otu(ps_rela)))
+
+# Set classification info.
+otutab$group = factor(mapping$Group)
+
+# set random seed for reproducible reandomforest model
+set.seed(315)
+
+model_rf= randomForest::randomForest(group ~ ., data=otutab, importance=TRUE, proximity=TRUE)
+print(model_rf)
+```
+
+#### 重要变量提取和整理
+```
+#------------k可视化
+###### inportant OTU picked out and plot
+a=as.data.frame(round(importance(model_rf), 2))
+a$id=row.names(a)
+a2<- dplyr::arrange(a, desc(MeanDecreaseAccuracy))
+row.names(a2)=a2$id
+
+a3=head(a2,n=20)
+
+taxonomy <- as.data.frame(vegan_tax(ps))
+tax = taxonomy[rownames(a3),]
+a3 = merge(a3,tax,by = "row.names",all = F)
+row.names(a3) = a3$Row.names
+a3$Row.names = NULL
+
+OTU = vegan_otu(ps_rela)
+### pice mapping
+design = as.data.frame(sample_data(ps_rela))
+
+#mean abundance by groups
+iris.split <- split(as.data.frame(OTU),as.factor(design$Group))
+iris.apply <- lapply(iris.split,function(x)colMeans(x,na.rm = TRUE))
+norm2 <- do.call(rbind,iris.apply)%>% # combine result
+  t()
+colnames(norm2) = paste(colnames(norm2),"mean",sep = "")
+
+ind_fal = merge(a3,norm2,by = "row.names",all = F)
+head(ind_fal)
+
+
+```
+#### 火柴棒图形展示
+```
+p1 <- ggplot(a3, aes(x = MeanDecreaseAccuracy, y = reorder(id,MeanDecreaseAccuracy))) +
+  geom_point(size=6,pch=20,fill = "blue")+
+  geom_segment(aes(yend=id),xend=0,size=3)+
+  geom_label(aes(x =MeanDecreaseAccuracy*1.1,  label = Phylum),size = 3)
+
+p1
+```
+![火柴图](paper_use_code_files/5.jpg)
+![玫瑰图](paper_use_code_files/6.jpg)
+

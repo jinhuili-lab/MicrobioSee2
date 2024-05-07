@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Verify the styling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for verify_roundtrip {styler}"><tr><td>verify_roundtrip {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Verify the styling</h2>
+
+<h3>Description</h3>
+
+<p>If scope was set to &quot;line_breaks&quot; or lower (compare <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code>),
+we can compare the expression before and after styling and return an error if
+it is not the same.
+If that's not possible, a weaker guarantee that we want to give is that the
+resulting code is parsable.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+verify_roundtrip(old_text, new_text, parsable_only = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>old_text</code></td>
+<td>
+<p>The initial expression in its character representation.</p>
+</td></tr>
+<tr valign="top"><td><code>new_text</code></td>
+<td>
+<p>The styled expression in its character representation.</p>
+</td></tr>
+<tr valign="top"><td><code>parsable_only</code></td>
+<td>
+<p>If we should only check for the code to be parsable.</p>
+</td></tr>
+</table>
+
+
+<h3>Limitation</h3>
+
+<p>Note that this method ignores roxygen code examples and
+comments and no verification can be conducted if tokens are in the styling
+scope.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+styler:::verify_roundtrip("a+1", "a + 1")
+styler:::verify_roundtrip("a+1", "a + 1 # comments are dropped")
+try(styler:::verify_roundtrip("a+1", "b - 3"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

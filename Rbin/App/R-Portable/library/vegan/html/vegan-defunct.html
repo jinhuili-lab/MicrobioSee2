@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Defunct Functions in Package 'vegan'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vegan-defunct {vegan}"><tr><td>vegan-defunct {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Defunct Functions in Package <span class="pkg">vegan</span></h2>
+
+<h3>Description</h3>
+
+<p>The functions or variables listed here are no longer part of
+<span class="pkg">vegan</span> as they are no longer needed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## defunct in vegan 2.5-0
+commsimulator(x, method, thin=1)
+
+## defunct in vegan 2.4-0
+## S3 method for class 'adonis'
+density(x, ...)
+## S3 method for class 'vegandensity'
+plot(x, main = NULL, xlab = NULL, ylab = "Density", 
+   type = "l", zero.line = TRUE, obs.line = TRUE, ...)
+## S3 method for class 'adonis'
+densityplot(x, data, xlab = "Null", ...)
+
+## defunct in vegan 2.2-0
+metaMDSrotate(object, vec, na.rm = FALSE, ...)
+
+## defunct in vegan 2.0-0
+getNumObs(object, ...)
+permuted.index2(n, control = permControl())
+
+</pre>
+
+
+<h3>Details</h3>
+
+<p>Function <code>commsimulator</code> is replaced with
+<code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code> which defines the Null models, and
+functions <code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code> and
+<code><a href="../../vegan/help/simulate.nullmodel.html">simulate.nullmodel</a></code> that check the input data and
+generate the Null model communities.
+</p>
+<p>The deprecated <code>density</code> and <code>densityplot</code> methods are
+replaced with similar methods for <code><a href="../../vegan/help/permustats.html">permustats</a></code>. The
+<code><a href="../../vegan/help/permustats.html">permustats</a></code> offers more powerful analysis tools for
+permutations, including <code><a href="../../vegan/help/summary.permustats.html">summary.permustats</a></code> giving
+<i>z</i> values (a.k.a. standardized effect sizes, SES), and Q-Q
+plots (<code><a href="../../vegan/help/qqnorm.permustats.html">qqnorm.permustats</a></code>,
+<code><a href="../../vegan/help/qqmath.permustats.html">qqmath.permustats</a></code>).
+</p>
+<p>Function <code>metaMDSrotate</code> is replaced with
+<code><a href="../../vegan/help/MDSrotate.html">MDSrotate</a></code> which can handle <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>
+results in addition to <code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>.
+</p>
+<p>The permutation functions were moved to the <span class="pkg">permute</span> package,
+and they are documented there.  The <span class="pkg">permute</span> package replaces
+<code>permuted.index2</code> with <code><a href="../../permute/help/shuffle.html">shuffle</a></code> and
+<code>getNumObs</code> with its specific
+<code><a href="../../permute/help/nobs-methods.html">nobs-methods</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/Defunct.html">Defunct</a></code>, <code><a href="../../vegan/help/vegan-deprecated.html">vegan-deprecated</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

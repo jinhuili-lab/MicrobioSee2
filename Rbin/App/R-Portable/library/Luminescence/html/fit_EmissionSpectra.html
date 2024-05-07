@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Luminescence Emission Spectra Deconvolution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fit_EmissionSpectra {Luminescence}"><tr><td>fit_EmissionSpectra {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Luminescence Emission Spectra Deconvolution</h2>
+
+<h3>Description</h3>
+
+<p>Luminescence spectra deconvolution on <a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a> and <a href="../../base/html/matrix.html">matrix</a> objects
+on an <strong>energy scale</strong>. The function is optimised for emission spectra typically
+obtained in the context of TL, OSL and RF measurements detected between 200 and 1000 nm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fit_EmissionSpectra(
+  object,
+  frame = NULL,
+  n_components = NULL,
+  start_parameters = NULL,
+  sub_negative = 0,
+  input_scale = NULL,
+  method_control = list(),
+  verbose = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../base/html/matrix.html">matrix</a> (<strong>required</strong>): input
+object. Please note that an energy spectrum is expected</p>
+</td></tr>
+<tr valign="top"><td><code>frame</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): defines the frame to be analysed</p>
+</td></tr>
+<tr valign="top"><td><code>n_components</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): allows a number of the aimed number of
+components. However, it defines rather a maximum than than a minimum. Can be combined with
+other parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>start_parameters</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): allows to provide own start parameters for a
+semi-automated procedure. Parameters need to be provided in eV. Every value provided replaces a
+value from the automated peak finding algorithm (in ascending order).</p>
+</td></tr>
+<tr valign="top"><td><code>sub_negative</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>): substitute negative values in the input object
+by the number provided here (default: <code>0</code>). Can be set to <code>NULL</code>, i.e. negative values are kept.</p>
+</td></tr>
+<tr valign="top"><td><code>input_scale</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>): defines whether your x-values define wavelength or
+energy values. For the analysis an energy scale is expected, allowed values are <code>'wavelength'</code> and
+<code>'energy'</code>. If nothing (<code>NULL</code>) is defined, the function tries to understand the input
+automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>method_control</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>): options to control the fit method, see details</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enable/disable verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enable/disable plot output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to control the plot output
+(supported: <code>main</code>, <code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code>, <code>log</code>, <code>mtext</code>, <code>legend</code> (<code>TRUE</code> or <code>FALSE</code>),
+<code>legend.text</code>, <code>legend.pos</code>)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Used equation</strong>
+</p>
+<p>The emission spectra (on an energy scale) can be best described as the sum of multiple
+Gaussian components:
+</p>
+<p>'</p>
+<p style="text-align: center;"><i>
+y = &Sigma;  Ci * 1/(&sigma;_{i} * &radic;(2 * &pi;)) * exp(-1/2 * ((x - &mu;_{i})/&sigma;_{i}))^2)
+</i></p>
+
+<p>with the parameters <i>&sigma;</i> (peak width) and <i>&mu;</i> (peak centre) and <i>C</i>
+(scaling factor).
+</p>
+<p><strong>Start parameter estimation and fitting algorithm</strong>
+</p>
+<p>The spectrum deconvolution consists of the following steps:
+</p>
+
+<ol>
+<li><p> Peak finding <br />
+</p>
+</li>
+<li><p> Start parameter estimation <br />
+</p>
+</li>
+<li><p> Fitting via <a href="../../minpack.lm/help/nls.lm.html">minpack.lm::nls.lm</a><br />
+</p>
+</li></ol>
+
+<p>The peak finding is realised by an approach (re-)suggested by Petr Pikal via the R-help
+mailing list (<code style="white-space: pre;">https://stat.ethz.ch/pipermail/r-help/2005-November/thread.html</code>) in November 2005.
+This goes back to even earlier discussion in 2001 based on Prof Brian Ripley's idea.
+It smartly uses the functions <a href="../../stats/help/embed.html">stats::embed</a> and <a href="../../base/html/maxCol.html">max.col</a> to identify peaks positions.
+For the use in this context, the algorithm has been further modified to scale on the
+input data resolution (cf. source code).<br />
+</p>
+<p>The start parameter estimation uses random sampling from a range of meaningful parameters
+and repeats the fitting until 1000 successful fits have been produced or the set <code>max.runs</code> value
+is exceeded.
+</p>
+<p>Currently the best fit is the one with the lowest number for squared residuals, but
+other parameters are returned as well. If a series of curves needs to be analysed,
+it is recommended to make few trial runs, then fix the number of components and
+run  at least 10,000 iterations (parameter <code>method_control = list(max.runs = 10000)</code>).
+</p>
+<p><strong>Supported <code>method_control</code> settings</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Parameter</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Default</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>max.runs</code> </td><td style="text-align: left;"> <a href="../../base/html/integer.html">integer</a> </td><td style="text-align: left;"> <code>10000</code> </td><td style="text-align: left;"> maximum allowed search iterations, if exceed
+the searching stops </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>graining</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> <code>15</code> </td><td style="text-align: left;"> gives control over how coarse or fine the spectrum is split into search intervals for the peak finding algorithm </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>trace</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> <code>FALSE</code> </td><td style="text-align: left;"> enables/disables the tracing of the minimisation routine
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$data</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the final fit matrix </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$fit</code> </td><td style="text-align: left;"> <code>nls</code> </td><td style="text-align: left;"> the fit object returned by <a href="../../minpack.lm/help/nls.lm.html">minpack.lm::nls.lm</a> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$fit_info</code> </td><td style="text-align: left;"> <code>list</code> </td><td style="text-align: left;"> a few additional parameters that can be used to asses the quality
+of the fit
+</td>
+</tr>
+
+</table>
+
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ TERMINAL OUTPUT ]</code>   <br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>The terminal output provides brief information on the
+deconvolution process and the obtained results.
+Terminal output is only shown of the argument <code>verbose = TRUE</code>.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ PLOT OUTPUT ]</code>      <br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>The function returns a plot showing the raw signal with the
+detected components. If the fitting failed, a basic plot is returned
+showing the raw data and indicating the peaks detected for the start
+parameter estimation. The grey band in the residual plot indicates the
+10% deviation from 0 (means no residual).
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. fit_EmissionSpectra(): Luminescence Emission Spectra Deconvolution. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data.Spectrum-class.html">RLum.Data.Spectrum</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>,
+<a href="../../Luminescence/help/convert_Wavelength2Energy.html">convert_Wavelength2Energy</a>, <a href="../../minpack.lm/help/nls.lm.html">minpack.lm::nls.lm</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load example data
+data(ExampleData.XSYG, envir = environment())
+
+##subtract background
+TL.Spectrum@data &lt;- TL.Spectrum@data[] - TL.Spectrum@data[,15]
+
+results &lt;- fit_EmissionSpectra(
+ object = TL.Spectrum,
+ frame = 5,
+ method_control = list(max.runs = 10)
+)
+
+##deconvolution of a TL spectrum
+## Not run: 
+
+##load example data
+
+##replace 0 values
+results &lt;- fit_EmissionSpectra(
+ object = TL.Spectrum,
+ frame = 5, main = "TL spectrum"
+)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads binary data from disjoint sections of a connection or a...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readBinFragments {R.utils}"><tr><td>readBinFragments {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads binary data from disjoint sections of a connection or a file</h2>
+
+<h3>Description</h3>
+
+<p>Reads binary data from disjoint sections of a connection or a file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+readBinFragments(con, what, idxs=1, origin=c("current", "start"), size=NA, ...,
+  verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or the pathname of an existing file.</p>
+</td></tr>
+<tr valign="top"><td><code>what</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string or an object specifying the the
+data type (<code><a href="../../base/help/mode.html">mode</a></code>()) to be read.</p>
+</td></tr>
+<tr valign="top"><td><code>idxs</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of (non-duplicated) indices or a Nx2 <code><a href="../../base/help/matrix.html">matrix</a></code>
+of N from-to index intervals specifying the elements to be read.
+Positions are either relative to the start or the current location
+of the file/connection as given by argument <code>origin</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>origin</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specify whether the indices
+in argument <code>idxs</code> are relative to the <code>"start"</code> or
+the <code>"current"</code> position of the file/connection.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>The size of the data type to be read. If <code><a href="../../base/help/NA.html">NA</a></code>, the natural
+size of the data type is used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/readBin.html">readBin</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/vector.html">vector</a></code> of the requested <code><a href="../../base/help/mode.html">mode</a></code>().
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/writeBinFragments.html">writeBinFragments</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Create a data file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+data &lt;- 1:255
+size &lt;- 2
+pathname &lt;- tempfile("exampleReadBinFragments")
+writeBin(con=pathname, data, size=size)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Read and write using index vectors
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cat("Read file...\n")
+# Read every 16:th byte in the file
+idxs &lt;- seq(from=1, to=255, by=16)
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs)
+stopifnot(identical(x, data[idxs]))
+print(x)
+# Read every 16:th byte in a connection starting with the 6th.
+idxs &lt;- idxs + 5L
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs)
+stopifnot(identical(x, data[idxs]))
+print(x)
+cat("Read file...done\n")
+
+cat("Write file...\n")
+# Update every 16:th byte in the file
+idxs &lt;- seq(from=1, to=255, by=16)
+x0 &lt;- data[idxs]
+writeBinFragments(pathname, idxs=idxs, rev(x0), size=size)
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs)
+print(x)
+stopifnot(identical(rev(x0), x))
+
+# Update every 16:th byte in the file
+idxs &lt;- seq(from=1, to=255, by=16)
+writeBinFragments(pathname, idxs=idxs, rev(x), size=size)
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs)
+print(x)
+stopifnot(identical(x0, x))
+
+# Assert everything is as expected
+# Read the complete file
+x &lt;- readBin(pathname, what="integer", size=size, signed=FALSE, n=length(data))
+stopifnot(identical(x, data))
+cat("Write file...done\n")
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Ditto but via a connection
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cat("Read connection...\n")
+# Read every 16:th byte in a connection
+con &lt;- file(pathname, open="rb")
+idxs &lt;- seq(from=1, to=255, by=16)
+x &lt;- readBinFragments(con, what="integer", size=size, signed=FALSE, idxs=idxs)
+stopifnot(identical(x, data[idxs]))
+print(x)
+
+# Read every 16:th byte in a connection starting with the 6th.
+idxs &lt;- idxs + 5L
+x &lt;- readBinFragments(con, what="integer", size=size, signed=FALSE, idxs=idxs, origin="start")
+stopifnot(identical(x, data[idxs]))
+print(x)
+close(con)
+cat("Read connection...done\n")
+
+
+# Update every 16:th byte in a connection
+cat("Write connection...\n")
+con &lt;- file(pathname, open="r+b")
+idxs &lt;- seq(from=1, to=255, by=16)
+x0 &lt;- data[idxs]
+writeBinFragments(pathname, idxs=idxs, rev(x0), size=size)
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs)
+print(x)
+stopifnot(identical(rev(x0), x))
+
+# Update every 16:th byte in the file
+idxs &lt;- seq(from=1, to=255, by=16)
+writeBinFragments(pathname, idxs=idxs, rev(x), size=size)
+x &lt;- readBinFragments(pathname, what="integer", size=size, signed=FALSE, idxs=idxs, origin="start")
+print(x)
+stopifnot(identical(x0, x))
+
+close(con)
+
+# Assert everything is as expected
+# Read the complete file
+x &lt;- readBin(pathname, what="integer", size=size, signed=FALSE, n=length(data))
+stopifnot(identical(x, data))
+cat("Write connection...done\n")
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Clean up
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+file.remove(pathname)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

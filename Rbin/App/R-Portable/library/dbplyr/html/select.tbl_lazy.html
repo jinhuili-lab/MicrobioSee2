@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subset, rename, and reorder columns using their names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for select.tbl_lazy {dbplyr}"><tr><td>select.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Subset, rename, and reorder columns using their names</h2>
+
+<h3>Description</h3>
+
+<p>These are methods for the dplyr <code><a href="../../MASS/html/lm.ridge.html">select()</a></code>, <code><a href="../../dplyr/html/rename.html">rename()</a></code>, and <code><a href="../../dplyr/html/relocate.html">relocate()</a></code>
+generics. They generate the <code>SELECT</code> clause of the SQL query.
+</p>
+<p>These functions do not support predicate functions, i.e. you can
+not use <code>where(is.numeric)</code> to select all numeric variables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_lazy'
+select(.data, ...)
+
+## S3 method for class 'tbl_lazy'
+rename(.data, ...)
+
+## S3 method for class 'tbl_lazy'
+rename_with(.data, .fn, .cols = everything(), ...)
+
+## S3 method for class 'tbl_lazy'
+relocate(.data, ..., .before = NULL, .after = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_data_masking.html">data-masking</a></code>&gt; Variables, or functions of
+variables. Use <code><a href="../../dplyr/help/desc.html">desc()</a></code> to sort a variable in descending order.</p>
+</td></tr>
+<tr valign="top"><td><code>.fn</code></td>
+<td>
+<p>A function used to transform the selected <code>.cols</code>. Should
+return a character vector the same length as the input.</p>
+</td></tr>
+<tr valign="top"><td><code>.cols</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_tidy_select.html">tidy-select</a></code>&gt; Columns to rename;
+defaults to all columns.</p>
+</td></tr>
+<tr valign="top"><td><code>.before</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_tidy_select.html">tidy-select</a></code>&gt; Destination of
+columns selected by <code>...</code>. Supplying neither will move columns to the
+left-hand side; specifying both is an error.</p>
+</td></tr>
+<tr valign="top"><td><code>.after</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_tidy_select.html">tidy-select</a></code>&gt; Destination of
+columns selected by <code>...</code>. Supplying neither will move columns to the
+left-hand side; specifying both is an error.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+db &lt;- memdb_frame(x = 1, y = 2, z = 3)
+db %&gt;% select(-y) %&gt;% show_query()
+db %&gt;% relocate(z) %&gt;% show_query()
+db %&gt;% rename(first = x, last = z) %&gt;% show_query()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

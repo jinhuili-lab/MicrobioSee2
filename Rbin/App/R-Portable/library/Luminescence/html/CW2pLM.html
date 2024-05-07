@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform a CW-OSL curve into a pLM-OSL curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for CW2pLM {Luminescence}"><tr><td>CW2pLM {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transform a CW-OSL curve into a pLM-OSL curve</h2>
+
+<h3>Description</h3>
+
+<p>Transforms a conventionally measured continuous-wave (CW) curve into a
+pseudo linearly modulated (pLM) curve using the equations given in Bulur
+(2000).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+CW2pLM(values)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+<code>RLum.Data.Curve</code> data object. Alternatively, a <code>data.frame</code> of the measured
+curve data of type stimulation time (t) (<code>values[,1]</code>) and measured counts (cts)
+(<code>values[,2]</code>) can be provided.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>According to Bulur (2000) the curve data are transformed by introducing two
+new parameters <code>P</code> (stimulation period) and <code>u</code> (transformed time):
+</p>
+<p style="text-align: center;"><i>P=2*max(t)</i></p>
+ <p style="text-align: center;"><i>u=&radic;{(2*t*P)}</i></p>
+
+<p>The new count values are then calculated by
+</p>
+<p style="text-align: center;"><i>ctsNEW = cts(u/P)</i></p>
+
+<p>and the returned <code>data.frame</code> is produced by: <code>data.frame(u,ctsNEW)</code>
+</p>
+<p>The output of the function can be further used for LM-OSL fitting.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns the same data type as the input data type with
+the transformed curve values (<a href="../../base/html/data.frame.html">data.frame</a> or <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>).
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.4.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. CW2pLM(): Transform a CW-OSL curve into a pLM-OSL curve. Function version 0.4.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The transformation is recommended for curves recorded with a channel
+resolution of at least 0.05 s/channel.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Bulur, E., 2000. A simple transformation for converting CW-OSL
+curves to LM-OSL curves. Radiation Measurements, 32, 141-145.
+</p>
+<p><strong>Further Reading</strong>
+</p>
+<p>Bulur, E., 1996. An Alternative Technique For Optically Stimulated
+Luminescence (OSL) Experiment. Radiation Measurements, 26, 701-709.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/CW2pHMi.html">CW2pHMi</a>, <a href="../../Luminescence/help/CW2pLMi.html">CW2pLMi</a>, <a href="../../Luminescence/help/CW2pPMi.html">CW2pPMi</a>, <a href="../../Luminescence/help/fit_LMCurve.html">fit_LMCurve</a>, <a href="../../stats/html/lm.html">lm</a>,
+<a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##read curve from CWOSL.SAR.Data transform curve and plot values
+data(ExampleData.BINfileData, envir = environment())
+
+##read id for the 1st OSL curve
+id.OSL &lt;- CWOSL.SAR.Data@METADATA[CWOSL.SAR.Data@METADATA[,"LTYPE"] == "OSL","ID"]
+
+##produce x and y (time and count data for the data set)
+x&lt;-seq(CWOSL.SAR.Data@METADATA[id.OSL[1],"HIGH"]/CWOSL.SAR.Data@METADATA[id.OSL[1],"NPOINTS"],
+       CWOSL.SAR.Data@METADATA[id.OSL[1],"HIGH"],
+       by = CWOSL.SAR.Data@METADATA[id.OSL[1],"HIGH"]/CWOSL.SAR.Data@METADATA[id.OSL[1],"NPOINTS"])
+y &lt;- unlist(CWOSL.SAR.Data@DATA[id.OSL[1]])
+values &lt;- data.frame(x,y)
+
+##transform values
+values.transformed &lt;- CW2pLM(values)
+
+##plot
+plot(values.transformed)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

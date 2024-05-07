@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tjur's R2 - coefficient of determination (D)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_tjur {performance}"><tr><td>r2_tjur {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tjur's R2 - coefficient of determination (D)</h2>
+
+<h3>Description</h3>
+
+<p>This method calculates the Coefficient of Discrimination <code>D</code>
+(also known as Tjur's R2; <cite>Tjur, 2009</cite>) for generalized linear (mixed) models
+for binary outcomes. It is an alternative to other pseudo-R2 values like
+Nagelkerke's R2 or Cox-Snell R2. The Coefficient of Discrimination <code>D</code>
+can be read like any other (pseudo-)R2 value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_tjur(model, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Binomial Model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments from other functions, usually only used internally.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named vector with the R2 value.
+</p>
+
+
+<h3>References</h3>
+
+<p>Tjur, T. (2009). Coefficients of determination in logistic regression
+models - A new proposal: The coefficient of discrimination. The American
+Statistician, 63(4), 366-372.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- glm(vs ~ wt + mpg, data = mtcars, family = "binomial")
+r2_tjur(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

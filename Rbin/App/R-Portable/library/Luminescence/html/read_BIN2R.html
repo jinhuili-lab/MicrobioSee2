@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Import Risø BIN/BINX-files into R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for read_BIN2R {Luminescence}"><tr><td>read_BIN2R {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Import Risø BIN/BINX-files into R</h2>
+
+<h3>Description</h3>
+
+<p>Import a *.bin or a *.binx file produced by a Risø DA15 and DA20 TL/OSL
+reader into R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read_BIN2R(
+  file,
+  show.raw.values = FALSE,
+  position = NULL,
+  n.records = NULL,
+  zero_data.rm = TRUE,
+  duplicated.rm = FALSE,
+  fastForward = FALSE,
+  show.record.number = FALSE,
+  txtProgressBar = TRUE,
+  forced.VersionNumber = NULL,
+  ignore.RECTYPE = FALSE,
+  pattern = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> or <a href="../../base/html/list.html">list</a> (<strong>required</strong>): path and file name of the
+BIN/BINX file (URLs are supported). If input is a <code>list</code> it should comprise
+only <code>character</code>s representing each valid path and BIN/BINX-file names.
+Alternatively the input character can be just a directory (path), in this case the
+the function tries to detect and import all BIN/BINX files found in the directory.</p>
+</td></tr>
+<tr valign="top"><td><code>show.raw.values</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+shows raw values from BIN-file for <code>LTYPE</code>, <code>DTYPE</code> and <code>LIGHTSOURCE</code> without
+translation in characters. Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+imports only the selected position. Note: the import performance will not
+benefit by any selection made here.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n.records</code></td>
+<td>
+<p><a href="../../base/html/raw.html">raw</a> (<em>optional</em>):
+limits the number of imported records. Can be used in combination with
+<code>show.record.number</code> for debugging purposes, e.g. corrupt BIN-files.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>zero_data.rm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+remove erroneous data with no count values. As such data are usually not
+needed for the subsequent data analysis they will be removed by default.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>duplicated.rm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+remove duplicated entries if <code>TRUE</code>. This may happen due to an erroneous
+produced BIN/BINX-file. This option compares only predecessor and successor.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fastForward</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if <code>TRUE</code> for a more efficient data processing only a list of <code>RLum.Analysis</code>
+objects is returned instead of a <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>show.record.number</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+shows record number of the imported record, for debugging usage only.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>txtProgressBar</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables <a href="../../utils/html/txtProgressBar.html">txtProgressBar</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>forced.VersionNumber</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+allows to cheat the version number check in the function by own values for
+cases where the BIN-file version is not supported.
+Can be provided as <code>list</code> if <code>file</code> is a <code>list</code>.
+</p>
+<p><strong>Note:</strong> The usage is at own risk, only supported BIN-file versions have been tested.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore.RECTYPE</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+this argument allows to ignore values in the byte 'RECTYPE' (BIN-file version 08),
+in case there are not documented or faulty set. In this case the corrupted records are skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+argument that is used if only a path is provided. The argument will than be
+passed to the function <a href="../../base/html/list.files.html">list.files</a> used internally to construct a <code>list</code>
+of wanted files</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function
+<a href="../../Luminescence/help/Risoe.BINfileData2RLum.Analysis.html">Risoe.BINfileData2RLum.Analysis</a>. Please note that any matching argument
+automatically sets <code>fastForward = TRUE</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The binary data file is parsed byte by byte following the data structure
+published in the Appendices of the Analyst manual p. 42.
+</p>
+<p>For the general BIN/BINX-file structure, the reader is referred to the
+Risø website: <a href="https://www.fysik.dtu.dk">https://www.fysik.dtu.dk</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object containing two
+slots:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>METADATA</code></td>
+<td>
+<p>A <a href="../../base/html/data.frame.html">data.frame</a> containing all variables stored in the BIN-file.</p>
+</td></tr>
+<tr valign="top"><td><code>DATA</code></td>
+<td>
+<p>A <a href="../../base/html/list.html">list</a> containing a numeric <a href="../../base/html/vector.html">vector</a> of the measured data.
+The ID corresponds to the record ID in METADATA.</p>
+</td></tr>
+</table>
+<p>If <code>fastForward = TRUE</code> a list of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object is returned. The
+internal coercing is done using the function <a href="../../Luminescence/help/Risoe.BINfileData2RLum.Analysis.html">Risoe.BINfileData2RLum.Analysis</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.16.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Fuchs, M.C., 2021. read_BIN2R(): Import Risø BIN/BINX-files into R. Function version 0.16.2. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function works for BIN/BINX-format versions 03, 04, 05, 06, 07 and 08. The
+version number depends on the used Sequence Editor.
+</p>
+<p><strong>ROI data sets introduced with BIN-file version 8 are not supported and skipped during import.</strong>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)<br />
+Margret C. Fuchs, HZDR Freiberg, (Germany) <br />
+based on information provided by Torben Lapp and Karsten Bracht Nielsen (Risø DTU, Denmark)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>DTU Nutech, 2016. The Sequence Editor, Users Manual, February, 2016.
+<a href="https://www.fysik.dtu.dk">https://www.fysik.dtu.dk</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>, <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>,
+<a href="../../base/help/readBin.html">base::readBin</a>, <a href="../../Luminescence/help/merge_Risoe.BINfileData.html">merge_Risoe.BINfileData</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+<a href="../../utils/help/txtProgressBar.html">utils::txtProgressBar</a>, <a href="../../base/html/list.files.html">list.files</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) import Risoe BIN-file to R (uncomment for usage)
+
+#FILE &lt;- file.choose()
+#temp &lt;- read_BIN2R(FILE)
+#temp
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

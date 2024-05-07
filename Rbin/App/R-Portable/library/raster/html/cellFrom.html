@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get cell, row, or column number</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cellFrom {raster}"><tr><td>cellFrom {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get cell, row, or column number</h2>
+
+<h3>Description</h3>
+
+<p>Get cell number(s) of a Raster* object from row and/or column numbers.   
+Cell numbers start at 1 in the upper left corner, and increase from left to right, and then from top to bottom.
+The last cell number equals the number of cells of the Raster* object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cellFromRowCol(object, row, col, ...)
+cellFromRowColCombine(object, row, col, ...)
+cellFromRow(object, rownr)
+cellFromCol(object, colnr)
+colFromX(object, x)
+rowFromY(object, y)
+cellFromXY(object, xy)
+cellFromLine(object, lns)
+cellFromPolygon(object, p, weights=FALSE)
+fourCellsFromXY(object, xy, duplicates=TRUE) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object (or a SpatialPixels* or SpatialGrid* object)</p>
+</td></tr>
+<tr valign="top"><td><code>colnr</code></td>
+<td>
+<p>column number; or vector of column numbers</p>
+</td></tr>
+<tr valign="top"><td><code>rownr</code></td>
+<td>
+<p>row number; or vector of row numbers</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>column number; or vector of column numbers</p>
+</td></tr>
+<tr valign="top"><td><code>row</code></td>
+<td>
+<p>row number; or vector of row numbers</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>x coordinate(s)</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>y coordinate(s)</p>
+</td></tr>
+<tr valign="top"><td><code>xy</code></td>
+<td>
+<p>matrix of x and y coordinates, or a SpatialPoints or SpatialPointsDataFrame object</p>
+</td></tr>
+<tr valign="top"><td><code>lns</code></td>
+<td>
+<p>SpatialLines object</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>SpatialPolygons object</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the fraction of each cell that is covered is also returned</p>
+</td></tr>
+<tr valign="top"><td><code>duplicates</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the same cell number can be returned twice (if the point in the middle of a division between two cells) or four times (if a point is in the center of a cell)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (none implemented)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>cellFromRowCol</code> returns the cell numbers obtained for each row / col number pair. In contrast, <code>cellFromRowColCombine</code> returns the cell numbers obtained by the combination of all row and column numbers supplied as arguments.
+</p>
+<p><code>fourCellsFromXY</code> returns the four cells that are nearest to a point (if the point falls on the raster). Also see <code><a href="../../raster/help/adjacent.html">adjacent</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>vector of row, column or cell numbers. <code>cellFromLine</code> and <code>cellFromPolygon</code> return a list, <code>fourCellsFromXY</code> returns a matrix. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/xyFromCell.html">xyFromCell</a>, <a href="../../raster/help/cellsFromExtent.html">cellsFromExtent</a>, <a href="../../raster/help/rowColFromCell.html">rowColFromCell</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=10, nrows=10)
+cellFromRowCol(r, 5, 5)
+cellFromRowCol(r, 1:2, 1:2)
+cellFromRowColCombine(r, 1:3, 1:2)
+cellFromCol(r, 1)
+cellFromRow(r, 1)
+
+colFromX(r, 0.5)
+rowFromY(r, 0.5)
+cellFromXY(r, cbind(c(0.5,5), c(15, 88)))
+fourCellsFromXY(r, cbind(c(0.5,5), c(15, 88)))
+
+cds1 &lt;- rbind(c(-180,-20), c(-160,5), c(-60, 0), c(-160,-60), c(-180,-20))
+cds2 &lt;- rbind(c(80,0), c(100,60), c(120,0), c(120,-55), c(80,0))
+pols &lt;- SpatialPolygons(list(Polygons(list(Polygon(cds1)), 1), Polygons(list(Polygon(cds2)), 2)))
+cellFromPolygon(r, pols)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

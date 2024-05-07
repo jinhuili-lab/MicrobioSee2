@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an Object for Null Model Algorithms</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for commsim {vegan}"><tr><td>commsim {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Create an Object for Null Model Algorithms
+</h2>
+
+<h3>Description</h3>
+
+<p>The <code>commsim</code> function can be used to feed Null Model algorithms into
+<code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code> analysis.
+The <code>make.commsim</code> function returns various predefined algorithm types
+(see Details).
+These functions represent low level interface for community null model
+infrastructure in <span class="pkg">vegan</span> with the intent of extensibility,
+and less emphasis on direct use by users.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+commsim(method, fun, binary, isSeq, mode)
+make.commsim(method)
+## S3 method for class 'commsim'
+print(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>method</code></td>
+<td>
+
+<p>Character, name of the algorithm.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+
+<p>A function. For possible formal arguments of this function
+see Details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>binary</code></td>
+<td>
+
+<p>Logical, if the algorithm applies to presence-absence or count matrices.
+</p>
+</td></tr>
+<tr valign="top"><td><code>isSeq</code></td>
+<td>
+
+<p>Logical, if the algorithm is sequential (needs burnin and thinning) or not.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+
+<p>Character, storage mode of the community matrix, either
+<code>"integer"</code> or <code>"double"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>An object of class <code>commsim</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>fun</code> must return an array of <code>dim(nr, nc, n)</code>,
+and must take some of the following arguments:
+</p>
+
+<ul>
+<li><p><code>x</code>: input matrix,
+</p>
+</li>
+<li><p><code>n</code>: number of permuted matrices in output,
+</p>
+</li>
+<li><p><code>nr</code>: number of rows,
+</p>
+</li>
+<li><p><code>nc</code>: number of columns,
+</p>
+</li>
+<li><p><code>rs</code>: vector of row sums,
+</p>
+</li>
+<li><p><code>cs</code>: vector of column sums,
+</p>
+</li>
+<li><p><code>rf</code>: vector of row frequencies (non-zero cells),
+</p>
+</li>
+<li><p><code>cf</code>: vector of column frequencies (non-zero cells),
+</p>
+</li>
+<li><p><code>s</code>: total sum of <code>x</code>,
+</p>
+</li>
+<li><p><code>fill</code>: matrix fill (non-zero cells),
+</p>
+</li>
+<li><p><code>thin</code>: thinning value for sequential algorithms,
+</p>
+</li>
+<li><p><code>...</code>: additional arguments.
+</p>
+</li></ul>
+
+<p>You can define your own null model, but
+several null model algorithm are pre-defined and can be called by
+their name. The predefined algorithms are described in detail in the
+following chapters. The binary null models produce matrices of zeros
+(absences) and ones (presences) also when input matrix is
+quantitative. There are two types of quantitative data: Counts are
+integers with a natural unit so that individuals can be shuffled, but
+abundances can have real (floating point) values and do not have a
+natural subunit for shuffling. All quantitative models can handle
+counts, but only some are able to handle real values. Some of the null
+models are sequential so that the next matrix is derived from the
+current one. This makes models dependent from previous models, and usually
+you must thin these matrices and study the sequences for stability:
+see <code>oecosimu</code> for details and instructions.
+</p>
+<p>See Examples for structural constraints imposed by each algorithm and
+defining your own null model.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>commsim</code> with elements
+corresponding to the arguments (<code>method</code>, <code>binary</code>,
+<code>isSeq</code>, <code>mode</code>, <code>fun</code>).
+</p>
+<p>If the input of <code>make.comsimm</code> is a <code>commsim</code> object,
+it is returned without further evaluation. If this is not the case,
+the character <code>method</code> argument is matched against
+predefined algorithm names. An error message is issued
+if none such is found. If the <code>method</code> argument is missing,
+the function returns names of all currently available
+null model algorithms as a character vector.
+</p>
+
+
+<h3>Binary null models</h3>
+
+<p>All binary null models preserve fill: number of presences or
+conversely the number of absences. The classic models may also
+preserve column (species) frequencies (<code>c0</code>) or row frequencies
+or species richness of each site (<code>r0</code>) and take into account
+commonness and rarity of species (<code>r1</code>, <code>r2</code>).  Algorithms
+<code>swap</code>, <code>tswap</code>, <code>curveball</code>, <code>quasiswap</code> and
+<code>backtracking</code> preserve both row and column frequencies. Three
+first ones are sequential but the two latter are non-sequential
+and produce independent matrices. Basic algorithms are reviewed by
+Wright et al. (1998).
+</p>
+
+<ul>
+<li><p><code>"r00"</code>: non-sequential algorithm for binary matrices
+that only  preserves the number of presences (fill).
+</p>
+</li>
+<li><p><code>"r0", "r0_old"</code>: non-sequential algorithm for binary
+matrices that preserves the site (row) frequencies.
+Methods <code>"r0"</code> and <code>"r0_old"</code> implement the
+same method, but use different random number sequences; use
+<code>"r0_old"</code> if you want to reproduce results in <span class="pkg">vegan
+2.0-0</span> or older using <code>commsimulator</code> (now deprecated).
+</p>
+</li>
+<li><p><code>"r1"</code>: non-sequential algorithm for binary matrices
+that preserves the site (row) frequencies, but uses column marginal
+frequencies as probabilities of selecting species.
+</p>
+</li>
+<li><p><code>"r2"</code>: non-sequential algorithm for binary matrices
+that preserves the site (row) frequencies, and uses squared column
+marginal frequencies as as probabilities of selecting species.
+</p>
+</li>
+<li><p><code>"c0"</code>: non-sequential algorithm for binary matrices
+that preserves species frequencies (Jonsson 2001). 
+</p>
+</li>
+<li><p><code>"swap"</code>: sequential algorithm for binary matrices that
+changes the matrix structure, but does not influence marginal sums
+(Gotelli &amp; Entsminger 2003).  This inspects <i>2 by
+    2</i> submatrices so long that a swap can be done.
+</p>
+</li>
+<li><p><code>"tswap"</code>: sequential algorithm for binary matrices.
+Same as the <code>"swap"</code> algorithm, but it tries a fixed
+number of times and performs zero to many swaps at one step
+(according to the thin argument in the call). This
+approach was suggested by Miklós &amp; Podani (2004)
+because they found that ordinary swap may lead to biased
+sequences, since some columns or rows are more easily swapped.
+</p>
+</li>
+<li><p><code>"curveball"</code>: sequential method for binary matrices that
+implements the &lsquo;Curveball&rsquo; algorithm of Strona et
+al. (2014). The algorithm selects two random rows and finds the set
+of unique species that occur only in one of these rows. The
+algorithm distributes the set of unique species to rows preserving
+the original row frequencies.  Zero to several species are swapped
+in one step, and usually the matrix is perturbed more strongly than
+in other sequential methods.
+</p>
+</li>
+<li><p><code>"quasiswap"</code>: non-sequential algorithm for binary
+matrices that implements a method where matrix is first filled
+honouring row and column totals, but with integers that may be
+larger than one.  Then the method inspects random
+<i>2 by 2</i> matrices and performs a quasiswap on
+them. In addition to ordinary swaps, quasiswap can reduce numbers
+above one to ones preserving marginal totals (Miklós &amp;
+Podani 2004). The method is non-sequential, but it accepts
+<code>thin</code> argument: the convergence is checked at every
+<code>thin</code> steps. This allows performing several ordinary swaps in
+addition to fill changing swaps which helps in reducing or removing
+the bias.
+</p>
+</li>
+<li><p><code>"greedyqswap"</code>: A greedy variant of quasiswap. In
+greedy step, one element of the <i>2 by 2</i> matrix is
+taken from <i>&gt; 1</i> elements. The greedy steps are biased, but
+the method can be thinned, and only the first of <code>thin</code>
+steps is greedy. Even modest thinning (say <code>thin = 20</code>)
+removes or reduces the bias, and <code>thin = 100</code> (1% greedy
+steps) looks completely safe and still speeds up simulation. The
+code is experimental and it is provided here for further scrutiny,
+and should be tested for bias before use.
+</p>
+</li>
+<li><p><code>"backtracking"</code>: non-sequential algorithm for binary
+matrices that implements a filling method with constraints both for
+row and column frequencies (Gotelli &amp; Entsminger 2001).  The matrix
+is first filled randomly, but typically row and column sums are
+reached before all incidences are filled in. After this begins
+&quot;backtracking&quot;, where some of the incidences are removed, and
+filling is started again, and this backtracking is done so many
+times that all incidences will be filled into matrix.  The results
+may be biased and should be inspected carefully before use.
+</p>
+</li></ul>
+
+
+
+<h3>Quantitative Models for Counts with Fixed Marginal Sums</h3>
+
+<p>These models shuffle individuals of counts and keep marginal sums
+fixed, but marginal frequencies are not preserved. Algorithm
+<code>r2dtable</code> uses standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function <code><a href="../../stats/html/r2dtable.html">r2dtable</a></code> also
+used for simulated <i>P</i>-values in <code><a href="../../stats/html/chisq.test.html">chisq.test</a></code>.
+Algorithm <code>quasiswap_count</code> uses the same, but preserves the
+original fill. Typically this means increasing numbers of zero cells
+and the result is zero-inflated with respect to <code>r2dtable</code>.
+</p>
+
+<ul>
+<li><p><code>"r2dtable"</code>: non-sequential algorithm for count
+matrices.  This algorithm keeps matrix sum and row/column sums
+constant. Based on <code><a href="../../stats/html/r2dtable.html">r2dtable</a></code>.
+</p>
+</li>
+<li><p><code>"quasiswap_count"</code>: non-sequential algorithm for count
+matrices.  This algorithm is similar as Carsten Dormann's
+<code><a href="../../bipartite/help/swap.web.html">swap.web</a></code> function in the package
+<span class="pkg">bipartite</span>. First, a random matrix is generated by the
+<code><a href="../../stats/html/r2dtable.html">r2dtable</a></code> function preserving row and column sums.  Then
+the original matrix fill is reconstructed by sequential steps to
+increase or decrease matrix fill in the random matrix. These steps
+are based on swapping <i>2 x 2</i> submatrices (see
+<code>"swap_count"</code> algorithm for details) to maintain row and
+column totals. 
+</p>
+</li></ul>
+
+
+
+<h3>Quantitative Swap Models</h3>
+
+<p>Quantitative swap models are similar to binary <code>swap</code>, but they
+swap the largest permissible value. The models in this section all
+maintain the fill and perform a quantitative swap only if this can
+be done without changing the fill. Single step of swap often changes
+the matrix very little. In particular, if cell counts are variable,
+high values change very slowly. Checking the chain stability and
+independence is even more crucial than in binary swap, and very
+strong <code>thin</code>ning is often needed. These models should never be
+used without inspecting their properties for the current data. These
+null models can also be defined using <code><a href="../../vegan/help/permatswap.html">permatswap</a></code>
+function.
+</p>
+
+<ul>
+<li><p><code>"swap_count"</code>: sequential algorithm for count matrices.
+This algorithm find <i>2 x 2</i> submatrices that can be
+swapped leaving column and row totals and fill unchanged. The
+algorithm finds the largest value in the submatrix that can be
+swapped (<i>d</i>). Swap means that the values in diagonal or
+antidiagonal positions are decreased by <i>d</i>, while remaining
+cells are increased by <i>d</i>. A swap is made only if fill does not
+change.  
+</p>
+</li>
+<li><p><code>"abuswap_r"</code>: sequential algorithm for count or
+nonnegative real valued matrices with fixed row frequencies (see
+also <code><a href="../../vegan/help/permatswap.html">permatswap</a></code>).  The algorithm is similar to
+<code>swap_count</code>, but uses different swap value for each row of the
+<i>2 x 2</i> submatrix. Each step changes the the
+corresponding column sums, but honours matrix fill, row sums, and
+row/column frequencies (Hardy 2008; randomization scheme 2x).
+</p>
+</li>
+<li><p><code>"abuswap_c"</code>: sequential algorithm for count or
+nonnegative real valued matrices with fixed column frequencies
+(see also <code><a href="../../vegan/help/permatswap.html">permatswap</a></code>).  The algorithm is similar as
+the previous one, but operates on columns.  Each step changes the
+the corresponding row sums, but honours matrix fill, column sums,
+and row/column frequencies (Hardy 2008; randomization scheme 3x).
+</p>
+</li></ul>
+ 
+
+<h3>Quantitative Swap and Shuffle Models</h3>
+
+<p>Quantitative Swap and Shuffle methods (<code>swsh</code> methods) preserve
+fill and column and row frequencies, and also either row or column
+sums. The methods first perform a binary <code>quasiswap</code> and then
+shuffle original quantitative data to non-zero cells. The
+<code>samp</code> methods shuffle original non-zero cell values and can be
+used also with non-integer data. The <code>both</code> methods
+redistribute individuals randomly among non-zero cells and can only
+be used with integer data. The shuffling is either free over the
+whole matrix, or within rows (<code>r</code> methods) or within columns
+(<code>c</code> methods). Shuffling within a row preserves row sums, and
+shuffling within a column preserves column sums. These models can
+also be defined with <code><a href="../../vegan/help/permatswap.html">permatswap</a></code>.
+</p>
+
+<ul>
+<li><p><code>"swsh_samp"</code>: non-sequential algorithm for
+quantitative data (either integer counts or non-integer values).
+Original non-zero values values are shuffled.
+</p>
+</li>
+<li><p><code>"swsh_both"</code>: non-sequential algorithm for count data.
+Individuals are shuffled freely over non-zero cells.
+</p>
+</li>
+<li><p><code>"swsh_samp_r"</code>: non-sequential algorithm for
+quantitative data.  Non-zero values (samples) are shuffled
+separately for each row.
+</p>
+</li>
+<li><p><code>"swsh_samp_c"</code>: non-sequential algorithm for
+quantitative data.  Non-zero values (samples) are shuffled
+separately for each column.
+</p>
+</li>
+<li><p><code>"swsh_both_r"</code>: non-sequential algorithm for count matrices.
+Individuals are shuffled freely for non-zero values within each row.
+</p>
+</li>
+<li><p><code>"swsh_both_c"</code>: non-sequential algorithm for count matrices.
+Individuals are shuffled freely for non-zero values with each column.
+</p>
+</li></ul>
+
+
+
+<h3>Quantitative Shuffle Methods</h3>
+
+<p>Quantitative shuffle methods are generalizations of binary models
+<code>r00</code>, <code>r0</code> and <code>c0</code>.  The <code>_ind</code> methods
+shuffle individuals so that the grand sum, row sum or column sums
+are preserved.  These methods are similar as <code>r2dtable</code> but
+with still slacker constraints on marginal sums. The <code>_samp</code>
+and <code>_both</code> methods first apply the corresponding binary model
+with similar restriction on marginal frequencies and then distribute
+quantitative values over non-zero cells. The <code>_samp</code> models
+shuffle original cell values and can therefore handle also non-count
+real values. The <code>_both</code> models shuffle individuals among
+non-zero values. The shuffling is over the whole matrix in
+<code>r00_</code>, and within row in <code>r0_</code> and within column in
+<code>c0_</code> in all cases.
+</p>
+
+<ul>
+<li><p><code>"r00_ind"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves grand sum and
+individuals are shuffled among cells of the matrix.
+</p>
+</li>
+<li><p><code>"r0_ind"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves row sums and
+individuals are shuffled among cells of each row of the matrix.
+</p>
+</li>
+<li><p><code>"c0_ind"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves column sums and
+individuals are shuffled among cells of each column of the matrix.
+</p>
+</li>
+<li><p><code>"r00_samp"</code>: non-sequential algorithm for count
+or nonnegative real valued (<code>mode = "double"</code>) matrices.
+This algorithm preserves grand sum and
+cells of the matrix are shuffled.
+</p>
+</li>
+<li><p><code>"r0_samp"</code>: non-sequential algorithm for count
+or nonnegative real valued (<code>mode = "double"</code>) matrices.
+This algorithm preserves row sums and
+cells within each row are shuffled.
+</p>
+</li>
+<li><p><code>"c0_samp"</code>: non-sequential algorithm for count
+or nonnegative real valued (<code>mode = "double"</code>) matrices.
+This algorithm preserves column sums constant and
+cells within each column are shuffled.
+</p>
+</li>
+<li><p><code>"r00_both"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves grand sum and
+cells and individuals among cells of the matrix are shuffled.
+</p>
+</li>
+<li><p><code>"r0_both"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves grand sum and
+cells and individuals among cells of each row are shuffled.
+</p>
+</li>
+<li><p><code>"c0_both"</code>: non-sequential algorithm for count matrices.
+This algorithm preserves grand sum and
+cells and individuals among cells of each column are shuffled.
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen and Peter Solymos
+</p>
+
+
+<h3>References</h3>
+
+<p>Gotelli, N.J. &amp; Entsminger, N.J. (2001). Swap and fill algorithms in
+null model analysis: rethinking the knight's tour. <em>Oecologia</em>
+129, 281&ndash;291.
+</p>
+<p>Gotelli, N.J. &amp; Entsminger, N.J. (2003). Swap algorithms in null model
+analysis. <em>Ecology</em> 84, 532&ndash;535.
+</p>
+<p>Hardy, O. J. (2008) Testing the spatial phylogenetic structure of
+local communities: statistical performances of different null models
+and test statistics on a locally neutral community.  <em>Journal of
+Ecology</em> 96, 914&ndash;926.
+</p>
+<p>Jonsson, B.G. (2001) A null model for randomization tests of
+nestedness in species assemblages. <em>Oecologia</em> 127, 309&ndash;313.
+</p>
+<p>Miklós, I. &amp; Podani, J. (2004). Randomization of
+presence-absence matrices: comments and new algorithms. <em>Ecology</em>
+85, 86&ndash;92.
+</p>
+<p>Patefield, W. M. (1981) Algorithm AS159.  An efficient method of
+generating r x c tables with given row and column totals.
+<em>Applied Statistics</em> 30, 91&ndash;97.
+</p>
+<p>Strona, G., Nappo, D., Boccacci, F., Fattorini, S. &amp;
+San-Miguel-Ayanz, J. (2014). A fast and unbiased procedure to
+randomize ecological binary matrices with fixed row and column
+totals. <em>Nature Communications</em> 5:4114
+doi: <a href="https://doi.org/10.1038/ncomms5114">10.1038/ncomms5114</a>.
+</p>
+<p>Wright, D.H., Patterson, B.D., Mikkelson, G.M., Cutler, A. &amp; Atmar,
+W. (1998). A comparative analysis of nested subset patterns of species
+composition. <em>Oecologia</em> 113, 1&ndash;20.
+</p>
+
+
+<h3>See Also</h3>
+
+<p> See <code><a href="../../vegan/help/permatfull.html">permatfull</a></code>, <code><a href="../../vegan/help/permatswap.html">permatswap</a></code> for
+alternative specification of quantitative null models. Function
+<code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> gives a higher-level interface for applying null
+models in hypothesis testing and analysis of models. Function
+<code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code> and <code><a href="../../vegan/help/simulate.nullmodel.html">simulate.nullmodel</a></code> are used to
+generate arrays of simulated null model matrices.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## write the r00 algorithm
+f &lt;- function(x, n, ...)
+    array(replicate(n, sample(x)), c(dim(x), n))
+(cs &lt;- commsim("r00", fun=f, binary=TRUE,
+    isSeq=FALSE, mode="integer"))
+
+## retrieving the sequential swap algorithm
+(cs &lt;- make.commsim("swap"))
+
+## feeding a commsim object as argument
+make.commsim(cs)
+
+## making the missing c1 model using r1 as a template
+##   non-sequential algorithm for binary matrices
+##   that preserves the species (column) frequencies,
+##   but uses row marginal frequencies
+##   as probabilities of selecting sites
+f &lt;- function (x, n, nr, nc, rs, cs, ...) {
+    out &lt;- array(0L, c(nr, nc, n))
+    J &lt;- seq_len(nc)
+    storage.mode(rs) &lt;- "double"
+    for (k in seq_len(n))
+        for (j in J)
+            out[sample.int(nr, cs[j], prob = rs), j, k] &lt;- 1L
+    out
+}
+cs &lt;- make.commsim("r1")
+cs$method &lt;- "c1"
+cs$fun &lt;- f
+
+## structural constraints
+diagfun &lt;- function(x, y) {
+    c(sum = sum(y) == sum(x),
+        fill = sum(y &gt; 0) == sum(x &gt; 0),
+        rowSums = all(rowSums(y) == rowSums(x)),
+        colSums = all(colSums(y) == colSums(x)),
+        rowFreq = all(rowSums(y &gt; 0) == rowSums(x &gt; 0)),
+        colFreq = all(colSums(y &gt; 0) == colSums(x &gt; 0)))
+}
+evalfun &lt;- function(meth, x, n) {
+    m &lt;- nullmodel(x, meth)
+    y &lt;- simulate(m, nsim=n)
+    out &lt;- rowMeans(sapply(1:dim(y)[3],
+        function(i) diagfun(attr(y, "data"), y[,,i])))
+    z &lt;- as.numeric(c(attr(y, "binary"), attr(y, "isSeq"),
+        attr(y, "mode") == "double"))
+    names(z) &lt;- c("binary", "isSeq", "double")
+    c(z, out)
+}
+x &lt;- matrix(rbinom(10*12, 1, 0.5)*rpois(10*12, 3), 12, 10)
+algos &lt;- make.commsim()
+a &lt;- t(sapply(algos, evalfun, x=x, n=10))
+print(as.table(ifelse(a==1,1,0)), zero.print = ".")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

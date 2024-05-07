@@ -1,0 +1,493 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coordinates of a ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for coords {pROC}"><tr><td>coords {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Coordinates of a ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the coordinates of the ROC curve at the
+specified point.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coords(...)
+## S3 method for class 'roc'
+coords(roc, x, input="threshold", ret=c("threshold",
+"specificity", "sensitivity"),
+as.list=FALSE, drop=TRUE, best.method=c("youden", "closest.topleft"),
+best.weights=c(1, 0.5), transpose = FALSE, as.matrix=FALSE, ...)
+## S3 method for class 'smooth.roc'
+coords(smooth.roc, x, input, ret=c("specificity",
+"sensitivity"), as.list=FALSE, drop=TRUE, best.method=c("youden",
+"closest.topleft"), best.weights=c(1, 0.5), transpose = FALSE,
+as.matrix=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, or a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>the coordinates to look for. Numeric (if so, their meaning is
+defined by the <code>input</code> argument) or one of &ldquo;all&rdquo; (all
+the points of the ROC curve), &ldquo;local maximas&rdquo; (the local
+maximas of the ROC curve) or &ldquo;best&rdquo; (see <code>best.method</code>
+argument). If missing or <code>NULL</code>, defaults to &ldquo;all&rdquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>input</code></td>
+<td>
+
+<p>If <code>x</code> is numeric, the kind of input coordinate (x).
+Typically one of &ldquo;threshold&rdquo;, &ldquo;specificity&rdquo; or 
+&ldquo;sensitivity&rdquo;, but can be any of the monotone coordinate available,
+see the &ldquo;Valid input&rdquo; column under &ldquo;Available coordinates&rdquo;.
+Can be shortened like <code>ret</code>. Defaults to &ldquo;threshold&rdquo;. Note
+that &ldquo;threshold&rdquo; is not allowed in <code>coords.smooth.roc</code> and that
+the argument is ignored when <code>x</code> is a character.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ret</code></td>
+<td>
+<p>The coordinates to return. See &ldquo;Available coordinates&rdquo;
+section below. Alternatively, the single value &ldquo;all&rdquo; can be used to return
+every coordinate available.
+</p>
+</td></tr>
+<tr valign="top"><td><code>as.list</code></td>
+<td>
+<p>DEPRECATED. If the returned object must be a list.
+Will be removed in a future version.
+</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>If <code>TRUE</code> the result is coerced to the lowest
+possible dimension, as per <a href="../../base/html/Extract.html">Extract</a>. By default only drops
+if <code>transpose = TRUE</code> and either <code>ret</code> or <code>x</code> is
+of length 1.
+</p>
+</td></tr>
+<tr valign="top"><td><code>best.method</code></td>
+<td>
+<p>if <code>x="best"</code>, the method to determine the
+best threshold. See details in the &lsquo;Best thresholds&rsquo; section.
+</p>
+</td></tr>
+<tr valign="top"><td><code>best.weights</code></td>
+<td>
+<p>if <code>x="best"</code>, the weights to determine the
+best threshold. See details in the &lsquo;Best thresholds&rsquo; section.
+</p>
+</td></tr>
+<tr valign="top"><td><code>transpose</code></td>
+<td>
+<p>whether
+to return the thresholds in columns (<code>TRUE</code>) or rows (<code>FALSE</code>).
+Since pROC 1.16 the default value is <code>FALSE</code>.
+See <a href="../../pROC/help/coords_transpose.html">coords_transpose</a> for more details the change.
+</p>
+</td></tr>
+<tr valign="top"><td><code>as.matrix</code></td>
+<td>
+<p>if <code>transpose</code> is <code>FALSE</code>, whether to return
+a <code><a href="../../base/html/matrix.html">matrix</a></code> (<code>TRUE</code>) or a <code><a href="../../base/html/data.frame.html">data.frame</a></code>
+(<code>FALSE</code>, the default). A <code>data.frame</code> is more convenient
+and flexible to use, but incurs a slight speed penalty. Consider
+setting this argument to <code>TRUE</code> if you are calling the function
+repeatedly.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed from other methods. Ignored.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function takes a &ldquo;roc&rdquo;  or &ldquo;smooth.roc&rdquo; object as
+first argument, on which the coordinates will be determined. The
+coordinates are defined by the <code>x</code> and <code>input</code>
+arguments. &ldquo;threshold&rdquo; coordinates cannot be determined in a
+smoothed ROC.
+</p>
+<p>If <code>input="threshold"</code>, the coordinates for the threshold
+are reported, even if the exact threshold do not define the ROC
+curve. The following convenience characters are allowed: &ldquo;all&rdquo;,
+&ldquo;local maximas&rdquo; and &ldquo;best&rdquo;. They will return all the
+thresholds, only the thresholds defining local maximas (upper angles of the
+ROC curve), or only the threshold(s) corresponding to the best sum of
+sensitivity + specificity respectively. Note that &ldquo;best&rdquo; can
+return more than one threshold. If <code>x</code> is a character, the
+coordinates are limited to the thresholds within the partial AUC if it
+has been defined, and not necessarily to the whole curve.
+</p>
+<p>For <code>input="specificity"</code> and <code>input="sensitivity"</code>,
+the function checks if the specificity or sensitivity is one of the
+points of the ROC curve (in <code>roc$sensitivities</code> or
+<code>roc$specificities</code>). More than one point may match (in
+<em>step</em> curves), then only the upper-left-most point coordinates
+are returned. Otherwise,
+the specificity and specificity of the point is interpolated and
+<code>NA</code> is returned as threshold.
+</p>
+<p>The coords function in this package is a generic, but it might be
+superseded by functions in other packages such as
+<span class="pkg">colorspace</span> or <span class="pkg">spatstat</span> if they are loaded after
+<span class="pkg">pROC</span>. In this case, call the <code>pROC::coords</code> explicitly.
+</p>
+
+
+<h4>Best thresholds</h4>
+
+<p>If <code>x="best"</code>, the <code>best.method</code> argument controls how the
+optimal threshold is determined.
+</p>
+
+<dl>
+<dt>&ldquo;youden&rdquo;</dt><dd>
+<p>Youden's J statistic (Youden, 1950) is employed. The optimal cut-off is the threshold
+that maximizes the distance to the identity (diagonal) line. Can
+be shortened to &ldquo;y&rdquo;.
+</p>
+<p>The optimality criterion is:
+</p>
+<p style="text-align: center;"><i>max(sensitivities + specificities)</i></p>
+
+</dd>
+<dt>&ldquo;closest.topleft&rdquo;</dt><dd>
+<p>The optimal threshold is the point closest to the top-left part of
+the plot with perfect sensitivity or specificity. Can be shortened
+to &ldquo;c&rdquo; or &ldquo;t&rdquo;.
+</p>
+<p>The optimality criterion is:
+</p>
+<p style="text-align: center;"><i>min((1 - sensitivities)^2 + (1- specificities)^2)</i></p>
+
+</dd>
+</dl>
+
+<p>In addition, weights can be supplied if false positive and false
+negative predictions are not equivalent: a numeric vector of length 2
+to the <code>best.weights</code> argument. The elements define
+</p>
+
+<ol>
+<li><p> the relative cost of of a false negative classification (as compared with a false positive classification)
+</p>
+</li>
+<li><p> the prevalence, or the proportion of cases in the population (<i>n.cases/(n.controls+n.cases)</i>). 
+</p>
+</li></ol>
+
+<p>The optimality criteria are modified as proposed by Perkins and Schisterman:
+</p>
+
+<dl>
+<dt>&ldquo;youden&rdquo;</dt><dd>
+<p style="text-align: center;"><i>max(sensitivities + r \times specificities)</i></p>
+
+</dd>
+<dt>&ldquo;closest.topleft&rdquo;</dt><dd>
+<p style="text-align: center;"><i>min((1 - sensitivities)^2 + r \times (1- specificities)^2)</i></p>
+
+</dd>
+</dl>
+
+<p>with
+</p>
+<p style="text-align: center;"><i>r = (1 - prevalence) / (cost * prevalence)</i></p>
+
+<p>By default, prevalence is 0.5 and cost is 1 so that no weight is
+applied in effect.
+</p>
+<p>Note that several thresholds might be equally optimal.
+</p>
+
+
+
+<h4>Available coordinates</h4>
+
+<p>The following table lists the coordinates that are available in the <code>ret</code>
+and <code>input</code> arguments.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+		Value </td><td style="text-align: left;"> Description </td><td style="text-align: left;"> Formula </td><td style="text-align: left;"> Synonyms </td><td style="text-align: left;"> Valid input </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>threshold</code> </td><td style="text-align: left;"> The threshold value </td><td style="text-align: left;"> - </td><td style="text-align: left;"> - </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>tn</code> </td><td style="text-align: left;"> True negative count </td><td style="text-align: left;"> - </td><td style="text-align: left;"> - </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>tp</code> </td><td style="text-align: left;"> True positive count </td><td style="text-align: left;"> - </td><td style="text-align: left;"> - </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>fn</code> </td><td style="text-align: left;"> False negative count </td><td style="text-align: left;"> - </td><td style="text-align: left;"> - </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>fp</code> </td><td style="text-align: left;"> False positive count </td><td style="text-align: left;"> - </td><td style="text-align: left;"> - </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>specificity</code> </td><td style="text-align: left;"> Specificity  </td><td style="text-align: left;"> tn / (tn + fp) </td><td style="text-align: left;"> tnr </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>sensitivity</code> </td><td style="text-align: left;"> Sensitivity </td><td style="text-align: left;"> tp / (tp + fn)  </td><td style="text-align: left;"> recall, tpr </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>accuracy</code> </td><td style="text-align: left;"> Accuracy </td><td style="text-align: left;">  (tp + tn) / N </td><td style="text-align: left;"> - </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>npv</code> </td><td style="text-align: left;"> Negative Predictive Value </td><td style="text-align: left;"> tn / (tn + fn) </td><td style="text-align: left;"> - </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>ppv</code> </td><td style="text-align: left;"> Positive Predictive Value </td><td style="text-align: left;"> tp / (tp + fp) </td><td style="text-align: left;"> precision </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>precision</code> </td><td style="text-align: left;"> Precision </td><td style="text-align: left;"> tp / (tp + fp) </td><td style="text-align: left;"> ppv </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>recall</code> </td><td style="text-align: left;"> Recall </td><td style="text-align: left;"> tp / (tp + fn) </td><td style="text-align: left;"> sensitivity, tpr </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>tpr</code> </td><td style="text-align: left;"> True Positive Rate </td><td style="text-align: left;"> tp / (tp + fn) </td><td style="text-align: left;"> sensitivity, recall </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>fpr</code> </td><td style="text-align: left;"> False Positive Rate </td><td style="text-align: left;"> fp / (tn + fp) </td><td style="text-align: left;"> 1-specificity </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>tnr</code> </td><td style="text-align: left;"> True Negative Rate </td><td style="text-align: left;"> tn / (tn + fp) </td><td style="text-align: left;"> specificity </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>fnr</code> </td><td style="text-align: left;"> False Negative Rate </td><td style="text-align: left;"> fn / (tp + fn) </td><td style="text-align: left;"> 1-sensitivity </td><td style="text-align: left;"> Yes </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>fdr</code> </td><td style="text-align: left;"> False Discovery Rate </td><td style="text-align: left;"> fp / (tp + fp) </td><td style="text-align: left;"> 1-ppv </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>youden</code> </td><td style="text-align: left;"> Youden Index </td><td style="text-align: left;"> 
+			se + r * sp
+			</td><td style="text-align: left;"> - </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+		<code>closest.topleft</code> </td><td style="text-align: left;"> Distance to the top left corner of the ROC space </td><td style="text-align: left;"> 
+			- ((1 - se)^2 + r * (1 - sp)^2)
+			</td><td style="text-align: left;"> - </td><td style="text-align: left;"> No </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+	</td>
+</tr>
+
+</table>
+
+<p>The value &ldquo;threshold&rdquo; is not allowed in <code>coords.smooth.roc</code>.
+</p>
+<p>Values can be shortenend (for example to &ldquo;thr&rdquo;, &ldquo;sens&rdquo; and &ldquo;spec&rdquo;, or even to
+&ldquo;se&rdquo;, &ldquo;sp&rdquo; or &ldquo;1-np&rdquo;). In addition, some values can be prefixed with
+<code>1-</code> to get their complement:
+<code>1-specificity</code>, <code>1-sensitivity</code>, <code>1-accuracy</code>, <code>1-npv</code>, <code>1-ppv</code>.
+</p>
+<p>The values <code>npe</code> and <code>ppe</code> are automatically replaced with
+<code>1-npv</code> and <code>1-ppv</code>, respectively (and will therefore not appear
+as is in the output, but as <code>1-npv</code> and <code>1-ppv</code> instead).
+These must be used verbatim in ROC curves with <code>percent=TRUE</code> 
+(ie. &ldquo;100-ppv&rdquo; is never accepted).
+</p>
+<p>The &ldquo;youden&rdquo; and &ldquo;closest.topleft&rdquo; are weighted with <code>r</code>, 
+according to the value of the <code>best.weights</code> argument. See the 
+&ldquo;Best thresholds&rdquo; section above for more details.
+</p>
+<p>For <code>ret</code>, the single value &ldquo;all&rdquo; can be used to return
+every coordinate available.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>Depending on the length of <code>x</code> and <code>as.list</code> argument.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+	</td><td style="text-align: left;">
+	length(x) == 1 or length(ret) == 1 </td><td style="text-align: left;">
+	length(x) &gt; 1 or length(ret) &gt; 1 or drop == FALSE
+	</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	
+    <code>as.list=TRUE</code> </td><td style="text-align: left;">
+	a list of the length of, in the order of, and named after, <code>ret</code>. </td><td style="text-align: left;">
+	a list of the length of, and named after, <code>x</code>. Each element of this list is a list of the length of, in the order of, and named after, <code>ret</code>. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+
+    <code>as.list=FALSE</code>  </td><td style="text-align: left;">
+	a numeric vector of the length of, in the order of, and named after, <code>ret</code> (if <code>length(x) == 1</code>)
+	or a numeric vector of the length of, in the order of, and named after, <code>x</code> (if <code>length(ret) == 1</code>.</td><td style="text-align: left;">
+	a numeric matrix with one row for each <code>ret</code> and one column for each <code>x</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+<p>In all cases if <code>input="specificity"</code> or <code>input="sensitivity"</code>
+and interpolation was required, threshold is returned as <code>NA</code>.
+</p>
+<p>Note that if giving a character as <code>x</code> (&ldquo;all&rdquo;,
+&ldquo;local maximas&rdquo; or &ldquo;best&rdquo;), you cannot predict the
+dimension of the return value unless <code>drop=FALSE</code>. Even
+&ldquo;best&rdquo; may return more than one value (for example if the ROC
+curve is below the identity line, both extreme points). 
+</p>
+<p><code>coords</code> may also return <code>NULL</code> when there a partial area is
+defined but no point of the ROC curve falls within the region.
+</p>
+
+
+<h3>References</h3>
+
+<p>Neil J. Perkins, Enrique F. Schisterman (2006) &ldquo;The Inconsistency of &quot;Optimal&quot; Cutpoints
+Obtained using Two Criteria based on the Receiver Operating
+Characteristic Curve&rdquo;. <em>American Journal of Epidemiology</em>
+<b>163</b>(7), 670&ndash;675. DOI: doi: <a href="https://doi.org/10.1093/aje/kwj063">10.1093/aje/kwj063</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>W. J. Youden (1950) &ldquo;Index for rating diagnostic tests&rdquo;. <em>Cancer</em>, 
+<b>3</b>, 32&ndash;35. DOI: 
+doi: <a href="https://doi.org/10.1002/1097-0142(1950)3:1%3C32::AID-CNCR2820030106%3E3.0.CO;2-3">10.1002/1097-0142(1950)3:1&lt;32::AID-CNCR2820030106&gt;3.0.CO;2-3</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/ci.coords.html">ci.coords</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a ROC curve:
+data(aSAH)
+roc.s100b &lt;- roc(aSAH$outcome, aSAH$s100b, percent = TRUE)
+
+# Get the coordinates of S100B threshold 0.55
+coords(roc.s100b, 0.55, transpose = FALSE)
+
+# Get the coordinates at 50% sensitivity
+coords(roc=roc.s100b, x=50, input="sensitivity", transpose = FALSE)
+# Can be abbreviated:
+coords(roc.s100b, 50, "se", transpose = FALSE)
+
+# Works with smoothed ROC curves
+coords(smooth(roc.s100b), 90, "specificity", transpose = FALSE)
+
+# Get the sensitivities for all thresholds
+cc &lt;- coords(roc.s100b, "all", ret="sensitivity", transpose = FALSE)
+print(cc$sensitivity)
+
+# Get the best threshold
+coords(roc.s100b, "best", ret="threshold", transpose = FALSE)
+
+# Get the best threshold according to different methods
+roc.ndka &lt;- roc(aSAH$outcome, aSAH$ndka, percent=TRUE)
+coords(roc.ndka, "best", ret="threshold", transpose = FALSE, 
+       best.method="youden") # default
+coords(roc.ndka, "best", ret="threshold", transpose = FALSE, 
+       best.method="closest.topleft")
+
+# and with different weights
+coords(roc.ndka, "best", ret="threshold", transpose = FALSE, 
+       best.method="youden", best.weights=c(50, 0.2))
+coords(roc.ndka, "best", ret="threshold", transpose = FALSE, 
+       best.method="closest.topleft", best.weights=c(5, 0.2))
+       
+# This is available with the plot.roc function too:
+plot(roc.ndka, print.thres="best", print.thres.best.method="youden",
+                                 print.thres.best.weights=c(50, 0.2)) 
+
+# Return more values:
+coords(roc.s100b, "best", ret=c("threshold", "specificity", "sensitivity", "accuracy",
+                           "precision", "recall"), transpose = FALSE)
+
+# Return all values
+coords(roc.s100b, "best", ret = "all", transpose = FALSE)
+                           
+# You can use coords to plot for instance a sensitivity + specificity vs. cut-off diagram
+plot(specificity + sensitivity ~ threshold, 
+     coords(roc.ndka, "all", transpose = FALSE), 
+     type = "l", log="x", 
+     subset = is.finite(threshold))
+
+# Plot the Precision-Recall curve
+plot(precision ~ recall, 
+     coords(roc.ndka, "all", ret = c("recall", "precision"), transpose = FALSE),
+     type="l", ylim = c(0, 100))
+
+# Alternatively plot the curve with TPR and FPR instead of SE/SP 
+# (identical curve, only the axis change)
+plot(tpr ~ fpr, 
+     coords(roc.ndka, "all", ret = c("tpr", "fpr"), transpose = FALSE),
+     type="l")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

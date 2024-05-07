@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Project Hook</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for project_hook {golem}"><tr><td>project_hook {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Project Hook</h2>
+
+<h3>Description</h3>
+
+<p>Project hooks allow to define a function run just after <code>{golem}</code>
+project creation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+project_hook(path, package_name, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Name of the folder to create the package in.
+This will also be used as the package name.</p>
+</td></tr>
+<tr valign="top"><td><code>package_name</code></td>
+<td>
+<p>Package name to use. By default, golem uses
+<code>basename(path)</code>. If <code>path == '.'</code> &amp; <code>package_name</code> is
+not explicitly set, then <code>basename(getwd())</code> will be used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed from <code>create_golem()</code>, unused in the default
+function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Used for side effects
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (interactive()) {
+  my_proj &lt;- function(...) {
+    unlink("dev/", TRUE, TRUE)
+  }
+  create_golem("ici", project_template = my_proj)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

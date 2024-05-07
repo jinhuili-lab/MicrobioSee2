@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gain and offset of values on file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Gain and offset {raster}"><tr><td>Gain and offset {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gain and offset of values on file</h2>
+
+<h3>Description</h3>
+
+<p>These functions can be used to get or set the gain and offset parameters used to transform values when reading them from a file. The gain and offset parameters are applied to the raw values using the formula below: 
+</p>
+<p><code>value &lt;- value * gain + offset</code>
+</p>
+<p>The default value for gain is 1 and for offset is 0. 'gain' is sometimes referred to as 'scale'.
+</p>
+<p>Note that setting gain and/or offset are intended to be used with values that are stored in a file. For a Raster* object with values in memory, assigning gain or offset values will lead to the inmediate computation of new values; in such cases it would be clearer to use <code><a href="../help/Arith-methods.html">Arith-methods</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gain(x)
+gain(x) &lt;- value
+offs(x)
+offs(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Single numeric value </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object or numeric value(s)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+gain(r)
+offs(r)
+r[1505:1510]
+gain(r) &lt;- 10
+offs(r) &lt;- 5
+r[1505:1510]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

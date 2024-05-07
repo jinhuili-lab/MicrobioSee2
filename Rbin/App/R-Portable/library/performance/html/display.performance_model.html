@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print tables in different output formats</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for display.performance_model {performance}"><tr><td>display.performance_model {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print tables in different output formats</h2>
+
+<h3>Description</h3>
+
+<p>Prints tables (i.e. data frame) in different output formats.
+<code>print_md()</code> is a alias for <code>display(format = "markdown")</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'performance_model'
+display(object, format = "markdown", digits = 2, caption = NULL, ...)
+
+## S3 method for class 'performance_model'
+print_md(
+  x,
+  digits = 2,
+  caption = "Indices of model performance",
+  layout = "horizontal",
+  ...
+)
+
+## S3 method for class 'compare_performance'
+print_md(
+  x,
+  digits = 2,
+  caption = "Comparison of Model Performance Indices",
+  layout = "horizontal",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+<p>An object returned by <code><a href="../../performance/help/model_performance.html">model_performance()</a></code> or
+or <code><a href="../../performance/help/compare_performance.html">compare_performance()</a></code>.
+or its summary.</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>String, indicating the output format. Currently, only
+<code>"markdown"</code> is supported.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of decimal places.</p>
+</td></tr>
+<tr valign="top"><td><code>caption</code></td>
+<td>
+<p>Table caption as string. If <code>NULL</code>, no table caption is printed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>layout</code></td>
+<td>
+<p>Table layout (can be either <code>"horizontal"</code> or <code>"vertical"</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>display()</code> is useful when the table-output from functions,
+which is usually printed as formatted text-table to console, should
+be formatted for pretty table-rendering in markdown documents, or if
+knitted from rmarkdown to PDF or Word files. See
+<a href="https://easystats.github.io/parameters/articles/model_parameters_formatting.html">vignette</a>
+for examples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character vector. If <code>format = "markdown"</code>, the return value
+will be a character vector in markdown-table format.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(mpg ~ wt + cyl, data = mtcars)
+mp &lt;- model_performance(model)
+display(mp)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

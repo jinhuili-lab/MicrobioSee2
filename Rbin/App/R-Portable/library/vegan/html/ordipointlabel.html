@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ordination Plots with Points and Optimized Locations for Text</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordipointlabel {vegan}"><tr><td>ordipointlabel {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Ordination Plots with Points and Optimized Locations for Text </h2>
+
+<h3>Description</h3>
+
+<p>The function <code>ordipointlabel</code> produces ordination plots with
+points and text label to the points. The points are in the exact
+location given by the ordination, but the function tries to optimize
+the location of the text labels to minimize overplotting text. The
+function may be useful with moderately crowded ordination plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordipointlabel(x, display = c("sites", "species"), choices = c(1, 2),
+   col = c(1, 2),  pch = c("o", "+"), font = c(1, 1), 
+   cex = c(0.8, 0.8), add = FALSE, select, ...)
+
+## S3 method for class 'ordipointlabel'
+plot(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>For <code>ordipointlabel()</code> a result object from an
+ordination function. For <code>plot.ordipointlabel</code> an object
+resulting from a call to <code>ordipointlabel()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Scores displayed in the plot. </p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes shown. </p>
+</td></tr>
+<tr valign="top"><td><code>col, pch, font, cex</code></td>
+<td>
+<p>Colours, point types, font style and
+character expansion for each kind of scores displayed in the
+plot. These should be vectors of the same length as the number of
+items in <code>display</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p> Add to an existing plot. </p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Items to be displayed.  This can either be a logical
+vector which is <code>TRUE</code> for displayed items or a vector of indices
+of displayed items. <code>select</code> is only used if a single set of
+scores is being plotted (i.e. <code>length(display) == 1</code>),
+otherwise it is ignored and a warning issued. If a logical vector is
+used, it must have the same length as the scores plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../graphics/html/points.html">points</a></code> and
+<code><a href="../../graphics/html/text.html">text</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function uses simulated annealing (<code><a href="../../stats/html/optim.html">optim</a></code>,
+<code>method = "SANN"</code>) to optimize the location of the text labels
+to the points. There are eight possible locations: up, down, sides
+and corners. There is a weak preference to text right above the
+point, and a weak avoidance of corner positions. The exact locations
+and the goodness of solution varies between runs, and there is no
+guarantee of finding the global optimum. The optimization can take a
+long time in difficult cases with a high number of potential
+overlaps. Several sets of scores can be displayed in one plot. 
+</p>
+<p>The function is modelled after <code><a href="../../maptools/help/pointLabel.html">pointLabel</a></code> in
+<span class="pkg">maptools</span> package (which has chained dependencies of <code>S4</code>
+packages). 
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns invisibly an object of class
+<code>ordipointlabel</code> with items <code>xy</code> for coordinates of
+points, <code>labels</code> for coordinates of labels, items <code>pch</code>,
+<code>cex</code> and <code>font</code> for graphical parameters of each point or
+label. In addition, it returns the result of <code><a href="../../stats/html/optim.html">optim</a></code> as
+an attribute <code>"optim"</code>. The unit of overlap is the area
+of character <code>"m"</code>, and with variable <code>cex</code> it is the
+smallest alternative.
+</p>
+<p>There is a <code>plot</code> method based on <code>orditkplot</code> but which
+does not alter nor reset the graphical parameters via <code>par</code>.
+</p>
+<p>The result object from <code>ordipointlabel</code> inherits from
+<code><a href="../../vegan/help/orditkplot.html">orditkplot</a></code>, and can also be replotted with its
+<code>plot</code> method. It may be possible to further edit the result
+object with <code><a href="../../vegan/help/orditkplot.html">orditkplot</a></code>, but for good results it is
+necessary that the points span the whole horizontal axis without empty
+margins. 
+</p>
+
+
+<h3>Note</h3>
+
+ 
+<p>The function is designed for ordination graphics, and the
+optimization works properly with plots of isometric aspect ratio.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p> See <code><a href="../../maptools/help/pointLabel.html">pointLabel</a></code> for references. </p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../maptools/help/pointLabel.html">pointLabel</a></code> for the model
+implementation, and <code><a href="../../stats/html/optim.html">optim</a></code> for the optimization. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+ord &lt;- cca(dune)
+plt &lt;- ordipointlabel(ord)
+
+## set scaling - should be no warnings!
+ordipointlabel(ord, scaling = "sites")
+
+## plot then add
+plot(ord, scaling = "symmetric", type = "n")
+ordipointlabel(ord, display = "species", scaling = "symm", add = TRUE)
+ordipointlabel(ord, display = "sites", scaling = "symm", add = TRUE)
+
+## redraw plot without rerunning SANN optimisation
+plot(plt)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Permutation test of multivariate homogeneity of groups...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for permutest.betadisper {vegan}"><tr><td>permutest.betadisper {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Permutation test of multivariate homogeneity of groups dispersions
+(variances)</h2>
+
+<h3>Description</h3>
+
+<p>Implements a permutation-based test of multivariate homogeneity of
+group dispersions (variances) for the results of a call to
+<code><a href="../../vegan/help/betadisper.html">betadisper</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'betadisper'
+permutest(x, pairwise = FALSE,
+          permutations = 999,
+          parallel = getOption("mc.cores"),
+          ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class <code>"betadisper"</code>, the result of a
+call to <code>betadisper</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pairwise</code></td>
+<td>
+<p>logical; perform pairwise comparisons of group means?</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>To test if one or more groups is more variable than the others, ANOVA
+of the distances to group centroids can be performed and parametric
+theory used to interpret the significance of F. An alternative is to
+use a permutation test. <code>permutest.betadisper</code> permutes model
+residuals to generate a permutation distribution of F under the Null
+hypothesis of no difference in dispersion between groups.
+</p>
+<p>Pairwise comparisons of group mean dispersions can be performed by
+setting argument <code>pairwise</code> to <code>TRUE</code>. A classical t test
+is performed on the pairwise group dispersions. This is combined with a
+permutation test based on the t statistic calculated on pairwise group
+dispersions. An alternative to the classical comparison of group
+dispersions, is to calculate Tukey's Honest Significant Differences
+between groups, via <code><a href="../../vegan/help/TukeyHSD.betadisper.html">TukeyHSD.betadisper</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>permutest.betadisper</code> returns a list of class
+<code>"permutest.betadisper"</code> with the following components:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>tab</code></td>
+<td>
+<p>the ANOVA table which is an object inheriting from class
+<code>"data.frame"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pairwise</code></td>
+<td>
+<p>a list with components <code>observed</code> and
+<code>permuted</code> containing the observed and permuted p-values for
+pairwise comparisons of group mean distances (dispersions or variances).</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>character; the levels of the grouping factor.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list, the result of a call to
+<code><a href="../../permute/html/how.html">how</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin L. Simpson</p>
+
+
+<h3>References</h3>
+
+<p>Anderson, M.J. (2006) Distance-based tests for homogeneity of
+multivariate dispersions. <em>Biometrics</em> <strong>62(1)</strong>, 245&ndash;253.
+</p>
+<p>Anderson, M.J., Ellingsen, K.E. &amp; McArdle, B.H. (2006) Multivariate
+dispersion as a measure of beta diversity. <em>Ecology Letters</em>
+<strong>9(6)</strong>, 683&ndash;693.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For the main fitting function see <code><a href="../../vegan/help/betadisper.html">betadisper</a></code>. For
+an alternative approach to determining which groups are more variable,
+see <code><a href="../../vegan/help/TukeyHSD.betadisper.html">TukeyHSD.betadisper</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+
+## Bray-Curtis distances between samples
+dis &lt;- vegdist(varespec)
+
+## First 16 sites grazed, remaining 8 sites ungrazed
+groups &lt;- factor(c(rep(1,16), rep(2,8)), labels = c("grazed","ungrazed"))
+
+## Calculate multivariate dispersions
+mod &lt;- betadisper(dis, groups)
+mod
+
+## Perform test
+anova(mod)
+
+## Permutation test for F
+pmod &lt;- permutest(mod, permutations = 99, pairwise = TRUE)
+
+## Tukey's Honest Significant Differences
+(mod.HSD &lt;- TukeyHSD(mod))
+plot(mod.HSD)
+
+## Has permustats() method
+pstat &lt;- permustats(pmod)
+densityplot(pstat, scales = list(x = list(relation = "free")))
+qqmath(pstat, scales = list(relation = "free"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

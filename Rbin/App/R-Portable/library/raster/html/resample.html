@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Resample a Raster object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for resample {raster}"><tr><td>resample {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resample a Raster object</h2>
+
+<h3>Description</h3>
+
+<p>Resample transfers values between non matching Raster* objects (in terms of origin and resolution). Use <code><a href="../help/projectRaster.html">projectRaster</a></code> if the target has a different coordinate reference system (projection).
+</p>
+<p>Before using resample, you may want to consider using these other functions instead: <code><a href="../help/aggregate.html">aggregate</a></code>, <code><a href="../help/disaggregate.html">disaggregate</a></code>, <code><a href="../help/crop.html">crop</a></code>, <code><a href="../help/extend.html">extend</a></code>, <code><a href="../help/merge.html">merge</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,Raster'
+resample(x, y, method="bilinear", filename="", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object to be resampled</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object with parameters that <code>x</code> should be resampled to</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>method used to compute values for the new RasterLayer, should be <code>"bilinear"</code> for bilinear interpolation, or <code>"ngb"</code> for using the nearest neighbor</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional) </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick object 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Joe Cheng</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/aggregate.html">aggregate</a></code>, <code><a href="../help/disaggregate.html">disaggregate</a></code>, <code><a href="../help/crop.html">crop</a></code>, <code><a href="../help/extend.html">extend</a></code>, <code><a href="../help/merge.html">merge</a></code>, <code><a href="../help/projectRaster.html">projectRaster</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=3, ncol=3)
+values(r) &lt;- 1:ncell(r)
+s &lt;- raster(nrow=10, ncol=10)
+s &lt;- resample(r, s, method='bilinear')
+#par(mfrow=c(1,2))
+#plot(r)
+#plot(s)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

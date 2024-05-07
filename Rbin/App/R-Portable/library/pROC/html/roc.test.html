@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare two ROC curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for roc.test {pROC}"><tr><td>roc.test {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compare two ROC curves
+</h2>
+
+<h3>Description</h3>
+
+<p>This function compares two correlated (or paired) or uncorrelated (unpaired)
+ROC curves. Delong and bootstrap methods test for a difference in the
+(partial) AUC of the ROC curves. The Venkatraman method tests if the two
+curves are perfectly superposed. The sensitivity and specificity methods
+test if the sensitivity (respectively specificity) of the ROC curves are
+different at the given level of specificity (respectively sensitivity).
+Several syntaxes are available: two object of class roc (which can be AUC
+or smoothed ROC), or either three vectors (response, predictor1, predictor2)
+or a response vector and a matrix or data.frame with two columns
+(predictors).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+# roc.test(...)
+## S3 method for class 'roc'
+roc.test(roc1, roc2, method=c("delong", "bootstrap",
+"venkatraman", "sensitivity", "specificity"), sensitivity = NULL,
+specificity = NULL, alternative = c("two.sided", "less", "greater"),
+paired=NULL, reuse.auc=TRUE, boot.n=2000, boot.stratified=TRUE,
+ties.method="first", progress=getOption("pROCProgress")$name,
+parallel=FALSE, conf.level=0.95, ...)
+## S3 method for class 'auc'
+roc.test(roc1, roc2, ...)
+## S3 method for class 'smooth.roc'
+roc.test(roc1, roc2, ...)
+## S3 method for class 'formula'
+roc.test(formula, data, ...)
+## Default S3 method:
+roc.test(response, predictor1, predictor2=NULL,
+na.rm=TRUE, method=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc1, roc2</code></td>
+<td>
+<p>the two ROC curves to compare. Either
+&ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo;, &ldquo;<a href="../../pROC/help/auc.html">auc</a>&rdquo; or
+&ldquo;<a href="../../pROC/help/smooth.roc.html">smooth.roc</a>&rdquo; objects (types can be mixed).
+</p>
+</td></tr>
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>a vector or factor, as for the <a href="../../pROC/help/roc.html">roc</a> function.</p>
+</td></tr>
+<tr valign="top"><td><code>predictor1</code></td>
+<td>
+<p>a numeric or ordered vector as for the <a href="../../pROC/help/roc.html">roc</a> function, or
+a matrix or data.frame with predictors two colums.</p>
+</td></tr>
+<tr valign="top"><td><code>predictor2</code></td>
+<td>
+<p>only if predictor1 was a vector, the second
+predictor as a numeric vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula of the type response~predictor1+predictor2.
+Additional arguments  <code>data</code>, <code>subset</code> and <code>na.action</code>
+are supported, see <code><a href="../../stats/html/model.frame.html">model.frame</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a matrix or data.frame containing the variables in the
+formula. See <code><a href="../../stats/html/model.frame.html">model.frame</a></code> for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>if <code>TRUE</code>, the observations with <code>NA</code> values
+will be removed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method to use, either &ldquo;delong&rdquo;,
+&ldquo;bootstrap&rdquo; or &ldquo;venkatraman&rdquo;. The first letter is sufficient. If omitted, the
+appropriate method is selected as explained in details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sensitivity, specificity</code></td>
+<td>
+<p>if <code>method="sensitivity"</code> or
+<code>method="specificity"</code>, the respective level where the test
+must be assessed as a numeric of length 1. </p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>specifies the alternative hypothesis. Either of
+&ldquo;two.sided&rdquo;, &ldquo;less&rdquo; or &ldquo;greater&rdquo;. The first letter is
+sufficient. Default: &ldquo;two.sided&rdquo;. Only &ldquo;two.sided&rdquo; is available
+with <code>method="venkatraman"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>a logical indicating whether you want a paired roc.test.
+If <code>NULL</code>, the paired status will be auto-detected by <code><a href="../../pROC/help/are.paired.html">are.paired</a></code>.
+If <code>TRUE</code> but the paired status cannot be assessed by <code><a href="../../pROC/help/are.paired.html">are.paired</a></code>
+will produce an error.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc</code></td>
+<td>
+<p>if <code>TRUE</code> (default) and the &ldquo;roc&rdquo; objects
+contain an &ldquo;auc&rdquo; field, re-use these specifications for the
+test. See the <em>AUC specification</em> section for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>for <code>method="bootstrap"</code> and <code>method="venkatraman"</code> only: the number of
+bootstrap replicates or permutations. Default: <var>2000</var>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>for <code>method="bootstrap"</code> only:
+should the bootstrap be stratified (same number 
+of cases/controls in each replicate than in the original sample) or
+not. Ignored with <code>method="venkatraman"</code>. Default: <var>TRUE</var>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ties.method</code></td>
+<td>
+<p>for <code>method="venkatraman"</code> only: argument for
+<code><a href="../../base/html/rank.html">rank</a></code> specifying how ties are handled. Defaults to
+&ldquo;first&rdquo; as described in the paper.
+</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>the name of progress bar to display. Typically
+&ldquo;none&rdquo;, &ldquo;win&rdquo;, &ldquo;tk&rdquo; or &ldquo;text&rdquo; (see the
+<code>name</code> argument to <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code> for
+more information), but a list as returned by <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code>
+is also accepted. See also the &ldquo;Progress bars&rdquo; section of
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>if TRUE, the bootstrap is processed in parallel, using 
+parallel backend provided by plyr (foreach).
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf.level</code></td>
+<td>
+<p>a numeric scalar between 0 and 1 (non-inclusive) which
+species the confidence level to use for any calculated CI's.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code><a href="../../pROC/help/roc.html">roc</a></code> and <code>roc.test.roc</code>
+when calling <code>roc.test.default</code> or <code>roc.test.formula</code>.
+Arguments for <code><a href="../../pROC/help/auc.html">auc</a></code>,
+and <code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code> (only <code>char</code> and <code>style</code>)
+if applicable.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function compares two ROC curves. It is typically called with the two <a href="../../pROC/help/roc.html">roc</a> objects to
+compare. <code>roc.test.default</code> is provided as a convenience
+method and creates two <a href="../../pROC/help/roc.html">roc</a> objects before calling
+<code>roc.test.roc</code>.
+</p>
+<p>Three methods are available: &ldquo;delong&rdquo;, &ldquo;bootstrap&rdquo; and &ldquo;venkatraman&rdquo; (see
+&ldquo;Computational details&rdquo; section below). &ldquo;delong&rdquo; and
+&ldquo;bootstrap&rdquo; are tests over the AUC whereas &ldquo;venkatraman&rdquo;
+compares the the ROC curves themselves.
+</p>
+<p>Default is to use &ldquo;delong&rdquo; method except for comparison of partial AUC, smoothed
+curves and curves with different <code>direction</code>, where <code>bootstrap</code>
+is used. Using &ldquo;delong&rdquo; for partial AUC and smoothed ROCs is not
+supported in pROC and result in an error.
+It is spurious to use &ldquo;delong&rdquo; for <code><a href="../../pROC/help/roc.html">roc</a></code> with different
+<code>direction</code> (a warning is issued but the spurious comparison is
+enforced). &ldquo;venkatraman&rdquo;'s test cannot be employed to compare smoothed
+ROC curves, or curves with partial AUC specifications. In addition,
+and comparison of ROC curves with different
+<code>direction</code> should be used with care (a warning is produced as well).
+</p>
+<p>If <code>alternative="two.sided"</code>, a two-sided test for difference in AUC is performed. If
+<code>alternative="less"</code>, the alternative is that the AUC of roc1 is
+smaller than the AUC of roc2. For <code>method="venkatraman"</code>, only
+&ldquo;two.sided&rdquo; test is available.
+</p>
+<p>If the <code>paired</code> argument is not provided, the <code><a href="../../pROC/help/are.paired.html">are.paired</a></code> function is
+employed to detect the paired status of the ROC curves. It will test if the original <code>response</code> is
+identical between the two ROC curves (this is always the case if the call is made with 
+<code>roc.test.default</code>). This detection is unlikely to raise false positives, but
+this possibility cannot be excluded entierly. It would require equal sample sizes
+and <code>response</code> values and order in both ROC curves. If it happens to you, use <code>paired=FALSE</code>.
+If you know the ROC curves are paired you can pass <code>paired=TRUE</code>. However this is
+useless as it will be tested anyway.
+</p>
+<p>For <a href="../../pROC/help/smooth.roc.html">smoothed ROC curves</a>, smoothing is performed again at each
+bootstrap replicate with the parameters originally provided.
+If a density smoothing was performed with user-provided
+<code>density.cases</code> or <code>density.controls</code> the bootstrap cannot
+be performed and an error is issued.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class &quot;htest&quot; with following content:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>p.value</code></td>
+<td>
+<p>the p-value of the test.</p>
+</td></tr>
+<tr valign="top"><td><code>statistic</code></td>
+<td>
+<p>the value of the Z (<code>method="delong"</code>) or D
+(<code>method="bootstrap"</code>) statistics.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf.int</code></td>
+<td>
+<p>the confidence interval of the test (currently only returned for the paired DeLong's test). Has an attribute <code>conf.level</code> specifiying the level of the test.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>the alternative hypothesis.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the character string &ldquo;DeLong's test for two
+correlated ROC curves&rdquo; (if <code>method="delong"</code>) or
+&ldquo;Bootstrap test for two correlated ROC curves&rdquo; (if
+<code>method="bootstrap"</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>null.value</code></td>
+<td>
+<p>the expected value of the statistic under the null
+hypothesis, that is 0.</p>
+</td></tr>
+<tr valign="top"><td><code>estimate</code></td>
+<td>
+<p>the AUC in the two ROC curves.</p>
+</td></tr>
+<tr valign="top"><td><code>data.name</code></td>
+<td>
+<p>the names of the data that was used.</p>
+</td></tr>
+<tr valign="top"><td><code>parameter</code></td>
+<td>
+<p>for <code>method="bootstrap"</code> only: the values of the
+<code>boot.n</code> and <code>boot.stratified</code> arguments.
+</p>
+</td></tr>
+</table>
+
+
+<h3>AUC specification</h3>
+
+<p>The comparison of the AUC of the ROC curves needs a specification of the
+AUC. The specification is defined by:
+</p>
+
+<ol>
+<li><p> the &ldquo;auc&rdquo; field in the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects if
+<code>reuse.auc</code> is set to <code>TRUE</code> (default)
+</p>
+</li>
+<li><p> passing the specification to <code><a href="../../pROC/help/auc.html">auc</a></code> with ...
+(arguments <code>partial.auc</code>, <code>partial.auc.correct</code> and
+<code>partial.auc.focus</code>). In this case, you must ensure either that
+the <code><a href="../../pROC/help/roc.html">roc</a></code> object do not contain an <code>auc</code> field (if
+you called <code><a href="../../pROC/help/roc.html">roc</a></code> with <code>auc=FALSE</code>), or set
+<code>reuse.auc=FALSE</code>.
+</p>
+</li></ol>
+
+<p>If <code>reuse.auc=FALSE</code> the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always
+be called with <code>...</code> to determine the specification, even if
+the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do contain an <code>auc</code> field.
+</p>
+<p>As well if the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do not contain an <code>auc</code>
+field, the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always be called with
+<code>...</code> to determine the specification.
+</p>
+<p>The AUC specification is ignored in the Venkatraman test.
+</p>
+<p>Warning: if the roc object passed to roc.test contains an <code>auc</code>
+field and <code>reuse.auc=TRUE</code>, <a href="../../pROC/help/auc.html">auc</a> is not called and
+arguments such as <code>partial.auc</code> are silently ignored.
+</p>
+
+
+<h3>Computation details</h3>
+
+<p>With <code>method="bootstrap"</code>, the processing is done as follow:
+</p>
+
+<ol>
+<li> <p><code>boot.n</code> bootstrap replicates are drawn from the
+data. If <code>boot.stratified</code> is <var>TRUE</var>, each replicate contains
+exactly the same number of controls and cases than the original
+sample, otherwise if <var>FALSE</var> the numbers can vary.
+</p>
+</li>
+<li><p> for each bootstrap replicate, the AUC of the two ROC curves
+are computed and the difference is stored.
+</p>
+</li>
+<li><p> The following formula is used:
+</p>
+<p style="text-align: center;"><i>D=(AUC1-AUC2)/s</i></p>
+
+<p>where s is the standard deviation of
+the bootstrap differences and AUC1 and AUC2 the AUC of the two
+(original) ROC curves.
+</p>
+</li>
+<li> <p><var>D</var> is then compared to the normal distribution,
+according to the value of <code>alternative</code>.
+</p>
+</li></ol>
+
+<p>See also the Bootstrap section in
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+<p>With <code>method="delong"</code>, the processing is done as described in
+DeLong <em>et al.</em> (1988) for paired ROC curves, using the algorithm
+of Sun and Xu (2014). Only comparison of
+two ROC curves is implemented. The method has been extended for
+unpaired ROC curves where the p-value is computed with an unpaired
+t-test with unequal sample size and unequal variance, with 
+</p>
+<p style="text-align: center;"><i>
+    D=(V^r(&theta;^r) - V^s(&theta;^s)) / sqrt(S^r + S^s)
+  </i></p>
+
+<p>With <code>method="venkatraman"</code>, the processing is done as described
+in Venkatraman and Begg (1996) (for paired ROC curves) and Venkatraman
+(2000) (for unpaired ROC curves) with <code>boot.n</code> permutation of
+sample ranks (with ties breaking). For consistency reasons, the same argument <code>boot.n</code> as
+in bootstrap defines the number of permutations to execute,
+even though no bootstrap is performed.
+</p>
+<p>For <code>method="specificity"</code>, the test assesses if the sensitivity of
+the ROC curves are different at the level of specificity given by the
+<code>specificity</code> argument, which must be a numeric of length 1. Bootstrap is employed as with <code>method="bootstrap"</code>
+and <code>boot.n</code> and <code>boot.stratified</code> are available. This is
+identical to the test proposed by Pepe <em>et al.</em> (2009).
+The <code>method="sensitivity"</code> is very similar, but assesses if the specificity of
+the ROC curves are different at the level of sensitivity given by the
+<code>sensitivity</code> argument.
+</p>
+
+
+<h3>Warnings</h3>
+
+<p>If &ldquo;auc&rdquo; specifications are different in both roc objects, the
+warning &ldquo;Different AUC specifications in the ROC
+curves. Enforcing the inconsistency, but unexpected results may be
+produced.&rdquo; is issued. Unexpected results may be produced.
+</p>
+<p>If one or both ROC curves are &ldquo;smooth.roc&rdquo; objects with
+different smoothing specifications, the warning 
+&ldquo;Different smoothing parameters in the ROC curves. Enforcing
+the inconsistency, but unexpected results may be produced.&rdquo; is issued.
+This warning can be benign, especially if ROC curves were generated
+with <code>roc(..., smooth=TRUE)</code> with different arguments to other
+functions (such as plot), or if you really want to compare two ROC
+curves smoothed differently.
+</p>
+<p>If <code>method="venkatraman"</code>, and <code>alternative</code> is
+&ldquo;less&rdquo; or &ldquo;greater&rdquo;, the warning &ldquo;Only two-sided
+tests are available for Venkatraman. Performing two-sided test instead.&rdquo;
+is produced and a two tailed test is performed.
+</p>
+<p>Both DeLong and Venkatraman's test ignores the direction of the ROC curve so that if two
+ROC curves have a different differ in the value of
+<code>direction</code>, the warning &ldquo;(DeLong|Venkatraman)'s test should not be
+applied to ROC curves with different directions.&rdquo; is
+printed. However, the spurious test is enforced.
+</p>
+<p>If <code>boot.stratified=FALSE</code> and the sample has a large imbalance between
+cases and controls, it could happen that one or more of the replicates
+contains no case or control observation, or that there are not enough
+points for smoothing, producing a <code>NA</code> area.
+The warning &ldquo;NA value(s) produced during bootstrap were ignored.&rdquo;
+will be issued and the observation will be ignored. If you have a large
+imbalance in your sample, it could be safer to keep
+<code>boot.stratified=TRUE</code>.
+</p>
+<p>When both ROC curves have an <code><a href="../../pROC/help/auc.html">auc</a></code> of 1 (or 100%), their variances and covariance will always be null,
+and therefore the p-value will always be 1. This is true for both &ldquo;delong&rdquo;, &ldquo;bootstrap&rdquo; and 
+&ldquo;venkatraman&rdquo; methods. This result is misleading, as the variances and covariance are of course not null.
+A <code><a href="../../base/html/warning.html">warning</a></code> will be displayed to inform of this condition, and of the misleading output.
+</p>
+
+
+<h3>Errors</h3>
+
+<p>An error will also occur if you give a <code>predictor2</code> when
+<code>predictor1</code> is a <code><a href="../../base/html/matrix.html">matrix</a></code> or a
+<code><a href="../../base/html/data.frame.html">data.frame</a></code>, if <code>predictor1</code> has more than two
+columns, or if you do not give a <code>predictor2</code> when
+<code>predictor1</code> is a vector.
+</p>
+<p>If <code>density.cases</code> and <code>density.controls</code> were provided
+for smoothing, the error &ldquo;Cannot compute the statistic on ROC
+curves smoothed with density.controls and density.cases.&rdquo; is
+issued.
+</p>
+<p>If <code>method="venkatraman"</code> and one of the ROC curves is smoothed,
+the error &ldquo;Using Venkatraman's test for smoothed ROCs is not
+supported.&rdquo; is produced.
+</p>
+<p>With <code>method="specificity"</code>, the error &ldquo;Argument
+'specificity' must be numeric of length 1 for a specificity test.&rdquo;
+is given unless the specificity argument is specified as a numeric of
+length 1. The &ldquo;Argument 'sensitivity' must be numeric of length
+1 for a sensitivity test.&rdquo; message is given for
+<code>method="sensitivity"</code> under similar conditions.
+</p>
+
+
+<h3>Acknowledgements</h3>
+
+<p>We would like to thank E. S. Venkatraman and Colin B. Begg for their
+support in the implementation of their test.
+</p>
+
+
+<h3>References</h3>
+
+<p>Elisabeth R. DeLong, David M. DeLong and Daniel L. Clarke-Pearson
+(1988) &ldquo;Comparing the areas under two or more correlated receiver
+operating characteristic curves: a nonparametric
+approach&rdquo;. <em>Biometrics</em> <b>44</b>, 837&ndash;845.
+</p>
+<p>James A. Hanley and Barbara J. McNeil (1982) &ldquo;The meaning and use of
+the area under a receiver operating characteristic (ROC)
+curve&rdquo;. <em>Radiology</em> <b>143</b>, 29&ndash;36.
+</p>
+<p>Margaret Pepe, Gary Longton and Holly Janes (2009) &ldquo;Estimation and
+Comparison of Receiver Operating Characteristic Curves&rdquo;. <em>The
+Stata journal</em> <b>9</b>, 1.
+</p>
+<p>Xavier Robin, Natacha Turck, Jean-Charles Sanchez and Markus Müller
+(2009) &ldquo;Combination of protein biomarkers&rdquo;. <em>useR! 2009</em>, Rennes.
+<a href="https://www.r-project.org/nosvn/conferences/useR-2009/abstracts/user_author.html">https://www.r-project.org/nosvn/conferences/useR-2009/abstracts/user_author.html</a>
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>Xu Sun and Weichao Xu (2014) &ldquo;Fast Implementation of DeLongs Algorithm for Comparing
+the Areas Under Correlated Receiver Operating Characteristic Curves&rdquo;. <em>IEEE Signal
+Processing Letters</em>, <b>21</b>, 1389&ndash;1393. 
+DOI: doi: <a href="https://doi.org/10.1109/LSP.2014.2337313">10.1109/LSP.2014.2337313</a>.
+</p>
+<p>E. S. Venkatraman and Colin B. Begg (1996) &ldquo;A distribution-free
+procedure for comparing receiver operating characteristic curves from
+a paired experiment&rdquo;. <em>Biometrika</em> <b>83</b>, 835&ndash;848.
+DOI: doi: <a href="https://doi.org/10.1093/biomet/83.4.835">10.1093/biomet/83.4.835</a>.
+</p>
+<p>E. S. Venkatraman (2000) &ldquo;A Permutation Test to Compare Receiver
+Operating Characteristic Curves&rdquo;. <em>Biometrics</em> <b>56</b>,
+1134&ndash;1138. DOI: doi: <a href="https://doi.org/10.1111/j.0006-341X.2000.01134.x">10.1111/j.0006-341X.2000.01134.x</a>.
+</p>
+<p>Hadley Wickham (2011) &ldquo;The Split-Apply-Combine Strategy for Data Analysis&rdquo;. <em>Journal of Statistical Software</em>, <b>40</b>, 1&ndash;29.
+URL: <a href="https://www.jstatsoft.org/v40/i01">www.jstatsoft.org/v40/i01</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/power.roc.test.html">power.roc.test</a></code>
+</p>
+<p>CRAN package <span class="pkg">plyr</span>, employed in this function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Basic example with 2 roc objects
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+roc2 &lt;- roc(aSAH$outcome, aSAH$wfns)
+roc.test(roc1, roc2)
+
+## Not run: 
+# The latter used Delong's test. To use bootstrap test:
+roc.test(roc1, roc2, method="bootstrap")
+# Increase boot.n for a more precise p-value:
+roc.test(roc1, roc2, method="bootstrap", boot.n=10000)
+
+## End(Not run)
+
+# Alternative syntaxes
+roc.test(aSAH$outcome, aSAH$s100b, aSAH$wfns)
+roc.test(aSAH$outcome, data.frame(aSAH$s100b, aSAH$wfns))
+
+# If we had a good a priori reason to think that wfns gives a
+# better classification than s100b (in other words, AUC of roc1
+# should be lower than AUC of roc2):
+roc.test(roc1, roc2, alternative="less")
+
+## Not run: 
+# Comparison can be done on smoothed ROCs
+# Smoothing is re-done at each iteration, and execution is slow
+roc.test(smooth(roc1), smooth(roc2))
+# or:
+roc.test(aSAH$outcome, aSAH$s100b, aSAH$wfns, smooth=TRUE, boot.n=100)
+
+## End(Not run)
+# or from an AUC (no smoothing)
+roc.test(auc(roc1), roc2)
+
+## Not run: 
+# Comparison of partial AUC:
+roc3 &lt;- roc(aSAH$outcome, aSAH$s100b, partial.auc=c(1, 0.8), partial.auc.focus="se")
+roc4 &lt;- roc(aSAH$outcome, aSAH$wfns, partial.auc=c(1, 0.8), partial.auc.focus="se")
+roc.test(roc3, roc4)
+# This is strictly equivalent to:
+roc.test(roc3, roc4, method="bootstrap")
+
+# Alternatively, we could re-use roc1 and roc2 to get the same result:
+roc.test(roc1, roc2, reuse.auc=FALSE, partial.auc=c(1, 0.8), partial.auc.focus="se")
+
+# Comparison on specificity and sensitivity
+roc.test(roc1, roc2, method="specificity", specificity=0.9)
+roc.test(roc1, roc2, method="sensitivity", sensitivity=0.9)
+
+## End(Not run)
+
+# Spurious use of DeLong's test with different direction:
+roc5 &lt;- roc(aSAH$outcome, aSAH$s100b, direction="&lt;")
+roc6 &lt;- roc(aSAH$outcome, aSAH$s100b, direction="&gt;")
+roc.test(roc5, roc6, method="delong")
+
+## Not run: 
+# Comparisons of the ROC curves
+roc.test(roc1, roc2, method="venkatraman")
+
+## End(Not run)
+
+# Unpaired tests
+roc7 &lt;- roc(aSAH$outcome, aSAH$s100b)
+# artificially create an roc8 unpaired with roc7
+roc8 &lt;- roc(aSAH$outcome[1:100], aSAH$s100b[1:100])
+## Not run: 
+roc.test(roc7, roc8, paired=FALSE, method="delong")
+roc.test(roc7, roc8, paired=FALSE, method="bootstrap")
+roc.test(roc7, roc8, paired=FALSE, method="venkatraman")
+roc.test(roc7, roc8, paired=FALSE, method="specificity", specificity=0.9)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

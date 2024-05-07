@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Flatten a parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for flatten_pd {styler}"><tr><td>flatten_pd {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Flatten a parse table</h2>
+
+<h3>Description</h3>
+
+<p>Flattens a parse table if certain tokens occur in this table or its child,
+either flattening from left or from right. If one of <code>token</code> is present in
+<code>pd_nested</code>  and one of <code>child_token</code> is present in one of the children next
+to <code>token</code> in <code>pd_nested</code>, the nested parse table is flattened. Otherwise, it
+is returned unmodified.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+flatten_pd(pd_nested, token, child_token = token, left = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>token</code></td>
+<td>
+<p>A character vector with tokens of which at least one has to
+occur in <code>pd_nested</code> in order to flatten it.</p>
+</td></tr>
+<tr valign="top"><td><code>child_token</code></td>
+<td>
+<p>A character vector of tokens of which at least one has to
+occur in the child in order to flatten the parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>left</code></td>
+<td>
+<p>Flag that indicates whether the parse table should be flattened
+from left or from right.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

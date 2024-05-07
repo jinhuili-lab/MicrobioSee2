@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gather the information to create a Gantt chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get.gantt.info {plotrix}"><tr><td>get.gantt.info {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gather the information to create a Gantt chart</h2>
+
+<h3>Description</h3>
+
+<p>Allows the user to enter the information for a Gantt chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ get.gantt.info(format="%Y/%m/%d")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>the format to be used in entering dates/times. Defaults to
+YYYY/mm/dd. See <a href="../../base/html/strptime.html">strptime</a> for various date/time formats.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The list used to create the chart. Elements are:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>The task labels to be displayed at the left of the chart.</p>
+</td></tr>
+<tr valign="top"><td><code>starts,ends</code></td>
+<td>
+<p>The task starts/ends as POSIXct dates/times.</p>
+</td></tr>
+<tr valign="top"><td><code>priorities</code></td>
+<td>
+<p>Task priorities as integers in the range 1 to 10.
+There can be less than 10 levels of priority, but if priorities do
+not start at 1 (assumed to be the highest), the default priority colors
+will be calculated from 1.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/gantt.chart.html">gantt.chart</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ cat("Enter task times using HH:MM (hour:minute) format\n")
+ get.gantt.info("%H:%M")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

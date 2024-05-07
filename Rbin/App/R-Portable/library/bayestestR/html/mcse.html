@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Monte-Carlo Standard Error (MCSE)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mcse {bayestestR}"><tr><td>mcse {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Monte-Carlo Standard Error (MCSE)</h2>
+
+<h3>Description</h3>
+
+<p>This function returns the Monte Carlo Standard Error (MCSE).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mcse(model, ...)
+
+## S3 method for class 'stanreg'
+mcse(
+  model,
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <code>stanreg</code>, <code>stanfit</code>, <code>brmsfit</code>, <code>blavaan</code>, or <code>MCMCglmm</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Monte Carlo Standard Error (MCSE)</strong> is another measure of
+accuracy of the chains. It is defined as standard deviation of the chains
+divided by their effective sample size (the formula for <code>mcse()</code> is
+from Kruschke 2015, p. 187). The MCSE &ldquo;provides a quantitative
+suggestion of how big the estimation noise is&rdquo;.
+</p>
+
+
+<h3>References</h3>
+
+<p>Kruschke, J. (2014). Doing Bayesian data analysis: A tutorial with R, JAGS, and Stan. Academic Press.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+library(bayestestR)
+
+model &lt;- suppressWarnings(
+  rstanarm::stan_glm(mpg ~ wt + am, data = mtcars, chains = 1, refresh = 0)
+)
+mcse(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

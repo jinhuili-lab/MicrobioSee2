@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The number of rows affected</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbGetRowsAffected {DBI}"><tr><td>dbGetRowsAffected {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The number of rows affected</h2>
+
+<h3>Description</h3>
+
+<p>This method returns the number of rows that were added, deleted, or updated
+by a data manipulation statement.
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+dbGetRowsAffected(res, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>An object inheriting from <a href="../../DBI/help/DBIResult-class.html">DBIResult</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed on to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>dbGetRowsAffected()</code> returns a scalar number (integer or numeric),
+the number of rows affected by a data manipulation statement
+issued with <code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement()</a></code>.
+The value is available directly after the call
+and does not change after calling <code><a href="../../DBI/help/dbFetch.html">dbFetch()</a></code>.
+<code>NA_integer_</code> or <code>NA_numeric_</code> are allowed if the number of rows affected is not known.
+</p>
+<p>For queries issued with <code><a href="../../DBI/help/dbSendQuery.html">dbSendQuery()</a></code>,
+zero is returned before
+and after the call to <code>dbFetch()</code>.
+<code>NA</code> values are not allowed.
+</p>
+
+
+<h3>The command execution flow</h3>
+
+<p>This section gives a complete overview over the flow
+for the execution of SQL statements that have side effects
+such as stored procedures, inserting or deleting data,
+or setting database or connection options.
+Most of this flow, except repeated calling of <code><a href="../../DBI/help/dbBindArrow.html">dbBindArrow()</a></code>,
+is implemented by <code><a href="../../DBI/help/dbExecute.html">dbExecute()</a></code>, which should be sufficient
+for non-parameterized queries.
+This flow requires an active connection established by <code><a href="../../DBI/help/dbConnect.html">dbConnect()</a></code>.
+See also <code>vignette("dbi-advanced")</code> for a walkthrough.
+</p>
+
+<ol>
+<li><p> Use <code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement()</a></code> to create a result set object of class
+<a href="../../DBI/help/DBIResult-class.html">DBIResult</a>.
+For some queries you need to pass <code>immediate = TRUE</code>.
+</p>
+</li>
+<li><p> Optionally, bind query parameters with<code><a href="../../DBI/help/dbBind.html">dbBind()</a></code> or <code><a href="../../DBI/help/dbBindArrow.html">dbBindArrow()</a></code>.
+This is required only if the query contains placeholders
+such as <code style="white-space: pre;">?</code> or <code style="white-space: pre;">$1</code>, depending on the database backend.
+</p>
+</li>
+<li><p> Optionally, use <code><a href="../../DBI/help/dbGetRowsAffected.html">dbGetRowsAffected()</a></code> to retrieve the number
+of rows affected by the query.
+</p>
+</li>
+<li><p> Repeat the last two steps as necessary.
+</p>
+</li>
+<li><p> Use <code><a href="../../DBI/help/dbClearResult.html">dbClearResult()</a></code> to clean up the result set object.
+This step is mandatory even if no rows have been fetched
+or if an error has occurred during the processing.
+It is good practice to use <code><a href="../../base/html/on.exit.html">on.exit()</a></code> or <code><a href="../../withr/help/defer.html">withr::defer()</a></code>
+to ensure that this step is always executed.
+</p>
+</li></ol>
+
+
+
+<h3>Failure modes</h3>
+
+<p>Attempting to get the rows affected for a result set cleared with
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult()</a></code> gives an error.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other DBIResult generics: 
+<code><a href="../../DBI/help/DBIResult-class.html">DBIResult-class</a></code>,
+<code><a href="../../DBI/help/dbBind.html">dbBind</a>()</code>,
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult</a>()</code>,
+<code><a href="../../DBI/help/dbColumnInfo.html">dbColumnInfo</a>()</code>,
+<code><a href="../../DBI/help/dbFetch.html">dbFetch</a>()</code>,
+<code><a href="../../DBI/help/dbGetInfo.html">dbGetInfo</a>()</code>,
+<code><a href="../../DBI/help/dbGetRowCount.html">dbGetRowCount</a>()</code>,
+<code><a href="../../DBI/help/dbGetStatement.html">dbGetStatement</a>()</code>,
+<code><a href="../../DBI/help/dbHasCompleted.html">dbHasCompleted</a>()</code>,
+<code><a href="../../DBI/help/dbIsReadOnly.html">dbIsReadOnly</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteLiteral.html">dbQuoteLiteral</a>()</code>,
+<code><a href="../../DBI/help/dbQuoteString.html">dbQuoteString</a>()</code>
+</p>
+<p>Other command execution generics: 
+<code><a href="../../DBI/help/dbBind.html">dbBind</a>()</code>,
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult</a>()</code>,
+<code><a href="../../DBI/help/dbExecute.html">dbExecute</a>()</code>,
+<code><a href="../../DBI/help/dbSendStatement.html">dbSendStatement</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+con &lt;- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbWriteTable(con, "mtcars", mtcars)
+rs &lt;- dbSendStatement(con, "DELETE FROM mtcars")
+dbGetRowsAffected(rs)
+nrow(mtcars)
+
+dbClearResult(rs)
+dbDisconnect(con)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

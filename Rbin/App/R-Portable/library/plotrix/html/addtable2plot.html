@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add a table of values to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for addtable2plot {plotrix}"><tr><td>addtable2plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add a table of values to a plot</h2>
+
+<h3>Description</h3>
+
+<p>Displays a table of values at a user-specified position on an existing plot</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ addtable2plot(x,y=NULL,table,lwd=par("lwd"),bty="n",bg=par("bg"),
+  cex=1,xjust=0,yjust=1,xpad=0.1,ypad=0.5,box.col=par("fg"),text.col=par("fg"),
+  display.colnames=TRUE,display.rownames=FALSE,hlines=FALSE,vlines=FALSE,
+  title=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Either x and y coordinates to locate the table or an
+<span class="samp">xy.coords</span> object.</p>
+</td></tr>
+<tr valign="top"><td><code>table</code></td>
+<td>
+<p>A data frame, matrix or similar object that will be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>The line width for the box and horizontal dividers.</p>
+</td></tr>
+<tr valign="top"><td><code>bty</code></td>
+<td>
+<p>Whether to draw a box around the table (&quot;o&quot;) or not (&quot;n&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>The background color for the table.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for the table.</p>
+</td></tr>
+<tr valign="top"><td><code>xjust,yjust</code></td>
+<td>
+<p>Positioning for the table relative to <span class="samp">x,y</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>xpad,ypad</code></td>
+<td>
+<p>The amount of padding around text in the cells as a
+proportion of the maximum width and height of the strings in each column.</p>
+</td></tr>
+<tr valign="top"><td><code>box.col</code></td>
+<td>
+<p>The color for the box and lines.</p>
+</td></tr>
+<tr valign="top"><td><code>text.col</code></td>
+<td>
+<p>The color for the text.</p>
+</td></tr>
+<tr valign="top"><td><code>display.colnames</code></td>
+<td>
+<p>Whether to display the column names in the table.</p>
+</td></tr>
+<tr valign="top"><td><code>display.rownames</code></td>
+<td>
+<p>Whether to display the row names in the table.</p>
+</td></tr>
+<tr valign="top"><td><code>hlines</code></td>
+<td>
+<p>Whether to draw horizontal lines between each row of the table.</p>
+</td></tr>
+<tr valign="top"><td><code>vlines</code></td>
+<td>
+<p>Whether to draw vertical lines between each column of the table.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Optional title placed over the table.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">addtable2plot</span> displays the values in <span class="samp">table</span> at a position in user
+coordinates specified by <span class="samp">x,y</span>. The two justification arguments,
+<span class="samp">xjust</span> and <span class="samp">yjust</span> are the same as in the <span class="samp">legend</span> function,
+and <span class="samp">addtable2plot</span> has been programmed to be as similar to <span class="samp">legend</span>
+as possible. The function now accepts the positional arguments such as
+&quot;topright&quot; if passed as <span class="samp">x</span>. The defaults are those that were most
+popular in scientific journals at the time of programming.
+</p>
+<p>If <span class="samp">bg</span> is a matrix of colors of the same dimensions as <span class="samp">x</span>, those
+colors will be the backgrounds of the cells. The default is no background color.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Original by John Kane, mods by Jim Lemon and Brian Diggs. Thanks to
+Andrija Djurovic for asking for the individual cell colors and Gabor Grothendieck
+for alerting me to the problem of widely varying column widths.</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/legend.html">legend</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ testdf &lt;- data.frame(Before = c(10, 7, 5, 9), During = c(8, 6, 2, 5),
+  After = c(5, 3, 4, 3))
+ rownames(testdf) &lt;- c("Red", "Green", "Blue", "Lightblue")
+ barp(testdf, main = "Test addtable2plot", ylab = "Value",
+  names.arg = colnames(testdf), col = 2:5)
+ # show most of the options including the christmas tree colors
+ abg &lt;- matrix(c(2, 3, 5, 6, 7, 8), nrow=4, ncol=3)
+ addtable2plot(2, 8, testdf, bty = "o", display.rownames = TRUE, hlines = TRUE,
+  vlines = TRUE, title = "The table", bg = abg)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

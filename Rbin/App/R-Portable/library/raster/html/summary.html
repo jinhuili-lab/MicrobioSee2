@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Summary {raster}"><tr><td>Summary {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summary</h2>
+
+<h3>Description</h3>
+
+<p>Summarize a Raster* object. A sample is used for very large files. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+summary(object, maxsamp=100000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>maxsamp</code></td>
+<td>
+<p>positive integer. Sample size used for large datasets</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>matrix with (an estimate of) the median, minimum and maximum values, the first and third quartiles, and the number of cells with <code>NA</code> values</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/cellStats.html">cellStats</a>, link[raster]{quantile}</code>  </p>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

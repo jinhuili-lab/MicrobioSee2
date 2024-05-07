@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Radar coordinate system</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for coord_radar {see}"><tr><td>coord_radar {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Radar coordinate system</h2>
+
+<h3>Description</h3>
+
+<p>Add a radar coordinate system useful for radar charts.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+coord_radar(theta = "x", start = 0, direction = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>variable to map angle to (<code>x</code> or <code>y</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>Offset of starting point from 12 o'clock in radians. Offset
+is applied clockwise or anticlockwise depending on value of <code>direction</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>1, clockwise; -1, anticlockwise</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to be passed to <code>ggproto</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create a radar/spider chart with ggplot:
+if (require("dplyr") &amp;&amp; require("tidyr") &amp;&amp; require("ggplot2")) {
+  data &lt;- iris %&gt;%
+    group_by(Species) %&gt;%
+    summarise_all(mean) %&gt;%
+    pivot_longer(-Species)
+
+  data %&gt;%
+    ggplot(aes(x = name, y = value, color = Species, group = Species)) +
+    geom_polygon(fill = NA, size = 2) +
+    coord_radar(start = -pi / 4)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

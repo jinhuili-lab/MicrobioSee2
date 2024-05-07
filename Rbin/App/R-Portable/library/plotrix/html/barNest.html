@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a nested breakdown of numeric values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for barNest {plotrix}"><tr><td>barNest {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a nested breakdown of numeric values</h2>
+
+<h3>Description</h3>
+
+<p>Breaks down the elements of a data frame by one or more
+categorical elements and displays the breakdown as a bar plot.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ barNest(formula=NULL,data=NULL,FUN=c("mean","sd","sd","valid.n"),ylim=NULL,
+ main="",xlab="",ylab="",shrink=0.1,errbars=FALSE,col=NA,
+ labelcex=1,lineht=NULL,showall=TRUE,Nwidths=FALSE,barlabels=NULL,
+ showlabels=TRUE,mar=NULL,arrow.cap=NULL,trueval=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A formula with a numeric element of a data frame on the left and
+one or more categorical elements on the right.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame containing the elements in <span class="samp">formula</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>The functions to apply to x.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Optional y limits for the plot, usually necessary for counts.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>Axis labels for the plot. The x axis label is typically blank</p>
+</td></tr>
+<tr valign="top"><td><code>shrink</code></td>
+<td>
+<p>The proportion to shrink the width of the bars at each level.</p>
+</td></tr>
+<tr valign="top"><td><code>errbars</code></td>
+<td>
+<p>Whether to display error bars on the lowest level of breakdown.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The colors to use to fill the bars. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>labelcex</code></td>
+<td>
+<p>Character size for the group labels.</p>
+</td></tr>
+<tr valign="top"><td><code>lineht</code></td>
+<td>
+<p>The height of a line of text in the lower margin of the plot in user
+units. This will be calculated by the function if a value is not passed.</p>
+</td></tr>
+<tr valign="top"><td><code>showall</code></td>
+<td>
+<p>Whether to display bars for the entire breakdown.</p>
+</td></tr>
+<tr valign="top"><td><code>Nwidths</code></td>
+<td>
+<p>Whether to scale the widths of the bars to the number of
+observations.</p>
+</td></tr>
+<tr valign="top"><td><code>barlabels</code></td>
+<td>
+<p>Optional group labels that may be useful if the factors used to
+break down the numeric variable are fairly long strings.</p>
+</td></tr>
+<tr valign="top"><td><code>showlabels</code></td>
+<td>
+<p>Whether to display the labels below the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>If not NULL, a four element vector to set the plot margins. If new
+margins are set, the user must reset the margins after the function exits.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.cap</code></td>
+<td>
+<p>The width of the &quot;cap&quot; on error bars in user units,
+calculated on the basis of the number of bars in the final breakdown if NA.</p>
+</td></tr>
+<tr valign="top"><td><code>trueval</code></td>
+<td>
+<p>If this is not NA, the call to <span class="samp">brkdnNest</span> will return the
+proportions of the response variable that are equal to <span class="samp">trueval</span>.
+See Details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">barNest</span> displays a bar plot illustrating the hierarchic breakdown of
+the elements of a data frame. The breakdown is performed by <span class="samp">brkdnNest</span>
+and the actual display is performed by <span class="samp">drawNestedBars</span>. The heights of
+the bars will be proportional to the values returned by the first function in
+<span class="samp">FUN</span>. If <span class="samp">showall</span> is TRUE, the entire nested breakdown will be
+displayed. This can be useful in visualizing the relationship between groups
+and subgroups in a compact format.
+</p>
+<p><span class="samp">barNest</span> assumes that there will be four breakdowns in the list
+returned by <span class="samp">brkdnNest</span> in the order summary measure, upper dispersion
+value, lower dispersion value and number of valid observations. If
+<span class="samp">Nwidths=FALSE</span>, it may work with only three and if <span class="samp">errbars=FALSE</span>
+as well, it may work with only one.
+</p>
+<p>If <span class="samp">Nwidths=TRUE</span>, the bar widths will be scaled to the relative number
+of observations per group. When the numbers of observations are very different,
+the labels for those bars with small numbers of observations will probably
+overlap.
+</p>
+<p>A number of functions can be passed in the <span class="samp">FUN</span> argument. Three
+functions, <span class="samp">propbrk</span>, <span class="samp">sumbrk</span> and <span class="samp">valid.n</span> will work as
+summary measures, giving proportions or sums of particular values of a
+discrete variable and counts in each group and subgroup respectively.
+Binomial confidence limits can be added to the proportions returned by
+<span class="samp">propbrk</span> with <span class="samp">binciWl</span> and <span class="samp">binciWu</span> as in the second last
+example. If <span class="samp">valid.n</span> is the first element of <span class="samp">FUN</span>, the &quot;overall&quot;
+bar and label will be suppressed, as they are not informative. It is up to
+the user to decide whether any &quot;error bars&quot; displayed are meaningful.
+</p>
+<p>The colors of the bars are determined by <span class="samp">col</span>. If <span class="samp">showall</span> is
+FALSE, the user only need pass a vector of colors, usually the same length
+as the number of categories in the final (last on the right side) element in
+the formula. If <span class="samp">showall</span> is TRUE and the user wants to color all of the
+bars, a list with as many elements as there are levels in the breakdown
+should be passed. Each element should be a vector of colors, again usually
+the same length as the number of categories. As the categorical variables are
+likely to be factors, it is important to remember that the colors must be in
+the correct order for the levels of the factors. When the levels are not in
+the default alphanumeric order, it is quite easy to get this wrong. As a
+<span class="samp">barNest</span> plot with more than a few factors and levels in each factor is
+quite dense, easily distinguished colors for each level of the breakdown may
+be preferable. As with some other plots, trying to cram too much information
+into a single illustration may not work well.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The summary list produced by brkdnNest.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon and Ofir Levy</p>
+
+
+<h3>References</h3>
+
+<p>Lemon, J. &amp; Levy, O. (2011) barNest: Illustrating nested summary measures.
+Statistical Computing and Graphics Newsletter of the American Statistical
+Association, 21(2): 5-10.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/brkdnNest.html">brkdnNest</a>, <a href="../../plotrix/help/drawNestedBars.html">drawNestedBars</a>, superbarplot(UsingR)</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # recreate the Titanic data frame and show the three way breakdown
+ titanic&lt;-data.frame(
+  class=c(rep("1st",325),rep("2nd",285),rep("3rd",706),rep("Crew",885)),
+  age=c(rep("Adult",319),rep("Child",6),rep("Adult",261),rep("Child",24),
+  rep("Adult",627),rep("Child",79),rep("Adult",885)),
+  sex=c(rep("M",175),rep("F",144),rep("M",5),rep("F",1),
+  rep("M",168),rep("F",93),rep("M",11),rep("F",13),
+  rep("M",462),rep("F",165),rep("M",48),rep("F",31),
+  rep("M",862),rep("F",23)),
+  survived=c(rep("Yes",57),rep("No",118),rep("Yes",140),rep("No",4),rep("Yes",6),
+  rep("Yes",14),rep("No",154),rep("Yes",80),rep("No",13),rep("Yes",24),
+  rep("Yes",75),rep("No",387),rep("Yes",76),rep("No",89),
+  rep("Yes",13),rep("No",35),rep("Yes",14),rep("No",17),
+  rep("Yes",192),rep("No",670),rep("Yes",20),rep("No",3)))
+ require(plotrix)
+ titanic.colors&lt;-list("gray90",c("#0000ff","#7700ee","#aa00cc","#dd00aa"),
+  c("#ddcc00","#ee9900"),c("pink","lightblue"))
+ barNest(survived~class+age+sex,titanic,col=titanic.colors,showall=TRUE,
+  main="Titanic survival by class, age and sex",ylab="Proportion surviving",
+  FUN=c("propbrk","binciWu","binciWl","valid.n"),shrink=0.15,trueval="Yes")
+ barNest(survived~class+age+sex,titanic,col=titanic.colors,showall=TRUE,
+  main="Titanic survival by class, age and sex (scaled bar widths)",
+  ylab="Proportion surviving",FUN=c("propbrk","binciWu","binciWl","valid.n"),
+  shrink=0.15,trueval="Yes",Nwidths=TRUE)
+ # now show the actual numbers of passengers
+ barNest(survived~class+age+sex,titanic,col=titanic.colors,showall=TRUE,
+  main="Titanic passengers and crew by class, age and sex",
+  ylab="Number",FUN="valid.n",shrink=0.15)
+ # to see this properly displayed, start a wide plot window
+ # x11(width=10)
+ test.df&lt;-data.frame(Age=rnorm(100,35,10),
+  Sex=sample(c("Male","Female"),100,TRUE),
+  Marital=sample(c("Div","Mar","Sing","Wid"),100,TRUE),
+  Employ=sample(c("FT","PT","Un"),100,TRUE))
+ test.col&lt;-list(Overall="gray",Sex=c("pink","lightblue"),
+  Marital=c("mediumpurple","orange","tan","lightgreen"),
+  Employ=c("#1affd8","#caeecc","#ff90d0"))
+ barNest(formula=Age~Sex+Marital+Employ,data=test.df,ylab="Mean age (years)",
+  main="Mean age by subgroups",errbars=TRUE,col=test.col)
+ barNest(formula=Age~Sex+Marital+Employ,data=test.df,ylab="Mean age (years)",
+  main="Mean age by subgroups (widths scaled to Ns)",errbars=TRUE,col=test.col,
+  Nwidths=TRUE)
+ # set up functions for 20th and 80th percentiles
+ q20&lt;-function(x,na.rm=TRUE) return(quantile(x,probs=0.2,na.rm=TRUE))
+ q80&lt;-function(x,na.rm=TRUE) return(quantile(x,probs=0.8,na.rm=TRUE))
+ # show the asymmetric dispersion measures
+ barNest(formula=Age~Sex+Marital+Employ,data=test.df,ylab="Mean age (years)",
+  main="Use median and quantiles for dispersion",
+  FUN=c("median","q80","q20","valid.n"),
+  errbars=TRUE,col=test.col)
+ barNest(formula=Employ~Sex+Marital,data=test.df,ylab="Proportion unemployed",
+  main="Proportion unemployed by sex and marital status",
+  FUN=c("propbrk","binciWu","binciWl","valid.n"),
+  errbars=TRUE,col=test.col,trueval="Un")
+ barNest(formula=Employ~Sex+Marital,data=test.df,ylab="Proportion unemployed",
+  main="Proportion unemployed by sex and marital status (scaled bar widths)",
+  FUN=c("propbrk","binciWu","binciWl","valid.n"),
+  errbars=TRUE,col=test.col,trueval="Un",Nwidths=TRUE)
+ barNest(formula=Age~Sex+Marital+Employ,data=test.df,ylab="Counts",
+  main="Show the counts in subgroups (final level only)",FUN="valid.n",
+  col=test.col,showall=FALSE,ylim=c(0,10))
+ barNest(formula=Age~Sex+Marital+Employ,data=test.df,ylab="Counts",
+  main="Show all the counts in subgroups",FUN="valid.n",mar=c(5,5,4,2),
+  col=test.col)
+ </pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

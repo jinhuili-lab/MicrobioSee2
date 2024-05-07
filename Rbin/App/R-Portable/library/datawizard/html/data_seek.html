@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find variables by their names, variable or value labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_seek {datawizard}"><tr><td>data_seek {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find variables by their names, variable or value labels</h2>
+
+<h3>Description</h3>
+
+<p>This functions seeks variables in a data frame, based on patterns
+that either match the variable name (column name), variable labels, value labels
+or factor levels. Matching variable and value labels only works for &quot;labelled&quot;
+data, i.e. when the variables either have a <code>label</code> attribute or <code>labels</code>
+attribute.
+</p>
+<p><code>data_seek()</code> is particular useful for larger data frames with labelled
+data - finding the correct variable name can be a challenge. This function
+helps to find the required variables, when only certain patterns of variable
+names or labels are known.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_seek(data, pattern, seek = c("names", "labels"), fuzzy = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Character string (regular expression) to be matched in <code>data</code>.
+May also be a character vector of length &gt; 1. <code>pattern</code> is searched for in
+column names, variable label and value labels attributes, or factor levels of
+variables in <code>data</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>seek</code></td>
+<td>
+<p>Character vector, indicating where <code>pattern</code> is sought. Use one
+or more of the following options:
+</p>
+
+<ul>
+<li> <p><code>"names"</code>: Searches in column names. <code>"column_names"</code> and <code>"columns"</code> are
+aliases for <code>"names"</code>.
+</p>
+</li>
+<li> <p><code>"labels"</code>: Searches in variable labels. Only applies when a <code>label</code> attribute
+is set for a variable.
+</p>
+</li>
+<li> <p><code>"values"</code>: Searches in value labels or factor levels. Only applies when a
+<code>labels</code> attribute is set for a variable, or if a variable is a factor.
+<code>"levels"</code> is an alias for <code>"values"</code>.
+</p>
+</li>
+<li> <p><code>"all"</code>: Searches in all of the above.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>fuzzy</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, &quot;fuzzy matching&quot; (partial and close distance
+matching) will be used to find <code>pattern</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with three columns: the column index, the column name
+and - if available - the variable label of all matched variables in <code>data</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# seek variables with "Length" in variable name or labels
+data_seek(iris, "Length")
+
+# seek variables with "dependency" in names or labels
+# column "e42dep" has a label-attribute "elder's dependency"
+data(efc)
+data_seek(efc, "dependency")
+
+# "female" only appears as value label attribute - default search is in
+# variable names and labels only, so no match
+data_seek(efc, "female")
+# when we seek in all sources, we find the variable "e16sex"
+data_seek(efc, "female", seek = "all")
+
+# typo, no match
+data_seek(iris, "Lenght")
+# typo, fuzzy match
+data_seek(iris, "Lenght", fuzzy = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Density Probability at a Given Value</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for density_at {bayestestR}"><tr><td>density_at {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Density Probability at a Given Value</h2>
+
+<h3>Description</h3>
+
+<p>Compute the density value at a given point of a distribution (i.e.,
+the value of the <code>y</code> axis of a value <code>x</code> of a distribution).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+density_at(posterior, x, precision = 2^10, method = "kernel", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>Vector representing a posterior distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The value of which to get the approximate probability.</p>
+</td></tr>
+<tr valign="top"><td><code>precision</code></td>
+<td>
+<p>Number of points of density data. See the <code>n</code> parameter in <code>density</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Density estimation method. Can be <code>"kernel"</code> (default), <code>"logspline"</code>
+or <code>"KernSmooth"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+posterior &lt;- distribution_normal(n = 10)
+density_at(posterior, 0)
+density_at(posterior, c(0, 1))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Minimum Spanning Tree</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for spantree {vegan}"><tr><td>spantree {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Minimum Spanning Tree</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>spantree</code> finds a minimum spanning tree
+connecting all points, but disregarding dissimilarities that are at or
+above the threshold or <code>NA</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+spantree(d, toolong = 0)
+## S3 method for class 'spantree'
+as.hclust(x, ...)
+## S3 method for class 'spantree'
+cophenetic(x)
+spandepth(x)
+## S3 method for class 'spantree'
+plot(x, ord, cex = 0.7, type = "p", labels, dlim,
+     FUN = sammon,  ...)
+## S3 method for class 'spantree'
+lines(x, ord, display="sites", col = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>Dissimilarity data inheriting from class <code>dist</code> or
+a an object, such as a matrix, that can be converted to a
+dissimilarity matrix. Functions <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> and
+<code><a href="../../stats/html/dist.html">dist</a></code> are some functions producing suitable
+dissimilarity data.</p>
+</td></tr>
+<tr valign="top"><td><code>toolong</code></td>
+<td>
+<p> Shortest dissimilarity regarded as <code>NA</code>.
+The function uses a fuzz factor, so
+that dissimilarities close to the limit will be made <code>NA</code>, too.
+If <code>toolong = 0</code> (or negative), no dissimilarity is regarded
+as too long.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>spantree</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p>An ordination configuration, or an ordination result known
+by <code><a href="../../vegan/help/scores.html">scores</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion factor.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Observations are plotted as points with
+<code>type="p"</code> or <code>type="b"</code>, or as text label with
+<code>type="t"</code>. The tree (lines) will always be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Text used with <code>type="t"</code> or node names if this is
+missing.</p>
+</td></tr>
+<tr valign="top"><td><code>dlim</code></td>
+<td>
+<p>A ceiling value used to highest <code>cophenetic</code> dissimilarity.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>Ordination function to find the configuration from
+cophenetic dissimilarities. If the supplied <code>FUN</code> does not work,
+supply ordination result as argument <code>ord</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Type of <code><a href="../../vegan/help/scores.html">scores</a></code> used for <code>ord</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour of line segments. This can be a vector which is
+recycled for points, and the line colour will be a mixture of two
+joined points.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>spantree</code> finds a minimum spanning tree for
+dissimilarities (there may be several minimum spanning trees, but the
+function finds only one). Dissimilarities at or above the threshold
+<code>toolong</code> and <code>NA</code>s are disregarded, and the spanning tree
+is found through other dissimilarities. If the data are disconnected,
+the function will return a disconnected tree (or a forest), and the
+corresponding link is <code>NA</code>. Connected subtrees can be identified
+using <code><a href="../../vegan/help/distconnected.html">distconnected</a></code>.
+</p>
+<p>Minimum spanning tree is closely related to single linkage
+clustering, a.k.a. nearest neighbour clustering, and in genetics as
+neighbour joining tree available in <code><a href="../../stats/html/hclust.html">hclust</a></code> and
+<code><a href="../../cluster/help/agnes.html">agnes</a></code> functions. The most important practical
+difference is that minimum spanning tree has no concept of cluster
+membership, but always joins individual points to each other. Function
+<code>as.hclust</code> can change the <code>spantree</code> result into a
+corresponding <code><a href="../../stats/html/hclust.html">hclust</a></code> object.
+</p>
+<p>Function <code>cophenetic</code> finds distances between all points along
+the tree segments. Function <code>spandepth</code> returns the depth of
+each node. The nodes of a tree are either leaves (with one link) or
+internal nodes (more than one link). The leaves are recursively
+removed from the tree, and the depth is the layer at with the leaf
+was removed. In disconnected <code>spantree</code> object (in a forest)
+each tree is analysed separately and disconnected nodes not in any
+tree have depth zero.
+</p>
+<p>Function <code>plot</code> displays the tree over a
+supplied ordination configuration, and <code>lines</code> adds a spanning
+tree to an ordination graph. If configuration is not supplied for <code>plot</code>,
+the function ordinates the cophenetic dissimilarities of the
+spanning tree and overlays the tree on this result. The default
+ordination function is <code><a href="../../MASS/help/sammon.html">sammon</a></code> (package <span class="pkg">MASS</span>),
+because Sammon scaling emphasizes structure in the neighbourhood of
+nodes and may be able to beautifully represent the tree (you may need
+to set <code>dlim</code>, and sometimes the results will remain
+twisted). These ordination methods do not work with disconnected
+trees, but you must supply the ordination configuration. Function
+<code>lines</code> will overlay the tree in an existing plot.
+</p>
+<p>Function <code>spantree</code> uses Prim's method
+implemented as priority-first search for dense graphs (Sedgewick
+1990). Function <code>cophenetic</code> uses function
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code> with option <code>path = "extended"</code>. The
+<code>spantree</code> is very fast, but <code>cophenetic</code> is slow in very
+large data sets.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>spantree</code>
+returns an object of class <code>spantree</code> which is a
+list with two vectors, each of length <i>n-1</i>. The
+number of links in a tree is one less the number of observations, and
+the first item is omitted. The items are
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>kid </code></td>
+<td>
+<p>The child node of the parent, starting from parent number
+two. If there is no link from the parent, value will be <code>NA</code>
+and tree is disconnected at the node.</p>
+</td></tr>
+<tr valign="top"><td><code>dist </code></td>
+<td>
+<p>Corresponding distance. If <code>kid = NA</code>, then
+<code>dist = 0</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>labels </code></td>
+<td>
+<p>Names of nodes as found from the input dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>The function call.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>In principle, minimum spanning tree is equivalent to single linkage
+clustering that can be performed using <code><a href="../../stats/html/hclust.html">hclust</a></code> or
+<code><a href="../../cluster/help/agnes.html">agnes</a></code>. However, these functions combine
+clusters to each other and the information of the actually connected points
+(the &ldquo;single link&rdquo;) cannot be recovered from the result. The
+graphical output of a single linkage clustering plotted with
+<code><a href="../../vegan/help/ordicluster.html">ordicluster</a></code> will look very different from an equivalent
+spanning tree plotted with <code>lines.spantree</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Sedgewick, R. (1990). <em>Algorithms in C</em>. Addison Wesley.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code> for getting
+dissimilarities,  and <code><a href="../../stats/html/hclust.html">hclust</a></code> or
+<code><a href="../../cluster/help/agnes.html">agnes</a></code> for single linkage clustering.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+dis &lt;- vegdist(dune)
+tr &lt;- spantree(dis)
+## Add tree to a metric scaling
+plot(tr, cmdscale(dis), type = "t")
+## Find a configuration to display the tree neatly
+plot(tr, type = "t")
+## Depths of nodes
+depths &lt;- spandepth(tr)
+plot(tr, type = "t", label = depths)
+## Plot as a dendrogram
+cl &lt;- as.hclust(tr)
+plot(cl)
+## cut hclust tree to classes and show in colours in spantree
+plot(tr, col = cutree(cl, 5), pch=16)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

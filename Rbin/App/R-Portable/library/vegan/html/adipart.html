@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Additive Diversity Partitioning and Hierarchical Null Model...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for adipart {vegan}"><tr><td>adipart {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Additive Diversity Partitioning and Hierarchical Null Model Testing</h2>
+
+<h3>Description</h3>
+
+<p>In additive diversity partitioning, mean values of alpha diversity at lower levels of a sampling
+hierarchy are compared to the total diversity in the entire data set (gamma diversity).
+In hierarchical null model testing, a statistic returned by a function is evaluated
+according to a nested hierarchical sampling design (<code>hiersimu</code>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+adipart(...)
+## Default S3 method:
+adipart(y, x, index=c("richness", "shannon", "simpson"),
+    weights=c("unif", "prop"), relative = FALSE, nsimul=99,
+    method = "r2dtable", ...)
+## S3 method for class 'formula'
+adipart(formula, data, index=c("richness", "shannon", "simpson"),
+    weights=c("unif", "prop"), relative = FALSE, nsimul=99,
+    method = "r2dtable", ...)
+
+hiersimu(...)
+## Default S3 method:
+hiersimu(y, x, FUN, location = c("mean", "median"),
+    relative = FALSE, drop.highest = FALSE, nsimul=99,
+    method = "r2dtable", ...)
+## S3 method for class 'formula'
+hiersimu(formula, data, FUN, location = c("mean", "median"),
+    relative = FALSE, drop.highest = FALSE, nsimul=99,
+    method = "r2dtable", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A community matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix with same number of rows as in <code>y</code>, columns
+coding the levels of sampling hierarchy. The number of groups within
+the hierarchy must decrease from left to right. If <code>x</code> is missing,
+function performs an overall decomposition into alpha, beta and
+gamma diversities.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>A two sided model formula in the form <code>y ~ x</code>,
+where <code>y</code> is the community data matrix with samples as rows and
+species as column. Right hand side (<code>x</code>) must be grouping variables
+referring to levels of sampling hierarchy, terms from right to left
+will be treated as nested (first column is the lowest, last is the
+highest level, at least two levels specified). Interaction terms are
+not allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame where to look for variables defined in the
+right hand side of <code>formula</code>. If missing, variables are looked
+in the global environment.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>Character, the diversity index to be calculated (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Character, <code>"unif"</code> for uniform weights,
+<code>"prop"</code> for weighting proportional to sample abundances to use
+in weighted averaging of individual alpha values within strata of a
+given level of the sampling hierarchy.</p>
+</td></tr>
+<tr valign="top"><td><code>relative</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> then alpha and beta diversity
+values are given relative to the value of gamma for function
+<code>adipart</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nsimul</code></td>
+<td>
+<p>Number of permutations to use.  If <code>nsimul = 0</code>,
+only the <code>FUN</code> argument is evaluated.
+It is thus possible to reuse the statistic values
+without a null model.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Null model method: either a name (character string) of
+a method defined in <code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code> or a
+<code><a href="../../vegan/help/commsim.html">commsim</a></code> function.
+The default <code>"r2dtable"</code> keeps row sums and column sums fixed.
+See <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> for Details and Examples.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>A function to be used by <code>hiersimu</code>. This must be
+fully specified, because currently other arguments cannot be passed
+to this function via <code>...</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>location</code></td>
+<td>
+<p>Character, identifies which function (mean or median)
+is to be used to calculate location of the samples.</p>
+</td></tr>
+<tr valign="top"><td><code>drop.highest</code></td>
+<td>
+<p>Logical, to drop the highest level or not. When
+<code>FUN</code> evaluates only arrays with at least 2 dimensions, highest
+level should be dropped, or not selected at all.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to functions, e.g. base of
+logarithm for Shannon diversity, or <code>method</code>, <code>thin</code> or
+<code>burnin</code> arguments for <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Additive diversity partitioning means that mean alpha and beta
+diversities add up to gamma diversity, thus beta diversity is measured
+in the same dimensions as alpha and gamma (Lande 1996). This additive
+procedure is then extended across multiple scales in a hierarchical
+sampling design with <i>i = 1, 2, 3, &hellip;, m</i> levels of sampling
+(Crist et al. 2003). Samples in lower hierarchical levels are nested
+within higher level units, thus from <i>i=1</i> to <i>i=m</i> grain size
+is increasing under constant survey extent. At each level <i>i</i>,
+<i>&alpha;_i</i> denotes average diversity found within samples.
+</p>
+<p>At the highest sampling level, the diversity components are calculated
+as </p>
+<p style="text-align: center;"><i>beta_m = gamma -  alpha_m</i></p>
+<p> For
+each  lower   sampling  level   as  </p>
+<p style="text-align: center;"><i>beta_i =  alpha_(i+1) - alpha_i</i></p>
+<p> Then,  the additive partition
+of diversity is </p>
+<p style="text-align: center;"><i>gamma
+  = alpha_1 + sum(beta_i)</i></p>
+
+<p>Average alpha components can be weighted uniformly
+(<code>weight="unif"</code>) to calculate it as simple average, or
+proportionally to sample abundances (<code>weight="prop"</code>) to
+calculate it as weighted average as follows </p>
+<p style="text-align: center;"><i>alpha_i = sum(D_ij*w_ij)</i></p>
+<p> where
+<i>D_{ij}</i> is the diversity index and <i>w_{ij}</i> is the weight
+calculated for the <i>j</i>th sample at the <i>i</i>th sampling level.
+</p>
+<p>The implementation of additive diversity partitioning in
+<code>adipart</code> follows Crist et al. 2003. It is based on species
+richness (<i>S</i>, not <i>S-1</i>), Shannon's and Simpson's diversity
+indices stated as the <code>index</code> argument.
+</p>
+<p>The expected diversity components are calculated <code>nsimul</code> times
+by individual based randomisation of the community data matrix. This
+is done by the <code>"r2dtable"</code> method in <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> by
+default.
+</p>
+<p><code>hiersimu</code> works almost in the same way as <code>adipart</code>, but
+without comparing the actual statistic values returned by <code>FUN</code>
+to the highest possible value (cf. gamma diversity).  This is so,
+because in most of the cases, it is difficult to ensure additive
+properties of the mean statistic values along the hierarchy.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>"adipart"</code> or <code>"hiersimu"</code> with same
+structure as <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> objects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Péter Sólymos, <a href="mailto:solymos@ualberta.ca">solymos@ualberta.ca</a></p>
+
+
+<h3>References</h3>
+
+<p>Crist,   T.O.,   Veech,    J.A.,   Gering,   J.C.   and   Summerville,
+K.S.  (2003).  Partitioning species  diversity  across landscapes  and
+regions:  a hierarchical  analysis of  <i>&alpha;</i>,  <i>&beta;</i>, and
+<i>&gamma;</i>-diversity.  <em>Am. Nat.</em>, <b>162</b>, 734&ndash;743.
+</p>
+<p>Lande, R.  (1996). Statistics and partitioning of species diversity,
+and similarity among multiple communities.  <em>Oikos</em>, <b>76</b>,
+5&ndash;13.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code> for permutation settings and
+calculating <i>p</i>-values. <code><a href="../../vegan/help/multipart.html">multipart</a></code> for multiplicative
+diversity partitioning.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## NOTE: 'nsimul' argument usually needs to be &gt;= 99
+## here much lower value is used for demonstration
+
+data(mite)
+data(mite.xy)
+data(mite.env)
+## Function to get equal area partitions of the mite data
+cutter &lt;- function (x, cut = seq(0, 10, by = 2.5)) {
+    out &lt;- rep(1, length(x))
+    for (i in 2:(length(cut) - 1))
+        out[which(x &gt; cut[i] &amp; x &lt;= cut[(i + 1)])] &lt;- i
+    return(out)}
+## The hierarchy of sample aggregation
+levsm &lt;- with(mite.xy, data.frame(
+    l1=1:nrow(mite),
+    l2=cutter(y, cut = seq(0, 10, by = 2.5)),
+    l3=cutter(y, cut = seq(0, 10, by = 5)),
+    l4=cutter(y, cut = seq(0, 10, by = 10))))
+## Let's see in a map
+par(mfrow=c(1,3))
+plot(mite.xy, main="l1", col=as.numeric(levsm$l1)+1, asp = 1)
+plot(mite.xy, main="l2", col=as.numeric(levsm$l2)+1, asp = 1)
+plot(mite.xy, main="l3", col=as.numeric(levsm$l3)+1, asp = 1)
+par(mfrow=c(1,1))
+## Additive diversity partitioning
+adipart(mite, index="richness", nsimul=19)
+adipart(mite ~ ., levsm, index="richness", nsimul=19)
+## Hierarchical null model testing
+## diversity analysis (similar to adipart)
+hiersimu(mite, FUN=diversity, relative=TRUE, nsimul=19)
+hiersimu(mite ~., levsm, FUN=diversity, relative=TRUE, nsimul=19)
+## Hierarchical testing with the Morisita index
+morfun &lt;- function(x) dispindmorisita(x)$imst
+hiersimu(mite ~., levsm, morfun, drop.highest=TRUE, nsimul=19)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

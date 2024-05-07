@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a discrete scale that cycles between values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scale_cyclical {ggridges}"><tr><td>scale_cyclical {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a discrete scale that cycles between values</h2>
+
+<h3>Description</h3>
+
+<p>The readability of ridgeline plots can often be improved by alternating between fill colors and
+other aesthetics. The various cyclical scales make it easy to create plots with this feature,
+simply map your grouping variable to the respective aesthetic (e.g., <code>fill</code>) and then use
+<code>scale_fill_cyclical</code> to define the fill colors between you want to alternate. Note that the
+cyclical scales do not draw legends by default, because the legends will usually be wrong
+unless the labels are properly adjusted. To draw legends, set the <code>guide</code> argument to <code>"legend"</code>,
+as shown in the examples.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+scale_colour_cyclical(..., values)
+
+scale_fill_cyclical(..., values)
+
+scale_alpha_cyclical(..., values)
+
+scale_linetype_cyclical(..., values)
+
+scale_size_cyclical(..., values)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Common discrete scale parameters: <code>name</code>, <code>breaks</code>, <code>labels</code>, <code>na.value</code>, <code>limits</code> and <code>guide</code>.
+See <code><a href="../../ggplot2/html/discrete_scale.html">discrete_scale</a></code> for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>The aesthetic values that the scale should cycle through, e.g. colors if it is
+a scale for the color or fill aesthetic.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+# By default, scale_cyclical sets `guide = "none"`, i.e., no legend
+# is drawn
+ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+  geom_density_ridges(scale = 4) +
+  scale_fill_cyclical(values = c("#3030D0", "#9090F0"))
+
+# However, legends can be turned on by setting `guide = "legend"`
+ggplot(diamonds, aes(x = price, y = cut, fill = cut)) +
+  geom_density_ridges(scale = 4) +
+  scale_fill_cyclical(values = c("#3030D0", "#9090F0"),
+                      guide = "legend", name = "Fill colors",
+                      labels = c("dark blue", "light blue"))
+
+# Cyclical scales are also available for the various other aesthetics
+ggplot(diamonds, aes(x = price, y = cut, fill = cut,
+                     color = cut, size = cut,
+                     alpha = cut, linetype = cut)) +
+  geom_density_ridges(scale = 4, fill = "blue") +
+  scale_fill_cyclical(values = c("blue", "green")) +
+  scale_color_cyclical(values = c("black", "white")) +
+  scale_size_cyclical(values = c(2, 1)) +
+  scale_alpha_cyclical(values = c(0.4, 0.8)) +
+  scale_linetype_cyclical(values = c(1, 2))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

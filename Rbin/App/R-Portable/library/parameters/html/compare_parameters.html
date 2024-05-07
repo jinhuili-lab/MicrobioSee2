@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare model parameters of multiple models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compare_parameters {parameters}"><tr><td>compare_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare model parameters of multiple models</h2>
+
+<h3>Description</h3>
+
+<p>Compute and extract model parameters of multiple regression
+models. See <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> for further details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compare_parameters(
+  ...,
+  ci = 0.95,
+  effects = "fixed",
+  component = "conditional",
+  standardize = NULL,
+  exponentiate = FALSE,
+  ci_method = "wald",
+  p_adjust = NULL,
+  select = NULL,
+  column_names = NULL,
+  pretty_names = TRUE,
+  coefficient_names = NULL,
+  keep = NULL,
+  drop = NULL,
+  include_reference = FALSE,
+  groups = NULL,
+  verbose = TRUE
+)
+
+compare_models(
+  ...,
+  ci = 0.95,
+  effects = "fixed",
+  component = "conditional",
+  standardize = NULL,
+  exponentiate = FALSE,
+  ci_method = "wald",
+  p_adjust = NULL,
+  select = NULL,
+  column_names = NULL,
+  pretty_names = TRUE,
+  coefficient_names = NULL,
+  keep = NULL,
+  drop = NULL,
+  include_reference = FALSE,
+  groups = NULL,
+  verbose = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>One or more regression model objects, or objects returned by
+<code>model_parameters()</code>. Regression models may be of different model
+types. Model objects may be passed comma separated, or as a list.
+If model objects are passed with names or the list has named elements,
+these names will be used as column names.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should parameters for fixed effects (<code>"fixed"</code>), random
+effects (<code>"random"</code>), or both (<code>"all"</code>) be returned? Only applies
+to mixed models. May be abbreviated. If the calculation of random effects
+parameters takes too long, you may use <code>effects = "fixed"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Model component for which parameters should be shown. See
+documentation for related model class in <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>standardize</code></td>
+<td>
+<p>The method used for standardizing the parameters. Can be
+<code>NULL</code> (default; no standardization), <code>"refit"</code> (for re-fitting the model
+on standardized data) or one of <code>"basic"</code>, <code>"posthoc"</code>, <code>"smart"</code>,
+<code>"pseudo"</code>. See 'Details' in <code><a href="../../parameters/help/standardize_parameters.html">standardize_parameters()</a></code>.
+<strong>Importantly</strong>:
+</p>
+
+<ul>
+<li><p> The <code>"refit"</code> method does <em>not</em> standardize categorical predictors (i.e.
+factors), which may be a different behaviour compared to other R packages
+(such as <strong>lm.beta</strong>) or other software packages (like SPSS). to mimic
+such behaviours, either use <code>standardize="basic"</code> or standardize the data
+with <code>datawizard::standardize(force=TRUE)</code> <em>before</em> fitting the model.
+</p>
+</li>
+<li><p> For mixed models, when using methods other than <code>"refit"</code>, only the fixed
+effects will be standardized.
+</p>
+</li>
+<li><p> Robust estimation (i.e., <code>vcov</code> set to a value other than <code>NULL</code>) of
+standardized parameters only works when <code>standardize="refit"</code>.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>exponentiate</code></td>
+<td>
+<p>Logical, indicating whether or not to exponentiate the
+coefficients (and related confidence intervals). This is typical for
+logistic regression, or more generally speaking, for models with log or
+logit links. It is also recommended to use <code>exponentiate = TRUE</code> for models
+with log-transformed response values. <strong>Note:</strong> Delta-method standard
+errors are also computed (by multiplying the standard errors by the
+transformed coefficients). This is to mimic behaviour of other software
+packages, such as Stata, but these standard errors poorly estimate
+uncertainty for the transformed coefficient. The transformed confidence
+interval more clearly captures this uncertainty. For <code>compare_parameters()</code>,
+<code>exponentiate = "nongaussian"</code> will only exponentiate coefficients from
+non-Gaussian families.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>Method for computing degrees of freedom for p-values
+and confidence intervals (CI). See documentation for related model class
+in <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>p_adjust</code></td>
+<td>
+<p>Character vector, if not <code>NULL</code>, indicates the method to
+adjust p-values. See <code><a href="../../stats/help/p.adjust.html">stats::p.adjust()</a></code> for details. Further
+possible adjustment methods are <code>"tukey"</code>, <code>"scheffe"</code>,
+<code>"sidak"</code> and <code>"none"</code> to explicitly disable adjustment for
+<code>emmGrid</code> objects (from <strong>emmeans</strong>).</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Determines which columns and and which layout columns are
+printed. There are three options for this argument:
+</p>
+
+<ol>
+<li><p> Selecting columns by name or index
+<br />
+<code>select</code> can be a character vector (or numeric index) of column names that
+should be printed. There are two pre-defined options for selecting columns:
+<code>select = "minimal"</code> prints coefficients, confidence intervals and p-values,
+while <code>select = "short"</code> prints coefficients, standard errors and p-values.
+</p>
+</li>
+<li><p> A string expression with layout pattern
+<br />
+<code>select</code> is a string with &quot;tokens&quot; enclosed in braces. These tokens will
+be replaced by their associated columns, where the selected columns will
+be collapsed into one column. However, it is possible to create multiple
+columns as well. Following tokens are replaced by the related coefficients
+or statistics: <code>{estimate}</code>, <code>{se}</code>, <code>{ci}</code> (or <code>{ci_low}</code> and <code>{ci_high}</code>),
+<code>{p}</code> and <code>{stars}</code>. The token <code>{ci}</code> will be replaced by <code style="white-space: pre;">{ci_low}, {ci_high}</code>.
+Furthermore, a <code>|</code> separates values into new cells/columns. If
+<code>format = "html"</code>, a <code style="white-space: pre;">&lt;br&gt;</code> inserts a line break inside a cell. See
+'Examples'.
+</p>
+</li>
+<li><p> A string indicating a pre-defined layout
+<br />
+<code>select</code> can be one of the following string values, to create one of the
+following pre-defined column layouts:
+</p>
+
+<ul>
+<li> <p><code>"ci"</code>: Estimates and confidence intervals, no asterisks for p-values.
+This is equivalent to <code>select = "{estimate} ({ci})"</code>.
+</p>
+</li>
+<li> <p><code>"se"</code>: Estimates and standard errors, no asterisks for p-values. This is
+equivalent to <code>select = "{estimate} ({se})"</code>.
+</p>
+</li>
+<li> <p><code>"ci_p"</code>: Estimates, confidence intervals and asterisks for p-values. This
+is equivalent to <code>select = "{estimate}{stars} ({ci})"</code>.
+</p>
+</li>
+<li> <p><code>"se_p"</code>: Estimates, standard errors and asterisks for p-values. This is
+equivalent to <code>select = "{estimate}{stars} ({se})"</code>..
+</p>
+</li>
+<li> <p><code>"ci_p2"</code>: Estimates, confidence intervals and numeric p-values, in two
+columns. This is equivalent to <code>select = "{estimate} ({ci})|{p}"</code>.
+</p>
+</li>
+<li> <p><code>"se_p2"</code>: Estimate, standard errors and numeric p-values, in two columns.
+This is equivalent to <code>select = "{estimate} ({se})|{p}"</code>.
+</p>
+</li></ul>
+
+</li></ol>
+
+<p>For <code>model_parameters()</code>, glue-like syntax is still experimental in the
+case of more complex models (like mixed models) and may not return expected
+results.</p>
+</td></tr>
+<tr valign="top"><td><code>column_names</code></td>
+<td>
+<p>Character vector with strings that should be used as
+column headers. Must be of same length as number of models in <code>...</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pretty_names</code></td>
+<td>
+<p>Can be <code>TRUE</code>, which will return &quot;pretty&quot; (i.e. more human
+readable) parameter names. Or <code>"labels"</code>, in which case value and variable
+labels will be used as parameters names. The latter only works for &quot;labelled&quot;
+data, i.e. if the data used to fit the model had <code>"label"</code> and <code>"labels"</code>
+attributes. See also section <em>Global Options to Customize Messages when Printing</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>coefficient_names</code></td>
+<td>
+<p>Character vector with strings that should be used
+as column headers for the coefficient column. Must be of same length as
+number of models in <code>...</code>, or length 1. If length 1, this name will be
+used for all coefficient columns. If <code>NULL</code>, the name for the coefficient
+column will detected automatically (as in <code>model_parameters()</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>include_reference</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the reference level of factors will
+be added to the parameters table. This is only relevant for models with
+categorical predictors. The coefficient for the reference level is always
+<code>0</code> (except when <code>exponentiate = TRUE</code>, then the coefficient will be <code>1</code>),
+so this is just for completeness.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Named list, can be used to group parameters in the printed output.
+List elements may either be character vectors that match the name of those
+parameters that belong to one group, or list elements can be row numbers
+of those parameter rows that should belong to one group. The names of the
+list elements will be used as group names, which will be inserted as &quot;header
+row&quot;. A possible use case might be to emphasize focal predictors and control
+variables, see 'Examples'. Parameters will be re-ordered according to the
+order used in <code>groups</code>, while all non-matching parameters will be added
+to the end.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is in an early stage and does not yet cope with more complex
+models, and probably does not yet properly render all model components. It
+should also be noted that when including models with interaction terms, not
+only do the values of the parameters change, but so does their meaning (from
+main effects, to simple slopes), thereby making such comparisons hard.
+Therefore, you should not use this function to compare models with
+interaction terms with models without interaction terms.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(iris)
+lm1 &lt;- lm(Sepal.Length ~ Species, data = iris)
+lm2 &lt;- lm(Sepal.Length ~ Species + Petal.Length, data = iris)
+compare_parameters(lm1, lm2)
+
+# custom style
+compare_parameters(lm1, lm2, select = "{estimate}{stars} ({se})")
+
+
+# custom style, in HTML
+result &lt;- compare_parameters(lm1, lm2, select = "{estimate}&lt;br&gt;({se})|{p}")
+print_html(result)
+
+
+data(mtcars)
+m1 &lt;- lm(mpg ~ wt, data = mtcars)
+m2 &lt;- glm(vs ~ wt + cyl, data = mtcars, family = "binomial")
+compare_parameters(m1, m2)
+
+# exponentiate coefficients, but not for lm
+compare_parameters(m1, m2, exponentiate = "nongaussian")
+
+# change column names
+compare_parameters("linear model" = m1, "logistic reg." = m2)
+compare_parameters(m1, m2, column_names = c("linear model", "logistic reg."))
+
+# or as list
+compare_parameters(list(m1, m2))
+compare_parameters(list("linear model" = m1, "logistic reg." = m2))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

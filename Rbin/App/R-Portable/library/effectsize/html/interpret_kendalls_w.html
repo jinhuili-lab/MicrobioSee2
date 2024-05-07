@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Kendall's Coefficient of Concordance _W_</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_kendalls_w {effectsize}"><tr><td>interpret_kendalls_w {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Kendall's Coefficient of Concordance <em>W</em></h2>
+
+<h3>Description</h3>
+
+<p>Interpret Kendall's Coefficient of Concordance <em>W</em>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_kendalls_w(w, rules = "landis1977")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Value or vector of Kendall's coefficient of concordance.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"landis1977"</code> (default) or a custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Landis &amp; Koch (1977) (<code>"landis1977"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>0.00 &lt;= w &lt; 0.20</strong> - Slight agreement
+</p>
+</li>
+<li> <p><strong>0.20 &lt;= w &lt; 0.40</strong> - Fair agreement
+</p>
+</li>
+<li> <p><strong>0.40 &lt;= w &lt; 0.60</strong> - Moderate agreement
+</p>
+</li>
+<li> <p><strong>0.60 &lt;= w &lt; 0.80</strong> - Substantial agreement
+</p>
+</li>
+<li> <p><strong>w &gt;= 0.80</strong>        - Almost perfect agreement
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Landis, J. R., &amp; Koch G. G. (1977). The measurement of observer agreement
+for categorical data. Biometrics, 33:159-74.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Order (first, second, ...) formatting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for format_order {parameters}"><tr><td>format_order {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Order (first, second, ...) formatting</h2>
+
+<h3>Description</h3>
+
+<p>Format order.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+format_order(order, textual = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>value or vector of orders.</p>
+</td></tr>
+<tr valign="top"><td><code>textual</code></td>
+<td>
+<p>Return number as words. If <code>FALSE</code>, will run <code><a href="../../insight/help/format_value.html">insight::format_value()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be passed to <code><a href="../../insight/help/format_value.html">insight::format_value()</a></code> if <code>textual</code> is <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A formatted string.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+format_order(2)
+format_order(8)
+format_order(25, textual = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

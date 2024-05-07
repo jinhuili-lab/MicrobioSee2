@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate an arbitrary sequence of colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for color.gradient {plotrix}"><tr><td>color.gradient {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate an arbitrary sequence of colors</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">color.gradient</span> is now just a call to <span class="samp">color.scale</span> with a
+vector of equally spaced integers (1:nslices). The function is kept for
+backward compatibility.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ color.gradient(reds,greens,blues,nslices=50)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>reds,greens,blues</code></td>
+<td>
+<p>vectors of the values of the color components
+as 0 to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>nslices</code></td>
+<td>
+<p>The number of color &quot;slices&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of hexadecimal color values as used by <span class="samp">col</span>.</p>
+
+
+<h3>Note</h3>
+
+<p>The function is mainly useful for defining a set of colors to represent
+a known number of gradations. Such a set can be used to assign a grade
+to a small number of values (e.g. points on a scatterplot - but see 
+<span class="samp">color.scale</span> for large numbers) and display a color bar using
+<span class="samp">gradient.rect</span> as a legend.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/rescale.html">rescale</a>,<a href="../../stats/html/approxfun.html">approx</a>,<a href="../../plotrix/help/color.scale.html">color.scale</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # try it with red and blue endpoints and green midpoints.
+ color.gradient(c(0,1),c(1,0.6,0.4,0.3,0),c(0.1,0.6))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

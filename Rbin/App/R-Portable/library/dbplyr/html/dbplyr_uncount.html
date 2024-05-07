@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: &quot;Uncount&quot; a database table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbplyr_uncount {dbplyr}"><tr><td>dbplyr_uncount {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>&quot;Uncount&quot; a database table</h2>
+
+<h3>Description</h3>
+
+<p>This is a method for the tidyr <code>uncount()</code> generic. It uses a temporary
+table, so your database user needs permissions to create one.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dbplyr_uncount(data, weights, .remove = TRUE, .id = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>A vector of weights. Evaluated in the context of <code>data</code>;
+supports quasiquotation.</p>
+</td></tr>
+<tr valign="top"><td><code>.remove</code></td>
+<td>
+<p>If <code>TRUE</code>, and <code>weights</code> is the name of a column in <code>data</code>,
+then this column is removed.</p>
+</td></tr>
+<tr valign="top"><td><code>.id</code></td>
+<td>
+<p>Supply a string to create a new variable which gives a unique
+identifier for each created row.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+df &lt;- memdb_frame(x = c("a", "b"), n = c(1, 2))
+dbplyr_uncount(df, n)
+dbplyr_uncount(df, n, .id = "id")
+
+# You can also use constants
+dbplyr_uncount(df, 2)
+
+# Or expressions
+dbplyr_uncount(df, 2 / n)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

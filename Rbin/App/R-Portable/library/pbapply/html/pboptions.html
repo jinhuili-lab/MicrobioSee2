@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creating Progress Bar and Setting Options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pboptions {pbapply}"><tr><td>pboptions {pbapply}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Creating Progress Bar and Setting Options
+</h2>
+
+<h3>Description</h3>
+
+<p>Creating progress bar and setting options.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pboptions(...)
+startpb(min = 0, max = 1)
+setpb(pb, value)
+getpb(pb)
+closepb(pb)
+dopb()
+doshiny()
+pbtypes()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Arguments in <code>tag = value</code> form, or a list of tagged values.
+The tags must come from the parameters described below.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pb</code></td>
+<td>
+
+<p>A progress bar object created by <code>startpb</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>min, max</code></td>
+<td>
+
+<p>Finite numeric values for the extremes of the progress bar.
+Must have <code>min &lt; max</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+
+<p>New value for the progress bar.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>pboptions</code> is a convenient way of handling options
+related to progress bar.
+</p>
+<p>Other functions can be used for conveniently adding progress
+bar to <code>for</code>-like loops
+(see Examples).
+</p>
+
+
+<h3>Value</h3>
+
+<p>When parameters are set by <code>pboptions</code>, their former values are
+returned in an invisible named list. Such a list can be passed as an
+argument to <code>pboptions</code> to restore the parameter values.
+Tags are the following:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of the progress bar: timer (<code>"timer"</code>),
+text (<code>"txt"</code>), Windows (<code>"win"</code>), TclTk (<code>"tk"</code>),
+none (<code>"none"</code>), or Shiny (<code>"shiny"</code>).
+Default value is <code>"timer"</code> progress bar with estimated remaining time
+when in interactive mode, and <code>"none"</code> otherwise.
+See <code>pbtypes()</code> for available progress bar types
+depending on operating system.</p>
+</td></tr>
+<tr valign="top"><td><code>char</code></td>
+<td>
+<p>The character (or character string) to form the progress bar.
+Default value is <code>"+"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>txt.width</code></td>
+<td>
+<p>The width of the text based progress bar, as a multiple
+of the width of <code>char</code>.
+If <code>NA</code>, the number of characters is that which fits into
+<code>getOption("width")</code>.
+Default value is <code>50</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>gui.width</code></td>
+<td>
+<p>The width of the GUI based progress bar in pixels:
+the dialogue box will be 40 pixels wider (plus frame).
+Default value is <code>300</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>The style of the bar, see
+<code><a href="../../utils/help/txtProgressBar.html">txtProgressBar</a></code> and <code><a href="../../pbapply/help/timerProgressBar.html">timerProgressBar</a></code>.
+Default value is <code>3</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>initial</code></td>
+<td>
+<p>Initial value for the progress bar. Default value is
+<code>0</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>title</code></td>
+<td>
+<p>Character string giving the window title
+on the GUI dialogue box. Default value is <code>"R progress bar"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Character string giving the window label
+on the GUI dialogue box. Default value is <code>""</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nout</code></td>
+<td>
+<p>Integer, the maximum number of times the progress bar is updated.
+The default value is 100. Smaller value minimizes the
+running time overhead related to updating the progress bar.
+This can be especially important for forking type parallel runs.</p>
+</td></tr>
+<tr valign="top"><td><code>min_time</code></td>
+<td>
+<p>Minimum time in seconds.
+<code><a href="../../pbapply/help/timerProgressBar.html">timerProgressBar</a></code> output is printed only if
+estimated completion time is higher than this value.
+The default value is 0.</p>
+</td></tr>
+<tr valign="top"><td><code>use_lb</code></td>
+<td>
+<p>Switch for using load balancing when running in
+parallel clusters. The default value is <code>FALSE</code>.</p>
+</td></tr>
+</table>
+<p>For <code>startpb</code> a progress bar object.
+</p>
+<p>For <code>getpb</code> and <code>setpb</code>, a length-one numeric vector giving
+the previous value (invisibly for <code>setpb</code>).
+The return value is <code>NULL</code> if the progress bar is turned off by
+<code>getOption("pboptions")$type</code> (<code>"none"</code> or <code>NULL</code> value).
+</p>
+<p><code>dopb</code> returns a logical value if progress bar is to be shown
+based on the option <code>getOption("pboptions")$type</code>.
+It is <code>FALSE</code> if the type of progress bar is <code>"none"</code> or
+<code>NULL</code>.
+</p>
+<p><code>doshiny</code> returns a logical value, <code>TRUE</code> when the shiny
+package namespace is available (i.e. the suggested package is installed),
+the <code>type</code> option is set to <code>"shiny"</code>, and a shiny application
+is running.
+</p>
+<p>For <code>closepb</code> closes the connection for the progress bar.
+</p>
+<p><code>pbtypes</code> prints the available progress bar types
+depending on the operating system (i.e. <code>"win"</code> available
+on Windows only).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter Solymos &lt;solymos@ualberta.ca&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Progress bars used in the functions:
+<code><a href="../../utils/help/winProgressBar.html">winProgressBar</a></code>,
+<code><a href="../../pbapply/help/timerProgressBar.html">timerProgressBar</a></code>,
+<code><a href="../../utils/help/txtProgressBar.html">txtProgressBar</a></code>,
+<code><a href="../../tcltk/help/tkProgressBar.html">tkProgressBar</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## increase sluggishness to admire the progress bar longer
+sluggishness &lt;- 0.01
+
+## for loop
+fun1 &lt;- function() {
+    pb &lt;- startpb(0, 10)
+    on.exit(closepb(pb))
+    for (i in 1:10) {
+        Sys.sleep(sluggishness)
+        setpb(pb, i)
+    }
+    invisible(NULL)
+}
+## while loop
+fun2 &lt;- function() {
+    pb &lt;- startpb(0, 10-1)
+    on.exit(closepb(pb))
+    i &lt;- 1
+    while (i &lt; 10) {
+        Sys.sleep(sluggishness)
+        setpb(pb, i)
+        i &lt;- i + 1
+    }
+    invisible(NULL)
+}
+## using original settings
+fun1()
+## resetting pboptions
+opb &lt;- pboptions(style = 1, char = "&gt;")
+## check new settings
+getOption("pboptions")
+## running again with new settings
+fun2()
+## resetting original
+pboptions(opb)
+## check reset
+getOption("pboptions")
+fun1()
+
+## dealing with nested progress bars
+## when only one the 1st one is needed
+f &lt;- function(x) Sys.sleep(sluggishness)
+g &lt;- function(x) pblapply(1:10, f)
+tmp &lt;- lapply(1:10, g) # undesirable
+## here is the desirable solution
+h &lt;- function(x) {
+    opb &lt;- pboptions(type="none")
+    on.exit(pboptions(opb))
+    pblapply(1:10, f)
+}
+tmp &lt;- pblapply(1:10, h)
+
+## list available pb types
+pbtypes()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pbapply</em> version 1.7-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

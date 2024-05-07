@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update the newlines attribute</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for update_newlines {styler}"><tr><td>update_newlines {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Update the newlines attribute</h2>
+
+<h3>Description</h3>
+
+<p>As we work only with the <code>lag_newlines</code> attribute for setting the line
+breaks (<code>R/rules-line_breaks.R</code>), but we need <code>newlines</code> to determine
+whether or not to set <code>spaces</code> (<code>R/rules-spaces.R</code>), we have to update the
+attribute. We cannot simply use <code>dplyr::lead(pd$lag_newlines)</code> since we would
+lose information for the last token. <code>spaces</code> is left as is in
+R/rules-spacing.R for tokens at the end of a line since this allows styling
+without touching indention.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+update_newlines(pd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A parse table with synchronized <code>lag_newlines</code> and <code>newlines</code>
+columns.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>choose_indention
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

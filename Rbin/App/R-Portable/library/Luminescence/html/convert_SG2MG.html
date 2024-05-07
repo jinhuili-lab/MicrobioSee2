@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Converts Single-Grain Data to Multiple-Grain Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_SG2MG {Luminescence}"><tr><td>convert_SG2MG {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Converts Single-Grain Data to Multiple-Grain Data</h2>
+
+<h3>Description</h3>
+
+<p>Conversion of single-grain data to multiple-grain data by adding signals
+from grains belonging to one disc (unique pairs of position, set and run).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_SG2MG(object, write_file = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> <a href="../../base/html/character.html">character</a> (<strong>required</strong>): <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>
+object or BIN/BINX-file name</p>
+</td></tr>
+<tr valign="top"><td><code>write_file</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): if the input was a path to a file, the
+output can be written to a file if <code>TRUE</code>. The multiple grain file will be written into the
+same folder and with extension <code>-SG</code> to the file name.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed down to <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a> if input is file path</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object and if <code>write_file = TRUE</code> and the input
+was a file path, a file is written to origin folder.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Mercier, N., 2021. convert_SG2MG(): Converts Single-Grain Data to Multiple-Grain Data. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom), Norbert Mercier, IRAMAT-CRP2A, UMR 5060, CNRS-Université Bordeaux Montaigne (France);
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## simple run
+## (please not that the example is not using SG data)
+data(ExampleData.BINfileData, envir = environment())
+convert_SG2MG(CWOSL.SAR.Data)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

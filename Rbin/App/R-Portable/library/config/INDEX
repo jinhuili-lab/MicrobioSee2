@@ -1,0 +1,6 @@
+get                     Read configuration values. Always use as
+                        'config::get()'.
+is_active               Test active configuration.
+merge                   Merge two configurations. Always use as
+                        'config::merge()'.
+with_config             Run code using a temporary config file.

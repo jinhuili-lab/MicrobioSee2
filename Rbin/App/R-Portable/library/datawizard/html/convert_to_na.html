@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert non-missing values in a variable into missing values.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_to_na {datawizard}"><tr><td>convert_to_na {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert non-missing values in a variable into missing values.</h2>
+
+<h3>Description</h3>
+
+<p>Convert non-missing values in a variable into missing values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_to_na(x, ...)
+
+## S3 method for class 'numeric'
+convert_to_na(x, na = NULL, verbose = TRUE, ...)
+
+## S3 method for class 'factor'
+convert_to_na(x, na = NULL, drop_levels = FALSE, verbose = TRUE, ...)
+
+## S3 method for class 'data.frame'
+convert_to_na(
+  x,
+  select = NULL,
+  exclude = NULL,
+  na = NULL,
+  drop_levels = FALSE,
+  ignore_case = FALSE,
+  regex = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector, factor or a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>na</code></td>
+<td>
+<p>Numeric, character vector or logical (or a list of numeric, character
+vectors or logicals) with values that should be converted to <code>NA</code>. Numeric
+values applied to numeric vectors, character values are used for factors,
+character vectors or date variables, and logical values for logical vectors.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>drop_levels</code></td>
+<td>
+<p>Logical, for factors, when specific levels are replaced
+by <code>NA</code>, should unused levels be dropped?</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Variables that will be included when performing the required
+tasks. Can be either
+</p>
+
+<ul>
+<li><p> a variable specified as a literal variable name (e.g., <code>column_name</code>),
+</p>
+</li>
+<li><p> a string with the variable name (e.g., <code>"column_name"</code>), or a character
+vector of variable names (e.g., <code>c("col1", "col2", "col3")</code>),
+</p>
+</li>
+<li><p> a formula with variable names (e.g., <code>~column_1 + column_2</code>),
+</p>
+</li>
+<li><p> a vector of positive integers, giving the positions counting from the left
+(e.g. <code>1</code> or <code>c(1, 3, 5)</code>),
+</p>
+</li>
+<li><p> a vector of negative integers, giving the positions counting from the
+right (e.g., <code>-1</code> or <code>-1:-3</code>),
+</p>
+</li>
+<li><p> one of the following select-helpers: <code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, a range using <code>:</code> or <code>regex("")</code>. <code>starts_with()</code>,
+<code>ends_with()</code>, and  <code>contains()</code> accept several patterns, e.g
+<code>starts_with("Sep", "Petal")</code>.
+</p>
+</li>
+<li><p> or a function testing for logical conditions, e.g. <code>is.numeric()</code> (or
+<code>is.numeric</code>), or any user-defined function that selects the variables
+for which the function returns <code>TRUE</code> (like: <code>foo &lt;- function(x) mean(x) &gt; 3</code>),
+</p>
+</li>
+<li><p> ranges specified via literal variable names, select-helpers (except
+<code>regex()</code>) and (user-defined) functions can be negated, i.e. return
+non-matching elements, when prefixed with a <code>-</code>, e.g. <code>-ends_with("")</code>,
+<code>-is.numeric</code> or <code>-(Sepal.Width:Petal.Length)</code>. <strong>Note:</strong> Negation means
+that matches are <em>excluded</em>, and thus, the <code>exclude</code> argument can be
+used alternatively. For instance, <code>select=-ends_with("Length")</code> (with
+<code>-</code>) is equivalent to <code>exclude=ends_with("Length")</code> (no <code>-</code>). In case
+negation should not work as expected, use the <code>exclude</code> argument instead.
+</p>
+</li></ul>
+
+<p>If <code>NULL</code>, selects all columns. Patterns that found no matches are silently
+ignored, e.g. <code>find_columns(iris, select = c("Species", "Test"))</code> will just
+return <code>"Species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>See <code>select</code>, however, column names matched by the pattern
+from <code>exclude</code> will be excluded instead of selected. If <code>NULL</code> (the default),
+excludes no columns.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and when one of the select-helpers or
+a regular expression is used in <code>select</code>, ignores lower/upper case in the
+search pattern when matching against variable names.</p>
+</td></tr>
+<tr valign="top"><td><code>regex</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the search pattern from <code>select</code> will be
+treated as regular expression. When <code>regex = TRUE</code>, select <em>must</em> be a
+character string (or a variable containing a character string) and is not
+allowed to be one of the supported select-helpers or a character vector
+of length &gt; 1. <code>regex = TRUE</code> is comparable to using one of the two
+select-helpers, <code>select = contains("")</code> or <code>select = regex("")</code>, however,
+since the select-helpers may not work when called from inside other
+functions (see 'Details'), this argument may be used as workaround.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>x</code>, where all values in <code>na</code> are converted to <code>NA</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- sample(1:6, size = 30, replace = TRUE)
+x
+# values 4 and 5 to NA
+convert_to_na(x, na = 4:5)
+
+# data frames
+set.seed(123)
+x &lt;- data.frame(
+  a = sample(1:6, size = 20, replace = TRUE),
+  b = sample(letters[1:6], size = 20, replace = TRUE),
+  c = sample(c(30:33, 99), size = 20, replace = TRUE)
+)
+# for all numerics, convert 5 to NA. Character/factor will be ignored.
+convert_to_na(x, na = 5)
+
+# for numerics, 5 to NA, for character/factor, "f" to NA
+convert_to_na(x, na = list(6, "f"))
+
+# select specific variables
+convert_to_na(x, select = c("a", "b"), na = list(6, "f"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

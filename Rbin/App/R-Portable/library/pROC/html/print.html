@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print a ROC curve object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for print {pROC}"><tr><td>print {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Print a ROC curve object
+</h2>
+
+<h3>Description</h3>
+
+<p>This function prints a ROC curve, AUC or CI object and return it invisibly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'roc'
+print(x, digits=max(3, getOption("digits") - 3), call=TRUE, ...)
+## S3 method for class 'multiclass.roc'
+print(x, digits=max(3, getOption("digits") -
+  3), call=TRUE, ...) 
+## S3 method for class 'mv.multiclass.roc'
+print(x, digits=max(3, getOption("digits") -
+  3), call=TRUE, ...) 
+## S3 method for class 'smooth.roc'
+print(x, digits=max(3, getOption("digits") - 3),
+call=TRUE, ...)
+## S3 method for class 'auc'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'multiclass.auc'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'ci.auc'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'ci.thresholds'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'ci.se'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'ci.sp'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+## S3 method for class 'ci.coords'
+print(x, digits=max(3, getOption("digits") - 3), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a roc, auc or ci object, from the <a href="../../pROC/help/roc.html">roc</a>, <a href="../../pROC/help/auc.html">auc</a> or
+<a href="../../pROC/help/ci.html">ci</a> functions respectively.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>if the call is printed.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>the number of significant figures to print. See
+<a href="../../base/html/Round.html">signif</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods. In
+particular, <code>print.roc</code> calls <code>print.auc</code> and the
+<code>print.ci</code> variants internally, and a <code>digits</code> argument is
+propagated. Not used in print.auc and print.ci variants.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>These functions return the object they were passed invisibly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>, <code><a href="../../pROC/help/coords.html">coords</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Print a roc object:
+rocobj &lt;- roc(aSAH$outcome, aSAH$s100b)
+print(rocobj)
+
+# Print a smoothed roc object
+print(smooth(rocobj))
+
+# implicit printing
+ roc(aSAH$outcome, aSAH$s100b)
+
+# Print an auc and a ci object, from the ROC object or calling
+# the dedicated function:
+print(rocobj$auc)
+print(ci(rocobj))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

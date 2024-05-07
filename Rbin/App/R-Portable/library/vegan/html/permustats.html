@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract, Analyse and Display Permutation Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for permustats {vegan}"><tr><td>permustats {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Extract, Analyse and Display Permutation Results
+</h2>
+
+<h3>Description</h3>
+
+<p>The <code>permustats</code> function extracts permutation results of
+<span class="pkg">vegan</span> functions. Its support functions can find quantiles and
+standardized effect sizes, plot densities and Q-Q plots.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+permustats(x, ...)
+## S3 method for class 'permustats'
+summary(object, interval = 0.95, alternative, ...)
+## S3 method for class 'permustats'
+densityplot(x, data, xlab = "Permutations", ...)
+## S3 method for class 'permustats'
+density(x, observed = TRUE, ...)
+## S3 method for class 'permustats'
+qqnorm(y, observed = TRUE, ...)
+## S3 method for class 'permustats'
+qqmath(x, data, observed = TRUE, sd.scale = FALSE,
+    ylab = "Permutations", ...)
+## S3 method for class 'permustats'
+boxplot(x, scale = FALSE, names, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x, y</code></td>
+<td>
+<p>The object to be handled.</p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+<p>numeric; the coverage interval reported.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>A character string specifying the limits used for
+the <code>interval</code> and the direction of the test when evaluating
+the <i>p</i>-values. Must be one of <code>"two.sided"</code> (both upper
+and lower limit), <code>"greater"</code> (upper limit), <code>"less"</code>
+(lower limit). Usually <code>alternative</code> is given in the result
+object, but it can be specified with this argument.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Arguments of
+<code><a href="../../lattice/help/densityplot.html">densityplot</a></code> and
+<code><a href="../../lattice/help/qqmath.html">qqmath</a></code> functions.</p>
+</td></tr>
+<tr valign="top"><td><code>observed</code></td>
+<td>
+<p>Add observed statistic among permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>sd.scale</code></td>
+<td>
+<p>Scale permutations to unit standard deviation and observed
+statistic to standardized effect size.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Use standardized effect size (SES).</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>Names of boxes (default: names of statistics).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments passed to the function. In
+<code>density</code> these are passed to <code><a href="../../stats/html/density.html">density.default</a></code>,
+and in <code>boxplot</code> to <code><a href="../../graphics/html/boxplot.html">boxplot.default</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>permustats</code> function extracts permutation results and
+observed statistics from several <span class="pkg">vegan</span> functions that perform
+permutations or simulations.
+</p>
+<p>The <code>summary</code> method of <code>permustats</code> estimates the
+standardized effect sizes (SES) as the difference of observed
+statistic and mean of permutations divided by the standard deviation
+of permutations (also known as <i>z</i>-values). It also prints the
+the mean, median, and limits which contain <code>interval</code> percent
+of permuted values. With the default (<code>interval = 0.95</code>), for
+two-sided test these are (2.5%, 97.5%) and for one-sided tests
+either 5% or 95% quantile and the <i>p</i>-value depending on the
+test direction. The mean, quantiles and <i>z</i> values are evaluated
+from permuted values without observed statistic, but the
+<i>p</i>-value is evaluated with the observed statistic. The
+intervals and the <i>p</i>-value are evaluated with the same test
+direction as in the original test, but this can be changed with
+argument <code>alternative</code>. Several <code>permustats</code> objects can
+be combined with <code>c</code> function. The <code>c</code> function checks
+that statistics are equal, but performs no other sanity tests.
+</p>
+<p>The <code>density</code> and <code>densityplot</code> methods display the
+kernel density estimates of permuted values. When observed value of
+the statistic is included in the permuted values, the
+<code>densityplot</code> method marks the observed statistic as a vertical
+line. However the <code>density</code> method uses its standard <code>plot</code>
+method and cannot mark the observed value.
+</p>
+<p>The <code>qqnorm</code> and <code>qqmath</code> display Q-Q plots of
+permutations, optionally together with the observed value (default)
+which is shown as horizontal line in plots. <code>qqnorm</code> plots
+permutation values against standard Normal variate. <code>qqmath</code>
+defaults to the standard Normal as well, but can accept other
+alternatives (see standard <code><a href="../../lattice/help/qqmath.html">qqmath</a></code>). The
+<code>qqmath</code> function can also plot observed statistic as
+standardized effect size (SES) with standandized permutations
+(argument <code>sd.scale</code>). The permutations are standardized
+without the observed statistic, similarly as in <code>summary</code>.
+</p>
+<p>Functions <code><a href="../../stats/html/density.html">density</a></code> and <code><a href="../../stats/html/qqnorm.html">qqnorm</a></code> are based
+on standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> methods and accept their arguments. They only handle
+one statistic, and cannot be used when several test statistic were
+evaluated. The <code><a href="../../lattice/help/densityplot.html">densityplot</a></code> and
+<code><a href="../../lattice/help/qqmath.html">qqmath</a></code> are <span class="pkg">lattice</span> graphics, and can be
+used either for one or for several statistics.  All these functions
+pass arguments to their underlying functions; see their
+documentation. Functions <code><a href="../../lattice/help/qqmath.html">qqmath</a></code> and
+<code><a href="../../lattice/help/densityplot.html">densityplot</a></code> default to use same axis scaling
+in all subplots of the lattice. You can use argument <code>scales</code> to
+set independent scaling for subplots when this is appropriate (see
+<code><a href="../../lattice/help/xyplot.html">xyplot</a></code> for an exhaustive list of arguments).
+</p>
+<p>Function <code>boxplot</code> draws the box-and-whiskers plots of effect
+size, or the difference of permutations and observed statistic. If
+<code>scale = TRUE</code>, permutations are standardized to unit standard
+deviation, and the plot will show the standardized effect sizes.
+</p>
+<p>The <code>permustats</code> can extract permutation statistics from the
+results of <code><a href="../../vegan/help/adonis2.html">adonis2</a></code>, <code><a href="../../vegan/help/adonis.html">adonis</a></code>,
+<code><a href="../../vegan/help/anosim.html">anosim</a></code>, <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>, <code><a href="../../vegan/help/mantel.html">mantel</a></code>,
+<code><a href="../../vegan/help/mantel.partial.html">mantel.partial</a></code>, <code><a href="../../vegan/help/mrpp.html">mrpp</a></code>,
+<code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>, <code><a href="../../vegan/help/ordiareatest.html">ordiareatest</a></code>,
+<code><a href="../../vegan/help/permutest.cca.html">permutest.cca</a></code>, <code><a href="../../vegan/help/protest.html">protest</a></code>, and
+<code><a href="../../vegan/help/permutest.betadisper.html">permutest.betadisper</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>permustats</code> function returns an object of class
+<code>"permustats"</code>. This is a list of items <code>"statistic"</code> for
+observed statistics, <code>permutations</code> which contains permuted
+values, and <code>alternative</code> which contains text defining the
+character of the test (<code>"two.sided"</code>, <code>"less"</code> or
+<code>"greater"</code>). The <code><a href="../../stats/html/qqnorm.html">qqnorm</a></code> and
+<code><a href="../../stats/html/density.html">density</a></code> methods return their standard result objects.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen with contributions from Gavin L. Simpson
+(<code>permustats.permutest.betadisper</code> method and related
+modifications to <code>summary.permustats</code> and the <code>print</code>
+method) and Eduard Szöcs (<code>permustats.anova.cca).</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/density.html">density</a></code>, <code><a href="../../lattice/help/densityplot.html">densityplot</a></code>,
+<code><a href="../../stats/html/qqnorm.html">qqnorm</a></code>, <code><a href="../../lattice/help/qqmath.html">qqmath</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune, dune.env)
+mod &lt;- adonis2(dune ~ Management + A1, data = dune.env)
+## use permustats
+perm &lt;- permustats(mod)
+summary(perm)
+densityplot(perm)
+qqmath(perm)
+boxplot(perm, scale=TRUE, lty=1, pch=16, cex=0.6, col="hotpink", ylab="SES")
+abline(h=0, col="skyblue")
+## example of multiple types of statistic
+mod &lt;- with(dune.env, betadisper(vegdist(dune), Management))
+pmod &lt;- permutest(mod, nperm = 99, pairwise = TRUE)
+perm &lt;- permustats(pmod)
+summary(perm, interval = 0.90)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

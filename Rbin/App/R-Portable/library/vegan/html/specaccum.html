@@ -1,0 +1,430 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Species Accumulation Curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for specaccum {vegan}"><tr><td>specaccum {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Species Accumulation Curves</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>specaccum</code> finds species accumulation curves or the
+number of species for a certain number of sampled sites or
+individuals. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+specaccum(comm, method = "exact", permutations = 100,
+          conditioned =TRUE, gamma = "jack1",  w = NULL, subset, ...)
+## S3 method for class 'specaccum'
+plot(x, add = FALSE, random = FALSE, ci = 2, 
+    ci.type = c("bar", "line", "polygon"), col = par("fg"), lty = 1,
+    ci.col = col, ci.lty = 1, ci.length = 0, xlab, ylab = x$method, ylim,
+    xvar = c("sites", "individuals", "effort"), ...)
+## S3 method for class 'specaccum'
+boxplot(x, add = FALSE, ...)
+fitspecaccum(object, model, method = "random", ...)
+## S3 method for class 'fitspecaccum'
+plot(x, col = par("fg"), lty = 1, xlab = "Sites", 
+    ylab = x$method, ...) 
+## S3 method for class 'specaccum'
+predict(object, newdata, interpolation = c("linear", "spline"), ...)
+## S3 method for class 'fitspecaccum'
+predict(object, newdata, ...)
+specslope(object, at)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p>Community data set.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Species accumulation method (partial match). Method
+<code>"collector"</code>
+adds sites in the order they happen to be in the data,
+<code>"random"</code> adds sites in random order, <code>"exact"</code> finds the
+expected (mean) species richness, <code>"coleman"</code> finds the
+expected richness following
+Coleman et al. 1982, and <code>"rarefaction"</code> finds the mean when
+accumulating individuals instead of sites.  </p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Number of permutations with <code>method = "random"</code>.
+Usually an integer giving the number permutations, but can also be a
+list of control values for the permutations as returned by the
+function <code><a href="../../permute/help/how.html">how</a></code>, or a permutation matrix where
+each row gives the permuted indices.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conditioned</code></td>
+<td>
+<p> Estimation of standard deviation is conditional on
+the empirical dataset for the exact SAC</p>
+</td></tr>
+<tr valign="top"><td><code>gamma</code></td>
+<td>
+<p>Method for estimating the total extrapolated number of species in the
+survey area by function <code><a href="../../vegan/help/specpool.html">specpool</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Weights giving the sampling effort.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>logical expression indicating sites (rows) to keep: missing
+values are taken as <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>specaccum</code> result object</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add to an existing graph.</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>Draw each random simulation separately instead of
+drawing their average and confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Multiplier used to get confidence intervals from standard
+deviation (standard error of the estimate). Value <code>ci = 0</code>
+suppresses drawing confidence intervals.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.type</code></td>
+<td>
+<p>Type of confidence intervals in the graph: <code>"bar"</code>
+draws vertical bars, <code>"line"</code> draws lines, and
+<code>"polygon"</code> draws a shaded area.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour for drawing lines.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>line type (see <code><a href="../../graphics/html/par.html">par</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci.col</code></td>
+<td>
+<p>Colour for drawing lines or filling the
+<code>"polygon"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.lty</code></td>
+<td>
+<p>Line type for confidence intervals or border of the
+<code>"polygon"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci.length</code></td>
+<td>
+<p>Length of horizontal bars (in inches) at the end of
+vertical bars with <code>ci.type = "bar"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>Labels for <code>x</code> (defaults <code>xvar</code>) and
+<code>y</code> axis.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>the y limits of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xvar</code></td>
+<td>
+<p>Variable used for the horizontal axis:
+<code>"individuals"</code> can be used only with
+<code>method = "rarefaction"</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Either a community data set or fitted <code>specaccum</code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Nonlinear regression model (<code><a href="../../stats/html/nls.html">nls</a></code>). See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>Optional data used in prediction interpreted as
+number of sampling units (sites). If missing, fitted values are
+returned. </p>
+</td></tr>
+<tr valign="top"><td><code>interpolation</code></td>
+<td>
+<p>Interpolation method used with <code>newdata</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Number of plots where the slope is evaluated. Can be a
+real number.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Species accumulation curves (SAC) are used to compare diversity
+properties of community data sets using different accumulator
+functions. The classic method is <code>"random"</code> which finds the mean
+SAC and its standard deviation from random permutations of the data,
+or subsampling without replacement (Gotelli &amp; Colwell 2001).  The
+<code>"exact"</code> method finds the expected SAC using sample-based
+rarefaction method that has been independently developed numerous
+times (Chiarucci et al. 2008) and it is often known as Mao Tau
+estimate (Colwell et al. 2012).  The unconditional standard deviation
+for the exact SAC represents a moment-based estimation that is not
+conditioned on the empirical data set (sd for all samples &gt; 0). The
+unconditional standard deviation is based on an estimation of the
+extrapolated number of species in the survey area (a.k.a. gamma
+diversity), as estimated by function <code><a href="../../vegan/help/specpool.html">specpool</a></code>. The
+conditional standard deviation that was developed by Jari Oksanen (not
+published, sd=0 for all samples). Method <code>"coleman"</code> finds the
+expected SAC and its standard deviation following Coleman et
+al. (1982).  All these methods are based on sampling sites without
+replacement. In contrast, the <code>method = "rarefaction"</code> finds the
+expected species richness and its standard deviation by sampling
+individuals instead of sites.  It achieves this by applying function
+<code><a href="../../vegan/help/rarefy.html">rarefy</a></code> with number of individuals corresponding to
+average number of individuals per site.
+</p>
+<p>Methods <code>"random"</code> and <code>"collector"</code> can take weights
+(<code>w</code>) that give the sampling effort for each site.  The weights
+<code>w</code> do not influence the order the sites are accumulated, but
+only the value of the sampling effort so that not all sites are
+equal. The summary results are expressed against sites even when the
+accumulation uses weights (methods <code>"random"</code>,
+<code>"collector"</code>), or is based on individuals
+(<code>"rarefaction"</code>).  The actual sampling effort is given as item
+<code>Effort</code> or <code>Individuals</code> in the printed result. For
+weighted <code>"random"</code> method the effort refers to the average
+effort per site, or sum of weights per number of sites. With
+weighted <code>method = "random"</code>, the averaged species richness is
+found from linear interpolation of single random permutations.
+Therefore at least the first value (and often several first) have
+<code>NA</code> richness, because these values cannot be interpolated in
+all cases but should be extrapolated.  The <code>plot</code> function
+defaults to display the results as scaled to sites, but this can be
+changed selecting <code>xvar = "effort"</code> (weighted methods) or
+<code>xvar = "individuals"</code> (with <code>method = "rarefaction"</code>).
+</p>
+<p>The <code>summary</code> and <code>boxplot</code> methods are available for
+<code>method = "random"</code>.
+</p>
+<p>Function <code>predict</code> for <code>specaccum</code> can return the values
+corresponding to <code>newdata</code>. With <code>method</code> <code>"exact"</code>,
+<code>"rarefaction"</code> and <code>"coleman"</code> the function uses analytic
+equations for interpolated non-integer values, and for other methods
+linear (<code><a href="../../stats/html/approxfun.html">approx</a></code>) or spline (<code><a href="../../stats/html/splinefun.html">spline</a></code>)
+interpolation. If <code>newdata</code> is not given, the function returns
+the values corresponding to the data. NB., the fitted values with
+<code>method="rarefaction"</code> are based on rounded integer counts, but
+<code>predict</code> can use fractional non-integer counts with
+<code>newdata</code> and give slightly different results.
+</p>
+<p>Function <code>fitspecaccum</code> fits a nonlinear (<code><a href="../../stats/html/nls.html">nls</a></code>)
+self-starting species accumulation model. The input <code>object</code>
+can be a result of <code>specaccum</code> or a community in data frame. In
+the latter case the function first fits a <code>specaccum</code> model and
+then proceeds with fitting the nonlinear model. The function can
+apply a limited set of nonlinear regression models suggested for
+species-area relationship (Dengler 2009). All these are
+<code><a href="../../stats/html/selfStart.html">selfStart</a></code> models. The permissible alternatives are
+<code>"arrhenius"</code> (<code><a href="../../vegan/help/SSarrhenius.html">SSarrhenius</a></code>), <code>"gleason"</code>
+(<code><a href="../../vegan/help/SSgleason.html">SSgleason</a></code>), <code>"gitay"</code> (<code><a href="../../vegan/help/SSgitay.html">SSgitay</a></code>),
+<code>"lomolino"</code> (<code><a href="../../vegan/help/SSlomolino.html">SSlomolino</a></code>) of <span class="pkg">vegan</span>
+package. In addition the following standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> models are available:
+<code>"asymp"</code> (<code><a href="../../stats/html/SSasymp.html">SSasymp</a></code>), <code>"gompertz"</code>
+(<code><a href="../../stats/html/SSgompertz.html">SSgompertz</a></code>), <code>"michaelis-menten"</code>
+(<code><a href="../../stats/html/SSmicmen.html">SSmicmen</a></code>), <code>"logis"</code> (<code><a href="../../stats/html/SSlogis.html">SSlogis</a></code>),
+<code>"weibull"</code> (<code><a href="../../stats/html/SSweibull.html">SSweibull</a></code>). See these functions for
+model specification and details. 
+</p>
+<p>When weights <code>w</code> were used the fit is based on accumulated
+effort and in <code>model = "rarefaction"</code> on accumulated number of
+individuals.  The <code>plot</code> is still based on sites, unless other
+alternative is selected with <code>xvar</code>.
+</p>
+<p>Function <code>predict</code> for <code>fitspecaccum</code> uses
+<code><a href="../../stats/html/predict.nls.html">predict.nls</a></code>, and you can pass all arguments to that
+function. In addition, <code>fitted</code>, <code>residuals</code>, <code>nobs</code>,
+<code>coef</code>, <code>AIC</code>, <code>logLik</code> and <code>deviance</code> work on
+the result object.
+</p>
+<p>Function <code>specslope</code> evaluates the derivative of the species
+accumulation curve at given number of sample plots, and gives the
+rate of increase in the number of species. The function works with
+<code>specaccum</code> result object when this is based on analytic models
+<code>"exact"</code>, <code>"rarefaction"</code> or <code>"coleman"</code>, and with
+non-linear regression results of <code>fitspecaccum</code>.
+</p>
+<p>Nonlinear regression may fail for any reason, and some of the
+<code>fitspecaccum</code> models are fragile and may not succeed.  
+</p>
+
+
+<h3>Value</h3>
+
+<p> Function <code>specaccum</code> returns an object of class
+<code>"specaccum"</code>, and <code>fitspecaccum</code> a model of class
+<code>"fitspecaccum"</code> that adds a few items to the
+<code>"specaccum"</code> (see the end of the list below):
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>call </code></td>
+<td>
+<p>Function call.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Accumulator method.</p>
+</td></tr>
+<tr valign="top"><td><code>sites</code></td>
+<td>
+<p>Number of sites.  For <code>method = "rarefaction"</code> this
+is the number of sites corresponding to a certain number of
+individuals and generally not an integer, and the average
+number of individuals is also returned in item <code>individuals</code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>effort</code></td>
+<td>
+<p>Average sum of weights corresponding to the number of
+sites when model was fitted with argument <code>w</code></p>
+</td></tr>
+<tr valign="top"><td><code>richness</code></td>
+<td>
+<p>The number of species corresponding to number of
+sites.  With <code>method = "collector"</code> this is the observed
+richness, for other methods the average or expected richness.</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>The standard deviation of SAC (or its standard error). This
+is <code>NULL</code> in <code>method = "collector"</code>, and it
+is estimated from permutations in <code>method = "random"</code>, and from
+analytic equations in other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>perm</code></td>
+<td>
+<p>Permutation results with <code>method = "random"</code> and
+<code>NULL</code> in other cases. Each column in <code>perm</code> holds one
+permutation.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Matrix of accumulated weights corresponding to the
+columns of the <code>perm</code> matrix when model was fitted with
+argument <code>w</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fitted, residuals, coefficients</code></td>
+<td>
+<p>Only in <code>fitspecacum</code>:
+fitted values, residuals and nonlinear model coefficients. For
+<code>method = "random"</code> these are matrices with a column for
+each random accumulation.</p>
+</td></tr>
+<tr valign="top"><td><code>models</code></td>
+<td>
+<p>Only in <code>fitspecaccum</code>: list of fitted
+<code><a href="../../stats/html/nls.html">nls</a></code> models (see Examples on accessing these models).</p>
+</td></tr> 
+</table>
+
+
+<h3>Note</h3>
+
+<p>The SAC with <code>method = "exact"</code> was
+developed by Roeland Kindt, and its standard deviation by Jari
+Oksanen (both are unpublished). The <code>method = "coleman"</code>
+underestimates the SAC because it does not handle properly sampling
+without replacement.  Further, its standard deviation does not take
+into account species correlations, and is generally too low. </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Roeland Kindt <a href="mailto:r.kindt@cgiar.org">r.kindt@cgiar.org</a> and Jari Oksanen.</p>
+
+
+<h3>References</h3>
+
+<p>Chiarucci, A., Bacaro, G., Rocchini, D. &amp; Fattorini,
+L. (2008). Discovering and rediscovering the sample-based rarefaction
+formula in the ecological literature. <em>Commun. Ecol.</em> 9:
+121&ndash;123.
+</p>
+<p>Coleman, B.D, Mares, M.A., Willis, M.R. &amp; Hsieh,
+Y. (1982). Randomness, area and species richness. <em>Ecology</em> 63:
+1121&ndash;1133. 
+</p>
+<p>Colwell, R.K., Chao, A., Gotelli, N.J., Lin, S.Y., Mao, C.X., Chazdon,
+R.L. &amp; Longino, J.T. (2012). Models and estimators linking
+individual-based and sample-based rarefaction, extrapolation and
+comparison of assemblages. <em>J. Plant Ecol.</em> 5: 3&ndash;21.
+</p>
+<p>Dengler, J. (2009). Which function describes the species-area
+relationship best? A review and empirical evaluation. 
+<em>Journal of Biogeography</em> 36, 728&ndash;744.
+</p>
+<p>Gotelli, N.J. &amp; Colwell, R.K. (2001). Quantifying biodiversity:
+procedures and pitfalls in measurement and comparison of species
+richness. <em>Ecol. Lett.</em> 4, 379&ndash;391.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/rarefy.html">rarefy</a></code> and <code><a href="../../vegan/help/rrarefy.html">rrarefy</a></code> are related
+individual based models. Other accumulation models are
+<code><a href="../../vegan/help/poolaccum.html">poolaccum</a></code> for extrapolated richness, and
+<code><a href="../../vegan/help/renyiaccum.html">renyiaccum</a></code> and <code><a href="../../vegan/help/tsallisaccum.html">tsallisaccum</a></code> for
+diversity indices.  Underlying graphical functions are
+<code><a href="../../graphics/html/boxplot.html">boxplot</a></code>, <code><a href="../../graphics/html/matplot.html">matlines</a></code>,
+<code><a href="../../graphics/html/segments.html">segments</a></code> and <code><a href="../../graphics/html/polygon.html">polygon</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+sp1 &lt;- specaccum(BCI)
+sp2 &lt;- specaccum(BCI, "random")
+sp2
+summary(sp2)
+plot(sp1, ci.type="poly", col="blue", lwd=2, ci.lty=0, ci.col="lightblue")
+boxplot(sp2, col="yellow", add=TRUE, pch="+")
+## Fit Lomolino model to the exact accumulation
+mod1 &lt;- fitspecaccum(sp1, "lomolino")
+coef(mod1)
+fitted(mod1)
+plot(sp1)
+## Add Lomolino model using argument 'add'
+plot(mod1, add = TRUE, col=2, lwd=2)
+## Fit Arrhenius models to all random accumulations
+mods &lt;- fitspecaccum(sp2, "arrh")
+plot(mods, col="hotpink")
+boxplot(sp2, col = "yellow", border = "blue", lty=1, cex=0.3, add= TRUE)
+## Use nls() methods to the list of models
+sapply(mods$models, AIC)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

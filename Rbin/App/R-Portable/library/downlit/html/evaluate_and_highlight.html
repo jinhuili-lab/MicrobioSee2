@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate code and syntax highlight the results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for evaluate_and_highlight {downlit}"><tr><td>evaluate_and_highlight {downlit}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate code and syntax highlight the results</h2>
+
+<h3>Description</h3>
+
+<p>This function runs <code>code</code> and captures the output using
+<code><a href="../../evaluate/help/evaluate.html">evaluate::evaluate()</a></code>. It syntax higlights code with <code><a href="../../downlit/help/highlight.html">highlight()</a></code>, and
+intermingles it with output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+evaluate_and_highlight(
+  code,
+  fig_save,
+  classes = downlit::classes_pandoc(),
+  env = NULL,
+  output_handler = evaluate::new_output_handler(),
+  highlight = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>Code to evaluate (as a string).</p>
+</td></tr>
+<tr valign="top"><td><code>fig_save</code></td>
+<td>
+<p>A function with arguments <code>plot</code> and <code>id</code> that is
+responsible for saving <code>plot</code> to a file (using <code>id</code> to disambiguate
+multiple plots in the same chunk). It should return a list with
+components <code>path</code>, <code>width</code>, and <code>height</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>A mapping between token names and CSS class names.
+Bundled <code>classes_pandoc()</code> and <code>classes_chroma()</code> provide mappings
+that (roughly) match Pandoc and chroma (used by hugo) classes so you
+can use existing themes.</p>
+</td></tr>
+<tr valign="top"><td><code>env</code></td>
+<td>
+<p>Environment in which to evaluate code; if not supplied,
+defaults to a child of the global environment.</p>
+</td></tr>
+<tr valign="top"><td><code>output_handler</code></td>
+<td>
+<p>Custom output handler for <code><a href="../../evaluate/help/evaluate.html">evaluate::evaluate()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>highlight</code></td>
+<td>
+<p>Optionally suppress highlighting. This is useful for tests.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An string containing HTML with a <code>dependencies</code> attribute
+giving an additional htmltools dependencies required to render the HTML.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+cat(evaluate_and_highlight("1 + 2"))
+cat(evaluate_and_highlight("x &lt;- 1:10\nmean(x)"))
+
+# -----------------------------------------------------------------
+# evaluate_and_highlight() powers pkgdown's documentation formatting so
+# here I include a few examples to make sure everything looks good
+# -----------------------------------------------------------------
+
+blue &lt;- function(x) paste0("\033[34m", x, "\033[39m")
+f &lt;- function(x) {
+  cat("This is some output. My favourite colour is ", blue("blue"), ".\n", sep = "")
+  message("This is a message. My favourite fruit is ", blue("blueberries"))
+  warning("Now at stage ", blue("blue"), "!")
+}
+f()
+
+plot(1:10)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>downlit</em> version 0.4.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

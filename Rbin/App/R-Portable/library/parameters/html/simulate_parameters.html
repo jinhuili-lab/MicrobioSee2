@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Model Parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simulate_parameters.glmmTMB {parameters}"><tr><td>simulate_parameters.glmmTMB {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate Model Parameters</h2>
+
+<h3>Description</h3>
+
+<p>Compute simulated draws of parameters and their related indices
+such as Confidence Intervals (CI) and p-values. Simulating parameter draws
+can be seen as a (computationally faster) alternative to bootstrapping.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'glmmTMB'
+simulate_parameters(
+  model,
+  iterations = 1000,
+  centrality = "median",
+  ci = 0.95,
+  ci_method = "quantile",
+  test = "p-value",
+  ...
+)
+
+simulate_parameters(model, ...)
+
+## Default S3 method:
+simulate_parameters(
+  model,
+  iterations = 1000,
+  centrality = "median",
+  ci = 0.95,
+  ci_method = "quantile",
+  test = "p-value",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Statistical model (no Bayesian models).</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of draws to simulate/bootstrap.</p>
+</td></tr>
+<tr valign="top"><td><code>centrality</code></td>
+<td>
+<p>The point-estimates (centrality indices) to compute. Character
+(vector) or list with one or more of these options: <code>"median"</code>, <code>"mean"</code>, <code>"MAP"</code>
+(see <code><a href="../../bayestestR/help/map_estimate.html">map_estimate()</a></code>), <code>"trimmed"</code> (which is just <code>mean(x, trim = threshold)</code>),
+<code>"mode"</code> or <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The type of index used for Credible Interval. Can be
+<code>"ETI"</code> (default, see <code><a href="../../bayestestR/help/eti.html">eti()</a></code>), <code>"HDI"</code>
+(see <code><a href="../../bayestestR/help/hdi.html">hdi()</a></code>), <code>"BCI"</code> (see
+<code><a href="../../bayestestR/help/bci.html">bci()</a></code>), <code>"SPI"</code> (see <code><a href="../../bayestestR/help/spi.html">spi()</a></code>), or
+<code>"SI"</code> (see <code><a href="../../bayestestR/help/si.html">si()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The indices of effect existence to compute. Character (vector) or
+list with one or more of these options: <code>"p_direction"</code> (or <code>"pd"</code>),
+<code>"rope"</code>, <code>"p_map"</code>, <code>"equivalence_test"</code> (or <code>"equitest"</code>),
+<code>"bayesfactor"</code> (or <code>"bf"</code>) or <code>"all"</code> to compute all tests.
+For each &quot;test&quot;, the corresponding <span class="pkg">bayestestR</span> function is called
+(e.g. <code><a href="../../bayestestR/help/rope.html">rope()</a></code> or <code><a href="../../bayestestR/help/p_direction.html">p_direction()</a></code>) and its results
+included in the summary output.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../insight/help/get_varcov.html">insight::get_varcov()</a></code>, e.g. to allow simulated
+draws to be based on heteroscedasticity consistent variance covariance matrices.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Technical Details</h4>
+
+<p><code>simulate_parameters()</code> is a computationally faster alternative
+to <code>bootstrap_parameters()</code>. Simulated draws for coefficients are based
+on a multivariate normal distribution (<code>MASS::mvrnorm()</code>) with mean
+<code>mu = coef(model)</code> and variance <code>Sigma = vcov(model)</code>.
+</p>
+
+
+
+<h4>Models with Zero-Inflation Component</h4>
+
+<p>For models from packages <strong>glmmTMB</strong>, <strong>pscl</strong>, <strong>GLMMadaptive</strong> and
+<strong>countreg</strong>, the <code>component</code> argument can be used to specify
+which parameters should be simulated. For all other models, parameters
+from the conditional component (fixed effects) are simulated. This may
+include smooth terms, but not random effects.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with simulated parameters.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/parameters.html"><code>plot()</code>-method</a> implemented in the <a href="https://easystats.github.io/see/"><strong>see</strong>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman A, Hill J. Data analysis using regression and
+multilevel/hierarchical models. Cambridge; New York: Cambridge University
+Press 2007: 140-143
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/bootstrap_model.html">bootstrap_model()</a></code>, <code><a href="../../parameters/help/bootstrap_parameters.html">bootstrap_parameters()</a></code>, <code><a href="../../parameters/help/simulate_model.html">simulate_model()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(Sepal.Length ~ Species * Petal.Width + Petal.Length, data = iris)
+simulate_parameters(model)
+
+
+if (require("glmmTMB", quietly = TRUE)) {
+  model &lt;- glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~mined,
+    family = poisson(),
+    data = Salamanders
+  )
+  simulate_parameters(model, centrality = "mean")
+  simulate_parameters(model, ci = c(.8, .95), component = "zero_inflated")
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

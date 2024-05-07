@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Matrix Permutation Algorithms for Presence-Absence and Count...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for permat {vegan}"><tr><td>permat {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Matrix Permutation Algorithms for Presence-Absence and Count Data</h2>
+
+<h3>Description</h3>
+
+<p> Individual (for count data) or incidence (for
+presence-absence data) based null models can be generated for
+community level simulations. Options for preserving characteristics of
+the original matrix (rows/columns sums, matrix fill) and
+restricted permutations (based on strata) are discussed in the
+Details section.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+permatfull(m, fixedmar = "both", shuffle = "both", strata = NULL, 
+    mtype = "count", times = 99, ...)
+permatswap(m, method = "quasiswap", fixedmar="both", shuffle = "both",
+    strata = NULL, mtype = "count", times = 99, 
+    burnin = 0, thin = 1, ...)
+## S3 method for class 'permat'
+print(x, digits = 3, ...)
+## S3 method for class 'permat'
+summary(object, ...)
+## S3 method for class 'summary.permat'
+print(x, digits = 2, ...)
+## S3 method for class 'permat'
+plot(x, type = "bray", ylab, xlab, col, lty,
+    lowess = TRUE, plot = TRUE, text = TRUE, ...)
+## S3 method for class 'permat'
+lines(x, type = "bray", ...)
+## S3 method for class 'permat'
+as.ts(x, type = "bray", ...)
+## S3 method for class 'permat'
+as.mcmc(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>m</code></td>
+<td>
+<p>A community data matrix with plots (samples) as rows and
+species (taxa) as columns.</p>
+</td></tr> 
+<tr valign="top"><td><code>fixedmar</code></td>
+<td>
+<p>character, stating which of the row/column sums should
+be preserved (<code>"none", "rows", "columns", "both"</code>).</p>
+</td></tr> 
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>Numeric vector or factor with length same as
+<code>nrow(m)</code> for grouping rows within strata for restricted
+permutations. Unique values or levels are used.</p>
+</td></tr> 
+<tr valign="top"><td><code>mtype</code></td>
+<td>
+<p>Matrix data type, either <code>"count"</code> for count data,
+or <code>"prab"</code> for presence-absence type incidence data.</p>
+</td></tr> 
+<tr valign="top"><td><code>times</code></td>
+<td>
+<p>Number of permuted matrices.</p>
+</td></tr> 
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Character for method used for the swap algorithm
+(<code>"swap"</code>, <code>"tswap"</code>, <code>"quasiswap"</code>,
+<code>"backtrack"</code>) as described for function
+<code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code>. If <code>mtype="count"</code> the
+<code>"quasiswap"</code>, <code>"swap"</code>, <code>"swsh"</code> and
+<code>"abuswap"</code> methods are available (see details).</p>
+</td></tr> 
+<tr valign="top"><td><code>shuffle</code></td>
+<td>
+<p>Character, indicating whether individuals
+(<code>"ind"</code>), samples (<code>"samp"</code>) or both (<code>"both"</code>)
+should be shuffled, see details.</p>
+</td></tr> 
+<tr valign="top"><td><code>burnin</code></td>
+<td>
+<p>Number of null communities discarded before proper
+analysis in sequential (<code>"swap", "tswap"</code>) methods.</p>
+</td></tr> 
+<tr valign="top"><td><code>thin</code></td>
+<td>
+<p>Number of discarded permuted matrices between two
+evaluations in sequential (<code>"swap", "tswap"</code>) methods.</p>
+</td></tr> 
+<tr valign="top"><td><code>x, object</code></td>
+<td>
+<p>Object of class <code>"permat"</code></p>
+</td></tr> 
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of digits used for rounding.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab, xlab, col, lty</code></td>
+<td>
+<p>graphical parameters for the <code>plot</code>
+method.</p>
+</td></tr> 
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character, type of plot to be displayed: <code>"bray"</code> for
+Bray-Curtis dissimilarities, <code>"chisq"</code> for Chi-squared values.</p>
+</td></tr> 
+<tr valign="top"><td><code>lowess, plot, text</code></td>
+<td>
+<p>Logical arguments for the <code>plot</code>
+method, whether a locally weighted regression curve should be drawn,
+the plot should be drawn, and statistic values should be printed on
+the plot.</p>
+</td></tr> 
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../vegan/help/simulate.nullmodel.html">simulate.nullmodel</a></code> 
+or methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>permatfull</code> is useful when matrix fill is
+allowed to vary, and matrix type is <code>count</code>.  The <code>fixedmar</code>
+argument is used to set constraints for permutation.  If <code>none</code>
+of the margins are fixed, cells are randomised within the matrix.  If
+<code>rows</code> or <code>columns</code> are fixed, cells within rows or columns
+are randomised, respectively.  If <code>both</code> margins are fixed, the
+<code><a href="../../stats/html/r2dtable.html">r2dtable</a></code> function is used that is based on Patefield's
+(1981) algorithm. For presence absence data, matrix fill should be
+necessarily fixed, and <code>permatfull</code> is a wrapper for the function
+<code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code>. The <code>r00, r0, c0, quasiswap</code>
+algorithms of <code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code> are used for <code>"none",
+  "rows", "columns", "both"</code> values of the <code>fixedmar</code> argument,
+respectively
+</p>
+<p>The <code>shuffle</code> argument only have effect if the <code>mtype =
+  "count"</code> and <code>permatfull</code> function is used with <code>"none",
+  "rows", "columns"</code> values of <code>fixedmar</code>. All other cases for
+count data are individual based randomisations. The <code>"samp"</code> and
+<code>"both"</code> options result fixed matrix fill. The <code>"both"</code>
+option means that individuals are shuffled among non zero cells
+ensuring that there are no cell with zeros as a result, then cell
+(zero and new valued cells) are shuffled.
+</p>
+<p>The function <code>permatswap</code> is useful when with matrix fill
+(i.e. the proportion of empty cells) and row/columns sums should be
+kept constant. <code>permatswap</code> uses different kinds of swap
+algorithms, and row and columns sums are fixed in all cases.  For
+presence-absence data, the <code>swap</code> and <code>tswap</code> methods of
+<code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code> can be used.  For count data, a special
+swap algorithm ('swapcount') is implemented that results in permuted
+matrices with fixed marginals and matrix fill at the same time.
+</p>
+<p>The 'quasiswapcount' algorithm (<code>method="quasiswap"</code> and
+<code>mtype="count"</code>) uses the same trick as Carsten Dormann's
+<code><a href="../../bipartite/help/swap.web.html">swap.web</a></code> function in the package
+<span class="pkg">bipartite</span>. First, a random matrix is generated by the
+<code><a href="../../stats/html/r2dtable.html">r2dtable</a></code> function retaining row and column sums. Then
+the original matrix fill is reconstructed by sequential steps to
+increase or decrease matrix fill in the random matrix. These steps are
+based on swapping 2x2 submatrices (see 'swapcount' algorithm for
+details) to maintain row and column totals. This algorithm generates
+independent matrices in each step, so <code>burnin</code> and <code>thin</code>
+arguments are not considered. This is the default method, because this
+is not sequential (as <code>swapcount</code> is) so independence of subsequent
+matrices does not have to be checked.
+</p>
+<p>The <code>swapcount</code> algorithm (<code>method="swap"</code> and
+<code>mtype="count"</code>) tries to find 2x2 submatrices (identified by 2
+random row and 2 random column indices), that can be swapped in order
+to leave column and row totals and fill unchanged. First, the
+algorithm finds the largest value in the submatrix that can be swapped
+(<i>d</i>) and whether in diagonal or antidiagonal way. Submatrices
+that contain values larger than zero in either diagonal or
+antidiagonal position can be swapped. Swap means that the values in
+diagonal or antidiagonal positions are decreased by <i>d</i>, while
+remaining cells are increased by <i>d</i>. A swap is made only if fill
+doesn't change. This algorithm is sequential, subsequent matrices are
+not independent, because swaps modify little if the matrix is
+large. In these cases many burnin steps and thinning is needed to get
+independent random matrices. Although this algorithm is implemented in
+C, large burnin and thin values can slow it down
+considerably. WARNING: according to simulations, this algorithm seems
+to be biased and non random, thus its use should be avoided!
+</p>
+<p>The algorithm <code>"swsh"</code> in the function <code>permatswap</code> is a
+hybrid algorithm. First, it makes binary quasiswaps to keep row and
+column incidences constant, then non-zero values are modified
+according to the <code>shuffle</code> argument (only <code>"samp"</code> and
+<code>"both"</code> are available in this case, because it is applied only
+on non-zero values). It also recognizes the <code>fixedmar</code>
+argument which cannot be <code>"both"</code> (<span class="pkg">vegan</span> versions &lt;= 2.0
+had this algorithm with <code>fixedmar = "none"</code>).
+</p>
+<p>The algorithm <code>"abuswap"</code> produces two kinds of null models
+(based on <code>fixedmar="columns"</code> or <code>fixedmar="rows"</code>) as
+described in Hardy (2008; randomization scheme 2x and 3x,
+respectively).  These preserve column and row occurrences, and column
+or row sums at the same time. (Note that similar constraints
+can be achieved by the non sequential <code>"swsh"</code> algorithm
+with <code>fixedmar</code> argument set to <code>"columns"</code> or
+<code>"rows"</code>, respectively.)
+</p>
+<p>Constraints on row/column sums, matrix fill, total sum and sums within
+strata can be checked by the <code>summary</code> method. <code>plot</code> method
+is for visually testing the randomness of the permuted matrices,
+especially for the sequential swap algorithms. If there are any
+tendency in the graph, higher <code>burnin</code> and <code>thin</code> values can
+help for sequential methods.  New lines can be added to existing plot
+with the <code>lines</code> method.
+</p>
+<p>Unrestricted and restricted permutations: if <code>strata</code> is
+<code>NULL</code>, functions perform unrestricted permutations. Otherwise,
+it is used for restricted permutations. Each strata should contain at
+least 2 rows in order to perform randomization (in case of low row
+numbers, swap algorithms can be rather slow). If the design is not
+well balanced (i.e. same number of observations within each stratum),
+permuted matrices may be biased because same constraints are forced on
+submatrices of different dimensions. This often means, that the number
+of potential permutations will decrease with their dimensions.  So the
+more constraints we put, the less randomness can be expected.
+</p>
+<p>The <code>plot</code> method is useful for graphically testing for trend and
+independence of permuted matrices. This is especially important when
+using sequential algorithms (<code>"swap", "tswap", "abuswap"</code>).
+</p>
+<p>The <code>as.ts</code> method can be used to extract Bray-Curtis
+dissimilarities or Chi-squared values as time series. This can further
+used in testing independence (see Examples). The method <code>as.mcmc</code>
+is useful for accessing diagnostic tools available in the <span class="pkg">coda</span>
+package.  </p>
+
+
+<h3>Value</h3>
+
+<p>Functions <code>permatfull</code> and <code>permatswap</code> return an
+object of class <code>"permat"</code> containing the the function call
+(<code>call</code>), the original data matrix used for permutations
+(<code>orig</code>) and a list of permuted matrices with length <code>times</code>
+(<code>perm</code>).
+</p>
+<p>The <code>summary</code> method returns various statistics as a list
+(including mean Bray-Curtis dissimilarities calculated pairwise among
+original and permuted matrices, Chi-square statistics, and check
+results of the constraints; see Examples). Note that when
+<code>strata</code> is used in the original call, summary calculation may
+take longer.
+</p>
+<p>The <code>plot</code> creates a plot as a side effect.
+</p>
+<p>The <code>as.ts</code> method returns an object of class <code>"ts"</code>.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Péter Sólymos,
+<a href="mailto:solymos@ualberta.ca">solymos@ualberta.ca</a> and Jari Oksanen</p>
+
+
+<h3>References</h3>
+
+<p> Original references for presence-absence algorithms are
+given on help page of <code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code>.
+</p>
+<p>Hardy, O. J. (2008) Testing the spatial phylogenetic structure of
+local communities: statistical performances of different null models
+and test statistics on a locally neutral community. Journal of Ecology
+96, 914&ndash;926. 
+</p>
+<p>Patefield, W. M. (1981) Algorithm AS159. An efficient method of
+generating r x c tables with given row and column totals.  
+Applied Statistics 30, 91&ndash;97.
+</p>
+
+
+<h3>See Also</h3>
+
+<p> For other functions to permute matrices:
+<code><a href="../../vegan/help/make.commsim.html">make.commsim</a></code>, <code><a href="../../stats/html/r2dtable.html">r2dtable</a></code>,
+<code><a href="../../base/html/sample.html">sample</a></code>, <code><a href="../../bipartite/help/swap.web.html">swap.web</a></code>.
+</p>
+<p>For the use of these permutation algorithms: <code><a href="../../vegan/help/oecosimu.html">oecosimu</a></code>,
+<code><a href="../../vegan/help/adipart.html">adipart</a></code>, <code><a href="../../vegan/help/hiersimu.html">hiersimu</a></code>.
+</p>
+<p>For time-series diagnostics: <code><a href="../../stats/html/box.test.html">Box.test</a></code>,
+<code><a href="../../stats/html/lag.plot.html">lag.plot</a></code>, <code><a href="../../stats/html/tsdiag.html">tsdiag</a></code>, <code><a href="../../stats/html/ar.html">ar</a></code>,
+<code><a href="../../stats/html/arima.html">arima</a></code> 
+</p>
+<p>For underlying low level implementation:
+<code><a href="../../vegan/help/commsim.html">commsim</a></code> and <code><a href="../../vegan/help/nullmodel.html">nullmodel</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## A simple artificial community data matrix.
+m &lt;- matrix(c(
+    1,3,2,0,3,1,
+    0,2,1,0,2,1,
+    0,0,1,2,0,3,
+    0,0,0,1,4,3
+    ), 4, 6, byrow=TRUE)
+## Using the quasiswap algorithm to create a 
+## list of permuted matrices, where
+## row/columns sums and matrix fill are preserved:
+x1 &lt;- permatswap(m, "quasiswap")
+summary(x1)
+## Unrestricted permutation retaining
+## row/columns sums but not matrix fill:
+x2 &lt;- permatfull(m)
+summary(x2)
+## Unrestricted permutation of presence-absence type
+## not retaining row/columns sums:
+x3 &lt;- permatfull(m, "none", mtype="prab")
+x3$orig  ## note: original matrix is binarized!
+summary(x3)
+## Restricted permutation,
+## check sums within strata:
+x4 &lt;- permatfull(m, strata=c(1,1,2,2))
+summary(x4)
+
+## NOTE: 'times' argument usually needs to be &gt;= 99
+## here much lower value is used for demonstration
+
+## Not sequential algorithm
+data(BCI)
+a &lt;- permatswap(BCI, "quasiswap", times=19)
+## Sequential algorithm
+b &lt;- permatswap(BCI, "abuswap", fixedmar="col",
+    burnin=0, thin=100, times=19)
+opar &lt;- par(mfrow=c(2,2))
+plot(a, main="Not sequential")
+plot(b, main="Sequential")
+plot(a, "chisq")
+plot(b, "chisq")
+par(opar)
+## Extract Bray-Curtis dissimilarities
+## as time series
+bc &lt;- as.ts(b)
+## Lag plot
+lag.plot(bc)
+## First order autoregressive model
+mar &lt;- arima(bc, c(1,0,0))
+mar
+## Ljung-Box test of residuals
+Box.test(residuals(mar))
+## Graphical diagnostics
+tsdiag(mar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

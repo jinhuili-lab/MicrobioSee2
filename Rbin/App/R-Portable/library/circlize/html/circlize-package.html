@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Circular visualization in R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circlize-package {circlize}"><tr><td>circlize-package {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Circular visualization in R
+</h2>
+
+<h3>Description</h3>
+
+<p>Circular visualization in R
+</p>
+
+
+<h3>Details</h3>
+
+<p>This package aims to implement circular layout in R.
+</p>
+<p>Since most of the figures are composed of points, lines and polygons,
+we just need to implement low-level functions for drawing points, lines and polygons.
+</p>
+<p>Current there are following low-level graphic functions:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.points.html">circos.points</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.lines.html">circos.lines</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.rect.html">circos.rect</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.polygon.html">circos.polygon</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.segments.html">circos.segments</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.text.html">circos.text</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.axis.html">circos.axis</a></code>, <code><a href="../../circlize/help/circos.xaxis.html">circos.xaxis</a></code>, <code><a href="../../circlize/help/circos.yaxis.html">circos.yaxis</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.barplot.html">circos.barplot</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.boxplot.html">circos.boxplot</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.violin.html">circos.violin</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.link.html">circos.link</a></code>
+</p>
+</li></ul>
+
+<p>For drawing points, lines and text through the whole track (among several sectors), the following
+functions are available:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.trackPoints.html">circos.trackPoints</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.trackLines.html">circos.trackLines</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.trackText.html">circos.trackText</a></code>
+</p>
+</li></ul>
+
+<p>Draw circular heatmaps
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.heatmap.html">circos.heatmap</a></code>
+</p>
+</li></ul>
+
+<p>Functions to arrange circular layout:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.initialize.html">circos.initialize</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.track.html">circos.track</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.nested.html">circos.nested</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.update.html">circos.update</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.par.html">circos.par</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.info.html">circos.info</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.clear.html">circos.clear</a></code>
+</p>
+</li></ul>
+
+<p>Theoretically, you are able to draw most kinds of circular plots by the above functions.
+</p>
+<p>For specific use in genomics, we also implement functions which add graphics in genome scale.
+</p>
+<p>Functions to initialize circos plot with genomic coordinates:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.initializeWithIdeogram.html">circos.initializeWithIdeogram</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicInitialize.html">circos.genomicInitialize</a></code>
+</p>
+</li></ul>
+
+<p>Functions to arrange genomic circular layout:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.genomicTrack.html">circos.genomicTrack</a></code>
+</p>
+</li></ul>
+
+<p>Functions to add basic graphics in genomic scale:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.genomicPoints.html">circos.genomicPoints</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicLines.html">circos.genomicLines</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicText.html">circos.genomicText</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicRect.html">circos.genomicRect</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicLink.html">circos.genomicLink</a></code>
+</p>
+</li></ul>
+
+<p>Functions with specific purpose:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/circos.genomicDensity.html">circos.genomicDensity</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicRainfall.html">circos.genomicRainfall</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicIdeogram.html">circos.genomicIdeogram</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicHeatmap.html">circos.genomicHeatmap</a></code>
+</p>
+</li>
+<li> <p><code><a href="../../circlize/help/circos.genomicLabels.html">circos.genomicLabels</a></code>
+</p>
+</li></ul>
+
+<p>Finally, function that draws Chord diagram:
+</p>
+
+<ul>
+<li> <p><code><a href="../../circlize/help/chordDiagram.html">chordDiagram</a></code>
+</p>
+</li></ul>
+
+<p>Please refer to the vignettes (<a href="https://jokergoo.github.io/circlize_book/book/">https://jokergoo.github.io/circlize_book/book/</a> ) to find out how to draw basic and advanced circular plots by this package.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

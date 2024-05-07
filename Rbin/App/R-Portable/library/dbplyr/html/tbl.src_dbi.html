@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use dplyr verbs with a remote database table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tbl.src_dbi {dbplyr}"><tr><td>tbl.src_dbi {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use dplyr verbs with a remote database table</h2>
+
+<h3>Description</h3>
+
+<p>All data manipulation on SQL tbls are lazy: they will not actually
+run the query or retrieve the data unless you ask for it: they all return
+a new <code>tbl_dbi</code> object. Use <code><a href="../../admisc/html/SOPexpression.html">compute()</a></code> to run the query and save the
+results in a temporary in the database, or use <code><a href="../../dplyr/html/compute.html">collect()</a></code> to retrieve the
+results to R. You can see the query with <code><a href="../../dplyr/html/explain.html">show_query()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'src_dbi'
+tbl(src, from, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>src</code></td>
+<td>
+<p>A <code>DBIConnection</code> object produced by <code>DBI::dbConnect()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>Either a string (giving a table name),
+a fully qualified table name created by <code><a href="../../dbplyr/help/in_schema.html">in_schema()</a></code>
+or a literal <code><a href="../../dbplyr/help/sql.html">sql()</a></code> string.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed on to <code><a href="../../dbplyr/help/tbl_sql.html">tbl_sql()</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For best performance, the database should have an index on the variables
+that you are grouping by. Use <code><a href="../../dplyr/html/explain.html">explain()</a></code> to check that the database is using
+the indexes that you expect.
+</p>
+<p>There is one verb that is not lazy: <code><a href="../../dplyr/html/do.html">do()</a></code> is eager because it must pull
+the data into R.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr)
+
+# Connect to a temporary in-memory SQLite database
+con &lt;- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+
+# Add some data
+copy_to(con, mtcars)
+DBI::dbListTables(con)
+
+# To retrieve a single table from a source, use `tbl()`
+con %&gt;% tbl("mtcars")
+
+# Use `in_schema()` for fully qualified table names
+con %&gt;% tbl(in_schema("temp", "mtcars")) %&gt;% head(1)
+
+# You can also use pass raw SQL if you want a more sophisticated query
+con %&gt;% tbl(sql("SELECT * FROM mtcars WHERE cyl = 8"))
+
+# If you just want a temporary in-memory database, use src_memdb()
+src2 &lt;- src_memdb()
+
+# To show off the full features of dplyr's database integration,
+# we'll use the Lahman database. lahman_sqlite() takes care of
+# creating the database.
+
+if (requireNamespace("Lahman", quietly = TRUE)) {
+batting &lt;- copy_to(con, Lahman::Batting)
+batting
+
+# Basic data manipulation verbs work in the same way as with a tibble
+batting %&gt;% filter(yearID &gt; 2005, G &gt; 130)
+batting %&gt;% select(playerID:lgID)
+batting %&gt;% arrange(playerID, desc(yearID))
+batting %&gt;% summarise(G = mean(G), n = n())
+
+# There are a few exceptions. For example, databases give integer results
+# when dividing one integer by another. Multiply by 1 to fix the problem
+batting %&gt;%
+  select(playerID:lgID, AB, R, G) %&gt;%
+  mutate(
+   R_per_game1 = R / G,
+   R_per_game2 = R * 1.0 / G
+ )
+
+# All operations are lazy: they don't do anything until you request the
+# data, either by `print()`ing it (which shows the first ten rows),
+# or by `collect()`ing the results locally.
+system.time(recent &lt;- filter(batting, yearID &gt; 2010))
+system.time(collect(recent))
+
+# You can see the query that dplyr creates with show_query()
+batting %&gt;%
+  filter(G &gt; 0) %&gt;%
+  group_by(playerID) %&gt;%
+  summarise(n = n()) %&gt;%
+  show_query()
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

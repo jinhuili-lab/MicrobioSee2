@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a &quot;bumps&quot; (sequential ranking) chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bumpchart {plotrix}"><tr><td>bumpchart {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a &quot;bumps&quot; (sequential ranking) chart</h2>
+
+<h3>Description</h3>
+
+<p>Display a chart with two of more columns of points in order of ascending values
+with lines connecting the points in a row.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ bumpchart(y,top.labels=colnames(y),labels=rep(rownames(y),2),rank=TRUE,
+  mar=c(2,8,5,8),pch=19,col=par("fg"),lty=1,lwd=1,arrows=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A numeric matrix or data frame which may contain NAs.</p>
+</td></tr>
+<tr valign="top"><td><code>top.labels</code></td>
+<td>
+<p>The strings that will appear at the top of each column of
+points on the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>The strings that will appear next to the outer columns of
+points.</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>Whether to rank the values in <span class="samp">y</span> before plotting.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>The margins to use for the bumps chart. Alter to your taste.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>The symbols to use when plotting the points.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The colors to use.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>The line types to use.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>The line widths to use.</p>
+</td></tr>
+<tr valign="top"><td><code>arrows</code></td>
+<td>
+<p>Whether to join the points with lines (FALSE) or arrows (TRUE).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">matplot</span> or <span class="samp">arrows</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">bumpchart</span> calls <span class="samp">matplot</span> to plot the values in the transposed
+<span class="samp">y</span> matrix or data frame, joining the points with lines. At the left and
+right edges of the plot, the labels identifying each row of points are
+displayed. These labels may now be different for each side of the plot,
+for example if the values of <span class="samp">y</span> are to be included. Remember that
+due to the transposition of the values for plotting, the labels on the 
+right have to precede those on the left - see the second example.
+</p>
+<p>This type of plot is often used to show the changing positions of
+entities over time, like the ranking in surveys in different years. For a
+similar, but more flexible plot, see <a href="../../plotrix/help/ladderplot.html">ladderplot</a>.
+</p>
+<p>Because of the way <span class="samp">matplot</span> plots the values, the order of everything is
+reversed. As the typical display of ranks is with rank 1 at the top, the
+actual rank positions are used to plot the values.
+This places the lowest scores at the bottom of the plot and the highest at
+the top.
+</p>
+<p>Any arguments that are included in <span class="samp">...</span> will be passed to <span class="samp">matplot</span>
+if the <span class="samp">arrows</span> argument is FALSE, and to the <span class="samp">arrows</span> function if
+the <span class="samp">arrows</span> argument is TRUE as in the first example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/matplot.html">matplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # percentage of those over 25 years having completed high school
+ # in 10 cities in the USA in 1990 and 2000
+ educattn&lt;-matrix(c(90.4,90.3,75.7,78.9,66,71.8,70.5,70.4,68.4,67.9,
+  67.2,76.1,68.1,74.7,68.5,72.4,64.3,71.2,73.1,77.8),ncol=2,byrow=TRUE)
+ rownames(educattn)&lt;-c("Anchorage AK","Boston MA","Chicago IL",
+  "Houston TX","Los Angeles CA","Louisville KY","New Orleans LA",
+  "New York NY","Philadelphia PA","Washington DC")
+ colnames(educattn)&lt;-c(1990,2000)
+ bumpchart(educattn,main="Rank for high school completion by over 25s",
+  arrows=TRUE,length=0.2)
+ vallab&lt;-c(paste(educattn[,2],rownames(educattn),sep="-"),
+  paste(rownames(educattn),educattn[,1],sep="-"))
+ # now show the raw percentages and add central ticks
+ bumpchart(educattn,rank=FALSE,labels=vallab,
+  main="Percentage high school completion by over 25s",
+  lty=1:10,lwd=1,col=rainbow(10))
+ # margins have been reset, so use
+ par(xpd=TRUE)
+ boxed.labels(1.5,seq(65,90,by=5),seq(65,90,by=5))
+ par(xpd=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

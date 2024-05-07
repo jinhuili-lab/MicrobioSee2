@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Screeplots for Ordination Results and Broken Stick...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for screeplot.cca {vegan}"><tr><td>screeplot.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Screeplots for Ordination Results and Broken Stick Distributions</h2>
+
+<h3>Description</h3>
+
+<p>Screeplot methods for plotting variances of ordination axes/components
+and overlaying broken stick distributions. Also, provides alternative
+screeplot methods for <code><a href="../../stats/html/princomp.html">princomp</a></code> and <code><a href="../../stats/html/prcomp.html">prcomp</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cca'
+screeplot(x, bstick = FALSE, type = c("barplot", "lines"),
+         npcs = min(10, if (is.null(x$CCA) || x$CCA$rank == 0) x$CA$rank else x$CCA$rank),
+         ptype = "o", bst.col = "red", bst.lty = "solid",
+         xlab = "Component", ylab = "Inertia",
+         main = deparse(substitute(x)), legend = bstick,
+         ...)
+
+## S3 method for class 'decorana'
+screeplot(x, bstick = FALSE, type = c("barplot", "lines"),
+         npcs = 4,
+         ptype = "o", bst.col = "red", bst.lty = "solid",
+         xlab = "Component", ylab = "Inertia",
+         main = deparse(substitute(x)),
+         ...)
+
+## S3 method for class 'prcomp'
+screeplot(x, bstick = FALSE, type = c("barplot", "lines"),
+         npcs = min(10, length(x$sdev)),
+         ptype = "o", bst.col = "red", bst.lty = "solid",
+         xlab = "Component", ylab = "Inertia",
+         main = deparse(substitute(x)), legend = bstick,
+         ...)
+
+## S3 method for class 'princomp'
+screeplot(x, bstick = FALSE, type = c("barplot", "lines"),
+         npcs = min(10, length(x$sdev)),
+         ptype = "o", bst.col = "red", bst.lty = "solid",
+         xlab = "Component", ylab = "Inertia",
+         main = deparse(substitute(x)), legend = bstick,
+         ...)
+
+bstick(n, ...)
+
+## Default S3 method:
+bstick(n, tot.var = 1, ...)
+
+## S3 method for class 'cca'
+bstick(n, ...)
+
+## S3 method for class 'prcomp'
+bstick(n, ...)
+
+## S3 method for class 'princomp'
+bstick(n, ...)
+
+## S3 method for class 'decorana'
+bstick(n, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object from which the component variances can be determined.</p>
+</td></tr>
+<tr valign="top"><td><code>bstick</code></td>
+<td>
+<p>logical; should the broken stick distribution be drawn?</p>
+</td></tr>
+<tr valign="top"><td><code>npcs</code></td>
+<td>
+<p>the number of components to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>the type of plot.</p>
+</td></tr>
+<tr valign="top"><td><code>ptype</code></td>
+<td>
+<p>if <code>type == "lines"</code> or <code>bstick = TRUE</code>, a
+character indicating the type of plotting used for the lines;
+actually any of the <code>type</code>s as in <code><a href="../../graphics/html/plot.default.html">plot.default</a></code>.</p>
+</td></tr> 
+<tr valign="top"><td><code>bst.col, bst.lty</code></td>
+<td>
+<p>the colour and line type used to draw the
+broken stick distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab, main</code></td>
+<td>
+<p>graphics parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>logical; draw a legend?</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>an object from which the variances can be extracted or the
+number of variances (components) in the case of
+<code>bstick.default</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>tot.var</code></td>
+<td>
+<p>the total variance to be split.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions provide screeplots for most ordination methods in
+<span class="pkg">vegan</span> and enhanced versions with broken stick for
+<code><a href="../../stats/html/prcomp.html">prcomp</a></code> and <code><a href="../../stats/html/princomp.html">princomp</a></code>. 
+</p>
+<p>Function <code>bstick</code> gives the brokenstick values which are ordered
+random proportions, defined as  <i>p[i] = tot/n sum(from x=i to n) 1/x</i> (Legendre &amp; Legendre 2012), where
+<i>tot</i> is the total  and <i>n</i> is the number of brokenstick
+components (cf. <code><a href="../../vegan/help/radfit.html">radfit</a></code>).  Broken stick has
+been recommended as a stopping rule in principal component analysis
+(Jackson 1993): principal components should be retained as long as
+observed eigenvalues are higher than corresponding random broken stick
+components.
+</p>
+<p>The <code>bstick</code> function is generic. The default needs the number of
+components and the total, and specific methods extract this
+information from ordination results.  There also is a <code>bstick</code>
+method for <code><a href="../../vegan/help/cca.html">cca</a></code>.  However, the broken stick model is not
+strictly valid for correspondence analysis (CA), because eigenvalues
+of CA are defined to be <i>&lt;=1</i>, whereas brokenstick
+components have no such restrictions. The brokenstick components are not
+available for <code><a href="../../vegan/help/decorana.html">decorana</a></code> where the sum of eigenvalues
+(total inertia) is unknown, and the eigenvalues of single axes are not
+additive in detrended analysis.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>screeplot</code> draws a plot on the currently active device, 
+and returns invisibly the <code><a href="../../grDevices/html/xy.coords.html">xy.coords</a></code> of the points or
+bars for the eigenvalues.
+</p>
+<p>Function <code>bstick</code> returns a numeric vector of broken stick
+components. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin L. Simpson</p>
+
+
+<h3>References</h3>
+
+<p>Jackson, D. A. (1993). Stopping rules in principal components
+analysis: a comparison of heuristical and statistical
+approaches. <em>Ecology</em> 74, 2204&ndash;2214.
+</p>
+<p>Legendre, P. and Legendre, L. (2012) <em>Numerical Ecology</em>. 3rd English
+ed. Elsevier.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/decorana.html">decorana</a></code>, <code><a href="../../stats/html/princomp.html">princomp</a></code> and
+<code><a href="../../stats/html/prcomp.html">prcomp</a></code> for the ordination functions, and
+<code><a href="../../stats/html/screeplot.html">screeplot</a></code> for the stock version.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+vare.pca &lt;- rda(varespec, scale = TRUE)
+bstick(vare.pca)
+screeplot(vare.pca, bstick = TRUE, type = "lines")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

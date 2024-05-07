@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: '{golem}' options</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_golem_wd {golem}"><tr><td>get_golem_wd {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2><code>{golem}</code> options</h2>
+
+<h3>Description</h3>
+
+<p>Set and get a series of options to be used with <code>{golem}</code>.
+These options are found inside the <code>golem-config.yml</code> file, found in most cases
+inside the <code>inst</code> folder.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_golem_wd(use_parent = TRUE, pkg = golem::pkg_path())
+
+get_golem_name(
+  config = Sys.getenv("GOLEM_CONFIG_ACTIVE", Sys.getenv("R_CONFIG_ACTIVE", "default")),
+  use_parent = TRUE,
+  pkg = golem::pkg_path()
+)
+
+get_golem_version(
+  config = Sys.getenv("GOLEM_CONFIG_ACTIVE", Sys.getenv("R_CONFIG_ACTIVE", "default")),
+  use_parent = TRUE,
+  pkg = golem::pkg_path()
+)
+
+set_golem_wd(
+  golem_wd = golem::pkg_path(),
+  pkg = golem::pkg_path(),
+  talkative = TRUE
+)
+
+set_golem_name(
+  name = golem::pkg_name(),
+  pkg = golem::pkg_path(),
+  talkative = TRUE
+)
+
+set_golem_version(
+  version = golem::pkg_version(),
+  pkg = golem::pkg_path(),
+  talkative = TRUE
+)
+
+set_golem_options(
+  golem_name = golem::pkg_name(),
+  golem_version = golem::pkg_version(),
+  golem_wd = golem::pkg_path(),
+  app_prod = FALSE,
+  talkative = TRUE,
+  config_file = golem::get_current_config(golem_wd)
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>use_parent</code></td>
+<td>
+<p><code>TRUE</code> to scan parent directories for
+configuration files if the specified config file isn't found.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>The path to set the golem working directory.
+Note that it will be passed to <code>normalizePath</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>Name of configuration to read from. Defaults to
+the value of the <code>R_CONFIG_ACTIVE</code> environment variable
+(&quot;default&quot; if the variable does not exist).</p>
+</td></tr>
+<tr valign="top"><td><code>golem_wd</code></td>
+<td>
+<p>Working directory of the current golem package.</p>
+</td></tr>
+<tr valign="top"><td><code>talkative</code></td>
+<td>
+<p>Should the messages be printed to the console?</p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the app</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>The version of the app</p>
+</td></tr>
+<tr valign="top"><td><code>golem_name</code></td>
+<td>
+<p>Name of the current golem.</p>
+</td></tr>
+<tr valign="top"><td><code>golem_version</code></td>
+<td>
+<p>Version of the current golem.</p>
+</td></tr>
+<tr valign="top"><td><code>app_prod</code></td>
+<td>
+<p>Is the <code>{golem}</code> in prod mode?</p>
+</td></tr>
+<tr valign="top"><td><code>config_file</code></td>
+<td>
+<p>path to the golem config file</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Used for side-effects for the setters, and values from the
+config in the getters.
+</p>
+
+
+<h3>Set Functions</h3>
+
+
+<ul>
+<li> <p><code>set_golem_options()</code> sets all the options, with the defaults from the functions below.
+</p>
+</li>
+<li> <p><code>set_golem_wd()</code> defaults to <code>golem::golem_wd()</code>, which is the package root when starting a golem.
+</p>
+</li>
+<li> <p><code>set_golem_name()</code> defaults <code>golem::pkg_name()</code>
+</p>
+</li>
+<li> <p><code>set_golem_version()</code> defaults <code>golem::pkg_version()</code>
+</p>
+</li></ul>
+
+
+
+<h3>Get Functions</h3>
+
+<p>Reads the information from <code>golem-config.yml</code>
+</p>
+
+<ul>
+<li> <p><code>get_golem_wd()</code>
+</p>
+</li>
+<li> <p><code>get_golem_name()</code>
+</p>
+</li>
+<li> <p><code>get_golem_version()</code>
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an Extent object by drawing on a map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for drawExtent {raster}"><tr><td>drawExtent {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Create an Extent object by drawing on a map</h2>
+
+<h3>Description</h3>
+
+<p>Click on two points of a plot (map) to obtain an object of class <code><a href="../../raster/help/Extent.html">Extent</a></code> ('bounding box')  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+drawExtent(show=TRUE, col="red") 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>show</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the extent will be drawn on the map</p>
+</td></tr>  
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>sets the color of the lines of the extent </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Extent
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+r1 &lt;- raster(nrow=10, ncol=10)
+values(r1) &lt;- runif(ncell(r1))
+plot(r1)
+# after running the following line, click on the map twice
+e &lt;- drawExtent()
+# after running the following line, click on the map twice
+mean(values(crop(r1, drawExtent())))
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

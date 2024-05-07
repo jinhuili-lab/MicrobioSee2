@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression with a temporarily set random set</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withSeed {R.utils}"><tr><td>withSeed {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression with a temporarily set random set</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression with a temporarily set random set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withSeed(expr, seed, ..., substitute=TRUE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>seed, ...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../base/help/set.seed.html">set.seed</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Upon exit (also on errors), this function will restore
+<code><a href="../../base/help/.Random.seed.html">.Random.seed</a></code> in the global environment to the value
+it had upon entry.  If it did not exist, it will be removed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/set.seed.html">set.seed</a></code>() is used to set the random seed.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Generate a random number
+y0 &lt;- runif(1)
+print(y0)
+
+# Generate a random number using the same seed over and over
+yp &lt;- NULL
+for (ii in 1:10) {
+  y &lt;- withSeed({
+    runif(1)
+  }, seed=0x42)
+  print(y)
+  # Assert identical
+  if (!is.null(yp)) stopifnot(identical(y, yp))
+  yp &lt;- y
+}
+
+# Generate a random number
+y &lt;- runif(1)
+print(y)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

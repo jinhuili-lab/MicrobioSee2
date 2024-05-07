@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nonlinear Least Squares Fit for CW-OSL curves -beta version-</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fit_CWCurve {Luminescence}"><tr><td>fit_CWCurve {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nonlinear Least Squares Fit for CW-OSL curves -beta version-</h2>
+
+<h3>Description</h3>
+
+<p>The function determines the weighted least-squares estimates of the
+component parameters of a CW-OSL signal for a given maximum number of
+components and returns various component parameters. The fitting procedure
+uses the <a href="../../stats/html/nls.html">nls</a> function with the <code>port</code> algorithm.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fit_CWCurve(
+  values,
+  n.components.max,
+  fit.failure_threshold = 5,
+  fit.method = "port",
+  fit.trace = FALSE,
+  fit.calcError = FALSE,
+  LED.power = 36,
+  LED.wavelength = 470,
+  cex.global = 0.6,
+  sample_code = "Default",
+  output.path,
+  output.terminal = TRUE,
+  output.terminalAdvanced = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+x, y data of measured values (time and counts). See examples.</p>
+</td></tr>
+<tr valign="top"><td><code>n.components.max</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+maximum number of components that are to be used for fitting.
+The upper limit is 7.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.failure_threshold</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>with default</em>):
+limits the failed fitting attempts.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+select fit method, allowed values: <code>'port'</code> and <code>'LM'</code>. <code>'port'</code> uses the 'port'
+routine from the function <a href="../../stats/html/nls.html">nls</a> <code>'LM'</code> utilises the function <code>nlsLM</code> from
+the package <code>minpack.lm</code> and with that the Levenberg-Marquardt algorithm.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.trace</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+traces the fitting process on the terminal.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.calcError</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+calculate 1-sigma error range of components using <a href="../../stats/help/confint.html">stats::confint</a></p>
+</td></tr>
+<tr valign="top"><td><code>LED.power</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+LED power (max.) used for intensity ramping in mW/cm^2.
+<strong>Note:</strong> The value is used for the calculation of the absolute
+photoionisation cross section.</p>
+</td></tr>
+<tr valign="top"><td><code>LED.wavelength</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+LED wavelength used for stimulation in nm.
+<strong>Note:</strong> The value is used for the calculation of the absolute
+photoionisation cross section.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.global</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+global scaling factor.</p>
+</td></tr>
+<tr valign="top"><td><code>sample_code</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+sample code used for the plot and the optional output table (<code>mtext</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>output.path</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+output path for table output containing the results of the fit. The file
+name is set automatically. If the file already exists in the directory,
+the values are appended.</p>
+</td></tr>
+<tr valign="top"><td><code>output.terminal</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+terminal output with fitting results.</p>
+</td></tr>
+<tr valign="top"><td><code>output.terminalAdvanced</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enhanced terminal output. Requires <code>output.terminal = TRUE</code>.
+If <code>output.terminal = FALSE</code> no advanced output is possible.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+returns a plot of the fitted curves.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments and graphical parameters passed to <a href="../../graphics/html/plot.default.html">plot</a>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Fitting function</strong>
+</p>
+<p>The function for the CW-OSL fitting has the general form:
+</p>
+<p style="text-align: center;"><i>y = I0_{1}*&lambda;_{1}*exp(-&lambda;_1*x) + ,&hellip;, + I0_{i}*&lambda;_{i}*exp(-&lambda;_i*x) </i></p>
+
+<p>where <i>0 &lt; i &lt; 8</i>
+</p>
+<p>and <i>&lambda;</i> is the decay constant <br />
+and <i>I0</i> the initial number of trapped electrons.
+</p>
+<p><em>(for the used equation cf. Boetter-Jensen et al., 2003, Eq. 2.31)</em>
+</p>
+<p><strong>Start values</strong>
+</p>
+<p>Start values are estimated automatically by fitting a linear function to the
+logarithmized input data set. Currently, there is no option to manually
+provide start parameters.
+</p>
+<p><strong>Goodness of fit</strong>
+</p>
+<p>The goodness of the fit is given as pseudoR^2 value (pseudo coefficient of
+determination). According to Lave (1970), the value is calculated as:
+</p>
+<p style="text-align: center;"><i>pseudoR^2 = 1 - RSS/TSS</i></p>
+
+<p>where <i>RSS = Residual~Sum~of~Squares</i> <br />
+and <i>TSS = Total~Sum~of~Squares</i>
+</p>
+<p><strong>Error of fitted component parameters</strong>
+</p>
+<p>The 1-sigma error for the
+components is calculated using the function <a href="../../stats/help/confint.html">stats::confint</a>. Due to
+considerable calculation time, this option is deactivated by default. In
+addition, the error for the components can be estimated by using internal R
+functions like <a href="../../base/html/summary.html">summary</a>. See the <a href="../../stats/html/nls.html">nls</a> help page
+for more information.
+</p>
+<p><em>For details on the nonlinear regression in R, see Ritz &amp; Streibig (2008).</em>
+</p>
+
+
+<h3>Value</h3>
+
+<p><strong>plot (<em>optional</em>)</strong>
+</p>
+<p>the fitted CW-OSL curves are returned as plot.
+</p>
+<p><strong>table (<em>optional</em>)</strong>
+</p>
+<p>an output table (<code style="white-space: pre;">*.csv</code>) with parameters of the fitted components is
+provided if the <code>output.path</code> is set.
+</p>
+<p><strong>RLum.Results</strong>
+</p>
+<p>Beside the plot and table output options, an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is
+returned.
+</p>
+<p><code>fit</code>:
+an <code>nls</code> object (<code style="white-space: pre;">$fit</code>) for which generic R functions are
+provided, e.g. <a href="../../base/html/summary.html">summary</a>, <a href="../../stats/help/confint.html">stats::confint</a>, <a href="../../stats/html/profile.html">profile</a>. For more
+details, see <a href="../../stats/html/nls.html">nls</a>.
+</p>
+<p><code>output.table</code>:
+a <a href="../../base/html/data.frame.html">data.frame</a> containing the summarised parameters including the error
+</p>
+<p><code>component.contribution.matrix</code>:
+<a href="../../base/html/matrix.html">matrix</a> containing the values for the component to sum contribution plot
+(<code style="white-space: pre;">$component.contribution.matrix</code>).
+</p>
+<p>Matrix structure:<br />
+Column 1 and 2: time and <code>rev(time)</code> values <br />
+Additional columns are used for the components, two for each component,
+containing I0 and n0. The last columns <code>cont.</code> provide information on
+the relative component contribution for each time interval including the row
+sum for this values.
+</p>
+<p><strong>object</strong>
+</p>
+<p>beside the plot and table output options, an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object
+is returned.
+</p>
+<p><code>fit</code>:
+an <code>nls</code> object (<code style="white-space: pre;">$fit</code>) for which generic R functions
+are provided, e.g. <a href="../../base/html/summary.html">summary</a>, <a href="../../stats/html/confint.html">confint</a>, <a href="../../stats/html/profile.html">profile</a>. For more
+details, see <a href="../../stats/html/nls.html">nls</a>.
+</p>
+<p><code>output.table</code>:
+a <a href="../../base/html/data.frame.html">data.frame</a> containing the summarised parameters including the error<br />
+<code>component.contribution.matrix</code>: <a href="../../base/html/matrix.html">matrix</a> containing the values
+for the component to sum contribution plot (<code style="white-space: pre;">$component.contribution.matrix</code>).<br />
+</p>
+<p>Matrix structure:<br />
+Column 1 and 2: time and <code>rev(time)</code> values<br />
+Additional columns are used for the components, two for each component,
+containing I0 and n0. The last columns <code>cont.</code> provide information on
+the relative component contribution for each time interval including the row
+sum for this values.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.5.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. fit_CWCurve(): Nonlinear Least Squares Fit for CW-OSL curves -beta version-. Function version 0.5.2. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>Beta version - This function has not been properly tested yet and</strong>
+<strong>should therefore not be used for publication purposes!</strong>
+</p>
+<p>The pseudo-R^2 may not be the best parameter to describe the goodness of the
+fit. The trade off between the <code>n.components</code> and the pseudo-R^2 value
+is currently not considered.
+</p>
+<p>The function <strong>does not</strong> ensure that the fitting procedure has reached a
+global minimum rather than a local minimum!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Boetter-Jensen, L., McKeever, S.W.S., Wintle, A.G., 2003.
+Optically Stimulated Luminescence Dosimetry. Elsevier Science B.V.
+</p>
+<p>Lave, C.A.T., 1970. The Demand for Urban Mass Transportation. The Review of
+Economics and Statistics, 52 (3), 320-323.
+</p>
+<p>Ritz, C. &amp; Streibig, J.C., 2008. Nonlinear Regression with R. In: R.
+Gentleman, K. Hornik, G. Parmigiani, eds., Springer, p. 150.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/fit_LMCurve.html">fit_LMCurve</a>, <a href="../../graphics/html/plot.default.html">plot</a>,<a href="../../stats/html/nls.html">nls</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>,
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>, <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+data(ExampleData.CW_OSL_Curve, envir = environment())
+
+##fit data
+fit &lt;- fit_CWCurve(values = ExampleData.CW_OSL_Curve,
+                   main = "CW Curve Fit",
+                   n.components.max = 4,
+                   log = "x")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tsallis Diversity and Corresponding Accumulation Curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tsallis {vegan}"><tr><td>tsallis {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tsallis Diversity and Corresponding Accumulation Curves</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>tsallis</code> find Tsallis diversities with any scale or the corresponding evenness measures. Function <code>tsallisaccum</code> finds these statistics with accumulating sites.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tsallis(x, scales = seq(0, 2, 0.2), norm = FALSE, hill = FALSE)
+tsallisaccum(x, scales = seq(0, 2, 0.2), permutations = 100, 
+   raw = FALSE, subset, ...)
+## S3 method for class 'tsallisaccum'
+persp(x, theta = 220, phi = 15, col = heat.colors(100), zlim, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data matrix or plotting object. </p>
+</td></tr>
+<tr valign="top"><td><code>scales</code></td>
+<td>
+<p>Scales of Tsallis diversity.</p>
+</td></tr>
+<tr valign="top"><td><code>norm</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> diversity values are normalized
+by their maximum (diversity value at equiprobability conditions).</p>
+</td></tr>
+<tr valign="top"><td><code>hill</code></td>
+<td>
+<p>Calculate Hill numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Usually an integer giving the number
+permutations, but can also be a list of control values for the
+permutations as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, 
+or a permutation matrix where each row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>raw</code></td>
+<td>
+<p>If <code>FALSE</code> then return summary statistics of
+permutations, and if TRUE then returns the individual
+permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>logical expression indicating sites (rows) to keep:
+missing values are taken as <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>theta, phi</code></td>
+<td>
+<p>angles defining the viewing
+direction. <code>theta</code> gives the azimuthal direction and
+<code>phi</code> the colatitude.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colours used for surface.</p>
+</td></tr>  <tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Limits of
+vertical axis.</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments which are passed to <code>tsallis</code> and
+to graphical functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The Tsallis diversity (also equivalent to Patil and Taillie
+diversity) is a one-parametric generalised entropy function, defined
+as:
+</p>
+<p style="text-align: center;"><i>H.q = 1/(q-1)(1-sum(p^q))</i></p>
+
+<p>where <i>q</i> is a scale parameter, <i>S</i> the number of species in
+the sample (Tsallis 1988, Tothmeresz 1995). This diversity is concave
+for all <i>q&gt;0</i>, but non-additive (Keylock 2005). For <i>q=0</i> it
+gives the number of species minus one, as <i>q</i> tends to 1 this
+gives Shannon diversity, for <i>q=2</i> this gives the Simpson index
+(see function <code><a href="../../vegan/help/diversity.html">diversity</a></code>).
+</p>
+<p>If <code>norm = TRUE</code>, <code>tsallis</code> gives values normalized by the
+maximum:
+</p>
+<p style="text-align: center;"><i>H.q(max) = (S^(1-q)-1)/(1-q)</i></p>
+
+<p>where <i>S</i> is the number of species. As <i>q</i> tends to 1, maximum
+is defined as <i>ln(S)</i>.
+</p>
+<p>If <code>hill = TRUE</code>, <code>tsallis</code> gives Hill numbers (numbers
+equivalents, see Jost 2007):
+</p>
+<p style="text-align: center;"><i>D.q = (1-(q-1)*H)^(1/(1-q))</i></p>
+
+<p>Details on plotting methods and accumulating values can be found on
+the help pages of the functions <code><a href="../../vegan/help/renyi.html">renyi</a></code> and
+<code><a href="../../vegan/help/renyiaccum.html">renyiaccum</a></code>.  
+</p>
+
+
+<h3>Value</h3>
+
+ 
+<p>Function <code>tsallis</code> returns a data frame of selected
+indices. Function <code>tsallisaccum</code> with argument <code>raw = FALSE</code>
+returns a three-dimensional array, where the first dimension are the
+accumulated sites, second dimension are the diversity scales, and
+third dimension are the summary statistics <code>mean</code>, <code>stdev</code>,
+<code>min</code>, <code>max</code>, <code>Qnt 0.025</code> and <code>Qnt 0.975</code>. With
+argument <code>raw = TRUE</code> the statistics on the third dimension are
+replaced with individual permutation results.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Péter Sólymos,
+<a href="mailto:solymos@ualberta.ca">solymos@ualberta.ca</a>, based on the code of Roeland Kindt and
+Jari Oksanen written for <code>renyi</code></p>
+
+
+<h3>References</h3>
+
+<p>Tsallis, C. (1988) Possible generalization of Boltzmann-Gibbs
+statistics.  <em>J. Stat. Phis.</em> 52, 479&ndash;487.
+</p>
+<p>Tothmeresz, B. (1995) Comparison of different methods for diversity
+ordering. <em>Journal of Vegetation Science</em> <b>6</b>, 283&ndash;290.
+</p>
+<p>Patil, G. P. and Taillie, C. (1982) Diversity as a concept and its
+measurement.  <em>J. Am. Stat. Ass.</em> <b>77</b>, 548&ndash;567.
+</p>
+<p>Keylock, C. J. (2005) Simpson diversity and the Shannon-Wiener index
+as special cases of a generalized entropy.  <em>Oikos</em> <b>109</b>,
+203&ndash;207.
+</p>
+<p>Jost, L (2007) Partitioning diversity into independent alpha and beta
+components.  <em>Ecology</em> <b>88</b>, 2427&ndash;2439.
+</p>
+
+
+<h3>See Also</h3>
+
+<p> Plotting methods and accumulation routines are based on
+functions <code><a href="../../vegan/help/renyi.html">renyi</a></code> and <code><a href="../../vegan/help/renyiaccum.html">renyiaccum</a></code>. An object
+of class 'tsallisaccum' can be used with function
+<code><a href="../../vegan3d/help/rgl.renyiaccum.html">rgl.renyiaccum</a></code> as well. See also settings for
+<code><a href="../../graphics/html/persp.html">persp</a></code>.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+i &lt;- sample(nrow(BCI), 12)
+x1 &lt;- tsallis(BCI[i,])
+x1
+diversity(BCI[i,],"simpson") == x1[["2"]]
+plot(x1)
+x2 &lt;- tsallis(BCI[i,],norm=TRUE)
+x2
+plot(x2)
+mod1 &lt;- tsallisaccum(BCI[i,])
+plot(mod1, as.table=TRUE, col = c(1, 2, 2))
+persp(mod1)
+mod2 &lt;- tsallisaccum(BCI[i,], norm=TRUE)
+persp(mod2,theta=100,phi=30)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

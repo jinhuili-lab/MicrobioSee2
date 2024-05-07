@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subarachnoid hemorrhage data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for aSAH {pROC}"><tr><td>aSAH {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Subarachnoid hemorrhage data
+</h2>
+
+<h3>Description</h3>
+
+<p>This dataset summarizes several clinical and one laboratory variable
+of 113 patients with an aneurysmal subarachnoid hemorrhage.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>aSAH</pre>
+
+
+<h3>Format</h3>
+
+<p>A data.frame containing 113 observations of 7 variables.</p>
+
+
+<h3>Source</h3>
+
+<p>Natacha Turck, Laszlo Vutskits, Paola Sanchez-Pena, Xavier
+Robin, Alexandre Hainard, Marianne Gex-Fabry, Catherine Fouda, Hadiji
+Bassem, Markus Mueller, Frédérique Lisacek, Louis Puybasset and
+Jean-Charles Sanchez (2010) &ldquo;A multiparameter panel method for outcome
+prediction following aneurysmal subarachnoid hemorrhage&rdquo;.
+<em>Intensive Care Medicine</em> <b>36</b>(1), 107&ndash;115. DOI:
+doi: <a href="https://doi.org/10.1007/s00134-009-1641-y">10.1007/s00134-009-1641-y</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other examples can be found in all the documentation pages of this
+package: 
+<code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>,
+<code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>, <code><a href="../../pROC/help/ci.se.html">ci.se</a></code>, <code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>,
+<code><a href="../../pROC/help/ci.thresholds.html">ci.thresholds</a></code>, <code><a href="../../pROC/help/coords.html">coords</a></code>,
+<code><a href="../../pROC/help/plot.ci.html">plot.ci</a></code>, <code><a href="../../pROC/help/plot.roc.html">plot.roc</a></code>,
+<code><a href="../../pROC/help/print.roc.html">print.roc</a></code>, <code><a href="../../pROC/help/roc.test.html">roc.test</a></code> and
+<code><a href="../../pROC/help/smooth.html">smooth</a></code>.
+</p>
+<p>An example analysis with pROC is shown in:
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# load the dataset
+data(aSAH)
+
+# Gender, outcome and set
+with(aSAH, table(gender, outcome))
+
+# Age
+with(aSAH, by(age, outcome, mean))
+with(aSAH, by(age, outcome,
+     function(x) sprintf("mean: %.1f (+/- %.1f), median: %.1f (%i-%i)",
+                         mean(x), sd(x), median(x), min(x), max(x))))
+
+# WFNS score
+with(aSAH, table(wfns=ifelse(wfns&lt;=2, "1-2", "3-4-5"), outcome))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

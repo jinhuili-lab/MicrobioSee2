@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example data for feldspar fading measurements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ExampleData.Fading {Luminescence}"><tr><td>ExampleData.Fading {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example data for feldspar fading measurements</h2>
+
+<h3>Description</h3>
+
+<p>Example data set for fading measurements of the IR50, IR100, IR150 and
+IR225 feldspar signals of sample UNIL/NB123. It further contains regular equivalent dose
+measurement data of the same sample, which can be used to apply a
+fading correction to.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A <a href="../../base/html/list.html">list</a> with two elements, each containing a further <a href="../../base/html/list.html">list</a> of
+<a href="../../base/html/data.frame.html">data.frame</a>s containing the data on the fading and equivalent dose measurements:
+</p>
+
+<p><code style="white-space: pre;">$fading.data</code>: A named <a href="../../base/html/list.html">list</a> of <a href="../../base/html/data.frame.html">data.frame</a>s,
+each having three named columns (<code style="white-space: pre;">LxTx, LxTx.error, timeSinceIrradiation</code>).<br />
+<code>..$IR50</code>: Fading data of the IR50 signal.<br />
+<code>..$IR100</code>: Fading data of the IR100 signal.<br />
+<code>..$IR150</code>: Fading data of the IR150 signal.<br />
+<code>..$IR225</code>: Fading data of the IR225 signal.<br />
+</p>
+<p><code style="white-space: pre;">$equivalentDose.data</code>: A named of <a href="../../base/html/data.frame.html">data.frame</a>s,
+each having three named columns (<code style="white-space: pre;">dose, LxTx, LxTx.error</code>).<br />
+<code>..$IR50</code>: Equivalent dose measurement data of the IR50 signal.<br />
+<code>..$IR100</code>: Equivalent dose measurement data of the IR100 signal.<br />
+<code>..$IR150</code>: Equivalent dose measurement data of the IR150 signal.<br />
+<code>..$IR225</code>: Equivalent dose measurement data of the IR225 signal.<br />
+
+</p>
+
+
+<h3>Source</h3>
+
+<p>These data were kindly provided by Georgina E. King. Detailed information
+on the sample UNIL/NB123 can be found in the reference given below. The raw
+data can be found in the accompanying supplementary information.
+</p>
+
+
+<h3>References</h3>
+
+<p>King, G.E., Herman, F., Lambert, R., Valla, P.G., Guralnik, B., 2016.
+Multi-OSL-thermochronometry of feldspar. Quaternary Geochronology 33, 76-87.
+doi:10.1016/j.quageo.2016.01.004
+</p>
+<p><strong>Details</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Lab: </td><td style="text-align: left;"> University of Lausanne </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab-Code: </td><td style="text-align: left;"> UNIL/NB123 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Location: </td><td style="text-align: left;"> Namche Barwa (eastern Himalayas)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Material: </td><td style="text-align: left;"> Coarse grained (180-212 microns) potassium feldspar </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Units: </td><td style="text-align: left;"> Values are given in seconds </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab Dose Rate: </td><td style="text-align: left;"> Dose rate of the beta-source at measurement ca. 0.1335 +/- 0.004 Gy/s </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Environmental Dose Rate: </td><td style="text-align: left;"> 7.00 +/- 0.92 Gy/ka (includes internal dose rate)
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Load example data
+data("ExampleData.Fading", envir = environment())
+
+## Get fading measurement data of the IR50 signal
+IR50_fading &lt;- ExampleData.Fading$fading.data$IR50
+head(IR50_fading)
+
+## Determine g-value and rho' for the IR50 signal
+IR50_fading.res &lt;- analyse_FadingMeasurement(IR50_fading)
+
+## Show g-value and rho' results
+gval &lt;- get_RLum(IR50_fading.res)
+rhop &lt;- get_RLum(IR50_fading.res, "rho_prime")
+
+gval
+rhop
+
+## Get LxTx values of the IR50 DE measurement
+IR50_De.LxTx &lt;- ExampleData.Fading$equivalentDose.data$IR50
+
+## Calculate the De of the IR50 signal
+IR50_De &lt;- plot_GrowthCurve(IR50_De.LxTx,
+                                mode = "interpolation",
+                                fit.method = "EXP")
+
+## Extract the calculated De and its error
+IR50_De.res &lt;- get_RLum(IR50_De)
+De &lt;- c(IR50_De.res$De, IR50_De.res$De.Error)
+
+## Apply fading correction (age conversion greatly simplified)
+IR50_Age &lt;- De / 7.00
+IR50_Age.corr &lt;- calc_FadingCorr(IR50_Age, g_value = IR50_fading.res)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

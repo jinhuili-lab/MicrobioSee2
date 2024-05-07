@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Regular sample</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sampleRegular {raster}"><tr><td>sampleRegular {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Regular sample</h2>
+
+<h3>Description</h3>
+
+<p>Take a systematic sample from a Raster* object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+sampleRegular(x, size, ext=NULL, cells=FALSE, xy=FALSE, asRaster=FALSE, 
+            sp=FALSE, useGDAL=FALSE, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster object</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>positive integer giving the number of items to choose.</p>
+</td></tr>  
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent. To limit regular sampling to the area within that box</p>
+</td></tr>  
+<tr valign="top"><td><code>cells</code></td>
+<td>
+<p>logical. Also return sampled cell numbers (if asRaster=FALSE) </p>
+</td></tr>  
+<tr valign="top"><td><code>xy</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, coordinates of sampled cells are also returned</p>
+</td></tr>
+<tr valign="top"><td><code>asRaster</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a RasterLayer or RasterBrick is returned, rather than the sampled values</p>
+</td></tr>  
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a SpatialPointsDataFrame is returned</p>
+</td></tr>  
+<tr valign="top"><td><code>useGDAL</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, GDAL is used to sample in some cases. This is quicker, but can result in values for a different set of cells than when <code>useGDAL=FALSE</code>. Only for rasters that are accessed via rgdal, and are not rotated. When <code>TRUE</code> arguments <code>cells</code>, <code>xy</code>, and <code>sp</code> are ignored (i.e., <code>FALSE</code> </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector (single layer object), matrix (multi-layered object; or if <code>cells=TRUE</code>, or <code>xy=TRUE</code>), Raster* object (if <code>asRaster=TRUE</code>), or SpatialPointsDataFrame (if <code>sp=TRUE</code>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/sampleRandom.html">sampleRandom</a></code>, <a href="../../raster/help/sampleStratified.html">sampleStratified</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ r &lt;- raster(system.file("external/test.grd", package="raster"))
+ v &lt;- sampleRegular(r, size=100)
+ x &lt;- sampleRegular(r, size=100, asRaster=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

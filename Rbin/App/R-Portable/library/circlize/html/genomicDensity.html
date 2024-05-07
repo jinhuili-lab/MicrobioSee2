@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate genomic region density</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for genomicDensity {circlize}"><tr><td>genomicDensity {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculate genomic region density
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate genomic region density
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+genomicDensity(
+    region,
+    window.size = 1e7,
+    n.window = NULL,
+    overlap = TRUE,
+    count_by = c("percent", "number"),
+    chr.len = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>region</code></td>
+<td>
+<p>Genomic positions. It can be a data frame with two
+columns which are start positions and end positions on a single chromosome.
+It can also be a bed-format data frame which contains the chromosome column.
+</p>
+</td></tr>
+<tr valign="top"><td><code>window.size</code></td>
+<td>
+<p>Window size to calculate genomic density
+</p>
+</td></tr>
+<tr valign="top"><td><code>n.window</code></td>
+<td>
+<p>number of windows, if it is specified, <code>window.size</code> is ignored
+</p>
+</td></tr>
+<tr valign="top"><td><code>overlap</code></td>
+<td>
+<p>Whether two neighbouring windows have half overlap
+</p>
+</td></tr>
+<tr valign="top"><td><code>count_by</code></td>
+<td>
+<p>How to count the value for each window, <code>percent</code>: percent of the window covered by the input regions; <code>number</code>: number of regions that overlap to the window.
+</p>
+</td></tr>
+<tr valign="top"><td><code>chr.len</code></td>
+<td>
+<p>the chromosome length. The value should be named vector
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It calculate the percent of each genomic windows that is covered by the input regions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If the input is a two-column data frame, the function returns a data frame with three columns: 
+start position, end position and the overlapping (value depends on the <code>count_by</code> argument). And if the input is a bed-format
+data frame, there will be an additionally chromosome name column.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+bed = generateRandomBed()
+bed = subset(bed, chr == "chr1")
+head(genomicDensity(bed))
+head(genomicDensity(bed, count_by = "number"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

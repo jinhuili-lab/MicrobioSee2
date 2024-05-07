@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Counts the number of lines in a text file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for countLines {R.utils}"><tr><td>countLines {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Counts the number of lines in a text file</h2>
+
+<h3>Description</h3>
+
+<p>Counts the number of lines in a text file by counting the number of occurrences of platform-independent
+newlines (CR, LF, and CR+LF [1]), including a last line with neither.
+An empty file has zero lines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+countLines(file, chunkSize=5e+07, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a pathname.</p>
+</td></tr>
+<tr valign="top"><td><code>chunkSize</code></td>
+<td>
+<p>The number of bytes read in each chunk.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Both compressed and non-compressed files are supported.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an non-negative <code><a href="../../base/help/integer.html">integer</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] Page <em>Newline</em>, Wikipedia, July 2008.
+<a href="https://en.wikipedia.org/wiki/Newline">https://en.wikipedia.org/wiki/Newline</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pathname &lt;- system.file("NEWS.md", package="R.utils");
+n &lt;- countLines(pathname);
+n2 &lt;- length(readLines(pathname));
+stopifnot(n == n2);
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find corner locations and optionally display a label</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for corner.label {plotrix}"><tr><td>corner.label {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find corner locations and optionally display a label</h2>
+
+<h3>Description</h3>
+
+<p>Finds the coordinates in user parameters of a specified corner of the
+figure region and optionally displays a label there
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ corner.label(label=NULL,x=-1,y=1,xoff=NA,yoff=NA,figcorner=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Text to display. The default is to display nothing.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an integer value: -1 for the left side of the plot, 1 for the
+right side</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>an integer value: -1 for the bottom side of the plot, 1 for
+the top side</p>
+</td></tr>
+<tr valign="top"><td><code>xoff,yoff</code></td>
+<td>
+<p>Horizontal and vertical text offsets. Defaults to one
+half of the width and height of &quot;m&quot; respectively. </p>
+</td></tr>
+<tr valign="top"><td><code>figcorner</code></td>
+<td>
+<p>Whether to find/display at the corner of the plot or figure.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to the <span class="samp">text</span> command for the label</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">corner.label</span> finds the specified corner of the plot or figure and if
+<span class="samp">label</span> is not NULL, displays it there. The text justification is specified
+so that the label will be justified away from the corner. To get the label
+squeezed right into a corner, set <span class="samp">xoff</span> and <span class="samp">yoff</span> to zero.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the x and y positions of the corner adjusted for the offsets.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(1:10,1:10)
+ corner.label("A")
+ corner.label(x=1,y=1)
+ corner.label("B",y=-1,x=1,figcorner=TRUE,col="red")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

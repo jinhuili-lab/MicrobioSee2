@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the centroid of a polygon.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getCentroid {venn}"><tr><td>getCentroid {venn}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the centroid of a polygon.</h2>
+
+<h3>Description</h3>
+
+<p>This function takes a list of dataframes or a matrices containing x and y values,
+which define zones (polygons), and calculates their centroids.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getCentroid(data)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A matrix or a dataframe with two columns, for x and y coordinates</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Most of the coordinates for the intersection labels in this package were calculated using
+the formula for a centroid of a non-self-intersecting closed polygon, approximated by 10
+vertices.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with x and y coordinates, for each zone in the input list.
+</p>
+
+
+<h3>References</h3>
+
+<p>Centroid. (n.d.). In Wikipedia. Retrieved January 06, 2016, from
+https://en.wikipedia.org/wiki/Centroid
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+venn("0110")
+
+# centroid for the intersection "0110" in a 4 set diagram
+# "0110" is 0*2^3 + 1*2^2 + 1*2^1 + 0*2^0 = 6
+centroid &lt;- getCentroid(getZones(6, 4))[[1]]
+
+text(centroid[1], centroid[2], labels = "0110", cex = 0.85)
+
+
+# centroids for the two zones in the "E not A" zones
+venn("0---1")
+zones &lt;- getZones(seq(1, 15, by = 2), 5)
+
+polygon(zones[[1]], col="lightblue")
+
+polygon(zones[[2]], col="lightblue")
+
+text(do.call("rbind", getCentroid(zones)),
+     labels = c("zone 1", "zone 2"), cex = 0.85)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>venn</em> version 1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

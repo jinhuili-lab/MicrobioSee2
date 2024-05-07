@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw a hexagon</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hexagon {plotrix}"><tr><td>hexagon {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Draw a hexagon</h2>
+
+<h3>Description</h3>
+
+<p>Draws a hexagon on the current graphic device
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ hexagon(x,y,unitcell=1,col=NA,border="black")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>x and y position of the bottom left corner of the square that
+would pack into the same space as the hexagon.</p>
+</td></tr>
+<tr valign="top"><td><code>unitcell</code></td>
+<td>
+<p>The dimension of the side of the abovementioned square.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The color to fill the hexagon - default is no fill.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The color of the perimeter of the hexagon.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>Draws a hexagon with the same center as a square that would pack into the
+same dimensions as the hexagon. That is, given a grid of squares with
+alternate rows shifted one half the length of the sides, the hexagons
+drawn would be close packed. Its use in the plotrix package is to provide
+an alternative unit cell for the <span class="samp">color2D.matplot</span> function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/color2D.matplot.html">color2D.matplot</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

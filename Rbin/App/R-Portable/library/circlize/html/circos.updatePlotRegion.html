@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Update the plotting region in an existed cell</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.updatePlotRegion {circlize}"><tr><td>circos.updatePlotRegion {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Update the plotting region in an existed cell
+</h2>
+
+<h3>Description</h3>
+
+<p>Update the plotting region in an existed cell
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.updatePlotRegion(
+    sector.index = get.cell.meta.data("sector.index"),
+    track.index = get.cell.meta.data("track.index"),
+    bg.col = NA,
+    bg.border = "black",
+    bg.lty = par("lty"),
+    bg.lwd = par("lwd"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>bg.col</code></td>
+<td>
+<p>Background color for the plotting region</p>
+</td></tr>
+<tr valign="top"><td><code>bg.border</code></td>
+<td>
+<p>Color for the border of the plotting region</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lty</code></td>
+<td>
+<p>Line style for the border of the plotting region</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lwd</code></td>
+<td>
+<p>Line width for the border of the plotting region</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>You can update an existed cell by this function by erasing all the graphics.
+But the <code>xlim</code> and <code>ylim</code> inside the cell still remain unchanged.
+</p>
+<p>Note if you use <code><a href="../../circlize/help/circos.track.html">circos.track</a></code> to update an already created track,
+you can re-define <code>ylim</code> in these cells.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index)
+})
+circos.update(sector.index = "b", track.index = 1)
+circos.rect(CELL_META$cell.xlim[1], CELL_META$cell.ylim[1],
+            CELL_META$cell.xlim[2], CELL_META$cell.ylim[2],
+            col = "#FF000080")
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

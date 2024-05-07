@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set the Armadillo Random Number Generator to the given value</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for armadillo_set_seed {RcppArmadillo}"><tr><td>armadillo_set_seed {RcppArmadillo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set the Armadillo Random Number Generator to the given value</h2>
+
+<h3>Description</h3>
+
+<p>Set the Armadillo Random Number Generator to the given
+value
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+armadillo_set_seed(val)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>val</code></td>
+<td>
+<p>The seed used to initialize Armadillo's random
+number generator.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Depending on whether RcppArmadillo was compiled for the C++98 standard
+(currently the default) or for C++11 (optional), two different RNGs may be used.
+This function resets either. For C++98, the R programming language's RNG is used.
+For C++11, the RNG included in the <code>&lt;random&gt;</code> library is used only when
+<code>#define ARMA_USE_CXX11_RNG</code> is placed before <code>#include &lt;RcppArmadillo.h&gt;</code>.
+Otherwise, the R programming language's RNG will be used.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function is invoked for its side effect and has no
+return value.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This has been found to not work as espected in
+<span class="pkg">RStudio</span> as its code also uses the system RNG library.
+You may have to either not run within <span class="pkg">RStudio</span> or
+change your code to use a different RNG such as the one
+from R.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The R documentation on its RNGs all of which are accessible
+via <span class="pkg">Rcpp</span>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>RcppArmadillo</em> version 0.10.7.3.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

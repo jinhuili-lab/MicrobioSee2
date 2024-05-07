@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find names of model parameters from zero-inflated models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for find_parameters.zeroinfl {insight}"><tr><td>find_parameters.zeroinfl {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find names of model parameters from zero-inflated models</h2>
+
+<h3>Description</h3>
+
+<p>Returns the names of model parameters, like they typically
+appear in the <code>summary()</code> output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'zeroinfl'
+find_parameters(
+  x,
+  component = c("all", "conditional", "zi", "zero_inflated"),
+  flatten = FALSE,
+  ...
+)
+
+## S3 method for class 'mhurdle'
+find_parameters(
+  x,
+  component = c("all", "conditional", "zi", "zero_inflated", "infrequent_purchase", "ip",
+    "auxiliary"),
+  flatten = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should all predictor variables, predictor variables for the
+conditional model, the zero-inflated part of the model, the dispersion
+term or the instrumental variables be returned? Applies to models
+with zero-inflated and/or dispersion formula, or to models with instrumental
+variable (so called fixed-effects regressions). May be abbreviated. Note that the
+<em>conditional</em> component is also called <em>count</em> or <em>mean</em>
+component, depending on the model.</p>
+</td></tr>
+<tr valign="top"><td><code>flatten</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the values are returned
+as character vector, not as list. Duplicated values are removed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of parameter names. The returned list may have following
+elements:
+</p>
+
+<ul>
+<li> <p><code>conditional</code>, the &quot;fixed effects&quot; part from the model.
+</p>
+</li>
+<li> <p><code>zero_inflated</code>, the &quot;fixed effects&quot; part from the zero-inflation
+component of the model.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mtcars)
+m &lt;- lm(mpg ~ wt + cyl + vs, data = mtcars)
+find_parameters(m)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

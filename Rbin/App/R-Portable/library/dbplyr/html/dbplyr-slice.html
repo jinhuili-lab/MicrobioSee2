@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subset rows using their positions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbplyr-slice {dbplyr}"><tr><td>dbplyr-slice {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Subset rows using their positions</h2>
+
+<h3>Description</h3>
+
+<p>These are methods for the dplyr generics <code><a href="../../dplyr/html/slice.html">slice_min()</a></code>, <code><a href="../../dplyr/html/slice.html">slice_max()</a></code>, and
+<code><a href="../../dplyr/html/slice.html">slice_sample()</a></code>. They are translated to SQL using <code><a href="../../stats/html/filter.html">filter()</a></code> and
+window functions (<code>ROWNUMBER</code>, <code>MIN_RANK</code>, or <code>CUME_DIST</code> depending on
+arguments). <code>slice()</code>, <code>slice_head()</code>, and <code>slice_tail()</code> are not supported
+since database tables have no intrinsic order.
+</p>
+<p>If data is grouped, the operation will be performed on each group so that
+(e.g.) <code>slice_min(db, x, n = 3)</code> will select the three rows with the smallest
+value of <code>x</code> in each group.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_lazy'
+slice_min(.data, order_by, ..., n, prop, with_ties = TRUE)
+
+## S3 method for class 'tbl_lazy'
+slice_max(.data, order_by, ..., n, prop, with_ties = TRUE)
+
+## S3 method for class 'tbl_lazy'
+slice_sample(.data, ..., n, prop, weight_by = NULL, replace = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>order_by</code></td>
+<td>
+<p>Variable or function of variables to order by.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>n, prop</code></td>
+<td>
+<p>Provide either <code>n</code>, the number of rows, or <code>prop</code>, the
+proportion of rows to select. If neither are supplied, <code>n = 1</code> will be
+used.
+</p>
+<p>If <code>n</code> is greater than the number of rows in the group (or <code>prop</code> &gt; 1),
+the result will be silently truncated to the group size. If the proportion
+of a group size is not an integer, it is rounded down.</p>
+</td></tr>
+<tr valign="top"><td><code>with_ties</code></td>
+<td>
+<p>Should ties be kept together? The default, <code>TRUE</code>, may
+return more rows than you request. Use FALSE to ignore ties, and return
+the first n rows.</p>
+</td></tr>
+<tr valign="top"><td><code>weight_by, replace</code></td>
+<td>
+<p>Not supported for database backends.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+db &lt;- memdb_frame(x = 1:3, y = c(1, 1, 2))
+db %&gt;% slice_min(x) %&gt;% show_query()
+db %&gt;% slice_max(x) %&gt;% show_query()
+db %&gt;% slice_sample() %&gt;% show_query()
+
+db %&gt;% group_by(y) %&gt;% slice_min(x) %&gt;% show_query()
+
+# By default, ties are includes so you may get more rows
+# than you expect
+db %&gt;% slice_min(y, n = 1)
+db %&gt;% slice_min(y, n = 1, with_ties = FALSE)
+
+# Non-integer group sizes are rounded down
+db %&gt;% slice_min(x, prop = 0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

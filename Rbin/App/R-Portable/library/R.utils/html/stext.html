@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Writes text in the margin along the sides of a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stext {R.utils}"><tr><td>stext {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Writes text in the margin along the sides of a plot</h2>
+
+<h3>Description</h3>
+
+<p>Writes text in the margin along the sides of a plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+stext(text, side=1, line=0, pos=0.5, margin=c(0.2, 0.2),
+  charDim=c(strwidth("M", cex = cex), strheight("M", cex = cex)), cex=par("cex"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>The text to be written. See <code><a href="../../graphics/help/mtext.html">mtext</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>An <code><a href="../../base/help/integer.html">integer</a></code> specifying which side to write the text on. See <code><a href="../../graphics/help/mtext.html">mtext</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>line</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> specifying on which line to write on.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code>, often in [0,1], specifying the position
+of the text relative to the left and right edges.</p>
+</td></tr>
+<tr valign="top"><td><code>margin</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> length two specifying the text margin.</p>
+</td></tr>
+<tr valign="top"><td><code>charDim</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> length two specifying the size of a
+typical symbol.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> specifying the character expansion factor.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../graphics/help/mtext.html">mtext</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns what <code><a href="../../graphics/help/mtext.html">mtext</a></code> returns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally <code><a href="../../graphics/help/mtext.html">mtext</a></code> is used.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

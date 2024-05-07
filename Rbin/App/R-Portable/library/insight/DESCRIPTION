@@ -1,0 +1,130 @@
+Type: Package
+Package: insight
+Title: Easy Access to Model Information for Various Model Objects
+Version: 0.19.10
+Authors@R: 
+    c(person(given = "Daniel",
+             family = "Lüdecke",
+             role = c("aut", "cre"),
+             email = "d.luedecke@uke.de",
+             comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+      person(given = "Dominique",
+             family = "Makowski",
+             role = c("aut", "ctb"),
+             email = "dom.makowski@gmail.com",
+             comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+      person(given = "Indrajeet",
+             family = "Patil",
+             role = c("aut", "ctb"),
+             email = "patilindrajeet.science@gmail.com",
+             comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+      person(given = "Philip",
+             family = "Waggoner",
+             role = c("aut", "ctb"),
+             email = "philip.waggoner@gmail.com",
+             comment = c(ORCID = "0000-0002-7825-7573")),
+      person(given = "Mattan S.",
+             family = "Ben-Shachar",
+             role = c("aut", "ctb"),
+             email = "matanshm@post.bgu.ac.il",
+             comment = c(ORCID = "0000-0002-4287-4801")),
+      person(given = "Brenton M.",
+             family = "Wiernik",
+             role = c("aut", "ctb"),
+             email = "brenton@wiernik.org",
+             comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+      person(given = "Vincent", 
+             family = "Arel-Bundock", 
+             email = "vincent.arel-bundock@umontreal.ca", 
+             role = c("aut", "ctb"),
+             comment = c(ORCID = "0000-0003-2042-7063")),
+      person(given = "Etienne", 
+             family = "Bacher",
+             email = "etienne.bacher@protonmail.com", 
+             role = c("aut", "ctb"),
+             comment = c(ORCID = "0000-0002-9271-5075")),
+      person(given = "Alex",
+             family = "Hayes",
+             role = c("rev"),
+             email = "alexpghayes@gmail.com",
+             comment = c(ORCID = "0000-0002-4985-5160")),
+      person(given = "Grant",
+             family = "McDermott",
+             role = c("ctb"),
+             email = "grantmcd@uoregon.edu",
+             comment = c(ORCID = "0000-0001-7883-8573")),
+      person(given = "Rémi",
+             family = "Thériault",
+             role = "ctb",
+             email = "remi.theriault@mail.mcgill.ca",
+             comment = c(ORCID = "0000-0003-4315-6788", Twitter = "@rempsyc")),
+      person(given = "Alex",
+             family = "Reinhart",
+             role = "ctb",
+             email = "areinhar@stat.cmu.edu",
+             comment = c(ORCID = "0000-0002-6658-514X")))
+Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
+Description: A tool to provide an easy, intuitive and consistent
+    access to information contained in various R models, like model
+    formulas, model terms, information about random effects, data that was
+    used to fit the model or data from response variables. 'insight'
+    mainly revolves around two types of functions: Functions that find
+    (the names of) information, starting with 'find_', and functions that
+    get the underlying data, starting with 'get_'.  The package has a
+    consistent syntax and works with many different model objects, where
+    otherwise functions to access these information are missing.
+License: GPL-3
+URL: https://easystats.github.io/insight/
+BugReports: https://github.com/easystats/insight/issues
+Depends: R (>= 3.6)
+Imports: methods, stats, utils
+Suggests: AER, afex, aod, BayesFactor, bayestestR, bbmle, bdsmatrix,
+        betareg, bife, biglm, blavaan, blme, boot, brms, broom, car,
+        carData, censReg, cgam, clubSandwich, coxme, cplm, crch, curl,
+        datawizard, effectsize, emmeans, epiR, estimatr, feisr, fixest
+        (>= 0.11.2), fungible, gam, gamlss, gamlss.data, gamm4, gbm,
+        gee, geepack, geoR, ggeffects, GLMMadaptive, glmmTMB, gmnl,
+        grDevices, gt, httr, interp, ivreg, JM, knitr, lavaan,
+        lavaSearch2, lfe, lme4, lmerTest, lmtest, logistf, logitr,
+        MASS, marginaleffects, Matrix, mclogit, mclust, MCMCglmm,
+        merTools, metaBMA, metadat, metafor, metaplus, mgcv, mice,
+        mlogit, mhurdle, mmrm, modelbased, multgee, MuMIn, nestedLogit,
+        nlme, nnet, nonnest2, ordinal, panelr, parameters, parsnip,
+        pbkrtest, performance, plm, poorman, PROreg (>= 1.3.0), pscl,
+        psych, quantreg, Rcpp, rmarkdown, rms, rpart, robustbase,
+        robustlmm, rstanarm (>= 2.21.1), rstantools (>= 2.1.0),
+        rstudioapi, sandwich, serp, speedglm, splines, statmod, survey,
+        survival, testthat, tinytable (>= 0.1.0), truncreg, tweedie,
+        TMB, VGAM, withr
+VignetteBuilder: knitr
+Encoding: UTF-8
+Language: en-US
+RoxygenNote: 7.3.1
+Config/testthat/edition: 3
+Config/testthat/parallel: true
+Config/Needs/website: rstudio/bslib, r-lib/pkgdown,
+        easystats/easystatstemplate
+NeedsCompilation: no
+Packaged: 2024-03-21 22:24:16 UTC; Daniel
+Author: Daniel Lüdecke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>,
+    @strengejacke),
+  Dominique Makowski [aut, ctb] (<https://orcid.org/0000-0001-5375-9967>,
+    @Dom_Makowski),
+  Indrajeet Patil [aut, ctb] (<https://orcid.org/0000-0003-1995-6531>,
+    @patilindrajeets),
+  Philip Waggoner [aut, ctb] (<https://orcid.org/0000-0002-7825-7573>),
+  Mattan S. Ben-Shachar [aut, ctb]
+    (<https://orcid.org/0000-0002-4287-4801>),
+  Brenton M. Wiernik [aut, ctb] (<https://orcid.org/0000-0001-9560-6336>,
+    @bmwiernik),
+  Vincent Arel-Bundock [aut, ctb]
+    (<https://orcid.org/0000-0003-2042-7063>),
+  Etienne Bacher [aut, ctb] (<https://orcid.org/0000-0002-9271-5075>),
+  Alex Hayes [rev] (<https://orcid.org/0000-0002-4985-5160>),
+  Grant McDermott [ctb] (<https://orcid.org/0000-0001-7883-8573>),
+  Rémi Thériault [ctb] (<https://orcid.org/0000-0003-4315-6788>,
+    @rempsyc),
+  Alex Reinhart [ctb] (<https://orcid.org/0000-0002-6658-514X>)
+Repository: CRAN
+Date/Publication: 2024-03-22 07:50:02 UTC
+Built: R 4.1.2; ; 2024-05-01 17:43:25 UTC; windows

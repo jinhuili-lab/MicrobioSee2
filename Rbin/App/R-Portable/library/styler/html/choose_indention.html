@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Choose the indention method for the tokens</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for choose_indention {styler}"><tr><td>choose_indention {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Choose the indention method for the tokens</h2>
+
+<h3>Description</h3>
+
+<p>Either use the raw indention, which is just the spaces computed between
+the first token on a new line and the token before it, or use the indention
+computed according to the transformer used, which is stored in the column
+<code>indention</code>.
+All indention information will be combined with the space information for
+the first token on a new line.
+If <code>use_raw_indention</code> is set, information in the column <code>indention</code> will
+be discarded anyways. If it is not set, the first token on a new line will
+&quot;inherit&quot; the indention of the whole line.
+The column <code>indention</code> will be removed since all information necessary is
+contained in the spacing information of the first token on a new line and
+the position of the tokens will not be changed anymore at this stage.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+choose_indention(flattened_pd, use_raw_indention)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>flattened_pd</code></td>
+<td>
+<p>A nested parse table that was turned into a flat parse
+table using <code><a href="../../styler/help/extract_terminals.html">extract_terminals()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>use_raw_indention</code></td>
+<td>
+<p>Boolean indicating whether or not the raw indention
+should be used.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

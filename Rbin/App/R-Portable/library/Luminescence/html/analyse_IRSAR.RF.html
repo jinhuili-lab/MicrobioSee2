@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Analyse IRSAR RF measurements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for analyse_IRSAR.RF {Luminescence}"><tr><td>analyse_IRSAR.RF {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyse IRSAR RF measurements</h2>
+
+<h3>Description</h3>
+
+<p>Function to analyse IRSAR RF measurements on K-feldspar samples, performed
+using the protocol according to Erfurt et al. (2003) and beyond.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+analyse_IRSAR.RF(
+  object,
+  sequence_structure = c("NATURAL", "REGENERATED"),
+  RF_nat.lim = NULL,
+  RF_reg.lim = NULL,
+  method = "FIT",
+  method.control = NULL,
+  test_parameters = NULL,
+  n.MC = 10,
+  txtProgressBar = TRUE,
+  plot = TRUE,
+  plot_reduced = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> or a <a href="../../base/html/list.html">list</a> of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>-objects (<strong>required</strong>):
+input object containing data for protocol analysis. The function expects to
+find at least two curves in the <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object: (1) <code>RF_nat</code>, (2) <code>RF_reg</code>.
+If a <code>list</code> is provided as input all other parameters can be provided as
+<code>list</code> as well to gain full control.</p>
+</td></tr>
+<tr valign="top"><td><code>sequence_structure</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+specifies the general sequence structure. Allowed steps are <code>NATURAL</code>, <code>REGENERATED</code>.
+In addition any other character is allowed in the sequence structure;
+such curves will be ignored during the analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>RF_nat.lim</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>with default</em>):
+set minimum and maximum channel range for natural signal fitting and sliding.
+If only one value is provided this will be treated as minimum value and the
+maximum limit will be added automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>RF_reg.lim</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>with default</em>):
+set minimum and maximum channel range for regenerated signal fitting and sliding.
+If only one value is provided this will be treated as minimum value and the
+maximum limit will be added automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+setting method applied for the data analysis.
+Possible options are <code>"FIT"</code> or <code>"SLIDE"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>method.control</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>):
+parameters to control the method, that can be passed to the chosen method.
+These are for (1) <code>method = "FIT"</code>: <code>'trace'</code>, <code>'maxiter'</code>, <code>'warnOnly'</code>, <code>'minFactor'</code> and for
+(2) <code>method = "SLIDE"</code>: <code>'correct_onset'</code>, <code>'show_density'</code>,  <code>'show_fit'</code>, <code>'trace'</code>.
+See details.</p>
+</td></tr>
+<tr valign="top"><td><code>test_parameters</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>with default</em>):
+set test parameters. Supported parameters are: <code>curves_ratio</code>, <code>residuals_slope</code> (only for
+<code>method = "SLIDE"</code>), <code>curves_bounds</code>, <code>dynamic_ratio</code>,
+<code>lambda</code>, <code>beta</code> and <code>delta.phi</code>. All input: <a href="../../base/html/numeric.html">numeric</a>
+values, <code>NA</code> and <code>NULL</code> (s. Details)
+</p>
+<p>(see Details for further information)</p>
+</td></tr>
+<tr valign="top"><td><code>n.MC</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+set number of Monte Carlo runs for start parameter estimation (<code>method = "FIT"</code>) or
+error estimation (<code>method = "SLIDE"</code>). This value can be set to <code>NULL</code> to skip the
+MC runs. Note: Large values will significantly increase the computation time</p>
+</td></tr>
+<tr valign="top"><td><code>txtProgressBar</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables <code>TRUE</code> or disables <code>FALSE</code> the progression bar during MC runs</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output (<code>TRUE</code> or <code>FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>plot_reduced</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>optional</em>):
+provides a reduced plot output if enabled to allow common R plot combinations,
+e.g., <code>par(mfrow(...))</code>. If <code>TRUE</code> no residual plot
+is returned; it has no effect if <code>plot = FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the plot output.
+Currently supported arguments are <code>main</code>, <code>xlab</code>, <code>ylab</code>,
+<code>xlim</code>, <code>ylim</code>, <code>log</code>, <code>legend</code> (<code>TRUE/FALSE</code>),
+<code>legend.pos</code>, <code>legend.text</code> (passes argument to x,y in
+<a href="../../graphics/help/legend.html">graphics::legend</a>), <code>xaxt</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function performs an IRSAR analysis described for K-feldspar samples by
+Erfurt et al. (2003) assuming a negligible sensitivity change of the RF
+signal.
+</p>
+<p><strong>General Sequence Structure</strong> (according to Erfurt et al., 2003)
+</p>
+
+<ol>
+<li><p> Measuring IR-RF intensity of the natural dose for a few seconds (<i>RF_{nat}</i>)
+</p>
+</li>
+<li><p> Bleach the samples under solar conditions for at least 30 min without changing the geometry
+</p>
+</li>
+<li><p> Waiting for at least one hour
+</p>
+</li>
+<li><p> Regeneration of the IR-RF signal to at least the natural level (measuring (<i>RF_{reg}</i>)
+</p>
+</li>
+<li><p> Fitting data with a stretched exponential function
+</p>
+</li>
+<li><p> Calculate the the palaeodose <i>D_{e}</i> using the parameters from the fitting
+</p>
+</li></ol>
+
+<p>Actually two methods are supported to obtain the <i>D_{e}</i>:
+<code>method = "FIT"</code> and <code>method = "SLIDE"</code>:
+</p>
+<p><strong><code>method = "FIT"</code></strong>
+</p>
+<p>The principle is described above and follows the original suggestions by
+Erfurt et al., 2003. For the fitting the mean count value of the <code>RF_nat</code> curve is used.
+</p>
+<p>Function used for the fitting (according to Erfurt et al. (2003)):
+</p>
+<p style="text-align: center;"><i>&phi;(D) = &phi;_{0}-&Delta;&phi;(1-exp(-&lambda;*D))^&beta;</i></p>
+
+<p>with
+<i>&phi;(D)</i> the dose dependent IR-RF flux,
+<i>&phi;_{0}</i> the initial IR-RF flux,
+<i>&Delta;&phi;</i> the dose dependent change of the IR-RF flux,
+<i>&lambda;</i> the exponential parameter, <i>D</i> the dose and
+<i>&beta;</i> the dispersive factor.
+</p>
+<p>To obtain the palaeodose
+<i>D_{e}</i> the function is changed to:
+</p>
+<p style="text-align: center;"><i>D_{e} = ln(-(&phi;(D) - &phi;_{0})/(-&lambda;*&phi;)^{1/&beta;}+1)/-&lambda;</i></p>
+
+<p>The fitting is done using the <code>port</code> algorithm of the <a href="../../stats/html/nls.html">nls</a> function.
+</p>
+<p><strong><code>method = "SLIDE"</code></strong>
+</p>
+<p>For this method, the natural curve is slid along the x-axis until
+congruence with the regenerated curve is reached. Instead of fitting this
+allows working with the original data without the need for any physical
+model. This approach was introduced for RF curves by Buylaert et al., 2012
+and Lapp et al., 2012.
+</p>
+<p>Here the sliding is done by searching for the minimum of the squared residuals.
+For the mathematical details of the implementation see Frouin et al., 2017
+</p>
+<p><strong><code>method.control</code></strong>
+</p>
+<p>To keep the generic argument list as clear as possible, arguments to control the methods
+for De estimation are all pre set with meaningful default parameters and can be
+handled using the argument <code>method.control</code> only, e.g.,
+<code>method.control = list(trace = TRUE)</code>. Supported arguments are:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>ARGUMENT</strong> </td><td style="text-align: left;"> <strong>METHOD</strong> </td><td style="text-align: left;"> <strong>DESCRIPTION</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>trace</code>   </td><td style="text-align: left;"> <code>FIT</code>, <code>SLIDE</code> </td><td style="text-align: left;"> as in <a href="../../stats/html/nls.html">nls</a>; shows sum of squared residuals</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>trace_vslide</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> argument to enable or disable the tracing of the vertical sliding</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>maxiter</code> </td><td style="text-align: left;"> <code>FIT</code> </td><td style="text-align: left;"> as in <a href="../../stats/html/nls.html">nls</a></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>warnOnly</code> </td><td style="text-align: left;"> <code>FIT</code> </td><td style="text-align: left;"> as in <a href="../../stats/html/nls.html">nls</a></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>minFactor</code> </td><td style="text-align: left;"> <code>FIT</code> </td><td style="text-align: left;"> as in <a href="../../stats/html/nls.html">nls</a></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>correct_onset</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> The logical argument shifts the curves along the x-axis by the first channel,
+as light is expected in the first channel. The default value is <code>TRUE</code>.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>show_density</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> (<em>with default</em>)
+enables or disables KDE plots for MC run results. If the distribution is too narrow nothing is shown.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>show_fit</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> (<em>with default</em>)
+enables or disables the plot of the fitted curve routinely obtained during the evaluation.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>n.MC</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> <a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+This controls the number of MC runs within the sliding (assessing the possible minimum values).
+The default <code>n.MC = 1000</code>. Note: This parameter is not the same as controlled by the
+function argument <code>n.MC</code>. </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>vslide_range</code> </td><td style="text-align: left;"> <code>SLDE</code> </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> or <a href="../../base/html/numeric.html">numeric</a> or <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+This argument sets the boundaries for a vertical curve
+sliding. The argument expects a vector with an absolute minimum and a maximum (e.g., <code>c(-1000,1000)</code>).
+Alternatively the values <code>NULL</code> and <code>'auto'</code> are allowed. The automatic mode detects the
+reasonable vertical sliding range (<strong>recommended</strong>). <code>NULL</code> applies no vertical sliding.
+The default is <code>NULL</code>.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>cores</code> </td><td style="text-align: left;"> <code>SLIDE</code> </td><td style="text-align: left;"> <code>number</code> or <code>character</code> (<em>with default</em>): set number of cores to be allocated
+for a parallel processing of the Monte-Carlo runs. The default value is <code>NULL</code> (single thread),
+the recommended values is <code>'auto'</code>. An optional number (e.g., <code>cores</code> = 8) assigns a value manually.
+</td>
+</tr>
+
+</table>
+
+<p><strong>Error estimation</strong>
+</p>
+<p>For <strong><code>method = "FIT"</code></strong> the asymmetric error range is obtained by using the 2.5 % (lower) and
+the 97.5 % (upper) quantiles of the <i>RF_{nat}</i> curve for calculating the <i>D_{e}</i> error range.
+</p>
+<p>For <strong><code>method = "SLIDE"</code></strong> the error is obtained by bootstrapping the residuals of the slid
+curve to construct new natural curves for a Monte Carlo simulation. The error is returned in two
+ways: (a) the standard deviation of the herewith obtained <i>D_{e}</i> from the MC runs and (b) the confidence
+interval using the  2.5 % (lower) and the 97.5 % (upper) quantiles. The results of the MC runs
+are returned with the function output.
+</p>
+<p><strong>Test parameters</strong>
+</p>
+<p>The argument <code>test_parameters</code> allows to pass some thresholds for several test parameters,
+which will be evaluated during the function run. If a threshold is set and it will be exceeded the
+test parameter status will be set to <code>"FAILED"</code>. Intentionally this parameter is not termed
+<code>'rejection criteria'</code> as not all test parameters are evaluated for both methods and some parameters
+are calculated by not evaluated by default. Common for all parameters are the allowed argument options
+<code>NA</code> and <code>NULL</code>. If the parameter is set to <code>NA</code> the value is calculated but the
+result will not be evaluated, means it has no effect on the status (<code>"OK"</code> or <code>"FAILED"</code>)
+of the parameter.
+Setting the parameter to <code>NULL</code> disables the parameter entirely and the parameter will be
+also removed from the function output. This might be useful in cases where a particular parameter
+asks for long computation times. Currently supported parameters are:
+</p>
+<p><code>curves_ratio</code> <a href="../../base/html/numeric.html">numeric</a> (default: <code>1.001</code>):
+</p>
+<p>The ratio of <i>RF_{nat}</i> over <i>RF_{reg}</i> in the range of<i>RF_{nat}</i> of is calculated
+and should not exceed the threshold value.
+</p>
+<p><code>intersection_ratio</code> <a href="../../base/html/numeric.html">numeric</a> (default: <code>NA</code>):
+</p>
+<p>Calculated as absolute difference from 1 of the ratio of the integral of the normalised RF-curves,
+This value indicates intersection of the RF-curves and should be close to 0 if the curves
+have a similar shape. For this calculation first the corresponding time-count pair value on the RF_reg
+curve is obtained using the maximum count value of the <code>RF_nat</code> curve and only this segment (fitting to
+the <code>RF_nat</code> curve) on the RF_reg curve is taken for further calculating this ratio. If nothing is
+found at all, <code>Inf</code> is returned.
+</p>
+<p><code>residuals_slope</code> <a href="../../base/html/numeric.html">numeric</a> (default: <code>NA</code>; only for <code>method = "SLIDE"</code>):
+</p>
+<p>A linear function is fitted on the residuals after sliding.
+The corresponding slope can be used to discard values as a high (positive, negative) slope
+may indicate that both curves are fundamentally different and the method cannot be applied at all.
+Per default the value of this parameter is calculated but not evaluated.
+</p>
+<p><code>curves_bounds</code> <a href="../../base/html/numeric.html">numeric</a> (default: <i>max(RF_{reg_counts})</i>:
+</p>
+<p>This measure uses the maximum time (x) value of the regenerated curve.
+The maximum time (x) value of the natural curve cannot be larger than this value. However, although
+this is not recommended the value can be changed or disabled.
+</p>
+<p><code>dynamic_ratio</code> <a href="../../base/html/numeric.html">numeric</a> (default: <code>NA</code>):
+</p>
+<p>The dynamic ratio of the regenerated curve is calculated as ratio of the minimum and maximum count values.
+</p>
+<p><code>lambda</code>, <code>beta</code> and <code>delta.phi</code>
+<a href="../../base/html/numeric.html">numeric</a> (default: <code>NA</code>; <code>method = "SLIDE"</code>):
+</p>
+<p>The stretched exponential function suggested by Erfurt et al. (2003) describing the decay of
+the RF signal, comprises several parameters that might be useful to evaluate the shape of the curves.
+For <code>method = "FIT"</code> this parameter is obtained during the fitting, for <code>method = "SLIDE"</code> a
+rather rough estimation is made using the function <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a> and the equation
+given above. Note: As this procedure requests more computation time, setting of one of these three parameters
+to <code>NULL</code> also prevents a calculation of the remaining two.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns numerical output and an (<em>optional</em>) plot.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+<p><code style="white-space: pre;">[.. $data : data.frame]</code>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Column</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the obtained equivalent dose</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DE.ERROR</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> (only <code>method = "SLIDE"</code>) standard deviation obtained from MC runs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DE.LOWER</code> </td><td style="text-align: left;"> <code>numeric</code></td><td style="text-align: left;"> 2.5% quantile for De values obtained by MC runs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DE.UPPER</code> </td><td style="text-align: left;"> <code>numeric</code></td><td style="text-align: left;"> 97.5% quantile for De values obtained by MC runs  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DE.STATUS</code>  </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> test parameter status</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>RF_NAT.LIM</code>  </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> used <code>RF_nat</code> curve limits </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>RF_REG.LIM</code> </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> used <code>RF_reg</code> curve limits</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>POSITION</code> </td><td style="text-align: left;"> <code>integer</code></td><td style="text-align: left;"> (<em>optional</em>) position of the curves</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>DATE</code> </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> (<em>optional</em>) measurement date</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>SEQUENCE_NAME</code> </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> (<em>optional</em>) sequence name</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>UID</code> </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> unique data set ID
+</td>
+</tr>
+
+</table>
+
+<p><code style="white-space: pre;">[.. $De.MC : numeric]</code>
+</p>
+<p>A <code>numeric</code> vector with all the De values obtained by the MC runs.
+</p>
+<p><code style="white-space: pre;">[.. $test_parameters : data.frame]</code>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Column</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>POSITION</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> aliquot position </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>PARAMETER</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> test parameter name </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>THRESHOLD</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> set test parameter threshold value </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>VALUE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the calculated test parameter value (to be compared with the threshold)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>STATUS</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> test parameter status either <code>"OK"</code> or <code>"FAILED"</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>SEQUENCE_NAME</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> name of the sequence, so far available </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>UID</code> </td><td style="text-align: left;"> <code>character</code></td><td style="text-align: left;"> unique data set ID
+</td>
+</tr>
+
+</table>
+
+<p><code style="white-space: pre;">[.. $fit : data.frame]</code>
+</p>
+<p>An <a href="../../stats/html/nls.html">nls</a> object produced by the fitting.
+</p>
+<p><code style="white-space: pre;">[.. $slide : list]</code>
+</p>
+<p>A <a href="../../base/html/list.html">list</a> with data produced during the sliding. Some elements are previously
+reported with the summary object data. List elements are:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>De</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the final De obtained with the sliding approach </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>De.MC</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> all De values obtained by the MC runs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>residuals</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the obtained residuals for each channel of the curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>trend.fit</code> </td><td style="text-align: left;"> <code>lm</code> </td><td style="text-align: left;"> fitting results produced by the fitting of the residuals </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>RF_nat.slid</code> </td><td style="text-align: left;"> <code>matrix</code> </td><td style="text-align: left;"> the slid <code>RF_nat</code> curve </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>t_n.id</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the index of the t_n offset </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>I_n</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the vertical intensity offset if a vertical slide was applied </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>algorithm_error</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the vertical sliding suffers from a systematic effect induced by the used
+algorithm. The returned value is the standard deviation of all obtained De values while expanding the
+vertical sliding range. I can be added as systematic error to the final De error; so far wanted.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>vslide_range</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the range used for the vertical sliding </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>squared_residuals</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the squared residuals (horizontal sliding)
+</td>
+</tr>
+
+</table>
+
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call (<a href="../../methods/help/LanguageClasses.html">methods::language</a>-object)
+</p>
+<p>The output (<code>data</code>) should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+<code style="white-space: pre;">[ PLOT OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br />
+</p>
+<p>The slid IR-RF curves with the finally obtained De
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.7.8
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. analyse_IRSAR.RF(): Analyse IRSAR RF measurements. Function version 0.7.8. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function assumes that there is no sensitivity change during the
+measurements (natural vs. regenerated signal), which is in contrast to the
+findings by Buylaert et al. (2012).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Buylaert, J.P., Jain, M., Murray, A.S., Thomsen, K.J., Lapp, T.,
+2012. IR-RF dating of sand-sized K-feldspar extracts: A test of accuracy.
+Radiation Measurements 44 (5-6), 560-565. doi: 10.1016/j.radmeas.2012.06.021
+</p>
+<p>Erfurt, G., Krbetschek, M.R., 2003. IRSAR - A single-aliquot
+regenerative-dose dating protocol applied to the infrared radiofluorescence
+(IR-RF) of coarse- grain K-feldspar. Ancient TL 21, 35-42.
+</p>
+<p>Erfurt, G., 2003. Infrared luminescence of Pb+ centres in potassium-rich
+feldspars. physica status solidi (a) 200, 429-438.
+</p>
+<p>Erfurt, G., Krbetschek, M.R., 2003. Studies on the physics of the infrared
+radioluminescence of potassium feldspar and on the methodology of its
+application to sediment dating. Radiation Measurements 37, 505-510.
+</p>
+<p>Erfurt, G., Krbetschek, M.R., Bortolot, V.J., Preusser, F., 2003. A fully
+automated multi-spectral radioluminescence reading system for geochronometry
+and dosimetry. Nuclear Instruments and Methods in Physics Research Section
+B: Beam Interactions with Materials and Atoms 207, 487-499.
+</p>
+<p>Frouin, M., Huot, S., Kreutzer, S., Lahaye, C., Lamothe, M., Philippe, A., Mercier, N., 2017.
+An improved radiofluorescence single-aliquot regenerative dose protocol for K-feldspars.
+Quaternary Geochronology 38, 13-24. doi:10.1016/j.quageo.2016.11.004
+</p>
+<p>Lapp, T., Jain, M., Thomsen, K.J., Murray, A.S., Buylaert, J.P., 2012. New
+luminescence measurement facilities in retrospective dosimetry. Radiation
+Measurements 47, 803-808. doi:10.1016/j.radmeas.2012.02.006
+</p>
+<p>Trautmann, T., 2000. A study of radioluminescence kinetics of natural
+feldspar dosimeters: experiments and simulations. Journal of Physics D:
+Applied Physics 33, 2304-2310.
+</p>
+<p>Trautmann, T., Krbetschek, M.R., Dietrich, A., Stolz, W., 1998.
+Investigations of feldspar radioluminescence: potential for a new dating
+technique. Radiation Measurements 29, 421-425.
+</p>
+<p>Trautmann, T., Krbetschek, M.R., Dietrich, A., Stolz, W., 1999. Feldspar
+radioluminescence: a new dating method and its physical background. Journal
+of Luminescence 85, 45-58.
+</p>
+<p>Trautmann, T., Krbetschek, M.R., Stolz, W., 2000. A systematic study of the
+radioluminescence properties of single feldspar grains. Radiation
+Measurements 32, 685-690.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>,
+<a href="../../stats/html/nls.html">nls</a>, <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>, <code>parallel::mclapply</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+data(ExampleData.RLum.Analysis, envir = environment())
+
+##(1) perform analysis using the method 'FIT'
+results &lt;- analyse_IRSAR.RF(object = IRSAR.RF.Data)
+
+##show De results and test paramter results
+get_RLum(results, data.object = "data")
+get_RLum(results, data.object = "test_parameters")
+
+##(2) perform analysis using the method 'SLIDE'
+results &lt;- analyse_IRSAR.RF(object = IRSAR.RF.Data, method = "SLIDE", n.MC = 1)
+
+## Not run: 
+##(3) perform analysis using the method 'SLIDE' and method control option
+## 'trace
+results &lt;- analyse_IRSAR.RF(
+ object = IRSAR.RF.Data,
+ method = "SLIDE",
+ method.control = list(trace = TRUE))
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

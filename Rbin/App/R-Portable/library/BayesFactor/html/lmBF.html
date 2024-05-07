@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to compute Bayes factors for specific linear models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for lmBF {BayesFactor}"><tr><td>lmBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to compute Bayes factors for specific linear models</h2>
+
+<h3>Description</h3>
+
+<p>This function computes Bayes factors, or samples from the posterior, of
+specific linear models (either ANOVA or regression).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+lmBF(formula, data, whichRandom = NULL, rscaleFixed = "medium",
+  rscaleRandom = "nuisance", rscaleCont = "medium", rscaleEffects = NULL,
+  posterior = FALSE, progress = getOption("BFprogress", interactive()), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula containing all factors to include in the analysis
+(see Examples)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame containing data for all factors in the formula</p>
+</td></tr>
+<tr valign="top"><td><code>whichRandom</code></td>
+<td>
+<p>a character vector specifying which factors are random</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleFixed</code></td>
+<td>
+<p>prior scale for standardized, reduced fixed effects. A
+number of preset values can be given as strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleRandom</code></td>
+<td>
+<p>prior scale for standardized random effects</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleCont</code></td>
+<td>
+<p>prior scale for standardized slopes. A
+number of preset values can be given as strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleEffects</code></td>
+<td>
+<p>A named vector of prior settings for individual factors,
+overriding rscaleFixed and rscaleRandom. Values are scales, names are factor names.</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>if <code>TRUE</code>, return samples from the posterior
+distribution instead of the Bayes factor</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>if <code>TRUE</code>, show progress with a text progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function provides an interface for computing Bayes factors  for
+specific linear models against the intercept-only null; other tests may be
+obtained by computing two models and dividing their Bayes factors. Specifics
+about the priors for regression models &ndash; and possible settings for
+<code>rscaleCont</code> &ndash; can be found in the help for <code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code>;
+likewise, details for ANOVA models &ndash; and settings for <code>rscaleFixed</code>
+and <code>rscaleRandom</code> &ndash; can be found in the help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code>.
+</p>
+<p>Currently, the function does not allow for general linear models, containing
+both continuous and categorical predcitors, but this support will be added
+in the future.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>posterior</code> is <code>FALSE</code>, an object of class
+<code>BFBayesFactor</code>, containing the computed model comparisons is
+returned. Otherwise, an object of class <code>BFmcmc</code>, containing MCMC
+samples from the posterior is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code> and <code>anovaBF</code> for
+testing many regression or ANOVA models simultaneously.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Puzzles data; see ?puzzles for details
+data(puzzles)
+## Bayes factor of full model against null
+bfFull = lmBF(RT ~ shape + color + shape:color + ID, data = puzzles, whichRandom = "ID")
+
+## Bayes factor of main effects only against null
+bfMain = lmBF(RT ~ shape + color + ID, data = puzzles, whichRandom = "ID")
+
+## Compare the main-effects only model to the full model
+bfMain / bfFull
+
+## sample from the posterior of the full model
+samples = lmBF(RT ~ shape + color + shape:color + ID,
+           data = puzzles, whichRandom = "ID", posterior = TRUE,
+           iterations = 1000)
+
+## Aother way to sample from the posterior of the full model
+samples2 = posterior(bfFull, iterations = 1000)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

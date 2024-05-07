@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Splits a single character string by pattern</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for splitByPattern {R.utils}"><tr><td>splitByPattern {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Splits a single character string by pattern</h2>
+
+<h3>Description</h3>
+
+<p>Splits a single character string by pattern.  The main difference compared to <code><a href="../../base/help/strsplit.html">strsplit</a></code>()
+is that this method also returns the part of the string that matched
+the pattern. Also, it only takes a single character string.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+splitByPattern(str, pattern, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>str</code></td>
+<td>
+<p>A single <code><a href="../../base/help/character.html">character</a></code> string to be split.</p>
+</td></tr>
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>A regular expression <code><a href="../../base/help/character.html">character</a></code> string.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a named <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> with names equal to <code>"TRUE"</code>
+if element is a pattern part and <code>"FALSE"</code> otherwise.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Compare to <code><a href="../../base/help/strsplit.html">strsplit</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+rspCode &lt;- "&lt;body&gt;Hello &lt;%=\"world\"%&gt;&lt;/body&gt;"
+rspParts &lt;- splitByPattern(rspCode, pattern="&lt;%.*%&gt;")
+cat(rspCode, "\n")
+print(rspParts)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add labels to a map</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for text {raster}"><tr><td>text {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add labels to a map</h2>
+
+<h3>Description</h3>
+
+<p>Plots labels, that is a textual (rather than color) representation of values, on top an existing plot (map). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+text(x, labels, digits=0, fun=NULL, halo=FALSE, ...)
+
+## S4 method for signature 'RasterStackBrick'
+text(x, labels, digits=0, fun=NULL, halo=FALSE, ...)
+
+## S4 method for signature 'SpatialPolygons'
+text(x, labels, halo=FALSE, ...)
+
+## S4 method for signature 'SpatialPoints'
+text(x, labels, halo=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster*, SpatialPoints* or SpatialPolygons* object</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>character. Optional. Vector of labels with <code>length(x)</code> or a variable name from <code>names(x)</code></p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer. how many digits should be used?</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function to subset the values plotted (as in <code><a href="../../raster/help/rasterToPoints.html">rasterToPoints</a></code>)</p>
+</td></tr>
+<tr valign="top"><td><code>halo</code></td>
+<td>
+<p>logical. If <code>TRUE</code> a 'halo' is printed around the text. If <code>TRUE</code>, additional arguments <code>hc='white'</code> and <code>hw=0.1</code> can be modified to set the colour and width of the halo</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to pass to graphics function <code><a href="../../graphics/help/text.html">text</a></code> </p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/help/text.html">text</a>, <a href="../help/plot.html">plot</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(nrows=4, ncols=4)
+r &lt;- setValues(r, 1:ncell(r))
+plot(r)
+text(r)
+
+plot(r)
+text(r, halo=TRUE, hc='blue', col='white', hw=0.2)
+
+plot(r, col=bpy.colors(5))
+text(r, fun=function(x){x&lt;5 | x&gt;12}, col=c('red', 'white'), vfont=c("sans serif", "bold"), cex=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

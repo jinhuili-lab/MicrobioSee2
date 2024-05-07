@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Group by one or more variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for group_by.tbl_lazy {dbplyr}"><tr><td>group_by.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Group by one or more variables</h2>
+
+<h3>Description</h3>
+
+<p>This is a method for the dplyr <code><a href="../../dplyr/html/group_by.html">group_by()</a></code> generic. It is translated to
+the <code style="white-space: pre;">GROUP BY</code> clause of the SQL query when used with
+<code><a href="../../dbplyr/help/summarise.tbl_lazy.html">summarise()</a></code> and to the <code style="white-space: pre;">PARTITION BY</code> clause of
+window functions when used with <code><a href="../../dbplyr/help/mutate.tbl_lazy.html">mutate()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_lazy'
+group_by(.data, ..., .add = FALSE, add = NULL, .drop = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>&lt;<code><a href="../../dplyr/help/dplyr_data_masking.html">data-masking</a></code>&gt; Variables, or functions of
+variables. Use <code><a href="../../dplyr/help/desc.html">desc()</a></code> to sort a variable in descending order.</p>
+</td></tr>
+<tr valign="top"><td><code>.add</code></td>
+<td>
+<p>When <code>FALSE</code>, the default, <code>group_by()</code> will
+override existing groups. To add to the existing groups, use
+<code>.add = TRUE</code>.
+</p>
+<p>This argument was previously called <code>add</code>, but that prevented
+creating a new grouping variable called <code>add</code>, and conflicts with
+our naming conventions.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Deprecated. Please use <code>.add</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>.drop</code></td>
+<td>
+<p>Not supported by this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+db &lt;- memdb_frame(g = c(1, 1, 1, 2, 2), x = c(4, 3, 6, 9, 2))
+db %&gt;%
+  group_by(g) %&gt;%
+  summarise(n()) %&gt;%
+  show_query()
+
+db %&gt;%
+  group_by(g) %&gt;%
+  mutate(x2 = x / sum(x, na.rm = TRUE)) %&gt;%
+  show_query()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

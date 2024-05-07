@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display text in the margins of a 3D plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for paxis3d {plotrix}"><tr><td>paxis3d {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display text in the margins of a 3D plot </h2>
+
+<h3>Description</h3>
+
+<p>Display text in the margins of a 3D plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ paxis3d(edge,pmat,at=NULL,labels=TRUE,tick=TRUE,
+  pos=NULL,nticks=5,ticklen=0.05,labdist=0.15,xpd=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>edge</code></td>
+<td>
+<p> which axis to calculate.</p>
+</td></tr>
+<tr valign="top"><td><code>pmat</code></td>
+<td>
+<p> matrix to transform coordinates. </p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p> position on the axis. </p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p> labels to display in the margin. </p>
+</td></tr>
+<tr valign="top"><td><code>tick</code></td>
+<td>
+<p> whether to draw axis tick marks. </p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p> axis position relative to other axes. </p>
+</td></tr>
+<tr valign="top"><td><code>nticks</code></td>
+<td>
+<p> number of tick marks. </p>
+</td></tr>
+<tr valign="top"><td><code>ticklen</code></td>
+<td>
+<p> length of tick marks as a proportion of plot dimensions. </p>
+</td></tr>
+<tr valign="top"><td><code>labdist</code></td>
+<td>
+<p> distance of labels from axis. </p>
+</td></tr>
+<tr valign="top"><td><code>xpd</code></td>
+<td>
+<p> parameter to set plot clipping. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> additional arguments passed to ptext3d. </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x &lt;- 1:10
+ y &lt;- 1:10
+ z &lt;- outer(x,y,function(x,y) { 3*sin(2*pi*x)/(2*pi*x)+exp(y/10)+(x*y)/1000 })
+ par(mar=c(5,10,2,2))
+ pp &lt;- perspx(x,y,z,ticktype="detailed",phi=30,theta=80,nticks=3,r=10,
+      axes=FALSE)
+ ## axis labels not drawn when axes=FALSE
+ paxis3d("X-",pp,at=c(1,2,9))
+ paxis3d("Y+",pp)
+ paxis3d("Z-",pp)
+ mtext3d("X-",pp,expression(alpha^sqrt(beta)))
+ ## if you want labels parallel to axis, still have to figure out 'srt'
+ ##   by trial and error
+ mtext3d("Y+",pp,expression("velocity ("*gamma*", furlongs/fortnight)"),
+        xpd=NA,srt=6)
+ mtext3d("Z-",pp,"Range\n(r*)",dist=0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

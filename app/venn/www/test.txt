@@ -1,0 +1,240 @@
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""#"" class=""image featured""><img src=""images/pic02.jpg"""		
+				"alt="""" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/alpha"" class=""button alt"">Alpha Diversity</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""#"" class=""image featured""><img src=""images/pic03.jpg"""		
+				"alt="""" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/beta"" class=""button alt"">Beta Diversity</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""#"" class=""image featured""><img src=""images/pic04.jpg"""		
+				"alt="""" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/stack/"" class=""button alt"">Species composition</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""#"" class=""image featured""><img src=""images/pic05.jpg"""		
+				"alt="""" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/venn/"" class=""button alt"">Venn</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""#"" class=""image featured""><img src=""images/pic06.jpg"""		
+				"alt="""" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/upset"" class=""button alt"">Upset</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/volcano/"" class=""image featured""><img src=""images/pic08.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/volcano/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/volcano/"" class=""button alt"">Volcano plot"
+				</a></li>
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/scatter/"" class=""image featured""><img src=""images/pic09.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/scatter/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/scatter/"" class=""button alt"">Scatter plot</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/bubble_chart/"" class=""image featured""><img src=""images/pic10.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/bubble_chart/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/bubble_chart/"" class=""button alt"">Bubble chart</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/rose/"" class=""image featured""><img src=""images/pic11.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/rose/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/rose/"" class=""button alt"">Nightingale roses</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/3dmol"" class=""image featured""><img src=""images/pic12.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/3dmol"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/3dmol"" class=""button alt"">3D mol</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/heatmap/"" class=""image featured""><img src=""images/pic13.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/heatmap/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/heatmap/"" class=""button alt"">Heat map</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/histogram/"" class=""image featured""><img src=""images/pic14.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/histogram/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/histogram/"" class=""button alt"">Histogram</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/pie/"" class=""image featured""><img src=""images/pic15.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/pie/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/pie/"" class=""button alt"">Pie</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/shiny_pubmed/"" class=""image featured""><img src=""images/pic16.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/shiny_pubmed/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/shiny_pubmed/"" class=""button alt"">Pubmed wordcloud</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/my-mind/"" class=""image featured""><img src=""images/pic17.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/my-mind/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/my-mind/"" class=""button alt"">My-mind</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/roc/"" class=""image featured""><img src=""images/pic18.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/roc/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/roc/"" class=""button alt"">ROC</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				
+"<div class=""col-4 col-6-medium col-12-small"">"				
+	"<section class=""box"">"			
+		"<a href=""https://microbiosee.gxu.edu.cn/box/"" class=""image featured""><img src=""images/pic19.png"""		
+				"alt=""https://microbiosee.gxu.edu.cn/box/"" /></a>"
+		<header>		
+		</header>		
+		<p></p>		
+		<footer>		
+			"<ul class=""actions"">"	
+				"<li><a href=""https://microbiosee.gxu.edu.cn/box/"" class=""button alt"">Box</a></li>"
+			</ul>	
+		</footer>		
+	</section>			
+</div>				

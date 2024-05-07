@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Model bootstrapping</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bootstrap_model {parameters}"><tr><td>bootstrap_model {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Model bootstrapping</h2>
+
+<h3>Description</h3>
+
+<p>Bootstrap a statistical model n times to return a data frame of estimates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bootstrap_model(model, iterations = 1000, ...)
+
+## Default S3 method:
+bootstrap_model(
+  model,
+  iterations = 1000,
+  type = "ordinary",
+  parallel = c("no", "multicore", "snow"),
+  n_cpus = 1,
+  verbose = FALSE,
+  ...
+)
+
+## S3 method for class 'merMod'
+bootstrap_model(
+  model,
+  iterations = 1000,
+  type = "parametric",
+  parallel = c("no", "multicore", "snow"),
+  n_cpus = 1,
+  cluster = NULL,
+  verbose = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of draws to simulate/bootstrap.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character string specifying the type of bootstrap. For mixed models
+of class <code>merMod</code> or <code>glmmTMB</code>, may be <code>"parametric"</code> (default) or
+<code>"semiparametric"</code> (see <code>?lme4::bootMer</code> for details). For all
+other models, see argument <code>sim</code> in <code>?boot::boot</code> (defaults to
+<code>"ordinary"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>The type of parallel operation to be used (if any).</p>
+</td></tr>
+<tr valign="top"><td><code>n_cpus</code></td>
+<td>
+<p>Number of processes to be used in parallel operation.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>Optional cluster when <code>parallel = "snow"</code>. See <code>?lme4::bootMer</code>
+for details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>By default, <code>boot::boot()</code> is used to generate bootstraps from
+the model data, which are then used to <code>update()</code> the model, i.e. refit
+the model with the bootstrapped samples. For <code>merMod</code> objects (<strong>lme4</strong>)
+or models from <strong>glmmTMB</strong>, the <code>lme4::bootMer()</code> function is used to
+obtain bootstrapped samples. <code>bootstrap_parameters()</code> summarizes the
+bootstrapped model estimates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of bootstrapped estimates.
+</p>
+
+
+<h3>Using with <strong>emmeans</strong></h3>
+
+<p>The output can be passed directly to the various functions from the
+<strong>emmeans</strong> package, to obtain bootstrapped estimates, contrasts, simple
+slopes, etc. and their confidence intervals. These can then be passed to
+<code>model_parameter()</code> to obtain standard errors, p-values, etc. (see
+example).
+</p>
+<p>Note that that p-values returned here are estimated under the assumption of
+<em>translation equivariance</em>: that shape of the sampling distribution is
+unaffected by the null being true or not. If this assumption does not hold,
+p-values can be biased, and it is suggested to use proper permutation tests
+to obtain non-parametric p-values.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/bootstrap_parameters.html">bootstrap_parameters()</a></code>, <code><a href="../../parameters/help/simulate_model.html">simulate_model()</a></code>, <code><a href="../../parameters/help/simulate_parameters.html">simulate_parameters()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+model &lt;- lm(mpg ~ wt + factor(cyl), data = mtcars)
+b &lt;- bootstrap_model(model)
+print(head(b))
+
+est &lt;- emmeans::emmeans(b, consec ~ cyl)
+print(model_parameters(est))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

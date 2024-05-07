@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: How to define a permutation design?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for how {permute}"><tr><td>how {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>How to define a permutation design?</h2>
+
+<h3>Description</h3>
+
+<p>Utility functions to describe unrestricted and restricted permutation
+designs for time series, line transects, spatial grids and blocking
+factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+how(within = Within(), plots = Plots(), blocks = NULL,
+    nperm = 199, complete = FALSE, maxperm = 9999,
+    minperm = 5040, all.perms = NULL, make = TRUE,
+    observed = FALSE)
+
+Within(type = c("free","series","grid","none"),
+       constant = FALSE, mirror = FALSE,
+       ncol = NULL, nrow = NULL)
+
+Plots(strata = NULL, type = c("none","free","series","grid"),
+      mirror = FALSE, ncol = NULL, nrow = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>within, plots, blocks</code></td>
+<td>
+<p>Permutation designs for samples within the
+levels of <code>plots</code> (<code>within</code>), permutation of <code>plots</code>
+themselves, or for the definition of blocking structures which
+further restrict permutations (<code>blocks</code>). <code>within</code> and
+<code>plots</code> each require a named list as produced by <code>Within</code>
+and <code>Plots</code> respectively. <code>blocks</code> takes a factor (or an
+object coercible to a factor via <code>as.factor</code>), the levels of
+which define the blocking structure.</p>
+</td></tr>
+<tr valign="top"><td><code>nperm</code></td>
+<td>
+<p>numeric; the number of permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>complete</code></td>
+<td>
+<p>logical; should complete enumeration of all
+permutations be performed?</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character; the type of permutations required. One of
+<code>"free"</code>, <code>"series"</code>, <code>"grid"</code> or <code>"none"</code>. See
+Details.</p>
+</td></tr> 
+<tr valign="top"><td><code>maxperm</code></td>
+<td>
+<p>numeric; the maximum number of permutations to
+perform. Currently unused.</p>
+</td></tr>
+<tr valign="top"><td><code>minperm</code></td>
+<td>
+<p>numeric; the lower limit to the number of possible
+permutations at which complete enumeration is performed. When
+<code>nperm</code> is lower than <code>minperm</code>, sampling is performed
+from the set of complete permutations to avoid duplicate
+permutations. See argument <code>complete</code> and Details, below.</p>
+</td></tr>
+<tr valign="top"><td><code>all.perms</code></td>
+<td>
+<p>an object of class <code>allPerms</code>, the result of a
+call to <code><a href="../../permute/help/allPerms.html">allPerms</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>make</code></td>
+<td>
+<p>logical; should <code>check</code> generate all possible
+permutations? Useful if want to check permutation design but not
+produce the matrix of all permutations, or to circumvent the
+heuristics governing when complete enumeration is activated.</p>
+</td></tr>
+<tr valign="top"><td><code>observed</code></td>
+<td>
+<p>logical; should the observed permutation be returned
+as part of the set of all permutations? Default is <code>FALSE</code> to
+facilitate usage in higher level functions.</p>
+</td></tr>
+<tr valign="top"><td><code>constant</code></td>
+<td>
+<p>logical; should the same permutation be used within
+each level of strata? If <code>FALSE</code> a separate, possibly restricted,
+permutation is produced for each level of <code>strata</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>mirror</code></td>
+<td>
+<p>logical; should mirroring of sequences be allowed?</p>
+</td></tr>
+<tr valign="top"><td><code>ncol, nrow</code></td>
+<td>
+<p>numeric; the number of columns and rows of samples
+in the spatial grid respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>A factor, or an object that can be coerced to a factor
+via <code>as.factor</code>, specifying the strata for permutation.</p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>shuffle</code> can generate permutations for a wide range of
+restricted permutation schemes. A small selection of the available
+combinations of options is provided in the Examples section below.
+</p>
+<p>Argument type controls how samples are actually permuted;
+<code>"free"</code> indicates randomization, <code>"series"</code> indicates
+permutation via cyclic shifts (suitable for evenly-spaced line
+transect or time series data), <code>"grid"</code> indicates permutation via
+toroidal shifts (suitable for samples on a regular grid), and
+<code>"none"</code> indicates no permutation of samples. See the package
+vignette (<code>browseVignettes("permute")</code>) for additional
+information on each of these types of permutation.
+</p>
+<p>Argument <code>mirror</code> determines whether grid or series permutations
+can be mirrored. Consider the sequence 1,2,3,4. The relationship
+between consecutive observations is preserved if we reverse the
+sequence to 4,3,2,1. If there is no inherent direction in your
+experimental design, mirrored permutations can be considered
+part of the Null model, and as such increase the number of possible
+permutations. The default is to not use mirroring so you must
+explicitly turn this on using <code>mirror = TRUE</code> in <code>how</code>.
+</p>
+<p>To permute plots rather than the observations within plots (the
+levels of <code>strata</code>), use <code>Within(type = "none")</code> and
+<code>Plots(type = foo)</code>, where <code>foo</code> is how you want the plots
+to be permuted. However, note that the number of observations within
+each plot <strong>must</strong> be equal! 
+</p>
+<p>For some experiments, such as BACI designs, one might wish to use the
+same permutation within each plot. This is controlled by
+argument <code>constant</code>. If <code>constant = TRUE</code> then the same
+permutation will be generated for each level of <code>strata</code>. The
+default is <code>constant = FALSE</code>.
+</p>
+
+
+<h3>Value</h3>
+
+  
+<p>For <code>how</code> a list with components for each of the possible arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson</p>
+
+
+<h3>References</h3>
+
+<p><code>shuffle()</code> is modelled after the permutation schemes of Canoco
+3.1 (ter Braak, 1990); see also Besag &amp; Clifford (1989).
+</p>
+<p>Besag, J. and Clifford, P. (1989) Generalized Monte Carlo significance
+tests. <em>Biometrika</em> <strong>76</strong>; 633&ndash;642.
+</p>
+<p>ter Braak, C. J. F. (1990). <em>Update notes: CANOCO version
+3.1</em>. Wageningen: Agricultural Mathematics Group. (UR).
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../permute/help/shuffle.html">shuffle</a></code> and <code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> for
+permuting from a design, and <code><a href="../../permute/help/check.html">check</a></code>, a utility function
+for checking permutation design described by <code>how</code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Set up factors for the Plots and Blocks
+plts &lt;- gl(4, 10) ## 4 Plots of 10 samples each
+blks &lt;- gl(2, 20) ## 2 Blocks of 20 samples each
+
+## permutation design
+h1 &lt;- how(within = Within(type = "series", mirror = TRUE),
+          plots = Plots(strata = plts, type = "series"),
+          blocks = blks)
+
+## The design can be updated...
+## ... remove the blocking:
+update(h1, blocks = NULL)
+
+## ... or switch the type of shuffling at a level:
+#update(h1, plots = update(getPlots(h1), type = "none"))
+plots2 &lt;- update(getPlots(h1), type = "none")
+update(h1, plots = plots2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

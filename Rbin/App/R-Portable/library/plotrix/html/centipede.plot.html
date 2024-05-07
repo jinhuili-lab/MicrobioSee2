@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a centipede plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for centipede.plot {plotrix}"><tr><td>centipede.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a centipede plot</h2>
+
+<h3>Description</h3>
+
+<p>Displays a centipede plot on the current graphics device.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ centipede.plot(segs,mct="mean",lower.limit="std.error",
+  upper.limit=lower.limit,left.labels=NULL,right.labels=NULL,sort.segs=TRUE,
+  main="",xlab=NA,pch=21,vgrid=NA,hgrid=NA,gridcol="lightgray",mar=NA,col=par("fg"),
+  bg="green",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>segs</code></td>
+<td>
+<p>a matrix of midpoints and limits calculated by
+<a href="../../plotrix/help/get.segs.html">get.segs</a> OR a <span class="samp">dstat</span> object returned by
+<span class="samp">brkdn</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>mct</code></td>
+<td>
+<p>The function to use in calculating the midpoint of each
+segment.</p>
+</td></tr>
+<tr valign="top"><td><code>lower.limit</code></td>
+<td>
+<p>The functions to use in calculating the
+lower limits for each subset of the data.</p>
+</td></tr>
+<tr valign="top"><td><code>upper.limit</code></td>
+<td>
+<p>The functions to use in calculating the
+upper limits.</p>
+</td></tr>
+<tr valign="top"><td><code>left.labels</code></td>
+<td>
+<p>The variable or subset labels to place at the left margin of
+the plot. Default values are provided.</p>
+</td></tr>
+<tr valign="top"><td><code>right.labels</code></td>
+<td>
+<p>The variable or subset labels to place at the right margin
+of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>sort.segs</code></td>
+<td>
+<p>Whether to sort the segments in ascending order.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Optional title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>Optional x axis label for the plot. The default NA
+displays a text label showing the midpoint and limit functions.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>The symbols to use when plotting midpoints.</p>
+</td></tr>
+<tr valign="top"><td><code>vgrid</code></td>
+<td>
+<p>Optional vertical line(s) to display on the plot. Defaults to
+NA (none).</p>
+</td></tr>
+<tr valign="top"><td><code>hgrid</code></td>
+<td>
+<p>Optional horizontal grid lines to display on the plot. Defaults
+to NA (none).</p>
+</td></tr>
+<tr valign="top"><td><code>gridcol</code></td>
+<td>
+<p>The color for the vgrid and hgrid lines.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>Margin widths for the plot. Defaults to c(4,5,1,4) or 
+c(4,5,3,4) if there is a title.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The color(s) of the limit lines and borders of the midpoint
+markers.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>The color(s) to fill the midpoint markers.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">centipede.plot</span> displays one or more midpoints and limits as 
+filled circles with horizontal error bars. It places labels on the left and
+right sides of the plot. If these labels are long, it may be necessary to
+pass explicit values to the <span class="samp">mar</span> argument to leave enough room.
+</p>
+<p>The <span class="samp">vgrid</span> argument is usually used to display an average value for
+all of the midpoints. If one or more values are passed in this argument,
+they will be displayed as vertical lines spanning the plot. The <span class="samp">hgrid</span>
+argument acts like the <span class="samp">grid</span> function, drawing dashed horizontal lines
+across the plot. If <span class="samp">hgrid=NULL</span>, these lines will be drawn under the
+values displayed, which will be 1 to the number of values on the vertical axis.
+The user can pass explicit values if desired. With horizontal and optionally
+vertical grid lines, the centipede plot is practically equivalent to a dotplot
+with error bars.
+</p>
+<p>Similarly, centipede plots typically have a large number of subsets, and 
+it may be necessary to start the graphics device with an aspect ratio that
+will prevent crowding of the labels when over 30 segments are displayed.
+</p>
+<p>The matrix <span class="samp">segs</span> may be entered manually or read from a file.
+The first row specifies midpoints, the second and third rows the lower
+and upper limits respectively and the fourth row the number of valid
+observations. If there are no values for number of valid observations,
+just pass vector of blank strings with the <span class="samp">right.labels</span> argument.
+If a <span class="samp">dstat</span> object is passed as <span class="samp">segs</span>, the function will calculate
+the lower and upper values according to the relevant arguments. This type of
+plot is also known as a caterpillar plot or a league table. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/get.segs.html">get.segs</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ testcp&lt;-list("",40)
+ for(i in 1:40) testcp[[i]]&lt;-rnorm(sample(1:8,1)*50)
+ segs&lt;-get.segs(testcp)
+ centipede.plot(segs,main="Test centipede plot",vgrid=0)
+ # now leave out the number of valid observations, pass x labels and no right labels
+ centipede.plot(segs[1:3,],main="Test centipede plot",vgrid=0,mar=c(4,5,3,2),
+  left.labels=paste("X",1:40,sep=""),right.labels=rep("",40))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

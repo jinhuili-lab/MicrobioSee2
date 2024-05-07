@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: p-values for Models with Zero-Inflation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for p_value.zcpglm {parameters}"><tr><td>p_value.zcpglm {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>p-values for Models with Zero-Inflation</h2>
+
+<h3>Description</h3>
+
+<p>This function attempts to return, or compute, p-values of hurdle and
+zero-inflated models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'zcpglm'
+p_value(model, component = c("all", "conditional", "zi", "zero_inflated"), ...)
+
+## S3 method for class 'zeroinfl'
+p_value(
+  model,
+  component = c("all", "conditional", "zi", "zero_inflated"),
+  method = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Model component for which parameters should be shown. See
+the documentation for your object's class in <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> or
+<code><a href="../../parameters/help/p_value.html">p_value()</a></code> for further details.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method for computing degrees of freedom for
+confidence intervals (CI) and the related p-values. Allowed are following
+options (which vary depending on the model class): <code>"residual"</code>,
+<code>"normal"</code>, <code>"likelihood"</code>, <code>"satterthwaite"</code>, <code>"kenward"</code>, <code>"wald"</code>,
+<code>"profile"</code>, <code>"boot"</code>, <code>"uniroot"</code>, <code>"ml1"</code>, <code>"betwithin"</code>, <code>"hdi"</code>,
+<code>"quantile"</code>, <code>"ci"</code>, <code>"eti"</code>, <code>"si"</code>, <code>"bci"</code>, or <code>"bcai"</code>. See section
+<em>Confidence intervals and approximation of degrees of freedom</em> in
+<code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> for further details.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with at least two columns: the parameter names and the p-values.
+Depending on the model, may also include columns for model components etc.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("pscl", quietly = TRUE)) {
+  data("bioChemists")
+  model &lt;- zeroinfl(art ~ fem + mar + kid5 | kid5 + phd, data = bioChemists)
+  p_value(model)
+  p_value(model, component = "zi")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

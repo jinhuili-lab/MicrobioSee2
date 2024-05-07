@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot function for an RLum.Analysis S4 class object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_RLum.Analysis {Luminescence}"><tr><td>plot_RLum.Analysis {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot function for an RLum.Analysis S4 class object</h2>
+
+<h3>Description</h3>
+
+<p>The function provides a standardised plot output for curve data of an
+RLum.Analysis S4 class object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_RLum.Analysis(
+  object,
+  subset = NULL,
+  nrows,
+  ncols,
+  abline = NULL,
+  combine = FALSE,
+  records_max = NULL,
+  curve.transformation,
+  plot.single = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+S4 object of class <code>RLum.Analysis</code></p>
+</td></tr>
+<tr valign="top"><td><code>subset</code></td>
+<td>
+<p>named <a href="../../base/html/list.html">list</a> (<em>optional</em>):
+subsets elements for plotting. The arguments in the named <a href="../../base/html/list.html">list</a> will be
+directly passed to the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+(e.g., <code>subset = list(curveType = "measured")</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+sets number of rows for plot output, if nothing is set the function
+tries to find a value.</p>
+</td></tr>
+<tr valign="top"><td><code>ncols</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+sets number of columns for plot output, if nothing is set the function
+tries to find a value.</p>
+</td></tr>
+<tr valign="top"><td><code>abline</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>):
+allows to add ab-lines to the plot. Argument are provided
+in a list and will be forward to the function <a href="../../graphics/html/abline.html">abline</a>,
+e.g., <code>list(v = c(10, 100))</code> adds two vertical lines add 10 and 100 to all
+plots. In contrast <code style="white-space: pre;">list(v = c(10), v = c(100)</code> adds a vertical at 10 to
+the first and a vertical line at 100 to the 2nd plot.</p>
+</td></tr>
+<tr valign="top"><td><code>combine</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+allows to combine all <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> objects in one single plot.</p>
+</td></tr>
+<tr valign="top"><td><code>records_max</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): limits number of records
+shown if <code>combine = TRUE</code>. Shown are always the first and the last curve,
+the other number of curves to be shown a distributed evenly, this may result
+in less number of curves plotted as specified.</p>
+</td></tr>
+<tr valign="top"><td><code>curve.transformation</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+allows transforming CW-OSL and CW-IRSL curves to pseudo-LM curves via
+transformation functions. Allowed values are: <code>CW2pLM</code>, <code>CW2pLMi</code>,
+<code>CW2pHMi</code> and <code>CW2pPMi</code>. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+global par settings are considered, normally this should end in one plot per page</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments and graphical parameters will be passed to
+the <code>plot</code> function.
+</p>
+<p>Supported arguments: <code>main</code>, <code>mtext</code>, <code>log</code>, <code>lwd</code>, <code>lty</code> <code>type</code>, <code>pch</code>, <code>col</code>,
+<code>norm</code> (see <a href="../../Luminescence/help/plot_RLum.Data.Curve.html">plot_RLum.Data.Curve</a>), <code>xlim</code>,<code>ylim</code>, <code>xlab</code>, <code>ylab</code>, ...
+</p>
+<p>and for <code>combine = TRUE</code> also: <code>sub_title</code>, <code>legend</code>, <code>legend.text</code>, <code>legend.pos</code>
+(typical plus 'outside'), <code>legend.col</code>, <code>smooth</code>.
+</p>
+<p>All arguments can be provided as <code>vector</code> or <code>list</code> to gain in full control
+of all plot settings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function produces a multiple plot output. A file output is recommended
+(e.g., <a href="../../grDevices/html/pdf.html">pdf</a>).
+</p>
+<p><strong>curve.transformation</strong>
+</p>
+<p>This argument allows transforming continuous wave (CW) curves to pseudo
+(linear) modulated curves. For the transformation, the functions of the
+package are used. Currently, it is not possible to pass further arguments to
+the transformation functions. The argument works only for <code>ltype</code>
+<code>OSL</code> and <code>IRSL</code>.
+</p>
+<p>Please note: The curve transformation within this functions works roughly,
+i.e. every IRSL or OSL curve is transformed, without considering whether it
+is measured with the PMT or not! However, for a fast look it might be
+helpful.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns multiple plots.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.3.13
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. plot_RLum.Analysis(): Plot function for an RLum.Analysis S4 class object. Function version 0.3.13. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Not all arguments available for <a href="../../graphics/html/plot.default.html">plot</a> will be passed and they partly do not behave in the
+way you might expect them to work. This function was designed to serve as an overview
+plot, if you want to have more control, extract the objects and plot them individually.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>, <a href="../../Luminescence/help/plot_RLum.Data.Curve.html">plot_RLum.Data.Curve</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+data(ExampleData.BINfileData, envir = environment())
+
+##convert values for position 1
+temp &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data, pos=1)
+
+##(1) plot (combine) TL curves in one plot
+plot_RLum.Analysis(
+temp,
+subset = list(recordType = "TL"),
+combine = TRUE,
+norm = TRUE,
+abline = list(v = c(110))
+)
+
+##(2) same as example (1) but using
+## the argument smooth = TRUE
+plot_RLum.Analysis(
+temp,
+subset = list(recordType = "TL"),
+combine = TRUE,
+norm = TRUE,
+smooth = TRUE,
+abline = list(v = c(110))
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

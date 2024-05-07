@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence (Compatibility) Intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for effectsize_CIs {effectsize}"><tr><td>effectsize_CIs {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Confidence (Compatibility) Intervals</h2>
+
+<h3>Description</h3>
+
+<p>More information regarding Confidence (Compatibiity) Intervals and how
+they are computed in <em>effectsize</em>.
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Bootstrapped CIs</h3>
+
+<p>Some effect sizes are directionless&ndash;they do have a minimum value that would
+be interpreted as &quot;no effect&quot;, but they cannot cross it. For example, a null
+value of <a href="../../effectsize/help/kendalls_w.html">Kendall's W</a> is 0, indicating no difference between
+groups, but it can never have a negative value. Same goes for
+<a href="../../effectsize/help/cohens_u2.html">U2</a> and <a href="../../effectsize/help/p_overlap.html">Overlap</a>: the null value of <i>U_2</i> is
+0.5, but it can never be smaller than 0.5; am <em>Overlap</em> of 1 means &quot;full
+overlap&quot; (no difference), but it cannot be larger than 1.
+<br /><br />
+When bootstrapping CIs for such effect sizes, the bounds of the CIs will
+never cross (and often will never cover) the null. Therefore, these CIs
+should not be used for statistical inference.
+</p>
+
+
+<h3>One-Sided CIs</h3>
+
+<p>Typically, CIs are constructed as two-tailed intervals, with an equal
+proportion of the cumulative probability distribution above and below the
+interval. CIs can also be constructed as <em>one-sided</em> intervals,
+giving only a lower bound or upper bound. This is analogous to computing a
+1-tailed <em>p</em> value or conducting a 1-tailed hypothesis test.
+<br /><br />
+Significance tests conducted using CIs (whether a value is inside the interval)
+and using <em>p</em> values (whether p &lt; alpha for that value) are only guaranteed
+to agree when both are constructed using the same number of sides/tails.
+<br /><br />
+Most effect sizes are not bounded by zero (e.g., <em>r</em>, <em>d</em>, <em>g</em>), and as such
+are generally tested using 2-tailed tests and 2-sided CIs.
+<br /><br />
+Some effect sizes are strictly positive&ndash;they do have a minimum value, of 0.
+For example, <i>R^2</i>, <i>&eta;^2</i>, <i>sr^2</i>, and other variance-accounted-for effect
+sizes, as well as Cramer's <em>V</em> and multiple <em>R</em>, range from 0 to 1. These
+typically involve <em>F</em>- or <i>&chi;^2</i>-statistics and are generally tested
+using <em>1-tailed</em> tests which test whether the estimated effect size is
+<em>larger</em> than the hypothesized null value (e.g., 0). In order for a CI to
+yield the same significance decision it must then by a <em>1-sided</em> CI,
+estimating only a lower bound. This is the default CI computed by
+<em>effectsize</em> for these effect sizes, where <code>alternative = "greater"</code> is set.
+<br /><br />
+This lower bound interval indicates the smallest effect size that is not
+significantly different from the observed effect size. That is, it is the
+minimum effect size compatible with the observed data, background model
+assumptions, and <i>&alpha;</i> level. This type of interval does not indicate
+a maximum effect size value; anything up to the maximum possible value of the
+effect size (e.g., 1) is in the interval.
+<br /><br />
+One-sided CIs can also be used to test against a maximum effect size value
+(e.g., is <i>R^2</i> significantly smaller than a perfect correlation of 1.0?)
+by setting <code>alternative = "less"</code>. This estimates a CI with only an
+<em>upper</em> bound; anything from the minimum possible value of the effect size
+(e.g., 0) up to this upper bound is in the interval.
+<br /><br />
+We can also obtain a 2-sided interval by setting <code>alternative = "two.sided"</code>.
+These intervals can be interpreted in the same way as other 2-sided
+intervals, such as those for <em>r</em>, <em>d</em>, or <em>g</em>.
+<br /><br />
+An alternative approach to aligning significance tests using CIs and 1-tailed
+<em>p</em> values that can often be found in the literature is to construct a
+2-sided CI at a lower confidence level (e.g., 100(1-2<i>&alpha;</i>)% = 100 -
+2*5% = 90%. This estimates the lower bound and upper bound for the above
+1-sided intervals simultaneously. These intervals are commonly reported when
+conducting <strong>equivalence tests</strong>. For example, a 90% 2-sided interval gives
+the bounds for an equivalence test with <i>&alpha;</i> = .05. However, be aware
+that this interval does not give 95% coverage for the underlying effect size
+parameter value. For that, construct a 95% 2-sided CI.
+</p>
+<div class="sourceCode r"><pre>data("hardlyworking")
+fit &lt;- lm(salary ~ n_comps, data = hardlyworking)
+eta_squared(fit) # default, ci = 0.95, alternative = "greater"
+#&gt; For one-way between subjects designs, partial eta squared is equivalent
+#&gt;   to eta squared. Returning eta squared.
+#&gt; # Effect Size for ANOVA
+#&gt; 
+#&gt; Parameter | Eta2 |       95% CI
+#&gt; -------------------------------
+#&gt; n_comps   | 0.19 | [0.14, 1.00]
+#&gt; 
+#&gt; - One-sided CIs: upper bound fixed at [1.00].
+eta_squared(fit, alternative = "less") # Test is eta is smaller than some value
+#&gt; For one-way between subjects designs, partial eta squared is equivalent
+#&gt;   to eta squared. Returning eta squared.
+#&gt; # Effect Size for ANOVA
+#&gt; 
+#&gt; Parameter | Eta2 |       95% CI
+#&gt; -------------------------------
+#&gt; n_comps   | 0.19 | [0.00, 0.24]
+#&gt; 
+#&gt; - One-sided CIs: lower bound fixed at [0.00].
+eta_squared(fit, alternative = "two.sided") # 2-sided bounds for alpha = .05
+#&gt; For one-way between subjects designs, partial eta squared is equivalent
+#&gt;   to eta squared. Returning eta squared.
+#&gt; # Effect Size for ANOVA
+#&gt; 
+#&gt; Parameter | Eta2 |       95% CI
+#&gt; -------------------------------
+#&gt; n_comps   | 0.19 | [0.14, 0.25]
+eta_squared(fit, ci = 0.9, alternative = "two.sided") # both 1-sided bounds for alpha = .05
+#&gt; For one-way between subjects designs, partial eta squared is equivalent
+#&gt;   to eta squared. Returning eta squared.
+#&gt; # Effect Size for ANOVA
+#&gt; 
+#&gt; Parameter | Eta2 |       90% CI
+#&gt; -------------------------------
+#&gt; n_comps   | 0.19 | [0.14, 0.24]
+</pre></div>
+
+
+<h3>CI Does Not Contain the Estimate</h3>
+
+<p>For very large sample sizes or effect sizes, the width of the CI can be
+smaller than the tolerance of the optimizer, resulting in CIs of width 0.
+This can also result in the estimated CIs excluding the point estimate.
+</p>
+<p>In these cases, consider an alternative method for computing CIs, such as the
+bootstrap.
+</p>
+
+
+<h3>References</h3>
+
+<p>Bauer, P., &amp; Kieser, M. (1996).
+A unifying approach for confidence intervals and testing of equivalence and difference.
+<em>Biometrika, 83</em>(4), 934-–937.
+doi: <a href="https://doi.org/10.1093/biomet/83.4.934">10.1093/biomet/83.4.934</a>
+</p>
+<p>Rafi, Z., &amp; Greenland, S. (2020).
+Semantic and cognitive tools to aid statistical science: Replace confidence and significance by compatibility and surprise.
+<em>BMC Medical Research Methodology, 20</em>(1), Article 244.
+doi: <a href="https://doi.org/10.1186/s12874-020-01105-9">10.1186/s12874-020-01105-9</a>
+</p>
+<p>Schweder, T., &amp; Hjort, N. L. (2016).
+<em>Confidence, likelihood, probability: Statistical inference with confidence distributions.</em>
+Cambridge University Press.
+doi: <a href="https://doi.org/10.1017/CBO9781139046671">10.1017/CBO9781139046671</a>
+</p>
+<p>Steiger, J. H. (2004).
+Beyond the <em>F</em> test: Effect size confidence intervals and tests of close fit in the analysis of variance and contrast analysis.
+<em>Psychological Methods, 9</em>(2), 164&ndash;182.
+doi: <a href="https://doi.org/10.1037/1082-989x.9.2.164">10.1037/1082-989x.9.2.164</a>
+</p>
+<p>Xie, M., &amp; Singh, K. (2013).
+Confidence distribution, the frequentist distribution estimator of a parameter: A review.
+<em>International Statistical Review, 81</em>(1), 3–-39.
+doi: <a href="https://doi.org/10.1111/insr.12000">10.1111/insr.12000</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

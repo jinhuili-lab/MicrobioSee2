@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets the pathname or a connection to the NULL device on the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for nullfile {R.utils}"><tr><td>nullfile {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets the pathname or a connection to the NULL device on the current platform</h2>
+
+<h3>Description</h3>
+
+<p>Gets the pathname or a connection to the NULL device on the current platform.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  nullfile()
+  nullcon()
+</pre>
+
+
+<h3>Value</h3>
+
+<p><code>nullfile()</code> returns a <code><a href="../../base/help/character.html">character</a></code> string, which is <code>"/dev/null"</code>
+except on Windows where it is <code>"nul:"</code>.
+<code>nullcon()</code> returns a <em>newly opened</em> (binary) <code><a href="../../base/help/connections.html">connection</a></code> to
+the NULL device - make sure to close it when no longer needed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>In R (&gt;= 3.6.0), there exists <code>base::nullfile()</code>, which is
+identical to <code>R.utils::nullfile()</code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

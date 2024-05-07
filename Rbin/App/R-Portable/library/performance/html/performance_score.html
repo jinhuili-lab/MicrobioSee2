@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Proper Scoring Rules</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for performance_score {performance}"><tr><td>performance_score {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Proper Scoring Rules</h2>
+
+<h3>Description</h3>
+
+<p>Calculates the logarithmic, quadratic/Brier and spherical score
+from a model with binary or count outcome.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performance_score(model, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Model with binary or count outcome.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments from other functions, usually only used internally.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Proper scoring rules can be used to evaluate the quality of model
+predictions and model fit. <code>performance_score()</code> calculates the logarithmic,
+quadratic/Brier and spherical scoring rules. The spherical rule takes values
+in the interval <code style="white-space: pre;">[0, 1]</code>, with values closer to 1 indicating a more
+accurate model, and the logarithmic rule in the interval <code style="white-space: pre;">[-Inf, 0]</code>,
+with values closer to 0 indicating a more accurate model.
+</p>
+<p>For <code>stan_lmer()</code> and <code>stan_glmer()</code> models, the predicted values
+are based on <code>posterior_predict()</code>, instead of <code>predict()</code>. Thus,
+results may differ more than expected from their non-Bayesian counterparts
+in <strong>lme4</strong>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with three elements, the logarithmic, quadratic/Brier and spherical score.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Code is partially based on
+<a href="https://drizopoulos.github.io/GLMMadaptive/reference/scoring_rules.html">GLMMadaptive::scoring_rules()</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Carvalho, A. (2016). An overview of applications of proper scoring rules.
+Decision Analysis 13, 223–242. doi: <a href="https://doi.org/10.1287/deca.2016.0337">10.1287/deca.2016.0337</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../performance/help/performance_logloss.html">performance_logloss()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Dobson (1990) Page 93: Randomized Controlled Trial :
+counts &lt;- c(18, 17, 15, 20, 10, 20, 25, 13, 12)
+outcome &lt;- gl(3, 1, 9)
+treatment &lt;- gl(3, 3)
+model &lt;- glm(counts ~ outcome + treatment, family = poisson())
+
+performance_score(model)
+
+data(Salamanders, package = "glmmTMB")
+model &lt;- glmmTMB::glmmTMB(
+  count ~ spp + mined + (1 | site),
+  zi = ~ spp + mined,
+  family = nbinom2(),
+  data = Salamanders
+)
+
+performance_score(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,50 @@
+# Scatter mapping description
+
+
+
+## Upload sample data
+
+You need to upload one data files including sample data.
+
+Such as
+
+| chao1  | jost1 | Group |
+| ------ | ----- | ----- |
+| 637.5  | 190.7 | HSL   |
+| 965.7  | 430.7 | HSL   |
+| 929.5  | 367.3 | HSL   |
+| 545.5  | 165.1 | HSL   |
+| 1212   | 702.3 | AA    |
+| 1336.5 | 823.7 | AA    |
+| 1389   | 870.5 | AA    |
+| 1294.8 | 804.2 | AA    |
+| 914.7  | 426.2 | DS    |
+| 852.5  | 335.1 | DS    |
+| 1049.4 | 503   | DS    |
+| 1089.1 | 504.6 | DS    |
+| 833    | 309.4 | DS    |
+| 849.5  | 336.9 | DS    |
+| 849.5  | 301.1 | DS    |
+| 992    | 426.4 | DS    |
+
+You need **two columns of data** to determine the x-axis and y-axis, and you **can also add another column of data to group**.
+
+**Paying attention, please ,you need to upload the file in the format of the sample data**.
+
+
+
+## draw
+
+- When you enter a **string** in **the goups button**, the scattered points will be grouped and colored according to the third column of information.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112134046.png" style="zoom:33%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112134107.png" style="zoom:33%;" />
+
+
+
+- You can add this button**("whether add text label")** to determine whether to mark information above the scatter points. And according to this button**("what to choose as a label for the scattered points")**, you can choose to label the information on the x-axis or y-axis.
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112134151.png" style="zoom:33%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112134194.png" style="zoom:33%;" />

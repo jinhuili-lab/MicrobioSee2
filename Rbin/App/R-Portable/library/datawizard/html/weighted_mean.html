@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Weighted Mean, Median, SD, and MAD</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for weighted_mean {datawizard}"><tr><td>weighted_mean {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Weighted Mean, Median, SD, and MAD</h2>
+
+<h3>Description</h3>
+
+<p>Weighted Mean, Median, SD, and MAD
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+weighted_mean(x, weights = NULL, remove_na = TRUE, verbose = TRUE, ...)
+
+weighted_median(x, weights = NULL, remove_na = TRUE, verbose = TRUE, ...)
+
+weighted_sd(x, weights = NULL, remove_na = TRUE, verbose = TRUE, ...)
+
+weighted_mad(
+  x,
+  weights = NULL,
+  constant = 1.4826,
+  remove_na = TRUE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object containing the values whose weighted mean is to be
+computed.</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>A numerical vector of weights the same length as <code>x</code> giving
+the weights to use for elements of <code>x</code>. If <code>weights = NULL</code>, <code>x</code> is passed
+to the non-weighted function.</p>
+</td></tr>
+<tr valign="top"><td><code>remove_na</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> (default), removes missing (<code>NA</code>) and infinite
+values from <code>x</code> and <code>weights</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Show warning when <code>weights</code> are negative?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to be passed to or from methods.</p>
+</td></tr>
+<tr valign="top"><td><code>constant</code></td>
+<td>
+<p>scale factor.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## GPA from Siegel 1994
+x &lt;- c(3.7, 3.3, 3.5, 2.8)
+wt &lt;- c(5, 5, 4, 1) / 15
+
+weighted_mean(x, wt)
+weighted_median(x, wt)
+
+weighted_sd(x, wt)
+weighted_mad(x, wt)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Number of components/factors to retain in PCA/FA</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for n_factors {parameters}"><tr><td>n_factors {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Number of components/factors to retain in PCA/FA</h2>
+
+<h3>Description</h3>
+
+<p>This function runs many existing procedures for determining how many factors
+to retain/extract from factor analysis (FA) or dimension reduction (PCA). It
+returns the number of factors based on the maximum consensus between methods.
+In case of ties, it will keep the simplest model and select the solution
+with the fewer factors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+n_factors(
+  x,
+  type = "FA",
+  rotation = "varimax",
+  algorithm = "default",
+  package = c("nFactors", "psych"),
+  cor = NULL,
+  safe = TRUE,
+  n_max = NULL,
+  ...
+)
+
+n_components(
+  x,
+  type = "PCA",
+  rotation = "varimax",
+  algorithm = "default",
+  package = c("nFactors", "psych"),
+  cor = NULL,
+  safe = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Can be <code>"FA"</code> or <code>"PCA"</code>, depending on what you want to do.</p>
+</td></tr>
+<tr valign="top"><td><code>rotation</code></td>
+<td>
+<p>Only used for VSS (Very Simple Structure criterion, see
+<code><a href="../../psych/help/VSS.html">psych::VSS()</a></code>). The rotation to apply. Can be <code>"none"</code>, <code>"varimax"</code>,
+<code>"quartimax"</code>, <code>"bentlerT"</code>, <code>"equamax"</code>, <code>"varimin"</code>, <code>"geominT"</code> and
+<code>"bifactor"</code> for orthogonal rotations, and <code>"promax"</code>, <code>"oblimin"</code>,
+<code>"simplimax"</code>, <code>"bentlerQ"</code>, <code>"geominQ"</code>, <code>"biquartimin"</code> and <code>"cluster"</code>
+for oblique transformations.</p>
+</td></tr>
+<tr valign="top"><td><code>algorithm</code></td>
+<td>
+<p>Factoring method used by VSS. Can be <code>"pa"</code> for Principal
+Axis Factor Analysis, <code>"minres"</code> for minimum residual (OLS) factoring,
+<code>"mle"</code> for Maximum Likelihood FA and <code>"pc"</code> for Principal Components.
+<code>"default"</code> will select <code>"minres"</code> if <code>type = "FA"</code> and <code>"pc"</code> if
+<code>type = "PCA"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>package</code></td>
+<td>
+<p>Package from which respective methods are used. Can be
+<code>"all"</code> or a vector containing <code>"nFactors"</code>, <code>"psych"</code>, <code>"PCDimension"</code>,
+<code>"fit"</code> or <code>"EGAnet"</code>. Note that <code>"fit"</code> (which actually also relies on the
+<code>psych</code> package) and <code>"EGAnet"</code> can be very slow for bigger datasets. Thus,
+the default is <code>c("nFactors", "psych")</code>. You must have the respective
+packages installed for the methods to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>cor</code></td>
+<td>
+<p>An optional correlation matrix that can be used (note that the
+data must still be passed as the first argument). If <code>NULL</code>, will
+compute it by running <code>cor()</code> on the passed data.</p>
+</td></tr>
+<tr valign="top"><td><code>safe</code></td>
+<td>
+<p>If <code>TRUE</code>, the function will run all the procedures in try
+blocks, and will only return those that work and silently skip the ones
+that may fail.</p>
+</td></tr>
+<tr valign="top"><td><code>n_max</code></td>
+<td>
+<p>If set to a value (e.g., <code>10</code>), will drop from the results all
+methods that suggest a higher number of components. The interpretation becomes
+'from all the methods that suggested a number lower than n_max, the results
+are ...'.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>n_components()</code> is actually an alias for <code>n_factors()</code>, with
+different defaults for the function arguments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a
+<a href="https://easystats.github.io/see/articles/parameters.html"><code>plot()</code>-method</a>
+implemented in the <a href="https://easystats.github.io/see/"><strong>see</strong>-package</a>.
+<code>n_components()</code> is a convenient short-cut  for <code>n_factors(type = "PCA")</code>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Bartlett, M. S. (1950). Tests of significance in factor analysis.
+British Journal of statistical psychology, 3(2), 77-85.
+</p>
+</li>
+<li><p> Bentler, P. M., &amp; Yuan, K. H. (1996). Test of linear trend in
+eigenvalues of a covariance matrix with application to data analysis.
+British Journal of Mathematical and Statistical Psychology, 49(2), 299-312.
+</p>
+</li>
+<li><p> Cattell, R. B. (1966). The scree test for the number of factors.
+Multivariate behavioral research, 1(2), 245-276.
+</p>
+</li>
+<li><p> Finch, W. H. (2019). Using Fit Statistic Differences to Determine the
+Optimal Number of Factors to Retain in an Exploratory Factor Analysis.
+Educational and Psychological Measurement.
+</p>
+</li>
+<li><p> Zoski, K. W., &amp; Jurs, S. (1996). An objective counterpart to the
+visual scree test for factor analysis: The standard error scree.
+Educational and Psychological Measurement, 56(3), 443-451.
+</p>
+</li>
+<li><p> Zoski, K., &amp; Jurs, S. (1993). Using multiple regression to determine
+the number of factors to retain in factor analysis. Multiple Linear
+Regression Viewpoints, 20(1), 5-9.
+</p>
+</li>
+<li><p> Nasser, F., Benson, J., &amp; Wisenbaker, J. (2002). The performance of
+regression-based variations of the visual scree for determining the number
+of common factors. Educational and psychological measurement, 62(3),
+397-419.
+</p>
+</li>
+<li><p> Golino, H., Shi, D., Garrido, L. E., Christensen, A. P., Nieto, M.
+D., Sadana, R., &amp; Thiyagarajan, J. A. (2018). Investigating the performance
+of Exploratory Graph Analysis and traditional techniques to identify the
+number of latent factors: A simulation and tutorial.
+</p>
+</li>
+<li><p> Golino, H. F., &amp; Epskamp, S. (2017). Exploratory graph analysis: A
+new approach for estimating the number of dimensions in psychological
+research. PloS one, 12(6), e0174035.
+</p>
+</li>
+<li><p> Revelle, W., &amp; Rocklin, T. (1979). Very simple structure: An
+alternative procedure for estimating the optimal number of interpretable
+factors. Multivariate Behavioral Research, 14(4), 403-414.
+</p>
+</li>
+<li><p> Velicer, W. F. (1976). Determining the number of components from the
+matrix of partial correlations. Psychometrika, 41(3), 321-327.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(parameters)
+n_factors(mtcars, type = "PCA")
+
+result &lt;- n_factors(mtcars[1:5], type = "FA")
+as.data.frame(result)
+summary(result)
+
+# Setting package = 'all' will increase the number of methods (but is slow)
+n_factors(mtcars, type = "PCA", package = "all")
+n_factors(mtcars, type = "FA", algorithm = "mle", package = "all")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

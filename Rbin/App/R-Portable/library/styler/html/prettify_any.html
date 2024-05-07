@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prettify R code in current working directory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for prettify_any {styler}"><tr><td>prettify_any {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prettify R code in current working directory</h2>
+
+<h3>Description</h3>
+
+<p>This is a helper function for style_dir.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+prettify_any(
+  transformers,
+  filetype,
+  recursive,
+  exclude_files,
+  exclude_dirs,
+  include_roxygen_examples,
+  base_indention = 0L,
+  dry
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A set of transformer functions. This argument is most
+conveniently constructed via the <code>style</code> argument and <code>...</code>. See
+'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>filetype</code></td>
+<td>
+<p>Vector of file extensions indicating which file types should
+be styled. Case is ignored, and the <code>.</code> is optional, e.g. <code>c(".R",".Rmd")</code>,
+or <code>c("r", "rmd")</code>. Supported values (after standardization) are:
+&quot;qmd&quot;, &quot;r&quot;, &quot;rmd&quot;, &quot;rmarkdown&quot;, &quot;rnw&quot;, and &quot;rprofile&quot;.
+Rmarkdown is treated as Rmd.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>A logical value indicating whether or not files in
+subdirectories should be styled as well.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude_files</code></td>
+<td>
+<p>Character vector with regular expressions to files
+that should be excluded from styling.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude_dirs</code></td>
+<td>
+<p>Character vector with directories to exclude
+(recursively). Note that the default values were set for consistency with
+<code><a href="../../styler/help/style_dir.html">style_dir()</a></code> and as these directories are anyways not styled.</p>
+</td></tr>
+<tr valign="top"><td><code>include_roxygen_examples</code></td>
+<td>
+<p>Whether or not to style code in roxygen
+examples.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>dry</code></td>
+<td>
+<p>To indicate whether styler should run in <em>dry</em> mode, i.e. refrain
+from writing back to files .<code>"on"</code> and <code>"fail"</code> both don't write back, the
+latter returns an error if the input code is not identical to the result
+of styling. &quot;off&quot;, the default, writes back if the input and output of
+styling are not identical.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

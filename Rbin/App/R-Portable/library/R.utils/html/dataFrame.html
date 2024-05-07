@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Allocates a data frame with given column classes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dataFrame {R.utils}"><tr><td>dataFrame {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Allocates a data frame with given column classes</h2>
+
+<h3>Description</h3>
+
+<p>Allocates a data frame with given column classes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+dataFrame(colClasses, nrow=1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>colClasses</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of column classes,
+cf. <code><a href="../../utils/help/read.table.html">read.table</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nrow</code></td>
+<td>
+<p>An <code><a href="../../base/help/integer.html">integer</a></code> specifying the number of rows of the
+allocated data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an NxK <code><a href="../../base/help/data.frame.html">data.frame</a></code> where N equals <code>nrow</code> and
+K equals <code>length(colClasses)</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/data.frame.html">data.frame</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  df &lt;- dataFrame(colClasses=c(a="integer", b="double"), nrow=10)
+  df[,1] &lt;- sample(1:nrow(df))
+  df[,2] &lt;- rnorm(nrow(df))
+  print(df)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

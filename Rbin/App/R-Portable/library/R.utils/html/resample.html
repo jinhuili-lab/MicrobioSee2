@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample values from a set of elements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for resample {R.utils}"><tr><td>resample {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample values from a set of elements</h2>
+
+<h3>Description</h3>
+
+<p>Sample values from a set of elements.
+Contrary to <code><a href="../../base/help/sample.html">sample</a></code>(), this function also works as
+expected when there is only one element in the set to be sampled, cf. [1].
+This function originates from the example code of <code><a href="../../base/help/sample.html">sample</a></code>()
+as of R v2.12.0.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+resample(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of any length and data type.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/sample.int.html">sample.int</a></code>().</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a sampled <code><a href="../../base/help/vector.html">vector</a></code> of the same data types as argument <code>x</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] Henrik Bengtsson,
+<em>Using sample() to sample one value from a single value?</em>,
+R-devel mailing list, 2010-11-03.<br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally <code><a href="../../base/help/sample.int.html">sample.int</a></code>() is used.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

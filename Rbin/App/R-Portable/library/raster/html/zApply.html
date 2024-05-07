@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: z (time) apply</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zApply {raster}"><tr><td>zApply {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>z (time) apply</h2>
+
+<h3>Description</h3>
+
+<p>Experimental function to apply a function over a (time) series of layers of a Raster object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+zApply(x, by, fun=mean, name='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>aggregation indices or function </p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function to compute aggregated values </p>
+</td></tr>
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>character label of the new time series </p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments</p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Oscar Perpinan Lamigueiro &amp; Robert J. Hijmans</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# 12 values of irradiation, 1 for each month
+G0dm=c(2.766,3.491,4.494,5.912,6.989,7.742,7.919,7.027,5.369,3.562,2.814,2.179)*1000;
+# RasterBrick with 12 layers based on G0dm + noise
+r &lt;- raster(nc=10, nr=10)
+s &lt;- brick(lapply(1:12, function(x) setValues(r, G0dm[x]+100*rnorm(ncell(r)) )))
+
+# time
+tm &lt;- seq(as.Date('2010-01-15'), as.Date('2010-12-15'), 'month')
+s &lt;- setZ(s, tm, 'months')
+
+# library(zoo)
+# x &lt;- zApply(s, by=as.yearqtr, fun=mean, name='quarters')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

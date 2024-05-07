@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Enter a set intersection list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getIntersectList {plotrix}"><tr><td>getIntersectList {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Enter a set intersection list</h2>
+
+<h3>Description</h3>
+
+<p>Enter the information for a set intersection display.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ getIntersectList(nelem,xnames=NULL,sep="+")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nelem</code></td>
+<td>
+<p>The number of sets for which the intersections will be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>xnames</code></td>
+<td>
+<p>The labels for the set intersections. The function creates names
+from combinations of the first <span class="samp">nelem</span> capital letters if none are 
+given.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The separator to use when calling <span class="samp">paste</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">getIntersectList</span> allows the user to manually enter the counts of
+set intersections rather than build this information from a matrix of data.
+It is probably most useful for producing an intersection diagram when the
+counts of the intersections are already known, or when the values are
+proportions rather than counts as in the example.
+</p>
+<p>It is very helpful when there are large numbers of elements, as the
+<span class="samp">makeIntersectList</span> function runs very slowly.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the counts of elements in the set intersections.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/makeIntersectList.html">makeIntersectList</a>, <a href="../../plotrix/help/intersectDiagram.html">intersectDiagram</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # this example is from a haplotype mapping problem submitted by Mao Jianfeng
+ ## Not run: 
+ hapIntList&lt;-
+  getIntersectList(3,xnames=c("hap.Pd","hap.Pt","hap.Py"))
+ # enter the data as follows:
+ # Number of elements in hap.Pd - 1: 27.586
+ # Number of elements in hap.Pt - 1: 20.689
+ # Number of elements in hap.Py - 1: 31.035
+ # Number of elements in hap.Pd-hap.Pt - 1: 10.345
+ # Number of elements in hap.Pd-hap.Py - 1: 10.345
+ # Number of elements in hap.Pt-hap.Py - 1: 0
+ # Number of elements in hap.Pd-hap.Pt-hap.Py - 1: 0
+ # Total number of elements - 1: 100
+ 
+## End(Not run)
+ hapIntList&lt;-structure(list(structure(c(27.586, 20.689, 31.035),
+  .Names = c("hap.Pd","hap.Pt","hap.Py")),
+  structure(c(10.345, 10.345, 0),
+  .Names = c("hap.Pd-hap.Pt","hap.Pd-hap.Py","hap.Pt-hap.Py")),
+  structure(0, .Names = "hap.Pd-hap.Pt-hap.Py"),100),
+  class = "intersectList")
+ intersectDiagram(hapIntList)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

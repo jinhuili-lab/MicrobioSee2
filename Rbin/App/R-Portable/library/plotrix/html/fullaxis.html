@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add an axis with a line to the edge of the plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fullaxis {plotrix}"><tr><td>fullaxis {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add an axis with a line to the edge of the plot</h2>
+
+<h3>Description</h3>
+
+<p>As <span class="samp">axis</span>, but draws a &quot;box&quot; line in the same color as the axis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ fullaxis(side=1,at=NULL,labels=TRUE,line=NA,pos=NA,outer=FALSE,
+ font=NA,lty="solid",lwd=1,lwd.ticks=lwd,col=NULL,col.ticks=NULL,
+ hadj=NA,padj=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>The side of the plot to draw the axis</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Optional positions in user units for the tick marks.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Optional labels for the tick marks.</p>
+</td></tr>
+<tr valign="top"><td><code>line</code></td>
+<td>
+<p>Optional line into the margin.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>Optional position in user units for the axis. Defaults to the edge.</p>
+</td></tr>
+<tr valign="top"><td><code>outer</code></td>
+<td>
+<p>Whether to use the outer margin as for <span class="samp">axis</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>Font for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width for the axis.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd.ticks</code></td>
+<td>
+<p>Line width for the ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color for the axis and tick marks. See Details for label color.</p>
+</td></tr>
+<tr valign="top"><td><code>col.ticks</code></td>
+<td>
+<p>Color for the tick marks if different from the axis.</p>
+</td></tr>
+<tr valign="top"><td><code>hadj,padj</code></td>
+<td>
+<p>Justification for the labels. See <span class="samp">axis</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to <span class="samp">axis</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">fullaxis</span> draws a line to the edges of the plot and then calls
+<span class="samp">axis</span> to draw an axis. <span class="samp">fullaxis</span> is mainly useful for drawing a
+colored axis on a boxed plot. In order to get the tick labels the same color as
+the axis and ticks, pass the <span class="samp">col.axis</span> argument (as part of ...) as well
+as <span class="samp">col</span>. See the example for some useful tips.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The positions of the tick marks in user units.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jim Lemon </p>
+
+
+<h3>See Also</h3>
+
+ <p><a href="../../graphics/html/axis.html">axis</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(runif(20,-1,1),runif(20,-1,1),xlim=c(-1,1.5),main="Demo of fullaxis",
+  xlab="X",ylab="Y",axes=FALSE)
+ fullaxis(1,col="red",col.axis="red")
+ fullaxis(2,col="blue",col.axis="blue")
+ fullaxis(4,at=c(-0.5,0,0.5),labels=c("Negative","Zero","Positive"),pos=1.2,
+  col="green",las=1)
+ # add a top line to complete the "box"
+ xylim&lt;-par("usr")
+ segments(xylim[1],xylim[4],xylim[2],xylim[4])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

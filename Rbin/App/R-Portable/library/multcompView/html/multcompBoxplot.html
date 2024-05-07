@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: boxplot with multcomp graphics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multcompBoxplot {multcompView}"><tr><td>multcompBoxplot {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>boxplot with multcomp graphics</h2>
+
+<h3>Description</h3>
+
+<p>Create boxplots with multcompTs and / or multcompLetters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multcompBoxplot(
+  formula,
+  data,
+  horizontal = TRUE,
+  compFn = "TukeyHSD",
+  sortFn = "mean",
+  decreasing = TRUE,
+  plotList = list(boxplot = list(fig = c(0, 0.75, 0, 1)), multcompTs = list(fig = c(0.7,
+    0.85, 0, 1)), multcompLetters = list(fig = c(0.87, 0.97, 0.03, 0.98), fontsize = 20,
+    fontface = "bold"))
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a two sided formula like &quot;y~z&quot;, where both &quot;y&quot; and &quot;z&quot; are
+columns of the data.frame &quot;data&quot;, &quot;y&quot; is numeric, and &quot;z&quot; is a factor.  This
+will be passed as the first argument for both 'boxplot' and 'compFn', and so
+must work in both contexts.  NOTE: Any more complicated formula may produce
+errors or unanticipated results.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data.frame for evaluating 'formula'.</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>TRUE for horizontal boxplots and vertical multcompTs and /
+or multcompLetters; FALSE for the opposite.</p>
+</td></tr>
+<tr valign="top"><td><code>compFn</code></td>
+<td>
+<p>a function whose output will serve as the the only non-default
+input to either 'multcompTs' or 'multcompLetters'.  The default &quot;TukeyHSD&quot;
+actually translates to 'TukeyHSD(aov(formula, data))[[1]][, &quot;p adj&quot;]'.</p>
+</td></tr>
+<tr valign="top"><td><code>sortFn</code></td>
+<td>
+<p>If sortFn is a function or a character string naming a
+function, it is used to summarize the subset of y corresponding to each
+level of z into a single number, which will then be used to sort the levels
+of z according to the argument 'decreasing'.  This step is skipped if
+sortFn is NULL or NA or if it is neither a function nor a character string
+that might name a function.  If sortFn is a character string but a function
+by that name is not found in the search path, multcompBoxplot stops with,
+'Error in do.call(sortFn, list(x = x)) : could not find function ...'.</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing</code></td>
+<td>
+<p>If the levels of z are to be sorted using the output of
+'sortFn', this is uses as the 'decreasing' in 'order' to sort the levels of
+z for plotting.</p>
+</td></tr>
+<tr valign="top"><td><code>plotList</code></td>
+<td>
+<p>A list with names in c(&quot;boxplot&quot;, &quot;multcompTs&quot;,
+&quot;multcompLetters&quot;).  Replicates are allowed.  If present, they produce,
+e.g., multiple &quot;multcompTs&quot; side by side.  This can be used to compare the
+visual effects of different arguments to &quot;plot.multcompTs&quot;.  Each component
+of 'plotList' is itself a list of arguments to pass to either &quot;boxplot&quot;,
+&quot;plot.multcompTs&quot; or &quot;plot.multcompLetters&quot;.  Placement can be controlled
+via 'fig' arguments passed (indirectly) of the form 'c(x1, x2, y1, y2)'.
+If(horizontal==TRUE), fig gives the coordinates of the figure region in the
+display region of the plot device, as described on the <code><a href="../../graphics/html/par.html">par</a></code>
+help page; if(horizontal==FALSE), fig[c(3,4,1,2)] gives c(x1, x2, y1, y2)
+for placement of that portion of the plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For formula = y~z, if 'sortFn' is a function or the name of a function,
+'multcompBoxplot' starts by applying sortFn to the subsets of y
+corresponding to each level of z, and then sorting those summaries in
+increasing or decreasing order, per 'decreasing'.  If 'sortFn' is NULL or
+NA, this sort step is skipped.
+</p>
+<p>'multcompBoxplot' then creates 'boxplot' as specified in 'plotList'.  Next,
+'compFn' is called to generate comparisons to feed to the functions
+(<code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code> and / or <code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code>, whose
+output is then passed to (<code><a href="../../multcompView/help/plot.multcomp.html">plot.multcomp</a></code>) for plotting.
+Components of the relevant sublists of 'plotList' are made available to
+<code><a href="../../graphics/html/par.html">par</a></code> or (for <code><a href="../../multcompView/help/plot.multcompLetters.html">plot.multcompLetters</a></code>) to
+<code><a href="../../grid/help/gpar.html">gpar</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function invisibly returns a list with one component for each
+component of plotList containing the output of the appropriate
+&quot;plot.multcomp&quot; call plus the output of &quot;compFn&quot;.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/boxplot.html">boxplot</a></code> <code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code>
+<code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code> <code><a href="../../multcompView/help/plot.multcomp.html">plot.multcomp</a></code>
+<code><a href="../../stats/html/TukeyHSD.html">TukeyHSD</a></code> <code><a href="../../graphics/html/par.html">par</a></code> <code><a href="../../grid/help/gpar.html">gpar</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Example from help("TukeyHSD")
+multcompBoxplot(breaks~tension, data=warpbreaks)
+# 'sortFn' can be either a function or a function name
+# default order is 'decreasing=TRUE'
+multcompBoxplot(breaks~tension, data=warpbreaks,
+       sortFn=median, decreasing=FALSE)
+
+##################
+library(multcomp)
+data(recovery)
+# Horizontal boxplots with both
+# multcomp Ts and Letters on the right
+# Using recovery{multcomp} data set
+multcompBoxplot(minutes~blanket, recovery)
+
+# Plotting boxes rather than letters and Ts
+
+multcompBoxplot(minutes~blanket, recovery,
+                plotList=list(
+                    boxplot=list(fig=c(0, 0.75, 0, 1), las=1,
+                        cex.axis=1.5),
+                    multcompTs=list(fig=c(0.7, 0.85, 0, 1),
+                        type='boxes'),
+                    multcompLetters=list(
+                        fig=c(0.87, 0.97, 0.03, 0.98),
+                        type='boxes') ) )
+
+####################
+
+# Vertical boxplots with both
+# multcomp Ts and Letters on the top
+multcompBoxplot(minutes~blanket, recovery,
+                        horizontal=FALSE)
+
+# Horizontal boxplots with 2 different
+# displays of the "Ts" on the left
+multcompBoxplot(minutes~blanket, recovery,
+  plotList=list(
+      boxplot=list(fig=c(0.3, 1, 0, 1)),
+      multcompTs=list(fig=c(0, 0.15, 0, 1),
+        orientation="reverse"),
+      multcompTs=list(fig=c(0.15, 0.3, 0, 1),
+        type="boxes", orientation="reverse",
+        mar=c(5,2, 4, 0)+.1) ) )
+
+library(MASS)
+anorx &lt;-
+multcompBoxplot(Postwt~Treat, data=anorexia)
+
+## Not run: 
+# Confirm than sortFn=NULL or NA
+# leaves the order unchanged
+library(multcomp)
+data(cholesterol)
+cholesterol$trt3 &lt;- with(cholesterol, factor(
+  as.character(trt), levels=levels(trt)[c(5:4,1:3)]))
+multcompBoxplot(response ~ trt3, cholesterol,
+           sortFn=NULL)
+multcompBoxplot(response ~ trt3, cholesterol,
+           sortFn=NA)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

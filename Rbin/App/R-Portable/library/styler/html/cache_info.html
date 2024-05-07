@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Show information about the styler cache</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cache_info {styler}"><tr><td>cache_info {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Show information about the styler cache</h2>
+
+<h3>Description</h3>
+
+<p>Gives information about the cache. Note that the size consumed by the cache
+will always be displayed as zero because all the cache does is creating an
+empty file of size 0 bytes for every cached expression. The inode is
+excluded from this displayed size but negligible.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cache_info(cache_name = NULL, format = "both")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cache_name</code></td>
+<td>
+<p>The name of the cache for which to show details. If
+<code>NULL</code>, the active cache is used. If none is active the cache corresponding
+to the installed styler version is used.</p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>Either &quot;lucid&quot; for a summary emitted with <code><a href="../../base/help/cat.html">base::cat()</a></code>,
+&quot;tabular&quot; for a tabular summary from <code><a href="../../base/help/file.info.html">base::file.info()</a></code> or &quot;both&quot; for
+both.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other cache managers: 
+<code><a href="../../styler/help/cache_activate.html">cache_activate</a>()</code>,
+<code><a href="../../styler/help/cache_clear.html">cache_clear</a>()</code>,
+<code><a href="../../styler/help/caching.html">caching</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

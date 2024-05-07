@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw a link between two matrix rows in the circular heatmap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.heatmap.link {circlize}"><tr><td>circos.heatmap.link {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw a link between two matrix rows in the circular heatmap
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw a link between two matrix rows in the circular heatmap
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.heatmap.link(row_from, row_to, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>row_from</code></td>
+<td>
+<p>The row index where the link starts. The value should be length 1. If you want to draw multiple links, put the function in a <code>for</code> loop.</p>
+</td></tr>
+<tr valign="top"><td><code>row_to</code></td>
+<td>
+<p>The row index where the link ends.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+set.seed(123)
+mat = matrix(rnorm(100*10), nrow = 100)
+rownames(mat) = paste0("R", 1:100)
+col_fun = colorRamp2(c(-2, 0, 2), c("blue", "white", "red"))
+circos.heatmap(mat, col = col_fun, rownames.side = "outside")
+circos.heatmap.link(10, 60)
+circos.clear()
+
+split = sample(letters[1:5], 100, replace = TRUE)
+circos.heatmap(mat, col = col_fun, split = split, 
+	rownames.side = "outside")
+circos.heatmap.link(10, 60)
+circos.clear()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize multiple paired comparisons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multcompView-package {multcompView}"><tr><td>multcompView-package {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize multiple paired comparisons</h2>
+
+<h3>Description</h3>
+
+<p>Convert a logical vector or a vector of p-values or a difference or distance
+matrix into a display identifying the pairs for which the differences were
+not significantly different or for which the difference exceeded a
+threshold.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;"> Package: </td><td style="text-align: left;"> multcompView</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Version:
+</td><td style="text-align: left;"> 0.1-1</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Date: </td><td style="text-align: left;"> 2006-08-06</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> License: </td><td style="text-align: left;"> GPL</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> </td>
+</tr>
+
+</table>
+<p> Convert a
+logical vector or a vector of p-values or a difference or distance matrix
+into either a letter-based display using &quot;multcompLetters&quot; or a graphic
+roughly like a &quot;T&quot; using &quot;multcompTs&quot; to identify factor levels or similar
+groupings that are or are not significantly different.  Designed for use in
+conjunction with the output of functions like TukeyHSD, diststats, simint,
+simtest, csimint, csimtestmultcomp, friedmanmc, kruskalmcpgirmess.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves and Hans-Peter Piepho with help from Sundar Dorai-Raj
+</p>
+<p>Maintainer: Spencer Graves &lt;spencer.graves@prodsyse.com&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Piepho, Hans-Peter (2004) &quot;An Algorithm for a Letter-Based
+Representation of All-Pairwise Comparisons&quot;, Journal of Computational and
+Graphical Statistics, 13(2)456-466.
+</p>
+<p>John R. Donaghue (2004) &quot;Implementing Shaffer's multiple comparison
+procedure for a large number of groups&quot;, pp. 1-23 in Benjamini, Bretz and
+Sarkar (eds) Recent Developments in Multiple Comparison Procedures
+(Institute of Mathematical Statistics Lecture Notes-Monograph Series vol.
+47)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+dif3 &lt;- c(FALSE, FALSE, TRUE)
+names(dif3) &lt;- c("a-b", "a-c", "b-c")
+multcompTs(dif3)
+multcompLetters(dif3)
+
+library(MASS)
+multcompBoxplot(Postwt~Treat, data=anorexia)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

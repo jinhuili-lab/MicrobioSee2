@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Effect Sizes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for effectsize.BFBayesFactor {effectsize}"><tr><td>effectsize.BFBayesFactor {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>This function tries to return the best effect-size measure for the provided
+input model. See details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'BFBayesFactor'
+effectsize(model, type = NULL, ci = 0.95, test = NULL, verbose = TRUE, ...)
+
+effectsize(model, ...)
+
+## S3 method for class 'aov'
+effectsize(model, type = NULL, ...)
+
+## S3 method for class 'htest'
+effectsize(model, type = NULL, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>An object of class <code>htest</code>, or a statistical model. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The effect size of interest. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The indices of effect existence to compute. Character (vector) or
+list with one or more of these options: <code>"p_direction"</code> (or <code>"pd"</code>),
+<code>"rope"</code>, <code>"p_map"</code>, <code>"equivalence_test"</code> (or <code>"equitest"</code>),
+<code>"bayesfactor"</code> (or <code>"bf"</code>) or <code>"all"</code> to compute all tests.
+For each &quot;test&quot;, the corresponding <span class="pkg">bayestestR</span> function is called
+(e.g. <code><a href="../../bayestestR/help/rope.html">rope()</a></code> or <code><a href="../../bayestestR/help/p_direction.html">p_direction()</a></code>) and its results
+included in the summary output.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. See details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> For an object of class <code>htest</code>, data is extracted via <code><a href="../../insight/help/get_data.html">insight::get_data()</a></code>, and passed to the relevant function according to:
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default), <code>"hedges_g"</code>, or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+
+<ul>
+<li><p> For a <strong>Paired t-test</strong>: depending on <code>type</code>: <code>"rm_rm"</code>, <code>"rm_av"</code>, <code>"rm_b"</code>, <code>"rm_d"</code>, <code>"rm_z"</code>.
+</p>
+</li></ul>
+
+</li>
+<li><p> A <strong>Chi-squared tests of independence</strong> or <strong>Fisher's Exact Test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"tschuprows_t"</code>, <code>"phi"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>Chi-squared tests of goodness-of-fit</strong>, depending on <code>type</code>: <code>"fei"</code> (default) <code>"cohens_w"</code>, <code>"pearsons_c"</code>
+</p>
+</li>
+<li><p> A <strong>One-way ANOVA test</strong>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> A <strong>McNemar test</strong> returns <em>Cohen's g</em>.
+</p>
+</li>
+<li><p> A <strong>Wilcoxon test</strong> depending on <code>type</code>: returns &quot;<code>rank_biserial</code>&quot; correlation (default) or one of <code>"p_superiority"</code>, <code>"vda"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>Kruskal-Wallis test</strong> depending on <code>type</code>: <code>"epsilon"</code> (default) or <code>"eta"</code>.
+</p>
+</li>
+<li><p> A <strong>Friedman test</strong> returns <em>Kendall's W</em>.
+(Where applicable, <code>ci</code> and <code>alternative</code> are taken from the <code>htest</code> if not otherwise provided.)
+</p>
+</li></ul>
+
+</li>
+<li><p> For an object of class <code>BFBayesFactor</code>, using <code><a href="../../bayestestR/help/describe_posterior.html">bayestestR::describe_posterior()</a></code>,
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default) or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>correlation test</strong> returns <em>r</em>.
+</p>
+</li>
+<li><p> A <strong>contingency table test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"phi"</code>, <code>"tschuprows_t"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, or <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>proportion test</strong> returns <em>p</em>.
+</p>
+</li></ul>
+
+</li>
+<li><p> Objects of class <code>anova</code>, <code>aov</code>, <code>aovlist</code> or <code>afex_aov</code>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> Other objects are passed to <code><a href="../../parameters/help/standardize_parameters.html">parameters::standardize_parameters()</a></code>.
+</p>
+</li></ul>
+
+<p><strong>For statistical models it is recommended to directly use the listed
+functions, for the full range of options they provide.</strong>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size (depending on input) and and its
+CIs (<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>vignette(package = "effectsize")</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Hypothesis Testing
+## ------------------
+data("Music_preferences")
+Xsq &lt;- chisq.test(Music_preferences)
+effectsize(Xsq)
+effectsize(Xsq, type = "cohens_w")
+
+Tt &lt;- t.test(1:10, y = c(7:20), alternative = "less")
+effectsize(Tt)
+
+Tt &lt;- t.test(
+  x = c(1.83, 0.50, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.30),
+  y = c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29),
+  paired = TRUE
+)
+effectsize(Tt, type = "rm_b")
+
+Aov &lt;- oneway.test(extra ~ group, data = sleep, var.equal = TRUE)
+effectsize(Aov)
+effectsize(Aov, type = "omega")
+
+Wt &lt;- wilcox.test(1:10, 7:20, mu = -3, alternative = "less", exact = FALSE)
+effectsize(Wt)
+effectsize(Wt, type = "u2")
+
+## Models and Anova Tables
+## -----------------------
+fit &lt;- lm(mpg ~ factor(cyl) * wt + hp, data = mtcars)
+effectsize(fit, method = "basic")
+
+anova_table &lt;- anova(fit)
+effectsize(anova_table)
+effectsize(anova_table, type = "epsilon")
+
+
+## Bayesian Hypothesis Testing
+## ---------------------------
+bf_prop &lt;- BayesFactor::proportionBF(3, 7, p = 0.3)
+effectsize(bf_prop)
+
+bf_corr &lt;- BayesFactor::correlationBF(attitude$rating, attitude$complaints)
+effectsize(bf_corr)
+
+data(RCT_table)
+bf_xtab &lt;- BayesFactor::contingencyTableBF(RCT_table, sampleType = "poisson", fixedMargin = "cols")
+effectsize(bf_xtab)
+effectsize(bf_xtab, type = "oddsratio")
+effectsize(bf_xtab, type = "arr")
+
+bf_ttest &lt;- BayesFactor::ttestBF(sleep$extra[sleep$group == 1],
+  sleep$extra[sleep$group == 2],
+  paired = TRUE, mu = -1
+)
+effectsize(bf_ttest)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Backend: MS Access</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for backend-access {dbplyr}"><tr><td>backend-access {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Backend: MS Access</h2>
+
+<h3>Description</h3>
+
+<p>See <code>vignette("translate-function")</code> and <code>vignette("translate-verb")</code> for
+details of overall translation technology. Key differences for this backend
+are:
+</p>
+
+<ul>
+<li> <p><code>SELECT</code> uses <code>TOP</code>, not <code>LIMIT</code>
+</p>
+</li>
+<li><p> Non-standard types and mathematical functions
+</p>
+</li>
+<li><p> String concatenation uses <code>&amp;</code>
+</p>
+</li>
+<li><p> No <code>ANALYZE</code> equivalent
+</p>
+</li>
+<li> <p><code>TRUE</code> and <code>FALSE</code> converted to 1 and 0
+</p>
+</li></ul>
+
+<p>Use <code>simulate_access()</code> with <code>lazy_frame()</code> to see simulated SQL without
+converting to live access database.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_access()
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+lf &lt;- lazy_frame(x = 1, y = 2, z = "a", con = simulate_access())
+
+lf %&gt;% head()
+lf %&gt;% mutate(y = as.numeric(y), z = sqrt(x^2 + 10))
+lf %&gt;% mutate(a = paste0(z, " times"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

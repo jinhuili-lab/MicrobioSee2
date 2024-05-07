@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Raster* object from x, y, z values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rasterFromXYZ {raster}"><tr><td>rasterFromXYZ {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Create a Raster* object from x, y, z values </h2>
+
+<h3>Description</h3>
+
+<p>Create a Raster* object from x, y and z values. x and y represent spatial coordinates and must be on a regular grid. If the resolution is not supplied, it is assumed to be the minimum distance between x and y coordinates, but a resolution of up to 10 times smaller is evaluated if a regular grid can otherwise not be created. z values can be single or multiple columns (variables)
+If the exact properties of the RasterLayer are known beforehand, it may be preferable to simply create a new RasterLayer with the raster function instead, compute cell numbers and assign the values with these (see example below).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rasterFromXYZ(xyz, res=c(NA,NA), crs="", digits=5)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xyz</code></td>
+<td>
+<p>matrix or data.frame with at least three columns: x and y coordinates, and values (z). There may be several 'z' variables (columns)</p>
+</td></tr>
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>numeric. The x and y cell resolution (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>CRS object or a character string describing a projection and datum in PROJ.4 format</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>numeric, indicating the requested precision for detecting whether points are on a regular grid (a low number of digits is a low precision)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../raster/help/rasterize.html">rasterize</a> for points that are not on a regular grid</code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=5, ncol=5, xmn=0, xmx=10, ymn=0, ymx=10, crs="")
+set.seed(1)
+values(r) &lt;- sample(1:25)
+r[r &lt; 15] &lt;- NA
+xyz &lt;- rasterToPoints(r)
+
+rst &lt;- rasterFromXYZ(xyz)
+
+# equivalent to:
+rr &lt;- raster(nrow=5, ncol=5, xmn=0, xmx=10, ymn=0, ymx=10)
+cells &lt;- cellFromXY(rr, xyz[,1:2])
+rr[cells] &lt;- xyz[,3]
+
+# multiple layers
+xyzz &lt;- cbind(xyz, a=1:nrow(xyz), b=nrow(xyz):1)
+b &lt;- rasterFromXYZ(xyzz)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

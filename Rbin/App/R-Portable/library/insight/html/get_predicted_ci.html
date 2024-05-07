@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence intervals around predicted values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_predicted_ci {insight}"><tr><td>get_predicted_ci {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Confidence intervals around predicted values</h2>
+
+<h3>Description</h3>
+
+<p>Confidence intervals around predicted values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_predicted_ci(x, ...)
+
+## Default S3 method:
+get_predicted_ci(
+  x,
+  predictions = NULL,
+  data = NULL,
+  se = NULL,
+  ci = 0.95,
+  ci_type = "confidence",
+  ci_method = NULL,
+  dispersion_method = "sd",
+  vcov = NULL,
+  vcov_args = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A statistical model (can also be a data.frame, in which case the
+second argument has to be a model).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other argument to be passed, for instance to <code>get_predicted_ci()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>predictions</code></td>
+<td>
+<p>A vector of predicted values (as obtained by
+<code>stats::fitted()</code>, <code>stats::predict()</code> or <code><a href="../../insight/help/get_predicted.html">get_predicted()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame in which to look for variables with which
+to predict. If omitted, the data used to fit the model is used. Visualization
+matrices can be generated using <code><a href="../../insight/help/get_datagrid.html">get_datagrid()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>Numeric vector of standard error of predicted values. If <code>NULL</code>,
+standard errors are calculated based on the variance-covariance matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>The interval level. Default is <code>NULL</code>, to be fast even for larger
+models. Set the interval level to an explicit value, e.g. <code>0.95</code>, for <code style="white-space: pre;">95%</code>
+CI).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_type</code></td>
+<td>
+<p>Can be <code>"prediction"</code> or <code>"confidence"</code>. Prediction
+intervals show the range that likely contains the value of a new
+observation (in what range it would fall), whereas confidence intervals
+reflect the uncertainty around the estimated parameters (and gives the
+range of the link; for instance of the regression line in a linear
+regressions). Prediction intervals account for both the uncertainty in the
+model's parameters, plus the random variation of the individual values.
+Thus, prediction intervals are always wider than confidence intervals.
+Moreover, prediction intervals will not necessarily become narrower as the
+sample size increases (as they do not reflect only the quality of the fit).
+This applies mostly for &quot;simple&quot; linear models (like <code>lm</code>), as for
+other models (e.g., <code>glm</code>), prediction intervals are somewhat useless
+(for instance, for a binomial model for which the dependent variable is a
+vector of 1s and 0s, the prediction interval is... <code style="white-space: pre;">[0, 1]</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The method for computing p values and confidence intervals.
+Possible values depend on model type.
+</p>
+
+<ul>
+<li> <p><code>NULL</code> uses the default method, which varies based on the model type.
+</p>
+</li>
+<li><p> Most frequentist models: <code>"wald"</code> (default), <code>"residual"</code> or <code>"normal"</code>.
+</p>
+</li>
+<li><p> Bayesian models:  <code>"quantile"</code>  (default), <code>"hdi"</code>, <code>"eti"</code>, and <code>"spi"</code>.
+</p>
+</li>
+<li><p> Mixed effects <strong>lme4</strong> models: <code>"wald"</code> (default), <code>"residual"</code>, <code>"normal"</code>,
+<code>"satterthwaite"</code>, and <code>"kenward-roger"</code>.
+</p>
+</li></ul>
+
+<p>See <code><a href="../../insight/help/get_df.html">get_df()</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>dispersion_method</code></td>
+<td>
+<p>Bootstrap dispersion and Bayesian posterior summary:
+<code>"sd"</code> or <code>"mad"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>vcov</code></td>
+<td>
+<p>Variance-covariance matrix used to compute uncertainty estimates
+(e.g., for robust standard errors). This argument accepts a covariance
+matrix, a function which returns a covariance matrix, or a string which
+identifies the function to be used to compute the covariance matrix.
+</p>
+
+<ul>
+<li><p> A covariance matrix
+</p>
+</li>
+<li><p> A function which returns a covariance matrix (e.g., <code>stats::vcov()</code>)
+</p>
+</li>
+<li><p> A string which indicates the kind of uncertainty estimates to return.
+</p>
+
+<ul>
+<li><p> Heteroskedasticity-consistent: <code>"vcovHC"</code>, <code>"HC"</code>, <code>"HC0"</code>, <code>"HC1"</code>,
+<code>"HC2"</code>, <code>"HC3"</code>, <code>"HC4"</code>, <code>"HC4m"</code>, <code>"HC5"</code>. See <code>?sandwich::vcovHC</code>
+</p>
+</li>
+<li><p> Cluster-robust: <code>"vcovCR"</code>, <code>"CR0"</code>, <code>"CR1"</code>, <code>"CR1p"</code>, <code>"CR1S"</code>,
+<code>"CR2"</code>, <code>"CR3"</code>. See <code>?clubSandwich::vcovCR()</code>
+</p>
+</li>
+<li><p> Bootstrap: <code>"vcovBS"</code>, <code>"xy"</code>, <code>"residual"</code>, <code>"wild"</code>, <code>"mammen"</code>,
+<code>"webb"</code>. See <code>?sandwich::vcovBS</code>
+</p>
+</li>
+<li><p> Other <code>sandwich</code> package functions: <code>"vcovHAC"</code>, <code>"vcovPC"</code>, <code>"vcovCL"</code>,
+<code>"vcovPL"</code>.
+</p>
+</li></ul>
+
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>vcov_args</code></td>
+<td>
+<p>List of arguments to be passed to the function identified by
+the <code>vcov</code> argument. This function is typically supplied by the <strong>sandwich</strong>
+or <strong>clubSandwich</strong> packages. Please refer to their documentation (e.g.,
+<code>?sandwich::vcovHAC</code>) to see the list of available arguments. If no estimation
+type (argument <code>type</code>) is given, the default type for <code>"HC"</code> (or <code>"vcovHC"</code>)
+equals the default from the <strong>sandwich</strong> package; for type <code>"CR"</code> (or
+<code>"vcoCR"</code>), the default is set to <code>"CR3"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Typically, <code>get_predicted()</code> returns confidence intervals based on the standard
+errors as returned by the <code>predict()</code>-function, assuming normal distribution
+(<code style="white-space: pre;">+/- 1.96 * SE</code>) resp. a Student's t-distribution (if degrees of freedom are
+available). If <code>predict()</code> for a certain class does <em>not</em> return standard
+errors (for example, <em>merMod</em>-objects), these are calculated manually, based
+on following steps: matrix-multiply <code>X</code> by the parameter vector <code>B</code> to get the
+predictions, then extract the variance-covariance matrix <code>V</code> of the parameters
+and compute <code style="white-space: pre;">XVX'</code> to get the variance-covariance matrix of the predictions.
+The square-root of the diagonal of this matrix represent the standard errors
+of the predictions, which are then multiplied by the critical test-statistic
+value (e.g., ~1.96 for normal distribution) for the confidence intervals.
+</p>
+<p>If <code>ci_type = "prediction"</code>, prediction intervals are calculated. These are
+wider than confidence intervals, because they also take into account the
+uncertainty of the model itself. Before taking the square-root of the
+diagonal of the variance-covariance matrix, <code>get_predicted_ci()</code> adds the
+residual variance to these values. For mixed models, <code>get_variance_residual()</code>
+is used, while <code>get_sigma()^2</code> is used for non-mixed models.
+</p>
+<p>It is preferred to rely on standard errors returned by <code>get_predicted()</code> (i.e.
+returned by the <code>predict()</code>-function), because these are more accurate than
+manually calculated standard errors. Use <code>get_predicted_ci()</code> only if standard
+errors are not available otherwise. An exception are Bayesian models or
+bootstrapped predictions, where <code>get_predicted_ci()</code> returns quantiles of the
+posterior distribution or bootstrapped samples of the predictions. These are
+actually accurate standard errors resp. confidence (or uncertainty) intervals.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Confidence Intervals for Model Predictions
+# ------------------------------------------
+
+data(mtcars)
+
+# Linear model
+# ------------
+x &lt;- lm(mpg ~ cyl + hp, data = mtcars)
+predictions &lt;- predict(x)
+ci_vals &lt;- get_predicted_ci(x, predictions, ci_type = "prediction")
+head(ci_vals)
+ci_vals &lt;- get_predicted_ci(x, predictions, ci_type = "confidence")
+head(ci_vals)
+ci_vals &lt;- get_predicted_ci(x, predictions, ci = c(0.8, 0.9, 0.95))
+head(ci_vals)
+
+# Bootstrapped
+# ------------
+predictions &lt;- get_predicted(x, iterations = 500)
+get_predicted_ci(x, predictions)
+
+ci_vals &lt;- get_predicted_ci(x, predictions, ci = c(0.80, 0.95))
+head(ci_vals)
+datawizard::reshape_ci(ci_vals)
+
+ci_vals &lt;- get_predicted_ci(x,
+  predictions,
+  dispersion_method = "MAD",
+  ci_method = "HDI"
+)
+head(ci_vals)
+
+
+# Logistic model
+# --------------
+x &lt;- glm(vs ~ wt, data = mtcars, family = "binomial")
+predictions &lt;- predict(x, type = "link")
+ci_vals &lt;- get_predicted_ci(x, predictions, ci_type = "prediction")
+head(ci_vals)
+ci_vals &lt;- get_predicted_ci(x, predictions, ci_type = "confidence")
+head(ci_vals)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

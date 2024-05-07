@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the AIC or second-order AIC</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for performance_aicc {performance}"><tr><td>performance_aicc {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute the AIC or second-order AIC</h2>
+
+<h3>Description</h3>
+
+<p>Compute the AIC or the second-order Akaike's information criterion (AICc).
+<code>performance_aic()</code> is a small wrapper that returns the AIC, however, for
+models with a transformed response variable, <code>performance_aic()</code> returns the
+corrected AIC value (see 'Examples'). It is a generic function that also
+works for some models that don't have a AIC method (like Tweedie models).
+<code>performance_aicc()</code> returns the second-order (or &quot;small sample&quot;) AIC that
+incorporates a correction for small sample sizes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+performance_aicc(x, ...)
+
+performance_aic(x, ...)
+
+## Default S3 method:
+performance_aic(x, estimator = "ML", verbose = TRUE, ...)
+
+## S3 method for class 'lmerMod'
+performance_aic(x, estimator = "REML", verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A model object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>estimator</code></td>
+<td>
+<p>Only for linear models. Corresponds to the different
+estimators for the standard deviation of the errors. If <code>estimator = "ML"</code>
+(default, except for <code>performance_aic()</code> when the model object is of class
+<code>lmerMod</code>), the scaling is done by <code>n</code> (the biased ML estimator), which is
+then equivalent to using <code>AIC(logLik())</code>. Setting it to <code>"REML"</code> will give
+the same results as <code>AIC(logLik(..., REML = TRUE))</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>performance_aic()</code> correctly detects transformed response and,
+unlike <code>stats::AIC()</code>, returns the &quot;corrected&quot; AIC value on the original
+scale. To get back to the original scale, the likelihood of the model is
+multiplied by the Jacobian/derivative of the transformation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Numeric, the AIC or AICc value.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Akaike, H. (1973) Information theory as an extension of the maximum
+likelihood principle. In: Second International Symposium on Information
+Theory, pp. 267-281. Petrov, B.N., Csaki, F., Eds, Akademiai Kiado, Budapest.
+</p>
+</li>
+<li><p> Hurvich, C. M., Tsai, C.-L. (1991) Bias of the corrected AIC criterion
+for underfitted regression and time series models. Biometrika 78, 499–509.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+m &lt;- lm(mpg ~ wt + cyl + gear + disp, data = mtcars)
+AIC(m)
+performance_aicc(m)
+
+# correct AIC for models with transformed response variable
+data("mtcars")
+mtcars$mpg &lt;- floor(mtcars$mpg)
+model &lt;- lm(log(mpg) ~ factor(cyl), mtcars)
+
+# wrong AIC, not corrected for log-transformation
+AIC(model)
+
+# performance_aic() correctly detects transformed response and
+# returns corrected AIC
+performance_aic(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

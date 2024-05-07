@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Effect Size for Rank Based ANOVA</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rank_epsilon_squared {effectsize}"><tr><td>rank_epsilon_squared {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Effect Size for Rank Based ANOVA</h2>
+
+<h3>Description</h3>
+
+<p>Compute rank epsilon squared (<i>E^2_R</i>) or rank eta squared
+(<i>&eta;^2_H</i>) (to accompany <code><a href="../../stats/help/kruskal.test.html">stats::kruskal.test()</a></code>), and Kendall's <em>W</em>
+(to accompany <code><a href="../../stats/help/friedman.test.html">stats::friedman.test()</a></code>) effect sizes for non-parametric (rank
+sum) one-way ANOVAs.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rank_epsilon_squared(
+  x,
+  groups,
+  data = NULL,
+  ci = 0.95,
+  alternative = "greater",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+rank_eta_squared(
+  x,
+  groups,
+  data = NULL,
+  ci = 0.95,
+  alternative = "greater",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+
+kendalls_w(
+  x,
+  groups,
+  blocks,
+  data = NULL,
+  blocks_on_rows = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  iterations = 200,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Can be one of:
+</p>
+
+<ul>
+<li><p> A numeric or ordered vector, or a character name of one in <code>data</code>.
+</p>
+</li>
+<li><p> A list of vectors (for <code>rank_eta/epsilon_squared()</code>).
+</p>
+</li>
+<li><p> A matrix of <code style="white-space: pre;">blocks x groups</code> (for <code>kendalls_w()</code>) (or <code style="white-space: pre;">groups x blocks</code>
+if <code>blocks_on_rows = FALSE</code>). See details for the <code>blocks</code> and <code>groups</code>
+terminology used here.
+</p>
+</li>
+<li><p> A formula in the form of:
+</p>
+
+<ul>
+<li> <p><code>DV ~ groups</code> for <code>rank_eta/epsilon_squared()</code>.
+</p>
+</li>
+<li> <p><code>DV ~ groups | blocks</code> for <code>kendalls_w()</code> (See details for the
+<code>blocks</code> and <code>groups</code> terminology used here).
+</p>
+</li></ul>
+
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>groups, blocks</code></td>
+<td>
+<p>A factor vector giving the group / block for the
+corresponding elements of <code>x</code>, or a character name of one in <code>data</code>.
+Ignored if <code>x</code> is not a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of bootstrap replicates for computing confidence
+intervals. Only applies when <code>ci</code> is not <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>blocks_on_rows</code></td>
+<td>
+<p>Are blocks on rows (<code>TRUE</code>) or columns (<code>FALSE</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The rank epsilon squared and rank eta squared are appropriate for
+non-parametric tests of differences between 2 or more samples (a rank based
+ANOVA). See <a href="../../stats/help/kruskal.test.html">stats::kruskal.test</a>. Values range from 0 to 1, with larger
+values indicating larger differences between groups.
+<br /><br />
+Kendall's <em>W</em> is appropriate for non-parametric tests of differences between
+2 or more dependent samples (a rank based rmANOVA), where each <code>group</code> (e.g.,
+experimental condition) was measured for each <code>block</code> (e.g., subject). This
+measure is also common as a measure of reliability of the rankings of the
+<code>groups</code> between raters (<code>blocks</code>). See <a href="../../stats/help/friedman.test.html">stats::friedman.test</a>. Values range
+from 0 to 1, with larger values indicating larger differences between groups
+/ higher agreement between raters.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size and its CI.
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals for <i>E^2_R</i>, <i>&eta;^2_H</i>, and Kendall's <em>W</em> are
+estimated using the bootstrap method (using the <code>{boot}</code> package).
+</p>
+
+
+<h3>Ties</h3>
+
+<p>When tied values occur, they are each given the average of the ranks that
+would have been given had no ties occurred. This results in an effect size of
+reduced magnitude. A correction has been applied for Kendall's <em>W</em>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Bootstrapped CIs</h3>
+
+<p>Some effect sizes are directionless&ndash;they do have a minimum value that would
+be interpreted as &quot;no effect&quot;, but they cannot cross it. For example, a null
+value of <a href="../../effectsize/help/kendalls_w.html">Kendall's W</a> is 0, indicating no difference between
+groups, but it can never have a negative value. Same goes for
+<a href="../../effectsize/help/cohens_u2.html">U2</a> and <a href="../../effectsize/help/p_overlap.html">Overlap</a>: the null value of <i>U_2</i> is
+0.5, but it can never be smaller than 0.5; am <em>Overlap</em> of 1 means &quot;full
+overlap&quot; (no difference), but it cannot be larger than 1.
+<br /><br />
+When bootstrapping CIs for such effect sizes, the bounds of the CIs will
+never cross (and often will never cover) the null. Therefore, these CIs
+should not be used for statistical inference.
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Kendall, M.G. (1948) Rank correlation methods. London: Griffin.
+</p>
+</li>
+<li><p> Tomczak, M., &amp; Tomczak, E. (2014). The need to report effect size estimates
+revisited. An overview of some recommended measures of effect size. Trends in
+sport sciences, 1(21), 19-25.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other rank-based effect sizes: 
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>
+</p>
+<p>Other effect sizes for ANOVAs: 
+<code><a href="../../effectsize/help/eta_squared.html">eta_squared</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Rank Eta/Epsilon Squared
+# ========================
+
+rank_eta_squared(mpg ~ cyl, data = mtcars)
+
+rank_epsilon_squared(mpg ~ cyl, data = mtcars)
+
+
+
+# Kendall's W
+# ===========
+dat &lt;- data.frame(
+  cond = c("A", "B", "A", "B", "A", "B"),
+  ID = c("L", "L", "M", "M", "H", "H"),
+  y = c(44.56, 28.22, 24, 28.78, 24.56, 18.78)
+)
+(W &lt;- kendalls_w(y ~ cond | ID, data = dat, verbose = FALSE))
+
+interpret_kendalls_w(0.11)
+interpret(W, rules = "landis1977")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

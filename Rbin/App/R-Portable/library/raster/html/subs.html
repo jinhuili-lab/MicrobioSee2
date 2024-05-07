@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Substitute values in a Raster* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for substitute {raster}"><tr><td>substitute {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Substitute values in a Raster* object</h2>
+
+<h3>Description</h3>
+
+<p>Substitute (replace) values in a Raster* object with values in a <code>data.frame</code>. The <code>data.frame</code> should have a column to identify the key (ID) to match with the cell values of the Raster* object, and one or more columns with replacement values. By default these are the first and second column but you can specify other columns with arguments <code>by</code> and <code>which</code>. It is possible to match one table to multiple layers, or to use multiple layers as a single key, but not both.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,data.frame'
+subs(x, y, by=1, which=2, subsWithNA=TRUE, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>data.frame</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>column number(s) or name(s) identifying the key (ID) to match rows in data.frame <code>y</code> to values of the Raster object</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>column number or name that has the new (replacement) values</p>
+</td></tr>
+<tr valign="top"><td><code>subsWithNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code> values that are not matched become NA. If <code>FALSE</code>, they retain their original value (which could also be <code>NA</code>). This latter option is handy when you want to replace only one or a few values. It cannot be used when <code>x</code> has multiple layers</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional output filename</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>You could obtain the same result with <code><a href="../help/reclassify.html">reclassify</a></code>, but <code>subs</code> is more efficient for simple replacement. Use <code>reclassify</code> if you want to replace ranges of values with new values. 
+</p>
+<p>You can also replace values using a fitted model. E.g. fit a model to <code>glm</code> or <code>loess</code> and then call <a href="../help/predict.html">predict</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Raster object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/reclassify.html">reclassify</a>, <a href="../../raster/help/clamp.html">clamp</a>, <a href="../../raster/help/cut.html">cut</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10)
+values(r) &lt;- round(runif(ncell(r)) * 10)
+df &lt;- data.frame(id=2:8, v=c(10,10,11,11,12:14))
+x &lt;- subs(r, df)
+x2 &lt;- subs(r, df, subsWithNA=FALSE)
+
+df$v2 &lt;- df$v * 10
+x3 &lt;- subs(r, df, which=2:3)
+
+s &lt;- stack(r, r*3)
+names(s) &lt;- c('first', 'second')
+x4 &lt;- subs(s, df)
+x5 &lt;- subs(s, df, which=2:3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

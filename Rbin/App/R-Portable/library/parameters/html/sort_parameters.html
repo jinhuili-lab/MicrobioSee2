@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sort parameters by coefficient values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sort_parameters {parameters}"><tr><td>sort_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sort parameters by coefficient values</h2>
+
+<h3>Description</h3>
+
+<p>Sort parameters by coefficient values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sort_parameters(x, ...)
+
+## Default S3 method:
+sort_parameters(x, sort = "none", column = "Coefficient", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame or a <code>parameters_model</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>If <code>"none"</code> (default) do not sort, <code>"ascending"</code> sort by
+increasing coefficient value, or <code>"descending"</code> sort by decreasing
+coefficient value.</p>
+</td></tr>
+<tr valign="top"><td><code>column</code></td>
+<td>
+<p>The column containing model parameter estimates. This will be
+<code>"Coefficient"</code> (default) in <em>easystats</em> packages, <code>"estimate"</code> in <em>broom</em>
+package, etc.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A sorted data frame or original object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# creating object to sort (can also be a regular data frame)
+mod &lt;- model_parameters(stats::lm(wt ~ am * cyl, data = mtcars))
+
+# original output
+mod
+
+# sorted outputs
+sort_parameters(mod, sort = "ascending")
+sort_parameters(mod, sort = "descending")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

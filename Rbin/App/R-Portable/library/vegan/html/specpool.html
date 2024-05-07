@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extrapolated Species Richness in a Species Pool</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for specpool {vegan}"><tr><td>specpool {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Extrapolated Species Richness in a Species Pool</h2>
+
+<h3>Description</h3>
+
+<p>The functions estimate the extrapolated species richness in a species
+pool, or the number of unobserved species. Function <code>specpool</code>
+is based on incidences in sample sites, and gives a single estimate
+for a collection of sample sites (matrix).  Function <code>estimateR</code>
+is based on abundances (counts) on single sample site. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+specpool(x, pool, smallsample = TRUE)
+estimateR(x, ...)
+specpool2vect(X, index = c("jack1","jack2", "chao", "boot","Species"))
+poolaccum(x, permutations = 100, minsize = 3)
+estaccumR(x, permutations = 100, parallel = getOption("mc.cores"))
+## S3 method for class 'poolaccum'
+summary(object, display, alpha = 0.05, ...)
+## S3 method for class 'poolaccum'
+plot(x, alpha = 0.05, type = c("l","g"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data frame or matrix with species data or the analysis result 
+for <code>plot</code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>pool</code></td>
+<td>
+<p>A vector giving a classification for pooling the sites in
+the species data. If missing, all sites are pooled together.</p>
+</td></tr>
+<tr valign="top"><td><code>smallsample</code></td>
+<td>
+<p>Use small sample correction <i>(N-1)/N</i>, where
+<i>N</i> is the number of sites within the <code>pool</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>X, object</code></td>
+<td>
+<p>A <code>specpool</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>The selected index of extrapolated richness.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Usually an integer giving the number
+permutations, but can also be a list of control values for the
+permutations as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, 
+or a permutation matrix where each row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>minsize</code></td>
+<td>
+<p>Smallest number of sampling units reported.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing. The parallel processing is done with <span class="pkg">parallel</span>
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Indices to be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Level of quantiles shown. This proportion will be left outside
+symmetric limits.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of graph produced in <code><a href="../../lattice/help/xyplot.html">xyplot</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters (not used).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Many species will always remain unseen or undetected in a collection
+of sample plots.  The function uses some popular ways of estimating
+the number of these unseen species and adding them to the observed
+species richness (Palmer 1990, Colwell &amp; Coddington 1994).
+</p>
+<p>The incidence-based estimates in <code>specpool</code> use the frequencies
+of species in a collection of sites.
+In the following, <i>S_P</i> is the extrapolated richness in a pool,
+<i>S_0</i> is the observed number of species in the
+collection, <i>a1</i> and <i>a2</i> are the number of species
+occurring only in one or only in two sites in the collection, <i>p_i</i>
+is the frequency of species <i>i</i>, and <i>N</i> is the number of
+sites in the collection.  The variants of extrapolated richness in
+<code>specpool</code> are:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+     Chao
+    </td><td style="text-align: left;"> <i>S_P = S_0 + a1^2/(2*a2) * (N-1)/N</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    Chao bias-corrected
+    </td><td style="text-align: left;"> <i>S_P = S_0 + a1*(a1-1)/(2*(a2+1)) * (N-1)/N</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    First order jackknife
+    </td><td style="text-align: left;"> <i>S_P = S_0 + a1*(N-1)/N</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    Second order jackknife
+    </td><td style="text-align: left;"> <i>S_P = S_0 + a1*(2*N-3)/N - a2*(N-2)^2/N/(N-1)</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    Bootstrap
+    </td><td style="text-align: left;"> <i>S_P = S_0 + Sum
+      (1-p_i)^N</i>
+    </td>
+</tr>
+
+</table>
+
+<p><code>specpool</code> normally uses basic Chao equation, but when there
+are no doubletons (<i>a2=0</i>) it switches to bias-corrected
+version. In that case the Chao equation simplifies to
+<i>S_0 + (N-1)/N * a1*(a1-1)/2</i>.
+</p>
+<p>The abundance-based estimates in <code>estimateR</code> use counts
+(numbers of individuals) of species in a single site. If called for
+a matrix or data frame, the function will give separate estimates
+for each site.  The two variants of extrapolated richness in
+<code>estimateR</code> are bias-corrected Chao and ACE (O'Hara 2005, Chiu
+et al. 2014).  The Chao estimate is similar as the bias corrected
+one above, but <i>a_i</i> refers to the number of species with
+abundance <i>i</i> instead of number of sites, and the small-sample
+correction is not used. The ACE estimate is defined as:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    ACE
+    </td><td style="text-align: left;"> <i>S_P = S_abund + S_rare/C_ace + a1/C_ace * gamma^2</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    where </td><td style="text-align: left;">
+    <i>C_{ace} = 1- a1/N_{rare}</i>
+    </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    </td><td style="text-align: left;"> <i>gamma^2 = 
+    max(S_rare/C_ace (sum[i=1..10] i*(i-1)*a_i) / N_rare/(N_rare-1) -1 , 0)</i>
+    </td>
+</tr>
+
+</table>
+
+<p>Here <i>a_i</i> refers to number of species with abundance <i>i</i>
+and  <i>S_rare</i> is the number of rare
+species, 
+<i>S_abund</i> is the number of abundant species, with an
+arbitrary 
+threshold of abundance 10 for rare species, and <i>N_rare</i> is
+the number 
+of individuals in rare species.
+</p>
+<p>Functions estimate the standard errors of the estimates. These only
+concern the number of added species, and assume that there is no
+variance in the observed richness.  The equations of standard errors
+are too complicated to be reproduced in this help page, but they can
+be studied in the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> source code of the function and are discussed
+in the <code><a href="../../utils/html/vignette.html">vignette</a></code> that can be read with the
+<code>browseVignettes("vegan")</code>. The standard error are based on the
+following sources: Chiu et al. (2014) for the Chao estimates and
+Smith and van Belle (1984) for the first-order Jackknife and the
+bootstrap (second-order jackknife is still missing).  For the
+variance estimator of <i>S_ace</i> see O'Hara (2005).
+</p>
+<p>Functions <code>poolaccum</code> and <code>estaccumR</code> are similar to
+<code><a href="../../vegan/help/specaccum.html">specaccum</a></code>, but estimate extrapolated richness indices
+of <code>specpool</code> or <code>estimateR</code> in addition to number of
+species for random ordering of sampling units. Function
+<code>specpool</code> uses presence data and <code>estaccumR</code> count
+data. The functions share <code>summary</code> and <code>plot</code>
+methods. The <code>summary</code> returns quantile envelopes of
+permutations corresponding the given level of <code>alpha</code> and
+standard deviation of permutations for each sample size. NB., these
+are not based on standard deviations estimated within <code>specpool</code>
+or <code>estimateR</code>, but they are based on permutations. The
+<code>plot</code> function shows the mean and envelope of permutations
+with given <code>alpha</code> for models. The selection of models can be
+restricted and order changes using the <code>display</code> argument in
+<code>summary</code> or <code>plot</code>. For configuration of <code>plot</code>
+command, see <code><a href="../../lattice/help/xyplot.html">xyplot</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>specpool</code> returns a data frame with entries for
+observed richness and each of the indices for each class in
+<code>pool</code> vector.  The utility function <code>specpool2vect</code> maps
+the pooled values into a vector giving the value of selected
+<code>index</code> for each original site. Function <code>estimateR</code>
+returns the estimates and their standard errors for each
+site. Functions <code>poolaccum</code> and <code>estimateR</code> return
+matrices of permutation results for each richness estimator, the
+vector of sample sizes and a table of <code>means</code> of permutations
+for each estimator.
+</p>
+
+
+<h3>Note</h3>
+
+<p> The functions are based on assumption that there is a species
+pool: The community is closed so that there is a fixed pool size
+<i>S_P</i>.  In general, the functions give only the lower limit of
+species richness: the real richness is <i>S &gt;= S_P</i>, and there is
+a consistent bias in the estimates. Even the bias-correction in Chao
+only reduces the bias, but does not remove it completely (Chiu et
+al. 2014).
+</p>
+<p>Optional small sample correction was added to <code>specpool</code> in
+<span class="pkg">vegan</span> 2.2-0. It was not used in the older literature (Chao
+1987), but it is recommended recently (Chiu et al. 2014).
+</p>
+<p>See <a href="http://viceroy.eeb.uconn.edu/EstimateS/">http://viceroy.eeb.uconn.edu/EstimateS/</a> for a more complete
+(and positive) discussion and alternative software for some platforms.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Bob O'Hara (<code>estimateR</code>) and Jari Oksanen.</p>
+
+
+<h3>References</h3>
+
+<p>Chao, A. (1987). Estimating the population size for capture-recapture
+data with unequal catchability. <em>Biometrics</em> 43, 783&ndash;791.
+</p>
+<p>Chiu, C.H., Wang, Y.T., Walther, B.A. &amp; Chao, A. (2014). Improved
+nonparametric lower bound of species richness via a modified
+Good-Turing frequency formula. <em>Biometrics</em> 70, 671&ndash;682.
+</p>
+<p>Colwell, R.K. &amp; Coddington, J.A. (1994). Estimating terrestrial
+biodiversity through
+extrapolation. <em>Phil. Trans. Roy. Soc. London</em> B 345, 101&ndash;118.
+</p>
+<p>O'Hara, R.B. (2005). Species richness estimators: how many species
+can dance on the head of a pin? <em>J. Anim. Ecol.</em> 74, 375&ndash;386.
+</p>
+<p>Palmer, M.W. (1990). The estimation of species richness by
+extrapolation. <em>Ecology</em> 71, 1195&ndash;1198.
+</p>
+<p>Smith, E.P &amp; van Belle, G. (1984). Nonparametric estimation of
+species richness. <em>Biometrics</em> 40, 119&ndash;129.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/veiledspec.html">veiledspec</a></code>, <code><a href="../../vegan/help/diversity.html">diversity</a></code>, <code><a href="../../vegan/help/beals.html">beals</a></code>,
+<code><a href="../../vegan/help/specaccum.html">specaccum</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+pool &lt;- with(dune.env, specpool(dune, Management))
+pool
+op &lt;- par(mfrow=c(1,2))
+boxplot(specnumber(dune) ~ Management, data = dune.env,
+        col = "hotpink", border = "cyan3")
+boxplot(specnumber(dune)/specpool2vect(pool) ~ Management,
+        data = dune.env, col = "hotpink", border = "cyan3")
+par(op)
+data(BCI)
+## Accumulation model
+pool &lt;- poolaccum(BCI)
+summary(pool, display = "chao")
+plot(pool)
+## Quantitative model
+estimateR(BCI[1:5,])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

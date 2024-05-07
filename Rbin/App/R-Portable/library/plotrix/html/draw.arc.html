@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw arc</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for draw.arc {plotrix}"><tr><td>draw.arc {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Draw arc </h2>
+
+<h3>Description</h3>
+
+<p>Draw one or more arcs using classic graphics.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ draw.arc(x=1,y=NULL,radius=1,angle1=deg1*pi/180,angle2=deg2*pi/180, 
+  deg1=0,deg2=45,n=0.05,col=NA,lwd=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> x coordinate of center.  Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p> y coordinate of center.  Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>radius</code></td>
+<td>
+<p> radius.  Scalar or vector.  </p>
+</td></tr>
+<tr valign="top"><td><code>angle1</code></td>
+<td>
+<p> Starting angle in radians. Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>angle2</code></td>
+<td>
+<p> Ending angle in radians. Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>deg1</code></td>
+<td>
+<p> Starting angle in degrees. Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>deg2</code></td>
+<td>
+<p> Ending angle in degrees. Scalar or vector. </p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p> Number of polygons to use to approximate the arc. </p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p> Arc colors. </p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width for the arc.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments passed to segments.  Vectorization 
+is not supported for these. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Draws one or more arcs from <code>angle1</code> to <code>angle2</code>.
+If <code>angle1</code> is numerically greater than <code>angle2</code>,
+then the angles are swapped.
+</p>
+<p>Be sure to use an aspect ratio of 1 as shown in
+the example to avoid distortion.  For argument 'n' (which may be
+either a scalar or a vector, although most likely you will leave
+it at the default value), an integer value means to use that number
+of segments to approximate the arc, while a non-integer value means
+to use enough segments so that the angle that successive segments
+make with one another is no more than n radians.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a matrix of expanded arguments invisibly.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gabor Grothendieck. Improvements by Ted Toal.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+   plot(1:10, asp = 1,main="Test draw.arc")
+   draw.arc(5, 5, 1:10/10, deg2 = 1:10*10, col = "blue")
+   draw.arc(8, 8, 1:10/10, deg2 = 1:10*10, col = 1:10)
+   draw.arc(5, 5, 3, deg1=100, deg2=170, col="gold", lwd=50, lend=1)
+   # example taken from post by Hans Borcher:
+   # https://stat.ethz.ch/pipermail/r-help/2009-July/205728.html
+   # Note setting of aspect ratio to 1 first.
+   curve(sin(x), 0, pi, col="blue", asp=1)
+   draw.arc(pi/2, 0, 1, deg1=45, deg2=135, col="red")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

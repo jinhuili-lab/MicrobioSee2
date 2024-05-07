@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw rectangle-like grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.rect {circlize}"><tr><td>circos.rect {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw rectangle-like grid
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw rectangle-like grid
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.rect(
+    xleft, ybottom, xright, ytop,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    rot = 0,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xleft</code></td>
+<td>
+<p>x for the left bottom points</p>
+</td></tr>
+<tr valign="top"><td><code>ybottom</code></td>
+<td>
+<p>y for the left bottom points</p>
+</td></tr>
+<tr valign="top"><td><code>xright</code></td>
+<td>
+<p>x for the right top points</p>
+</td></tr>
+<tr valign="top"><td><code>ytop</code></td>
+<td>
+<p>y for the right top points</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>rot</code></td>
+<td>
+<p>Rotation of the rectangles. The value is measured clockwise in degree. Rotation is relative to the center of the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>pass to <code><a href="../../graphics/help/polygon.html">polygon</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The name for this function is <code><a href="../../circlize/help/circos.rect.html">circos.rect</a></code>
+because if you imagine the plotting region as Cartesian coordinate, then it is rectangle.
+in the polar coordinate, the up and bottom edge become two arcs.
+</p>
+<p>This function can be vectorized.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(c("a", "b", "c", "d"), xlim = c(0, 10))
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    for(rot in seq(0, 360, by = 30)) {
+        circos.rect(2, 2, 6, 6, rot = rot)
+    }
+}, track.height = 0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

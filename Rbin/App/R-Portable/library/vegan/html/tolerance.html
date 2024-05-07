@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Species tolerances and sample heterogeneities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tolerance {vegan}"><tr><td>tolerance {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Species tolerances and sample heterogeneities</h2>
+
+<h3>Description</h3>
+
+<p>Species tolerances and sample heterogeneities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tolerance(x, ...)
+
+## S3 method for class 'cca'
+tolerance(x, choices = 1:2, which = c("species","sites"),
+          scaling = "species", useN2 = TRUE, hill = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>object of class <code>"cca"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>numeric; which ordination axes to compute
+tolerances and heterogeneities for. Defaults to axes 1 and 2.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>character; one of <code>"species"</code> or <code>"sites"</code>,
+indicating whether species tolerances or sample heterogeneities
+respectively are computed.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>character or numeric; the ordination scaling to
+use. See <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>hill</code></td>
+<td>
+<p>logical; if <code>scaling</code> is a character,
+these control whether Hill's scaling is used for (C)CA
+respectively. See <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>useN2</code></td>
+<td>
+<p>logical; should the bias in the tolerances /
+heterogeneities be reduced via scaling by Hill's N2?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function to compute species tolerances and site heterogeneity measures
+from unimodal ordinations (CCA &amp; CA). Implements Eq 6.47 and 6.48 from
+the Canoco 4.5 Reference Manual (pages 178&ndash;179).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Matrix of tolerances/heterogeneities with some additional
+attributes: <code>which</code>, <code>scaling</code>, and <code>N2</code>, the latter of
+which will be <code>NA</code> if <code>useN2 = FALSE</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin L. Simpson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+mod &lt;- cca(dune ~ ., data = dune.env)
+
+## defaults to species tolerances
+tolerance(mod)
+
+## sample heterogeneities for CCA axes 1:6
+tolerance(mod, which = "sites", choices = 1:6)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

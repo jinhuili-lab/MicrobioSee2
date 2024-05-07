@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function for Bayesian analysis of one- and two-sample designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for contingencyTableBF {BayesFactor}"><tr><td>contingencyTableBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function for Bayesian analysis of one- and two-sample designs</h2>
+
+<h3>Description</h3>
+
+<p>This function computes Bayes factors for contingency tables.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+contingencyTableBF(x, sampleType, fixedMargin = NULL,
+  priorConcentration = 1, posterior = FALSE, callback = function(...)
+  as.integer(0), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an m by n matrix of counts (integers m,n &gt; 1)</p>
+</td></tr>
+<tr valign="top"><td><code>sampleType</code></td>
+<td>
+<p>the sampling plan (see details)</p>
+</td></tr>
+<tr valign="top"><td><code>fixedMargin</code></td>
+<td>
+<p>for the independent multinomial sampling plan, which margin is fixed (&quot;rows&quot; or &quot;cols&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>priorConcentration</code></td>
+<td>
+<p>prior concentration parameter, set to 1 by default (see details)</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>if <code>TRUE</code>, return samples from the posterior instead
+of Bayes factor</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Bayes factor provided by <code>contingencyTableBF</code> tests the independence assumption in
+contingency tables under various sampling plans, each of which is described below.
+See Gunel and Dickey (1974) for more details.
+</p>
+<p>For <code>sampleType="poisson"</code>, the sampling plan is assumed to be
+one in which observations occur as a poisson process with an overall
+rate, and then assignment to particular factor levels occurs with
+fixed probability. Under the null hypothesis, the assignments to the
+two factors are independent. Importantly, the total N is not fixed.
+</p>
+<p>For <code>sampleType="jointMulti"</code> (joint multinomial), the sampling
+plan is assumed to be one in which the total N is fixed, and observations
+are assigned to cells with fixed probability. Under the null hypothesis, the
+assignments to the two factors are independent.
+</p>
+<p>For <code>sampleType="indepMulti"</code> (independent multinomial), the
+sampling plan is assumed to be one in which row or column totals are fixed,
+and the each row or column is assumed to be multinomially distributed.
+Under the null hypothesis, each row or column is assumed to have the
+same multinomial probabilities. The fixed margin must be given by
+the <code>fixedMargin</code> argument.
+</p>
+<p>For <code>sampleType="hypergeom"</code> (hypergeometric), the sampling
+plan is assumed to be one in which both the row and column totals are fixed.
+Under the null hypothesis, the cell counts are assumed to be governed by the
+hypergeometric distribution.
+</p>
+<p>For all models, the argument <code>priorConcentration</code> indexes
+the expected deviation from the null hypothesis under the alternative,
+and corresponds to Gunel and Dickey's (1974) &quot;a&quot; parameter.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>posterior</code> is <code>FALSE</code>, an object of class
+<code>BFBayesFactor</code> containing the computed model comparisons is
+returned.
+</p>
+<p>If <code>posterior</code> is <code>TRUE</code>, an object of class <code>BFmcmc</code>,
+containing MCMC samples from the posterior is returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Posterior sampling for the hypergeometric model under the alternative
+has not yet been implemented.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+<p>Tahira Jamil (<a href="mailto:tahjamil@gmail.com">tahjamil@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Gunel, E. and Dickey, J., (1974)
+Bayes Factors for Independence in Contingency Tables. Biometrika, 61, 545-557
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Hraba and Grant (1970) doll race data
+data(raceDolls)
+
+## Compute Bayes factor for independent binomial design, with
+## columns as the fixed margin
+bf = contingencyTableBF(raceDolls, sampleType = "indepMulti", fixedMargin = "cols")
+bf
+
+## Posterior distribution of difference in probabilities, under alternative
+chains = posterior(bf, iterations = 10000)
+sameRaceGivenWhite = chains[,"pi[1,1]"] / chains[,"pi[*,1]"]
+sameRaceGivenBlack = chains[,"pi[1,2]"] / chains[,"pi[*,2]"]
+hist(sameRaceGivenWhite - sameRaceGivenBlack, xlab = "Probability increase",
+  main = "Increase in probability of child picking\nsame race doll (white - black)",
+  freq=FALSE, yaxt='n')
+box()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

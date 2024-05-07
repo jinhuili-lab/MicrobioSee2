@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates a list of informative properties of all members of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ll {R.oo}"><tr><td>ll {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates a list of informative properties of all members of an environment</h2>
+
+<h3>Description</h3>
+
+<p>Generates a list of informative properties of all members of an environment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+ll(pattern=".*", ..., private=FALSE, properties=getOption("R.oo::ll/properties",
+  c("data.class", "dimension", "objectSize")), sortBy=NULL, decreasing=FALSE,
+  envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>Regular expression pattern specifying which members to
+return. If <code>".*"</code>, all names are matched.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>A named <code><a href="../../base/help/vector.html">vector</a></code> of format <code>functionName=value</code>, where
+<code>functionName()</code> will be called on each member found. If the
+result matches the <code>value</code>, the member is returned, otherwise
+not.</p>
+</td></tr>
+<tr valign="top"><td><code>private</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, also private members, i.e. members with
+a name starting with a <code>.</code> (period), will be listed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>properties</code></td>
+<td>
+<p>Names of properties to be returned. There must exist
+a <code><a href="../../base/help/function.html">function</a></code> with the same name, because it will be called. This way
+one can extract any type of property by defining new methods.</p>
+</td></tr>
+<tr valign="top"><td><code>sortBy</code></td>
+<td>
+<p>Name or index of column (property) to be sorted by.
+If <code><a href="../../base/help/NULL.html">NULL</a></code>, the objects are listed in the order they are found.</p>
+</td></tr>
+<tr valign="top"><td><code>decreasing</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> indicating whether the sorting should
+be done in increasing or decreasing order.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code>, a search path index or a name of a package
+to be scanned.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/data.frame.html">data.frame</a></code> containing information about all the members.
+</p>
+
+
+<h3>Default properties returned</h3>
+
+<p>It is possible to set the default value of argument <code>properties</code>
+by setting option <code>"R.oo::ll/properties"</code>, e.g.
+<code>options("R.oo::ll/properties"=c("data.class", "dimension"))</code>.
+If this option is not set when the package is loaded, it is set to
+<code>c("data.class", "dimension", "objectSize")</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../utils/help/ls.str.html">ls.str</a></code> and <code><a href="../../R.oo/help/ll.Object.html">ll.Object</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Not run: 
+   To list all objects in .GlobalEnv:
+   &gt; ll()
+   		     member data.class dimension objectSize
+   1                *tmp*     Person         1         428
+   2  as.character.Person   function      NULL        1208
+   3              country  character         1          44
+   4        equals.Person   function      NULL        2324
+   5             filename  character         1          84
+   6               getAge   function      NULL         372
+   7        getAge.Person   function      NULL         612
+   8       getName.Person   function      NULL         628
+   9      hashCode.Person   function      NULL        1196
+   10        last.warning       list         1         192
+   11                 obj     Person         1         428
+   12              Person      Class      NULL        2292
+   13              setAge   function      NULL         372
+   14       setAge.Person   function      NULL        2088
+   15             setName   function      NULL         372
+   16      setName.Person   function      NULL         760
+   17   staticCode.Person   function      NULL        2372
+
+   To list all functions in the methods package:
+   ll(mode="function", envir="methods")
+
+   To list all numeric and character object in the base package:
+   ll(mode=c("numeric", "character"), envir="base")
+
+   To list all objects in the base package greater than 40kb:
+   subset(ll(envir="base"), objectSize &gt; 40000)
+  
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

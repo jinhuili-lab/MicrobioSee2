@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: phi and Other Contingency Tables Correlations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for phi {effectsize}"><tr><td>phi {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2><i>&phi;</i> and Other Contingency Tables Correlations</h2>
+
+<h3>Description</h3>
+
+<p>Compute phi (<i>&phi;</i>), Cramer's <em>V</em>, Tschuprow's <em>T</em>, Cohen's <em>w</em>,
+פ (Fei), Pearson's contingency coefficient for
+contingency tables or goodness-of-fit. Pair with any reported
+<code><a href="../../stats/help/chisq.test.html">stats::chisq.test()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+phi(x, y = NULL, adjust = TRUE, ci = 0.95, alternative = "greater", ...)
+
+cramers_v(x, y = NULL, adjust = TRUE, ci = 0.95, alternative = "greater", ...)
+
+tschuprows_t(
+  x,
+  y = NULL,
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+cohens_w(
+  x,
+  y = NULL,
+  p = rep(1, length(x)),
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+fei(x, p = rep(1, length(x)), ci = 0.95, alternative = "greater", ...)
+
+pearsons_c(
+  x,
+  y = NULL,
+  p = rep(1, length(x)),
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector or matrix. <code>x</code> and <code>y</code> can also
+both be factors.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a numeric vector; ignored if <code>x</code> is a matrix.  If
+<code>x</code> is a factor, <code>y</code> should be a factor of the same length.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Should the effect size be corrected for small-sample bias?
+Defaults to <code>TRUE</code>; Advisable for small samples and large tables.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"greater"</code> (default) or <code>"less"</code>
+(one-sided CI), or <code>"two.sided"</code> (two-sided CI). Partial matching is
+allowed (e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in
+<a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>a vector of probabilities of the same length as <code>x</code>.
+An error is given if any entry of <code>p</code> is negative.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>phi (<i>&phi;</i>), Cramer's <em>V</em>, Tschuprow's <em>T</em>, Cohen's <em>w</em>, and Pearson's
+<em>C</em> are effect sizes for tests of independence in 2D contingency tables. For
+2-by-2 tables, phi, Cramer's <em>V</em>, Tschuprow's <em>T</em>, and Cohen's <em>w</em> are
+identical, and are equal to the simple correlation between two dichotomous
+variables, ranging between  0 (no dependence) and 1 (perfect dependence).
+<br /><br />
+For larger tables, Cramer's <em>V</em>, Tschuprow's <em>T</em> or Pearson's <em>C</em> should be
+used, as they are bounded between 0-1. (Cohen's <em>w</em> can also be used, but
+since it is not bounded at 1 (can be larger) its interpretation is more
+difficult.) For square table, Cramer's <em>V</em> and Tschuprow's <em>T</em> give the same
+results, but for non-square tables Tschuprow's <em>T</em> is more conservative:
+while <em>V</em> will be 1 if either columns are fully dependent on rows (for each
+column, there is only one non-0 cell) <em>or</em> rows are fully dependent on
+columns, <em>T</em> will only be 1 if both are true.
+<br /> <br />
+For goodness-of-fit in 1D tables Cohen's <em>W</em>, פ (Fei)
+or Pearson's <em>C</em> can be used. Cohen's <em>w</em> has no upper bound (can be
+arbitrarily large, depending on the expected distribution). <em>Fei</em> is an
+adjusted Cohen's <em>w</em>, accounting for the expected distribution, making it
+bounded between 0-1 (Ben-Shachar et al, 2023). Pearson's <em>C</em> is also bounded
+between 0-1.
+<br /> <br />
+To summarize, for correlation-like effect sizes, we recommend:
+</p>
+
+<ul>
+<li><p> For a 2x2 table, use <code>phi()</code>
+</p>
+</li>
+<li><p> For larger tables, use <code>cramers_v()</code>
+</p>
+</li>
+<li><p> For goodness-of-fit, use <code>fei()</code>
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size (<code>Cramers_v</code>, <code>phi</code> (possibly with
+the suffix <code style="white-space: pre;">_adjusted</code>), <code>Cohens_w</code>, <code>Fei</code>) and its CIs (<code>CI_low</code> and
+<code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Ben-Shachar, M.S., Patil, I., Thériault, R., Wiernik, B.M., Lüdecke, D.
+(2023). Phi, Fei, Fo, Fum: Effect Sizes for Categorical Data That Use the
+Chi‑Squared Statistic. Mathematics, 11, 1982. doi: <a href="https://doi.org/10.3390/math11091982">10.3390/math11091982</a>
+</p>
+</li>
+<li><p> Johnston, J. E., Berry, K. J., &amp; Mielke Jr, P. W. (2006). Measures of
+effect size for chi-squared and likelihood-ratio goodness-of-fit tests.
+Perceptual and motor skills, 103(2), 412-414.
+</p>
+</li>
+<li><p> Rosenberg, M. S. (2010). A generalized formula for converting chi-square
+tests to effect sizes for meta-analysis. PloS one, 5(4), e10059.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/chisq_to_phi.html">chisq_to_phi()</a></code> for details regarding estimation and CIs.
+</p>
+<p>Other effect sizes for contingency table: 
+<code><a href="../../effectsize/help/cohens_g.html">cohens_g</a>()</code>,
+<code><a href="../../effectsize/help/oddsratio.html">oddsratio</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## 2-by-2 tables
+## -------------
+data("RCT_table")
+RCT_table # note groups are COLUMNS
+
+phi(RCT_table)
+pearsons_c(RCT_table)
+
+
+
+## Larger tables
+## -------------
+data("Music_preferences")
+Music_preferences
+
+cramers_v(Music_preferences)
+
+cohens_w(Music_preferences)
+
+pearsons_c(Music_preferences)
+
+
+
+## Goodness of fit
+## ---------------
+data("Smoking_FASD")
+Smoking_FASD
+
+fei(Smoking_FASD)
+
+cohens_w(Smoking_FASD)
+
+pearsons_c(Smoking_FASD)
+
+# Use custom expected values:
+fei(Smoking_FASD, p = c(0.015, 0.010, 0.975))
+
+cohens_w(Smoking_FASD, p = c(0.015, 0.010, 0.975))
+
+pearsons_c(Smoking_FASD, p = c(0.015, 0.010, 0.975))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

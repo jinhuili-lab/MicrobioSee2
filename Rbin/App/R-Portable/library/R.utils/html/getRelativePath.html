@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets the relative pathname relative to a directory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for getRelativePath {R.utils}"><tr><td>getRelativePath {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets the relative pathname relative to a directory</h2>
+
+<h3>Description</h3>
+
+<p>Gets the relative pathname relative to a directory.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+getRelativePath(pathname, relativeTo=getwd(), caseSensitive=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the pathname to be converted into
+an relative pathname.</p>
+</td></tr>
+<tr valign="top"><td><code>relativeTo</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the reference pathname.</p>
+</td></tr>
+<tr valign="top"><td><code>caseSensitive</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the comparison is case sensitive, otherwise
+not.  If <code><a href="../../base/help/NULL.html">NULL</a></code>, it is decided from the relative path.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In case the two paths are on different file systems, for instance,
+C:/foo/bar/ and D:/foo/, the method returns <code>pathname</code> as is.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string of the relative pathname.
+</p>
+
+
+<h3>Non-case sensitive comparison</h3>
+
+<p>If <code>caseSensitive == NULL</code>, the relative path is used to decide if
+the comparison should be done in a case-sensitive mode or not.
+The current check is if it is a Windows path or not, that is, if
+the relative path starts with a device letter, then the comparison
+is non-case sensitive.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/getAbsolutePath.html">getAbsolutePath</a></code>().
+<code><a href="../../R.utils/help/isAbsolutePath.html">isAbsolutePath</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  getRelativePath("foo", "foo")                       # "."
+  getRelativePath("foo/bar", "foo")                   # "bar"
+  getRelativePath("foo/bar", "foo/bar/yah")           # ".."
+  getRelativePath("foo/bar/cool", "foo/bar/yah/sub/") # "../../cool"
+  getRelativePath("/tmp/bar/", "/bar/foo/")           # "../../tmp/bar"
+
+  # Windows
+  getRelativePath("C:/foo/bar/", "C:/bar/")           # "../foo/bar"
+  getRelativePath("C:/foo/bar/", "D:/bar/")           # "C:/foo/bar"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

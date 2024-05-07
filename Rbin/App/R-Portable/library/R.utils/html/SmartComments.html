@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Abstract class SmartComments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for SmartComments {R.utils}"><tr><td>SmartComments {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Abstract class SmartComments</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class SmartComments</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><em><code>SmartComments</code></em><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<a href="../help/LComments.html">LComments</a>, <a href="../help/VComments.html">VComments</a><br />
+</p>
+<p>public abstract static class <b>SmartComments</b><br />
+extends <a href="../../R.oo/help/Object.html">Object</a><br />
+</p>
+<p>Abstract class SmartComments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+SmartComments(letter=NA, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>letter</code></td>
+<td>
+<p>A single <code><a href="../../base/help/character.html">character</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A &quot;smart&quot; source-code comment is an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> comment, which start with a '#',
+but is followed by a single letter, then a single symbol and a second
+'#' and then an option character string, and there must not be any code
+before the comment on the same line. In summary, a smart comment line
+has format: <code>&lt;white spaces&gt;#&lt;letter&gt;&lt;symbol&gt;# &lt;some text&gt;</code>.
+</p>
+<p>Example code with two smart comments (VComments):
+</p>
+<pre>
+   x &lt;- 2
+   #V1# threshold=-1
+   #Vc# A v-comment log message
+   cat("Hello world")
+ </pre>
+<p>which after compilation becomes
+</p>
+<pre>
+   x &lt;- 2
+   verbose &lt;- Verbose(threshold=-1)
+   if (verbose) { cat(verbose, "A v-comment log message"); }
+   cat("Hello world")
+ </pre>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>compile</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>convertComment</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>parse</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>reset</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>validate</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/VComments.html">VComments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

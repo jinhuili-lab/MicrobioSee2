@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reclassify</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for reclassify {raster}"><tr><td>reclassify {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reclassify</h2>
+
+<h3>Description</h3>
+
+<p>Reclassify values of a Raster* object. The function (re)classifies groups of values to other values. For example, all values between 1 and 10 become 1, and all values between 11 and 15 become 2 (see functions <code><a href="../../raster/help/subs.html">subs</a></code> and <code><a href="../../raster/help/cut.html">cut</a></code> for alternative approaches). 
+</p>
+<p>Reclassification is done with matrix <code>rcl</code>, in the row order of the reclassify table. Thus, if there are overlapping ranges, the first time a number is within a range determines the reclassification value.  
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+reclassify(x, rcl, filename='', include.lowest=FALSE, right=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>rcl</code></td>
+<td>
+<p>matrix for reclassification. This matrix can have 3 or 2 columns. 
+</p>
+<p>In a <code>3-column matrix</code> the first two columns are &quot;from&quot; - &quot;to&quot; for the input values, and the third column &quot;becomes&quot; has the new value for that range. (You can also supply a vector that can be coerced into a n*3 matrix (with <code>byrow=TRUE</code>)). 
+</p>
+<p>A <code>2-column matrix</code> represents (&quot;is&quot;, &quot;becomes&quot;) which can be useful for integer values. In that case, the <code>right</code> argument is automatically set to <code>NA</code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional) </p>
+</td></tr>
+<tr valign="top"><td><code>include.lowest</code></td>
+<td>
+<p>logical, indicating if a value equal to the lowest value in rcl (or highest value in the second column, for right = FALSE) should be included. The default is <code>FALSE</code></p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+<p>logical, indicating if the intervals should be closed on the right (and open on the left) or vice versa. The default is <code>TRUE</code>. A special case is to use right=NA. In this case both the left and right intervals are open</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code> <a href="../../raster/help/subs.html">subs</a>, <a href="../../raster/help/clamp.html">clamp</a>, <a href="../../raster/help/cut.html">cut</a>, <a href="../../raster/help/calc.html">calc</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+r &lt;- raster(ncols=36, nrows=18)
+values(r) &lt;- runif(ncell(r)) 
+# reclassify the values into three groups 
+# all values &gt; 0 and &lt;= 0.25 become 1, etc.
+m &lt;- c(0, 0.25, 1,  0.25, 0.5, 2,  0.5, 1, 3)
+rclmat &lt;- matrix(m, ncol=3, byrow=TRUE)
+rc &lt;- reclassify(r, rclmat)
+
+# for values &gt;= 0 (instead of &gt; 0), do
+rc &lt;- reclassify(r, rclmat, include.lowest=TRUE)
+
+# equivalent to
+rc &lt;- reclassify(r, c(-Inf,0.25,1, 0.25,0.5,2, 0.5,Inf,3))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

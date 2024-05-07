@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place a &quot;break&quot; mark on an axis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for axis.break {plotrix}"><tr><td>axis.break {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Place a &quot;break&quot; mark on an axis </h2>
+
+<h3>Description</h3>
+
+<p>Places a &quot;break&quot; mark on an axis on an existing plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ axis.break(axis=1,breakpos=NULL,pos=NULL,bgcol="white",breakcol="black",
+  style="slash",brw=0.02)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>which axis to break</p>
+</td></tr>
+<tr valign="top"><td><code>breakpos</code></td>
+<td>
+<p>where to place the break in user units</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>position of the axis (see <a href="../../graphics/html/axis.html">axis</a>).</p>
+</td></tr>
+<tr valign="top"><td><code>bgcol</code></td>
+<td>
+<p>the color of the plot background</p>
+</td></tr>
+<tr valign="top"><td><code>breakcol</code></td>
+<td>
+<p>the color of the &quot;break&quot; marker</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>Either <span class="samp">gap</span>, <span class="samp">slash</span> or <span class="samp">zigzag</span></p>
+</td></tr>
+<tr valign="top"><td><code>brw</code></td>
+<td>
+<p>break width relative to plot width</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <span class="samp">pos</span> argument is not needed unless the user has specified a
+different position from the default for the axis to be broken.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>There is some controversy about the propriety of using discontinuous
+coordinates for plotting, and thus axis breaks. Discontinuous coordinates
+allow widely separated groups of values or outliers to appear without
+devoting too much of the plot to empty space. The major objection seems 
+to be that the reader will be misled by assuming continuous coordinates.
+The <span class="samp">gap</span> style that clearly separates the two sections of the plot
+is probably best for avoiding this.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon and Ben Bolker</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/gap.plot.html">gap.plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(3:10, main = "Axis break test")
+ # put a break at the default axis and position
+ axis.break()
+ axis.break(2, 2.9, style = "zigzag")
+ twogrp &lt;- c(rnorm(10) + 4, rnorm(10) + 20)
+ gap.plot(twogrp,gap = c(8,16), xlab = "Index", ylab = "Group values",
+  main = "Two separated groups with gap axis break",
+  col = c(rep(2, 10), rep(3, 10)), ytics = c(3, 5, 18, 20))
+ legend(12, 6, c("Low group", "High group"), pch = 1, col = 2:3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

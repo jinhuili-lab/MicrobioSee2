@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Similarity Percentages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simper {vegan}"><tr><td>simper {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Similarity Percentages</h2>
+
+<h3>Description</h3>
+
+<p>Discriminating species between two groups using
+Bray-Curtis dissimilarities
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simper(comm, group, permutations = 0, trace = FALSE, 
+    parallel = getOption("mc.cores"), ...)
+## S3 method for class 'simper'
+summary(object, ordered = TRUE,
+    digits = max(3,getOption("digits") - 3), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p>Community data matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>Factor describing the group structure. Must have at
+least 2 levels.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Trace permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object returned by <code>simper</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ordered</code></td>
+<td>
+<p>Logical; Should the species be ordered by their
+average contribution?</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of digits in output.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to other functions. In <code>simper</code> the
+extra parameters are passed to <code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> if
+permutations are used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> Similarity percentage, <code>simper</code> (Clarke 1993) is based
+on the decomposition of Bray-Curtis dissimilarity index (see
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, <code><a href="../../vegan/help/designdist.html">designdist</a></code>). The contribution
+of individual species <i>i</i> to the overall Bray-Curtis dissimilarity
+<i>d[jk]</i> is given by
+</p>
+<p style="text-align: center;"><i>d[ijk] = abs(x[ij]-x[ik])/sum(x[ij]+x[ik])</i></p>
+
+<p>where <i>x</i> is the abundance of species <i>i</i> in sampling units
+<i>j</i> and <i>k</i>. The overall index is the sum of the individual
+contributions over all <i>S</i> species 
+<i>d[jk] = sum(i=1..S) d[ijk]</i>. 
+</p>
+<p>The <code>simper</code> functions performs pairwise comparisons of groups
+of sampling units and finds the contribution of each species to the
+average between-group Bray-Curtis dissimilarity. Although the method
+is called simper, it really studied dissimilarities instead of
+similarities (Clarke 1993).
+</p>
+<p>The function displays most important species for each pair of
+<code>groups</code>.  These species contribute at least to 70 % of the
+differences between groups.  The function returns much more
+extensive results (including all species) which can be accessed
+directly from the result object (see section Value). Function
+<code>summary</code> transforms the result to a list of data frames. With
+argument <code>ordered = TRUE</code> the data frames also include the
+cumulative contributions and are ordered by species contribution.
+</p>
+<p>The results of <code>simper</code> can be very difficult to interpret and
+they are often misunderstood even in publications. The method gives
+the contribution of each species to overall dissimilarities, but
+these are caused by variation in species abundances, and only partly
+by differences among groups.  Even if you make groups that are
+copies of each other, the method will single out species with high
+contribution, but these are not contributions to non-existing
+between-group differences but to random noise variation in species
+abundances. The most abundant species usually have highest
+variances, and they have high contributions even when they do not
+differ among groups. Permutation tests study the differences among
+groups, and they can be used to find out the species for which the
+differences among groups is an important component of their
+contribution to dissimilarities.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class <code>"simper"</code> with following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>species</code></td>
+<td>
+<p>The species names.</p>
+</td></tr>
+<tr valign="top"><td><code>average</code></td>
+<td>
+<p>Species contribution to average between-group dissimilarity.</p>
+</td></tr>
+<tr valign="top"><td><code>overall</code></td>
+<td>
+<p>The average between-group dissimilarity. This is the sum of
+the item <code>average</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>Standard deviation of contribution.</p>
+</td></tr> 
+<tr valign="top"><td><code>ratio</code></td>
+<td>
+<p>Average to sd ratio.</p>
+</td></tr>
+<tr valign="top"><td><code>ava, avb</code></td>
+<td>
+<p>Average abundances per group.</p>
+</td></tr>
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p>An index vector to order vectors by their contribution or
+order <code>cusum</code> back to the original data order.</p>
+</td></tr>
+<tr valign="top"><td><code>cusum</code></td>
+<td>
+<p>Ordered cumulative contribution. These are based on item
+<code>average</code>, but they sum up to total 1.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>Permutation <i>p</i>-value. Probability of getting a larger
+or equal average contribution in random permutation of the group
+factor. These area only available if <code>permutations</code> were used
+(default: not calculated).</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Eduard Szöcs <a href="mailto:eduardszoecs@gmail.com">eduardszoecs@gmail.com</a>
+</p>
+
+
+<h3>References</h3>
+
+<p>Clarke, K.R. 1993. Non-parametric multivariate analyses of changes
+in community structure. <em>Australian Journal of Ecology</em>, 18,
+117–143.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Function <code><a href="../../vegan/help/meandist.html">meandist</a></code> shows the average between-group
+dissimilarities (as well as the within-group dissimilarities).</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+(sim &lt;- with(dune.env, simper(dune, Management)))
+summary(sim)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

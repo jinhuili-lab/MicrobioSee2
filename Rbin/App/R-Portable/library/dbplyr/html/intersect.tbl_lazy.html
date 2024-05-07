@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: SQL set operations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for intersect.tbl_lazy {dbplyr}"><tr><td>intersect.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>SQL set operations</h2>
+
+<h3>Description</h3>
+
+<p>These are methods for the dplyr generics <code>dplyr::intersect()</code>,
+<code>dplyr::union()</code>, and <code>dplyr::setdiff()</code>. They are translated to
+<code>INTERSECT</code>, <code>UNION</code>, and <code>EXCEPT</code> respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_lazy'
+intersect(x, y, copy = FALSE, ..., all = FALSE)
+
+## S3 method for class 'tbl_lazy'
+union(x, y, copy = FALSE, ..., all = FALSE)
+
+## S3 method for class 'tbl_lazy'
+union_all(x, y, copy = FALSE, ...)
+
+## S3 method for class 'tbl_lazy'
+setdiff(x, y, copy = FALSE, ..., all = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A pair of lazy data frames backed by database queries.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>A pair of lazy data frames backed by database queries.</p>
+</td></tr>
+<tr valign="top"><td><code>copy</code></td>
+<td>
+<p>If <code>x</code> and <code>y</code> are not from the same data source,
+and <code>copy</code> is <code>TRUE</code>, then <code>y</code> will be copied into a
+temporary table in same database as <code>x</code>. <code style="white-space: pre;">*_join()</code> will automatically
+run <code>ANALYZE</code> on the created table in the hope that this will make
+you queries as efficient as possible by giving more data to the query
+planner.
+</p>
+<p>This allows you to join tables across srcs, but it's potentially expensive
+operation so you must opt into it.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not currently used; provided for future extensions.</p>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+<p>If <code>TRUE</code>, includes all matches in output, not just unique rows.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

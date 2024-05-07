@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Shift overlying points into clusters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cluster.overplot {plotrix}"><tr><td>cluster.overplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Shift overlying points into clusters</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">cluster.overplot</span> checks for overlying points in the x and y
+coordinates passed. Those points that are overlying are moved to form
+a small cluster of up to nine points. For large numbers of overlying
+points, see <a href="../../plotrix/help/count.overplot.html">count.overplot</a> or <a href="../../plotrix/help/sizeplot.html">sizeplot</a>.
+If you are unsure of the number of overplots in your data, run
+<span class="samp">count.overplot</span> first to see if there are any potential clusters
+larger than nine.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ cluster.overplot(x,y,away=NULL,tol=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Numeric data vectors or the first two columns of a matrix
+or data frame. Typically the x/y coordinates of points to be plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>away</code></td>
+<td>
+<p>How far to move overlying points in user units. Defaults to
+the width of a lower case &quot;o&quot; in the x direction and 5/8 of the
+height of a lower case &quot;o&quot; in the y direction. Must have both values.</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>The largest distance between points that will be considered
+to be overlying. Defaults to 1/2 of the width of a lower case &quot;o&quot; in 
+the x direction and 1/2 of the height of a lower case &quot;o&quot; in the y 
+direction.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments returned as they are passed.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with two components. For unique x-y pairs the elements will be 
+the same as in the original. For overlying points up to eight additional 
+points will be generated that will create a cluster of points instead of one.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Markus Elze for the test for a current graphics
+device</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/count.overplot.html">count.overplot</a>,<a href="../../plotrix/help/sizeplot.html">sizeplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ xy.mat&lt;-cbind(sample(1:10,200,TRUE),sample(1:10,200,TRUE))
+ clusteredpoints&lt;-
+  cluster.overplot(xy.mat,col=rep(c("red","green"),each=100),
+  away=rep(0.2,2))
+ plot(clusteredpoints,col=clusteredpoints$col,
+  main="Cluster overplot test")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

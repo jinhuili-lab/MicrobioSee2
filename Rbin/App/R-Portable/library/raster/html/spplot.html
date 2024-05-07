@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use spplot to plot a Raster* or other object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for spplot {raster}"><tr><td>spplot {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use spplot to plot a Raster* or other object</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper function around <a href="../../sp/help/spplot.html">spplot</a> (sp package). With spplot it is easy to map several layers with a single legend for all maps. ssplot is itself a wrapper around the <a href="../../lattice/help/levelplot.html">levelplot</a> function in the lattice package, and see the help for these functions for additional options.
+</p>
+<p>One of the advantages of the wrapper function for Raster* objects is the additional <code>maxpixels</code> argument to sample large objects for faster drawing.
+</p>
+<p>There are also added spplot methods for Spatial objects that have no data.frame and for SpatVector (terra package)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+spplot(obj, ..., maxpixels=50000, as.table=TRUE, zlim)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any argument that can be passed to <code><a href="../../sp/help/spplot.html">spplot</a></code> and <a href="../../lattice/help/levelplot.html">levelplot</a></p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer. Number of pixels to sample from each layer of large Raster objects</p>
+</td></tr>
+<tr valign="top"><td><code>as.table</code></td>
+<td>
+<p>If <code>TRUE</code>, the plots are ordered from top to bottom</p>
+</td></tr> 
+<tr valign="top"><td><code>zlim</code></td>
+<td>
+<p>Vector of two elements indicating the minimum and maximum values to be mapped (values outside that ranage are set to these limits)</p>
+</td></tr> 
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code> <a href="../help/plot.html">plot</a>, <a href="../help/plotRGB.html">plotRGB</a> </code>
+</p>
+<p>The rasterVis package has more advanced plotting methods for Raster objects
+</p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+s &lt;- stack(r, r*2)
+names(s) &lt;- c('meuse', 'meuse x 2')
+
+spplot(s)
+
+pts &lt;- data.frame(sampleRandom(r, 10, xy=TRUE))
+coordinates(pts) &lt;- ~ x + y
+
+spplot(s, scales = list(draw = TRUE), 
+		xlab = "easting", ylab = "northing", 
+		col.regions = rainbow(99, start=.1), 
+		names.attr=c('original', 'times two'),
+		sp.layout = list("sp.points", pts, pch=20, cex=2, col='black'),
+		par.settings = list(fontsize = list(text = 12)), at = seq(0, 4000, 500))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

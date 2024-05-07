@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add an ideogram track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicIdeogram {circlize}"><tr><td>circos.genomicIdeogram {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add an ideogram track
+</h2>
+
+<h3>Description</h3>
+
+<p>Add an ideogram track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicIdeogram(
+    cytoband = system.file(package = "circlize", "extdata", "cytoBand.txt"),
+    species = NULL,
+    track.height = mm_h(2),
+    track.margin = circos.par("track.margin"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>cytoband</code></td>
+<td>
+<p>A data frame or a file path, pass to <code><a href="../../circlize/help/read.cytoband.html">read.cytoband</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>species</code></td>
+<td>
+<p>Abbreviations of the genome, pass to <code><a href="../../circlize/help/read.cytoband.html">read.cytoband</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.height</code></td>
+<td>
+<p>Height of the ideogram track.
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.margin</code></td>
+<td>
+<p>Margins for the track.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Zuguang Gu &lt;z.gu@dkfz.de&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#ideograms">https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#ideograms</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+circos.initializeWithIdeogram(plotType = c("labels", "axis"))
+circos.track(ylim = c(0, 1))
+circos.genomicIdeogram() # put ideogram as the third track
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Perspective plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for persp {raster}"><tr><td>persp {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Perspective plot</h2>
+
+<h3>Description</h3>
+
+<p>Perspective plot of a RasterLayer. This is an implementation of a generic function in the graphics package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+persp(x,  maxpixels=1e+05, ext=NULL, ...)
+
+## S4 method for signature 'RasterStackBrick'
+persp(x, y=1, maxpixels=10000, ext=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>integer <code>&gt; 0 &amp; &lt;= nlayers(x)</code> to select the layer of <code>x</code> if <code>x</code> is a RasterLayer or RasterBrick</p>
+</td></tr>
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer &gt; 0. Maximum number of cells to use for the plot. If <code>maxpixels &lt; ncell(x)</code>, <code>sampleRegular</code> is used before plotting</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent. Can be used to zoom in to a region (see also <code><a href="../../raster/help/zoom.html">zoom</a></code> and <code><a href="../../raster/help/crop.html">crop</a>(x, <a href="../../raster/help/drawExtent.html">drawExtent</a>())</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any argument that can be passed to <code><a href="../../graphics/help/persp.html">persp</a></code> (graphics package)</p>
+</td></tr>  
+</table>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../rasterVis/help/plot3d.html">plot3D</a></code>, <code><a href="../../graphics/help/persp.html">persp</a></code>, <code><a href="../help/contour.html">contour</a></code>, <code><a href="../help/plot.html">plot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+persp(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

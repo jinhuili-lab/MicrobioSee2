@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot with axis direction(s) reversed</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for revaxis {plotrix}"><tr><td>revaxis {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Plot with axis direction(s) reversed </h2>
+
+<h3>Description</h3>
+
+<p>Reverses the sense of either or both the <span class="samp">x</span> and <span class="samp">y</span> axes.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+revaxis(x, y, xrev=FALSE, yrev=TRUE, xside=if (yrev) 3 else 1,
+       yside=if (xrev) 4 else 2, xlab=NULL, ylab=NULL, bty=NULL, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> Vector of <span class="samp">x</span>-coordinates of the data to be plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p> Vector of <span class="samp">y</span>-coordinates of the data to be plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>xrev</code></td>
+<td>
+<p> Logical scalar; should the sense of the <span class="samp">x</span>-axis
+be reversed?</p>
+</td></tr>
+<tr valign="top"><td><code>yrev</code></td>
+<td>
+<p> Logical scalar; should the sense of the <span class="samp">y</span>-axis
+be reversed?</p>
+</td></tr>
+<tr valign="top"><td><code>xside</code></td>
+<td>
+<p> The side of the plot on which the <span class="samp">x</span>-axis labels
+should go.</p>
+</td></tr>
+<tr valign="top"><td><code>yside</code></td>
+<td>
+<p> The side of the plot on which the <span class="samp">y</span>-axis labels
+should go.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p> Character string for labelling the <span class="samp">x</span>-axis. </p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p> Character string for labelling the <span class="samp">y</span>-axis. </p>
+</td></tr>
+<tr valign="top"><td><code>bty</code></td>
+<td>
+<p> Single letter indicating the type of box to be drawn
+around the plot. See <a href="../../graphics/html/par.html">par</a> for the possible letters
+and their meaning.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments to be passed to plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p> nil </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Rolf Turner</p>
+
+
+<h3>See Also</h3>
+
+ <p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../graphics/html/box.html">box</a>, <a href="../../graphics/html/par.html">par</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- runif(20)
+y &lt;- runif(20)
+revaxis(x,y,yside=4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

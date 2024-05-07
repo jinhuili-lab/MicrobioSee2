@@ -1,0 +1,32 @@
+Package: config
+Type: Package
+Title: Manage Environment Specific Configuration Values
+Version: 0.3.2
+Authors@R: c(
+  person("JJ", "Allaire", role = c("aut"), email = "jj@rstudio.com"),
+  person("Andrie", "de Vries", role = "cre", email = "apdevries@gmail.com"),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )
+Imports: yaml (>= 2.1.19)
+Suggests: testthat, knitr, rmarkdown, covr, spelling, withr
+Description: Manage configuration values across multiple environments (e.g.
+  development, test, production). Read values using a function that determines
+  the current environment and returns the appropriate value.
+License: GPL-3
+URL: https://rstudio.github.io/config/,
+        https://github.com/rstudio/config
+BugReports: https://github.com/rstudio/config/issues
+RoxygenNote: 7.2.3
+VignetteBuilder: knitr
+Encoding: UTF-8
+Language: en-US
+Config/testthat/edition: 3
+NeedsCompilation: no
+Packaged: 2023-08-30 09:28:23 UTC; apdev
+Author: JJ Allaire [aut],
+  Andrie de Vries [cre],
+  Posit Software, PBC [cph, fnd]
+Maintainer: Andrie de Vries <apdevries@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-08-30 16:50:36 UTC
+Built: R 4.1.2; ; 2024-05-01 17:09:22 UTC; windows

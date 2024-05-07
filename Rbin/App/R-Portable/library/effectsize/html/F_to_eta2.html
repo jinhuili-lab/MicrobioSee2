@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert _F_ and _t_ Statistics to *partial*-eta^2 and Other...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for F_to_eta2 {effectsize}"><tr><td>F_to_eta2 {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert <em>F</em> and <em>t</em> Statistics to <strong>partial</strong>-<i>&eta;^2</i> and Other ANOVA Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>These functions are convenience functions to convert F and t test statistics
+to <strong>partial</strong> Eta- (<i>&eta;</i>), Omega- (<i>&omega;</i>) Epsilon-
+(<i>&epsilon;</i>) squared (an alias for the adjusted Eta squared) and Cohen's
+f. These are useful in cases where the various Sum of Squares and Mean
+Squares are not easily available or their computation is not straightforward
+(e.g., in liner mixed models, contrasts, etc.). For test statistics derived
+from <code>lm</code> and <code>aov</code> models, these functions give exact results. For all other
+cases, they return close approximations.
+<br />
+See <a href="https://easystats.github.io/effectsize/articles/from_test_statistics.html">Effect Size from Test Statistics vignette.</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+F_to_eta2(f, df, df_error, ci = 0.95, alternative = "greater", ...)
+
+t_to_eta2(t, df_error, ci = 0.95, alternative = "greater", ...)
+
+F_to_epsilon2(f, df, df_error, ci = 0.95, alternative = "greater", ...)
+
+t_to_epsilon2(t, df_error, ci = 0.95, alternative = "greater", ...)
+
+F_to_eta2_adj(f, df, df_error, ci = 0.95, alternative = "greater", ...)
+
+t_to_eta2_adj(t, df_error, ci = 0.95, alternative = "greater", ...)
+
+F_to_omega2(f, df, df_error, ci = 0.95, alternative = "greater", ...)
+
+t_to_omega2(t, df_error, ci = 0.95, alternative = "greater", ...)
+
+F_to_f(
+  f,
+  df,
+  df_error,
+  squared = FALSE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+t_to_f(t, df_error, squared = FALSE, ci = 0.95, alternative = "greater", ...)
+
+F_to_f2(
+  f,
+  df,
+  df_error,
+  squared = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+t_to_f2(t, df_error, squared = TRUE, ci = 0.95, alternative = "greater", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>df, df_error</code></td>
+<td>
+<p>Degrees of freedom of numerator or of the error estimate
+(i.e., the residuals).</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"greater"</code> (default) or <code>"less"</code>
+(one-sided CI), or <code>"two.sided"</code> (two-sided CI). Partial matching is
+allowed (e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in
+<a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>t, f</code></td>
+<td>
+<p>The t or the F statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>squared</code></td>
+<td>
+<p>Return Cohen's <em>f</em> or Cohen's <em>f</em>-squared?</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions use the following formulae:
+<br />
+</p>
+<p style="text-align: center;"><i>&eta;^2_p = F * df1 / (F * df1 + df2)</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>&epsilon;^2_p = (F - 1) * df1 / (F * df1 + df2)</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>&omega;^2_p=(F - 1) * df1 / (F * df1 + df2 + 1)</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>f = &eta;^2 / (1 - &eta;^2)</i></p>
+
+<p><br /><br />
+For <em>t</em>, the conversion is based on the equality of <i>t^2 = F</i> when <i>df1 = 1</i>.
+</p>
+
+
+<h4>Choosing an Un-Biased Estimate</h4>
+
+<p>Both Omega and Epsilon are unbiased estimators of the population Eta. But
+which to choose? Though Omega is the more popular choice, it should be noted
+that:
+</p>
+
+<ol>
+<li><p> The formula given above for Omega is only an approximation for complex
+designs.
+</p>
+</li>
+<li><p> Epsilon has been found to be less biased (Carroll &amp; Nordholm, 1975).
+</p>
+</li></ol>
+
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size(s) between 0-1 (<code>Eta2_partial</code>,
+<code>Epsilon2_partial</code>, <code>Omega2_partial</code>, <code>Cohens_f_partial</code> or
+<code>Cohens_f2_partial</code>), and their CIs (<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Adjusted (partial) Eta-squared is an alias for (partial) Epsilon-squared.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Albers, C., &amp; Lakens, D. (2018). When power analyses based on pilot data
+are biased: Inaccurate effect size estimators and follow-up bias. Journal of
+experimental social psychology, 74, 187-195. doi: <a href="https://doi.org/10.31234/osf.io/b7z4q">10.31234/osf.io/b7z4q</a>
+</p>
+</li>
+<li><p> Carroll, R. M., &amp; Nordholm, L. A. (1975). Sampling Characteristics of
+Kelley's epsilon and Hays' omega. Educational and Psychological Measurement,
+35(3), 541-554.
+</p>
+</li>
+<li><p> Cumming, G., &amp; Finch, S. (2001). A primer on the understanding, use, and
+calculation of confidence intervals that are based on central and noncentral
+distributions. Educational and Psychological Measurement, 61(4), 532-574.
+</p>
+</li>
+<li><p> Friedman, H. (1982). Simplified determinations of statistical power,
+magnitude of effect and research sample sizes. Educational and Psychological
+Measurement, 42(2), 521-526. doi: <a href="https://doi.org/10.1177/001316448204200214">10.1177/001316448204200214</a>
+</p>
+</li>
+<li><p> Mordkoff, J. T. (2019). A Simple Method for Removing Bias From a Popular
+Measure of Standardized Effect Size: Adjusted Partial Eta Squared. Advances
+in Methods and Practices in Psychological Science, 2(3), 228-232.
+doi: <a href="https://doi.org/10.1177/2515245919855053">10.1177/2515245919855053</a>
+</p>
+</li>
+<li><p> Morey, R. D., Hoekstra, R., Rouder, J. N., Lee, M. D., &amp; Wagenmakers, E. J.
+(2016). The fallacy of placing confidence in confidence intervals.
+Psychonomic bulletin &amp; review, 23(1), 103-123.
+</p>
+</li>
+<li><p> Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+and tests of close fit in the analysis of variance and contrast analysis.
+Psychological Methods, 9, 164-182.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/eta_squared.html">eta_squared()</a></code> for more details.
+</p>
+<p>Other effect size from test statistic: 
+<code><a href="../../effectsize/help/chisq_to_phi.html">chisq_to_phi</a>()</code>,
+<code><a href="../../effectsize/help/t_to_d.html">t_to_d</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+mod &lt;- aov(mpg ~ factor(cyl) * factor(am), mtcars)
+anova(mod)
+(etas &lt;- F_to_eta2(
+  f = c(44.85, 3.99, 1.38),
+  df = c(2, 1, 2),
+  df_error = 26
+))
+
+if (require(see)) plot(etas)
+
+# Compare to:
+eta_squared(mod)
+
+
+fit &lt;- lmerTest::lmer(extra ~ group + (1 | ID), sleep)
+# anova(fit)
+# #&gt; Type III Analysis of Variance Table with Satterthwaite's method
+# #&gt;       Sum Sq Mean Sq NumDF DenDF F value   Pr(&gt;F)
+# #&gt; group 12.482  12.482     1     9  16.501 0.002833 **
+# #&gt; ---
+# #&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+F_to_eta2(16.501, 1, 9)
+F_to_omega2(16.501, 1, 9)
+F_to_epsilon2(16.501, 1, 9)
+F_to_f(16.501, 1, 9)
+
+
+## Use with emmeans based contrasts
+## --------------------------------
+warp.lm &lt;- lm(breaks ~ wool * tension, data = warpbreaks)
+
+jt &lt;- emmeans::joint_tests(warp.lm, by = "wool")
+F_to_eta2(jt$F.ratio, jt$df1, jt$df2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

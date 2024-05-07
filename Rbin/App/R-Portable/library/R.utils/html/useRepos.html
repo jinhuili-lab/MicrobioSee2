@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sets package repositories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for useRepos {R.utils}"><tr><td>useRepos {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sets package repositories</h2>
+
+<h3>Description</h3>
+
+<p>Sets package repositories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+useRepos(repos=NULL, where=c("before", "after", "replace"), unique=TRUE, fallback=TRUE,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>repos</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of repositories to use.
+If <code><a href="../../base/help/NULL.html">NULL</a></code>, nothing is replaced.</p>
+</td></tr>
+<tr valign="top"><td><code>where</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying how to add them to the
+current set of repositories.</p>
+</td></tr>
+<tr valign="top"><td><code>unique</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, only unique repositories are set.</p>
+</td></tr>
+<tr valign="top"><td><code>fallback</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, any remaining non-specified repository value
+of format '<code>...</code>@' (e.g. '@CRAN@') than could not be recovered by
+other means, will be assigned to a pre-defined known value, if possible.
+If so, then an informative warning is given.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/list.html">list</a></code> with element 'repos' reflecting <code>options("repos")</code>
+as the options where prior to calling this function.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/withRepos.html">withRepos</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

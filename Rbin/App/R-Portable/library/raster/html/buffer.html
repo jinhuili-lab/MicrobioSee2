@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: buffer</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for buffer {raster}"><tr><td>buffer {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>buffer</h2>
+
+<h3>Description</h3>
+
+<p>Calculate a buffer around all cells that are not <code>NA</code> or around SpatialPoints, Lines, or Polygons.
+</p>
+<p>Note that the distance unit of the buffer <code>width</code> parameter is meters if the RasterLayer is not projected (<code>+proj=longlat</code>), and in map units (typically also meters) when it is projected.
+</p>
+<p>Except for SpatialLines and SpatialPolygons that are currently handled by rgeos, and can only deal with planar coordinate reference systems.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+buffer(x, width=0, filename='', doEdge=FALSE, ...)
+
+## S4 method for signature 'Spatial'
+buffer(x, width=1, dissolve=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer or Spatial* object</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>numeric &gt; 0. Unit is meter if <code>x</code> has a longitude/latitude CRS, or mapunits in other cases</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename for the output RasterLayer (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>doEdge</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the <code><a href="../../raster/help/boundaries.html">boundaries</a></code> function is called first. This may be efficient in cases where you compute a buffer around very large areas because <code>boundaries</code> determines the edge cells that matter for distance computation</p>
+</td></tr>
+<tr valign="top"><td><code>dissolve</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, buffer geometries of overlapping polygons are dissolved and all geometries are aggregated and attributes (the data.frame) are dropped</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or SpatialPolygons* object</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/distance.html">distance</a></code>,  <code><a href="../help/gridDistance.html">gridDistance</a></code>,  <code><a href="../help/pointDistance.html">pointDistance</a></code>  
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=36,nrow=18)
+values(r) &lt;- NA
+r[500] &lt;- 1
+b &lt;- buffer(r, width=5000000) 
+#plot(b)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

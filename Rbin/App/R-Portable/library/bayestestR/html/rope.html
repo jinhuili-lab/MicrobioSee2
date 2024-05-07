@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Region of Practical Equivalence (ROPE)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rope {bayestestR}"><tr><td>rope {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Region of Practical Equivalence (ROPE)</h2>
+
+<h3>Description</h3>
+
+<p>Compute the proportion of the HDI (default to the <code style="white-space: pre;">89%</code> HDI) of a posterior
+distribution that lies within a region of practical equivalence.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rope(x, ...)
+
+## S3 method for class 'numeric'
+rope(x, range = "default", ci = 0.95, ci_method = "ETI", verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+rope(
+  x,
+  range = "default",
+  ci = 0.95,
+  ci_method = "ETI",
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'brmsfit'
+rope(
+  x,
+  range = "default",
+  ci = 0.95,
+  ci_method = "ETI",
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector representing a posterior distribution. Can also be a
+<code>stanreg</code> or <code>brmsfit</code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>ROPE's lower and higher bounds. Should be <code>"default"</code> or
+depending on the number of outcome variables a vector or a list. In
+models with one response, <code>range</code> should be a vector of length two (e.g.,
+<code>c(-0.1, 0.1)</code>). In multivariate models, <code>range</code> should be a list with a
+numeric vectors for each response variable. Vector names should correspond
+to the name of the response variables. If <code>"default"</code> and input is a vector,
+the range is set to <code>c(-0.1, 0.1)</code>. If <code>"default"</code> and input is a Bayesian
+model, <code><a href="../../bayestestR/help/rope_range.html">rope_range()</a></code> is used.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>The Credible Interval (CI) probability, corresponding to the
+proportion of HDI, to use for the percentage in ROPE.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The type of interval to use to quantify the percentage in
+ROPE. Can be 'HDI' (default) or 'ETI'. See <code><a href="../../bayestestR/help/ci.html">ci()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+</table>
+
+
+<h3>ROPE</h3>
+
+<p>Statistically, the probability of a posterior distribution of being
+different from 0 does not make much sense (the probability of a single value
+null hypothesis in a continuous distribution is 0). Therefore, the idea
+underlining ROPE is to let the user define an area around the null value
+enclosing values that are <em>equivalent to the null</em> value for practical
+purposes (<em>Kruschke 2010, 2011, 2014</em>).
+</p>
+<p>Kruschke (2018) suggests that such null value could be set, by default,
+to the -0.1 to 0.1 range of a standardized parameter (negligible effect
+size according to Cohen, 1988). This could be generalized: For instance,
+for linear models, the ROPE could be set as <code style="white-space: pre;">0 +/- .1 * sd(y)</code>.
+This ROPE range can be automatically computed for models using the
+<a href="../../bayestestR/help/rope_range.html">rope_range</a> function.
+</p>
+<p>Kruschke (2010, 2011, 2014) suggests using the proportion of  the <code style="white-space: pre;">95%</code>
+(or <code style="white-space: pre;">89%</code>, considered more stable) <a href="../../bayestestR/help/hdi.html">HDI</a> that falls within the
+ROPE as an index for &quot;null-hypothesis&quot; testing (as understood under the
+Bayesian framework, see <code><a href="../../bayestestR/help/equivalence_test.html">equivalence_test()</a></code>).
+</p>
+
+
+<h3>Sensitivity to parameter's scale</h3>
+
+<p>It is important to consider the unit (i.e., the scale) of the predictors
+when using an index based on the ROPE, as the correct interpretation of the
+ROPE as representing a region of practical equivalence to zero is dependent
+on the scale of the predictors. Indeed, the percentage in ROPE depend on
+the unit of its parameter. In other words, as the ROPE represents a fixed
+portion of the response's scale, its proximity with a coefficient depends
+on the scale of the coefficient itself.
+</p>
+
+
+<h3>Multicollinearity - Non-independent covariates</h3>
+
+<p>When parameters show strong correlations, i.e. when covariates are not
+independent, the joint parameter distributions may shift towards or
+away from the ROPE. Collinearity invalidates ROPE and hypothesis
+testing based on univariate marginals, as the probabilities are conditional
+on independence. Most problematic are parameters that only have partial
+overlap with the ROPE region. In case of collinearity, the (joint) distributions
+of these parameters may either get an increased or decreased ROPE, which
+means that inferences based on <code>rope()</code> are inappropriate
+(<em>Kruschke 2014, 340f</em>).
+</p>
+<p><code>rope()</code> performs a simple check for pairwise correlations between
+parameters, but as there can be collinearity between more than two variables,
+a first step to check the assumptions of this hypothesis testing is to look
+at different pair plots. An even more sophisticated check is the projection
+predictive variable selection (<em>Piironen and Vehtari 2017</em>).
+</p>
+
+
+<h3>Strengths and Limitations</h3>
+
+<p><strong>Strengths:</strong> Provides information related to the practical relevance of
+the effects.
+</p>
+<p><strong>Limitations:</strong> A ROPE range needs to be arbitrarily defined. Sensitive to
+the scale (the unit) of the predictors. Not sensitive to highly significant
+effects.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a <a href="https://easystats.github.io/see/articles/bayestestR.html"><code>plot()</code>-method</a> implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioural sciences.
+</p>
+</li>
+<li><p> Kruschke, J. K. (2010). What to believe: Bayesian methods for data analysis.
+Trends in cognitive sciences, 14(7), 293-300. doi: <a href="https://doi.org/10.1016/j.tics.2010.05.001">10.1016/j.tics.2010.05.001</a>.
+</p>
+</li>
+<li><p> Kruschke, J. K. (2011). Bayesian assessment of null values via parameter
+estimation and model comparison. Perspectives on Psychological Science,
+6(3), 299-312. doi: <a href="https://doi.org/10.1177/1745691611406925">10.1177/1745691611406925</a>.
+</p>
+</li>
+<li><p> Kruschke, J. K. (2014). Doing Bayesian data analysis: A tutorial with R,
+JAGS, and Stan. Academic Press. doi: <a href="https://doi.org/10.1177/2515245918771304">10.1177/2515245918771304</a>.
+</p>
+</li>
+<li><p> Kruschke, J. K. (2018). Rejecting or accepting parameter values in Bayesian
+estimation. Advances in Methods and Practices in Psychological Science,
+1(2), 270-280. doi: <a href="https://doi.org/10.1177/2515245918771304">10.1177/2515245918771304</a>.
+</p>
+</li>
+<li><p> Makowski D, Ben-Shachar MS, Chen SHA, Lüdecke D (2019) Indices of Effect
+Existence and Significance in the Bayesian Framework. Frontiers in
+Psychology 2019;10:2767. doi: <a href="https://doi.org/10.3389/fpsyg.2019.02767">10.3389/fpsyg.2019.02767</a>
+</p>
+</li>
+<li><p> Piironen, J., &amp; Vehtari, A. (2017). Comparison of Bayesian predictive
+methods for model selection. Statistics and Computing, 27(3), 711–735.
+doi: <a href="https://doi.org/10.1007/s11222-016-9649-y">10.1007/s11222-016-9649-y</a>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+
+rope(x = rnorm(1000, 0, 0.01), range = c(-0.1, 0.1))
+rope(x = rnorm(1000, 0, 1), range = c(-0.1, 0.1))
+rope(x = rnorm(1000, 1, 0.01), range = c(-0.1, 0.1))
+rope(x = rnorm(1000, 1, 1), ci = c(0.90, 0.95))
+
+library(rstanarm)
+model &lt;- suppressWarnings(
+  stan_glm(mpg ~ wt + gear, data = mtcars, chains = 2, iter = 200, refresh = 0)
+)
+rope(model)
+rope(model, ci = c(0.90, 0.95))
+
+library(emmeans)
+rope(emtrends(model, ~1, "wt"), ci = c(0.90, 0.95))
+
+library(brms)
+model &lt;- brm(mpg ~ wt + cyl, data = mtcars)
+rope(model)
+rope(model, ci = c(0.90, 0.95))
+
+library(brms)
+model &lt;- brm(
+  bf(mvbind(mpg, disp) ~ wt + cyl) + set_rescor(rescor = TRUE),
+  data = mtcars
+)
+rope(model)
+rope(model, ci = c(0.90, 0.95))
+
+library(BayesFactor)
+bf &lt;- ttestBF(x = rnorm(100, 1, 1))
+rope(bf)
+rope(bf, ci = c(0.90, 0.95))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

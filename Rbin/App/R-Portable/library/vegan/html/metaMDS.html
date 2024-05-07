@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nonmetric Multidimensional Scaling with Stable Solution from...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for metaMDS {vegan}"><tr><td>metaMDS {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nonmetric Multidimensional Scaling with Stable Solution from
+Random Starts, Axis Scaling and Species Scores</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>metaMDS</code> performs Nonmetric
+Multidimensional Scaling (NMDS), and tries to find a stable solution
+using several random starts. In addition, it standardizes the
+scaling in the result, so that the configurations are easier to
+interpret, and adds species scores to the site ordination. The
+<code>metaMDS</code> function does not provide actual NMDS, but it calls
+another function for the purpose. Currently <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> is
+the default choice, and it is also possible to call the
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> (<span class="pkg">MASS</span> package). </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+metaMDS(comm, distance = "bray", k = 2, try = 20, trymax = 20, 
+    engine = c("monoMDS", "isoMDS"), autotransform =TRUE,
+    noshare = (engine == "isoMDS"), wascores = TRUE, expand = TRUE, 
+    trace = 1, plot = FALSE, previous.best,  ...)
+## S3 method for class 'metaMDS'
+plot(x, display = c("sites", "species"), choices = c(1, 2),
+    type = "p", shrink = FALSE,  ...)
+## S3 method for class 'metaMDS'
+points(x, display = c("sites", "species"),
+    choices = c(1,2), shrink = FALSE, select, ...)
+## S3 method for class 'metaMDS'
+text(x, display = c("sites", "species"), labels, 
+    choices = c(1,2), shrink = FALSE, select, ...)
+## S3 method for class 'metaMDS'
+scores(x, display = c("sites", "species"), shrink = FALSE, 
+    choices, ...)
+metaMDSdist(comm, distance = "bray", autotransform = TRUE, 
+    noshare = TRUE, trace = 1, commname, zerodist = "ignore", 
+    distfun = vegdist, ...)
+metaMDSiter(dist, k = 2, try = 20, trymax = 20, trace = 1, plot = FALSE, 
+    previous.best, engine = "monoMDS", maxit = 200,
+    parallel = getOption("mc.cores"), ...)   
+initMDS(x, k=2)
+postMDS(X, dist, pc=TRUE, center=TRUE, halfchange, threshold=0.8,
+    nthreshold=10, plot=FALSE, ...)
+metaMDSredist(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>comm</code></td>
+<td>
+<p>Community data. Alternatively, dissimilarities either as
+a <code><a href="../../stats/html/dist.html">dist</a></code> structure or as a symmetric square matrix. 
+In the latter case all other stages are skipped except random 
+starts and centring and pc rotation of axes. </p>
+</td></tr>
+<tr valign="top"><td><code>distance</code></td>
+<td>
+<p>Dissimilarity index used in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>Number of dimensions.  NB., the number of points <i>n</i>
+should be <i>n &gt; 2*k + 1</i>, and preferably higher in
+global non-metric MDS, and still higher in local NMDS.</p>
+</td></tr>
+<tr valign="top"><td><code>try, trymax</code></td>
+<td>
+<p>Minimum and maximum numbers of random starts in
+search of stable solution. After <code>try</code> has been reached, the
+iteration will stop when two convergent solutions were found or
+<code>trymax</code> was reached.</p>
+</td></tr>
+<tr valign="top"><td><code>engine</code></td>
+<td>
+<p>The function used for MDS. The default is to use the
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> function in <span class="pkg">vegan</span>, but for backward
+compatibility it is also possible to use <code><a href="../../MASS/html/isoMDS.html">isoMDS</a></code> of
+<span class="pkg">MASS</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>autotransform</code></td>
+<td>
+<p>Use simple heuristics for possible data
+transformation of typical community data (see below). If you do
+not have community data, you should probably set
+<code>autotransform = FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>noshare</code></td>
+<td>
+<p>Triggering of calculation step-across or extended
+dissimilarities with function <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>. The
+argument can be logical or a numerical value greater than zero
+and less than one. If <code>TRUE</code>, extended dissimilarities are
+used always when there are no shared species between some sites,
+if <code>FALSE</code>, they are never used. If <code>noshare</code> is a
+numerical value, <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> is used when the
+proportion of site pairs with no shared species exceeds
+<code>noshare</code>. The number of pairs with no shared species is
+found with <code><a href="../../vegan/help/no.shared.html">no.shared</a></code> function, and <code>noshare</code>
+has no effect if input data were dissimilarities instead of
+community data.</p>
+</td></tr>
+<tr valign="top"><td><code>wascores</code></td>
+<td>
+<p>Calculate species scores using function
+<code><a href="../../vegan/help/wascores.html">wascores</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>Expand weighted averages of species in
+<code><a href="../../vegan/help/wascores.html">wascores</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Trace the function; <code>trace = 2</code> or higher will be
+more voluminous.</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>Graphical tracing: plot interim results. You may want to set
+<code>par(ask = TRUE)</code> with this option.</p>
+</td></tr>
+<tr valign="top"><td><code>previous.best</code></td>
+<td>
+<p>Start searches from a previous solution.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p><code>metaMDS</code> result (or a dissimilarity structure for
+<code>initMDS</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes shown.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Plot type: <code>"p"</code> for points, <code>"t"</code> for text, and
+<code>"n"</code> for axes only.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Display <code>"sites"</code> or <code>"species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>shrink</code></td>
+<td>
+<p>Shrink back species scores if they were expanded
+originally.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Optional test to be used instead of row names.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Items to be displayed.  This can either be a logical
+vector which is <code>TRUE</code> for displayed items or a vector of indices
+of displayed items.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Configuration from multidimensional scaling. </p>
+</td></tr>
+<tr valign="top"><td><code>commname</code></td>
+<td>
+<p>The name of <code>comm</code>: should not be given if the
+function is called directly.</p>
+</td></tr>
+<tr valign="top"><td><code>zerodist</code></td>
+<td>
+<p>Handling of zero dissimilarities: either
+<code>"fail"</code> or <code>"add"</code> a small positive value, or
+<code>"ignore"</code>. <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> accepts zero dissimilarities
+and the default is <code>zerodist = "ignore"</code>, but with
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> you may need to set <code>zerodist = "add"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>distfun</code></td>
+<td>
+<p>Dissimilarity function. Any function returning a
+<code>dist</code> object and accepting argument <code>method</code> can be used
+(but some extra arguments may cause name conflicts).</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>Maximum number of iterations in the single NMDS run;
+passed to the <code>engine</code> function <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> or
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  If you use pre-defined socket clusters (say,
+<code>clus</code>), you must issue <code>clusterEvalQ(clus,
+   library(vegan))</code> to make available internal <span class="pkg">vegan</span>
+functions. With <code>parallel = 1</code> uses ordinary, non-parallel
+processing. The parallel processing is done with <span class="pkg">parallel</span>
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>dist</code></td>
+<td>
+<p>Dissimilarity matrix used in multidimensional scaling. </p>
+</td></tr>
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>Rotate to principal components. </p>
+</td></tr>
+<tr valign="top"><td><code>center</code></td>
+<td>
+<p>Centre the configuration. </p>
+</td></tr>
+<tr valign="top"><td><code>halfchange</code></td>
+<td>
+<p>Scale axes to half-change units. This defaults
+<code>TRUE</code> when dissimilarities were evaluated within
+<code>metaMDS</code> and the dissimilarity index has an upper limit of
+<i>1</i>. If <code>FALSE</code>, the ordination dissimilarities are scaled
+to the same range as the input dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>Largest dissimilarity used in half-change scaling. </p>
+</td></tr>
+<tr valign="top"><td><code>nthreshold</code></td>
+<td>
+<p> Minimum number of points in half-change scaling. </p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A result object from <code>metaMDS</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to functions. Function
+<code>metaMDS</code> passes all arguments to its component functions
+<code>metaMDSdist</code>, <code>metaMDSiter</code>, <code>postMDS</code>, and to
+<code>distfun</code> and <code>engine</code>.</p>
+</td></tr>  </table>
+
+
+<h3>Details</h3>
+
+<p> Non-metric Multidimensional Scaling (NMDS) is commonly
+regarded as the most robust unconstrained ordination method in
+community ecology (Minchin 1987).  Function <code>metaMDS</code> is a
+wrapper function that calls several other functions to combine
+Minchin's (1987) recommendations into one command. The complete
+steps in <code>metaMDS</code> are:
+</p>
+ 
+<ol>
+<li><p> Transformation: If the data values are larger than common
+abundance class scales, the function performs a Wisconsin double
+standardization (<code><a href="../../vegan/help/wisconsin.html">wisconsin</a></code>).  If the values look
+very large, the function also performs <code><a href="../../base/html/MathFun.html">sqrt</a></code>
+transformation. Both of these standardizations are generally found
+to improve the results. However, the limits are completely
+arbitrary (at present, data maximum 50 triggers <code><a href="../../base/html/MathFun.html">sqrt</a></code>
+and <i>&gt;9</i> triggers <code><a href="../../vegan/help/wisconsin.html">wisconsin</a></code>). If you want to
+have a full control of the analysis, you should set
+<code>autotransform = FALSE</code> and standardize and transform data
+independently. The <code>autotransform</code> is intended for community
+data, and for other data types, you should set
+<code>autotransform = FALSE</code>. This step is perfomed using
+<code>metaMDSdist</code>, and the step is skipped if input were
+dissimilarities.
+</p>
+</li>
+<li><p> Choice of dissimilarity: For a good result, you should use
+dissimilarity indices that have a good rank order relation to
+ordering sites along gradients (Faith et al. 1987).  The default
+is Bray-Curtis dissimilarity, because it often is the test
+winner. However, any other dissimilarity index in
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> can be used. Function
+<code><a href="../../vegan/help/rankindex.html">rankindex</a></code> can be used for finding the test winner
+for you data and gradients. The default choice may be bad if you
+analyse other than community data, and you should probably select
+an appropriate index using argument <code>distance</code>.  This step is
+performed using <code>metaMDSdist</code>, and the step is skipped if
+input were dissimilarities.
+</p>
+</li>
+<li><p> Step-across dissimilarities: Ordination may be very difficult
+if a large proportion of sites have no shared species. In this
+case, the results may be improved with <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>
+dissimilarities, or flexible shortest paths among all sites.  The
+default NMDS <code>engine</code> is <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> which is able
+to break tied values at the maximum dissimilarity, and this often
+is sufficient to handle cases with no shared species, and
+therefore the default is not to use <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> with
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>.  Function <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> does
+not handle tied values adequately, and therefore the default is to
+use <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> always when there are sites with no
+shared species with <code>engine = "isoMDS"</code>. The
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code> is triggered by option <code>noshare</code>. If
+you do not like manipulation of original distances, you should set
+<code>noshare = FALSE</code>.  This step is skipped if input data were
+dissimilarities instead of community data. This step is performed
+using <code>metaMDSdist</code>, and the step is skipped always when
+input were dissimilarities.
+</p>
+</li>
+<li><p> NMDS with random starts: NMDS easily gets trapped into local
+optima, and you must start NMDS several times from random starts
+to be confident that you have found the global solution. The
+strategy in <code>metaMDS</code> is to first run NMDS starting with the
+metric scaling (<code><a href="../../stats/html/cmdscale.html">cmdscale</a></code> which usually finds a good
+solution but often close to a local optimum), or use the
+<code>previous.best</code> solution if supplied, and take its solution
+as the standard (<code>Run 0</code>). Then <code>metaMDS</code> starts NMDS
+from several random starts (minimum number is given by <code>try</code>
+and maximum number by <code>trymax</code>). These random starts are
+generated by <code>initMDS</code>. If a solution is better (has a lower
+stress) than the previous standard, it is taken as the new
+standard. If the solution is better or close to a standard,
+<code>metaMDS</code> compares two solutions using Procrustes analysis
+(function <code><a href="../../vegan/help/procrustes.html">procrustes</a></code> with option
+<code>symmetric = TRUE</code>). If the solutions are very similar in their
+Procrustes <code>rmse</code> and the largest residual is very small, the
+solutions are regarded as convergent and the better one is taken
+as the new standard.  The conditions are stringent, and you may
+have found good and relatively stable solutions although the
+function is not yet satisfied. Setting <code>trace = TRUE</code> will
+monitor the final stresses, and <code>plot = TRUE</code> will display
+Procrustes overlay plots from each comparison. This step is
+performed using <code>metaMDSiter</code>. This is the first step
+performed if input data (<code>comm</code>) were dissimilarities. Random
+starts can be run with parallel processing (argument
+<code>parallel</code>).
+</p>
+</li>
+<li><p> Scaling of the results: <code>metaMDS</code> will run <code>postMDS</code>
+for the final result. Function <code>postMDS</code> provides the
+following ways of &ldquo;fixing&rdquo; the indeterminacy of scaling and
+orientation of axes in NMDS: Centring moves the origin to the
+average of the axes; Principal components rotate the configuration
+so that the variance of points is maximized on first dimension
+(with function <code><a href="../../vegan/help/MDSrotate.html">MDSrotate</a></code> you can alternatively
+rotate the configuration so that the first axis is parallel to an
+environmental variable); Half-change scaling scales the
+configuration so that one unit means halving of community
+similarity from replicate similarity.  Half-change scaling is
+based on closer dissimilarities where the relation between
+ordination distance and community dissimilarity is rather linear
+(the limit is set by argument <code>threshold</code>). If there are
+enough points below this threshold (controlled by the parameter
+<code>nthreshold</code>), dissimilarities are regressed on distances.
+The intercept of this regression is taken as the replicate
+dissimilarity, and half-change is the distance where similarity
+halves according to linear regression.  Obviously the method is
+applicable only for dissimilarity indices scaled to <i>0 &hellip;
+    1</i>, such as Kulczynski, Bray-Curtis and Canberra indices. If
+half-change scaling is not used, the ordination is scaled to the
+same range as the original dissimilarities. Half-change scaling is
+skipped by default if input were dissimilarities, but can be
+turned on with argument <code>halfchange = TRUE</code>. NB., The PC
+rotation only changes the directions of reference axes, and it
+does not influence the configuration or solution in general.
+</p>
+</li>
+<li><p> Species scores: Function adds the species scores to the final
+solution as weighted averages using function
+<code><a href="../../vegan/help/wascores.html">wascores</a></code> with given value of parameter
+<code>expand</code>.  The expansion of weighted averages can be undone
+with <code>shrink = TRUE</code> in <code>plot</code> or <code>scores</code>
+functions, and the calculation of species scores can be suppressed
+with <code>wascores = FALSE</code>. This step is skipped if input were
+dissimilarities and community data were unavailable. However, the
+species scores can be added or replaced with
+<code><a href="../../vegan/help/sppscores.html">sppscores</a></code>.
+</p>
+</li></ol>
+ 
+
+
+<h3>Value</h3>
+
+<p> Function <code>metaMDS</code> returns an object of class
+<code>metaMDS</code>. The final site ordination is stored in the item
+<code>points</code>, and species ordination in the item <code>species</code>,
+and the stress in item <code>stress</code> (NB, the scaling of the stress
+depends on the <code>engine</code>: <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> uses
+percents, and <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> proportions in the range <i>0
+  &hellip; 1</i>). The other items store the information on the steps taken
+and the items returned by the <code>engine</code> function. The object has
+<code>print</code>, <code>plot</code>, <code>points</code> and <code>text</code> methods.
+Functions <code>metaMDSdist</code> and <code>metaMDSredist</code> return
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> objects.  Function <code>initMDS</code> returns a
+random configuration which is intended to be used within
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> only.  Functions <code>metaMDSiter</code> and
+<code>postMDS</code> returns the result of NMDS with updated
+configuration.  </p>
+
+
+<h3>Convergence Problems</h3>
+
+<p>The function tries hard to find two convergent solutions, but it
+may fail. With default <code>engine = "monoMDS"</code> the function will
+tabulate the stopping criteria used, so that you can see which
+criterion should be made more stringent. The criteria can be given
+as arguments to <code>metaMDS</code> and their current values are
+described in <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>. In particular, if you reach
+the maximum number of iterations, you should increase the value of
+<code>maxit</code>. You may ask for a larger number of random starts
+without losing the old ones giving the previous solution in
+argument <code>previous.best</code>.
+</p>
+<p>In addition to too slack convergence criteria and too low number
+of random starts, wrong number of dimensions (argument <code>k</code>)
+is the most common reason for not finding convergent
+solutions. NMDS is usually run with a low number dimensions
+(<code>k=2</code> or <code>k=3</code>), and for complex data increasing
+<code>k</code> by one may help. If you run NMDS with much higher number
+of dimensions (say, <code>k=10</code> or more), you should reconsider
+what you are doing and drastically reduce <code>k</code>. For very
+heterogeneous data sets with partial disjunctions, it may help to
+set <code>stepacross</code>, but for most data sets the default
+<code>weakties = TRUE</code> is sufficient.
+</p>
+<p>Please note that you can give all arguments of other
+<code>metaMDS*</code> functions and NMDS engine (default
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>) in your <code>metaMDS</code> command,and you
+should check documentation of these functions for details.
+</p>
+
+
+<h3>Common Wrong Claims</h3>
+
+<p>NMDS is often misunderstood and wrong claims of its properties are
+common on the Web and even in publications. It is often claimed
+that the NMDS configuration is non-metric which means that you
+cannot fit environmental variables or species onto that
+space. This is a false statement. In fact, the result
+configuration of NMDS is metric, and it can be used like any other
+ordination result. In NMDS the rank orders of Euclidean distances
+among points in ordination have a non-metric monotone relationship
+to any observed dissimilarities. The transfer function from
+observed dissimilarities to ordination distances is non-metric
+(Kruskal 1964a, 1964b), but the ordination result configuration is
+metric and observed dissimilarities can be of any kind (metric or
+non-metric).
+</p>
+<p>The ordination configuration is usually rotated to principal
+components in <code>metaMDS</code>. The rotation is performed after
+finding the result, and it only changes the direction of the
+reference axes. The only invariant feature in the NMDS solution is
+the rank order of Euclidean ordination distances, and this does
+not change in rotation. Similarly, the rank order of distances
+does not change in uniform scaling or centring of configuration of
+points.
+</p>
+<p>Function <code><a href="../../vegan/help/stressplot.html">stressplot</a></code> displays the method graphically:
+it plots the observed dissimilarities against distances in
+ordination space, and also shows the non-metric monotone
+regression.
+</p>
+
+
+<h3>Warning</h3>
+
+<p><code>metaMDS</code> uses <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> as its
+NMDS <code>engine</code> from <span class="pkg">vegan</span> version 2.0-0, when it replaced
+the <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> function. You can set argument
+<code>engine</code> to select the old engine.</p>
+
+
+<h3>Note</h3>
+
+<p> Function <code>metaMDS</code> is a simple wrapper for an NMDS engine
+(either <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> or <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>) and
+some support functions (<code>metaMDSdist</code>,
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code>, <code>metaMDSiter</code>, <code>initMDS</code>,
+<code>postMDS</code>, <code><a href="../../vegan/help/wascores.html">wascores</a></code>).  You can call these support
+functions separately for better control of results.  Data
+transformation, dissimilarities and possible
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code> are made in function <code>metaMDSdist</code>
+which returns a dissimilarity result. Iterative search (with
+starting values from <code>initMDS</code> with <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>) is
+made in <code>metaMDSiter</code>.  Processing of result configuration is
+done in <code>postMDS</code>, and species scores added by
+<code><a href="../../vegan/help/wascores.html">wascores</a></code>.  If you want to be more certain of reaching
+a global solution, you can compare results from several independent
+runs. You can also continue analysis from previous results or from
+your own configuration.  Function may not save the used
+dissimilarity matrix (<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> does), but
+<code>metaMDSredist</code> tries to reconstruct the used dissimilarities
+with original data transformation and possible
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code>.
+</p>
+<p>The <code>metaMDS</code> function was designed to be used with community
+data.  If you have other type of data, you should probably set some
+arguments to non-default values: probably at least <code>wascores</code>,
+<code>autotransform</code> and <code>noshare</code> should be <code>FALSE</code>. If
+you have negative data entries, <code>metaMDS</code> will set the previous
+to <code>FALSE</code> with a warning.  
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Faith, D. P, Minchin, P. R. and Belbin, L. (1987).
+Compositional dissimilarity as a robust measure of ecological
+distance. <em>Vegetatio</em> 69, 57&ndash;68.
+</p>
+<p>Kruskal, J.B. (1964a). Multidimensional scaling by optimizing
+goodness-of-fit to a nonmetric hypothesis. <em>Psychometrika</em>
+29, 1&ndash;28.
+</p>
+<p>Kruskal, J.B. (1964b). Nonmetric multidimensional scaling: a numerical
+method. <em>Psychometrika</em> 29, 115&ndash;129.
+</p>
+<p>Minchin, P.R. (1987). An evaluation of relative robustness
+of techniques for ecological ordinations. <em>Vegetatio</em> 69,
+89&ndash;107.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> (and <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>), 
+<code><a href="../../vegan/help/decostand.html">decostand</a></code>, <code><a href="../../vegan/help/wisconsin.html">wisconsin</a></code>, 
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, <code><a href="../../vegan/help/rankindex.html">rankindex</a></code>, <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>, 
+<code><a href="../../vegan/help/procrustes.html">procrustes</a></code>, <code><a href="../../vegan/help/wascores.html">wascores</a></code>, <code><a href="../../vegan/help/sppscores.html">sppscores</a></code>,
+<code><a href="../../vegan/help/MDSrotate.html">MDSrotate</a></code>, <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code>, <code><a href="../../vegan/help/stressplot.html">stressplot</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## The recommended way of running NMDS (Minchin 1987)
+##
+data(dune)
+# Global NMDS using monoMDS
+sol &lt;- metaMDS(dune)
+sol
+plot(sol, type="t")
+## Start from previous best solution
+sol &lt;- metaMDS(dune, previous.best = sol)
+## Local NMDS and stress 2 of monoMDS
+sol2 &lt;- metaMDS(dune, model = "local", stress=2)
+sol2
+## Use Arrhenius exponent 'z' as a binary dissimilarity measure
+sol &lt;- metaMDS(dune, distfun = betadiver, distance = "z")
+sol
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

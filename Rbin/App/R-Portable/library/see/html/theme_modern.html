@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The easystats' minimal theme</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for theme_modern {see}"><tr><td>theme_modern {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The easystats' minimal theme</h2>
+
+<h3>Description</h3>
+
+<p>A modern, sleek and elegant theme for ggplot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+theme_modern(
+  base_size = 11,
+  base_family = "",
+  plot.title.size = 15,
+  plot.title.face = "plain",
+  plot.title.space = 20,
+  plot.title.position = "plot",
+  legend.position = "right",
+  axis.title.space = 20,
+  legend.title.size = 13,
+  legend.text.size = 12,
+  axis.title.size = 13,
+  axis.title.face = "plain",
+  axis.text.size = 12,
+  axis.text.angle = NULL,
+  tags.size = 15,
+  tags.face = "bold"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>base_size</code></td>
+<td>
+<p>base font size, given in pts.</p>
+</td></tr>
+<tr valign="top"><td><code>base_family</code></td>
+<td>
+<p>base font family</p>
+</td></tr>
+<tr valign="top"><td><code>plot.title.size</code></td>
+<td>
+<p>Title size in pts. Can be &quot;none&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.title.face</code></td>
+<td>
+<p>Title font face (&quot;plain&quot;, &quot;italic&quot;, &quot;bold&quot;, &quot;bold.italic&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>plot.title.space</code></td>
+<td>
+<p>Title spacing.</p>
+</td></tr>
+<tr valign="top"><td><code>plot.title.position</code></td>
+<td>
+<p>Alignment of the plot title/subtitle and caption. The setting for plot.title.position applies to both the title and the subtitle. A value of &quot;panel&quot; (the default) means that titles and/or caption are aligned to the plot panels. A value of &quot;plot&quot; means that titles and/or caption are aligned to the entire plot (minus any space for margins and plot tag).</p>
+</td></tr>
+<tr valign="top"><td><code>legend.position</code></td>
+<td>
+<p>the position of legends (&quot;none&quot;, &quot;left&quot;, &quot;right&quot;,
+&quot;bottom&quot;, &quot;top&quot;, or two-element numeric vector)</p>
+</td></tr>
+<tr valign="top"><td><code>axis.title.space</code></td>
+<td>
+<p>Axis title spacing.</p>
+</td></tr>
+<tr valign="top"><td><code>legend.title.size</code></td>
+<td>
+<p>Legend elements text size in pts.</p>
+</td></tr>
+<tr valign="top"><td><code>legend.text.size</code></td>
+<td>
+<p>Legend elements text size in pts. Can be &quot;none&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.title.size</code></td>
+<td>
+<p>Axis title text size in pts.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.title.face</code></td>
+<td>
+<p>Axis font face (&quot;plain&quot;, &quot;italic&quot;, &quot;bold&quot;, &quot;bold.italic&quot;).</p>
+</td></tr>
+<tr valign="top"><td><code>axis.text.size</code></td>
+<td>
+<p>Axis text size in pts.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.text.angle</code></td>
+<td>
+<p>Rotate  the x axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>tags.size</code></td>
+<td>
+<p>Tags text size in pts.</p>
+</td></tr>
+<tr valign="top"><td><code>tags.face</code></td>
+<td>
+<p>Tags font face (&quot;plain&quot;, &quot;italic&quot;, &quot;bold&quot;, &quot;bold.italic&quot;).</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+library(see)
+
+ggplot(iris, aes(x = Sepal.Width, y = Sepal.Length, color = Species)) +
+  geom_point() +
+  theme_modern()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

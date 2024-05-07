@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Trellis (Lattice) Plots for Ordination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordixyplot {vegan}"><tr><td>ordixyplot {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Trellis (Lattice) Plots for Ordination </h2>
+
+<h3>Description</h3>
+
+<p>Functions <code>ordicloud</code>, <code>ordisplom</code> and <code>ordixyplot</code>
+provide an interface to plot ordination results using Trellis
+functions <code><a href="../../lattice/help/cloud.html">cloud</a></code>, <code><a href="../../lattice/help/splom.html">splom</a></code>
+and <code><a href="../../lattice/help/xyplot.html">xyplot</a></code> in package <span class="pkg">lattice</span>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordixyplot(x, data = NULL, formula, display = "sites", choices = 1:3,
+    panel = "panel.ordi", aspect = "iso", envfit,
+    type = c("p", "biplot"), ...)
+ordisplom(x, data=NULL, formula = NULL,  display = "sites", choices = 1:3,
+    panel = "panel.ordi", type = "p",  ...)
+ordicloud(x, data = NULL, formula, display = "sites", choices = 1:3, 
+    panel = "panel.ordi3d", prepanel = "prepanel.ordi3d",  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> An ordination result that <code><a href="../../vegan/help/scores.html">scores</a></code> knows: any
+ordination result in <span class="pkg">vegan</span> and many others. </p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p> Optional data to amend ordination results. The ordination
+results are found from <code>x</code>, but you may give here data for other
+variables needed in plots. Typically these are environmental data.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p> Formula to define the plots. A default formula will be
+used if this is omitted. The
+ordination axes must be called by the same names as in the
+ordination results (and these names vary among methods). In
+<code>ordisplom</code>, special character <code>.</code> refers to the
+ordination result. </p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p> The kind of scores: an argument passed to
+<code><a href="../../vegan/help/scores.html">scores</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p> The axes selected: an argument passed to
+<code><a href="../../vegan/help/scores.html">scores</a></code>. </p>
+</td></tr> 
+<tr valign="top"><td><code>panel, prepanel</code></td>
+<td>
+<p> The names of the panel and prepanel
+functions. </p>
+</td></tr> 
+<tr valign="top"><td><code>aspect</code></td>
+<td>
+<p>The aspect of the plot (passed to the <span class="pkg">lattice</span>
+function).</p>
+</td></tr>
+<tr valign="top"><td><code>envfit</code></td>
+<td>
+<p>Result of <code><a href="../../vegan/help/envfit.html">envfit</a></code> function displayed in
+<code>ordixyplot</code>. Please note that this needs same <code>choices</code>
+as <code>ordixyplot</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of plot. This knows the same alternatives as
+<code><a href="../../lattice/help/panel.xyplot.html">panel.xyplot</a></code>. In addition <code>ordixyplot</code>
+has alternatives <code>"biplot"</code>, <code>"arrows"</code> and
+<code>"polygon"</code>. The first displays fitted vectors and factor
+centroids of <code>envfit</code>, or in constrained ordination, the
+biplot arrows and factor centroids if <code>envfit</code> is not
+given. The second (<code>type = "arrows"</code>) is a trellis variant of
+<code><a href="../../vegan/help/ordiarrows.html">ordiarrows</a></code> and draws arrows by <code>groups</code>. The
+line parameters are controlled by
+<code><a href="../../lattice/help/trellis.par.set.html">trellis.par.set</a></code> for <code>superpose.line</code>,
+and the user can set <code>length</code>, <code>angle</code> and <code>ends</code>
+parameters of <code><a href="../../lattice/help/panel.arrows.html">panel.arrows</a></code>.  The last one
+(<code>type = "polygon"</code>) draws a polygon enclosing all points in
+a panel over a polygon enclosing all points in the data. The
+overall polygon is controlled by
+<code><a href="../../lattice/help/trellis.par.set.html">trellis.par.set</a></code> for <code>plot.polygon</code>,
+and each panel polygon is controlled by <code>superpose.polygon</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Arguments passed to <code><a href="../../vegan/help/scores.html">scores</a></code> methods or
+<span class="pkg">lattice</span> functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions provide an interface to the corresponding <span class="pkg">lattice</span>
+functions.  All graphical parameters are passed to the <span class="pkg">lattice</span>
+function so that these graphs are extremely configurable. See
+<code><a href="../../lattice/help/Lattice.html">Lattice</a></code> and <code><a href="../../lattice/help/xyplot.html">xyplot</a></code>,
+<code><a href="../../lattice/help/splom.html">splom</a></code> and <code><a href="../../lattice/help/cloud.html">cloud</a></code> for
+details, usage and possibilities.
+</p>
+<p>The argument <code>x</code> must always be an ordination result. The scores
+are extracted with <span class="pkg">vegan</span> function <code><a href="../../vegan/help/scores.html">scores</a></code> so that
+these functions work with all <span class="pkg">vegan</span> ordinations and many others.
+</p>
+<p>The <code>formula</code> is used to define the models. All functions have
+simple default formulae which are used if <code>formula</code> is missing. 
+If formula is omitted in <code>ordisplom</code> it
+produces a pairs plot of ordination axes and variables in
+<code>data</code>. If <code>formula</code> is given, ordination results must be
+referred to as <code>.</code> and other variables by their names. In other
+functions, the formula must use the names of ordination scores and names
+of <code>data</code>.
+</p>
+<p>The ordination scores are found from <code>x</code>, and <code>data</code> is
+optional. The <code>data</code> should contain other variables than
+ordination scores to be used in plots. Typically, they are
+environmental variables (typically factors) to define panels or plot
+symbols.
+</p>
+<p>The proper work is done by the panel function. The layout can be
+changed by defining own panel functions. See
+<code><a href="../../lattice/help/panel.xyplot.html">panel.xyplot</a></code>,
+<code><a href="../../lattice/help/panel.splom.html">panel.splom</a></code> and
+<code><a href="../../lattice/help/panel.cloud.html">panel.cloud</a></code> for details and survey of
+possibilities.
+</p>
+<p>Ordination graphics should always be isometric: same scale should be
+used in all axes. This is controlled (and can be changed) with
+argument <code>aspect</code> in <code>ordixyplot</code>. In <code>ordicloud</code> the
+isometric scaling is defined in <code>panel</code> and <code>prepanel</code>
+functions. You must replace these functions if you want to have
+non-isometric scaling of graphs. You cannot select isometric scaling
+in <code>ordisplom</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function return <code><a href="../../lattice/help/Lattice.html">Lattice</a></code> objects of class
+<code>"trellis"</code>.   
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../lattice/help/Lattice.html">Lattice</a></code>,
+<code><a href="../../lattice/help/xyplot.html">xyplot</a></code>,
+<code><a href="../../lattice/help/splom.html">splom</a></code>,
+<code><a href="../../lattice/help/cloud.html">cloud</a></code>,
+<code><a href="../../lattice/help/panel.splom.html">panel.splom</a></code>,
+<code><a href="../../lattice/help/panel.cloud.html">panel.cloud</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune, dune.env)
+ord &lt;- cca(dune)
+## Pairs plots
+ordisplom(ord)
+ordisplom(ord, data=dune.env, choices=1:2)
+ordisplom(ord, data=dune.env, form = ~ . | Management, groups=Manure)
+## Scatter plot with polygons
+ordixyplot(ord, data=dune.env, form = CA1 ~ CA2 | Management,
+  groups=Manure, type = c("p","polygon"))
+## Choose a different scaling
+ordixyplot(ord, scaling = "symmetric")
+## ... Slices of third axis
+ordixyplot(ord, form = CA1 ~ CA2 | equal.count(CA3, 4),
+   type = c("g","p", "polygon"))
+## Display environmental variables
+ordixyplot(ord, envfit = envfit(ord ~ Management + A1, dune.env, choices=1:3))
+## 3D Scatter plots
+ordicloud(ord, form = CA2 ~ CA3*CA1, groups = Manure, data = dune.env)
+ordicloud(ord, form = CA2 ~ CA3*CA1 | Management, groups = Manure,
+   data = dune.env, auto.key = TRUE, type = c("p","h"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

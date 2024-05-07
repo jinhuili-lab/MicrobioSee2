@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: LOO-adjusted R2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_loo {performance}"><tr><td>r2_loo {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>LOO-adjusted R2</h2>
+
+<h3>Description</h3>
+
+<p>Compute LOO-adjusted R2.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_loo(model, robust = TRUE, ci = 0.95, verbose = TRUE, ...)
+
+r2_loo_posterior(model, ...)
+
+## S3 method for class 'brmsfit'
+r2_loo_posterior(model, verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+r2_loo_posterior(model, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A Bayesian regression model (from <strong>brms</strong>,
+<strong>rstanarm</strong>, <strong>BayesFactor</strong>, etc).</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the median instead of mean is used to
+calculate the central tendency of the variances.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1) to be
+estimated.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>r2_posterior()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>r2_loo()</code> returns an &quot;adjusted&quot; R2 value computed using a
+leave-one-out-adjusted posterior distribution. This is conceptually similar
+to an adjusted/unbiased R2 estimate in classical regression modeling. See
+<code><a href="../../performance/help/r2_bayes.html">r2_bayes()</a></code> for an &quot;unadjusted&quot; R2.
+</p>
+<p>Mixed models are not currently fully supported.
+</p>
+<p><code>r2_loo_posterior()</code> is the actual workhorse for <code>r2_loo()</code> and
+returns a posterior sample of LOO-adjusted Bayesian R2 values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the Bayesian R2 value. For mixed models, a list with the
+Bayesian R2 value and the marginal Bayesian R2 value. The standard errors
+and credible intervals for the R2 values are saved as attributes.
+</p>
+<p>A list with the LOO-adjusted R2 value. The standard errors
+and credible intervals for the R2 values are saved as attributes.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+model &lt;- suppressWarnings(rstanarm::stan_glm(
+  mpg ~ wt + cyl,
+  data = mtcars,
+  chains = 1,
+  iter = 500,
+  refresh = 0,
+  show_messages = FALSE
+))
+r2_loo(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

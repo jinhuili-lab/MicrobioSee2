@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check whether indention is needed</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for needs_indention_one {styler}"><tr><td>needs_indention_one {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check whether indention is needed</h2>
+
+<h3>Description</h3>
+
+<p>Determine whether the tokens corresponding to <code>potential_trigger_pos</code> should
+cause indention, considering that there might be other potential triggers
+<code>other_trigger_tokens</code> that are going to cause indention.
+Indention is needed if the two conditions apply:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+needs_indention_one(pd, potential_trigger_pos, other_trigger_tokens)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>potential_trigger_pos</code></td>
+<td>
+<p>the index of the token in the parse table
+for which it should be checked whether it should trigger indention.</p>
+</td></tr>
+<tr valign="top"><td><code>other_trigger_tokens</code></td>
+<td>
+<p>Other tokens that are going to cause indention
+if on the same line as the token corresponding to <code>potential_trigger</code> and
+directly followed by a line break.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> there is no multi-line token between the trigger and the first line break.
+</p>
+</li>
+<li><p> there is no other token between the potential trigger and the first line
+break that is going to cause indention. Note that such an other trigger
+only causes indention if there is a line break after that other triggering
+token, not otherwise. If it causes indention, it is said to be an active
+trigger, if it does not, it is called an inactive trigger.
+See 'Details' for an example where there is an other trigger token, but
+since the next token is on the same line as the other trigger,
+the trigger is passive.
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>Returns <code>TRUE</code> if indention is needed, <code>FALSE</code> otherwise.
+</p>
+<p><code>TRUE</code> if indention is needed, <code>FALSE</code> otherwise.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+style_text(c(
+  "call(named = c,",
+  "named = b)"
+), strict = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

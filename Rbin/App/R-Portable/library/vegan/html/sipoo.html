@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Birds in the Archipelago of Sipoo (Sibbo and Borgå)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sipoo {vegan}"><tr><td>sipoo {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Birds in the Archipelago of Sipoo (Sibbo and Borgå)</h2>
+
+<h3>Description</h3>
+
+<p>Land birds on islands covered by 
+coniferous forest in the Sipoo Archipelago, southern Finland.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  data(sipoo)
+  data(sipoo.map)
+</pre>
+
+
+<h3>Format</h3>
+
+<p>The <code>sipoo</code> data frame contains data of occurrences of 50 land
+bird species on 18 islands in the Sipoo Archipelago (Simberloff &amp;
+Martin, 1991, Appendix 3). The species are referred by 4+4 letter
+abbreviation of their Latin names (but using five letters in two
+species names to make these unique).
+</p>
+<p>The <code>sipoo.map</code> data contains the geographic coordinates of the
+islands in the ETRS89-TM35FIN coordinate system (EPSG:3067) and the
+areas of islands in hectares.
+</p>
+
+
+<h3>Source</h3>
+
+<p>Simberloff, D. &amp; Martin, J.-L.  (1991).  Nestedness of insular
+avifaunas: simple summary statistics masking complex species patterns.
+<em>Ornis Fennica</em> 68:178&ndash;192.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(sipoo)
+data(sipoo.map)
+plot(N ~ E, data=sipoo.map, asp = 1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

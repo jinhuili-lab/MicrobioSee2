@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample integer values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for SampleInt {raster}"><tr><td>SampleInt {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample integer values</h2>
+
+<h3>Description</h3>
+
+<p>Take a random sample from a range of integer values between 1 and <code>n</code>. Its purpose is similar to that of <code><a href="../../base/help/sample.html">sample</a></code>, but that function fails when <code>n</code> is very large.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sampleInt(n, size, replace=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Positive number (integer); the number of items to choose from </p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>Non-negative integer; the number of items to choose</p>
+</td></tr>  
+<tr valign="top"><td><code>replace</code></td>
+<td>
+<p>Logical. Should sampling be with replacement?</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>vector of integer numbers</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  sampleInt(1e+12, 10)
+  
+# this may fail:
+#  sample.int(1e+12, 10)
+#  sample.int(1e+9, 10)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

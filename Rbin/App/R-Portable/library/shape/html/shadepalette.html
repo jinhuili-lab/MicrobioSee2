@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: color palette inbetween two extremes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for shadepalette {shape}"><tr><td>shadepalette {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+color palette inbetween two extremes
+</h2>
+
+<h3>Description</h3>
+
+<p>Returns color(s) that are a linear interpolation between two colors
+</p>
+<p>these colors are suitable for shading shapes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+shadepalette(n = 100, endcol = "red", inicol = "white", 
+             interval = c(0.0, 1.0))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n </code></td>
+<td>
+<p>number of colors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>endcol </code></td>
+<td>
+<p>final color.
+</p>
+</td></tr>
+<tr valign="top"><td><code>inicol </code></td>
+<td>
+<p>initial color.
+</p>
+</td></tr>
+<tr valign="top"><td><code>interval </code></td>
+<td>
+<p>interval *to* where to interpolate.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector of character strings giving the interpolated colors in
+hexadecimal format 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shape/help/intpalette.html">intpalette</a></code>, <code><a href="../../grDevices/html/gray.html">grey</a></code>, <code><a href="../../shape/help/femmecol.html">femmecol</a></code>
+<code><a href="../../grDevices/help/colorRamp.html">colorRamp</a></code> for comparable R functions.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+shadepalette(n = 10, "white", "black")
+image(matrix(nrow = 1, ncol = 100, data = 1:100),
+      col = shadepalette(100, "red", "blue"), main = "shadepalette")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

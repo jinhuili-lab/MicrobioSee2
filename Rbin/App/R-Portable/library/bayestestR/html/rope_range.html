@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find Default Equivalence (ROPE) Region Bounds</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rope_range {bayestestR}"><tr><td>rope_range {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find Default Equivalence (ROPE) Region Bounds</h2>
+
+<h3>Description</h3>
+
+<p>This function attempts at automatically finding suitable &quot;default&quot;
+values for the Region Of Practical Equivalence (ROPE).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rope_range(x, ...)
+
+## Default S3 method:
+rope_range(x, verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>stanreg</code>, <code>brmsfit</code> or <code>BFBayesFactor</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><em>Kruschke (2018)</em> suggests that the region of practical equivalence
+could be set, by default, to a range from <code>-0.1</code> to <code>0.1</code> of a standardized
+parameter (negligible effect size according to <em>Cohen, 1988</em>).
+</p>
+
+<ul>
+<li><p> For <strong>linear models (lm)</strong>, this can be generalised to
+-0.1 * SD<sub>y</sub>, 0.1 * SD<sub>y</sub>.
+</p>
+</li>
+<li><p> For <strong>logistic models</strong>, the parameters expressed in log odds ratio can be
+converted to standardized difference through the formula
+&pi;/&radic;(3), resulting in a
+range of <code>-0.18</code> to <code>0.18</code>.
+</p>
+</li>
+<li><p> For other models with <strong>binary outcome</strong>, it is strongly recommended to
+manually specify the rope argument. Currently, the same default is applied
+that for logistic models.
+</p>
+</li>
+<li><p> For models from <strong>count data</strong>, the residual variance is used. This is a
+rather experimental threshold and is probably often similar to <code style="white-space: pre;">-0.1, 0.1</code>,
+but should be used with care!
+</p>
+</li>
+<li><p> For <strong>t-tests</strong>, the standard deviation of the response is used, similarly
+to linear models (see above).
+</p>
+</li>
+<li><p> For <strong>correlations</strong>, <code style="white-space: pre;">-0.05, 0.05</code> is used, i.e., half the value of a
+negligible correlation as suggested by Cohen's (1988) rules of thumb.
+</p>
+</li>
+<li><p> For all other models, <code style="white-space: pre;">-0.1, 0.1</code> is used to determine the ROPE limits,
+but it is strongly advised to specify it manually.
+</p>
+</li></ul>
+
+
+
+<h3>References</h3>
+
+<p>Kruschke, J. K. (2018). Rejecting or accepting parameter values
+in Bayesian estimation. Advances in Methods and Practices in Psychological
+Science, 1(2), 270-280. doi: <a href="https://doi.org/10.1177/2515245918771304">10.1177/2515245918771304</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+model &lt;- suppressWarnings(rstanarm::stan_glm(
+  mpg ~ wt + gear,
+  data = mtcars,
+  chains = 2,
+  iter = 200,
+  refresh = 0
+))
+rope_range(model)
+
+model &lt;- suppressWarnings(
+  rstanarm::stan_glm(vs ~ mpg, data = mtcars, family = "binomial", refresh = 0)
+)
+rope_range(model)
+
+model &lt;- brms::brm(mpg ~ wt + cyl, data = mtcars)
+rope_range(model)
+
+model &lt;- BayesFactor::ttestBF(mtcars[mtcars$vs == 1, "mpg"], mtcars[mtcars$vs == 0, "mpg"])
+rope_range(model)
+
+model &lt;- lmBF(mpg ~ vs, data = mtcars)
+rope_range(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

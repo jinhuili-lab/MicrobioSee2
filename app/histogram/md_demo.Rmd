@@ -1,0 +1,55 @@
+# Histogram mapping description
+
+
+
+## Upload sample data
+
+You need to upload one data files including abundance table.
+
+Such as
+
+| erm                                              | type               | Count |
+| ------------------------------------------------ | ------------------ | ----- |
+| establishment of skin barrier                    | biological process | 69    |
+| regulation of water loss via skin                | cell component     | 263   |
+| intermediate filament cytoskeleton  organization | molecular function | 214   |
+| intermediate filament-based process              | biological process | 247   |
+| multicellular organismal water  homeostasis      | cell component     | 6     |
+| water homeostasis                                | molecular function | 282   |
+| maintenance of gastrointestinal  epithelium      | biological process | 120   |
+| skin development                                 | biological process | 247   |
+| epithelial structure maintenance                 | cell component     | 134   |
+| nucleus organization                             | molecular function | 7     |
+| skeletal muscle fiber development                | biological process | 198   |
+| keratinocyte differentiation                     | cell component     | 2     |
+| myotube cell development                         | molecular function | 172   |
+| sarcomere organization                           | biological process | 168   |
+| muscle cell differentiation                      | biological process | 158   |
+| muscle cell development                          | cell component     | 111   |
+| epidermal cell differentiation                   | molecular function | 42    |
+
+**Paying attention, please ,you need to upload the file in the format of the sample data.**
+
+
+
+
+## draw
+
+- Whether to transpose
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112129648.png" style="zoom:33%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112129701.png" style="zoom:33%;" />
+
+- Whether to sort
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112129740.png" style="zoom:33%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112129774.png" style="zoom:33%;" />
+
+
+
+
+
+
+

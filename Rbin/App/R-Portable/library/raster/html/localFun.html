@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Local functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for localFun {raster}"><tr><td>localFun {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Local functions</h2>
+
+<h3>Description</h3>
+
+<p>Local functions for two RasterLayer objects (using a focal neighborhood)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer,RasterLayer'
+localFun(x, y, ngb=5, fun, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer or RasterStack/RasterBrick</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>object of the same class as <code>x</code>, and with the same number of layers</p>
+</td></tr>
+<tr valign="top"><td><code>ngb</code></td>
+<td>
+<p>integer. rectangular neighbourhood size. Either a single integer or a vector of two integers c(rows, cols), such as c(3,3) to have a 3 x 3 focal window</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>Note</h3>
+
+<p>The first two arguments that <code>fun</code> needs to accept are vectors representing the local cells of RasterLayer <code>x</code> and <code>y</code> (each of length <code>ngb * ngb</code>). It also must have an ellipsis (<code>...</code>) argument</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/corLocal.html">corLocal</a></code>, <code><a href="../../raster/help/localFun.html">localFun</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(0)
+b &lt;- stack(system.file("external/rlogo.grd", package="raster"))
+x &lt;- flip(b[[2]], 'y') + runif(ncell(b))
+y &lt;- b[[1]] + runif(ncell(b))
+
+f &lt;- localFun(x, y, fun=cor)
+
+## Not run: 
+# local regression:
+rfun &lt;- function(x, y, ...) {
+	m &lt;- lm(y~x)
+	# return R^2
+	summary(m)$r.squared
+}
+
+ff &lt;- localFun(x, y, fun=rfun)
+plot(f, ff)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

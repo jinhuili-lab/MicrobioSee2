@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add fct_ and utils_ files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_fct {golem}"><tr><td>add_fct {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add fct_ and utils_ files</h2>
+
+<h3>Description</h3>
+
+<p>These functions add files in the R/ folder
+that starts either with <code>fct_</code> (short for function)
+or with <code>utils_</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_fct(
+  name,
+  module = NULL,
+  pkg = get_golem_wd(),
+  open = TRUE,
+  dir_create = TRUE,
+  with_test = FALSE
+)
+
+add_utils(
+  name,
+  module = NULL,
+  pkg = get_golem_wd(),
+  open = TRUE,
+  dir_create = TRUE,
+  with_test = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the file</p>
+</td></tr>
+<tr valign="top"><td><code>module</code></td>
+<td>
+<p>If not NULL, the file will be module specific
+in the naming (you don't need to add the leading <code>mod_</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Should the created file be opened?</p>
+</td></tr>
+<tr valign="top"><td><code>dir_create</code></td>
+<td>
+<p>Creates the directory if it doesn't exist, default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>with_test</code></td>
+<td>
+<p>should the module be created with tests?</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path to the file, invisibly.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

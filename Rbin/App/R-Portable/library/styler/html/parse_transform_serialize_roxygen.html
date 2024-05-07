@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parse, transform and serialize roxygen comments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for parse_transform_serialize_roxygen {styler}"><tr><td>parse_transform_serialize_roxygen {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parse, transform and serialize roxygen comments</h2>
+
+<h3>Description</h3>
+
+<p>Splits <code>text</code> into roxygen code examples and non-roxygen code examples and
+then maps over these examples by applying
+<code><a href="../../styler/help/style_roxygen_code_example.html">style_roxygen_code_example()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parse_transform_serialize_roxygen(text, transformers, base_indention)
+</pre>
+
+
+<h3>Hierarchy</h3>
+
+<p>Styling involves splitting roxygen example code into segments, and segments
+into snippets. This describes the process for input of
+<code><a href="../../styler/help/parse_transform_serialize_roxygen.html">parse_transform_serialize_roxygen()</a></code>:
+</p>
+
+<ul>
+<li><p> Splitting code into roxygen example code and other code. Downstream,
+we are only concerned about roxygen code. See
+<code><a href="../../styler/help/parse_transform_serialize_roxygen.html">parse_transform_serialize_roxygen()</a></code>.
+</p>
+</li>
+<li><p> Every roxygen example code can have zero or more
+dontrun / dontshow / donttest sequences. We next create segments of roxygen
+code examples that contain at most one of these. See
+<code><a href="../../styler/help/style_roxygen_code_example.html">style_roxygen_code_example()</a></code>.
+</p>
+</li>
+<li><p> We further split the segment that contains at most one dont* sequence into
+snippets that are either don* or not. See
+<code><a href="../../styler/help/style_roxygen_code_example_segment.html">style_roxygen_code_example_segment()</a></code>.
+</p>
+</li></ul>
+
+<p>Finally, that we have roxygen code snippets that are either dont* or not,
+we style them in <code><a href="../../styler/help/style_roxygen_example_snippet.html">style_roxygen_example_snippet()</a></code> using
+<code><a href="../../styler/help/parse_transform_serialize_r.html">parse_transform_serialize_r()</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

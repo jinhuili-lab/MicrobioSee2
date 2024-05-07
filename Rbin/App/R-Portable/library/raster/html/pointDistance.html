@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distance between points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pointDistance {raster}"><tr><td>pointDistance {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distance between points</h2>
+
+<h3>Description</h3>
+
+<p>Calculate the geographic distance between two (sets of) points on the WGS ellipsoid (<code>lonlat=TRUE</code>) or on a plane (<code>lonlat=FALSE</code>). If both sets do not have the same number of points, the distance between each pair of points is given. If both sets have the same number of points, the distance between each point and the corresponding point in the other set is given, except if <code>allpairs=TRUE</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+pointDistance(p1, p2, lonlat, allpairs=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p1</code></td>
+<td>
+<p>x and y coordinate of first (set of) point(s), either as c(x, y), matrix(ncol=2), or SpatialPoints*. </p>
+</td></tr>
+<tr valign="top"><td><code>p2</code></td>
+<td>
+<p>x and y coordinate of second (set of) second point(s) (like for <code>p1</code>). If this argument is missing, a distance matrix is computed for <code>p1</code> </p>
+</td></tr>
+<tr valign="top"><td><code>lonlat</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, coordinates should be in degrees; else they should represent planar ('Euclidean') space (e.g. units of meters) </p>
+</td></tr>
+<tr valign="top"><td><code>allpairs</code></td>
+<td>
+<p>logical. Only relevant if the number of points in <code>x</code> and <code>y</code> is the same. If <code>FALSE</code> the distance between each point in <code>x</code> with the corresponding point in <code>y</code> is returned. If <code>TRUE</code> a full distance matrix is returned </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. None implemented </p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A single value, or a vector, or matrix of values giving the distance in meters (lonlat=TRUE) or map-units (for instance, meters in the case of UTM)
+If <code>p2</code> is missing, a distance matrix is returned
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Jacob van Etten. The distance for longitude/latitude data uses GeographicLib by C.F.F. Karney</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/distanceFromPoints.html">distanceFromPoints</a>, <a href="../../raster/help/distance.html">distance</a>, <a href="../../raster/help/gridDistance.html">gridDistance</a></code>, <code><a href="../../sp/help/spDistsN1.html">spDistsN1</a></code>. 
+The <code>geosphere</code> package has many additional distance functions and other functions that operate on spherical coordinates</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+a &lt;- cbind(c(1,5,55,31),c(3,7,20,22))
+b &lt;- cbind(c(4,2,8,65),c(50,-90,20,32))   
+
+pointDistance(c(0, 0), c(1, 1), lonlat=FALSE)
+pointDistance(c(0, 0), c(1, 1), lonlat=TRUE)
+pointDistance(c(0, 0), a, lonlat=TRUE)
+pointDistance(a, b, lonlat=TRUE)
+   
+#Make a distance matrix 
+dst &lt;- pointDistance(a, lonlat=TRUE)
+# coerce to dist object
+dst &lt;- as.dist(dst)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

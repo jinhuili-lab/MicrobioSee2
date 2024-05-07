@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Dockerfile from a DESCRIPTION</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dock_from_desc {dockerfiler}"><tr><td>dock_from_desc {dockerfiler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Dockerfile from a DESCRIPTION</h2>
+
+<h3>Description</h3>
+
+<p>Create a Dockerfile from a DESCRIPTION
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dock_from_desc(
+  path = "DESCRIPTION",
+  FROM = paste0("rocker/r-ver:", R.Version()$major, ".", R.Version()$minor),
+  AS = NULL,
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  update_tar_gz = TRUE,
+  build_from_source = TRUE,
+  extra_sysreqs = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>path to the DESCRIPTION file to use as an input.</p>
+</td></tr>
+<tr valign="top"><td><code>FROM</code></td>
+<td>
+<p>The FROM of the Dockerfile. Default is
+FROM rocker/r-ver:<code>R.Version()$major</code>.<code>R.Version()$minor</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>AS</code></td>
+<td>
+<p>The AS of the Dockerfile. Default it NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>sysreqs</code></td>
+<td>
+<p>boolean. If TRUE, the Dockerfile will contain sysreq installation.</p>
+</td></tr>
+<tr valign="top"><td><code>repos</code></td>
+<td>
+<p>character. The URL(s) of the repositories to use for <code>options("repos")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> each system requirement will have its own <code>RUN</code> line.</p>
+</td></tr>
+<tr valign="top"><td><code>update_tar_gz</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> and <code>build_from_source</code> is also <code>TRUE</code>,
+an updated tar.gz is created.</p>
+</td></tr>
+<tr valign="top"><td><code>build_from_source</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> no tar.gz is created and
+the Dockerfile directly mount the source folder.</p>
+</td></tr>
+<tr valign="top"><td><code>extra_sysreqs</code></td>
+<td>
+<p>character vector. Extra debian system requirements.
+Will be installed with apt-get install.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>dockerfiler</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

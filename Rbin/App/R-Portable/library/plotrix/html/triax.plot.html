@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Triangle plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for triax.plot {plotrix}"><tr><td>triax.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Triangle plot</h2>
+
+<h3>Description</h3>
+
+<p>Display a triangle plot with optional grid.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ triax.plot(x=NULL,main="",at=seq(0.1,0.9,by=0.1),
+ axis.labels=NULL,tick.labels=NULL,col.axis="black",cex.axis=1,
+ cex.ticks=1,
+ align.labels=TRUE,show.grid=FALSE,col.grid="gray",lty.grid=par("lty"),
+ cc.axes=FALSE,show.legend=FALSE,label.points=FALSE,point.labels=NULL,
+ col.symbols="black",pch=par("pch"),mar=c(5,2,4,2),no.add=TRUE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Matrix where each row is three proportions or percentages
+that must sum to 1 or 100 respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title of the triangle plot. Defaults to nothing.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>The tick positions on the three axes.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.labels</code></td>
+<td>
+<p>Labels for the three axes in the order left, right,
+bottom. Defaults to the column names.</p>
+</td></tr>
+<tr valign="top"><td><code>tick.labels</code></td>
+<td>
+<p>The tick labels for the three axes as a list with
+three components l, r and b (left, right and bottom).
+Defaults to argument <span class="samp">at</span> (proportions).</p>
+</td></tr>
+<tr valign="top"><td><code>col.axis</code></td>
+<td>
+<p>Color of the triangular axes, ticks and labels.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.axis</code></td>
+<td>
+<p>Character expansion for axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.ticks</code></td>
+<td>
+<p>Character expansion for the tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>align.labels</code></td>
+<td>
+<p>Logical - whether to align axis and tick labels with
+the axes.</p>
+</td></tr>
+<tr valign="top"><td><code>show.grid</code></td>
+<td>
+<p>Whether to display grid lines at the ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>col.grid</code></td>
+<td>
+<p>Color of the grid lines. Defaults to gray.</p>
+</td></tr>
+<tr valign="top"><td><code>lty.grid</code></td>
+<td>
+<p>Type of line for the grid.</p>
+</td></tr>
+<tr valign="top"><td><code>cc.axes</code></td>
+<td>
+<p>Whether axes and axis ticks should be clockwise or
+counterclockwise.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>Logical - whether to display a legend.</p>
+</td></tr>
+<tr valign="top"><td><code>label.points</code></td>
+<td>
+<p>Logical - whether to call <span class="samp">thigmophobe.labels</span> to
+label the points.</p>
+</td></tr>
+<tr valign="top"><td><code>point.labels</code></td>
+<td>
+<p>Optional labels for the points and/or legend.</p>
+</td></tr>
+<tr valign="top"><td><code>col.symbols</code></td>
+<td>
+<p>Color of the symbols representing each value.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Symbols to use in plotting values.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>Margins for the triangle plot.</p>
+</td></tr>
+<tr valign="top"><td><code>no.add</code></td>
+<td>
+<p>Whether to restore the previous plotting parameters
+(<span class="samp">TRUE</span>) or leave them, allowing more points to be added.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">points</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">triax.plot</span> displays a triangular plot area on which proportions
+or percentages are displayed. A grid or legend may also be displayed.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list containing <span class="samp">xypos</span> (the <span class="samp">x,y</span> positions plotted)
+and <span class="samp">oldpar</span> (the plotting parameters at the time <span class="samp">triax.plot</span>
+was called).
+</p>
+
+
+<h3>Note</h3>
+
+<p>A three axis plot can only properly display one or more
+sets of three proportions that each sum to 1 (or percentages that sum
+to 100). Other values may be scaled to proportions (or percentages), 
+but unless each set of three sums to 1 (or 100), they will not plot
+properly and <span class="samp">triax.points</span> will complain appropriately. Note also
+that <span class="samp">triax.plot</span> will only display properly in a square plot,
+which is forced by <span class="samp">par(pty="s")</span>.
+</p>
+<p>In case the user does want to plot values with different sums, the
+axis tick labels can be set to different ranges to accomodate this.
+<span class="samp">triax.points</span> will still complain, but it will plot the values.
+</p>
+<p>If planning to add points with <span class="samp">triax.points</span> call <span class="samp">triax.plot</span>
+with <span class="samp">no.add=FALSE</span> and restore plotting parameters after the
+points are added.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Ben Daughtry for the info on counterclockwise axes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/triax.points.html">triax.points</a>, <a href="../../plotrix/help/triax.abline.html">triax.abline</a>, <a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ data(soils)
+ triax.plot(soils[1:10,],main="DEFAULT")
+ triax.plot(soils[1:10,],main="PERCENTAGES (Counterclockwise axes)",
+  tick.labels=list(l=seq(10,90,by=10),r=seq(10,90,by=10),b=seq(10,90,by=10)),
+  pch=3,cc.axes=TRUE)
+ triax.return&lt;-triax.plot(soils[1:6,],main="GRID AND LEGEND",
+  show.grid=TRUE,show.legend=TRUE,col.symbols=1:6,pch=4)
+ # triax.plot changes a few parameters
+ par(triax.return$oldpar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

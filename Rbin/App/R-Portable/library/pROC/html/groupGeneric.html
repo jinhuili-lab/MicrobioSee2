@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: pROC Group Generic Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for groupGeneric {pROC}"><tr><td>groupGeneric {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+pROC Group Generic Functions
+</h2>
+
+<h3>Description</h3>
+
+<p>Redefine <span class="pkg">base</span> groupGeneric functions to handle <code><a href="../../pROC/help/auc.html">auc</a></code> and <code><a href="../../pROC/help/ci.html">ci</a></code> objects properly on operations and mathematical operations.
+Attributes are dropped so that the AUC/CI behaves as a numeric value/matrix, respectively.
+In the case of AUC, all attributes are dropped, while in CI only the CI-specific attributes are, keeping those necessary for the matrices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Math(x, ...)
+Ops(e1, e2)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, e1, e2</code></td>
+<td>
+<p><code><a href="../../pROC/help/auc.html">auc</a></code> objects, or mixed numerics and <code>auc</code> objects.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to other Math methods.
+</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/groupGeneric.html">groupGeneric</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Create a roc object:
+aucobj1 &lt;- auc(roc(aSAH$outcome, aSAH$s100b))
+aucobj2 &lt;- auc(roc(aSAH$outcome, aSAH$wfns))
+
+# Math
+sqrt(aucobj1)
+round(aucobj2, digits=1)
+
+# Ops
+aucobj1 * 2
+2 * aucobj2
+aucobj1 + aucobj2
+
+# With CI
+ciaucobj &lt;- ci(aucobj1)
+ciaucobj * 2
+sqrt(ciaucobj)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

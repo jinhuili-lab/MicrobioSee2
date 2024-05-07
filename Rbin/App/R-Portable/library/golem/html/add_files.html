@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_js_file {golem}"><tr><td>add_js_file {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create Files</h2>
+
+<h3>Description</h3>
+
+<p>These functions create files inside the <code>inst/app</code> folder.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_js_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  with_doc_ready = TRUE,
+  template = golem::js_template,
+  ...
+)
+
+add_js_handler(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  template = golem::js_handler_template,
+  ...
+)
+
+add_js_input_binding(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  initialize = FALSE,
+  dev = FALSE,
+  events = list(name = "click", rate_policy = FALSE)
+)
+
+add_js_output_binding(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
+
+add_css_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  template = golem::css_template,
+  ...
+)
+
+add_sass_file(
+  name,
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE,
+  template = golem::sass_template,
+  ...
+)
+
+add_html_template(
+  name = "template.html",
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
+
+add_partial_html_template(
+  name = "partial_template.html",
+  pkg = get_golem_wd(),
+  dir = "inst/app/www",
+  open = TRUE,
+  dir_create = TRUE
+)
+
+add_ui_server_files(pkg = get_golem_wd(), dir = "inst/app", dir_create = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the module.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dir</code></td>
+<td>
+<p>Path to the dir where the file while be created.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Should the created file be opened?</p>
+</td></tr>
+<tr valign="top"><td><code>dir_create</code></td>
+<td>
+<p>Creates the directory if it doesn't exist, default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>with_doc_ready</code></td>
+<td>
+<p>For JS file - Should the default file include <code style="white-space: pre;">$( document ).ready()</code>?</p>
+</td></tr>
+<tr valign="top"><td><code>template</code></td>
+<td>
+<p>Function writing in the created file.
+You may overwrite this with your own template function.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be passed to the <code>template</code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>initialize</code></td>
+<td>
+<p>For JS file - Whether to add the initialize method.
+Default to FALSE. Some JavaScript API require to initialize components
+before using them.</p>
+</td></tr>
+<tr valign="top"><td><code>dev</code></td>
+<td>
+<p>Whether to insert console.log calls in the most important
+methods of the binding. This is only to help building the input binding.
+Default is FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>events</code></td>
+<td>
+<p>List of events to generate event listeners in the subscribe method.
+For instance, <code>list(name = c("click", "keyup"), rate_policy = c(FALSE, TRUE))</code>.
+The list contain names and rate policies to apply to each event. If a rate policy is found,
+the debounce method with a default delay of 250 ms is applied. You may edit manually according to
+<a href="https://shiny.rstudio.com/articles/building-inputs.html">https://shiny.rstudio.com/articles/building-inputs.html</a></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path to the file, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>add_ui_server_files</code> will be deprecated in future version of <code>{golem}</code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../golem/help/js_template.html">js_template</a></code>, <code><a href="../../golem/help/js_handler_template.html">js_handler_template</a></code>, and <code><a href="../../golem/help/css_template.html">css_template</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

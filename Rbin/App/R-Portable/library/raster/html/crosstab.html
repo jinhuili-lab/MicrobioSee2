@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Cross-tabulate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for crosstab {raster}"><tr><td>crosstab {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Cross-tabulate</h2>
+
+<h3>Description</h3>
+
+<p>Cross-tabulate two RasterLayer objects, or mulitiple layers in a RasterStack or RasterBrick to create a contingency table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,Raster'
+crosstab(x, y, digits=0, long=FALSE, useNA=FALSE, progress='', ...)
+
+## S4 method for signature 'RasterStackBrick,missing'
+crosstab(x, digits=0, long=FALSE, useNA=FALSE, progress='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object if <code>x</code> is a RasterLayer; Can be missing if <code>x</code> is a RasterStack or RasterBrick</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>integer. The number of digits for rounding the values before cross-tabulation</p>
+</td></tr>
+<tr valign="top"><td><code>long</code></td>
+<td>
+<p>logical. If <code>TRUE</code> the results are returned in 'long' format data.frame instead of a table</p>
+</td></tr>
+<tr valign="top"><td><code>useNA</code></td>
+<td>
+<p>logical, indicting if the table should includes counts of <code>NA</code> values</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>character. &quot;text&quot;, &quot;window&quot;, or &quot;&quot; (the default, no progress bar), only for large files that cannot be processed in one step</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. none implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A table or data.frame
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/freq.html">freq</a></code>, <code><a href="../help/zonal.html">zonal</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nc=5, nr=5)
+values(r) &lt;- runif(ncell(r)) * 2
+s &lt;- setValues(r, runif(ncell(r)) * 3)
+crosstab(r,s)
+
+rs &lt;- r/s
+r[1:5] &lt;- NA
+s[20:25] &lt;- NA
+x &lt;- stack(r, s, rs)
+crosstab(x, useNA=TRUE, long=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plots One-dimensional Diagrams without Overwriting Labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for linestack {vegan}"><tr><td>linestack {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plots One-dimensional Diagrams without Overwriting Labels </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>linestack</code> plots vertical one-dimensional plots for
+numeric vectors.  The plots are always labelled, but the labels
+are moved vertically to avoid overwriting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+linestack(x, labels, cex = 0.8, side = "right", hoff = 2, air = 1.1,
+          at = 0, add = FALSE, axis = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Numeric vector to be plotted. </p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels used instead of default (names of <code>x</code>). May
+be expressions to be drawn with <code><a href="../../grDevices/html/plotmath.html">plotmath</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Size of the labels. </p>
+</td></tr>
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>Put labels to the <code>"right"</code> or <code>"left"</code> of the
+axis.</p>
+</td></tr>
+<tr valign="top"><td><code>hoff</code></td>
+<td>
+<p>Distance from the vertical axis to the label in units of
+the width of letter &ldquo;m&rdquo;. </p>
+</td></tr>
+<tr valign="top"><td><code>air</code></td>
+<td>
+<p>Multiplier to string height to leave empty space between
+labels.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Position of plot in horizontal axis. </p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add to an existing plot. </p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Add axis to the plot. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other graphical parameters to labels.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The function returns invisibly the shifted positions of labels in
+user coordinates.
+</p>
+
+
+<h3>Note</h3>
+
+<p> The function always draws labelled diagrams.  If you want to have
+unlabelled diagrams, you can use, e.g., <code><a href="../../graphics/html/plot.default.html">plot</a></code>,
+<code><a href="../../graphics/html/stripchart.html">stripchart</a></code> or <code><a href="../../graphics/html/rug.html">rug</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen with modifications by Gavin L. Simpson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## First DCA axis
+data(dune)
+ord &lt;- decorana(dune)
+linestack(scores(ord, choices=1, display="sp"))
+linestack(scores(ord, choices=1, display="si"), side="left", add=TRUE)
+title(main="DCA axis 1")
+
+## Expressions as labels
+N &lt;- 10					# Number of sites
+df &lt;- data.frame(Ca = rlnorm(N, 2), NO3 = rlnorm(N, 4),
+                 SO4 = rlnorm(N, 10), K = rlnorm(N, 3))
+ord &lt;- rda(df, scale = TRUE)
+### vector of expressions for labels
+labs &lt;- expression(Ca^{2+phantom()},
+                   NO[3]^{-phantom()},
+                   SO[4]^{2-phantom()},
+                   K^{+phantom()})
+scl &lt;- "sites"
+linestack(scores(ord, choices = 1, display = "species", scaling = scl),
+          labels = labs, air = 2)
+linestack(scores(ord, choices = 1, display = "site", scaling = scl),
+          side = "left", add = TRUE)
+title(main = "PCA axis 1")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extends another class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for extend.Object {R.oo}"><tr><td>extend.Object {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extends another class</h2>
+
+<h3>Description</h3>
+
+<p>via a mechanism known as &quot;parasitic inheritance&quot;.
+Simply speaking this method &quot;extends another class&quot;. What is actually
+happening is that it creates an instance of class name <code>...className</code>,
+by taking another Object instance and add <code>...className</code> to the class
+list and also add all the named values in <code>...</code> as fields to the
+new instance.
+</p>
+<p>The method should be used by the constructor of a class and nowhere else.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Object'
+extend(this, ...className, ..., ...fields=NULL, ...envir=parent.frame(), ...finalize=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...className</code></td>
+<td>
+<p>The name of new class.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named values representing the fields of the new instance.</p>
+</td></tr>
+<tr valign="top"><td><code>...fields</code></td>
+<td>
+<p>An optional named <code><a href="../../base/help/list.html">list</a></code> of fields.  This makes it possible
+to specify a set of fields using a <code><a href="../../base/help/list.html">list</a></code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>...envir</code></td>
+<td>
+<p>An <code><a href="../../base/help/environment.html">environment</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...finalize</code></td>
+<td>
+
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> controlling whether method <code><a href="../help/finalize.Object.html">*finalize</a>()</code> should
+be called on the <code><a href="../../R.oo/help/Object.html">Object</a></code> when it is garbage collected or not.
+If <code><a href="../../base/help/logical.html">TRUE</a></code>, it will be called.  If <code><a href="../../base/help/logical.html">FALSE</a></code>, it will not be called.
+If <code><a href="../../base/help/NA.html">NA</a></code>, it will be called according to argument <code>finalize</code>
+of the <code><a href="../../R.oo/help/Object.html">Object</a></code> constructor.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The reason for the strange name of argument <code>"...className"</code> is that
+if one tries to set a field with a name that is a prefix of the name of
+this arguments and one at the same time does not specify the name of this
+argument one would run into strange errors. For instance, try
+<code>extend(Object(), "MyClass", ...c=0)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an Object of class <code>className</code>.
+</p>
+
+
+<h3>Field modifiers</h3>
+
+<p>It is possible to specify modifiers to some of the fields.  Currently it
+is only the <code>cached</code> modifier that is recognized.  A field that is
+cached will be assigned <code><a href="../../base/help/NULL.html">NULL</a></code> when <code><a href="../help/clearCache.Object.html">*clearCache</a>()</code> is called.
+To specify a modifier, append a comma separated list of modifiers followed
+by a colon, e.g. &quot;cached:foo&quot;.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Object.html">Object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: For a complete example see help(Object).</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

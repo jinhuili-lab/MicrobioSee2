@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sets line break after opening parenthesis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set_line_break_after_opening_if_call_is_multi_line {styler}"><tr><td>set_line_break_after_opening_if_call_is_multi_line {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sets line break after opening parenthesis</h2>
+
+<h3>Description</h3>
+
+<p>Sets line break after opening parenthesis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set_line_break_after_opening_if_call_is_multi_line(
+  pd,
+  except_token_after = NULL,
+  except_text_before = NULL,
+  force_text_before = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>The parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>except_token_after</code></td>
+<td>
+<p>The tokens after the token that cause an exception.</p>
+</td></tr>
+<tr valign="top"><td><code>except_text_before</code></td>
+<td>
+<p>A character vector with text before a token that
+does not cause a line break.</p>
+</td></tr>
+<tr valign="top"><td><code>force_text_before</code></td>
+<td>
+<p>A character vector with text before &quot;'('&quot; that
+forces a line break after every argument in the call.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In general, every call that is multi-line has a line break after the opening
+parenthesis. Exceptions:
+</p>
+
+<ul>
+<li><p> The token right after the parenthesis is a comment, then, the line should
+be broken after the comment only. Governed by <code>except_token_after</code>.
+</p>
+</li>
+<li><p> The name of the function called is <code>ifelse()</code> or similar, where we can
+allow the condition on the same line as the function name, and we don't
+impose rules on the line breaks for the subsequent arguments. Governed
+by <code>except_text_before</code>.
+</p>
+</li>
+<li><p> Some calls like <code>switch()</code> statements are always forced to become multi-
+line. Governed by <code>force_text_before</code>.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

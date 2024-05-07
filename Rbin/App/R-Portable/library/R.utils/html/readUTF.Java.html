@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a Java (UTF-8) formatted string from a connection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Java$readUTF {R.utils}"><tr><td>Java$readUTF {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a Java (UTF-8) formatted string from a connection</h2>
+
+<h3>Description</h3>
+
+<p>Reads a Java (UTF-8) formatted string from a connection.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Java$readUTF(con, as.character=TRUE, ...)
+
+## Don't use the below:
+## S3 method for class 'Java'
+readUTF(static, con, as.character=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Binary connection to be read from.</p>
+</td></tr>
+<tr valign="top"><td><code>as.character</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the read string converted,
+i.e. translated, into an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> character string before
+returned, otherwise an integer vector representation of
+the Unicode string is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Currently only 8-bit UTF-8 byte sequences are supported, i.e. plain
+ASCII sequences, i.e. characters that take up more than one byte are
+read <em>incorrectly</em> without any warnings.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string or an <code><a href="../../base/help/integer.html">integer</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/readBin.html">readBin</a></code>().
+For more information see <code><a href="../../R.utils/help/Java.html">Java</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

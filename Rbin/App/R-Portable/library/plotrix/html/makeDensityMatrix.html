@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute a matrix of counts from a list of x,y positions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for makeDensityMatrix {plotrix}"><tr><td>makeDensityMatrix {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute a matrix of counts from a list of x,y positions</h2>
+
+<h3>Description</h3>
+
+<p>Compute a matrix in which the counts in each cell represent the number of 
+occurrences of that cell's coordinates in a list of x,y cooordinate values,
+optionally computing a second matrix of the average of the values attached
+to the coordinate observations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ makeDensityMatrix(x,y,z=NULL,nx=100,ny=50,zfun=c("mean","sum"),
+ xlim=c(-180,180),ylim=c(-90,90),geocoord=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Vectors of x and y coordinates. These are usually combined in a
+matrix or data frame of two columns.</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>Optional values attached to each coordinate pair. If these are present,
+it can be in a matrix or data frame of three columns, x, y and z.</p>
+</td></tr>
+<tr valign="top"><td><code>nx</code></td>
+<td>
+<p>The number of &quot;x&quot; cells in the output matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>ny</code></td>
+<td>
+<p>The number of &quot;y&quot; cells in the output matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>zfun</code></td>
+<td>
+<p>The function to apply to the summed values attached to each 
+coordinate pair. Currently defaults to mean, otherwise the sum is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>The extreme coordinates in the horizontal direction (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>The extreme coordinates in the vertical direction (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>geocoord</code></td>
+<td>
+<p>Whether to correct the matrix values for the areal distortion
+of the Mercator projection.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">makeDensityMatrix</span> expects two vectors or a matrix or data frame with 
+at least two columns. The function was written for geographic coordinates,
+but will also work for other numeric coordinates. An optional third vector 
+or column of values for each coordinate will be processed.
+</p>
+<p>Each coordinate pair adds to the count in that cell of the matrix. If there
+is a third element, that value is added to a second matrix in the same 
+position. By default, the function computes the mean of all values in each 
+cell. If <span class="samp">zfun="sum"</span>, the sum of values in each cell will be returned.
+</p>
+<p>As geograhic data sets may be very large, leading to memory problems, 
+<span class="samp">makeDensityMatrix</span> can be run on small sections of the data set and the
+resulting matrices added together as long as the coordinate limits are
+consistent throughout.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Either a matrix of counts of coordinate pairs within each cell or a list of
+two such matrices, the second containing the mean or sum of values associated 
+with coordinate pairs.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/densityGrid.html">densityGrid</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-sample(1:20,400,TRUE)
+ y&lt;-sample(1:20,400,TRUE)
+ z&lt;-runif(400,5,20)
+ xyz&lt;-makeDensityMatrix(x,y,z,nx=20,ny=20,xlim=c(1,10),ylim=c(1,10),
+  geocoord=FALSE)
+ par(mar=c(7,3,2,3))
+ plot(0,xlim=c(1,10),ylim=c(1,10),type="n",xlab="",axes=FALSE)
+ box()
+ densityGrid(xyz,range.cex=c(1,4),xlim=c(1,10),ylim=c(1,10),
+  red=c(0,0.5,0.8,1),green=c(1,0.8,0.5,0),blue=0,pch=15)
+ color.legend(3,-0.7,7,-0.2,c(5,10,15,20),
+  rect.col=color.scale(1:4,cs1=c(0,0.5,0.8,1),cs2=c(1,0.8,0.5,0),cs3=0,alpha=1))
+ par(xpd=TRUE)
+ text(5,0.3,"Intensity")
+ points(c(3.5,4.5,5.5,6.5),rep(-1.7,4),pch=15,cex=1:4)
+ text(c(3.5,4.5,5.5,6.5),rep(-1.3,4),1:4)
+ text(5,-1,"Density")
+ par(xpd=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

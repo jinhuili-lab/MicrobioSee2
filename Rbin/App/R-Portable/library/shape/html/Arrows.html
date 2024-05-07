@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: adds arrows with improved arrowhead to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arrows {shape}"><tr><td>Arrows {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+adds arrows with improved arrowhead to a plot
+</h2>
+
+<h3>Description</h3>
+
+<p>adds one or more arrows  to a plot; arrowhead shape is either curved,
+a triangle, a circle or simple
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Arrows(x0, y0, x1, y1, code = 2, arr.length = 0.4, 
+  arr.width = arr.length/2, arr.adj = 0.5, arr.type = "curved",
+  segment = TRUE, col = "black", lcol = col, lty = 1, arr.col = lcol, 
+  lwd = 1, arr.lwd = lwd, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x0 </code></td>
+<td>
+<p>x-coordinates of points *from* which to draw arrows;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y0 </code></td>
+<td>
+<p>y-coordinates of points *from* which to draw arrows;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x1 </code></td>
+<td>
+<p>x-coordinates of points *to* which to draw arrows;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>y1 </code></td>
+<td>
+<p>y-coordinates of points *to* which to draw arrows;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>code </code></td>
+<td>
+<p>integer code determining kind of arrows to draw.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.length </code></td>
+<td>
+<p>approximate length of arrowhead, in cm;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.width </code></td>
+<td>
+<p>approximate width of arrowhead, in cm;
+either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.adj </code></td>
+<td>
+<p>0,0.5,1 specifying the adjustment of the arrowhead.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.type </code></td>
+<td>
+<p>type of arrowhead to draw, one of &quot;none&quot;, &quot;simple&quot;, &quot;curved&quot;,
+&quot;triangle&quot;, &quot;circle&quot;, &quot;ellipse&quot; or &quot;T&quot;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>segment </code></td>
+<td>
+<p>logical specifying whether or not to draw line segments.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col </code></td>
+<td>
+<p>general line color specification; one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lcol </code></td>
+<td>
+<p>line color specifications; either one value or a vector.
+ignored when arr.type = <code>"simple"</code> or <code>"T"</code> - use &quot;col&quot;
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty </code></td>
+<td>
+<p>line type specifications; either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.col </code></td>
+<td>
+<p>color of arrowhead; either one value or a vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd </code></td>
+<td>
+<p>general line width specification. 
+The default value changed to 1 from version 1.4 (was 2) 
+</p>
+</td></tr>
+<tr valign="top"><td><code>arr.lwd </code></td>
+<td>
+<p>line width of arrowhead.
+</p>
+</td></tr>
+<tr valign="top"><td><code>... </code></td>
+<td>
+<p>arguments passed to lines, segments or <a href="../../shape/help/Arrowhead.html">Arrowhead</a> function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>x0</code>, <code>y0</code>, <code>x1</code>, <code>y1</code>, <code>arr.length</code>,
+<code>arr.width</code>, <code>arr.adj</code>, <code>lcol</code>, <code>lty</code> and
+<code>arr.col</code> can be a vector, of the same length.
+</p>
+<p>For each 'i', an arrow is drawn between the point '(x0[i], y0[i])'
+and the point '(x1[i],y1[i])'.
+</p>
+
+<ul>
+<li><p> If <code>code</code>=1 an arrowhead is drawn at '(x0[i],y0[i])'
+</p>
+</li>
+<li><p> if <code>code</code>=2 an arrowhead is drawn at '(x1[i],y1[i])'.
+</p>
+</li>
+<li><p> If <code>code</code>=3 an arrowhead is drawn at both ends of the arrow
+</p>
+</li>
+<li><p> unless <code>arr.length</code> = 0, when no head is drawn.
+</p>
+</li></ul>
+
+
+<ul>
+<li><p> If <code>arr.adj</code> = 0.5 then the centre of the arrowhead is at
+the point at which it is drawn.
+</p>
+</li>
+<li> <p><code>arr.adj</code> = 1 causes the tip of the arrowhead to touch
+the point.
+</p>
+</li>
+<li> <p><code>arr.adj</code> = 2 causes the base of the arrowhead to touch
+the point.
+</p>
+</li></ul>
+
+<p>The type of the arrowhead is set with <code>arr.type</code> which can take
+the values:
+</p>
+
+<ul>
+<li><p> &quot;simple&quot;  : uses comparable <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function <a href="../../graphics/html/arrows.html">arrows</a>
+</p>
+</li>
+<li><p> &quot;triangle&quot;: uses filled triangle
+</p>
+</li>
+<li><p> &quot;curved&quot;  : draws arrowhead with curved edges
+</p>
+</li>
+<li><p> &quot;circle&quot;  : draws circular head
+</p>
+</li>
+<li><p> &quot;ellipse&quot; : draws ellepsoid head
+</p>
+</li>
+<li><p> &quot;T&quot;       : draws T-shaped (blunt) head
+</p>
+</li></ul>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/arrows.html">arrows</a></code> the comparable R function
+</p>
+<p><code><a href="../../shape/help/Arrowhead.html">Arrowhead</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+xlim &lt;- c(-5 , 5)
+ylim &lt;- c(-10, 10)
+plot(0, type = "n", xlim = xlim, ylim = ylim, 
+     main = "Arrows,  type = 'curved'")
+x0 &lt;- runif(100, xlim[1], xlim[2])
+y0 &lt;- runif(100, ylim[1], ylim[2])
+x1 &lt;- x0+runif(100, -1, 1)
+y1 &lt;- y0+runif(100, -1, 1)
+Arrows(x0, y0, x1, y1, arr.length = runif(100), code = 2, 
+       arr.type = "curved", arr.col = 1:100, lcol = 1:100)
+  
+plot(0, type = "n", xlim = xlim, ylim = ylim, 
+     main = "Arrows,  type = 'circle'")
+x0 &lt;- runif(100, xlim[1], xlim[2])
+y0 &lt;- runif(100, ylim[1], ylim[2])
+x1 &lt;- x0 + runif(100, -1, 1)
+y1 &lt;- y0 + runif(100, -1, 1)
+Arrows(x0, y0, x1, y1, arr.length = 0.2, code = 3, 
+       arr.type = "circle", arr.col = "grey")
+  
+plot(0, type = "n", xlim = xlim, ylim = ylim, 
+     main = "Arrows,  type = 'ellipse'")
+Arrows(x0, y0, x1, y1, arr.length = 0.2, arr.width = 0.5, 
+       code = 3, arr.type = "ellipse",  arr.col = "grey")
+
+curve(expr = sin(x), 0, 2*pi+0.25, main = "Arrows")
+x  &lt;- seq(0, 2*pi, length.out = 10)
+xd &lt;- x + 0.025
+Arrows(x, sin(x), xd, sin(xd), type = "triangle", 
+       arr.length = 0.5, segment = FALSE)
+  
+xx &lt;- seq(0, 10*pi, length.out = 1000)
+plot(sin(xx)*xx, cos(xx)*xx, type = "l", axes = FALSE, 
+     xlab = "", ylab = "", main = "Arrows,  type = 'curved'")
+x  &lt;- seq(0, 10*pi, length.out = 20)
+x1 &lt;- sin(x)*x
+y1 &lt;- cos(x)*x
+xd &lt;- x+0.01
+x2 &lt;- sin(xd)*xd
+y2 &lt;- cos(xd)*xd
+Arrows(x1, y1, x2, y2, arr.type = "curved", arr.length = 0.4, 
+       segment = FALSE, code = 1, arr.adj = 0.5 )
+
+plot(sin(xx)*xx, cos(xx)*xx, type = "l", axes = FALSE, 
+     xlab = "", ylab = "", main = "Arrows,  type = 'T'")
+Arrows(x1, y1, x2, y2, arr.type = "T", arr.length = 0.4, 
+       code = 1, arr.lwd = 2)
+
+
+# arguments passed to polygon:
+
+xlim &lt;- c(-5 , 5)
+ylim &lt;- c(-10, 10)
+plot(0, type = "n", xlim = xlim, ylim = ylim, 
+     main = "Arrows,  type = 'curved'")
+x0 &lt;- runif(100, xlim[1]-1, xlim[2]+0.5)  # exceeds the x-range
+y0 &lt;- runif(100, ylim[1], ylim[2])
+x1 &lt;- x0+runif(100, -1, 1)
+y1 &lt;- y0+runif(100, -1, 1)
+Arrows(x0, y0, x1, y1, arr.length = runif(100), code = 2, 
+       arr.type = "curved", arr.col = 1:100, lcol = 1:100, xpd = TRUE)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Test Effect Size for Practical Equivalence to the Null</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for equivalence_test.effectsize_table {effectsize}"><tr><td>equivalence_test.effectsize_table {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Test Effect Size for Practical Equivalence to the Null</h2>
+
+<h3>Description</h3>
+
+<p>Perform a <strong>Test for Practical Equivalence</strong> for indices of
+effect size.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'effectsize_table'
+equivalence_test(
+  x,
+  range = "default",
+  rule = c("classic", "cet", "bayes"),
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An effect size table, such as returned by <code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>,
+<code><a href="../../effectsize/help/eta_squared.html">eta_squared()</a></code>, <code><a href="../../effectsize/help/F_to_r.html">F_to_r()</a></code>, etc.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>The range of practical equivalence of an effect. For one-sides
+CIs, a single value can be proved for the lower / upper bound to test
+against (but see more details below). For two-sided CIs, a single value is
+duplicated to <code>c(-range, range)</code>. If <code>"default"</code>, will be set to <code style="white-space: pre;">[-.1, .1]</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rule</code></td>
+<td>
+<p>How should acceptance and rejection be decided? See details.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The CIs used in the equivalence test are the ones in the provided effect size
+table. For results equivalent (ha!) to those that can be obtained using the
+TOST approach (e.g., Lakens, 2017), appropriate CIs should be extracted using
+the function used to make the effect size table (<code>cohens_d</code>, <code>eta_squared</code>,
+<code>F_to_r</code>, etc), with <code>alternative = "two.sided"</code>. See examples.
+</p>
+
+
+<h4>The Different Rules</h4>
+
+
+<ul>
+<li> <p><code>"classic"</code> - <strong>the classic method</strong>:
+</p>
+
+<ul>
+<li><p> If the CI is completely within the ROPE - <em>Accept H0</em>
+</p>
+</li>
+<li><p> Else, if the CI does not contain 0 - <em>Reject H0</em>
+</p>
+</li>
+<li><p> Else - <em>Undecided</em>
+</p>
+</li></ul>
+
+</li>
+<li> <p><code>"cet"</code> - <strong>conditional equivalence testing</strong>:
+</p>
+
+<ul>
+<li><p> If the CI does not contain 0 - <em>Reject H0</em>
+</p>
+</li>
+<li><p> Else, If the CI is completely within the ROPE - <em>Accept H0</em>
+</p>
+</li>
+<li><p> Else - <em>Undecided</em>
+</p>
+</li></ul>
+
+</li>
+<li> <p><code>"bayes"</code> - <strong>The Bayesian approach</strong>, as put forth by Kruschke:
+</p>
+
+<ul>
+<li><p> If the CI does is completely outside the ROPE - <em>Reject H0</em>
+</p>
+</li>
+<li><p> Else, If the CI is completely within the ROPE - <em>Accept H0</em>
+</p>
+</li>
+<li><p> Else - <em>Undecided</em>
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the results of the equivalence test.
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Campbell, H., &amp; Gustafson, P. (2018). Conditional equivalence testing: An
+alternative remedy for publication bias. PLOS ONE, 13(4), e0195145.
+doi: <a href="https://doi.org/10.1371/journal.pone.0195145">10.1371/journal.pone.0195145</a>
+</p>
+</li>
+<li><p> Kruschke, J. K. (2014). Doing Bayesian data analysis: A tutorial with R,
+JAGS, and Stan. Academic Press
+</p>
+</li>
+<li><p> Kruschke, J. K. (2018). Rejecting or accepting parameter values in Bayesian
+estimation. Advances in Methods and Practices in Psychological Science, 1(2),
+270-280. doi: <a href="https://doi.org/10.1177/2515245918771304">10.1177/2515245918771304</a>
+</p>
+</li>
+<li><p> Lakens, D. (2017). Equivalence Tests: A Practical Primer for t Tests,
+Correlations, and Meta-Analyses. Social Psychological and Personality
+Science, 8(4), 355–362. doi: <a href="https://doi.org/10.1177/1948550617697177">10.1177/1948550617697177</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>For more details, see <code><a href="../../bayestestR/help/equivalence_test.html">bayestestR::equivalence_test()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data("hardlyworking")
+model &lt;- aov(salary ~ age + factor(n_comps) * cut(seniority, 3), data = hardlyworking)
+es &lt;- eta_squared(model, ci = 0.9, alternative = "two.sided")
+equivalence_test(es, range = c(0, 0.15)) # TOST
+
+data("RCT_table")
+OR &lt;- oddsratio(RCT_table, alternative = "greater")
+equivalence_test(OR, range = c(0, 1))
+
+ds &lt;- t_to_d(
+  t = c(0.45, -0.65, 7, -2.2, 2.25),
+  df_error = c(675, 525, 2000, 900, 1875),
+  ci = 0.9, alternative = "two.sided" # TOST
+)
+# Can also plot
+if (require(see)) plot(equivalence_test(ds, range = 0.2))
+if (require(see)) plot(equivalence_test(ds, range = 0.2, rule = "cet"))
+if (require(see)) plot(equivalence_test(ds, range = 0.2, rule = "bayes"))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

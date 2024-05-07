@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply transformers to a parse table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for apply_transformers {styler}"><tr><td>apply_transformers {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply transformers to a parse table</h2>
+
+<h3>Description</h3>
+
+<p>The column <code>multi_line</code> is updated (after the line break information is
+modified) and the rest of the transformers are applied afterwards,
+The former requires two pre visits and one post visit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+apply_transformers(pd_nested, transformers)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A list of <em>named</em> transformer functions</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The order of the transformations is:
+</p>
+
+<ul>
+<li><p> Initialization (must be first).
+</p>
+</li>
+<li><p> Line breaks (must be before spacing due to indention).
+</p>
+</li>
+<li><p> Update of newline and multi-line attributes (must not change afterwards,
+hence line breaks must be modified first).
+</p>
+</li>
+<li><p> spacing rules (must be after line-breaks and updating newlines and
+multi-line).
+</p>
+</li>
+<li><p> indention.
+</p>
+</li>
+<li><p> token manipulation / replacement (is last since adding and removing tokens
+will invalidate columns token_after and token_before).
+</p>
+</li>
+<li><p> Update indention reference (must be after line breaks).
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

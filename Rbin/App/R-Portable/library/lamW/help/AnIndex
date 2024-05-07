@@ -1,0 +1,9 @@
+lamW-package	lamW-package
+lambertW0	lamW
+lambertW0_C	lamW-internal
+lambertWm1	lamW
+lambertWm1_C	lamW-internal
+lamW	lamW-package
+lamW_lambertW0_C	lamW-internal
+lamW_lambertWm1_C	lamW-internal
+lamW_RcppExport_registerCCallable	lamW-internal

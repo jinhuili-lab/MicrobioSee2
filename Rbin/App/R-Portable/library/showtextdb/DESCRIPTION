@@ -1,0 +1,19 @@
+Package: showtextdb
+Type: Package
+Title: Font Files for the 'showtext' Package
+Version: 3.0
+Date: 2020-05-31
+Author: Yixuan Qiu and authors/contributors of the included fonts. See file
+    AUTHORS for details.
+Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
+Description: Providing font files that can be used by the 'showtext' package.
+Imports: sysfonts (>= 0.7), utils
+Suggests: curl
+License: Apache License (>= 2.0)
+Copyright: see file COPYRIGHTS
+RoxygenNote: 7.1.0
+NeedsCompilation: no
+Packaged: 2020-06-04 04:05:01 UTC; qyx
+Repository: CRAN
+Date/Publication: 2020-06-04 08:10:02 UTC
+Built: R 4.1.3; ; 2023-04-17 14:24:33 UTC; windows

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class &quot;mle2&quot;. Result of Maximum Likelihood Estimation.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mle2-class {bbmle}"><tr><td>mle2-class {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class &quot;mle2&quot;. Result of Maximum Likelihood Estimation.</h2>
+
+<h3>Description</h3>
+
+<p>This class encapsulates results of a generic maximum
+likelihood procedure.</p>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("mle2", ...)</code>, but
+most often as the result of a call to <code><a href="../../bbmle/help/mle2.html">mle2</a></code>.
+</p>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>call</code>:</dt><dd><p>(language) The call to <code><a href="../../bbmle/help/mle2.html">mle2</a></code>.</p>
+</dd>
+<dt><code>call.orig</code>:</dt><dd><p>(language) The call to <code><a href="../../bbmle/help/mle2.html">mle2</a></code>,
+saved in its original form (i.e. without data arguments
+evaluated).</p>
+</dd>
+<dt><code>coef</code>:</dt><dd><p>(numeric) Vector of estimated parameters.</p>
+</dd>
+<dt><code>data</code>:</dt><dd><p>(data frame or list) Data with which to evaluate the negative log-likelihood function</p>
+</dd>
+<dt><code>fullcoef</code>:</dt><dd><p>(numeric) Fixed and estimated parameters.</p>
+</dd>
+<dt><code>vcov</code>:</dt><dd><p>(numeric matrix) Approximate variance-covariance
+matrix, based on the second derivative matrix at the MLE.</p>
+</dd>
+<dt><code>min</code>:</dt><dd><p>(numeric) Minimum value of objective function =
+minimum negative log-likelihood.</p>
+</dd>
+<dt><code>details</code>:</dt><dd><p>(list) Return value from <code><a href="../../stats/html/optim.html">optim</a></code>.</p>
+</dd>
+<dt><code>minuslogl</code>:</dt><dd><p>(function) The negative log-likelihood
+function.</p>
+</dd>
+<dt><code>optimizer</code>:</dt><dd><p>(character) The optimizing function used.</p>
+</dd>
+<dt><code>method</code>:</dt><dd><p>(character) The optimization method used.</p>
+</dd>
+<dt><code>formula</code>:</dt><dd><p>(character) If a formula was specified, a
+character vector giving the formula and parameter specifications.</p>
+</dd>
+</dl>
+
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>coef</dt><dd><p><code>signature(object = "mle2")</code>: Extract coefficients.
+If <code>exclude.fixed=TRUE</code> (it is <code>FALSE</code> by default),
+only the non-fixed parameter values are returned.</p>
+</dd>
+<dt>confint</dt><dd><p><code>signature(object = "mle2")</code>: Confidence
+intervals from likelihood profiles, or quadratic approximations,
+or root-finding.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "mle2")</code>: Display object
+briefly.</p>
+</dd>
+<dt>show</dt><dd><p><code>signature(object = "summary.mle2")</code>: Display object briefly.</p>
+</dd>
+<dt>summary</dt><dd><p><code>signature(object = "mle2")</code>: Generate object summary.</p>
+</dd>
+<dt>update</dt><dd><p><code>signature(object = "mle2")</code>:  Update fit.</p>
+</dd>
+<dt>vcov</dt><dd><p><code>signature(object = "mle2")</code>: Extract
+variance-covariance matrix.</p>
+</dd>
+<dt>formula</dt><dd><p><code>signature(object="mle2")</code>: Extract formula</p>
+</dd>
+<dt>plot</dt><dd><p><code>signature(object="profile.mle2,missing")</code>: Plot
+profile. </p>
+</dd>
+</dl>
+
+
+
+<h3>Details on the confint method</h3>
+
+<p>When the parameters in the original fit are constrained using
+<code>lower</code> or <code>upper</code>, or when <code>prof.lower</code> or
+<code>prof.upper</code> are set, and the confidence intervals lie
+outside the constraint region, <code>confint</code> will return <code>NA</code>.
+This may be too conservative &ndash; in some cases, the appropriate
+answer would be to set the confidence limit to the lower/upper
+bound as appropriate &ndash; but it is the most general answer.
+</p>
+<p>(If you have a strong opinion about the need for a new
+option to <code>confint</code> that sets the bounds to the limits
+automatically, please contact the package maintainer.)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 0:10
+y &lt;- c(26, 17, 13, 12, 20, 5, 9, 8, 5, 4, 8)
+lowerbound &lt;- c(a=2,b=-0.2)
+d &lt;- data.frame(x,y)
+fit1 &lt;- mle2(y~dpois(lambda=exp(a+b*x)),start=list(a=0,b=2),data=d,
+method="L-BFGS-B",lower=c(a=2,b=-0.2))
+(cc &lt;- confint(fit1,quietly=TRUE))
+## to set the lower bounds to the limit
+na_lower &lt;- is.na(cc[,1])
+cc[na_lower,1] &lt;- lowerbound[na_lower]
+cc
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

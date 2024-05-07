@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters for the circular layout</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.par {circlize}"><tr><td>circos.par {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Parameters for the circular layout
+</h2>
+
+<h3>Description</h3>
+
+<p>Parameters for the circular layout
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.par(..., RESET = FALSE, READ.ONLY = NULL, LOCAL = FALSE, ADD = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments for the parameters, see &quot;details&quot; section
+</p>
+</td></tr>
+<tr valign="top"><td><code>RESET</code></td>
+<td>
+<p>reset to default values
+</p>
+</td></tr>
+<tr valign="top"><td><code>READ.ONLY</code></td>
+<td>
+<p>please ignore
+</p>
+</td></tr>
+<tr valign="top"><td><code>LOCAL</code></td>
+<td>
+<p>please ignore
+</p>
+</td></tr>
+<tr valign="top"><td><code>ADD</code></td>
+<td>
+<p>please ignore
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Global parameters for the circular layout. Currently supported parameters are:
+</p>
+
+<dl>
+<dt><code>start.degree</code></dt><dd><p>The starting degree from which the circle begins to draw. Note this degree is measured
+in the standard polar coordinate which means it is always reverse-clockwise.
+</p>
+</dd>
+<dt><code>gap.degree</code></dt><dd><p>Gap between two neighbour sectors. It can be a single value or a vector. If it is a vector,
+the first value corresponds to the gap after the first sector.
+</p>
+</dd>
+<dt><code>gap.after</code></dt><dd><p>identical to <code>gap.degree</code> option, but a more understandable name. Modifying this option will also affect <code>gap.degree</code>.
+</p>
+</dd>
+<dt><code>track.margin</code></dt><dd><p>Like <code>margin</code> in Cascading Style Sheets (CSS), it is the blank area
+out of the plotting region, also outside of the borders. Since left and right margin are controlled
+by <code>gap.degree</code>, only bottom and top margin need to be set. And all cells in a same track share the same margins, and
+that's why this parameter is called <code>track.margin</code>. The value for the <code>track.margin</code>
+is the percentage according to the radius of the unit circle. <code><a href="../../circlize/help/convert_height.html">convert_height</a></code> can be used to set to an absolute unit (e.g cm/inche).
+</p>
+</dd>
+<dt><code>unit.circle.segments</code></dt><dd><p>Since curves are simulated by a series of straight lines,
+this parameter controls the amount of segments to represent a curve. The minimal length
+of the line segmentation is the length of the unit circle (<code>2pi</code>) divided by <code>unit.circoe.segments</code>.
+More segments means better approximation for the curves while larger size if you generate figures as PDF format.
+</p>
+</dd>
+<dt><code>cell.padding</code></dt><dd><p>Padding of the cell. Like <code>padding</code> in Cascading Style Sheets
+(CSS), it is the blank area around the plotting regions, but within the borders.
+The parameter has four values, which controls the bottom, left, top and right paddings
+respectively. The first and the third padding
+values are the percentages according to the radius of the unit circle and the second and
+fourth values are degrees. Similar as <code>track.margin</code> option, the first and the third value
+can be set by <code><a href="../../circlize/help/convert_height.html">convert_height</a></code> to an absolute unit.
+</p>
+</dd>
+<dt><code>track.height</code></dt><dd><p>The default height of tracks. It is the percentage according to the radius
+of the unit circle. The height includes the top and bottom cell paddings but not the margins.
+<code><a href="../../circlize/help/convert_height.html">convert_height</a></code> can be used to set the height to an absolute unit.
+</p>
+</dd>
+<dt><code>points.overflow.warning</code></dt><dd><p>Since each cell is in fact not a real plotting region but only
+an ordinary rectangle, it does not eliminate points that are plotted out of
+the region. So if some points are out of the plotting region, <code>circlize</code> would continue drawing the points and printing warnings. In some
+cases, draw something out of the plotting region is useful, such as draw
+some legend or text. Set this value to <code>FALSE</code> to turn off the warnings.
+</p>
+</dd>
+<dt><code>circle.margin</code></dt><dd><p>Margin in the horizontal and vertical direction. The value should be a positive numeric vector
+and the length of it should be either 1, 2, or 4. When it has length of 1, it controls the margin on the four sides of the circle.
+When it has length of 2, the first value controls the margin on the left and right, and the second value controls
+the margin on the bottom and top side. When it has length of 4, the four values controls the margins on the left, right, bottom and top sides
+of the circle. So A value of <code>c(x1, x2, y1, y2)</code> means <code>circos.par(canvas.xlim = c(-(1+x1), 1+x2), canvas.ylim = c(-(1+y1), 1+y2))</code>.
+</p>
+</dd>
+<dt><code>canvas.xlim</code></dt><dd><p>The coordinate for the canvas. Because <code>circlize</code> draws everything (or almost everything) inside the unit circle,
+the default <code>canvas.xlim</code> and <code>canvas.ylim</code> for the canvas would be all <code>c(-1, 1)</code>. However, you can set it to a more broad
+interval if you want to draw other things out of the circle. By choosing proper
+<code>canvas.xlim</code> and <code>canvas.ylim</code>, you can draw part of the circle. E.g. setting
+<code>canvas.xlim</code> to <code>c(0, 1)</code> and <code>canvas.ylim</code> to <code>c(0, 1)</code> would only draw
+circle in the region of (0, pi/2).
+</p>
+</dd>
+<dt><code>canvas.ylim</code></dt><dd><p>The coordinate for the canvas. By default it is <code>c(-1, 1)</code>
+</p>
+</dd>
+<dt><code>clock.wise</code></dt><dd><p>The direction for adding sectors. Default is <code>TRUE</code>.
+</p>
+</dd>
+<dt><code>xaxis.clock.wise</code></dt><dd><p>The direction in the x-axes for all sectors. Default is <code>TRUE</code>.
+</p>
+</dd>
+</dl>
+
+<p>Similar as <code><a href="../../graphics/help/par.html">par</a></code>, you can get the parameter values by specifying the
+names of parameters and you can set the parameter values by specifying a
+named list which contains the new values.
+</p>
+<p><code>gap.degree</code>, <code>start.degree</code>, <code>canvas.xlim</code>, <code>canvas.ylim</code> and <code>clock.wise</code>
+only be set before the initialization of the circular layout
+(i.e. before calling <code><a href="../../circlize/help/circos.initialize.html">circos.initialize</a></code>) because these values will not be changed after
+adding sectors on the circle. The left and right padding for <code>cell.padding</code> will also be
+ignored after the initialization because all cells in a sector would share the same
+left and right paddings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html#graphic-parameters">https://jokergoo.github.io/circlize_book/book/circular-layout.html#graphic-parameters</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.par
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

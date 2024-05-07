@@ -1,0 +1,331 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Visual check of model assumptions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_model {performance}"><tr><td>check_model {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Visual check of model assumptions</h2>
+
+<h3>Description</h3>
+
+<p>Visual check of various model assumptions (normality of residuals, normality
+of random effects, linear relationship, homogeneity of variance,
+multicollinearity).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_model(x, ...)
+
+## Default S3 method:
+check_model(
+  x,
+  dot_size = 2,
+  line_size = 0.8,
+  panel = TRUE,
+  check = "all",
+  alpha = 0.2,
+  dot_alpha = 0.8,
+  colors = c("#3aaf85", "#1b6ca8", "#cd201f"),
+  theme = "see::theme_lucid",
+  detrend = TRUE,
+  show_dots = NULL,
+  bandwidth = "nrd",
+  type = "density",
+  residual_type = NULL,
+  verbose = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A model object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed down to the individual check functions, especially
+to <code>check_predictions()</code> and <code>binned_residuals()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dot_size, line_size</code></td>
+<td>
+<p>Size of line and dot-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>panel</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, plots are arranged as panels; else,
+single plots for each diagnostic are returned.</p>
+</td></tr>
+<tr valign="top"><td><code>check</code></td>
+<td>
+<p>Character vector, indicating which checks for should be performed
+and plotted. May be one or more of <code>"all"</code>, <code>"vif"</code>, <code>"qq"</code>, <code>"normality"</code>,
+<code>"linearity"</code>, <code>"ncv"</code>, <code>"homogeneity"</code>, <code>"outliers"</code>, <code>"reqq"</code>, <code>"pp_check"</code>,
+<code>"binned_residuals"</code> or <code>"overdispersion"</code>. Note that not all check apply
+to all type of models (see 'Details'). <code>"reqq"</code> is a QQ-plot for random
+effects and only available for mixed models. <code>"ncv"</code> is an alias for
+<code>"linearity"</code>, and checks for non-constant variance, i.e. for
+heteroscedasticity, as well as the linear relationship. By default, all
+possible checks are performed and plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha, dot_alpha</code></td>
+<td>
+<p>The alpha level of the confidence bands and dot-geoms.
+Scalar from 0 to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>colors</code></td>
+<td>
+<p>Character vector with color codes (hex-format). Must be of
+length 3. First color is usually used for reference lines, second color
+for dots, and third color for outliers or extreme values.</p>
+</td></tr>
+<tr valign="top"><td><code>theme</code></td>
+<td>
+<p>String, indicating the name of the plot-theme. Must be in the
+format <code>"package::theme_name"</code> (e.g. <code>"ggplot2::theme_minimal"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>detrend</code></td>
+<td>
+<p>Logical. Should Q-Q/P-P plots be detrended? Defaults to
+<code>TRUE</code> for linear models or when <code>residual_type = "normal"</code>. Defaults to
+<code>FALSE</code> for QQ plots based on simulated residuals (i.e. when
+<code>residual_type = "simulated"</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>show_dots</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, will show data points in the plot. Set
+to <code>FALSE</code> for models with many observations, if generating the plot is too
+time-consuming. By default, <code>show_dots = NULL</code>. In this case <code>check_model()</code>
+tries to guess whether performance will be poor due to a very large model
+and thus automatically shows or hides dots.</p>
+</td></tr>
+<tr valign="top"><td><code>bandwidth</code></td>
+<td>
+<p>A character string indicating the smoothing bandwidth to
+be used. Unlike <code>stats::density()</code>, which used <code>"nrd0"</code> as default, the
+default used here is <code>"nrd"</code> (which seems to give more plausible results
+for non-Gaussian models). When problems with plotting occur, try to change
+to a different value.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Plot type for the posterior predictive checks plot. Can be <code>"density"</code>,
+<code>"discrete_dots"</code>, <code>"discrete_interval"</code> or <code>"discrete_both"</code> (the <code style="white-space: pre;">discrete_*</code>
+options are appropriate for models with discrete - binary, integer or ordinal
+etc. - outcomes).</p>
+</td></tr>
+<tr valign="top"><td><code>residual_type</code></td>
+<td>
+<p>Character, indicating the type of residuals to be used.
+For non-Gaussian models, the default is <code>"simulated"</code>, which uses simulated
+residuals. These are based on <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code> and thus uses the
+<strong>DHARMa</strong> package to return randomized quantile residuals. For Gaussian
+models, the default is <code>"normal"</code>, which uses the default residuals from
+the model. Setting <code>residual_type = "normal"</code> for non-Gaussian models will
+use a half-normal Q-Q plot of the absolute value of the standardized deviance
+residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code>FALSE</code> (default), suppress most warning messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For Bayesian models from packages <strong>rstanarm</strong> or <strong>brms</strong>,
+models will be &quot;converted&quot; to their frequentist counterpart, using
+<a href="https://easystats.github.io/bayestestR/reference/convert_bayesian_as_frequentist.html"><code>bayestestR::bayesian_as_frequentist</code></a>.
+A more advanced model-check for Bayesian models will be implemented at a
+later stage.
+</p>
+<p>See also the related <a href="https://easystats.github.io/performance/articles/check_model.html">vignette</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The data frame that is used for plotting.
+</p>
+
+
+<h3>Posterior Predictive Checks</h3>
+
+<p>Posterior predictive checks can be used to look for systematic discrepancies
+between real and simulated data. It helps to see whether the type of model
+(distributional family) fits well to the data. See <code><a href="../../performance/help/check_predictions.html">check_predictions()</a></code>
+for further details.
+</p>
+
+
+<h3>Linearity Assumption</h3>
+
+<p>The plot <strong>Linearity</strong> checks the assumption of linear relationship.
+However, the spread of dots also indicate possible heteroscedasticity (i.e.
+non-constant variance, hence, the alias <code>"ncv"</code> for this plot), thus it shows
+if residuals have non-linear patterns. This plot helps to see whether
+predictors may have a non-linear relationship with the outcome, in which case
+the reference line may roughly indicate that relationship. A straight and
+horizontal line indicates that the model specification seems to be ok. But
+for instance, if the line would be U-shaped, some of the predictors probably
+should better be modeled as quadratic term. See <code><a href="../../performance/help/check_heteroscedasticity.html">check_heteroscedasticity()</a></code>
+for further details.
+</p>
+<p><strong>Some caution is needed</strong> when interpreting these plots. Although these
+plots are helpful to check model assumptions, they do not necessarily indicate
+so-called &quot;lack of fit&quot;, e.g. missed non-linear relationships or interactions.
+Thus, it is always recommended to also look at
+<a href="https://strengejacke.github.io/ggeffects/articles/introduction_partial_residuals.html">effect plots, including partial residuals</a>.
+</p>
+
+
+<h3>Homogeneity of Variance</h3>
+
+<p>This plot checks the assumption of equal variance (homoscedasticity). The
+desired pattern would be that dots spread equally above and below a straight,
+horizontal line and show no apparent deviation.
+</p>
+
+
+<h3>Influential Observations</h3>
+
+<p>This plot is used to identify influential observations. If any points in this
+plot fall outside of Cook’s distance (the dashed lines) then it is considered
+an influential observation. See <code><a href="../../performance/help/check_outliers.html">check_outliers()</a></code> for further details.
+</p>
+
+
+<h3>Multicollinearity</h3>
+
+<p>This plot checks for potential collinearity among predictors. In a nutshell,
+multicollinearity means that once you know the effect of one predictor, the
+value of knowing the other predictor is rather low. Multicollinearity might
+arise when a third, unobserved variable has a causal effect on each of the
+two predictors that are associated with the outcome. In such cases, the actual
+relationship that matters would be the association between the unobserved
+variable and the outcome. See <code><a href="../../performance/help/check_collinearity.html">check_collinearity()</a></code> for further details.
+</p>
+
+
+<h3>Normality of Residuals</h3>
+
+<p>This plot is used to determine if the residuals of the regression model are
+normally distributed. Usually, dots should fall along the line. If there is
+some deviation (mostly at the tails), this indicates that the model doesn't
+predict the outcome well for that range that shows larger deviations from
+the line. For generalized linear models and when <code>residual_type = "normal"</code>,
+a half-normal Q-Q plot of the absolute value of the standardized deviance
+residuals is shown, however, the interpretation of the plot remains the same.
+See <code><a href="../../performance/help/check_normality.html">check_normality()</a></code> for further details. Usually, for generalized linear
+(mixed) models, a test for uniformity of residuals based on simulated residuals
+is conducted (see next section).
+</p>
+
+
+<h3>Uniformity of Residuals</h3>
+
+<p>Fore non-Gaussian models, when <code>residual_type = "simulated"</code> (the default
+for generalized linear (mixed) models), residuals are not expected to be
+normally distributed. In this case, the created Q-Q plot checks the uniformity
+of residuals. The interpretation of the plot is the same as for the normal
+Q-Q plot. See <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code> and <code><a href="../../performance/help/check_residuals.html">check_residuals()</a></code> for further
+details.
+</p>
+
+
+<h3>Overdispersion</h3>
+
+<p>For count models, an <em>overdispersion plot</em> is shown. Overdispersion occurs
+when the observed variance is higher than the variance of a theoretical model.
+For Poisson models, variance increases with the mean and, therefore, variance
+usually (roughly) equals the mean value. If the variance is much higher,
+the data are &quot;overdispersed&quot;. See <code><a href="../../performance/help/check_overdispersion.html">check_overdispersion()</a></code> for further
+details.
+</p>
+
+
+<h3>Binned Residuals</h3>
+
+<p>For models from binomial families, a <em>binned residuals plot</em> is shown.
+Binned residual plots are achieved by cutting the the data into bins and then
+plotting the average residual versus the average fitted value for each bin.
+If the model were true, one would expect about 95% of the residuals to fall
+inside the error bounds. See <code><a href="../../performance/help/binned_residuals.html">binned_residuals()</a></code> for further details.
+</p>
+
+
+<h3>Residuals for (Generalized) Linear Models</h3>
+
+<p>Plots that check the homogeneity of variance use standardized Pearson's
+residuals for generalized linear models, and standardized residuals for
+linear models. The plots for the normality of residuals (with overlayed
+normal curve) and for the linearity assumption use the default residuals
+for <code>lm</code> and <code>glm</code> (which are deviance residuals for <code>glm</code>). The Q-Q plots
+use simulated residuals (see <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>) for non-Gaussian
+models and standardized residuals for linear models.
+</p>
+
+
+<h3>Troubleshooting</h3>
+
+<p>For models with many observations, or for more complex models in general,
+generating the plot might become very slow. One reason might be that the
+underlying graphic engine becomes slow for plotting many data points. In
+such cases, setting the argument <code>show_dots = FALSE</code> might help. Furthermore,
+look at the <code>check</code> argument and see if some of the model checks could be
+skipped, which also increases performance.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function just prepares the data for plotting. To create the plots,
+<strong>see</strong> needs to be installed. Furthermore, this function suppresses
+all possible warnings. In case you observe suspicious plots, please refer
+to the dedicated functions (like <code>check_collinearity()</code>,
+<code>check_normality()</code> etc.) to get informative messages and warnings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other functions to check model assumptions and and assess model quality: 
+<code><a href="../../performance/help/check_autocorrelation.html">check_autocorrelation</a>()</code>,
+<code><a href="../../performance/help/check_collinearity.html">check_collinearity</a>()</code>,
+<code><a href="../../performance/help/check_convergence.html">check_convergence</a>()</code>,
+<code><a href="../../performance/help/check_heteroscedasticity.html">check_heteroscedasticity</a>()</code>,
+<code><a href="../../performance/help/check_homogeneity.html">check_homogeneity</a>()</code>,
+<code><a href="../../performance/help/check_outliers.html">check_outliers</a>()</code>,
+<code><a href="../../performance/help/check_overdispersion.html">check_overdispersion</a>()</code>,
+<code><a href="../../performance/help/check_predictions.html">check_predictions</a>()</code>,
+<code><a href="../../performance/help/check_singularity.html">check_singularity</a>()</code>,
+<code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+m &lt;- lm(mpg ~ wt + cyl + gear + disp, data = mtcars)
+check_model(m)
+
+data(sleepstudy, package = "lme4")
+m &lt;- lme4::lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+check_model(m, panel = FALSE)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

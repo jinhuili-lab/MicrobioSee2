@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot values on a circular grid of 0 to 360 degrees</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for polar.plot {plotrix}"><tr><td>polar.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot values on a circular grid of 0 to 360 degrees</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">polar.plot</span> displays a plot of radial lines, symbols or a polygon 
+centered at the midpoint of the plot frame on a 0:360 circle.
+Positions are interpreted as beginning at the right and moving
+counterclockwise unless <span class="samp">start</span> specifies another starting point or
+<span class="samp">clockwise</span> is TRUE.
+</p>
+<p>If <span class="samp">add=TRUE</span> is passed as one of the additional arguments, the values
+will be added to the current plot. If a <span class="samp">radial.lim</span> argument was
+passed on the initial plot, it must be passed again to add values or the
+values will be displayed incorrectly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ polar.plot(lengths,polar.pos=NULL,labels,label.pos=NULL,
+  start=0,clockwise=FALSE,rp.type="r",loglen=FALSE,explab=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lengths</code></td>
+<td>
+<p>numeric data vector. Magnitudes will be represented as
+the radial positions of symbols, line ends or polygon vertices.</p>
+</td></tr>
+<tr valign="top"><td><code>polar.pos</code></td>
+<td>
+<p>numeric vector of positions on a 0:360 degree circle.
+These will be converted to radians when passed to <span class="samp">radial.plot</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>text labels to place on the periphery of the circle. This 
+defaults to labels every 20 degrees. For no labels, pass an empty string.</p>
+</td></tr>
+<tr valign="top"><td><code>label.pos</code></td>
+<td>
+<p>positions of the peripheral labels in degrees</p>
+</td></tr>
+<tr valign="top"><td><code>start</code></td>
+<td>
+<p>The position for zero degrees on the plot in degrees.</p>
+</td></tr>
+<tr valign="top"><td><code>clockwise</code></td>
+<td>
+<p>Whether to increase angles clockwise rather than the
+default counterclockwise.</p>
+</td></tr>
+<tr valign="top"><td><code>rp.type</code></td>
+<td>
+<p>Whether to plot radial lines, symbols or a polygon.</p>
+</td></tr>
+<tr valign="top"><td><code>loglen</code></td>
+<td>
+<p>Whether to log transform the <span class="samp">length</span> values. Only base
+10 logs are available.</p>
+</td></tr>
+<tr valign="top"><td><code>explab</code></td>
+<td>
+<p>Whether to use the default fixed (FALSE) or exponential (TRUE)
+notation for the radial labels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">radial.plot</span> and
+then to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list of the parameters altered by <a href="../../plotrix/help/radial.plot.html">radial.plot</a>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/radial.plot.html">radial.plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ testlen&lt;-c(rnorm(36)*2+5)
+ testpos&lt;-seq(0,350,by=10)
+ polar.plot(testlen,testpos,main="Test Polar Plot",lwd=3,line.col=4)
+ oldpar&lt;-polar.plot(testlen,testpos,main="Test Clockwise Polar Plot",
+  radial.lim=c(0,15),start=90,clockwise=TRUE,lwd=3,line.col=4)
+ # reset everything
+ par(oldpar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

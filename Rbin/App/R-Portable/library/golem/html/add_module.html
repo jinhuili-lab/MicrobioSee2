@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a module</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_module {golem}"><tr><td>add_module {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a module</h2>
+
+<h3>Description</h3>
+
+<p>This function creates a module inside the <code style="white-space: pre;">R/</code> folder, based
+on a specific module structure. This function can be used outside
+of a <code>{golem}</code> project.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_module(
+  name,
+  pkg = get_golem_wd(),
+  open = TRUE,
+  dir_create = TRUE,
+  fct = NULL,
+  utils = NULL,
+  js = NULL,
+  js_handler = NULL,
+  export = FALSE,
+  module_template = golem::module_template,
+  with_test = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the module.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Should the created file be opened?</p>
+</td></tr>
+<tr valign="top"><td><code>dir_create</code></td>
+<td>
+<p>Creates the directory if it doesn't exist, default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fct</code></td>
+<td>
+<p>If specified, creates a <code>mod_fct</code> file.</p>
+</td></tr>
+<tr valign="top"><td><code>utils</code></td>
+<td>
+<p>If specified, creates a <code>mod_utils</code> file.</p>
+</td></tr>
+<tr valign="top"><td><code>js, js_handler</code></td>
+<td>
+<p>If specified, creates a module related JavaScript file.</p>
+</td></tr>
+<tr valign="top"><td><code>export</code></td>
+<td>
+<p>Should the module be exported? Default is <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>module_template</code></td>
+<td>
+<p>Function that serves as a module template.</p>
+</td></tr>
+<tr valign="top"><td><code>with_test</code></td>
+<td>
+<p>should the module be created with tests?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be passed to the <code>module_template</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path to the file, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function will prefix the <code>name</code> argument with <code>mod_</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../golem/help/module_template.html">module_template()</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

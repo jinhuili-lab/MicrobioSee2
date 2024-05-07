@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Row or column number from a cell number</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rowFromCell {raster}"><tr><td>rowFromCell {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Row or column number from a cell number</h2>
+
+<h3>Description</h3>
+
+<p>These functions get the row and/or column number from a cell number of a Raster* object)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+colFromCell(object, cell)
+rowFromCell(object, cell)
+rowColFromCell(object, cell)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster* object (or a SpatialPixels* or SpatialGrid* object)</p>
+</td></tr>
+<tr valign="top"><td><code>cell</code></td>
+<td>
+<p>cell number(s)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The colFromCell and similar functions accept a single value, or a vector or list of these values,
+Cell numbers start at 1 in the upper left corner, and increase from left to right, and then from top to bottom.
+The last cell number equals the number of cells of the Raster* object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>row of column number(s) 
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/cellFrom.html">cellFrom</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=10, nrows=10)
+colFromCell(r, c(5,15))
+rowFromCell(r, c(5,15))
+rowColFromCell(r, c(5,15))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

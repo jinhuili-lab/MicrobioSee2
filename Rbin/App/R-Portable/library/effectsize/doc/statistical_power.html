@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Statistical Power</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Statistical Power</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#overview" id="toc-overview">Overview</a>
+<ul>
+<li><a href="#what-is-statistical-power-and-power-analysis" id="toc-what-is-statistical-power-and-power-analysis">What is
+statistical power and power analysis?</a></li>
+<li><a href="#what-is-effectsize" id="toc-what-is-effectsize">What is
+<code>effectsize</code>?</a></li>
+<li><a href="#putting-the-pieces-together-hypothesis-testing" id="toc-putting-the-pieces-together-hypothesis-testing">Putting the
+Pieces Together: Hypothesis Testing</a></li>
+</ul></li>
+<li><a href="#example-comparing-means-of-independent-samples" id="toc-example-comparing-means-of-independent-samples">Example:
+Comparing Means of Independent Samples</a>
+<ul>
+<li><a href="#calculate-effect-size" id="toc-calculate-effect-size">Calculate Effect Size</a>
+<ul>
+<li><a href="#approach-1-effectsize" id="toc-approach-1-effectsize">Approach 1:
+<code>effectsize()</code></a></li>
+<li><a href="#approach-2-cohens_d" id="toc-approach-2-cohens_d">Approach
+2: <code>cohens_d()</code></a></li>
+<li><a href="#approach-3-t_to_d" id="toc-approach-3-t_to_d">Approach 3:
+<code>t_to_d()</code></a></li>
+</ul></li>
+<li><a href="#statistical-power" id="toc-statistical-power">Statistical
+Power</a></li>
+</ul></li>
+<li><a href="#example-contingency-table" id="toc-example-contingency-table">Example: Contingency Table</a></li>
+<li><a href="#example-anova-and-model-comparisons" id="toc-example-anova-and-model-comparisons">Example: ANOVA (and Model
+Comparisons)</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>In this vignette, we focus on statistical power and the role of the
+<code>effectsize</code> <em>easystats</em> package in power analysis. As
+such, we are interested in accomplishing several things with this
+vignette:</p>
+<ol style="list-style-type: decimal">
+<li>Reviewing statistical power and its value in a research task</li>
+<li>Demonstrating the role of the <code>effectsize</code> package in the
+context of exploring statistical power</li>
+<li>Highlighting the ease of calculating and understanding of
+statistical power via the <em>easystats</em> ecosystem, and the
+<code>effectsize</code> package specifically</li>
+<li>Encouraging wider adoption of power analysis in applied
+research</li>
+</ol>
+<p><em>Disclaimer:</em> This vignette is an initial look at power
+analysis via <em>easystats</em>. There’s much more we could do, so
+please give us a feedback about what features would you like to see in
+<em>easystats</em> to make power analysis easier.</p>
+<div id="what-is-statistical-power-and-power-analysis" class="section level2">
+<h2>What is statistical power and power analysis?</h2>
+<p>Statistical power allows for the ability to check whether an effect
+observed from a statistical test actually exists, or that the null
+hypothesis really can be rejected (or not). Power involves many related
+concepts including, but not limited to, sample size, estimation,
+significance threshold, and of course, the <em>effect size</em>.</p>
+</div>
+<div id="what-is-effectsize" class="section level2">
+<h2>What is <code>effectsize</code>?</h2>
+<p>The goal of the <code>effectsize</code> package is to provide
+utilities to work with indices of effect size and standardized
+parameters, allowing computation and conversion of indices such as
+Cohen’s d, r, odds-ratios, among many others. Please explore the breadth
+of effect size operations included in the package by visiting the <a href="https://easystats.github.io/effectsize/reference/index.html">package
+docs</a>.</p>
+</div>
+<div id="putting-the-pieces-together-hypothesis-testing" class="section level2">
+<h2>Putting the Pieces Together: Hypothesis Testing</h2>
+<p>Let’s take a closer looks at the key ingredients involved in
+statistical power before walking through a simple applied example
+below.</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Statistical test</em>: In research we often start with a
+statistical test to test expectations or explore data. For example, we
+might use a t-test to check for differences between two group means.
+This would help assess whether the difference of means between the
+groups is likely the same/indistinguishable from zero (null, <span class="math inline">\(H_0\)</span>) or not (alternative, <span class="math inline">\(H_A\)</span>)</p></li>
+<li><p><em>Significance threshold</em>: This is the threshold against
+which we compare the p-value from our statistical test, which helps
+determine which hypothesis has the most support (and which we should
+reject). That is, we need to assess the probability that the result is
+likely indistinguishable from 0, or whether we have picked up on a
+likely real difference or result. To this end, if the p-value associated
+with our test is less than the significance threshold (e.g., <span class="math inline">\(p &lt; 0.05\)</span>), then, this tells us that
+the chance of observing the result we observed due to chance alone is
+extremely low, and very unlikely. In the case of comparing group mean
+differences, for example, we would have evidence allowing us to “reject
+the null hypothesis of no difference,” and conclude that there is a
+greater chance of the group means being significantly different from
+each other in line with <span class="math inline">\(H_A\)</span>.</p></li>
+<li><p><em>Effect size</em>: This is the magnitude of difference. A
+common way to calculate this is via Cohen’s <span class="math inline">\(d\)</span>, which measures the estimated
+standardized difference between the means of two populations. There are
+many other extensions (e.g., correcting for small-sample bias via
+Hedges’ <span class="math inline">\(g\)</span>). This is where the
+<code>effectsize</code> package comes in, which allows for easy
+calculation of many different effect size metrics.</p></li>
+<li><p><em>Statistical power</em>: This brings us to statistical power,
+which can be thought of in many ways, such as the probability that we
+are <em>correctly</em> observing an effect or group difference, or that
+we are correctly rejecting the null hypothesis, and so on (see, e.g.,
+<span class="citation">(Cohen 1988/2013)</span>, <span class="citation">(Greene 2000)</span> for more). But regardless of the
+interpretation, all of these interpretations are all pointing to a
+common idea: <em>the ability for us to trust the result we get from the
+hypothesis test</em>, regardless of the test.</p></li>
+</ol>
+<p>Let’s put these pieces together with a simple example. Say we find a
+“statistically significant” (<span class="math inline">\(p &lt;
+0.05\)</span>) difference between two group means from a two-sample
+t-test. In this case, we might be tempted to stop and conclude that the
+signal is sufficiently strong to conclude that the groups are different
+from each other. But our test could be incorrect for a variety of
+reasons. Recall, that the p-value is a <em>probability</em>, meaning in
+part that we could be erroneously rejecting the null hypothesis, or that
+an insignificant result is insignificant due to a small sample size, and
+so on.</p>
+<blockquote>
+<p>This is where statistical power comes in.</p>
+</blockquote>
+<p>Statistical power helps us go the next step and more thoroughly
+assess the probability that the “significant” result we observed is
+indeed significant, or detect a cause of an insignificant result (e.g.,
+sample size). In general, <em>before</em> beginning a broader analysis,
+it is a good idea to check for statistical power to ensure that you can
+trust the results you get from your test(s) downstream, and that your
+inferences are reliable.</p>
+<p>So this is where we focus in this vignette, and pay special attention
+to the ease and role of effect size calculation via the
+<code>effectsize</code> package from <em>easystats</em>. The following
+section walks through a simple applied example to ensure 1) the concepts
+surrounding and involved in power are clear and digestible, and 2) that
+the role and value of the <code>effectsize</code> package are likewise
+clear and digestible. Understanding both of these realities will allow
+for more complex extensions and applications to a wide array of research
+problems and questions.</p>
+</div>
+</div>
+<div id="example-comparing-means-of-independent-samples" class="section level1">
+<h1>Example: Comparing Means of Independent Samples</h1>
+<p>In addition to relying on the <em>easystats</em>
+<code>effectsize</code> package for effect size calculation, we will
+also leverage the simple, but excellent <code>pwr</code> package for the
+following implementation of power analysis <span class="citation">(Champely and Rosario 2017)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span></code></pre></div>
+<p>First, let’s fit a simple two sample t-test using the mtcars data to
+explore mean MPG for both transmission groups (<code>AM</code>).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>t <span class="ot">&lt;-</span> <span class="fu">t.test</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<p>There are many power tests supported by <code>pwr</code> for
+different contexts, and we encourage you to take a look and select the
+appropriate one for your application. For present purposes of
+calculating statistical power for our t-test, we will rely on the
+<code>pwr.t2n.test()</code> function. Here’s the basic anatomy:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">pwr.t2n.test</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">n1 =</span> ..., <span class="at">n2 =</span> ...,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">d =</span> ...,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">sig.level =</span> ...,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">power =</span> ...,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">alternative =</span> ...</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>)</span></code></pre></div>
+<p>But, before we can get to the power part, we need to collect a few
+ingredients first, as we can see above. The ingredients we need
+include:</p>
+<ul>
+<li><code>d</code>: effect size</li>
+<li><code>n1</code> and <code>n2</code>: sample size (for each
+sample)</li>
+<li><code>sig.level</code>: significance threshold (e.g.,
+<code>0.05</code>)</li>
+<li><code>alternative</code>: direction of the t-test (e.g., greater,
+lesser, two.sided)</li>
+</ul>
+<p>(By omitting the <code>power</code> argument, we are implying that we
+want the function to estimate that value for us.)</p>
+<div id="calculate-effect-size" class="section level2">
+<h2>Calculate Effect Size</h2>
+<p>Given the simplicity of this example and the prevalence of Cohen’s
+<span class="math inline">\(d\)</span>, we will rely on this effect size
+index here. We have three ways of easily calculating Cohen’s <span class="math inline">\(d\)</span> via <code>effectsize</code>.</p>
+<div id="approach-1-effectsize" class="section level3">
+<h3>Approach 1: <code>effectsize()</code></h3>
+<p>The first approach is the simplest. As previously hinted at, there is
+a vast literature on different effect size calculations for different
+applications. So, if you don’t want to track down a specific one, or are
+unaware of options, you can simply pass the statistical test object to
+<code>effectsize()</code>, and either select the <code>type</code>, or
+leave it blank for “cohens_d”, which is the default option.</p>
+<p><em>Note</em>, when using the formula interface to
+<code>t.test()</code>, this method (currently) only gives an approximate
+effect size. So for this first simple approach, we update our test
+(<code>t_alt</code>) and then make a call to
+<code>effectsize()</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>t_alt <span class="ot">&lt;-</span> <span class="fu">t.test</span>(mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>am <span class="sc">==</span> <span class="dv">0</span>], mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>am <span class="sc">==</span> <span class="dv">1</span>])</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">effectsize</span>(t_alt, <span class="at">type =</span> <span class="st">&quot;cohens_d&quot;</span>)</span></code></pre></div>
+<p><em>Note</em>, users can easily store the value and/or CIs as you’d
+like via, e.g.,
+<code>cohens_d &lt;- effectsize(t, type = &quot;cohens_d&quot;)[[1]]</code>.</p>
+</div>
+<div id="approach-2-cohens_d" class="section level3">
+<h3>Approach 2: <code>cohens_d()</code></h3>
+<p>Alternatively, if you knew the index one you wanted to use, you could
+simply call the associated function directly. For present purposes, we
+picked Cohen’s <span class="math inline">\(d\)</span>, so we would call
+<code>cohens_d()</code>. But there are many other indices supported by
+<code>effectsize</code>. For example, see <a href="https://easystats.github.io/effectsize/reference/index.html#standardized-differences">here</a>
+for options for standardized differences. Or see <a href="https://easystats.github.io/effectsize/reference/index.html#for-contingency-tables">here</a>
+for options for contingency tables. Or see <a href="https://easystats.github.io/effectsize/reference/index.html#comparing-multiple-groups">here</a>
+for options for comparing multiple groups, and so on.</p>
+<p>In our simple case here with a t-test, users are encouraged to use
+<code>effectsize()</code> when working with <code>htest</code> objects
+to ensure proper estimation. Therefore, with this second approach of
+using the “named” function, <code>cohens_d</code>, users should pass the
+data directly to the function instead of the <code>htest</code> object
+(e.g., <code>cohens_d(t)</code>).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+</div>
+<div id="approach-3-t_to_d" class="section level3">
+<h3>Approach 3: <code>t_to_d()</code></h3>
+<p>When the original underlying data is not available, you may get a
+warning message like:</p>
+<blockquote>
+<p><em>Warning: … Returning an approximate effect size using
+t_to_d()</em></p>
+</blockquote>
+<p>In these cases, the default behavior of <code>effectsize</code> is to
+make a back-up call to <code>t_to_d()</code> (or which ever conversion
+function is appropriate based on the input). This step makes the
+calculation from the t-test to Cohen’s <span class="math inline">\(d\)</span>. Given the prevalence of calculating
+effect sizes for different applications and the many effect size indices
+available for different contexts, we have anticipated this and baked in
+this conversion “fail safe” in the architecture of
+<code>effectsize</code> by detecting the input and making the
+appropriate conversion. There are many conversions available in the
+package. Take a look <a href="https://easystats.github.io/effectsize/reference/index.html#effect-size-conversion">here</a>.</p>
+<p>This can also be done directly by the user using the
+<code>t_to_d()</code> function:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">t_to_d</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="at">t =</span> t<span class="sc">$</span>statistic,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">df_error =</span> t<span class="sc">$</span>parameter</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; d     |         95% CI</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; ----------------------</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">#&gt; -1.76 | [-2.82, -0.67]</span></span></code></pre></div>
+</div>
+</div>
+<div id="statistical-power" class="section level2">
+<h2>Statistical Power</h2>
+<p>Now we are ready to calculate the statistical power of our t-test
+given that we have collected the essential ingredients.</p>
+<p>For the present application, the effect size obtained from
+<code>cohens_d()</code> (or any of the three approaches previously
+described) can be passed to the <code>d</code> argument.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>(result <span class="ot">&lt;-</span> <span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars))</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Cohen&#39;s d |         95% CI</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; --------------------------</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; -1.48     | [-2.27, -0.67]</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; - Estimated using pooled SD.</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>(Ns <span class="ot">&lt;-</span> <span class="fu">table</span>(mtcars<span class="sc">$</span>am))</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt;  0  1 </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 19 13</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">pwr.t2n.test</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="at">n1 =</span> Ns[<span class="dv">1</span>], <span class="at">n2 =</span> Ns[<span class="dv">2</span>],</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  <span class="at">d =</span> result[[<span class="st">&quot;Cohens_d&quot;</span>]],</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt;      t test power calculation </span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt;              n1 = 19</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt;              n2 = 13</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;               d = 1.478</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt;       sig.level = 0.05</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co">#&gt;           power = 0.9779</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co">#&gt;     alternative = two.sided</span></span></code></pre></div>
+<p>The results tell us that we are sufficiently powered, with a very
+high power for each group, <code>0.999</code> and
+<code>0.990</code>.</p>
+<p>Notice, though, if you were to change the group sample sizes to
+something very small, say <code>n = c(2, 2)</code>, then you would get a
+much lower power, suggesting that your sample size is too small to
+detect any reliable signal or to be able to trust your results.</p>
+</div>
+</div>
+<div id="example-contingency-table" class="section level1">
+<h1>Example: Contingency Table</h1>
+<!-- TODO -->
+<p><em>To be added.</em></p>
+</div>
+<div id="example-anova-and-model-comparisons" class="section level1">
+<h1>Example: ANOVA (and Model Comparisons)</h1>
+<!-- TODO -->
+<p><em>To be added.</em></p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-champley2017" class="csl-entry">
+Champely, Claus Ekstrom, Stephane, and Helios De Rosario. 2017.
+<span>“Pwr: Basic Functions for Power Analysis.”</span> <em>R Package
+V1.3-0</em>.
+</div>
+<div id="ref-cohen1988" class="csl-entry">
+Cohen, Jacob. 1988/2013. <em>Statistical Power Analysis for the
+Behavioral Sciences</em>. Academic press.
+</div>
+<div id="ref-greene2000" class="csl-entry">
+Greene, William H. 2000. <em>Econometric Analysis 4th Edition.
+International Edition</em>. New Jersey: Prentice Hall.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

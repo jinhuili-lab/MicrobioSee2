@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare Raster* objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Compare-methods {raster}"><tr><td>Compare-methods {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare Raster* objects</h2>
+
+<h3>Description</h3>
+
+<p>These methods compare the location and resolution of Raster* objects. That is, they compare their spatial extent, projection, and number of rows and columns. 
+</p>
+<p>For <code>BasicRaster</code> objects you can use <code>==</code> and <code>!=</code>, the values returned is a single logical value <code>TRUE</code> or <code>FALSE</code>
+</p>
+<p>For RasterLayer objects, these operators also compare the values associated with the objects, and the result is a RasterLayer object with logical (Boolean) values. 
+</p>
+<p>The following methods have been implemented for RasterLayer objects:
+</p>
+<p><code>==, !=, &gt;, &lt;,  &lt;=, &gt;=</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A logical value or a RasterLayer object, and in some cases the side effect of a new file on disk.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster()
+r1 &lt;- setValues(r1, round(10 * runif(ncell(r1))))
+r2 &lt;- setValues(r1, round(10 * runif(ncell(r1))))
+as(r1, 'BasicRaster') == as(r2, 'BasicRaster')
+r3 &lt;- r1 == r2
+
+b &lt;- extent(0, 360, 0, 180)
+r4 &lt;- setExtent(r2, b)
+as(r2, 'BasicRaster') != as(r4, 'BasicRaster')
+# The following would give an error. You cannot compare RasterLayer 
+# that do not have the same BasicRaster properties.
+#r3 &lt;- r1 &gt; r4
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

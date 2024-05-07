@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Ratio of Means</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for means_ratio {effectsize}"><tr><td>means_ratio {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Ratio of Means</h2>
+
+<h3>Description</h3>
+
+<p>Computes the ratio of two means (also known as the &quot;response ratio&quot;; RR) of
+<strong>variables on a ratio scale</strong> (with an absolute 0). Pair with any reported
+<code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+means_ratio(
+  x,
+  y = NULL,
+  data = NULL,
+  paired = FALSE,
+  adjust = TRUE,
+  log = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A numeric vector, or a character name of one in <code>data</code>.
+Any missing values (<code>NA</code>s) are dropped from the resulting vector.
+<code>x</code> can also be a formula (see <code><a href="../../stats/help/t.test.html">stats::t.test()</a></code>), in which case <code>y</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>If <code>TRUE</code>, the values of <code>x</code> and <code>y</code> are considered as paired.
+The correlation between these variables will affect the CIs.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Should the effect size be adjusted for small-sample bias?
+Defaults to <code>TRUE</code>; Advisable for small samples.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Should the log-ratio be returned? Defaults to <code>FALSE</code>.
+Normally distributed and useful for meta-analysis.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Means Ratio ranges from 0 to <i>&infin;</i>, with values smaller than 1
+indicating that the second mean is larger than the first, values larger than
+1 indicating that the second mean is smaller than the first, and values of 1
+indicating that the means are equal.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size (<code>Means_ratio</code> or
+<code>Means_ratio_adjusted</code>) and their CIs (<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals are estimated as described by Lajeunesse (2011 &amp; 2015)
+using the log-ratio standard error assuming a normal distribution. By this
+method, the log is taken of the ratio of means, which makes this outcome
+measure symmetric around 0 and yields a corresponding sampling distribution
+that is closer to normality.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The small-sample bias corrected response ratio reported from this
+function is derived from Lajeunesse (2015).
+</p>
+
+
+<h3>References</h3>
+
+<p>Lajeunesse, M. J. (2011). On the meta-analysis of response ratios for studies
+with correlated and multi-group designs. Ecology, 92(11), 2049-2055.
+doi: <a href="https://doi.org/10.1890/11-0423.1">10.1890/11-0423.1</a>
+</p>
+<p>Lajeunesse, M. J. (2015). Bias and correction for the log response ratio in
+ecological meta-analysis. Ecology, 96(8), 2056-2063. doi: <a href="https://doi.org/10.1890/14-2402.1">10.1890/14-2402.1</a>
+</p>
+<p>Hedges, L. V., Gurevitch, J., &amp; Curtis, P. S. (1999). The meta-analysis of
+response ratios in experimental ecology. Ecology, 80(4), 1150–1156.
+doi: <a href="https://doi.org/10.1890/0012-9658(1999)080[1150:TMAORR]2.0.CO;2">10.1890/0012-9658(1999)080[1150:TMAORR]2.0.CO;2</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d</a>()</code>,
+<code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d</a>()</code>,
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>,
+<code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- c(1.83, 0.50, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+y &lt;- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+means_ratio(x, y)
+means_ratio(x, y, adjust = FALSE)
+
+means_ratio(x, y, log = TRUE)
+
+
+# The ratio is scale invariant, making it a standardized effect size
+means_ratio(3 * x, 3 * y)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

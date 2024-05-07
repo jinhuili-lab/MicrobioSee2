@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute a linear discriminant analysis on classified cluster...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cluster_discrimination {parameters}"><tr><td>cluster_discrimination {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute a linear discriminant analysis on classified cluster groups</h2>
+
+<h3>Description</h3>
+
+<p>Computes linear discriminant analysis (LDA) on classified cluster groups, and
+determines the goodness of classification for each cluster group. See <code>MASS::lda()</code>
+for details.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cluster_discrimination(x, cluster_groups = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame</p>
+</td></tr>
+<tr valign="top"><td><code>cluster_groups</code></td>
+<td>
+<p>Group classification of the cluster analysis, which can
+be retrieved from the <code><a href="../../parameters/help/cluster_analysis.html">cluster_analysis()</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to be passed to or from.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/n_clusters.html">n_clusters()</a></code> to determine the number of clusters to extract,
+<code><a href="../../parameters/help/cluster_analysis.html">cluster_analysis()</a></code> to compute a cluster analysis and
+<code><a href="../../performance/help/check_clusterstructure.html">performance::check_clusterstructure()</a></code> to check suitability of data for
+clustering.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Retrieve group classification from hierarchical cluster analysis
+clustering &lt;- cluster_analysis(iris[, 1:4], n = 3)
+
+# Goodness of group classification
+cluster_discrimination(clustering)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

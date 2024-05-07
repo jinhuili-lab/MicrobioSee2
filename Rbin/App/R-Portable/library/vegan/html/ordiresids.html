@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plots of Residuals and Fitted Values for Constrained...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordiresids {vegan}"><tr><td>ordiresids {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plots of Residuals and Fitted Values for Constrained Ordination</h2>
+
+<h3>Description</h3>
+
+<p>The function provides <code><a href="../../stats/html/plot.lm.html">plot.lm</a></code> style diagnostic plots for
+the results of constrained ordination from <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code> and <code><a href="../../vegan/help/capscale.html">capscale</a></code>. Normally you do not need
+these plots, because ordination is descriptive and does not
+make assumptions on the distribution of the residuals. However, if
+you permute residuals in significance tests (<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>),
+you may be interested in inspecting that the residuals really are
+exchangeable and independent of fitted values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordiresids(x, kind = c("residuals", "scale", "qqmath"),
+   residuals = "working", type = c("p", "smooth", "g"),
+   formula, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Ordination result from <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>
+or <code><a href="../../vegan/help/capscale.html">capscale</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>The type of plot: <code>"residuals"</code> plot residuals
+against fitted values, <code>"scale"</code> the square root of absolute
+residuals against fitted values, and <code>"qqmath"</code> the residuals
+against expected distribution (defaults <code><a href="../../stats/html/Normal.html">qnorm</a></code>),
+unless defined differently in the <code>formula</code>  argument. </p>
+</td></tr>
+<tr valign="top"><td><code>residuals</code></td>
+<td>
+<p>The kind of residuals and fitted values, with alternatives
+<code>"working"</code>, <code>"response"</code>, <code>"standardized"</code> and
+<code>"studentized"</code> (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of plot. The argument is passed on to
+<span class="pkg">lattice</span> functions. </p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>Formula to override the default plot. The formula can
+contain items <code>Fitted</code>, <code>Residuals</code>, <code>Species</code> and
+<code>Sites</code> (provided that names of species and sites are available
+in the ordination result).  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <span class="pkg">lattice</span> functions. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default plots are similar as in <code><a href="../../stats/html/plot.lm.html">plot.lm</a></code>, but they
+use <code><a href="../../lattice/help/Lattice.html">Lattice</a></code> functions
+<code><a href="../../lattice/help/xyplot.html">xyplot</a></code> and <code><a href="../../lattice/help/qqmath.html">qqmath</a></code>. The
+alternatives have default formulae but these can be replaced by the
+user. The elements available in formula or in the <code>groups</code> argument
+are <code>Fitted</code>, <code>Residuals</code>, <code>Species</code> and <code>Sites</code>.
+</p>
+<p>With <code>residuals = "response"</code> and <code>residuals = "working"</code>
+the fitted values and residuals are found with functions
+<code><a href="../../vegan/help/fitted.cca.html">fitted.cca</a></code> and <code><a href="../../vegan/help/residuals.cca.html">residuals.cca</a></code>. With
+<code>residuals = "standardized"</code> the residuals are found with
+<code><a href="../../vegan/help/rstandard.cca.html">rstandard.cca</a></code>, and with <code>residuals = "studentized"</code>
+they are found with <code><a href="../../vegan/help/rstudent.cca.html">rstudent.cca</a></code>, and in both cases the
+fitted values are standardized with <code><a href="../../vegan/help/sigma.cca.html">sigma.cca</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a <code><a href="../../lattice/help/Lattice.html">Lattice</a></code> object that can
+displayed as plot.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/plot.lm.html">plot.lm</a></code>, <code><a href="../../vegan/help/fitted.cca.html">fitted.cca</a></code>,
+<code><a href="../../vegan/help/residuals.cca.html">residuals.cca</a></code>, <code><a href="../../vegan/help/rstandard.cca.html">rstandard.cca</a></code>,
+<code><a href="../../vegan/help/rstudent.cca.html">rstudent.cca</a></code>, <code><a href="../../vegan/help/sigma.cca.html">sigma.cca</a></code>,
+<code><a href="../../lattice/help/Lattice.html">Lattice</a></code>, <code><a href="../../lattice/help/xyplot.html">xyplot</a></code>,
+<code><a href="../../lattice/help/qqmath.html">qqmath</a></code>.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+mod &lt;- cca(varespec ~ Al + P + K, varechem)
+ordiresids(mod)
+ordiresids(mod, formula = Residuals ~ Fitted | Species, residuals="standard",
+   cex = 0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

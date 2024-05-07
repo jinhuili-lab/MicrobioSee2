@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Intersect</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for intersect {raster}"><tr><td>intersect {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Intersect
+</h2>
+
+<h3>Description</h3>
+
+<p>It depends on the classes of the <code>x</code> and <code>y</code> what is returned. 
+</p>
+<p>If <code>x</code> is a Raster* object the extent of <code>y</code> is used, irrespective of the class of <code>y</code>, and a Raster* is returned. This is equivalent to <code><a href="../../raster/help/crop.html">crop</a></code>. 
+</p>
+<p>If <code>x</code> is a Spatial* object, a new Spatial* object is returned. If <code>x</code> or <code>y</code> has a data.frame, these are also returned (after merging if necessary) as part of a Spatial*DataFrame, and this is how <code>intersect</code> is different from <code>rgeos::gIntersection</code> on which it depends. 
+</p>
+<p>Intersecting SpatialPoints* with SpatialPoints* uses the extent (bounding box) of <code>y</code> to get the intersection. Intersecting of SpatialPoints* and SpatialLines* is not supported because of numerical inaccuracies with that. You can use <code><a href="../../raster/help/buffer.html">buffer</a></code>, to create SpatialPoygons* from SpatialLines* and use that in intersect. Or try <code><a href="../../rgeos/help/topo-bin-gIntersection.html">gIntersection</a></code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Extent,ANY'
+intersect(x, y)
+
+## S4 method for signature 'Raster,ANY'
+intersect(x, y)
+
+## S4 method for signature 'SpatialPoints,ANY'
+intersect(x, y)
+
+## S4 method for signature 'SpatialPolygons,SpatialPolygons'
+intersect(x, y)
+
+## S4 method for signature 'SpatialPolygons,SpatialLines'
+intersect(x, y)
+
+## S4 method for signature 'SpatialPolygons,SpatialPoints'
+intersect(x, y)
+
+## S4 method for signature 'SpatialLines,SpatialPolygons'
+intersect(x, y)
+
+## S4 method for signature 'SpatialLines,SpatialLines'
+intersect(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Extent, Raster*, SpatialPolygons*, SpatialLines* or SpatialPoints* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>same as for <code>x</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>if <code>x</code> is an Extent object: Extent
+</p>
+<p>if <code>x</code> is a Raster* object: Raster*
+</p>
+<p>if <code>x</code> is a SpatialPoints* object: SpatialPoints*
+</p>
+<p>if <code>x</code> is a SpatialPolygons* object: SpatialPolygons*
+</p>
+<p>if <code>x</code> is a SpatialLines* object and if <code>y</code> is a SpatialLines* object: SpatialPoints*
+</p>
+<p>if <code>x</code> is a SpatialLines* object and if <code>y</code> is a SpatialPolygons* object: SpatialLines*
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/union.html">union</a>, <a href="../help/extent.html">extent</a>, <a href="../../raster/help/crop.html">crop</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+e1 &lt;- extent(-10, 10, -20, 20)
+e2 &lt;- extent(0, 20, -40, 5)
+intersect(e1, e2)
+
+#SpatialPolygons
+if (require(rgdal) &amp; require(rgeos)) {
+	p &lt;- shapefile(system.file("external/lux.shp", package="raster"))
+	b &lt;- as(extent(6, 6.4, 49.75, 50), 'SpatialPolygons')
+	projection(b) &lt;- projection(p)
+	i &lt;- intersect(p, b)
+	plot(p)
+	plot(b, add=TRUE, col='red')
+	plot(i, add=TRUE, col='blue', lwd=2)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

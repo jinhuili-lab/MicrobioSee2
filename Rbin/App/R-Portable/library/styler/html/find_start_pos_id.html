@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find legit starting value for a new positional id</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for find_start_pos_id {styler}"><tr><td>find_start_pos_id {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find legit starting value for a new positional id</h2>
+
+<h3>Description</h3>
+
+<p>Looks at the current nest as well as into its children (if necessary) to make
+sure the right id is returned. Otherwise, ordering of tokens might not be
+preserved.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+find_start_pos_id(pd, pos, by, direction, after, candidates = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>The position where the new id should be inserted.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>By how much the reference <code>pos_id</code> should be increased / decreased
+to create a new id.</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>Derived from <code>after</code>. <code>1</code> if <code>after = TRUE</code>, <code>-1</code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>after</code></td>
+<td>
+<p>Boolean indicating whether it should be inserted after or before
+<code>pos</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>candidates</code></td>
+<td>
+<p>The <code>pos_ids</code> of the candidates that origin from other
+nests.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

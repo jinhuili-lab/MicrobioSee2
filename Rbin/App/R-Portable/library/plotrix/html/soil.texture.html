@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Soil texture triangle plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for soil.texture {plotrix}"><tr><td>soil.texture {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Soil texture triangle plot</h2>
+
+<h3>Description</h3>
+
+<p>Display a USDA soil texture triangle with optional grid, labels and
+soil texture points.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+soil.texture(soiltexture=NULL, main="", at=seq(0.1, 0.9, by=0.1),
+             axis.labels=c("percent sand", "percent silt",
+                           "percent clay"),
+             tick.labels=list(l=seq(10, 90, by=10), r=seq(10, 90, by=10),
+                              b=seq(10, 90, by=10)),
+             show.names=TRUE, show.lines=TRUE, col.names="gray",
+             bg.names=par("bg"), show.grid=FALSE, col.axis="black",
+             col.lines="gray", col.grid="gray", lty.grid=3,
+             show.legend=FALSE, label.points=FALSE, point.labels=NULL,
+             col.symbols="black", pch=par("pch"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>soiltexture</code></td>
+<td>
+<p>Matrix of soil textures where each row is a
+soil sample and three columns contain the proportions of the
+components sand, silt and clay in the range 0 to 1 or
+percentages in the range 0 to 100.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title of the soil texture plot. Defaults to nothing.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Positions on the three axes where ticks will be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.labels</code></td>
+<td>
+<p>Labels for the axes.</p>
+</td></tr>
+<tr valign="top"><td><code>tick.labels</code></td>
+<td>
+<p>The tick labels for the three axes.</p>
+</td></tr>
+<tr valign="top"><td><code>show.names</code></td>
+<td>
+<p>Logical - whether to show the names of different
+soil types within the soil triangle.</p>
+</td></tr>
+<tr valign="top"><td><code>show.lines</code></td>
+<td>
+<p>Logical - whether to show the boundaries of the
+different soil types within the soil triangle.</p>
+</td></tr>
+<tr valign="top"><td><code>col.names</code></td>
+<td>
+<p>Color of the soil names. Defaults to gray.</p>
+</td></tr>
+<tr valign="top"><td><code>bg.names</code></td>
+<td>
+<p>Color to use when drawing a blank patch for the names
+of soil types.</p>
+</td></tr>
+<tr valign="top"><td><code>show.grid</code></td>
+<td>
+<p>Logical - whether to show grid lines at each 10
+level of each soil component.</p>
+</td></tr>
+<tr valign="top"><td><code>col.axis</code></td>
+<td>
+<p>Color of the triangular axes, ticks and labels.</p>
+</td></tr>
+<tr valign="top"><td><code>col.lines</code></td>
+<td>
+<p>Color of the boundary lines. Defaults to gray.</p>
+</td></tr>
+<tr valign="top"><td><code>col.grid</code></td>
+<td>
+<p>Color of the grid lines. Defaults to gray.</p>
+</td></tr>
+<tr valign="top"><td><code>lty.grid</code></td>
+<td>
+<p>Type of line for the grid. Defaults to dashed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>Logical - whether to display a legend.</p>
+</td></tr>
+<tr valign="top"><td><code>label.points</code></td>
+<td>
+<p>Logical - whether to call
+<a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a> to label the points.</p>
+</td></tr>
+<tr valign="top"><td><code>point.labels</code></td>
+<td>
+<p>Optional labels for the points or legend.</p>
+</td></tr>
+<tr valign="top"><td><code>col.symbols</code></td>
+<td>
+<p>Color of the symbols representing each value.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Symbols to use in plotting values.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <a href="../../plotrix/help/triax.points.html">triax.points</a>
+and then <span class="samp">points</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">soil.texture</span> displays a triangular plot area on which soil
+textures defined as proportions of sand, silt and clay can be plotted.
+Optional grid, vertex labels, soil type divisions and names may also
+be displayed. If a matrix of soil textures is present, these will be
+plotted.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <span class="samp">soiltexture</span> was included, a list of the <span class="samp">x,y</span>
+positions of the soil types plotted. If not, nil.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is now a special case of <span class="samp">triax.plot</span>.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sander Oom, Jim Lemon, and Michael Toews</p>
+
+
+<h3>References</h3>
+
+<p>U.S. Department of Agriculture, Natural Resources Conservation Service,
+2007. <em>National Soil Survey Handbook</em>, title 430-VI.//
+<a href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/class/taxonomy/?cid=nrcs142p2_053577">https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/class/taxonomy/?cid=nrcs142p2_053577</a>
+</p>
+<p>U.S. Department of Agriculture, Natural Resources Conservation Service,
+2007. <em>Soil Texture Calculator</em>//
+<a href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/class/taxonomy/?cid=nrcs142p2_053577">https://www.nrcs.usda.gov/wps/portal/nrcs/detail/soils/survey/class/taxonomy/?cid=nrcs142p2_053577</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/get.soil.texture.html">get.soil.texture</a>, <a href="../../plotrix/help/triax.plot.html">triax.plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ data(soils)
+ soil.texture(main="NO DATA")
+ soil.texture(soils, main="DEFAULT", pch=2)
+ soil.texture(soils, main="LINES AND NAMES", show.lines=TRUE,
+  show.names=TRUE, pch=3)
+ soiltex.return&lt;-soil.texture(soils[1:6,], main="GRID AND LEGEND",
+  show.grid=TRUE, pch=4, col.symbols=1:6, show.legend=TRUE)
+ par(soiltex.return$oldpar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

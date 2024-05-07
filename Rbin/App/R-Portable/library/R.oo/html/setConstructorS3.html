@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Defines a class in S3/UseMethod style</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for setConstructorS3 {R.oo}"><tr><td>setConstructorS3 {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Defines a class in S3/UseMethod style</h2>
+
+<h3>Description</h3>
+
+<p>Defines a class in R.oo/S3 style.
+What this function currently does is simply creating a constructor
+function for the class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+setConstructorS3(name, definition, private=FALSE, protected=FALSE, export=TRUE,
+  static=FALSE, abstract=FALSE, trial=FALSE, deprecated=FALSE, envir=parent.frame(),
+  enforceRCC=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the class.</p>
+</td></tr>
+<tr valign="top"><td><code>definition</code></td>
+<td>
+<p>The constructor definition. <em>Note: The constructor
+must be able to be called with no arguments, i.e. use default values
+for all arguments or make sure you use <code>missing()</code> or similar!</em></p>
+</td></tr>
+<tr valign="top"><td><code>static</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be static,
+otherwise not. Currently this has no effect expect as an indicator.</p>
+</td></tr>
+<tr valign="top"><td><code>abstract</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be abstract,
+otherwise not. Currently this has no effect expect as an indicator.</p>
+</td></tr>
+<tr valign="top"><td><code>private</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be private.</p>
+</td></tr>
+<tr valign="top"><td><code>protected</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be protected.</p>
+</td></tr>
+<tr valign="top"><td><code>export</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> setting attribute <code>"export"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>trial</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be a trial class,
+otherwise not. A trial class is a class that is introduced to be
+tried out and it might be modified, replaced or even removed in a
+future release. Some people prefer to call trial versions, beta
+version. Currently this has no effect expect as an indicator.</p>
+</td></tr>
+<tr valign="top"><td><code>deprecated</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> this class is defined to be deprecated,
+otherwise not. Currently this has no effect expect as an indicator.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The environment for where the class (constructor function)
+should be stored.</p>
+</td></tr>
+<tr valign="top"><td><code>enforceRCC</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, only class names following the R Coding
+Convention is accepted. If the RCC is violated an RccViolationException
+is thrown.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+<p>Note: If a constructor is not declared to be private nor protected, it
+will be declared to be public.
+</p>
+
+
+<h3>A constructor must be callable without arguments</h3>
+
+<p>The requirement that a constructor function should be callable without
+arguments (e.g. <code>MyConstructor()</code>) is because that call is used
+to create the static instance of a class.  The reason for this is that
+a static instance of the class is created automatically when the
+constructor is called <em>the first time</em> (only), that is,
+when the first of object of that class is created.
+All classes have to have a static instance.
+</p>
+<p>To make a constructor callable without arguments, one can either make
+sure all arguments have default values or one can test for missing
+arguments using <code>missing()</code>.
+For instance the following definition is <em>not</em> correct:
+<code>setConstructorS3("Foo", function(x) extend(Object(), "Foo", x=x))</code>
+whereas this one is
+<code>setConstructorS3("Foo", function(x=NA) extend(Object(), "Foo", x=x))</code>
+</p>
+
+
+<h3>Code validation</h3>
+
+<p>If argument <code>enforceRCC</code> is <code><a href="../../base/help/logical.html">TRUE</a></code>,
+the class name is validated so it starts with a letter and it
+also gives a <code><a href="../../base/help/warning.html">warning</a></code> if its first letter is <em>not</em> capital. The
+reason for this is to enforce a naming convention that names classes
+with upper-case initial letters and methods with lower-case initial
+letters (this is also the case in for instance Java).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>To define a method see <code><a href="../../R.methodsS3/help/setMethodS3.html">setMethodS3</a></code>.
+For information about the R Coding Conventions, see
+<code><a href="../../R.oo/help/RccViolationException.html">RccViolationException</a></code>.
+For a thorough example of how to use this method see <code><a href="../../R.oo/help/Object.html">Object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: For a complete example see help(Object).</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

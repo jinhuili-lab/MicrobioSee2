@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dose-rate conversion function</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_Concentration2DoseRate {Luminescence}"><tr><td>convert_Concentration2DoseRate {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dose-rate conversion function</h2>
+
+<h3>Description</h3>
+
+<p>This function converts radionuclide concentrations
+(K in %, Th and U in ppm) into dose rates (Gy/ka). Beta-dose rates are also
+attenuated for the grain size. Beta and gamma-dose rates are corrected
+for the water content. This function converts concentrations into dose rates
+(Gy/ka) and corrects for grain size attenuation and water content
+</p>
+<p>Dose rate conversion factors can be chosen from Adamiec and Aitken (1998),
+Guerin et al. (2011), Liritzis et al. (201) and Cresswell et al. (2018).
+Default is Guerin et al. (2011).
+</p>
+<p>Grain size correction for beta dose rates is achieved using the correction
+factors published by Guérin et al. (2012).
+</p>
+<p>Water content correction is based on factors provided by Aitken (1985),
+with the factor for beta dose rate being 1.25 and for gamma 1.14.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_Concentration2DoseRate(input, conversion = "Guerinetal2011")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>input</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<em>optional</em>): a table containing all relevant information
+for each individual layer if nothing is provided, the function returns a template <a href="../../base/html/data.frame.html">data.frame</a>
+Please note that until one dataset per input is supported!</p>
+</td></tr>
+<tr valign="top"><td><code>conversion</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>): which dose rate conversion factors to use,
+defaults uses Guérin et al. (2011). For accepted values see <a href="../../Luminescence/help/BaseDataSet.ConversionFactors.html">BaseDataSet.ConversionFactors</a></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>The input data</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+COLUMN </td><td style="text-align: left;"> DATA TYPE </td><td style="text-align: left;"> DESCRIPTION</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>Mineral</code> </td><td style="text-align: left;"> <code>character</code> </td><td style="text-align: left;"> <code>'FS'</code> for feldspar, <code>'Q'</code> for quartz</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>K</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> K nuclide content in %</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>K_SE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> error on K nuclide content in %</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>Th</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> Th nuclide content in ppm</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>Th_SE</code> </td><td style="text-align: left;"> <code>numeric</code> error on Th nuclide content in ppm</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>U</code> </td><td style="text-align: left;"> <code>numeric</code> U nuclide content in ppm</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>U_SE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> error on U nuclide content in ppm</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>GrainSize</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> average grain size in µm</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>WaterContent</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> mean water content in %</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>WaterContent_SE</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> relative error on water content
+</td>
+</tr>
+
+</table>
+
+<p><strong>Water content</strong>
+The water content provided by the user should be calculated according to:
+</p>
+<p style="text-align: center;"><i>(Wet_weight - Dry_weight) / Dry_weight * 100</i></p>
+
+<p>The unit for the weight is gram (g).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object for which the first
+element is <a href="../../base/html/matrix.html">matrix</a> with the converted values. If no input is provided, the
+function returns a template <a href="../../base/html/data.frame.html">data.frame</a> that can be used as input.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Riedesel, S., Autzen, M., 2021. convert_Concentration2DoseRate(): Dose-rate conversion function. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Svenja Riedesel, Aberystwyth University (United Kingdom) <br />
+Martin Autzen, DTU NUTECH Center for Nuclear Technologies (Denmark)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Adamiec, G., Aitken, M.J., 1998. Dose-rate conversion factors: update. Ancient TL 16, 37-46.
+</p>
+<p>Cresswell., A.J., Carter, J., Sanderson, D.C.W., 2018. Dose rate conversion parameters:
+Assessment of nuclear data. Radiation Measurements 120, 195-201.
+</p>
+<p>Guerin, G., Mercier, N., Adamiec, G., 2011. Dose-rate conversion factors: update.
+Ancient TL, 29, 5-8.
+</p>
+<p>Guerin, G., Mercier, N., Nathan, R., Adamiec, G., Lefrais, Y., 2012. On the use
+of the infinite matrix assumption and associated concepts: A critical review.
+Radiation Measurements, 47, 778-785.
+</p>
+<p>Liritzis, I., Stamoulis, K., Papachristodoulou, C., Ioannides, K., 2013.
+A re-evaluation of radiation dose-rate conversion factors. Mediterranean
+Archaeology and Archaeometry 13, 1-15.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## create input template
+input &lt;- convert_Concentration2DoseRate()
+
+## fill input
+input$Mineral &lt;- "FS"
+input$K &lt;- 2.13
+input$K_SE &lt;- 0.07
+input$Th &lt;- 9.76
+input$Th_SE &lt;- 0.32
+input$U &lt;- 2.24
+input$U_SE &lt;- 0.12
+input$GrainSize &lt;- 200
+input$WaterContent &lt;- 30
+input$WaterContent_SE &lt;- 5
+
+## convert
+convert_Concentration2DoseRate(input)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

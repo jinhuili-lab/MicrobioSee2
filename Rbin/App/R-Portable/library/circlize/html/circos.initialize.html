@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialize the circular layout</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.initialize {circlize}"><tr><td>circos.initialize {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Initialize the circular layout
+</h2>
+
+<h3>Description</h3>
+
+<p>Initialize the circular layout
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.initialize(
+    sectors = NULL,
+    x = NULL,
+    xlim = NULL,
+    sector.width = NULL,
+    factors = sectors,
+    ring = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A <code><a href="../../base/html/factor.html">factor</a></code> variable or a character vector which represent data categories
+</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>The same as <code>sectors</code>. It will be removed in future versions. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data on x-axes, a vector
+</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>Ranges for values on x-axes, see &quot;details&quot; section for explanation of the format
+</p>
+</td></tr>
+<tr valign="top"><td><code>sector.width</code></td>
+<td>
+<p>Width for each sector. The length of the vector should be either 1 which means
+all sectors have same width or as same as the number of sectors. Values for
+the vector are relative, and they will be scaled by dividing their summation.
+By default, it is <code>NULL</code> which means the width of sectors correspond to the data
+range in sectors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ring</code></td>
+<td>
+<p>Whether the sector represented as a ring. If yes, there should only be one sector in the circle.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function allocates the sectors according to the values on x-axis.
+The number of sectors are determined by the <code>factors</code> and the order
+of sectors are determined by the levels of factors. In this function,
+the start and end position for each sector on the circle (measured by degree)
+are calculated according to the values on x-axis or by <code>xlim</code>.
+</p>
+<p>If <code>x</code> is set, the length of <code>x</code> must be equal to the length of <code>factors</code>.
+Then the data range for each sector are calculated from <code>x</code> by splitting <code>factors</code>.
+</p>
+<p>If <code>xlim</code> is set, it should be a vector containing two numbers or a matrix with 2 columns.
+If <code>xlim</code> is a 2-element vector, it means all sector share the same <code>xlim</code>.
+If <code>xlim</code> is a 2-column matrix, the number of rows should be equal to the number of categories
+identified by <code>factors</code>, then each row of <code>xlim</code> corresponds to the data range for each sector
+and the order of rows is corresponding to the order of levels of <code>factors</code>. If <code>xlim</code> is a matrix
+for which row names cover all sector names, <code>xlim</code> is automatically adjusted.
+</p>
+<p>Normally, width of sectors will be calculated internally according to the data range in sectors. But you can
+still set the width manually. However, it is not always a good idea to change the default sector width since
+the width can reflect the range of data in sectors. However, in some cases, it is useful to manually set
+the width such as you want to zoom some part of the sectors.
+</p>
+<p>The function finally calls <code><a href="../../graphics/help/plot.default.html">plot</a></code> with enforing aspect ratio to be 1 and be ready for adding graphics.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html">https://jokergoo.github.io/circlize_book/book/circular-layout.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

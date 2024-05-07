@@ -1,0 +1,19 @@
+Version 1.1
+    o Fixed minor bugs
+    o New feature to draw a Venn diagram using a DNF
+      (disjunctive normal form) notation
+    o QCA type objects can have transparency based on the inclusion score
+    o Parameters for borders can have lengths, recycled to the length of zones
+    
+    
+      The following were all suggested by Tom Wenseleers (with thanks):
+      
+    o The plot window is now forced to a square, using asp = 1
+    o New venn shapes for 4 and 5 sets, to maximize the space for intersections
+    o Default color styles, and associated border colors
+    o Variable text size for the intersection labels and for the set names
+    
+    
+Version 1.0
+    o First version of the package
+

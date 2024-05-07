@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Count set intersections</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for makeIntersectList {plotrix}"><tr><td>makeIntersectList {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Count set intersections</h2>
+
+<h3>Description</h3>
+
+<p>Create a list of set intersections from a matrix of indicators</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ makeIntersectList(x,xnames=NULL,sep="+")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame or matrix where rows represent objects and columns
+attributes. A <span class="samp">1</span> or <span class="samp">TRUE</span> indicates that the object (row) has
+that attribute or is a member of that set (column). <span class="samp">x</span> can also be
+a matrix or data frame in which the first column contains object identifiers
+and the second contains attribute codes.</p>
+</td></tr>
+<tr valign="top"><td><code>xnames</code></td>
+<td>
+<p>Optional user-supplied names for the attributes of x.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>A character to use as a separator for attribute labels.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">makeIntersectList</span> reads a matrix (or data frame where all values are the
+same type) containing dichotomous values (either 0/1 or FALSE/TRUE) or labels
+(see next paragraph). In the first type of input, each row represents an object
+and each column represents a set. A value of 1 or TRUE indicates that that
+object is a member of that set. The function creates a list of vectors that
+correspond to all combinations of the sets (set intersections) and inserts the
+counts of elements in each combination. If a row of <span class="samp">x</span> is all zeros,
+it will not be counted, but the second last element of the list returned
+contains the count of rows in <span class="samp">x</span> and thus non-members can be calculated.
+</p>
+<p>If a matrix (or data frame where all values are the same type) containing values 
+other than 0/1 or TRUE/FALSE, it will be passed to <span class="samp">categoryReshape</span> for
+conversion to a data frame as described above. See <span class="samp">categoryReshape</span> for
+details of this.
+</p>
+<p>makeIntersectList combines the set or attribute names to form
+intersection names. For the intersection of sets A and B, the name will
+be A+B (unless <span class="samp">sep</span> is changed) and so on. These are the names that will
+be displayed by <span class="samp">intersectDiagram</span>. To change these, use the <span class="samp">xnames</span>
+argument.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of the intersection counts or percentages, the total number of
+objects and the attribute codes.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/intersectDiagram.html">intersectDiagram</a>, <a href="../../plotrix/help/pasteCols.html">pasteCols</a>,<a href="../../plotrix/help/categoryReshape.html">categoryReshape</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # create a matrix where each row represents an element and
+ # a 1 (or TRUE) in each column indicates that the element is a member
+ # of that set.
+ setdf&lt;-data.frame(A=sample(c(0,1),100,TRUE,prob=c(0.7,0.3)),
+  B=sample(c(0,1),100,TRUE,prob=c(0.7,0.3)),
+  C=sample(c(0,1),100,TRUE,prob=c(0.7,0.3)),
+  D=sample(c(0,1),100,TRUE,prob=c(0.7,0.3)))
+ makeIntersectList(setdf)
+ ns&lt;-sample(1:8,20,TRUE)
+ objects&lt;-0
+ for(i in 1:length(ns)) objects&lt;-c(objects,rep(i,ns[i]))
+ attributes&lt;-"Z"
+ for(i in 1:length(ns)) attributes&lt;-c(attributes,sample(LETTERS[1:8],ns[i]))
+ setdf2&lt;-data.frame(objects[-1],attributes[-1])
+ makeIntersectList(setdf2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

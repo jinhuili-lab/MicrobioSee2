@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Discrimination of Questionnaire Items</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for item_discrimination {performance}"><tr><td>item_discrimination {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Discrimination of Questionnaire Items</h2>
+
+<h3>Description</h3>
+
+<p>Compute various measures of internal consistencies
+for tests or item-scales of questionnaires.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+item_discrimination(x, standardize = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix or a data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>standardize</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the data frame's vectors will be
+standardized. Recommended when the variables have different measures /
+scales.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function calculates the item discriminations (corrected item-total
+correlations for each item of <code>x</code> with the remaining items) for each item
+of a scale. The absolute value of the item discrimination indices should be
+above 0.2. An index between 0.2 and 0.4 is considered as &quot;fair&quot;, while a
+satisfactory index ranges from 0.4 to 0.7. Items with low discrimination
+indices are often ambiguously worded and should be examined. Items with
+negative indices should be examined to determine why a negative value was
+obtained (e.g. reversed answer categories regarding positive and negative
+poles).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the item discrimination (<em>corrected item-total
+correlations</em>) for each item of the scale.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Kelava A, Moosbrugger H (2020). Deskriptivstatistische Itemanalyse und
+Testwertbestimmung. In: Moosbrugger H,  Kelava A, editors. Testtheorie und
+Fragebogenkonstruktion. Berlin, Heidelberg: Springer, 143–158
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mtcars)
+x &lt;- mtcars[, c("cyl", "gear", "carb", "hp")]
+item_discrimination(x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

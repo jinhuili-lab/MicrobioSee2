@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checking Labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for checkLabel {ape}"><tr><td>checkLabel {ape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checking Labels</h2>
+
+<h3>Description</h3>
+
+<p>Checking and correcting character strings, particularly before writing
+a Newick tree.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>checkLabel(x)</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a vector of mode character.</p>
+</td></tr></table>
+
+
+<h3>Details</h3>
+
+<p>This function deletes the leading and trailing spaces (including
+tabulations, new lines, and left or right parentheses at the beginning
+or end of the strings), substitutes the spaces inside the strings by
+underscores, and substitutes commas, colons, semicolons, and
+parentheses inside the strings by dashes.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector of mode character.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Emmanuel Paradis</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../ape/help/makeLabel.html">makeLabel</a></code>, <code><a href="../../ape/help/makeNodeLabel.html">makeNodeLabel</a></code>,
+<code><a href="../../ape/help/mixedFontLabel.html">mixedFontLabel</a></code>, <code><a href="../../ape/help/stripLabel.html">stripLabel</a></code>,
+<code><a href="../../ape/help/updateLabel.html">updateLabel</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+checkLabel(" Homo sapiens\t(Primates; World)   ")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ape</em> version 5.5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function for Bayesian analysis of one- and two-sample designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for meta.ttestBF {BayesFactor}"><tr><td>meta.ttestBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function for Bayesian analysis of one- and two-sample designs</h2>
+
+<h3>Description</h3>
+
+<p>This function computes mata-analytic Bayes factors, or samples from the posterior, for
+one- and two-sample designs where multiple t values have been observed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+meta.ttestBF(t, n1, n2 = NULL, nullInterval = NULL, rscale = "medium",
+  posterior = FALSE, callback = function(...) as.integer(0), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>a vector of t statistics</p>
+</td></tr>
+<tr valign="top"><td><code>n1</code></td>
+<td>
+<p>a vector of sample sizes for the first (or only) condition</p>
+</td></tr>
+<tr valign="top"><td><code>n2</code></td>
+<td>
+<p>a vector of sample sizes. If <code>NULL</code>, a one-sample design is assumed</p>
+</td></tr>
+<tr valign="top"><td><code>nullInterval</code></td>
+<td>
+<p>optional vector of length 2 containing lower and upper bounds of
+an interval hypothesis to test, in standardized units</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>prior scale.  A number of preset values can be given as
+strings; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>if <code>TRUE</code>, return samples from the posterior instead
+of Bayes factor</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to or from methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Bayes factor provided by <code>meta.ttestBF</code> tests the null hypothesis that
+the true effect size (or alternatively, the noncentrality parameters) underlying a
+set of t statistics is 0. Specifically, the Bayes factor compares two
+hypotheses: that the standardized effect size is 0, or that the standardized
+effect size is not 0. Note that there is assumed to be a single, common effect size
+<i>delta</i> underlying all t statistics. For one-sample tests, the standardized effect size is
+<i>(mu-mu0)/sigma</i>; for two sample tests, the
+standardized effect size is <i>(mu2-mu1)/sigma</i>.
+</p>
+<p>A Cauchy prior is placed on the standardized effect size.
+The <code>rscale</code> argument controls the scale of the prior distribution,
+with <code>rscale=1</code> yielding a standard Cauchy prior. See the help for
+<code><a href="../../BayesFactor/help/ttestBF.html">ttestBF</a></code> and the references below for more details.
+</p>
+<p>The Bayes factor is computed via Gaussian quadrature. Posterior samples are
+drawn via independent-candidate Metropolis-Hastings.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>posterior</code> is <code>FALSE</code>, an object of class
+<code>BFBayesFactor</code> containing the computed model comparisons is
+returned. If <code>nullInterval</code> is defined, then two Bayes factors will
+be computed: The Bayes factor for the interval against the null hypothesis
+that the standardized effect is 0, and the corresponding Bayes factor for
+the compliment of the interval.
+</p>
+<p>If <code>posterior</code> is <code>TRUE</code>, an object of class <code>BFmcmc</code>,
+containing MCMC samples from the posterior is returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>To obtain the same Bayes factors as Rouder and Morey (2011),
+change the prior scale to 1.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Morey, R. D. &amp; Rouder, J. N. (2011). Bayes Factor Approaches for Testing
+Interval Null Hypotheses. Psychological Methods, 16, 406-419
+</p>
+<p>Rouder, J. N., Speckman, P. L., Sun, D., Morey, R. D., &amp; Iverson, G.
+(2009). Bayesian t-tests for accepting and rejecting the null hypothesis.
+Psychonomic Bulletin &amp; Review, 16, 225-237
+</p>
+<p>Rouder, J. N. &amp; Morey, R. D. (2011). A Bayes Factor Meta-Analysis of Bem's ESP Claim.
+Psychonomic Bulletin &amp; Review, 18, 682-689
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BayesFactor/help/ttestBF.html">ttestBF</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Bem's (2010) data (see Rouder &amp; Morey, 2011)
+t=c(-.15,2.39,2.42,2.43)
+N=c(100,150,97,99)
+
+## Using rscale=1 and one-sided test to be
+## consistent with Rouder &amp; Morey (2011)
+bf = meta.ttestBF(t, N, rscale=1, nullInterval=c(0, Inf))
+bf[1]
+
+## plot posterior distribution of delta, assuming alternative
+## turn off progress bar for example
+samples = posterior(bf[1], iterations = 1000, progress = FALSE)
+## Note that posterior() respects the nullInterval
+plot(samples)
+summary(samples)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

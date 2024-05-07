@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: TimeoutException represents timeout errors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for TimeoutException {R.utils}"><tr><td>TimeoutException {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>TimeoutException represents timeout errors</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class TimeoutException</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>try-error</code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>condition</code><br />
+<code>~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~+--</code><code>error</code><br />
+<code>~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~+--</code><code>simpleError</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~+--</code><code><a href="../../R.oo/help/Exception.html">Exception</a></code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~~~~~~|</code><br />
+<code>~~~~~~~~~~~~~~~~~~~~~~~~~~~+--</code><code>TimeoutException</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<br />
+</p>
+<p>public static class <b>TimeoutException</b><br />
+extends <a href="../../R.oo/help/Exception.html">Exception</a><br />
+</p>
+<p>TimeoutException represents timeout errors occurring when a set of R expressions executed did not
+finish in time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+TimeoutException(..., cpu=NA, elapsed=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Any arguments accepted by <code><a href="../../R.oo/html/Exception.html">Exception</a></code></p>
+</td></tr></table>
+<p>.
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>cpu, elapsed</code></td>
+<td>
+<p>The maximum time the R expressions were allowed
+to be running before the timeout occurred as measured in CPU time
+and (physically) elapsed time.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getMessage</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Exception</b>:<br />
+as.character, getCall, getCalls, getLastException, getMessage, getStackTrace, getWhen, print, printStackTrace, throw
+</p>
+<p><b>Methods inherited from error</b>:<br />
+as.character, throw
+</p>
+<p><b>Methods inherited from condition</b>:<br />
+abort, as.character, conditionCall, conditionMessage, print
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For detailed information about exceptions see <code><a href="../../R.oo/html/Exception.html">Exception</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

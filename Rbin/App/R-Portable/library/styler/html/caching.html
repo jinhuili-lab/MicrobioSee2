@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Remember the past to be quicker in the future</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for caching {styler}"><tr><td>caching {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Remember the past to be quicker in the future</h2>
+
+<h3>Description</h3>
+
+<p>Caching makes styler faster on repeated styling and is shared across all APIs
+(e.g. <code>style_text()</code> and Addin). That means if you style code that already
+complies to a style guide and you have previously styled that code, it will
+be quicker.
+</p>
+
+
+<h3>Configuring the cache</h3>
+
+<p>To comply with the CRAN policy, {styler} will by default clean up cache files
+that are older than 6 days. This implies that you loose the benefit of the cache
+for the files not styled in the last 6 days.
+</p>
+<p>If you want to avoid this, i.e., if you want the cache to last longer, you can use the
+R option <code>styler.cache_root</code> to opt for an indefinitely long-lived cache by setting it to
+<code>options(styler.cache_root = "styler-perm")</code>.
+</p>
+<p>If you are happy with the cache being cleared after 6 days, you can confirm the default and
+silence this message by setting it instead to <code>options(styler.cache_root = "styler")</code>.
+</p>
+<p>You can make this change in your <code>.Rprofile</code> using <code>usethis::edit_r_profile()</code>.
+</p>
+
+
+<h3>Manage the cache</h3>
+
+<p>See <code><a href="../../styler/help/cache_info.html">cache_info()</a></code>,<code><a href="../../styler/help/cache_activate.html">cache_activate()</a></code> or <code><a href="../../styler/help/cache_clear.html">cache_clear()</a></code> for utilities to
+manage the cache. You can deactivate it altogether with <code><a href="../../styler/help/cache_deactivate.html">cache_deactivate()</a></code>.
+Since we leverage <code>{R.cache}</code> to manage the cache, you can also use any
+<code>{R.cache}</code> functionality to manipulate it.
+</p>
+<p>In some cases, you want to use a non-standard cache location. In
+that situation, you can set the path to the cache with the R option
+<code>R.cache.rootPath</code> or the environment variable <code>R_CACHE_ROOTPATH</code> to an
+existent path before you call the styler API.
+</p>
+
+
+<h3>Invalidation</h3>
+
+<p>The cache is specific to a version of styler by default, because different
+versions potentially format code differently. This means after upgrading
+styler or a style guide you use, the cache will be re-built.
+</p>
+
+
+<h3>Mechanism and size</h3>
+
+<p>The cache works by storing hashed output code as a whole and by expression,
+which is why it takes zero space on disk (the cache is a directory with
+empty files which have the hash of output code as name).
+</p>
+<p>The cache literally takes zero space on your disk, only the inode, and you
+can always manually clean up with <code><a href="../../styler/help/cache_clear.html">cache_clear()</a></code> or just go to the
+directory where the cache lives (find it with <code><a href="../../styler/help/cache_info.html">cache_info()</a></code>) and manually
+delete files.
+</p>
+
+
+<h3>Using a cache for styler in CI/CD</h3>
+
+<p>If you want to set up caching in a CI/CD pipeline, we suggest to set the
+<code>{R.cache}</code> root path to a directory for which you have the cache enabled.
+This can often be set in config files of CI/CD tools, e.g. see the
+<a href="https://docs.travis-ci.com/user/caching">Travis documentation on caching</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other cache managers: 
+<code><a href="../../styler/help/cache_activate.html">cache_activate</a>()</code>,
+<code><a href="../../styler/help/cache_clear.html">cache_clear</a>()</code>,
+<code><a href="../../styler/help/cache_info.html">cache_info</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

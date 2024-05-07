@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw polygon</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.polygon {circlize}"><tr><td>circos.polygon {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw polygon
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw polygon
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.polygon(
+    x, y,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data points on x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data points on y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>pass to <code><a href="../../graphics/help/polygon.html">polygon</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>similar as <code><a href="../../graphics/help/polygon.html">polygon</a></code>.
+</p>
+<p>Note: start point should overlap with the end point.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+sectors = letters[1:4]
+circos.initialize(sectors, xlim = c(0, 1))
+circos.trackPlotRegion(ylim = c(-3, 3), track.height = 0.4, panel.fun = function(x, y) {
+    x1 = runif(20)
+    y1 = x1 + rnorm(20)
+    or = order(x1)
+    x1 = x1[or]
+    y1 = y1[or]
+    loess.fit = loess(y1 ~ x1)
+    loess.predict = predict(loess.fit, x1, se = TRUE)
+    d1 = c(x1, rev(x1))
+    d2 = c(loess.predict$fit + loess.predict$se.fit,
+        rev(loess.predict$fit - loess.predict$se.fit))
+    circos.polygon(d1, d2, col = "#CCCCCC", border = NA)
+    circos.points(x1, y1, cex = 0.5)
+    circos.lines(x1, loess.predict$fit)
+})
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

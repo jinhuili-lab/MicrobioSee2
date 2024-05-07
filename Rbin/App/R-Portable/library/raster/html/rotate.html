@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rotate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rotate {raster}"><tr><td>rotate {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rotate</h2>
+
+<h3>Description</h3>
+
+<p>Rotate a Raster* object that has x coordinates (longitude) from 0 to 360, to standard coordinates between -180 and 180 degrees. Longitude between 0 and 360 is frequently used in global climate models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+rotate(x, filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or a RasterBrick object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/flip.html">flip</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+r &lt;- raster(nrow=18, ncol=36)
+m &lt;- matrix(1:ncell(r), nrow=18)
+values(r) &lt;- as.vector(t(m))
+extent(r) &lt;- extent(0, 360, -90, 90)
+rr &lt;- rotate(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

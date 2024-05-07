@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the values from the response variable</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_response {insight}"><tr><td>get_response {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the values from the response variable</h2>
+
+<h3>Description</h3>
+
+<p>Returns the values the response variable(s) from a model object.
+If the model is a multivariate response model, a data frame with values
+from all response variables is returned.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_response(x, ...)
+
+## Default S3 method:
+get_response(
+  x,
+  select = NULL,
+  as_proportion = TRUE,
+  source = "environment",
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'nestedLogit'
+get_response(x, dichotomies = FALSE, source = "environment", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Optional name(s) of response variables for which to extract values.
+Can be used in case of regression models with multiple response variables.</p>
+</td></tr>
+<tr valign="top"><td><code>as_proportion</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and the response value is a proportion
+(e.g. <code>y1 / y2</code>), then the returned response value will be a vector with
+the result of this proportion. Else, always a data frame is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>source</code></td>
+<td>
+<p>String, indicating from where data should be recovered. If
+<code>source = "environment"</code> (default), data is recovered from the environment
+(e.g. if the data is in the workspace). This option is usually the fastest
+way of getting data and ensures that the original variables used for model
+fitting are returned. Note that always the <em>current</em> data is recovered from
+the environment. Hence, if the data was modified <em>after</em> model fitting
+(e.g., variables were recoded or rows filtered), the returned data may no
+longer equal the model data. If <code>source = "frame"</code> (or <code>"mf"</code>), the data
+is taken from the model frame. Any transformed variables are back-transformed,
+if possible. This option returns the data even if it is not available in
+the environment, however, in certain edge cases back-transforming to the
+original data may fail. If <code>source = "environment"</code> fails to recover the
+data, it tries to extract the data from the model frame; if
+<code>source = "frame"</code> and data cannot be extracted from the model frame, data
+will be recovered from the environment. Both ways only returns observations
+that have no missing data in the variables used for model fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>dichotomies</code></td>
+<td>
+<p>Logical, if model is a <code>nestedLogit</code> objects, returns
+the response values for the dichotomies.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The values of the response variable, as vector, or a data frame if
+<code>x</code> has more than one defined response variable.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(cbpp)
+cbpp$trials &lt;- cbpp$size - cbpp$incidence
+dat &lt;&lt;- cbpp
+
+m &lt;- glm(cbind(incidence, trials) ~ period, data = dat, family = binomial)
+head(get_response(m))
+get_response(m, select = "incidence")
+
+data(mtcars)
+m &lt;- lm(mpg ~ wt + cyl + vs, data = mtcars)
+get_response(m)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

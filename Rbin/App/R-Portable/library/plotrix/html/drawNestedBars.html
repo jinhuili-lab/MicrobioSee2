@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display nested bars</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for drawNestedBars {plotrix}"><tr><td>drawNestedBars {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display nested bars</h2>
+
+<h3>Description</h3>
+
+<p>Displays the nested bars for barNest.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ drawNestedBars(x,start,end,shrink=0.1,errbars=FALSE,intervals=TRUE,col=NA,
+ labelcex=1,lineht=NULL,showall=TRUE,Nwidths=FALSE,barlabels=NULL,
+ showlabels=TRUE,arrow.cap=NA)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>One level of the breakdown produced by <span class="samp">brkdnNest</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>start,end</code></td>
+<td>
+<p>The left and right x coordinates for the bar or group of bars
+to be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>shrink</code></td>
+<td>
+<p>The proportion to shrink the width of the bars at each level.</p>
+</td></tr>
+<tr valign="top"><td><code>errbars</code></td>
+<td>
+<p>Whether to display error bars on the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p>Whether to use offsets or absolute values when displaying
+measures of dispersion.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The colors to use to fill the bars. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>labelcex</code></td>
+<td>
+<p>Character size for the group labels.</p>
+</td></tr>
+<tr valign="top"><td><code>lineht</code></td>
+<td>
+<p>The height of a margin line in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>showall</code></td>
+<td>
+<p>Whether to display the bars at any levels above the last.</p>
+</td></tr>
+<tr valign="top"><td><code>Nwidths</code></td>
+<td>
+<p>Whether to scale the widths of the bars to the number of
+observations.</p>
+</td></tr>
+<tr valign="top"><td><code>barlabels</code></td>
+<td>
+<p>Optional labels to display below the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>showlabels</code></td>
+<td>
+<p>Whether to display the labels below the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.cap</code></td>
+<td>
+<p>The width of the &quot;cap&quot; on error bars in user units,
+defaulting to 0.01 of the width of the plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">drawNestedBars</span> displays the bars for the nested breakdown performed
+by <span class="samp">brkdnNest</span>. It starts at the top of the list and calls itself for
+each level of the breakdown. It is unlikely to be useful for anything else.
+</p>
+<p>The combination of <span class="samp">showlabels=TRUE</span> and <span class="samp">showall=FALSE</span> allows
+the display of all of the labels below the plot with only the last set of
+bars being displayed. To have a set of labels not displayed, pass explicit
+<span class="samp">barlabels</span> and have zero length labels for the level that is not to
+have labels.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon and Ofir Levy</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/brkdnNest.html">brkdnNest</a>, <a href="../../plotrix/help/drawNestedBars.html">drawNestedBars</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

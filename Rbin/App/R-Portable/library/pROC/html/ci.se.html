@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the confidence interval of sensitivities at given...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci.se {pROC}"><tr><td>ci.se {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute the confidence interval of sensitivities at given specificities
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the confidence interval (CI) of the sensitivity
+at the given specificity points.
+By default, the 95% CI are computed with 2000 stratified bootstrap replicates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+# ci.se(...)
+## S3 method for class 'roc'
+ci.se(roc, specificities = seq(0, 1, .1) * ifelse(roc$percent,
+100, 1), conf.level=0.95, boot.n=2000, boot.stratified=TRUE,
+progress=getOption("pROCProgress")$name, parallel=FALSE, ...) 
+## S3 method for class 'smooth.roc'
+ci.se(smooth.roc, specificities = seq(0, 1, .1) *
+ifelse(smooth.roc$percent, 100, 1), conf.level=0.95, boot.n=2000,
+boot.stratified=TRUE, progress=getOption("pROCProgress")$name,
+parallel=FALSE, ...)
+## S3 method for class 'formula'
+ci.se(formula, data, ...)
+## Default S3 method:
+ci.se(response, predictor, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, or a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>response, predictor</code></td>
+<td>
+<p>arguments for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>a formula (and possibly a data object) of type
+response~predictor for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>specificities</code></td>
+<td>
+<p>on which specificities to evaluate the CI.
+</p>
+</td></tr>
+<tr valign="top"><td><code>conf.level</code></td>
+<td>
+<p>the width of the confidence interval as [0,1], never
+in percent. Default: 0.95, resulting in a 95% CI.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>the number of bootstrap replicates. Default: 2000.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>should the bootstrap be stratified (default, same number
+of cases/controls in each replicate than in the original sample) or
+not.
+</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>the name of progress bar to display. Typically
+&ldquo;none&rdquo;, &ldquo;win&rdquo;, &ldquo;tk&rdquo; or &ldquo;text&rdquo; (see the
+<code>name</code> argument to <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code> for
+more information), but a list as returned by <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code>
+is also accepted. See also the &ldquo;Progress bars&rdquo; section of
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>if TRUE, the bootstrap is processed in parallel, using 
+parallel backend provided by plyr (foreach).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code><a href="../../pROC/help/roc.html">roc</a></code> and <code>ci.se.roc</code>
+when calling <code>ci.se.default</code> or <code>ci.se.formula</code>.
+Arguments for <code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code> (only 
+<code>char</code> and <code>style</code>) if applicable.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>ci.se.formula</code> and <code>ci.se.default</code> are convenience methods
+that build the ROC curve (with the <code><a href="../../pROC/help/roc.html">roc</a></code> function) before
+calling <code>ci.se.roc</code>. You can pass them arguments for both
+<code><a href="../../pROC/help/roc.html">roc</a></code> and <code>ci.se.roc</code>. Simply use <code>ci.se</code>
+that will dispatch to the correct method.
+</p>
+<p>The <code>ci.se.roc</code> function creates <code>boot.n</code> bootstrap replicate of the ROC
+curve, and evaluates the sensitivity at specificities
+given by the <code>specificities</code> argument. Then it computes the
+confidence interval as the percentiles given by <code>conf.level</code>.
+</p>
+<p>For more details about the bootstrap, see the Bootstrap section in
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+<p>For <a href="../../pROC/help/smooth.roc.html">smoothed ROC curves</a>, smoothing is performed again at each
+bootstrap replicate with the parameters originally provided.
+If a density smoothing was performed with user-provided
+<code>density.cases</code> or <code>density.controls</code> the bootstrap cannot
+be performed and an error is issued.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix of class &ldquo;ci.se&rdquo;, &ldquo;ci&rdquo; and &ldquo;matrix&rdquo; (in this order)
+containing the given sensitivities. Row (names) are the
+specificities, the first column the lower bound, the 2nd column the
+median and the 3rd column the upper bound.
+</p>
+<p>Additionally, the list has the following attributes: 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>conf.level</code></td>
+<td>
+<p>the width of the CI, in fraction.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>the number of bootstrap replicates.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>whether or not the bootstrapping was stratified.</p>
+</td></tr>
+<tr valign="top"><td><code>specificities</code></td>
+<td>
+<p>the specificities as given in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>roc</code></td>
+<td>
+<p>the object of class &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; that was used to
+compute the CI.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Warnings</h3>
+
+<p>If <code>boot.stratified=FALSE</code> and the sample has a large imbalance between
+cases and controls, it could happen that one or more of the replicates
+contains no case or control observation, or that there are not enough
+points for smoothing, producing a <code>NA</code> area.
+The warning &ldquo;NA value(s) produced during bootstrap were ignored.&rdquo;
+will be issued and the observation will be ignored. If you have a large
+imbalance in your sample, it could be safer to keep
+<code>boot.stratified=TRUE</code>.
+</p>
+
+
+<h3>Errors</h3>
+
+<p>If <code>density.cases</code> and <code>density.controls</code> were provided
+for smoothing, the error &ldquo;Cannot compute the statistic on ROC
+curves smoothed with density.controls and density.cases.&rdquo; is issued.
+</p>
+
+
+<h3>References</h3>
+
+<p>James Carpenter and John Bithell (2000) &ldquo;Bootstrap condence intervals:
+when, which, what? A practical guide for medical statisticians&rdquo;.
+<em>Statistics in Medicine</em> <b>19</b>, 1141&ndash;1164.
+DOI: doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(20000515)19:9%3C1141::AID-SIM479%3E3.0.CO;2-F">10.1002/(SICI)1097-0258(20000515)19:9&lt;1141::AID-SIM479&gt;3.0.CO;2-F</a>.
+</p>
+<p>Tom Fawcett (2006) &ldquo;An introduction to ROC analysis&rdquo;. <em>Pattern
+Recognition Letters</em> <b>27</b>, 861&ndash;874. DOI:
+doi: <a href="https://doi.org/10.1016/j.patrec.2005.10.010">10.1016/j.patrec.2005.10.010</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>Hadley Wickham (2011) &ldquo;The Split-Apply-Combine Strategy for Data Analysis&rdquo;. <em>Journal of Statistical Software</em>, <b>40</b>, 1&ndash;29.
+URL: <a href="https://www.jstatsoft.org/v40/i01">www.jstatsoft.org/v40/i01</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>,
+<code><a href="../../pROC/help/ci.html">ci</a></code>,
+<code><a href="../../pROC/help/ci.sp.html">ci.sp</a></code>,
+<code><a href="../../pROC/help/plot.ci.html">plot.ci</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create a ROC curve:
+data(aSAH)
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+
+
+## Basic example ##
+## Not run: 
+ci.se(roc1)
+## End(Not run)
+
+
+## More options ##
+# Customized bootstrap and specificities:
+## Not run: 
+ci.se(roc1, c(.95, .9, .85), boot.n=10000, conf.level=0.9, stratified=FALSE)
+## End(Not run)
+
+
+## Plotting the CI ##
+ci1 &lt;- ci.se(roc1, boot.n = 10)
+plot(roc1)
+plot(ci1)
+
+
+## On smoothed ROC curves with bootstrap ##
+## Not run: 
+ci.se(smooth(roc1, method="density"))
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

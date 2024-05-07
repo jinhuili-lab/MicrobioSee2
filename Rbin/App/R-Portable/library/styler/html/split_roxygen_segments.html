@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Split text into roxygen and non-roxygen example segments</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for split_roxygen_segments {styler}"><tr><td>split_roxygen_segments {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Split text into roxygen and non-roxygen example segments</h2>
+
+<h3>Description</h3>
+
+<p>Split text into roxygen and non-roxygen example segments
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+split_roxygen_segments(text, roxygen_examples)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>Roxygen comments</p>
+</td></tr>
+<tr valign="top"><td><code>roxygen_examples</code></td>
+<td>
+<p>Integer sequence that indicates which lines in <code>text</code>
+are roxygen examples. Most conveniently obtained with
+<a href="../../styler/help/identify_start_to_stop_of_roxygen_examples_from_text.html">identify_start_to_stop_of_roxygen_examples_from_text</a>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with two elements:
+</p>
+
+<ul>
+<li><p> A list that contains elements grouped into roxygen and non-roxygen
+sections. This list is named <code>separated</code>.
+</p>
+</li>
+<li><p> An integer vector with the indices that correspond to roxygen code
+examples in <code>separated</code>.
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

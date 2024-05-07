@@ -1,0 +1,1019 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A Dockerfile template</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Dockerfile {dockerfiler}"><tr><td>Dockerfile {dockerfiler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>A Dockerfile template</h2>
+
+<h3>Description</h3>
+
+<p>A Dockerfile template
+</p>
+<p>A Dockerfile template
+</p>
+
+
+<h3>Public fields</h3>
+
+<div class="r6-fields">
+
+<dl>
+<dt><code>Dockerfile</code></dt><dd><p>The dockerfile content.</p>
+</dd>
+</dl>
+
+</div>
+
+
+<h3>Methods</h3>
+
+
+
+<h4>Public methods</h4>
+
+
+<ul>
+<li> <p><a href="#method-Dockerfile-new"><code>Dockerfile$new()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-RUN"><code>Dockerfile$RUN()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-ADD"><code>Dockerfile$ADD()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-COPY"><code>Dockerfile$COPY()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-WORKDIR"><code>Dockerfile$WORKDIR()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-EXPOSE"><code>Dockerfile$EXPOSE()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-VOLUME"><code>Dockerfile$VOLUME()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-CMD"><code>Dockerfile$CMD()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-LABEL"><code>Dockerfile$LABEL()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-ENV"><code>Dockerfile$ENV()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-ENTRYPOINT"><code>Dockerfile$ENTRYPOINT()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-USER"><code>Dockerfile$USER()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-ARG"><code>Dockerfile$ARG()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-ONBUILD"><code>Dockerfile$ONBUILD()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-STOPSIGNAL"><code>Dockerfile$STOPSIGNAL()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-HEALTHCHECK"><code>Dockerfile$HEALTHCHECK()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-SHELL"><code>Dockerfile$SHELL()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-MAINTAINER"><code>Dockerfile$MAINTAINER()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-custom"><code>Dockerfile$custom()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-print"><code>Dockerfile$print()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-write"><code>Dockerfile$write()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-switch_cmd"><code>Dockerfile$switch_cmd()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-remove_cmd"><code>Dockerfile$remove_cmd()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-add_after"><code>Dockerfile$add_after()</code></a>
+</p>
+</li>
+<li> <p><a href="#method-Dockerfile-clone"><code>Dockerfile$clone()</code></a>
+</p>
+</li></ul>
+
+
+<hr>
+<a id="method-Dockerfile-new"></a>
+
+
+
+<h4>Method <code>new()</code></h4>
+
+<p>Create a new Dockerfile object.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$new(FROM = "rocker/r-base", AS = NULL)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>FROM</code></dt><dd><p>The base image.</p>
+</dd>
+<dt><code>AS</code></dt><dd><p>The name of the image.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>A Dockerfile object.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-RUN"></a>
+
+
+
+<h4>Method <code>RUN()</code></h4>
+
+<p>Add a RUN command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$RUN(cmd)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>cmd</code></dt><dd><p>The command to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-ADD"></a>
+
+
+
+<h4>Method <code>ADD()</code></h4>
+
+<p>Add a ADD command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$ADD(from, to, force = TRUE)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>from</code></dt><dd><p>The source file.</p>
+</dd>
+<dt><code>to</code></dt><dd><p>The destination file.</p>
+</dd>
+<dt><code>force</code></dt><dd><p>If TRUE, overwrite the destination file.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-COPY"></a>
+
+
+
+<h4>Method <code>COPY()</code></h4>
+
+<p>Add a COPY command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$COPY(from, to, force = TRUE)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>from</code></dt><dd><p>The source file.</p>
+</dd>
+<dt><code>to</code></dt><dd><p>The destination file.</p>
+</dd>
+<dt><code>force</code></dt><dd><p>If TRUE, overwrite the destination file.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-WORKDIR"></a>
+
+
+
+<h4>Method <code>WORKDIR()</code></h4>
+
+<p>Add a WORKDIR command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$WORKDIR(where)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>where</code></dt><dd><p>The working directory.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-EXPOSE"></a>
+
+
+
+<h4>Method <code>EXPOSE()</code></h4>
+
+<p>Add a EXPOSE command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$EXPOSE(port)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>port</code></dt><dd><p>The port to expose.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-VOLUME"></a>
+
+
+
+<h4>Method <code>VOLUME()</code></h4>
+
+<p>Add a VOLUME command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$VOLUME(volume)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>volume</code></dt><dd><p>The volume to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-CMD"></a>
+
+
+
+<h4>Method <code>CMD()</code></h4>
+
+<p>Add a CMD command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$CMD(cmd)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>cmd</code></dt><dd><p>The command to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-LABEL"></a>
+
+
+
+<h4>Method <code>LABEL()</code></h4>
+
+<p>Add a LABEL command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$LABEL(key, value)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>key, value</code></dt><dd><p>The key and value of the label.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-ENV"></a>
+
+
+
+<h4>Method <code>ENV()</code></h4>
+
+<p>Add a ENV command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$ENV(key, value)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>key, value</code></dt><dd><p>The key and value of the label.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-ENTRYPOINT"></a>
+
+
+
+<h4>Method <code>ENTRYPOINT()</code></h4>
+
+<p>Add a ENTRYPOINT command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$ENTRYPOINT(cmd)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>cmd</code></dt><dd><p>The command to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-USER"></a>
+
+
+
+<h4>Method <code>USER()</code></h4>
+
+<p>Add a USER command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$USER(user)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>user</code></dt><dd><p>The user to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-ARG"></a>
+
+
+
+<h4>Method <code>ARG()</code></h4>
+
+<p>Add a ARG command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$ARG(arg, ahead = FALSE)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>arg</code></dt><dd><p>The argument to add.</p>
+</dd>
+<dt><code>ahead</code></dt><dd><p>If TRUE, add the argument at the beginning of the Dockerfile.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-ONBUILD"></a>
+
+
+
+<h4>Method <code>ONBUILD()</code></h4>
+
+<p>Add a ONBUILD command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$ONBUILD(cmd)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>cmd</code></dt><dd><p>The command to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-STOPSIGNAL"></a>
+
+
+
+<h4>Method <code>STOPSIGNAL()</code></h4>
+
+<p>Add a STOPSIGNAL command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$STOPSIGNAL(signal)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>signal</code></dt><dd><p>The signal to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-HEALTHCHECK"></a>
+
+
+
+<h4>Method <code>HEALTHCHECK()</code></h4>
+
+<p>Add a HEALTHCHECK command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$HEALTHCHECK(check)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>check</code></dt><dd><p>The check to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-SHELL"></a>
+
+
+
+<h4>Method <code>SHELL()</code></h4>
+
+<p>Add a SHELL command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$SHELL(shell)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>shell</code></dt><dd><p>The shell to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-MAINTAINER"></a>
+
+
+
+<h4>Method <code>MAINTAINER()</code></h4>
+
+<p>Add a MAINTAINER command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$MAINTAINER(name, email)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>name, email</code></dt><dd><p>The name and email of the maintainer.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-custom"></a>
+
+
+
+<h4>Method <code>custom()</code></h4>
+
+<p>Add a custom command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$custom(base, cmd)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>base, cmd</code></dt><dd><p>The base and command to add.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-print"></a>
+
+
+
+<h4>Method <code>print()</code></h4>
+
+<p>Print the Dockerfile.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$print()</pre></div>
+
+
+
+<h5>Returns</h5>
+
+<p>used for side effect
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-write"></a>
+
+
+
+<h4>Method <code>write()</code></h4>
+
+<p>Write the Dockerfile to a file.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$write(as = "Dockerfile")</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>as</code></dt><dd><p>The file to write to.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>used for side effect
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-switch_cmd"></a>
+
+
+
+<h4>Method <code>switch_cmd()</code></h4>
+
+<p>Switch commands.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$switch_cmd(a, b)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>a, b</code></dt><dd><p>The commands to switch.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-remove_cmd"></a>
+
+
+
+<h4>Method <code>remove_cmd()</code></h4>
+
+<p>Remove a command.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$remove_cmd(where)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>where</code></dt><dd><p>The commands to remove.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-add_after"></a>
+
+
+
+<h4>Method <code>add_after()</code></h4>
+
+<p>Add a command after another.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$add_after(cmd, after)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>cmd</code></dt><dd><p>The command to add.</p>
+</dd>
+<dt><code>after</code></dt><dd><p>Where to add the cmd</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+<h5>Returns</h5>
+
+<p>the Dockerfile object, invisibly.
+</p>
+
+
+<hr>
+<a id="method-Dockerfile-clone"></a>
+
+
+
+<h4>Method <code>clone()</code></h4>
+
+<p>The objects of this class are cloneable with this method.
+</p>
+
+
+<h5>Usage</h5>
+
+<div class="r"><pre>Dockerfile$clone(deep = FALSE)</pre></div>
+
+
+
+<h5>Arguments</h5>
+
+<div class="arguments">
+
+<dl>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p>
+</dd>
+</dl>
+
+</div>
+
+
+
+
+<h3>Examples</h3>
+
+<pre>
+my_dock &lt;- Dockerfile$new()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dockerfiler</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

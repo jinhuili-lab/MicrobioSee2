@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add labels to specified genomic regions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicLabels {circlize}"><tr><td>circos.genomicLabels {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add labels to specified genomic regions
+</h2>
+
+<h3>Description</h3>
+
+<p>Add labels to specified genomic regions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicLabels(
+    bed,
+    labels = NULL,
+    labels.column = NULL,
+    facing = "clockwise",
+    niceFacing = TRUE,
+    col = par("col"),
+    cex = 0.8,
+    font = par("font"),
+    padding = 0.4,
+    connection_height = mm_h(5),
+    line_col = par("col"),
+    line_lwd = par("lwd"),
+    line_lty = par("lty"),
+    labels_height = min(c(cm_h(1.5), max(strwidth(labels, cex = cex, font = font)))),
+    side = c("inside", "outside"),
+    labels.side = side,
+    track.margin = circos.par("track.margin"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>bed</code></td>
+<td>
+<p>A data frame in bed format.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>A vector of labels corresponding to rows in <code>bed</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels.column</code></td>
+<td>
+<p>If the label column is already in <code>bed</code>, the index for this column in <code>bed</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>fFacing of the labels. The value can only be <code>"clockwise"</code> or <code>"reverse.clockwise"</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>niceFacing</code></td>
+<td>
+<p>Whether automatically adjust the facing of the labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color for the labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Size of the labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>Font of the labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>Padding of the labels, the value is the ratio to the height of the label.
+</p>
+</td></tr>
+<tr valign="top"><td><code>connection_height</code></td>
+<td>
+<p>Height of the connection track.
+</p>
+</td></tr>
+<tr valign="top"><td><code>line_col</code></td>
+<td>
+<p>Color for the connection lines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>line_lwd</code></td>
+<td>
+<p>Line width for the connection lines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>line_lty</code></td>
+<td>
+<p>Line type for the connectioin lines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels_height</code></td>
+<td>
+<p>Height of the labels track.
+</p>
+</td></tr>
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>Side of the labels track, is it in the inside of the track where the regions are marked?
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels.side</code></td>
+<td>
+<p>Same as <code>side</code>. It will replace <code>side</code> in the future versions.
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.margin</code></td>
+<td>
+<p>Bottom and top margins.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function adds labels for the specified regions. The positions of labels are arranged
+so that they are not overlapping to each other.
+</p>
+<p>This function creates two tracks, one for the connection lines and one for the labels.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#labels">https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#labels</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+circos.initializeWithIdeogram()
+bed = generateRandomBed(nr = 50, fun = function(k) sample(letters, k, replace = TRUE))
+bed[1, 4] = "aaaaa"
+circos.genomicLabels(bed, labels.column = 4, side = "inside")
+circos.clear()
+
+circos.initializeWithIdeogram(plotType = NULL)
+circos.genomicLabels(bed, labels.column = 4, side = "outside",
+    col = as.numeric(factor(bed[[1]])), line_col = as.numeric(factor(bed[[1]])))
+circos.genomicIdeogram()
+circos.clear()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Satterthwaite approximation for SEs, CIs and p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci_satterthwaite {parameters}"><tr><td>ci_satterthwaite {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Satterthwaite approximation for SEs, CIs and p-values</h2>
+
+<h3>Description</h3>
+
+<p>An approximate F-test based on the Satterthwaite (1946) approach.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ci_satterthwaite(model, ci = 0.95, ...)
+
+dof_satterthwaite(model)
+
+p_value_satterthwaite(model, dof = NULL, ...)
+
+se_satterthwaite(model)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments</p>
+</td></tr>
+<tr valign="top"><td><code>dof</code></td>
+<td>
+<p>Degrees of Freedom.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Inferential statistics (like p-values, confidence intervals and
+standard errors) may be biased in mixed models when the number of clusters
+is small (even if the sample size of level-1 units is high). In such cases
+it is recommended to approximate a more accurate number of degrees of freedom
+for such inferential statistics. Unlike simpler approximation heuristics
+like the &quot;m-l-1&quot; rule (<code>dof_ml1</code>), the Satterthwaite approximation is
+also applicable in more complex multilevel designs. However, the &quot;m-l-1&quot;
+heuristic also applies to generalized mixed models, while approaches like
+Kenward-Roger or Satterthwaite are limited to linear mixed models only.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>References</h3>
+
+<p>Satterthwaite FE (1946) An approximate distribution of estimates of variance components. Biometrics Bulletin 2 (6):110–4.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>dof_satterthwaite()</code> and <code>se_satterthwaite()</code> are small helper-functions
+to calculate approximated degrees of freedom and standard errors for model
+parameters, based on the Satterthwaite (1946) approach.
+</p>
+<p><code><a href="../../parameters/help/dof_kenward.html">dof_kenward()</a></code> and <code><a href="../../parameters/help/dof_ml1.html">dof_ml1()</a></code> approximate degrees of freedom based on
+Kenward-Roger's method or the &quot;m-l-1&quot; rule.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("lme4", quietly = TRUE)) {
+  model &lt;- lmer(Petal.Length ~ Sepal.Length + (1 | Species), data = iris)
+  p_value_satterthwaite(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

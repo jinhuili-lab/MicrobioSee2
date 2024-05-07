@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Indices of beta Diversity</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for betadiver {vegan}"><tr><td>betadiver {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Indices of beta Diversity </h2>
+
+<h3>Description</h3>
+
+<p>The function estimates any of the 24 indices of beta diversity
+reviewed by Koleff et al. (2003). Alternatively, it finds the
+co-occurrence frequencies for triangular plots (Koleff et
+al. 2003). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+betadiver(x, method = NA, order = FALSE, help = FALSE, ...)
+## S3 method for class 'betadiver'
+plot(x, ...)
+## S3 method for class 'betadiver'
+scores(x, triangular = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data matrix, or the <code>betadiver</code> result for
+<code>plot</code> and <code>scores</code> functions. </p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>The index of beta diversity as defined in Koleff et al.
+(2003), Table 1. You can use either the subscript of <i>&beta;</i> or
+the number of the index. See argument <code>help</code> below. </p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>Order sites by increasing number of species. This will
+influence the configuration in the triangular plot and non-symmetric
+indices. </p>
+</td></tr>
+<tr valign="top"><td><code>help</code></td>
+<td>
+<p>Show the numbers, subscript names and the defining
+equations of the indices and exit.</p>
+</td></tr>
+<tr valign="top"><td><code>triangular</code></td>
+<td>
+<p>Return scores suitable for triangular plotting of
+proportions. If <code>FALSE</code>, returns a 3-column matrix of raw counts.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments to functions. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The most commonly used index of beta diversity is
+<i>&beta;_w = S/&alpha; - 1</i>, where <i>S</i> is the total number of
+species, and <i>&alpha;</i> is the average number of species per site
+(Whittaker 1960). A drawback of this model is that <i>S</i> increases
+with sample size, but the expectation of <i>&alpha;</i> remains
+constant, and so the beta diversity increases with sample size. A
+solution to this problem is to study the beta diversity of pairs of
+sites (Marion et al. 2017). If we denote the number of species
+shared between two sites as <i>a</i> and the numbers of unique
+species (not shared) as <i>b</i> and <i>c</i>, then <i>S = a + b +
+  c</i> and <i>&alpha; = (2 a + b + c)/2</i> so that <i>&beta;_w =
+  (b+c)/(2 a + b + c)</i>. This is the Sørensen
+dissimilarity as defined in <span class="pkg">vegan</span> function
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> with argument <code>binary = TRUE</code>. Many other
+indices are dissimilarity indices as well.
+</p>
+<p>Function <code>betadiver</code> finds all indices reviewed by Koleff et
+al. (2003). All these indices could be found with function
+<code><a href="../../vegan/help/designdist.html">designdist</a></code>, but the current function provides a
+conventional shortcut. The function only finds the indices. The proper
+analysis must be done with functions such as <code><a href="../../vegan/help/betadisper.html">betadisper</a></code>,
+<code><a href="../../vegan/help/adonis2.html">adonis2</a></code> or <code><a href="../../vegan/help/mantel.html">mantel</a></code>.
+</p>
+<p>The indices are directly taken from Table 1 of Koleff et al. (2003),
+and they can be selected either by the index number or the subscript
+name used by Koleff et al. The numbers, names and defining equations
+can be seen using <code>betadiver(help = TRUE)</code>. In all cases where
+there are two alternative forms, the one with the term <i>-1</i> is
+used. There are several duplicate indices, and the number of distinct
+alternatives is much lower than 24 formally provided. The formulations
+used in functions differ occasionally from those in Koleff et
+al. (2003), but they are still mathematically equivalent. With
+<code>method = NA</code>, no index is calculated, but instead an object of
+class <code>betadiver</code> is returned. This is a list of elements
+<code>a</code>, <code>b</code> and <code>c</code>. Function <code>plot</code> can be used to
+display the proportions of these elements in triangular plot as
+suggested by Koleff et al. (2003), and <code>scores</code> extracts the
+triangular coordinates or the raw scores. Function <code>plot</code> returns
+invisibly the triangular coordinates as an <code>"<a href="../../vegan/help/ordiplot.html">ordiplot</a>"</code>
+object. 
+</p>
+
+
+<h3>Value</h3>
+
+<p> With <code>method = NA</code>, the function returns an object of
+class <code>"betadisper"</code> with elements <code>a</code>, <code>b</code>, and
+<code>c</code>. If <code>method</code> is specified, the function returns a
+<code>"dist"</code> object which can be used in any function analysing
+dissimilarities. For beta diversity, particularly useful functions
+are <code><a href="../../vegan/help/betadisper.html">betadisper</a></code> to study the betadiversity in groups,
+<code><a href="../../vegan/help/adonis2.html">adonis2</a></code> for any model, and <code><a href="../../vegan/help/mantel.html">mantel</a></code> to
+compare beta diversities to other dissimilarities or distances
+(including geographical distances). Although <code>betadiver</code>
+returns a <code>"dist"</code> object, some indices are similarities and
+cannot be used as such in place of dissimilarities, but that is a
+severe user error. Functions 10 (<code>"j"</code>) and 11 (<code>"sor"</code>)
+are two such similarity indices.
+</p>
+
+
+<h3>Warning </h3>
+
+<p>Some indices return similarities instead of dissimilarities.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Baselga, A. (2010) Partitioning the turnover and nestedness
+components of beta diversity. <em>Global Ecology and Biogeography</em>
+19, 134&ndash;143.
+</p>
+<p>Koleff, P., Gaston, K.J. and Lennon, J.J. (2003) Measuring beta
+diversity for presence-absence data. <em>Journal of Animal
+Ecology</em> 72, 367&ndash;382.
+</p>
+<p>Marion, Z.H., Fordyce, J.A. and Fitzpatrick, B.M. (2017) Pairwise
+beta diversity resolves an underappreciated source of confusion in
+calculating species turnover. <em>Ecology</em> 98, 933&ndash;939.
+</p>
+<p>Whittaker, R.H. (1960) Vegetation of Siskiyou mountains, Oregon and
+California. <em>Ecological Monographs</em> 30, 279&ndash;338.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/designdist.html">designdist</a></code> can be used to implement all these
+functions, and also allows using notation with <code>alpha</code> and
+<code>gamma</code> diversities.  <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> has some canned
+alternatives.  Functions <code><a href="../../vegan/help/betadisper.html">betadisper</a></code>,
+<code><a href="../../vegan/help/adonis2.html">adonis2</a></code> and <code><a href="../../vegan/help/mantel.html">mantel</a></code> can be used for
+analysing beta diversity objects. The returned dissimilarities can
+be used in any distance-based methods, such as
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code> and
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code>. Functions <code><a href="../../vegan/help/nestedbetasor.html">nestedbetasor</a></code> and
+<code><a href="../../vegan/help/nestedbetajac.html">nestedbetajac</a></code> implement decomposition beta diversity
+measures (Sørensen and Jaccard) into turnover and
+nestedness components following Baselga (2010).  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Raw data and plotting
+data(sipoo)
+m &lt;- betadiver(sipoo)
+plot(m)
+## The indices
+betadiver(help=TRUE)
+## The basic Whittaker index
+d &lt;- betadiver(sipoo, "w")
+## This should be equal to Sorensen index (binary Bray-Curtis in
+## vegan)
+range(d - vegdist(sipoo, binary=TRUE))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

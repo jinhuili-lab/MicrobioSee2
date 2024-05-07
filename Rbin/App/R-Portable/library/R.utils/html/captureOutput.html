@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression and captures the output</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for captureOutput {R.utils}"><tr><td>captureOutput {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression and captures the output</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression and captures the output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+captureOutput(expr, file=NULL, append=FALSE, collapse=NULL, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A file name or a <code><a href="../../base/help/connections.html">connection</a></code> to where the output is
+directed.  Alternatively, if <code><a href="../../base/help/NULL.html">NULL</a></code> the output is captured to
+and returned as a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>append</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the output is appended to the file or
+the (unopened) connection, otherwise it overwrites.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string used for collapsing the captured
+rows. If <code><a href="../../base/help/NULL.html">NULL</a></code>, the rows are not collapsed.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression is evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This method imitates <code><a href="../../utils/help/capture.output.html">capture.output</a></code> with the major
+difference that it captures strings via a <code><a href="../../base/help/raw.html">raw</a></code> connection rather
+than via internal strings.  The latter becomes exponentially slow
+for large outputs [1,2].
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns captured output as a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] R-devel thread 'capture.output(): Using a rawConnection() [linear]
+instead of textConnection() [exponential]?', 2014-02-04.
+<a href="https://stat.ethz.ch/pipermail/r-devel/2014-February/068349.html">https://stat.ethz.ch/pipermail/r-devel/2014-February/068349.html</a>
+[2] JottR blog post 'PERFORMANCE: captureOutput() is much faster than
+capture.output()', 2015-05-26.
+<a href="https://www.jottr.org/2014/05/26/captureoutput/">https://www.jottr.org/2014/05/26/captureoutput/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression.
+and <code><a href="../../utils/help/capture.output.html">capture.output</a></code> to capture the output.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# captureOutput() is much faster than capture.output()
+# for large outputs when capturing to a string.
+for (n in c(10e3, 20e3, 30e3, 40e3)) {
+  printf("n=%d\n", n)
+
+  x &lt;- rnorm(n)
+
+  t0 &lt;- system.time({
+    bfr0 &lt;- capture.output(print(x))
+  })
+  print(t0)
+
+  t1 &lt;- system.time({
+    bfr &lt;- captureOutput(print(x))
+  })
+  print(t1)
+  print(t1/t0)
+
+  bfr2n &lt;- captureOutput(print(x), collapse="\n")
+  bfr2r &lt;- captureOutput(print(x), collapse="\r")
+
+  stopifnot(identical(bfr, bfr0))
+} # for (n ...)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

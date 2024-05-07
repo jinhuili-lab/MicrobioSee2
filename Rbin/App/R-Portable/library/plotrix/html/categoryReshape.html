@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert object label/attribute label coding.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for categoryReshape {plotrix}"><tr><td>categoryReshape {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert object label/attribute label coding.</h2>
+
+<h3>Description</h3>
+
+<p>Convert object label/attribute label coding to an object by
+attribute data frame.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ categoryReshape(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A matrix or data frame with at least two columns.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">categoryReshape</span> attempts to convert the first two columns of its input
+into a data frame in which rows represent objects and columns attributes. For
+each object, a value of 1 indicates that the object has that attribute, and a
+value of 0 that it does not. In set membership terms, a 1 indicates that the
+object is a member of that set and a 0 that it is not.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame (see Details).</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/makeIntersectList.html">makeIntersectList</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ ns&lt;-sample(1:8,20,TRUE)
+ objects&lt;-0
+ for(i in 1:length(ns)) objects&lt;-c(objects,rep(i,ns[i]))
+ attributes&lt;-"Z"
+ for(i in 1:length(ns)) attributes&lt;-c(attributes,sample(LETTERS[1:8],ns[i]))
+ setdf&lt;-data.frame(objects[-1],attributes[-1])
+ categoryReshape(setdf)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

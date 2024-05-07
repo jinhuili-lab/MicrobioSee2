@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from Generalized Additive (Mixed) Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.cgam {parameters}"><tr><td>model_parameters.cgam {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from Generalized Additive (Mixed) Models</h2>
+
+<h3>Description</h3>
+
+<p>Extract and compute indices and measures to describe parameters
+of generalized additive models (GAM(M)s).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cgam'
+model_parameters(
+  model,
+  ci = 0.95,
+  ci_method = "residual",
+  bootstrap = FALSE,
+  iterations = 1000,
+  standardize = NULL,
+  exponentiate = FALSE,
+  p_adjust = NULL,
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'gamm'
+model_parameters(
+  model,
+  ci = 0.95,
+  bootstrap = FALSE,
+  iterations = 1000,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'Gam'
+model_parameters(
+  model,
+  effectsize_type = NULL,
+  df_error = NULL,
+  type = NULL,
+  table_wide = FALSE,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'scam'
+model_parameters(
+  model,
+  ci = 0.95,
+  ci_method = "residual",
+  bootstrap = FALSE,
+  iterations = 1000,
+  standardize = NULL,
+  exponentiate = FALSE,
+  p_adjust = NULL,
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A gam/gamm model.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>Method for computing degrees of freedom for
+confidence intervals (CI) and the related p-values. Allowed are following
+options (which vary depending on the model class): <code>"residual"</code>,
+<code>"normal"</code>, <code>"likelihood"</code>, <code>"satterthwaite"</code>, <code>"kenward"</code>, <code>"wald"</code>,
+<code>"profile"</code>, <code>"boot"</code>, <code>"uniroot"</code>, <code>"ml1"</code>, <code>"betwithin"</code>, <code>"hdi"</code>,
+<code>"quantile"</code>, <code>"ci"</code>, <code>"eti"</code>, <code>"si"</code>, <code>"bci"</code>, or <code>"bcai"</code>. See section
+<em>Confidence intervals and approximation of degrees of freedom</em> in
+<code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> for further details. When <code>ci_method=NULL</code>, in most
+cases <code>"wald"</code> is used then.</p>
+</td></tr>
+<tr valign="top"><td><code>bootstrap</code></td>
+<td>
+<p>Should estimates be based on bootstrapped model? If
+<code>TRUE</code>, then arguments of <a href="../../parameters/help/model_parameters.stanreg.html">Bayesian regressions</a> apply (see also
+<code><a href="../../parameters/help/bootstrap_parameters.html">bootstrap_parameters()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of bootstrap replicates. This only apply in the
+case of bootstrapped frequentist models.</p>
+</td></tr>
+<tr valign="top"><td><code>standardize</code></td>
+<td>
+<p>The method used for standardizing the parameters. Can be
+<code>NULL</code> (default; no standardization), <code>"refit"</code> (for re-fitting the model
+on standardized data) or one of <code>"basic"</code>, <code>"posthoc"</code>, <code>"smart"</code>,
+<code>"pseudo"</code>. See 'Details' in <code><a href="../../parameters/help/standardize_parameters.html">standardize_parameters()</a></code>.
+<strong>Importantly</strong>:
+</p>
+
+<ul>
+<li><p> The <code>"refit"</code> method does <em>not</em> standardize categorical predictors (i.e.
+factors), which may be a different behaviour compared to other R packages
+(such as <strong>lm.beta</strong>) or other software packages (like SPSS). to mimic
+such behaviours, either use <code>standardize="basic"</code> or standardize the data
+with <code>datawizard::standardize(force=TRUE)</code> <em>before</em> fitting the model.
+</p>
+</li>
+<li><p> For mixed models, when using methods other than <code>"refit"</code>, only the fixed
+effects will be standardized.
+</p>
+</li>
+<li><p> Robust estimation (i.e., <code>vcov</code> set to a value other than <code>NULL</code>) of
+standardized parameters only works when <code>standardize="refit"</code>.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>exponentiate</code></td>
+<td>
+<p>Logical, indicating whether or not to exponentiate the
+coefficients (and related confidence intervals). This is typical for
+logistic regression, or more generally speaking, for models with log or
+logit links. It is also recommended to use <code>exponentiate = TRUE</code> for models
+with log-transformed response values. <strong>Note:</strong> Delta-method standard
+errors are also computed (by multiplying the standard errors by the
+transformed coefficients). This is to mimic behaviour of other software
+packages, such as Stata, but these standard errors poorly estimate
+uncertainty for the transformed coefficient. The transformed confidence
+interval more clearly captures this uncertainty. For <code>compare_parameters()</code>,
+<code>exponentiate = "nongaussian"</code> will only exponentiate coefficients from
+non-Gaussian families.</p>
+</td></tr>
+<tr valign="top"><td><code>p_adjust</code></td>
+<td>
+<p>Character vector, if not <code>NULL</code>, indicates the method to
+adjust p-values. See <code><a href="../../stats/help/p.adjust.html">stats::p.adjust()</a></code> for details. Further
+possible adjustment methods are <code>"tukey"</code>, <code>"scheffe"</code>,
+<code>"sidak"</code> and <code>"none"</code> to explicitly disable adjustment for
+<code>emmGrid</code> objects (from <strong>emmeans</strong>).</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. For instance, when
+<code>bootstrap = TRUE</code>, arguments like <code>type</code> or <code>parallel</code> are
+passed down to <code>bootstrap_model()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>effectsize_type</code></td>
+<td>
+<p>The effect size of interest. Not that possibly not all
+effect sizes are applicable to the model object. See 'Details'. For Anova
+models, can also be a character vector with multiple effect size names.</p>
+</td></tr>
+<tr valign="top"><td><code>df_error</code></td>
+<td>
+<p>Denominator degrees of freedom (or degrees of freedom of the
+error estimate, i.e., the residuals). This is used to compute effect sizes
+for ANOVA-tables from mixed models. See 'Examples'. (Ignored for
+<code>afex_aov</code>.)</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Numeric, type of sums of squares. May be 1, 2 or 3. If 2 or 3,
+ANOVA-tables using <code>car::Anova()</code> will be returned. (Ignored for
+<code>afex_aov</code>.)</p>
+</td></tr>
+<tr valign="top"><td><code>table_wide</code></td>
+<td>
+<p>Logical that decides whether the ANOVA table should be in
+wide format, i.e. should the numerator and denominator degrees of freedom
+be in the same row. Default: <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The reporting of degrees of freedom <em>for the spline terms</em>
+slightly differs from the output of <code>summary(model)</code>, for example in the
+case of <code>mgcv::gam()</code>. The <em>estimated degrees of freedom</em>, column
+<code>edf</code> in the summary-output, is named <code>df</code> in the returned data
+frame, while the column <code>df_error</code> in the returned data frame refers to
+the residual degrees of freedom that are returned by <code>df.residual()</code>.
+Hence, the values in the the column <code>df_error</code> differ from the column
+<code>Ref.df</code> from the summary, which is intentional, as these reference
+degrees of freedom &ldquo;is not very interpretable&rdquo;
+(<a href="https://stat.ethz.ch/pipermail/r-help/2019-March/462135.html">web</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../insight/help/standardize_names.html">insight::standardize_names()</a></code> to rename
+columns into a consistent, standardized naming scheme.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(parameters)
+if (require("mgcv")) {
+  dat &lt;- gamSim(1, n = 400, dist = "normal", scale = 2)
+  model &lt;- gam(y ~ s(x0) + s(x1) + s(x2) + s(x3), data = dat)
+  model_parameters(model)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

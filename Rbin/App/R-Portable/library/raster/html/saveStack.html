@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Save or open a RasterStack file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stackSave {raster}"><tr><td>stackSave {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Save or open a RasterStack file</h2>
+
+<h3>Description</h3>
+
+<p>A RasterStack is a collection of RasterLayers with the same spatial extent and resolution. They can be created from RasterLayer objects,
+or from file names. These two functions allow you to save the references to raster files and recreate a rasterStack object later. They only work if the RasterStack points to layers that have their values on disk. The values are not saved, only the references to the files.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stackOpen(stackfile)
+stackSave(x, filename)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>stackfile</code></td>
+<td>
+<p> Filename for the RasterStack (to save it on disk) </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> RasterStack object </p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>File name </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When a RasterStack is saved to a file, only pointers (filenames) to raster datasets are saved, not the data. 
+If the name or location of a raster file changes, the RasterStack becomes invalid.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterStack object
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/writeRaster.html">writeRaster</a></code>, <code><a href="../help/stack.html">stack</a></code>, <code><a href="../help/addLayer.html">addLayer</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+file &lt;- system.file("external/test.grd", package="raster")
+s &lt;- stack(c(file, file))
+
+## Not run: 
+s &lt;- stackSave(s, "mystack")
+# note that filename adds an extension .stk to a stackfile  
+s2 &lt;- stackOpen("mystack.stk")
+s2
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

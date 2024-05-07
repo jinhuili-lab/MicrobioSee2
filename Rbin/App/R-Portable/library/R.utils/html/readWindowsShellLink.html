@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a Microsoft Windows Shortcut (.lnk file)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readWindowsShellLink {R.utils}"><tr><td>readWindowsShellLink {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a Microsoft Windows Shortcut (.lnk file)</h2>
+
+<h3>Description</h3>
+
+<p>Reads a Microsoft Windows Shortcut (.lnk file).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+readWindowsShellLink(con, clean=TRUE, verbose=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string (filename).</p>
+</td></tr>
+<tr valign="top"><td><code>clean</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, low-level file specific fields are dropped,
+e.g. offsets on file locations.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, extra information is written while reading.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is implemented based on the official file format
+specification [1].
+It is intended to replace <code><a href="../../R.utils/help/readWindowsShortcut.html">readWindowsShortcut</a></code>(), which was
+written based on reverse engineering (before [1] was made available).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/list.html">list</a></code> structure.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] [MS-SHLLINK]: Shell Link (.LNK) Binary File Format, Microsoft Inc.,
+September 25, 2009. <br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/readWindowsShortcut.html">readWindowsShortcut</a></code>()
+<code><a href="../../R.utils/help/filePath.html">filePath</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+pathname &lt;- system.file("data-ex/HISTORY.LNK", package="R.utils")
+lnk &lt;- readWindowsShellLink(pathname)
+str(lnk)
+str(lnk$pathname)
+
+lnk0 &lt;- readWindowsShortcut(pathname)
+str(lnk0$pathname)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

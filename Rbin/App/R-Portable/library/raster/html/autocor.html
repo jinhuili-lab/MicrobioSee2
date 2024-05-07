@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Spatial autocorrelation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for autocorrelation {raster}"><tr><td>autocorrelation {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Spatial autocorrelation</h2>
+
+<h3>Description</h3>
+
+<p>Compute Moran's I or Geary's C measures of global spatial autocorrelation in a RasterLayer, or compute the the local Moran or Geary index (Anselin, 1995).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Geary(x, w=matrix(c(1,1,1,1,0,1,1,1,1), 3,3))
+Moran(x, w=matrix(c(1,1,1,1,0,1,1,1,1), 3,3))
+MoranLocal(x, w=matrix(c(1,1,1,1,0,1,1,1,1), 3,3))
+GearyLocal(x, w=matrix(c(1,1,1,1,0,1,1,1,1), 3,3))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Spatial weights defined by or a rectangular matrix with odd length (3, 5, ...) sides (as in <code><a href="../../raster/help/focal.html">focal</a></code>) </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The default setting uses a 3x3 neighborhood to compute &quot;Queen's case&quot; indices. You can use a filter (weights matrix) to do other things, such as &quot;Rook's case&quot;, or different lags. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single value (Moran's I or Geary's C) or a RasterLayer (Local Moran or Geary values)
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Babak Naimi</p>
+
+
+<h3>References</h3>
+
+<p>Moran, P.A.P., 1950. Notes on continuous stochastic phenomena. Biometrika 37:17-23
+</p>
+<p>Geary, R.C., 1954. The contiguity ratio and statistical mapping. The Incorporated Statistician 5: 115-145
+</p>
+<p>Anselin, L., 1995. Local indicators of spatial association-LISA. Geographical Analysis 27:93-115
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The spdep package for additional and more general approaches for computing indices of spatial autocorrelation
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrows=10, ncols=10)
+values(r) &lt;- 1:ncell(r)
+
+Moran(r)
+# Rook's case
+f &lt;- matrix(c(0,1,0,1,0,1,0,1,0), nrow=3)
+Moran(r, f)
+
+Geary(r)
+
+x1 &lt;- MoranLocal(r)
+
+# Rook's case
+x2 &lt;- MoranLocal(r, w=f)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

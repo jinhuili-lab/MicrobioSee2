@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Format messages and warnings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for format_message {insight}"><tr><td>format_message {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Format messages and warnings</h2>
+
+<h3>Description</h3>
+
+<p>Inserts line breaks into a longer message or warning string.
+Line length is adjusted to maximum length of the console, if the width
+can be accessed. By default, new lines are indented by two spaces.
+</p>
+<p><code>format_alert()</code> is a wrapper that combines formatting a string with a
+call to <code>message()</code>, <code>warning()</code> or <code>stop()</code>. By default, <code>format_alert()</code>
+creates a <code>message()</code>. <code>format_warning()</code> and <code>format_error()</code> change the
+default type of exception to <code>warning()</code> and <code>stop()</code>, respectively.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+format_message(
+  string,
+  ...,
+  line_length = 0.9 * getOption("width", 80),
+  indent = "  "
+)
+
+format_alert(
+  string,
+  ...,
+  line_length = 0.9 * getOption("width", 80),
+  indent = "  ",
+  type = "message",
+  call. = FALSE
+)
+
+format_warning(...)
+
+format_error(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>string</code></td>
+<td>
+<p>A string.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further strings that will be concatenated as indented new lines.</p>
+</td></tr>
+<tr valign="top"><td><code>line_length</code></td>
+<td>
+<p>Numeric, the maximum length of a line.
+The default is 90% of the width of the console window.</p>
+</td></tr>
+<tr valign="top"><td><code>indent</code></td>
+<td>
+<p>Character vector. If further lines are specified in <code>...</code>, a
+user-defined string can be specified to indent subsequent lines. Defaults to
+<code>"  "</code> (two white spaces), hence for each start of the line after the first
+line, two white space characters are inserted.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of exception alert to raise.
+Can be <code>"message"</code> for <code>message()</code>, <code>"warning"</code> for <code>warning()</code>,
+or <code>"error"</code> for <code>stop()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>call.</code></td>
+<td>
+<p>Logical. Indicating if the call should be included in the the
+error message. This is usually confusing for users when the function
+producing the warning or error is deep within another function, so the
+default is <code>FALSE</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>There is an experimental formatting feature implemented in this function.
+You can use following tags:
+</p>
+
+<ul>
+<li> <p><code style="white-space: pre;">{.b text}</code> for bold formatting
+</p>
+</li>
+<li> <p><code style="white-space: pre;">{.i text}</code> to use italic font style
+</p>
+</li>
+<li> <p><code style="white-space: pre;">{.url www.url.com}</code> formats the string as URL (i.e., enclosing URL in
+<code>&lt;</code> and <code>&gt;</code>, blue color and italic font style)
+</p>
+</li>
+<li> <p><code style="white-space: pre;">{.pkg packagename}</code> formats the text in blue color.
+</p>
+</li></ul>
+
+<p>This features has some limitations: it's hard to detect the exact length for
+each line when the string has multiple lines (after line breaks) and the
+string contains formatting tags. Thus, it can happen that lines are wrapped at
+an earlier length than expected. Furthermore, if you have multiple words in a
+format tag (<code style="white-space: pre;">{.b one two three}</code>), a line break might occur inside this tag,
+and the formatting no longer works (messing up the message-string).
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>format_message()</code>, a formatted string.
+For <code>format_alert()</code> and related functions, the requested exception,
+with the exception formatted using <code>format_message()</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+msg &lt;- format_message("Much too long string for just one line, I guess!",
+  line_length = 15
+)
+message(msg)
+
+msg &lt;- format_message("Much too long string for just one line, I guess!",
+  "First new line",
+  "Second new line",
+  "(both indented)",
+  line_length = 30
+)
+message(msg)
+
+msg &lt;- format_message("Much too long string for just one line, I guess!",
+  "First new line",
+  "Second new line",
+  "(not indented)",
+  line_length = 30,
+  indent = ""
+)
+message(msg)
+
+# Caution, experimental! See 'Details'
+msg &lt;- format_message(
+  "This is {.i italic}, visit {.url easystats.github.io/easystats}",
+  line_length = 30
+)
+message(msg)
+
+
+# message
+format_alert("This is a message.")
+format_alert("This is a warning.", type = "message")
+
+# error
+try(format_error("This is an error."))
+
+
+# warning
+format_warning("This is a warning.")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

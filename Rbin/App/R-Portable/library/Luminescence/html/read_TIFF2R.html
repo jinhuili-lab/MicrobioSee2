@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Import TIFF Image Data into R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for read_TIFF2R {Luminescence}"><tr><td>read_TIFF2R {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Import TIFF Image Data into R</h2>
+
+<h3>Description</h3>
+
+<p>Simple wrapper around [tiff::readTIFF] to import TIFF images
+and TIFF image stacks to be further processed within the package 'Luminescence'
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read_TIFF2R(file)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>[character] (**required**): file name</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>[RLum.Image.Data-class] object
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. read_TIFF2R(): Import TIFF Image Data into R. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p>[tiff::readTIFF], [RLum.Data.Image-class], [raster::raster]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+file &lt;- file.choose()
+image &lt;- read_TIFF2R(file)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

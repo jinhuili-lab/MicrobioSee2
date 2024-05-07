@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Probability of Direction (pd)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_pd {effectsize}"><tr><td>interpret_pd {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Probability of Direction (pd)</h2>
+
+<h3>Description</h3>
+
+<p>Interpret Probability of Direction (pd)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_pd(pd, rules = "default", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>Value or vector of probabilities of direction.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"default"</code>, <code>"makowski2019"</code> or a custom set of
+<code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not directly used.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Default (i.e., equivalent to p-values)
+</p>
+
+<ul>
+<li> <p><strong>pd &lt;= 0.975</strong> - not significant
+</p>
+</li>
+<li> <p><strong>pd &gt; 0.975</strong> - significant
+</p>
+</li></ul>
+
+</li>
+<li><p> Makowski et al. (2019) (<code>"makowski2019"</code>)
+</p>
+
+<ul>
+<li> <p><strong>pd &lt;= 0.95</strong> - uncertain
+</p>
+</li>
+<li> <p><strong>pd &gt; 0.95</strong> - possibly existing
+</p>
+</li>
+<li> <p><strong>pd &gt; 0.97</strong> - likely existing
+</p>
+</li>
+<li> <p><strong>pd &gt; 0.99</strong> - probably existing
+</p>
+</li>
+<li> <p><strong>pd &gt; 0.999</strong> - certainly existing
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Makowski, D., Ben-Shachar, M. S., Chen, S. H., and Lüdecke, D. (2019). Indices of effect existence and significance in the Bayesian framework. Frontiers in psychology, 10, 2767.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_pd(.98)
+interpret_pd(c(.96, .99), rules = "makowski2019")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

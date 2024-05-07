@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets a readable pathname</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arguments$getReadablePathname {R.utils}"><tr><td>Arguments$getReadablePathname {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets a readable pathname</h2>
+
+<h3>Description</h3>
+
+<p>Gets a readable pathname.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Arguments$getReadablePathname(file=NULL, path=NULL, mustExist=TRUE, absolute=FALSE,
+##   adjust=c("none", "url"), ...)
+
+## Don't use the below:
+## S3 method for class 'Arguments'
+getReadablePathname(static, file=NULL, path=NULL, mustExist=TRUE, absolute=FALSE,
+  adjust=c("none", "url"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the file.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the path.</p>
+</td></tr>
+<tr valign="top"><td><code>mustExist</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the pathname must exists and be readable,
+otherwise an exception is thrown. If <code><a href="../../base/help/logical.html">FALSE</a></code>, no such test is
+performed.</p>
+</td></tr>
+<tr valign="top"><td><code>absolute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the absolute pathname is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string of the absolute pathname of the file.
+</p>
+
+
+<h3>Missing values</h3>
+
+<p>If <code>file</code> or <code>path</code> is <code><a href="../../base/help/NA.html">NA</a></code> and <code>mustExist</code> is <code><a href="../../base/help/logical.html">FALSE</a></code>,
+then (character) <code><a href="../../base/help/NA.html">NA</a></code> is returned, otherwise an exception is thrown.
+</p>
+
+
+<h3>Windows</h3>
+
+<p>If a too long pathname is detected on Windows, an informative warning
+is given.
+The maximum number of symbols in a Windows pathname is 256, including
+file separators '/' or '\', but excluding the drive letter, and initial
+file separator (e.g. 'C:/'), and the string terminator ('\0'), cf.
+'MSDN - Naming a File or Directory', Microsoft. In R, the limit is
+one symbol less, i.e. 255.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/getWritablePathname.Arguments.html">*getWritablePathname</a>()</code>
+<code><a href="../help/filePath.html">filePath</a></code>.
+For more information see <code><a href="../../R.utils/help/Arguments.html">Arguments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

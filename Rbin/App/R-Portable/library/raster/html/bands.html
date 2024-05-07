@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Number of bands</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bands {raster}"><tr><td>bands {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Number of bands</h2>
+
+<h3>Description</h3>
+
+<p>A 'band' refers to a single layer for a possibly multi-layer file. Most RasterLayer objects will refer to files with a single layer. 
+The term 'band' is frequently used in remote sensing to refer to a variable (layer) in a multi-variable dataset as these variables typically reperesent reflection in different bandwidths in the electromagnetic spectrum. But in that context, bands could be stored in a single or in separate files. In the context of the raster package, the term band is equivalent to a layer in a raster file.
+</p>
+<p><code>nbands</code> returns the number of bands of the file that a RasterLayer points to (and 1 if it does not point at any file). This functions also works for a RasterStack for which it is equivalent to <code><a href="../../raster/help/nlayers.html">nlayers</a></code>.
+</p>
+<p><code>band</code> returns the specific band the RasterLayer refers to (1 if the RasterLayer points at single layer file or does not point at any file). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nbands(x)
+bandnr(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments (none at this time)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>numeric &gt;= 1
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/nlayers.html">nlayers</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+f &lt;- system.file("external/rlogo.grd", package="raster")
+r &lt;- raster(f, layer=2)
+nbands(r)
+bandnr(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

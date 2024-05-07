@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Between ANOVA Effect Sizes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for eta2_to_f2 {effectsize}"><tr><td>eta2_to_f2 {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Between ANOVA Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>Convert Between ANOVA Effect Sizes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+eta2_to_f2(es)
+
+eta2_to_f(es)
+
+f2_to_eta2(f2)
+
+f_to_eta2(f)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>es</code></td>
+<td>
+<p>Any measure of variance explained such as Eta-, Epsilon-, Omega-,
+or R-Squared, partial or otherwise. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>f, f2</code></td>
+<td>
+<p>Cohen's <em>f</em> or <em>f</em>-squared.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Any measure of variance explained can be converted to a corresponding Cohen's
+<em>f</em> via:
+<br /><br />
+</p>
+<p style="text-align: center;"><i>f^2 = \frac{&eta;^2}{1 - &eta;^2}</i></p>
+
+<p><br /><br />
+</p>
+<p style="text-align: center;"><i>&eta;^2 = \frac{f^2}{1 + f^2}</i></p>
+
+<p><br /><br />
+If a partial Eta-Squared is used, the resulting Cohen's <em>f</em> is a
+partial-Cohen's <em>f</em>; If a less biased estimate of variance explained is used
+(such as Epsilon- or Omega-Squared), the resulting Cohen's <em>f</em> is likewise a
+less biased estimate of Cohen's <em>f</em>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences
+(2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+and tests of close fit in the analysis of variance and contrast analysis.
+Psychological Methods, 9, 164-182.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/eta_squared.html">eta_squared()</a></code> for more details.
+</p>
+<p>Other convert between effect sizes: 
+<code><a href="../../effectsize/help/d_to_r.html">d_to_r</a>()</code>,
+<code><a href="../../effectsize/help/diff_to_cles.html">diff_to_cles</a></code>,
+<code><a href="../../effectsize/help/odds_to_probs.html">odds_to_probs</a>()</code>,
+<code><a href="../../effectsize/help/oddsratio_to_riskratio.html">oddsratio_to_riskratio</a>()</code>,
+<code><a href="../../effectsize/help/w_to_fei.html">w_to_fei</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

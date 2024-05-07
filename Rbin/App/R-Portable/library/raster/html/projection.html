@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get or set a coordinate reference system (projection)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for projection {raster}"><tr><td>projection {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Get or set a coordinate reference system (projection) </h2>
+
+<h3>Description</h3>
+
+<p>Get or set the coordinate reference system (CRS) of a Raster* object. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S4 method for signature 'ANY'
+crs(x, asText=FALSE, ...)
+## S4 method for signature 'Raster'
+wkt(obj)
+crs(x, ...) &lt;- value
+
+projection(x, asText=TRUE)
+projection(x) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Spatial object </p>
+</td></tr>
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>Raster*, Spatial, or CRS object </p>
+</td></tr>
+<tr valign="top"><td><code>asText</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the projection is returned as text. Otherwise a <code><a href="../../sp/help/CRS-class.html">CRS-class</a></code> object is returned</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p><code>CRS</code> object or a character string describing a projection and datum in the PROJ.4 format </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> projections are done by with the PROJ.4 library exposed by rgdal </p>
+
+
+<h3>Value</h3>
+
+<p>Raster*, Spatial*, or character object
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>crs</code> replaces earlier function <code>projection</code>.  
+For compatibility with <code>sp</code> you can use <code>proj4string</code> instead of <code>crs</code>.
+<code>wkt</code> returns the &quot;well-known-text&quot; representation of the crs.  
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/projectRaster.html">projectRaster</a>, <a href="../../rgdal/help/CRS-class.html">CRS-class</a>, <a href="../../sp/help/spTransform.html">spTransform</a>, <a href="../../rgdal/help/projInfo.html">projInfo</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r &lt;- raster()
+crs(r)
+crs(r) &lt;- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +datum=WGS84"
+crs(r)
+w &lt;- wkt(r)
+w
+cat(w, "\n")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

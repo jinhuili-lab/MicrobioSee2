@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate random colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rand_color {circlize}"><tr><td>rand_color {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Generate random colors
+</h2>
+
+<h3>Description</h3>
+
+<p>Generate random colors
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rand_color(n, hue = NULL, luminosity = "random", transparency = 0, friendly = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>number of colors</p>
+</td></tr>
+<tr valign="top"><td><code>hue</code></td>
+<td>
+<p>the hue of the generated color. You can use following default color name: <code>red</code>, <code>orange</code>,  <code>yellow</code>, <code>green</code>, <code>blue</code>, <code>purple</code>, <code>pink</code> and <code>monochrome</code>. If the value is a hexidecimal color string such as <code>#00FFFF</code>,  the function will extract its hue value and use that to generate colors.</p>
+</td></tr>
+<tr valign="top"><td><code>luminosity</code></td>
+<td>
+<p>controls the luminosity of the generated color. The value should be a string containing <code>bright</code>, <code>light</code>, <code>dark</code> and <code>random</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>transparency</code></td>
+<td>
+<p>transparency, numeric value between 0 and 1.</p>
+</td></tr>
+<tr valign="top"><td><code>friendly</code></td>
+<td>
+<p>If it is true, light random colors will not be generated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The code is adapted from randomColor.js (<a href="https://github.com/davidmerfield/randomColor">https://github.com/davidmerfield/randomColor</a> ).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Zuguang Gu &lt;z.gu@dkfz.de&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot(NULL, xlim = c(1, 10), ylim = c(1, 8), axes = FALSE, ann = FALSE)
+points(1:10, rep(1, 10), pch = 16, cex = 5, 
+    col = rand_color(10))
+points(1:10, rep(2, 10), pch = 16, cex = 5, 
+    col = rand_color(10, luminosity = "bright"))
+points(1:10, rep(3, 10), pch = 16, cex = 5, 
+    col = rand_color(10, luminosity = "light"))
+points(1:10, rep(4, 10), pch = 16, cex = 5, 
+    col = rand_color(10, luminosity = "dark"))
+points(1:10, rep(5, 10), pch = 16, cex = 5, 
+    col = rand_color(10, hue = "red", luminosity = "bright"))
+points(1:10, rep(6, 10), pch = 16, cex = 5, 
+    col = rand_color(10, hue = "green", luminosity = "bright"))
+points(1:10, rep(7, 10), pch = 16, cex = 5, 
+    col = rand_color(10, hue = "blue", luminosity = "bright"))
+points(1:10, rep(8, 10), pch = 16, cex = 5, 
+    col = rand_color(10, hue = "monochrome", luminosity = "bright"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

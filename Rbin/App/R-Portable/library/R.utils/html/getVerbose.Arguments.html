@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coerces to Verbose object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arguments$getVerbose {R.utils}"><tr><td>Arguments$getVerbose {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerces to Verbose object</h2>
+
+<h3>Description</h3>
+
+<p>Coerces to Verbose object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Arguments$getVerbose(verbose, defaultThreshold=-1, useNullVerbose=TRUE, ...,
+##   .name=NULL)
+
+## Don't use the below:
+## S3 method for class 'Arguments'
+getVerbose(static, verbose, defaultThreshold=-1, useNullVerbose=TRUE, ..., .name=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A single object. If a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code>, it is immediately
+returned.  If a <code><a href="../../base/help/numeric.html">numeric</a></code> value, it is used as the threshold.
+Otherwise the object is coerced to a <code><a href="../../base/help/logical.html">logical</a></code> value and if <code><a href="../../base/help/logical.html">TRUE</a></code>,
+the threshold is <code>defaultThreshold</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>defaultThreshold</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> value for the default threshold, if
+<code>verbose</code> was interpreted as a <code><a href="../../base/help/logical.html">logical</a></code> value.</p>
+</td></tr>
+<tr valign="top"><td><code>useNullVerbose</code></td>
+<td>
+<p>If <code>verbose</code> can be interpreted as <code><a href="../../base/help/logical.html">FALSE</a></code>,
+return a <code><a href="../../R.utils/help/NullVerbose.html">NullVerbose</a></code> object if <code><a href="../../base/help/logical.html">TRUE</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed to the constructor of <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.name</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string for name used in error messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> (or a <code><a href="../../R.utils/help/NullVerbose.html">NullVerbose</a></code>) object.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/Arguments.html">Arguments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

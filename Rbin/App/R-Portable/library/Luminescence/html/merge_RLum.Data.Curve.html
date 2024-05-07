@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge function for RLum.Data.Curve S4 class objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for merge_RLum.Data.Curve {Luminescence}"><tr><td>merge_RLum.Data.Curve {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Merge function for RLum.Data.Curve S4 class objects</h2>
+
+<h3>Description</h3>
+
+<p>Function allows merging of RLum.Data.Curve objects in different ways
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+merge_RLum.Data.Curve(object, merge.method = "mean", method.info)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> of <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> (<strong>required</strong>):
+list of S4 objects of class <code>RLum.Curve</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>merge.method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+method for combining of the objects, e.g.  <code>'mean'</code>, <code>'sum'</code>, see details for
+further information and allowed methods.  Note: Elements in slot info will
+be taken from the first curve in the list.</p>
+</td></tr>
+<tr valign="top"><td><code>method.info</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+allows to specify how info elements of the input objects are combined,
+e.g. <code>1</code> means that just the elements from the first object are kept,
+<code>2</code> keeps only the info elements from the 2 object etc.
+If nothing is provided all elements are combined.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function simply allowing to merge <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>
+objects without touching the objects itself. Merging is always applied on
+the 2nd column of the data matrix of the object.
+</p>
+<p><strong>Supported merge operations are <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a></strong>
+</p>
+<p><code>"sum"</code>
+</p>
+<p>All count values will be summed up using the function <a href="../../Matrix/html/colSums.html">rowSums</a>.
+</p>
+<p><code>"mean"</code>
+</p>
+<p>The mean over the count values is calculated using the function
+<a href="../../Matrix/html/colSums.html">rowMeans</a>.
+</p>
+<p><code>"median"</code>
+</p>
+<p>The median over the count values is calculated using the function
+<a href="../../matrixStats/help/rowMedians.html">matrixStats::rowMedians</a>.
+</p>
+<p><code>"sd"</code>
+</p>
+<p>The standard deviation over the count values is calculated using the function
+<a href="../../matrixStats/help/rowSds.html">matrixStats::rowSds</a>.
+</p>
+<p><code>"var"</code>
+</p>
+<p>The variance over the count values is calculated using the function
+<a href="../../matrixStats/help/rowVars.html">matrixStats::rowVars</a>.
+</p>
+<p><code>"min"</code>
+</p>
+<p>The min values from the count values is chosen using the function
+<a href="../../matrixStats/help/rowRanges.html">matrixStats::rowMins</a>.
+</p>
+<p><code>"max"</code>
+</p>
+<p>The max values from the count values is chosen using the function
+<a href="../../matrixStats/help/rowRanges.html">matrixStats::rowMins</a>.
+</p>
+<p><code>"append"</code>
+</p>
+<p>Appends count values of all curves to one combined data curve. The channel width
+is automatically re-calculated, but requires a constant channel width of the
+original data.
+</p>
+<p><code>"-"</code>
+</p>
+<p>The row sums of the last objects are subtracted from the first object.
+</p>
+<p><code>"*"</code>
+</p>
+<p>The row sums of the last objects are multiplied with the first object.
+</p>
+<p><code>"/"</code>
+</p>
+<p>Values of the first object are divided by row sums of the last objects.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> object.
+</p>
+
+
+<h3>S3-generic support</h3>
+
+<p>This function is fully operational via S3-generics:
+<code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, <code>merge</code>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. merge_RLum.Data.Curve(): Merge function for RLum.Data.Curve S4 class objects. Function version 0.2.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The information from the slot <code>recordType</code> is taken from the first
+<a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> object in the input list. The slot
+'curveType' is filled with the name <code>merged</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/merge_RLum.html">merge_RLum</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+##load example data
+data(ExampleData.XSYG, envir = environment())
+
+##grep first and 3d TL curves
+TL.curves  &lt;- get_RLum(OSL.SARMeasurement$Sequence.Object, recordType = "TL (UVVIS)")
+TL.curve.1 &lt;- TL.curves[[1]]
+TL.curve.3 &lt;- TL.curves[[3]]
+
+##plot single curves
+plot_RLum(TL.curve.1)
+plot_RLum(TL.curve.3)
+
+##subtract the 1st curve from the 2nd and plot
+TL.curve.merged &lt;- merge_RLum.Data.Curve(list(TL.curve.3, TL.curve.1), merge.method = "/")
+plot_RLum(TL.curve.merged)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

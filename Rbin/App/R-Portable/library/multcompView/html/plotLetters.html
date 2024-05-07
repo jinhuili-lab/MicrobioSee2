@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: plot multcomp displays</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plotLetters {multcompView}"><tr><td>plotLetters {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>plot multcomp displays</h2>
+
+<h3>Description</h3>
+
+<p>Helper functions for plot.multcompTs and plot.multcompLetters.  These not
+intended to be called directly and are hidden in a namespace.  You can use
+'getAnywhere' to see them.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plotLetters(
+  obj,
+  at,
+  horizontal,
+  col,
+  add,
+  label.levels,
+  font.family = "mono",
+  fig = par("fig"),
+  mar = par("mar"),
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>a matrix describing which levels (rows) will be plotted with
+which groups (columns).  For plotTs and plotBoxes, obj is a matrix of
+numbers from (-1, 0, 1).  For plotLetters, obj is a logical matrix = TRUE if
+that &quot;letter&quot; (group or column of obj) is to be plotted with that level (row
+of obj).</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>an array with one row for each level and 3 columns giving low,
+middle and high levels for the display for that level.</p>
+</td></tr>
+<tr valign="top"><td><code>horizontal</code></td>
+<td>
+<p>A logical scalar indicating whether the list of items
+compared reads left to right (horizontal = TRUE) or top to bottom
+(horizontal = FALSE).  If this multcomp graphic accompanies boxplots for
+different levels or groups compared, the 'boxplot' argument 'horizontal' is
+the negation of the multcomp plot 'horizontal' argument.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The color for each group of items or factor levels.  The colors
+will cross the different items or factor levels and will therefore have the
+orientation specified via 'horizontal'.  If the number of columns exceeds
+length(col), col is recycled.  For alternative choices for col, see &quot;Color
+Specification&quot; in the <code><a href="../../graphics/html/par.html">par</a></code> help page.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>TRUE to add to an existing plot; FALSE to start a new plot.  The
+names of the factor levels or items compared will be plotted only if
+add=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>label.levels</code></td>
+<td>
+<p>Distance from the plot region to print the names of the
+levels as a proportion of the plot range; NA for no level labels.</p>
+</td></tr>
+<tr valign="top"><td><code>font.family</code></td>
+<td>
+<p>character string naming the font family used by
+&quot;plotLetters&quot;.  This function plots the different &quot;Letters&quot; in different
+colors by plotting one color at a time.  It's currently not smart enough to
+align the letters properly except by assuming a mono-spaced font.</p>
+</td></tr>
+<tr valign="top"><td><code>fig</code></td>
+<td>
+<p>figure region = (x0, x1, y0, y1) as a proportion of the device
+region.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>margin = (lower, left, upper, right) in lines.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>graphical parameters can be given as described on the
+<code><a href="../../graphics/html/plot.default.html">plot</a></code> help page or the <code><a href="../../grid/help/gpar.html">gpar</a></code> help page.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The requested graphic is either plotted by itself or added to an existing
+plot as specified by the arguments.
+</p>
+<p>&quot;plotTs&quot; and &quot;plotBoxes&quot; use traditional R graphics and will not be
+discussed further here.
+</p>
+<p>&quot;plotLetters&quot; uses 'grid' graphics, because it seems to provide more support
+for controlling the side-by-side placement of &quot;Letters&quot; of possibly
+different colors and widths.  The &quot;Letters&quot; display will be positioned in
+the &quot;plot region&quot; defined by fig and mar, assuming the entire device region
+is 37 lines both wide and tall.  Thus, the plot region is diff(fig[1:2])*37
+lines wide and diff(fig(1:2])*37 lines high.  If, for example, fig = c(0.9,
+1, 0, 1), this makes the plot region 3.7 lines wide.  With the default
+mar=c(5, 4, 4, 2)+0.1 lines, the &quot;width&quot; of the plot region is therefore 3.7
+- (4.1+2.1) = (-2.5) lines.  &quot;plotLetters&quot; initially ignores this
+contradictory negative width, and centers the plot at the midpoint of h0 =
+fig[1]+mar[2]/37, h1 = fig[2]-mar[4]/37, v0 = fig[3]+mar[1]/37, and v1 =
+fig[4]-mar[3]/37.  The &quot;Letters&quot; for the different levels compared are
+rescaled from at[, &quot;center&quot;] to fit inside At.rng = if(horizontal) c(h0, h1)
+else c(v0, v1).  With &quot;n&quot; levels compared and at.rng = range(at[,
+&quot;center&quot;]), at[, &quot;center&quot;] is expanded to (at.rng+/-0.5) and rescaled to
+match At.rng; if(diff(At.rng)&lt;=0), an error message is issued.
+</p>
+<p>Meanwhile, the &quot;Letters&quot; are centered at the midpoint of W.rng =
+if(horizontal) c(v0, v1) else v(h0, h1) [the opposite of At.rng]; the
+argument &quot;width&quot; used by plotTs and plotBoxes is not used (and not even
+accepted) by plotLetters.  If(label.levels), these are positioned in the
+midpoint of the right margin in the &quot;W&quot; direction.
+</p>
+
+
+<h3>Value</h3>
+
+<p>&quot;Done&quot;
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/plot.multcompTs.html">plot.multcompTs</a></code> <code><a href="../../multcompView/help/plot.multcompLetters.html">plot.multcompLetters</a></code>
+<code><a href="../../grid/help/gpar.html">gpar</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Designed to be called from plot.multcompTs
+# or plot.multcompLetters, NOT directly by users.  
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

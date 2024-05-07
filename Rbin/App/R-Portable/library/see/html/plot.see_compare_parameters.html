@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for comparison of model parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_compare_parameters {see}"><tr><td>plot.see_compare_parameters {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for comparison of model parameters</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>parameters::compare_parameters()</code>
+function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_compare_parameters'
+plot(
+  x,
+  show_intercept = FALSE,
+  size_point = 0.8,
+  size_text = NA,
+  dodge_position = 0.8,
+  sort = NULL,
+  n_columns = NULL,
+  show_labels = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>show_intercept</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the intercept-parameter is included
+in the plot. By default, it is hidden because in many cases the
+intercept-parameter has a posterior distribution on a very different
+location, so density curves of posterior distributions for other parameters
+are hardly visible.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>dodge_position</code></td>
+<td>
+<p>Numeric value specifying the amount of &quot;dodging&quot;
+(spacing) between geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>The behavior of this argument depends on the plotting contexts.
+</p>
+
+<ul>
+<li> <p><em>Plotting model parameters</em>:
+If <code>NULL</code>, coefficients are plotted in the order as they appear in the
+summary. Setting <code>sort = "ascending"</code> or <code>sort = "descending"</code> sorts
+coefficients in ascending or descending order, respectively.
+Setting <code>sort = TRUE</code> is the same as <code>sort = "ascending"</code>.
+</p>
+</li>
+<li> <p><em>Plotting Bayes factors</em>:
+Sort pie-slices by posterior probability (descending)?
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>n_columns</code></td>
+<td>
+<p>For models with multiple components (like fixed and random,
+count and zero-inflated), defines the number of columns for the
+panel-layout. If <code>NULL</code>, a single, integrated plot is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, text labels are displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("insight") &amp;&amp;
+  require("parameters") &amp;&amp;
+  packageVersion("insight") &gt;= "0.13.0") {
+  data(iris)
+  lm1 &lt;- lm(Sepal.Length ~ Species, data = iris)
+  lm2 &lt;- lm(Sepal.Length ~ Species + Petal.Length, data = iris)
+  lm3 &lt;- lm(Sepal.Length ~ Species * Petal.Length, data = iris)
+  result &lt;- compare_parameters(lm1, lm2, lm3)
+  plot(result)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

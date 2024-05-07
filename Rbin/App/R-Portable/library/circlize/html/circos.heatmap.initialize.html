@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialize circular heatmaps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.heatmap.initialize {circlize}"><tr><td>circos.heatmap.initialize {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Initialize circular heatmaps
+</h2>
+
+<h3>Description</h3>
+
+<p>Initialize circular heatmaps
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.heatmap.initialize(mat, split = NULL, cluster = TRUE,
+    clustering.method = "complete", distance.method = "euclidean",
+    dend.callback = function(dend, m, si) reorder(dend, rowMeans(m)),
+    cell_width = rep(1, nrow(mat)))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mat</code></td>
+<td>
+<p>A matrix or a vector. The vector is transformed as a one-column matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>split</code></td>
+<td>
+<p>A categorical variable. It splits the matrix into a list of matrices.</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>whether to apply clustering on rows. The value can also be a <code>dendrogram</code>/<code>hclust</code> object or other objects that can be converted to with <code><a href="../../stats/help/dendrogram.html">as.dendrogram</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>clustering.method</code></td>
+<td>
+<p>Clustering method, pass to <code><a href="../../stats/help/hclust.html">hclust</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>distance.method</code></td>
+<td>
+<p>Distance method, pass to <code><a href="../../stats/help/dist.html">dist</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>dend.callback</code></td>
+<td>
+<p>A callback function that is applied to the dendrogram in every sector.</p>
+</td></tr>
+<tr valign="top"><td><code>cell_width</code></td>
+<td>
+<p>Relative widths of heatmap cells.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/2020/05/21/make-circular-heatmaps/">https://jokergoo.github.io/2020/05/21/make-circular-heatmaps/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Analyse SAR TL measurements</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for analyse_SAR.TL {Luminescence}"><tr><td>analyse_SAR.TL {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Analyse SAR TL measurements</h2>
+
+<h3>Description</h3>
+
+<p>The function performs a SAR TL analysis on a
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object including growth curve fitting.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+analyse_SAR.TL(
+  object,
+  object.background,
+  signal.integral.min,
+  signal.integral.max,
+  integral_input = "channel",
+  sequence.structure = c("PREHEAT", "SIGNAL", "BACKGROUND"),
+  rejection.criteria = list(recycling.ratio = 10, recuperation.rate = 10),
+  dose.points,
+  log = "",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> or a <a href="../../base/html/list.html">list</a> of such objects (<strong>required</strong>) :
+input object containing data for analysis</p>
+</td></tr>
+<tr valign="top"><td><code>object.background</code></td>
+<td>
+<p>currently not used</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.min</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+requires the channel number for the lower signal integral bound
+(e.g. <code>signal.integral.min = 100</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.max</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+requires the channel number for the upper signal integral bound
+(e.g. <code>signal.integral.max = 200</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>integral_input</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+defines the input for the the arguments <code>signal.integral.min</code> and
+<code>signal.integral.max</code>. These limits can be either provided <code>'channel'</code>
+number (the default) or <code>'temperature'</code>. If <code>'temperature'</code> is chosen the
+best matching channel is selected.</p>
+</td></tr>
+<tr valign="top"><td><code>sequence.structure</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+specifies the general sequence structure. Three steps are allowed
+(<code>"PREHEAT"</code>, <code>"SIGNAL"</code>, <code>"BACKGROUND"</code>), in addition a
+parameter <code>"EXCLUDE"</code>. This allows excluding TL curves which are not
+relevant for the protocol analysis.  (<strong>Note:</strong> None TL are removed by default)</p>
+</td></tr>
+<tr valign="top"><td><code>rejection.criteria</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>with default</em>):
+list containing rejection criteria in percentage for the calculation.</p>
+</td></tr>
+<tr valign="top"><td><code>dose.points</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>):
+option set dose points manually</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+a character string which contains <code>"x"</code> if the x-axis is to be logarithmic,
+<code>"y"</code> if the y axis is to be logarithmic and <code>"xy"</code> or <code>"yx"</code> if both axes
+are to be logarithmic. See
+<a href="../../graphics/html/plot.default.html">plot.default</a>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs a SAR TL analysis on a set of curves. The SAR
+procedure in general is given by Murray and Wintle (2000). For the
+calculation of the <code>Lx/Tx</code> value the function <a href="../../Luminescence/help/calc_TLLxTxRatio.html">calc_TLLxTxRatio</a> is
+used.
+</p>
+<p><strong>Provided rejection criteria</strong>
+</p>
+<p><code style="white-space: pre;">[recyling.ratio]</code>: calculated for every repeated regeneration dose point.
+</p>
+<p><code style="white-space: pre;">[recuperation.rate]</code>: recuperation rate calculated by
+comparing the <code>Lx/Tx</code> values of the zero regeneration point with the <code>Ln/Tn</code>
+value (the <code>Lx/Tx</code> ratio of the natural signal).  For methodological
+background see Aitken and Smith (1988)
+</p>
+
+
+<h3>Value</h3>
+
+<p>A plot (<em>optional</em>) and an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is
+returned containing the following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>De.values</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> containing De-values and further parameters</p>
+</td></tr>
+<tr valign="top"><td><code>LnLxTnTx.values</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> of all calculated <code>Lx/Tx</code> values including signal, background counts and the dose points.</p>
+</td></tr>
+<tr valign="top"><td><code>rejection.criteria</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> with values that might by used as rejection criteria. NA is produced if no R0 dose point exists.</p>
+</td></tr>
+</table>
+<p><strong>note:</strong> the output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.3.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. analyse_SAR.TL(): Analyse SAR TL measurements. Function version 0.3.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>THIS IS A BETA VERSION</strong>
+</p>
+<p>None TL curves will be removed
+from the input object without further warning.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Aitken, M.J. and Smith, B.W., 1988. Optical dating: recuperation
+after bleaching.  Quaternary Science Reviews 7, 387-393.
+</p>
+<p>Murray, A.S. and Wintle, A.G., 2000. Luminescence dating of quartz using an
+improved single-aliquot regenerative-dose protocol. Radiation Measurements
+32, 57-73.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/calc_TLLxTxRatio.html">calc_TLLxTxRatio</a>, <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>,
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+data(ExampleData.BINfileData, envir = environment())
+
+##transform the values from the first position in a RLum.Analysis object
+object &lt;- Risoe.BINfileData2RLum.Analysis(TL.SAR.Data, pos=3)
+
+##perform analysis
+analyse_SAR.TL(
+ object = object,
+ signal.integral.min = 210,
+ signal.integral.max = 220,
+ fit.method = "EXP OR LIN",
+ sequence.structure = c("SIGNAL", "BACKGROUND"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

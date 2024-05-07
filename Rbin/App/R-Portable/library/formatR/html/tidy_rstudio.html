@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reformat R code in RStudio IDE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tidy_rstudio {formatR}"><tr><td>tidy_rstudio {formatR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reformat R code in RStudio IDE</h2>
+
+<h3>Description</h3>
+
+<p>If any R code is selected in the RStudio source editor, this function
+reformats the selected code; otherwise it reformats the current open file (if
+it is unsaved, it will be automatically saved).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tidy_rstudio(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be passed to <code><a href="../../formatR/help/tidy_source.html">tidy_source</a>()</code>, among which
+the <code>indent</code> argument will respect the value you set for the number of
+spaces for indentation in RStudio.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>If the output is not what you want, you can undo the change in the
+editor (Ctrl + Z or Command + Z).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+formatR::tidy_rstudio()
+formatR::tidy_rstudio(args.newline = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>formatR</em> version 1.14.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

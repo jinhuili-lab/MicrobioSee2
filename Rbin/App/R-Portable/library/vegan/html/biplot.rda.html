@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: PCA biplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for biplot.rda {vegan}"><tr><td>biplot.rda {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>PCA biplot</h2>
+
+<h3>Description</h3>
+
+<p>Draws a PCA biplot with species scores indicated by biplot arrows
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rda'
+biplot(x, choices = c(1, 2), scaling = "species",
+       display = c("sites", "species"), type, xlim, ylim, col = c(1,2), 
+       const, correlation = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../vegan/help/rda.html">rda</a></code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes to show.</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Scaling for species and site scores. Either species
+(<code>2</code>) or site (<code>1</code>) scores are scaled by eigenvalues, and
+the other set of scores is left unscaled, or with <code>3</code> both are
+scaled symmetrically by square root of eigenvalues. With negative
+scaling values in <code>rda</code>, species scores are divided by standard
+deviation of each species and multiplied with an equalizing
+constant. Unscaled raw scores stored in the result can be accessed
+with <code>scaling = 0</code>.
+</p>
+<p>The type of scores can also be specified as one of <code>"none"</code>,
+<code>"sites"</code>, <code>"species"</code>, or <code>"symmetric"</code>, which
+correspond to the values <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code>
+respectively. Argument <code>correlation</code> can be used in combination
+with these character descriptions to get the corresponding negative
+value.
+</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+<p>logical; if <code>scaling</code> is a character
+description of the scaling type, <code>correlation</code> can be used to
+select correlation-like scores for PCA. See argument <code>scaling</code>
+for details.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Scores shown.  These must some of the alternatives
+<code>"species"</code> for species scores, and/or <code>"sites"</code> for site
+scores.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of plot: partial match to <code>text</code>
+for text labels, <code>points</code> for points, and <code>none</code> for
+setting frames only. If omitted, <code>text</code> is selected for
+smaller data sets, and <code>points</code> for larger. Can be of length 2
+(e.g. <code>type = c("text", "points")</code>), in which case the first
+element describes how species scores are handled, and the second how
+site scores are drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>the x and y limits (min, max) of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colours used for sites and species (in this order). If only
+one colour is given, it is used for both.</p>
+</td></tr>
+<tr valign="top"><td><code>const</code></td>
+<td>
+<p>General scaling constant for <code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters for plotting functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Produces a plot or biplot of the results of a call to
+<code><a href="../../vegan/help/rda.html">rda</a></code>. It is common for the &quot;species&quot; scores in a PCA to
+be drawn as biplot arrows that point in the direction of increasing
+values for that variable. The <code>biplot.rda</code> function provides a
+wrapper to <code>plot.cca</code> to allow the easy production of such a
+plot.
+</p>
+<p><code><a href="../../vegan/help/biplot.rda.html">biplot.rda</a></code> is only suitable for unconstrained models. If
+used on an ordination object with constraints, an error is issued.
+</p>
+<p>If species scores are drawn using <code>"text"</code>, the arrows are drawn
+from the origin to 0.85 * species score, whilst the labels are
+drawn at the species score. If the type used is <code>"points"</code>, then
+no labels are drawn and therefore the arrows are drawn from the origin
+to the actual species score.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The <code>plot</code> function returns invisibly a plotting structure which
+can be used by <code><a href="../../vegan/help/identify.ordiplot.html">identify.ordiplot</a></code> to identify
+the points or other functions in the <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code> family.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson, based on <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code> by Jari Oksanen.</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code> for something to
+plot, <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code> for an alternative plotting routine
+and more support functions, and <code><a href="../../graphics/html/text.html">text</a></code>,
+<code><a href="../../graphics/html/points.html">points</a></code> and <code><a href="../../graphics/html/arrows.html">arrows</a></code> for the basic routines.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+mod &lt;- rda(dune, scale = TRUE)
+biplot(mod, scaling = "symmetric")
+
+## different type for species and site scores
+biplot(mod, scaling = "symmetric", type = c("text", "points"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

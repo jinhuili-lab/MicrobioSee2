@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Turn off styling for parts of the code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stylerignore {styler}"><tr><td>stylerignore {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Turn off styling for parts of the code</h2>
+
+<h3>Description</h3>
+
+<p>Using stylerignore markers, you can temporarily turn off styler. Beware that
+for <code style="white-space: pre;">styler &gt; 1.2.0</code>, some alignment is
+<a href="https://styler.r-lib.org/articles/detect-alignment.html">detected by styler</a>,
+making stylerignore redundant. See a few illustrative examples below.
+</p>
+
+
+<h3>Details</h3>
+
+<p>Styling is on for all lines by default when you run styler.
+</p>
+
+<ul>
+<li><p> To mark the start of a sequence where you want to turn styling off, use
+<code style="white-space: pre;"># styler: off</code>.
+</p>
+</li>
+<li><p> To mark the end of this sequence, put <code style="white-space: pre;"># styler: on</code> in your code. After
+that line, styler will again format your code.
+</p>
+</li>
+<li><p> To ignore an inline statement (i.e. just one line), place <code style="white-space: pre;"># styler: off</code>
+at the end of the line.
+To use something else as start and stop markers, set the R options
+<code>styler.ignore_start</code> and
+<code>styler.ignore_stop</code> using <code><a href="../../base/html/options.html">options()</a></code>. For styler version &gt; 1.6.2, the
+option supports character vectors longer than one and the marker are not
+exactly matched, but using a  regular expression, which means you can have
+multiple marker on one line, e.g. <code style="white-space: pre;"># nolint start styler: off</code>.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+# as long as the order of the markers is correct, the lines are ignored.
+style_text(
+  "
+  1+1
+  # styler: off
+  1+1
+  # styler: on
+  1+1
+  "
+)
+
+# if there is a stop marker before a start marker, styler won't be able
+# to figure out which lines you want to ignore and won't ignore anything,
+# issuing a warning.
+## Not run: 
+style_text(
+  "
+  1+1
+  # styler: off
+  1+1
+  # styler: off
+  1+1
+  "
+)
+
+## End(Not run)
+# some alignment of code is detected, so you don't need to use stylerignore
+style_text(
+  "call(
+    xyz =  3,
+    x   = 11
+  )"
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

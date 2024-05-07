@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Tune data for experimental purpose</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tune_Data {Luminescence}"><tr><td>tune_Data {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Tune data for experimental purpose</h2>
+
+<h3>Description</h3>
+
+<p>The error can be reduced and sample size increased for specific purpose.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tune_Data(data, decrease.error = 0, increase.data = 0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+input values, structure: data (<code>values[,1]</code>) and data error (<code>values [,2]</code>)
+are required</p>
+</td></tr>
+<tr valign="top"><td><code>decrease.error</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a>:
+factor by which the error is decreased, ranges between 0 and 1.</p>
+</td></tr>
+<tr valign="top"><td><code>increase.data</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a>:
+factor by which the error is decreased, ranges between 0 and <code>Inf</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <a href="../../base/html/data.frame.html">data.frame</a> with tuned values.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.5.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Dietze, M., 2021. tune_Data(): Tune data for experimental purpose. Function version 0.5.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>You should not use this function to improve your poor data set!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Dietze, GFZ Potsdam (Germany)
+, RLum Developer Team</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## load example data set
+data(ExampleData.DeValues, envir = environment())
+x &lt;- ExampleData.DeValues$CA1
+
+## plot original data
+plot_AbanicoPlot(data = x,
+                 summary = c("n", "mean"))
+
+## decrease error by 10 %
+plot_AbanicoPlot(data = tune_Data(x, decrease.error = 0.1),
+                 summary = c("n", "mean"))
+
+## increase sample size by 200 %
+#plot_AbanicoPlot(data = tune_Data(x, increase.data = 2) ,
+#                summary = c("n", "mean"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

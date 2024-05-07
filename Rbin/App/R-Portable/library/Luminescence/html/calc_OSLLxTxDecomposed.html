@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate Lx/Tx ratio for decomposed CW-OSL signal components</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_OSLLxTxDecomposed {Luminescence}"><tr><td>calc_OSLLxTxDecomposed {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate Lx/Tx ratio for decomposed CW-OSL signal components</h2>
+
+<h3>Description</h3>
+
+<p>Calculate <code>Lx/Tx</code> ratios from a given set of decomposed
+CW-OSL curves decomposed by <code style="white-space: pre;">[OSLdecomposition::RLum.OSL_decomposition]</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_OSLLxTxDecomposed(
+  Lx.data,
+  Tx.data = NULL,
+  OSL.component = 1L,
+  sig0 = 0,
+  digits = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Lx.data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>): Component table created by
+<code style="white-space: pre;">[OSLdecomposition::RLum.OSL_decomposition]</code> and per default located
+at <code>object@records[[...]]@info$COMPONENTS</code>.The value of <code style="white-space: pre;">$n[OSL.component]</code>
+is set as <code>LnLx</code>. The value of <code style="white-space: pre;">$n.error[OSL.component]</code> is set as <code>LnLx.error</code></p>
+</td></tr>
+<tr valign="top"><td><code>Tx.data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<em>optional</em>): Component table created by
+<code style="white-space: pre;">[OSLdecomposition::RLum.OSL_decomposition]</code> and per default located at
+<code>object@records[[...]]@info$COMPONENTS</code>. The value of <code style="white-space: pre;">$n[OSL.component]</code>
+is set as <code>TnTx</code>. The value of <code style="white-space: pre;">$n.error[OSL.component]</code> is set as <code>TnTx.error</code></p>
+</td></tr>
+<tr valign="top"><td><code>OSL.component</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> or <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+a single index or a name describing which OSL signal component shall be evaluated.
+This argument can either be the name of the OSL component assigned by
+<code style="white-space: pre;">[OSLdecomposition::RLum.OSL_global_fitting]</code> or the index of component.
+Then <code>'1'</code> selects the fastest decaying component, <code>'2'</code> the
+second fastest and so on. If not defined, the fastest decaying component is selected.</p>
+</td></tr>
+<tr valign="top"><td><code>sig0</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>): allows adding an extra error component
+to the final <code>Lx/Tx</code> error value (e.g., instrumental error).</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>): round numbers to the specified digits.
+If digits is set to <code>NULL</code> nothing is rounded.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 object of type <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>.
+</p>
+<p>Slot <code>data</code> contains a <a href="../../base/html/list.html">list</a> with the following structure:
+</p>
+<p><strong>@data</strong></p>
+<pre>$LxTx.table (data.frame)
+.. $ LnLx
+.. $ TnTx
+.. $ Net_LnLx
+.. $ Net_LnLx.Error
+.. $ Net_TnTx
+.. $ Net_TnTx.Error
+.. $ LxTx
+.. $ LxTx.relError
+.. $ LxTx.Error
+</pre>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Mittelstrass, D., 2021. calc_OSLLxTxDecomposed(): Calculate Lx/Tx ratio for decomposed CW-OSL signal components. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Dirk Mittelstrass
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Mittelstrass D., Schmidt C., Beyer J., Straessner A., 2019.
+Automated identification and separation of quartz CW-OSL signal components with R.
+talk presented at DLED 2019, Bingen, Germany
+<a href="http://luminescence.de/OSLdecomp_talk.pdf">http://luminescence.de/OSLdecomp_talk.pdf</a><br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>, <a href="../../Luminescence/help/plot_GrowthCurve.html">plot_GrowthCurve</a>, <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

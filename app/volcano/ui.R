@@ -1,0 +1,61 @@
+library(ggplot2)
+library(shinydashboard)
+library(DT)
+# library(rmarkdown)
+library(shinydashboard)
+library(DT)
+shinyUI(
+  dashboardPage(skin = "purple",
+    dashboardHeader(title = "MicrobioSee"),
+    dashboardSidebar(
+      sidebarMenu(
+        menuItem("Volcano Plot", tabName = "Start", icon = icon("glyphicon glyphicon-signal",lib="glyphicon")),
+        menuItem("Data Format", tabName = "dformat", icon = icon("glyphicon glyphicon-th-list",lib="glyphicon")),
+        menuItem("Use Guide", tabName = "uguide", icon = icon("glyphicon glyphicon-question-sign",lib="glyphicon")),
+        menuItem("Bugs Feedback", tabName = "contactus", icon = icon("glyphicon glyphicon-envelope",lib="glyphicon")),
+        menuItem("Back Home", href = "https://microbiosee.gxu.edu.cn", newtab=FALSE,icon = icon("glyphicon glyphicon-new-window",lib="glyphicon"))
+    )),
+    dashboardBody(
+      tabItems(
+        tabItem(tabName = "Start",
+            fluidPage(
+              sidebarLayout(
+                sidebarPanel(tags$style( "#sider{overflow:auto;max-height: 100vh;}"  ),id="sider",#设置滚动
+                  width = 3,
+                  h3("Volcano Plot"),
+                  fileInput("pfile", label = h5("File input")),
+                  p("You can download sample data ",a("here", href = "./dataset_volcano.txt",download="dataset_volcano.txt")),
+                  # textInput("Rindex2", label = "Test variable2", value = "index2"),
+                  numericInput("P", label = "the value of P",value=0.05),
+                  textInput("lFC", label = "the value of foldchang",value = 1),
+                  numericInput("bheight", label = "height",value=800),
+                  numericInput("bwidth", label = "width",value=800),
+                  actionButton("submit1", label=("Start")),
+                ),
+                mainPanel(
+                  plotOutput("volcano_plot"),
+                  hr(),
+                  div(style="display:inline-block",numericInput("bheight", label = "Download height(px):", value = 800,width="90%")),
+                  div(style="display:inline-block",numericInput("bwidth", label = "Download width(px):", value = 800,width="90%")),
+                  div(style="display:inline-block",numericInput("bdpi", label = "Png/Jpeg dpi:", value = 300,width="90%")),
+                  p(),
+                  downloadButton("download.pdf", label="pdf"),
+                  downloadButton("download.png", label="png"),
+                  downloadButton("download.jpeg", label="jpeg"),
+                )
+              )
+            )
+        ),
+        tabItem(tabName = "dformat",
+                fluidRow(
+                  p("The sample file format for uploading is as follows."),
+                  p("You can download sample data ",a("here", href = "./dataset_volcano.txt",download="dataset_volcano.txt"),'.'),
+                  datatable(read.table("./www/dataset_volcano.txt"),rownames = FALSE)
+                )
+        ),
+        tabItem(tabName = "uguide",fluidPage(includeMarkdown("md_demo.Rmd"))),
+        tabItem(tabName = "bhome")
+      )
+    )
+  ) 
+)

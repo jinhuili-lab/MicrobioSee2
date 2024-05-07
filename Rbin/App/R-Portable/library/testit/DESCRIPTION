@@ -1,0 +1,26 @@
+Package: testit
+Type: Package
+Title: A Simple Package for Testing R Packages
+Version: 0.13.1
+Authors@R: c(
+  person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")), 
+  person("Steven", "Mortimer", role = "ctb", email="reportmort@gmail.com")
+  )
+Description: Provides two convenience functions assert() and test_pkg()
+        to facilitate testing R packages.
+License: GPL-3
+URL: https://github.com/yihui/testit
+BugReports: https://github.com/yihui/testit/issues
+Suggests: rstudioapi, covr
+RoxygenNote: 7.2.3
+Encoding: UTF-8
+Repository: https://yihui.r-universe.dev
+RemoteUrl: https://github.com/yihui/testit
+RemoteRef: HEAD
+RemoteSha: 698afd467b040308e33179b69d87be0f8377d8ed
+NeedsCompilation: no
+Packaged: 2024-03-30 06:10:47 UTC; root
+Author: Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
+  Steven Mortimer [ctb]
+Maintainer: Yihui Xie <xie@yihui.name>
+Built: R 4.1.2; ; 2024-05-05 01:10:28 UTC; windows

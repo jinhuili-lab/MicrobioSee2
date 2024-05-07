@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit Fisher's Logseries and Preston's Lognormal Model to...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fisherfit {vegan}"><tr><td>fisherfit {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit Fisher's Logseries and Preston's Lognormal Model to Abundance Data</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>fisherfit</code> fits Fisher's logseries to abundance
+data. Function <code>prestonfit</code> groups species frequencies into
+doubling octave classes and fits Preston's lognormal model, and
+function <code>prestondistr</code> fits the truncated lognormal model
+without pooling the data into octaves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fisherfit(x, ...)
+prestonfit(x, tiesplit = TRUE, ...)
+prestondistr(x, truncate = -1, ...)
+## S3 method for class 'prestonfit'
+plot(x, xlab = "Frequency", ylab = "Species", bar.col = "skyblue", 
+    line.col = "red", lwd = 2, ...)
+## S3 method for class 'prestonfit'
+lines(x, line.col = "red", lwd = 2, ...)
+veiledspec(x, ...)
+as.fisher(x, ...)
+## S3 method for class 'fisher'
+plot(x, xlab = "Frequency", ylab = "Species", bar.col = "skyblue",
+             kind = c("bar", "hiplot", "points", "lines"), add = FALSE, ...)
+as.preston(x, tiesplit = TRUE, ...)
+## S3 method for class 'preston'
+plot(x, xlab = "Frequency", ylab = "Species", bar.col = "skyblue", ...)
+## S3 method for class 'preston'
+lines(x, xadjust = 0.5, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data vector for fitting functions or their result
+object for <code>plot</code> functions.</p>
+</td></tr>
+<tr valign="top"><td><code>tiesplit</code></td>
+<td>
+<p>Split frequencies <i>1, 2, 4, 8</i> etc between adjacent 
+octaves.</p>
+</td></tr>
+<tr valign="top"><td><code>truncate</code></td>
+<td>
+<p>Truncation point for log-Normal model, in log2
+units. Default value <i>-1</i> corresponds to the left border of zero
+Octave. The choice strongly influences the fitting results.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Labels for <code>x</code> and <code>y</code> axes.</p>
+</td></tr>
+<tr valign="top"><td><code>bar.col</code></td>
+<td>
+<p>Colour of data bars.</p>
+</td></tr>
+<tr valign="top"><td><code>line.col</code></td>
+<td>
+<p>Colour of fitted line.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Width of fitted line.</p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>Kind of plot to drawn: <code>"bar"</code> is similar bar plot
+as in <code>plot.fisherfit</code>, <code>"hiplot"</code> draws vertical lines
+as with <code>plot(..., type="h")</code>, and <code>"points"</code> and
+<code>"lines"</code> are obvious.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add to an existing plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xadjust</code></td>
+<td>
+<p>Adjustment of horizontal positions in octaves.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to functions. Ignored in 
+<code>prestonfit</code> and <code>tiesplit</code> passed to <code>as.preston</code> in
+<code>prestondistr</code>. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In Fisher's logarithmic series the expected
+number of species <i>f</i> with <i>n</i> observed individuals is
+<i>f_n = &alpha; x^n / n</i> (Fisher et al. 1943).
+The estimation is possible only for genuine
+counts of individuals. The parameter <i>&alpha;</i> is used as a
+diversity index, and <i>&alpha;</i> and its standard error can be
+estimated with a separate function <code><a href="../../vegan/help/fisher.alpha.html">fisher.alpha</a></code>. The
+parameter <i>x</i> is taken as a nuisance parameter which is not
+estimated separately but taken to be <i>n/(n+&alpha;)</i>. Helper
+function <code>as.fisher</code> transforms abundance data into Fisher
+frequency table.
+</p>
+<p>Preston (1948) was not satisfied with Fisher's model which seemed to
+imply infinite species richness, and postulated that rare species is
+a diminishing class and most species are in the middle of frequency
+scale. This was achieved by collapsing higher frequency classes into
+wider and wider &ldquo;octaves&rdquo; of doubling class limits: 1, 2, 3&ndash;4,
+5&ndash;8, 9&ndash;16 etc. occurrences. It seems that Preston regarded
+frequencies 1, 2, 4, <em>etc.</em>. as &ldquo;tied&rdquo; between octaves
+(Williamson &amp; Gaston 2005). This means that only half of the species
+with frequency 1 are shown in the lowest octave, and the rest are
+transferred to the second octave. Half of the species from the
+second octave are transferred to the higher one as well, but this is
+usually not as large a number of species. This practise makes data
+look more lognormal by reducing the usually high lowest
+octaves. This can be achieved by setting argument <code>tiesplit = TRUE</code>. 
+With <code>tiesplit = FALSE</code> the frequencies are not split,
+but all ones are in the lowest octave, all twos in the second, etc.
+Williamson &amp; Gaston (2005) discuss alternative definitions in
+detail, and they should be consulted for a critical review of
+log-Normal model.
+</p>
+<p>Any logseries data will look like lognormal when plotted in
+Preston's way. The expected frequency <i>f</i> at abundance octave
+<i>o</i> is defined by <i>f = S0 exp(-(log2(o)-mu)^2/2/sigma^2)</i>, where
+<i>&mu;</i> is the location of the mode and <i>&sigma;</i> the width,
+both in <i>log2</i> scale, and <i>S0</i> is the expected
+number of species at mode. The lognormal model is usually truncated
+on the left so that some rare species are not observed. Function
+<code>prestonfit</code> fits the truncated lognormal model as a second
+degree log-polynomial to the octave pooled data using Poisson (when
+<code>tiesplit = FALSE</code>) or quasi-Poisson (when <code>tiesplit = TRUE</code>)
+error.  Function <code>prestondistr</code> fits left-truncated
+Normal distribution to <i>log2</i> transformed non-pooled
+observations with direct maximization of log-likelihood. Function
+<code>prestondistr</code> is modelled after function
+<code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code> which can be used for alternative
+distribution models. 
+</p>
+<p>The functions have common <code>print</code>, <code>plot</code> and <code>lines</code>
+methods. The <code>lines</code> function adds the fitted curve to the
+octave range with line segments showing the location of the mode and
+the width (sd) of the response. Function <code>as.preston</code>
+transforms abundance data to octaves.  Argument <code>tiesplit</code> will
+not influence the fit in <code>prestondistr</code>, but it will influence
+the barplot of the octaves. 
+</p>
+<p>The total extrapolated richness from a fitted Preston model can be
+found with function <code>veiledspec</code>. The function accepts results
+both from <code>prestonfit</code> and from <code>prestondistr</code>. If
+<code>veiledspec</code> is called with a species count vector, it will
+internally use <code>prestonfit</code>. Function <code><a href="../../vegan/help/specpool.html">specpool</a></code>
+provides alternative ways of estimating the number of unseen
+species. In fact, Preston's lognormal model seems to be truncated at
+both ends, and this may be the main reason why its result differ
+from lognormal models fitted in Rank&ndash;Abundance diagrams with
+functions <code><a href="../../vegan/help/rad.lognormal.html">rad.lognormal</a></code>.  
+</p>
+
+
+<h3>Value</h3>
+
+<p> The function <code>prestonfit</code> returns an object with fitted
+<code>coefficients</code>, and with observed (<code>freq</code>) and fitted
+(<code>fitted</code>) frequencies, and a string describing the fitting
+<code>method</code>. Function <code>prestondistr</code> omits the entry
+<code>fitted</code>.  The function <code>fisherfit</code> returns the result of
+<code><a href="../../stats/html/nlm.html">nlm</a></code>, where item <code>estimate</code> is <i>&alpha;</i>. The
+result object is amended with the <code>nuisance</code> parameter and item
+<code>fisher</code> for the observed data from <code>as.fisher</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Bob O'Hara and Jari Oksanen. </p>
+
+
+<h3>References</h3>
+
+<p>Fisher, R.A., Corbet, A.S. &amp; Williams, C.B. (1943). The relation
+between the number of species and the number of individuals in a
+random sample of animal population. <em>Journal of Animal Ecology</em>
+12: 42&ndash;58.
+</p>
+<p>Preston, F.W. (1948) The commonness and rarity of
+species. <em>Ecology</em> 29, 254&ndash;283.
+</p>
+<p>Williamson, M. &amp; Gaston, K.J. (2005). The lognormal distribution is
+not an appropriate null hypothesis for the species&ndash;abundance
+distribution. <em>Journal of Animal Ecology</em> 74, 409&ndash;422.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/diversity.html">diversity</a></code>, <code><a href="../../vegan/help/fisher.alpha.html">fisher.alpha</a></code>,
+<code><a href="../../vegan/help/radfit.html">radfit</a></code>, <code><a href="../../vegan/help/specpool.html">specpool</a></code>. Function
+<code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code> of <span class="pkg">MASS</span> package was used as the
+model for <code>prestondistr</code>. Function <code><a href="../../stats/html/density.html">density</a></code> can be used for
+smoothed non-parametric estimation of responses, and
+<code><a href="../../stats/html/qqnorm.html">qqplot</a></code> is an alternative, traditional and more effective
+way of studying concordance of observed abundances to any distribution model.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+mod &lt;- fisherfit(BCI[5,])
+mod
+# prestonfit seems to need large samples
+mod.oct &lt;- prestonfit(colSums(BCI))
+mod.ll &lt;- prestondistr(colSums(BCI))
+mod.oct
+mod.ll
+plot(mod.oct)  
+lines(mod.ll, line.col="blue3") # Different
+## Smoothed density
+den &lt;- density(log2(colSums(BCI)))
+lines(den$x, ncol(BCI)*den$y, lwd=2) # Fairly similar to mod.oct
+## Extrapolated richness
+veiledspec(mod.oct)
+veiledspec(mod.ll)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

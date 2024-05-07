@@ -1,0 +1,362 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot Chord Diagram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for chordDiagram {circlize}"><tr><td>chordDiagram {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot Chord Diagram
+</h2>
+
+<h3>Description</h3>
+
+<p>Plot Chord Diagram
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+chordDiagram(
+    x,
+    grid.col = NULL,
+    grid.border = NA,
+    transparency = 0.5,
+    col = NULL,
+    row.col = NULL,
+    column.col = NULL,
+    order = NULL,
+    directional = 0,
+    xmax = NULL,
+    symmetric = FALSE,
+    keep.diagonal = FALSE,
+    direction.type = "diffHeight",
+    diffHeight = mm_h(2),
+    link.target.prop = TRUE,
+    target.prop.height = mm_h(1),
+    reduce = 1e-5,
+    self.link = 2,
+    preAllocateTracks = NULL,
+    annotationTrack = c("name", "grid", "axis"),
+    annotationTrackHeight = mm_h(c(3, 2)),
+    link.border = NA,
+    link.lwd = par("lwd"),
+    link.lty = par("lty"),
+    link.auto = TRUE,
+    link.sort = "default",
+    link.decreasing = TRUE,
+    link.arr.length = ifelse(link.arr.type == "big.arrow", 0.02, 0.4),
+    link.arr.width = link.arr.length/2,
+    link.arr.type = "triangle",
+    link.arr.lty = par("lty"),
+    link.arr.lwd = par("lwd"),
+    link.arr.col = par("col"),
+    link.largest.ontop = FALSE,
+    link.visible = TRUE,
+    link.rank = NULL,
+    link.zindex = NULL,
+    link.overlap = FALSE,
+    scale = FALSE,
+    group = NULL,
+    big.gap = 10,
+    small.gap = 1,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a matrix or a data frame. The function will pass all argument to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code> depending on the type of <code>x</code>,
+also format of other arguments depends of the type of <code>x</code>. If it is in the form of a matrix,
+it should be an adjacency matrix. If it is in the form of a data frame, it should be an adjacency list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid.col</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid.border</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>transparency</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>row.col</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>column.col</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>order</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>directional</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>xmax</code></td>
+<td>
+<p>maximum value on x-axes, the value should be a named vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>symmetric</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>keep.diagonal</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction.type</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>diffHeight</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.target.prop</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>target.prop.height</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>reduce</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>self.link</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>preAllocateTracks</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>annotationTrack</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>annotationTrackHeight</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.border</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.lwd</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.lty</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.auto</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.sort</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.decreasing</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.length</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.width</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.type</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.lty</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.lwd</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.arr.col</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.largest.ontop</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.visible</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.rank</code></td>
+<td>
+<p>This is argument is removed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.zindex</code></td>
+<td>
+<p>order to add links to the circle, a large value means to add it later.
+</p>
+</td></tr>
+<tr valign="top"><td><code>link.overlap</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/chordDiagramFromMatrix.html">chordDiagramFromMatrix</a></code> or <code><a href="../../circlize/help/chordDiagramFromDataFrame.html">chordDiagramFromDataFrame</a></code>
+</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>scale each sector to same width
+</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>It contains the group labels and the sector names are used as the names in the vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>big.gap</code></td>
+<td>
+<p>Gap between the two sets of sectors. If the input is a matrix, the two sets
+are row sectors and column sectors. If the input is a data frame, the two sets
+correspond to the first column and the second column. It only works when there
+is no intersection between the two sets.
+</p>
+</td></tr>
+<tr valign="top"><td><code>small.gap</code></td>
+<td>
+<p>Small gap between sectors.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Chord diagram is a way to visualize numeric tables ( <a href="http://circos.ca/intro/tabular_visualization/">http://circos.ca/intro/tabular_visualization/</a> ), especially useful
+when the table represents information of directional relations. This function
+visualize tables in a circular way.
+</p>
+<p>This function is flexible and contains some settings that may be a little difficult to understand.
+Please refer to vignette for better explanation.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame which contains positions of links, columns are:
+</p>
+
+<dl>
+<dt><code>rn</code></dt><dd><p>sector name corresponding to rows in the adjacency matrix or the first column in the adjacency list
+</p>
+</dd>
+<dt><code>cn</code></dt><dd><p>sector name corresponding to columns in the adjacency matrix or the second column in the adjacency list
+</p>
+</dd>
+<dt><code>value</code></dt><dd><p>value for the interaction or relation
+</p>
+</dd>
+<dt><code>o1</code></dt><dd><p>order of the link on the &quot;from&quot; sector
+</p>
+</dd>
+<dt><code>o2</code></dt><dd><p>order of the link on the &quot;to&quot; sector
+</p>
+</dd>
+<dt><code>x1</code></dt><dd><p>and position of the link on the &quot;from&quot; sector, the interval for the link on the &quot;from&quot; sector is <code>c(x1-abs(value), x1)</code>
+</p>
+</dd>
+<dt><code>x2</code></dt><dd><p>and position of the link on the &quot;to&quot; sector, the interval for the link on the &quot;from&quot; sector is <code>c(x2-abs(value), x2)</code>
+</p>
+</dd>
+</dl>
+
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html">https://jokergoo.github.io/circlize_book/book/the-chorddiagram-function.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(999)
+mat = matrix(sample(18, 18), 3, 6)
+rownames(mat) = paste0("S", 1:3)
+colnames(mat) = paste0("E", 1:6)
+
+df = data.frame(from = rep(rownames(mat), times = ncol(mat)),
+    to = rep(colnames(mat), each = nrow(mat)),
+    value = as.vector(mat),
+    stringsAsFactors = FALSE)
+
+chordDiagram(mat)
+chordDiagram(df)
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

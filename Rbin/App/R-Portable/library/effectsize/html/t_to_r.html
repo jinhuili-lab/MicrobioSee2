@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert _t_, _z_, and _F_ to Cohen's _d_ or *partial*-_r_</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for t_to_d {effectsize}"><tr><td>t_to_d {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert <em>t</em>, <em>z</em>, and <em>F</em> to Cohen's <em>d</em> or <strong>partial</strong>-<em>r</em></h2>
+
+<h3>Description</h3>
+
+<p>These functions are convenience functions to convert t, z and F test
+statistics to Cohen's d and <strong>partial</strong> r. These are useful in cases where
+the data required to compute these are not easily available or their
+computation is not straightforward (e.g., in liner mixed models, contrasts,
+etc.).
+<br />
+See <a href="https://easystats.github.io/effectsize/articles/from_test_statistics.html">Effect Size from Test Statistics vignette.</a>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+t_to_d(t, df_error, paired = FALSE, ci = 0.95, alternative = "two.sided", ...)
+
+z_to_d(z, n, paired = FALSE, ci = 0.95, alternative = "two.sided", ...)
+
+F_to_d(
+  f,
+  df,
+  df_error,
+  paired = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  ...
+)
+
+t_to_r(t, df_error, ci = 0.95, alternative = "two.sided", ...)
+
+z_to_r(z, n, ci = 0.95, alternative = "two.sided", ...)
+
+F_to_r(f, df, df_error, ci = 0.95, alternative = "two.sided", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>t, f, z</code></td>
+<td>
+<p>The t, the F or the z statistics.</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>Should the estimate account for the t-value being testing the
+difference between dependent means?</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The number of observations (the sample size).</p>
+</td></tr>
+<tr valign="top"><td><code>df, df_error</code></td>
+<td>
+<p>Degrees of freedom of numerator or of the error estimate
+(i.e., the residuals).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions use the following formulae to approximate <em>r</em> and <em>d</em>:
+<br /><br />
+</p>
+<p style="text-align: center;"><i>r_{partial} = t / &radic;{t^2 + df_{error}}</i></p>
+
+<p><br /><br />
+</p>
+<p style="text-align: center;"><i>r_{partial} = z / &radic;{z^2 + N}</i></p>
+
+<p><br /><br />
+</p>
+<p style="text-align: center;"><i>d = 2 * t / &radic;{df_{error}}</i></p>
+
+<p><br /><br />
+</p>
+<p style="text-align: center;"><i>d_z = t / &radic;{df_{error}}</i></p>
+
+<p><br /><br />
+</p>
+<p style="text-align: center;"><i>d = 2 * z / &radic;{N}</i></p>
+
+<p>The resulting <code>d</code> effect size is an <em>approximation</em> to Cohen's <em>d</em>, and
+assumes two equal group sizes. When possible, it is advised to directly
+estimate Cohen's <em>d</em>, with <code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>, <code>emmeans::eff_size()</code>, or similar
+functions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size(s)(<code>r</code> or <code>d</code>), and their CIs
+(<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Friedman, H. (1982). Simplified determinations of statistical power,
+magnitude of effect and research sample sizes. Educational and Psychological
+Measurement, 42(2), 521-526. doi: <a href="https://doi.org/10.1177/001316448204200214">10.1177/001316448204200214</a>
+</p>
+</li>
+<li><p> Wolf, F. M. (1986). Meta-analysis: Quantitative methods for research
+synthesis (Vol. 59). Sage.
+</p>
+</li>
+<li><p> Rosenthal, R. (1994) Parametric measures of effect size. In H. Cooper and
+L.V. Hedges (Eds.). The handbook of research synthesis. New York: Russell
+Sage Foundation.
+</p>
+</li>
+<li><p> Steiger, J. H. (2004). Beyond the F test: Effect size confidence intervals
+and tests of close fit in the analysis of variance and contrast analysis.
+Psychological Methods, 9, 164-182.
+</p>
+</li>
+<li><p> Cumming, G., &amp; Finch, S. (2001). A primer on the understanding, use, and
+calculation of confidence intervals that are based on central and noncentral
+distributions. Educational and Psychological Measurement, 61(4), 532-574.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>
+</p>
+<p>Other effect size from test statistic: 
+<code><a href="../../effectsize/help/F_to_eta2.html">F_to_eta2</a>()</code>,
+<code><a href="../../effectsize/help/chisq_to_phi.html">chisq_to_phi</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## t Tests
+res &lt;- t.test(1:10, y = c(7:20), var.equal = TRUE)
+t_to_d(t = res$statistic, res$parameter)
+t_to_r(t = res$statistic, res$parameter)
+t_to_r(t = res$statistic, res$parameter, alternative = "less")
+
+res &lt;- with(sleep, t.test(extra[group == 1], extra[group == 2], paired = TRUE))
+t_to_d(t = res$statistic, res$parameter, paired = TRUE)
+t_to_r(t = res$statistic, res$parameter)
+t_to_r(t = res$statistic, res$parameter, alternative = "greater")
+
+
+## Linear Regression
+model &lt;- lm(rating ~ complaints + critical, data = attitude)
+(param_tab &lt;- parameters::model_parameters(model))
+
+(rs &lt;- t_to_r(param_tab$t[2:3], param_tab$df_error[2:3]))
+
+# How does this compare to actual partial correlations?
+correlation::correlation(attitude,
+  select = "rating",
+  select2 = c("complaints", "critical"),
+  partial = TRUE
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

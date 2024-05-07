@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters standardization</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for standardize_parameters {parameters}"><tr><td>standardize_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters standardization</h2>
+
+<h3>Description</h3>
+
+<p>Compute standardized model parameters (coefficients).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+standardize_parameters(
+  model,
+  method = "refit",
+  ci = 0.95,
+  robust = FALSE,
+  two_sd = FALSE,
+  include_response = TRUE,
+  verbose = TRUE,
+  ...
+)
+
+standardize_posteriors(
+  model,
+  method = "refit",
+  robust = FALSE,
+  two_sd = FALSE,
+  include_response = TRUE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>The method used for standardizing the parameters. Can be
+<code>"refit"</code> (default), <code>"posthoc"</code>, <code>"smart"</code>, <code>"basic"</code>, <code>"pseudo"</code> or
+<code>"sdy"</code>. See Details'.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, centering is done by subtracting the
+median from the variables and dividing it by the median absolute deviation
+(MAD). If <code>FALSE</code>, variables are standardized by subtracting the
+mean and dividing it by the standard deviation (SD).</p>
+</td></tr>
+<tr valign="top"><td><code>two_sd</code></td>
+<td>
+<p>If <code>TRUE</code>, the variables are scaled by two times the deviation
+(SD or MAD depending on <code>robust</code>). This method can be useful to obtain
+model coefficients of continuous parameters comparable to coefficients
+related to binary predictors, when applied to <strong>the predictors</strong> (not the
+outcome) (Gelman, 2008).</p>
+</td></tr>
+<tr valign="top"><td><code>include_response</code></td>
+<td>
+<p>If <code>TRUE</code> (default), the response value will also be
+standardized. If <code>FALSE</code>, only the predictors will be standardized. For
+GLMs the response value will never be standardized (see <em>Generalized Linear
+Models</em> section).</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>For <code>standardize_parameters()</code>, arguments passed to
+<code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code>, such as:
+</p>
+
+<ul>
+<li> <p><code>ci_method</code>, <code>centrality</code> for Mixed models and Bayesian models...
+</p>
+</li>
+<li> <p><code>exponentiate</code>, ...
+</p>
+</li>
+<li><p> etc.
+</p>
+</li></ul>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Standardization Methods</h4>
+
+
+<ul>
+<li> <p><strong>refit</strong>: This method is based on a complete model re-fit with a
+standardized version of the data. Hence, this method is equal to
+standardizing the variables before fitting the model. It is the &quot;purest&quot; and
+the most accurate (Neter et al., 1989), but it is also the most
+computationally costly and long (especially for heavy models such as Bayesian
+models). This method is particularly recommended for complex models that
+include interactions or transformations (e.g., polynomial or spline terms).
+The <code>robust</code> (default to <code>FALSE</code>) argument enables a robust standardization
+of data, i.e., based on the <code>median</code> and <code>MAD</code> instead of the <code>mean</code> and
+<code>SD</code>. <strong>See <code><a href="../../datawizard/html/standardize.html">standardize()</a></code> for more details.</strong>
+</p>
+
+<ul>
+<li> <p><strong>Note</strong> that <code>standardize_parameters(method = "refit")</code> may not return
+the same results as fitting a model on data that has been standardized with
+<code>standardize()</code>; <code>standardize_parameters()</code> used the data used by the model
+fitting function, which might not be same data if there are missing values.
+see the <code>remove_na</code> argument in <code>standardize()</code>.
+</p>
+</li></ul>
+
+</li>
+<li> <p><strong>posthoc</strong>: Post-hoc standardization of the parameters, aiming at
+emulating the results obtained by &quot;refit&quot; without refitting the model. The
+coefficients are divided by the standard deviation (or MAD if <code>robust</code>) of
+the outcome (which becomes their expression 'unit'). Then, the coefficients
+related to numeric variables are additionally multiplied by the standard
+deviation (or MAD if <code>robust</code>) of the related terms, so that they correspond
+to changes of 1 SD of the predictor (e.g., &quot;A change in 1 SD of <code>x</code> is
+related to a change of 0.24 of the SD of <code>y</code>). This does not apply to binary
+variables or factors, so the coefficients are still related to changes in
+levels. This method is not accurate and tend to give aberrant results when
+interactions are specified.
+</p>
+</li>
+<li> <p><strong>basic</strong>: This method is similar to <code>method = "posthoc"</code>, but treats all
+variables as continuous: it also scales the coefficient by the standard
+deviation of model's matrix' parameter of factors levels (transformed to
+integers) or binary predictors. Although being inappropriate for these cases,
+this method is the one implemented by default in other software packages,
+such as <code><a href="../../lm.beta/help/lm.beta.html">lm.beta::lm.beta()</a></code>.
+</p>
+</li>
+<li> <p><strong>smart</strong> (Standardization of Model's parameters with Adjustment,
+Reconnaissance and Transformation - <em>experimental</em>): Similar to <code>method = "posthoc"</code> in that it does not involve model refitting. The difference is
+that the SD (or MAD if <code>robust</code>) of the response is computed on the relevant
+section of the data. For instance, if a factor with 3 levels A (the
+intercept), B and C is entered as a predictor, the effect corresponding to B
+vs. A will be scaled by the variance of the response at the intercept only.
+As a results, the coefficients for effects of factors are similar to a Glass'
+delta.
+</p>
+</li>
+<li> <p><strong>pseudo</strong> (<em>for 2-level (G)LMMs only</em>): In this (post-hoc) method, the
+response and the predictor are standardized based on the level of prediction
+(levels are detected with <code><a href="../../performance/help/check_heterogeneity_bias.html">performance::check_heterogeneity_bias()</a></code>): Predictors
+are standardized based on their SD at level of prediction (see also
+<code><a href="../../datawizard/help/demean.html">datawizard::demean()</a></code>); The outcome (in linear LMMs) is standardized based
+on a fitted random-intercept-model, where <code>sqrt(random-intercept-variance)</code>
+is used for level 2 predictors, and <code>sqrt(residual-variance)</code> is used for
+level 1 predictors (Hoffman 2015, page 342). A warning is given when a
+within-group variable is found to have access between-group variance.
+</p>
+</li>
+<li> <p><strong>sdy</strong> (<em>for logistic regression models only</em>): This y-standardization
+is useful when comparing coefficients of logistic regression models across
+models for the same sample. Unobserved heterogeneity varies across models
+with different independent variables, and thus, odds ratios from the same
+predictor of different models cannot be compared directly. The
+y-standardization makes coefficients &quot;comparable across models by dividing
+them with the estimated standard deviation of the latent variable for each
+model&quot; (Mood 2010). Thus, whenever one has multiple logistic regression models
+that are fit to the same data and share certain predictors (e.g. nested
+models), it can be useful to use this standardization approach to make
+log-odds or odds ratios comparable.
+</p>
+</li></ul>
+
+
+
+
+<h4>Transformed Variables</h4>
+
+<p>When the model's formula contains transformations (e.g. <code>y ~ exp(X)</code>) <code>method = "refit"</code> will give different results compared to <code>method = "basic"</code>
+(<code>"posthoc"</code> and <code>"smart"</code> do not support such transformations): While
+<code>"refit"</code> standardizes the data <em>prior</em> to the transformation (e.g.
+equivalent to <code>exp(scale(X))</code>), the <code>"basic"</code> method standardizes the
+transformed data (e.g. equivalent to <code>scale(exp(X))</code>).
+<br /><br />
+See the <em>Transformed Variables</em> section in <code><a href="../../datawizard/html/standardize.default.html">standardize.default()</a></code> for more
+details on how different transformations are dealt with when <code>method = "refit"</code>.
+</p>
+
+
+
+<h4>Confidence Intervals</h4>
+
+<p>The returned confidence intervals are re-scaled versions of the
+unstandardized confidence intervals, and not &quot;true&quot; confidence intervals of
+the standardized coefficients (cf. Jones &amp; Waller, 2015).
+</p>
+
+
+
+<h4>Generalized Linear Models</h4>
+
+<p>Standardization for generalized linear models (GLM, GLMM, etc) is done only
+with respect to the predictors (while the outcome remains as-is,
+unstandardized) - maintaining the interpretability of the coefficients (e.g.,
+in a binomial model: the exponent of the standardized parameter is the OR of
+a change of 1 SD in the predictor, etc.)
+</p>
+
+
+
+<h4>Dealing with Factors</h4>
+
+<p><code>standardize(model)</code> or <code>standardize_parameters(model, method = "refit")</code> do
+<em>not</em> standardize categorical predictors (i.e. factors) / their
+dummy-variables, which may be a different behaviour compared to other R
+packages (such as <span class="pkg">lm.beta</span>) or other software packages (like SPSS). To
+mimic such behaviours, either use <code>standardize_parameters(model, method = "basic")</code> to obtain post-hoc standardized parameters, or standardize the data
+with <code>datawizard::standardize(data, force = TRUE)</code> <em>before</em> fitting the
+model.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the standardized parameters (<code style="white-space: pre;">Std_*</code>, depending on
+the model type) and their CIs (<code>CI_low</code> and <code>CI_high</code>). Where applicable,
+standard errors (SEs) are returned as an attribute (<code>attr(x, "standard_error")</code>).
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Hoffman, L. (2015). Longitudinal analysis: Modeling within-person fluctuation
+and change. Routledge.
+</p>
+</li>
+<li><p> Jones, J. A., &amp; Waller, N. G. (2015). The normal-theory and asymptotic
+distribution-free (ADF) covariance matrix of standardized regression
+coefficients: theoretical extensions and finite sample behavior.
+Psychometrika, 80(2), 365-378.
+</p>
+</li>
+<li><p> Neter, J., Wasserman, W., &amp; Kutner, M. H. (1989). Applied linear
+regression models.
+</p>
+</li>
+<li><p> Gelman, A. (2008). Scaling regression inputs by dividing by two standard
+deviations. Statistics in medicine, 27(15), 2865-2873.
+</p>
+</li>
+<li><p> Mood C. Logistic Regression: Why We Cannot Do What We Think We Can Do, and
+What We Can Do About It. European Sociological Review (2010) 26:67–82.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>See also <a href="https://easystats.github.io/parameters/articles/standardize_parameters_effsize.html">package vignette</a>.
+</p>
+<p>Other standardize: 
+<code><a href="../../parameters/help/standardize_info.html">standardize_info</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(len ~ supp * dose, data = ToothGrowth)
+standardize_parameters(model, method = "refit")
+
+standardize_parameters(model, method = "posthoc")
+standardize_parameters(model, method = "smart")
+standardize_parameters(model, method = "basic")
+
+# Robust and 2 SD
+standardize_parameters(model, robust = TRUE)
+standardize_parameters(model, two_sd = TRUE)
+
+model &lt;- glm(am ~ cyl * mpg, data = mtcars, family = "binomial")
+standardize_parameters(model, method = "refit")
+standardize_parameters(model, method = "posthoc")
+standardize_parameters(model, method = "basic", exponentiate = TRUE)
+
+
+
+
+m &lt;- lme4::lmer(mpg ~ cyl + am + vs + (1 | cyl), mtcars)
+standardize_parameters(m, method = "pseudo", ci_method = "satterthwaite")
+
+
+
+
+model &lt;- rstanarm::stan_glm(rating ~ critical + privileges, data = attitude, refresh = 0)
+standardize_posteriors(model, method = "refit", verbose = FALSE)
+standardize_posteriors(model, method = "posthoc", verbose = FALSE)
+standardize_posteriors(model, method = "smart", verbose = FALSE)
+head(standardize_posteriors(model, method = "basic", verbose = FALSE))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

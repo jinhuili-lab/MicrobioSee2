@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Replace cell values or layers of a Raster* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for replacement {raster}"><tr><td>replacement {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Replace cell values or layers of a Raster* object</h2>
+
+<h3>Description</h3>
+
+<p>You can set values of a Raster* object, when <code>i</code> is a vector of cell numbers, a Raster*, Extent, or Spatial* object. 
+</p>
+<p>These are shorthand methods that work best for relatively small Raster* objects. In other cases you can use functions such as <code><a href="../../raster/help/calc.html">calc</a> and <a href="../../raster/help/rasterize.html">rasterize</a></code>. 
+</p>
+
+
+<h3>Methods</h3>
+
+
+<p><code>x[i] &lt;- value</code>
+</p>
+<p><code>x[i,j] &lt;- value</code>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+</td><td style="text-align: left;"> <b>Arguments:</b> </td><td style="text-align: left;">  </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td><td style="text-align: left;"> <code>x</code> </td><td style="text-align: left;"> a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td><td style="text-align: left;"> <code>i</code> </td><td style="text-align: left;"> cell number(s), row number(s), Extent, Spatial* object </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td><td style="text-align: left;"> <code>j</code> </td><td style="text-align: left;"> columns number(s) (only available if i is (are) a row number(s)) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td><td style="text-align: left;"> <code>value</code> </td><td style="text-align: left;"> new cell value(s) </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>See Also</h3>
+
+ <p><a href="../../raster/help/calc.html">calc</a>, <a href="../../raster/help/rasterize.html">rasterize</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=5)
+values(r) &lt;- 1:ncell(r) * 2
+r[1,] &lt;- 1
+r[,1] &lt;- 2
+r[1,1] &lt;- 3
+
+s &lt;- stack(r, sqrt(r))
+s[s&lt;5] &lt;- NA
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

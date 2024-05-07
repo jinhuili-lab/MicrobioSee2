@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mahalanobis' _D_ (a multivariate Cohen's _d_)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mahalanobis_d {effectsize}"><tr><td>mahalanobis_d {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Mahalanobis' <em>D</em> (a multivariate Cohen's <em>d</em>)</h2>
+
+<h3>Description</h3>
+
+<p>Compute effect size indices for standardized difference between two normal
+multivariate distributions or between one multivariate distribution and a
+defined point. This is the standardized effect size for Hotelling's <i>T^2</i>
+test (e.g., <code>DescTools::HotellingsT2Test()</code>). <em>D</em> is computed as:
+<br /><br />
+</p>
+<p style="text-align: center;"><i>D = &radic;{(\bar{X}_1-\bar{X}_2-&mu;)^T &Sigma;_p^{-1} (\bar{X}_1-\bar{X}_2-&mu;)}</i></p>
+
+<p><br /><br />
+Where <i>\bar{X}_i</i> are the column means, <i>&Sigma;_p</i> is the <em>pooled</em>
+covariance matrix, and <i>&mu;</i> is a vector of the null differences for each
+variable. When there is only one variate, this formula reduces to Cohen's
+<em>d</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mahalanobis_d(
+  x,
+  y = NULL,
+  data = NULL,
+  pooled_cov = TRUE,
+  mu = 0,
+  ci = 0.95,
+  alternative = "greater",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A data frame or matrix. Any incomplete observations (with <code>NA</code>
+values) are dropped. <code>x</code> can also be a formula (see details) in which case
+<code>y</code> is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>pooled_cov</code></td>
+<td>
+<p>Should equal covariance be assumed? Currently only
+<code>pooled_cov = TRUE</code> is supported.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>A named list/vector of the true difference in means for each
+variable. Can also be a vector of length 1, which will be recycled.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>To specify a <code>x</code> as a formula:
+</p>
+
+<ul>
+<li><p> Two sample case: <code>DV1 + DV2 ~ group</code> or <code>cbind(DV1, DV2) ~ group</code>
+</p>
+</li>
+<li><p> One sample case: <code>DV1 + DV2 ~ 1</code> or <code>cbind(DV1, DV2) ~ 1</code>
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with the <code>Mahalanobis_D</code> and potentially its CI
+(<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Del Giudice, M. (2017). Heterogeneity coefficients for Mahalanobis' D as a multivariate effect size. Multivariate Behavioral Research, 52(2), 216-221.
+</p>
+</li>
+<li><p> Mahalanobis, P. C. (1936). On the generalized distance in statistics. National Institute of Science of India.
+</p>
+</li>
+<li><p> Reiser, B. (2001). Confidence intervals for the Mahalanobis distance. Communications in Statistics-Simulation and Computation, 30(1), 37-45.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/help/mahalanobis.html">stats::mahalanobis()</a></code>, <code><a href="../../effectsize/help/cov_pooled.html">cov_pooled()</a></code>
+</p>
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d</a>()</code>,
+<code><a href="../../effectsize/help/means_ratio.html">means_ratio</a>()</code>,
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>,
+<code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Two samples --------------
+mtcars_am0 &lt;- subset(mtcars, am == 0,
+  select = c(mpg, hp, cyl)
+)
+mtcars_am1 &lt;- subset(mtcars, am == 1,
+  select = c(mpg, hp, cyl)
+)
+
+mahalanobis_d(mtcars_am0, mtcars_am1)
+
+# Or
+mahalanobis_d(mpg + hp + cyl ~ am, data = mtcars)
+
+mahalanobis_d(mpg + hp + cyl ~ am, data = mtcars, alternative = "two.sided")
+
+# Different mu:
+mahalanobis_d(mpg + hp + cyl ~ am,
+  data = mtcars,
+  mu = c(mpg = -4, hp = 15, cyl = 0)
+)
+
+
+# D is a multivariate d, so when only 1 variate is provided:
+mahalanobis_d(hp ~ am, data = mtcars)
+
+cohens_d(hp ~ am, data = mtcars)
+
+
+# One sample ---------------------------
+mahalanobis_d(mtcars[, c("mpg", "hp", "cyl")])
+
+# Or
+mahalanobis_d(mpg + hp + cyl ~ 1,
+  data = mtcars,
+  mu = c(mpg = 15, hp = 5, cyl = 3)
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

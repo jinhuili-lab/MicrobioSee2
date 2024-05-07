@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of Bayesian Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_performance.stanreg {performance}"><tr><td>model_performance.stanreg {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of Bayesian Models</h2>
+
+<h3>Description</h3>
+
+<p>Compute indices of model performance for (general) linear models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'stanreg'
+model_performance(model, metrics = "all", verbose = TRUE, ...)
+
+## S3 method for class 'BFBayesFactor'
+model_performance(
+  model,
+  metrics = "all",
+  verbose = TRUE,
+  average = FALSE,
+  prior_odds = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Object of class <code>stanreg</code> or <code>brmsfit</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>Can be <code>"all"</code>, <code>"common"</code> or a character vector of
+metrics to be computed (some of <code>c("LOOIC", "WAIC", "R2", "R2_adj", "RMSE", "SIGMA", "LOGLOSS", "SCORE")</code>). <code>"common"</code> will compute LOOIC,
+WAIC, R2 and RMSE.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>average</code></td>
+<td>
+<p>Compute model-averaged index? See <code><a href="../../bayestestR/help/weighted_posteriors.html">bayestestR::weighted_posteriors()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>prior_odds</code></td>
+<td>
+<p>Optional vector of prior odds for the models compared to
+the first model (or the denominator, for <code>BFBayesFactor</code> objects). For
+<code>data.frame</code>s, this will be used as the basis of weighting.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Depending on <code>model</code>, the following indices are computed:
+</p>
+
+<ul>
+<li> <p><strong>ELPD</strong>: expected log predictive density. Larger ELPD values
+mean better fit. See <code><a href="../../performance/help/looic.html">looic()</a></code>.
+</p>
+</li>
+<li> <p><strong>LOOIC</strong>: leave-one-out cross-validation (LOO) information
+criterion. Lower LOOIC values mean better fit. See <code><a href="../../performance/help/looic.html">looic()</a></code>.
+</p>
+</li>
+<li> <p><strong>WAIC</strong>: widely applicable information criterion. Lower WAIC
+values mean better fit. See <code>?loo::waic</code>.
+</p>
+</li>
+<li> <p><strong>R2</strong>: r-squared value, see <code><a href="../../performance/help/r2_bayes.html">r2_bayes()</a></code>.
+</p>
+</li>
+<li> <p><strong>R2_adjusted</strong>: LOO-adjusted r-squared, see <code><a href="../../performance/help/r2_loo.html">r2_loo()</a></code>.
+</p>
+</li>
+<li> <p><strong>RMSE</strong>: root mean squared error, see <code><a href="../../performance/help/performance_rmse.html">performance_rmse()</a></code>.
+</p>
+</li>
+<li> <p><strong>SIGMA</strong>: residual standard deviation, see <code><a href="../../insight/help/get_sigma.html">insight::get_sigma()</a></code>.
+</p>
+</li>
+<li> <p><strong>LOGLOSS</strong>: Log-loss, see <code><a href="../../performance/help/performance_logloss.html">performance_logloss()</a></code>.
+</p>
+</li>
+<li> <p><strong>SCORE_LOG</strong>: score of logarithmic proper scoring rule, see <code><a href="../../performance/help/performance_score.html">performance_score()</a></code>.
+</p>
+</li>
+<li> <p><strong>SCORE_SPHERICAL</strong>: score of spherical proper scoring rule, see <code><a href="../../performance/help/performance_score.html">performance_score()</a></code>.
+</p>
+</li>
+<li> <p><strong>PCP</strong>: percentage of correct predictions, see <code><a href="../../performance/help/performance_pcp.html">performance_pcp()</a></code>.
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame (with one row) and one column per &quot;index&quot; (see
+<code>metrics</code>).
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman, A., Goodrich, B., Gabry, J., and Vehtari, A. (2018).
+R-squared for Bayesian regression models. The American Statistician, The
+American Statistician, 1-6.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../performance/help/r2_bayes.html">r2_bayes</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+model &lt;- suppressWarnings(rstanarm::stan_glm(
+  mpg ~ wt + cyl,
+  data = mtcars,
+  chains = 1,
+  iter = 500,
+  refresh = 0
+))
+model_performance(model)
+
+model &lt;- suppressWarnings(rstanarm::stan_glmer(
+  mpg ~ wt + cyl + (1 | gear),
+  data = mtcars,
+  chains = 1,
+  iter = 500,
+  refresh = 0
+))
+model_performance(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

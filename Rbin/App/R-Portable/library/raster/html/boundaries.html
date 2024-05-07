@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: boundaries (edges) detection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for boundaries {raster}"><tr><td>boundaries {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>boundaries (edges) detection</h2>
+
+<h3>Description</h3>
+
+<p>Detect boundaries (edges). boundaries are cells that have more than one class in the 4 or 8 cells surrounding it, or, if <code>classes=FALSE</code>, cells with values and cells with <code>NA</code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+boundaries(x, type='inner', classes=FALSE, directions=8, asNA=FALSE, filename="", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer object</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>character. 'inner' or 'outer'</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>character. Logical. If <code>TRUE</code> all different values are (after rounding) distinguished, as well as <code>NA</code>. If <code>FALSE</code> (the default) only edges between <code>NA</code> and non-<code>NA</code> cells are considered</p>
+</td></tr>
+<tr valign="top"><td><code>directions</code></td>
+<td>
+<p>integer. Which cells are considered adjacent? Should be 8 (Queen's case) or 4 (Rook's case)</p>
+</td></tr>
+<tr valign="top"><td><code>asNA</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, non-edges are returned as <code>NA</code> instead of zero</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename for the output RasterLayer (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer. Cell values are either 1 (a border) or 0 (not a border), or <code>NA</code>
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/focal.html">focal</a></code>, <code><a href="../../raster/help/clump.html">clump</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrow=18, ncol=36, xmn=0)
+r[150:250] &lt;- 1
+r[251:450] &lt;- 2
+plot( boundaries(r, type='inner') )
+plot( boundaries(r, type='outer') )
+plot( boundaries(r, classes=TRUE) )
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

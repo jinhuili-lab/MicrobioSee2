@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Use ANOVA design matrix to compute Bayes factors or sample...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for nWayAOV {BayesFactor}"><tr><td>nWayAOV {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Use ANOVA design matrix to compute Bayes factors or sample posterior</h2>
+
+<h3>Description</h3>
+
+<p>Computes a single Bayes factor, or samples from the posterior, for an ANOVA
+model defined by a design matrix
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+nWayAOV(y, X, gMap, rscale, iterations = 10000,
+  progress = getOption("BFprogress", interactive()),
+  callback = function(...) as.integer(0), gibbs = NULL, posterior = FALSE,
+  ignoreCols = NULL, thin = 1, method = "auto", continuous = FALSE,
+  noSample = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>vector of observations</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>design matrix whose number of rows match <code>length(y)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>gMap</code></td>
+<td>
+<p>vector grouping the columns of <code>X</code> (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>rscale</code></td>
+<td>
+<p>a vector of prior scale(s) of appropriate length (see
+Details).</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>Number of Monte Carlo samples used to estimate Bayes
+factor or posterior</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>if <code>TRUE</code>, show progress with a text progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>gibbs</code></td>
+<td>
+<p>will be deprecated. See <code>posterior</code></p>
+</td></tr>
+<tr valign="top"><td><code>posterior</code></td>
+<td>
+<p>if <code>TRUE</code>, return samples from the posterior using
+Gibbs sampling, instead of the Bayes factor</p>
+</td></tr>
+<tr valign="top"><td><code>ignoreCols</code></td>
+<td>
+<p>if <code>NULL</code> and <code>posterior=TRUE</code>, all parameter
+estimates are returned in the MCMC object. If not <code>NULL</code>, a vector of
+length P-1 (where P is number of columns in the design matrix) giving which
+effect estimates to ignore in output</p>
+</td></tr>
+<tr valign="top"><td><code>thin</code></td>
+<td>
+<p>MCMC chain to every <code>thin</code> iterations. Default of 1 means
+no thinning. Only used if <code>posterior=TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the integration method (only valid if <code>posterior=FALSE</code>); one
+of &quot;simple&quot;, &quot;importance&quot;, &quot;laplace&quot;, or &quot;auto&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>continuous</code></td>
+<td>
+<p>either FALSE if no continuous covariates are included, or
+a logical vector of length equal to number of columns of X indicating
+which columns of the design matrix represent continuous covariates</p>
+</td></tr>
+<tr valign="top"><td><code>noSample</code></td>
+<td>
+<p>if <code>TRUE</code>, do not sample, instead returning NA. This is
+intended to be used with functions generating and testing many models at one time,
+such as <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is not meant to be called by end-users, although
+technically-minded users can call this function for flexibility beyond what
+the other functions in this package provide. See <code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code> for a
+user-friendly front-end to this function. Details about the priors can be
+found in the help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> and the references therein.
+</p>
+<p>Argument <code>gMap</code> provides a way of grouping columns of
+the design matrix as a factor; the effects in each group will share a common
+<i>g</i> parameter. <code>gMap</code> should be a vector of the same length as the number of
+nonconstant rows in <code>X</code>. It will contain all integers from 0 to
+<i>Ng-1</i>, where <i>Ng</i> is the total number of <i>g</i>
+parameters. Each element of <code>gMap</code> specifies the group to which that
+column belongs.
+</p>
+<p>If all columns belonging to a group are adjacent, <code>struc</code> can instead
+be used to compactly represent the groupings. <code>struc</code> is a vector of
+length <i>Ng</i>. Each element specifies the number columns in the
+group.
+</p>
+<p>The vector <code>rscale</code> should be of length <i>Ng</i>, and contain the
+prior scales of the standardized effects. See Rouder et al. (2012) for more
+details and the help for <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> for some typical values.
+</p>
+<p>The method used to estimate the Bayes factor depends on the <code>method</code>
+argument. &quot;simple&quot; is most accurate for small to moderate sample sizes, and
+uses the Monte Carlo sampling method described in Rouder et al. (2012).
+&quot;importance&quot; uses an importance sampling algorithm with an importance
+distribution that is multivariate normal on log(g). &quot;laplace&quot; does not
+sample, but uses a Laplace approximation to the integral. It is expected to
+be more accurate for large sample sizes, where MC sampling is slow. If
+<code>method="auto"</code>, then an initial run with both samplers is done, and
+the sampling method that yields the least-variable samples is chosen. The
+number of initial test iterations is determined by
+<code>options(BFpretestIterations)</code>.
+</p>
+<p>If posterior samples are requested, the posterior is sampled with a Gibbs
+sampler.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>posterior</code> is <code>FALSE</code>, a vector of length 2 containing
+the computed log(e) Bayes factor (against the intercept-only null), along
+with a proportional error estimate on the Bayes factor. Otherwise, an
+object of class <code>mcmc</code>, containing MCMC samples from the posterior is
+returned.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Argument <code>struc</code> has been deprecated. Use <code>gMap</code>, which is the <code><a href="../../base/html/rle.html">inverse.rle</a></code> of <code>struc</code>,
+minus 1.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>), Jeffery N.
+Rouder (<a href="mailto:rouderj@missouri.edu">rouderj@missouri.edu</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Rouder, J. N., Morey, R. D., Speckman, P. L., Province, J. M.,
+(2012) Default Bayes Factors for ANOVA Designs. Journal of Mathematical
+Psychology.  56.  p. 356-374.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code> for the user-friendly front end to this
+function; see <code><a href="../../BayesFactor/help/regressionBF.html">regressionBF</a></code> and <code>anovaBF</code> for testing
+many regression or ANOVA models simultaneously.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Classical example, taken from t.test() example
+## Student's sleep data
+data(sleep)
+plot(extra ~ group, data = sleep)
+
+## traditional ANOVA gives a p value of 0.00283
+summary(aov(extra ~ group + Error(ID/group), data = sleep))
+
+## Build design matrix
+group.column &lt;- rep(1/c(-sqrt(2),sqrt(2)),each=10)
+subject.matrix &lt;- model.matrix(~sleep$ID - 1,data=sleep$ID)
+## Note that we include no constant column
+X &lt;- cbind(group.column, subject.matrix)
+
+## (log) Bayes factor of full model against grand-mean only model
+bf.full &lt;- nWayAOV(y = sleep$extra, X = X, gMap = c(0,rep(1,10)), rscale=c(.5,1))
+exp(bf.full[['bf']])
+
+## Compare with lmBF result (should be about the same, give or take 1%)
+bf.full2 &lt;- lmBF(extra ~ group + ID, data = sleep, whichRandom = "ID")
+bf.full2
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

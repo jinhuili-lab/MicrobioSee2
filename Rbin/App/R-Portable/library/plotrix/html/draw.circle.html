@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw a circle</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for draw.circle {plotrix}"><tr><td>draw.circle {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Draw a circle</h2>
+
+<h3>Description</h3>
+
+<p>Draws a circle on an existing plot.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ draw.circle(x,y,radius,nv=100,border=NULL,col=NA,lty=1,density=NULL,
+  angle=45,lwd=1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Coordinates of the center of the circle.</p>
+</td></tr>
+<tr valign="top"><td><code>radius</code></td>
+<td>
+<p>Radius (or radii) of the circle(s) in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>nv</code></td>
+<td>
+<p>Number of vertices to draw the circle.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Color to use for drawing the circumference.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color to use for filling the circle.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type for the circumference.</p>
+</td></tr>
+<tr valign="top"><td><code>density</code></td>
+<td>
+<p>Density for patterned fill. See <span class="samp">polygon</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>angle</code></td>
+<td>
+<p>Angle of patterned fill. See <span class="samp">polygon</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width for the circumference.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">draw.circle</span> uses the dimensions of the plot and the <span class="samp">x</span> and
+<span class="samp">y</span> coordinates to draw a circle rather than an ellipse.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the x and y coordinates of the points on the circumference
+of the last circle displayed.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon, thanks to David Winsemius for the density and angle args</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/polygon.html">polygon</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ plot(1:5,seq(1,10,length=5),type="n",xlab="",ylab="",main="Test draw.circle")
+ draw.circle(2,4,c(1,0.66,0.33),border="purple",
+  col=c("#ff00ff","#ff77ff","#ffccff"),lty=1,lwd=1)
+ draw.circle(2.5,8,0.6,border="red",lty=3,lwd=3)
+ draw.circle(4,3,0.7,border="green",col="yellow",lty=1,
+  density=5,angle=30,lwd=10)
+ draw.circle(3.5,8,0.8,border="blue",lty=2,lwd=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

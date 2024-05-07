@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert chi^2 to phi and Other Correlation-like Effect Sizes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for chisq_to_phi {effectsize}"><tr><td>chisq_to_phi {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert <i>&chi;^2</i> to <i>&phi;</i> and Other Correlation-like Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>Convert between <i>&chi;^2</i> (chi-square), <i>&phi;</i> (phi), Cramer's
+<i>V</i>, Tschuprow's <i>T</i>, Cohen's <i>w</i>,
+פ (Fei) and Pearson's <i>C</i> for contingency
+tables or goodness of fit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+chisq_to_phi(
+  chisq,
+  n,
+  nrow = 2,
+  ncol = 2,
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+chisq_to_cohens_w(
+  chisq,
+  n,
+  nrow,
+  ncol,
+  p,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+chisq_to_cramers_v(
+  chisq,
+  n,
+  nrow,
+  ncol,
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+chisq_to_tschuprows_t(
+  chisq,
+  n,
+  nrow,
+  ncol,
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+chisq_to_fei(chisq, n, nrow, ncol, p, ci = 0.95, alternative = "greater", ...)
+
+chisq_to_pearsons_c(
+  chisq,
+  n,
+  nrow,
+  ncol,
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+
+phi_to_chisq(phi, n, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>chisq</code></td>
+<td>
+<p>The <i>&chi;^2</i> (chi-square) statistic.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Total sample size.</p>
+</td></tr>
+<tr valign="top"><td><code>nrow, ncol</code></td>
+<td>
+<p>The number of rows/columns in the contingency table.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Should the effect size be corrected for small-sample bias?
+Defaults to <code>TRUE</code>; Advisable for small samples and large tables.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"greater"</code> (default) or <code>"less"</code>
+(one-sided CI), or <code>"two.sided"</code> (two-sided CI). Partial matching is
+allowed (e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in
+<a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>Vector of expected values. See <code><a href="../../stats/help/chisq.test.html">stats::chisq.test()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>The <i>&phi;</i> (phi) statistic.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These functions use the following formulas:
+</p>
+<p style="text-align: center;"><i>phi = w = sqrt(\frac{&chi;^2}{n})</i></p>
+
+
+<p style="text-align: center;"><i>Cramer's V = &phi; / sqrt(min(nrow, ncol) - 1)</i></p>
+
+
+
+<p style="text-align: center;"><i>Tschuprow's T = &phi; / sqrt(sqrt((nrow-1) * (ncol-1)))</i></p>
+
+
+
+<p style="text-align: center;"><i>פ = w / sqrt(1 / min(p_E) - 1))</i></p>
+
+
+<p>Where <i>p_E</i> are the expected probabilities.
+</p>
+<p style="text-align: center;"><i>Pearson's C = sqrt(&chi;^2 / (&chi;^2 + n))</i></p>
+
+<p>For versions adjusted for small-sample bias of <i>&phi;</i>, <i>V</i>, and <i>T</i>,
+see <a href="https://en.wikipedia.org/wiki/Cram%C3%A9r%27s_V#Bias_correction">Bergsma, 2013</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size(s), and confidence interval(s). See
+<code><a href="../../effectsize/help/cramers_v.html">cramers_v()</a></code>.
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Unless stated otherwise, confidence (compatibility) intervals (CIs) are
+estimated using the noncentrality parameter method (also called the &quot;pivot
+method&quot;). This method finds the noncentrality parameter (&quot;<em>ncp</em>&quot;) of a
+noncentral <em>t</em>, <em>F</em>, or <i>&chi;^2</i> distribution that places the observed
+<em>t</em>, <em>F</em>, or <i>&chi;^2</i> test statistic at the desired probability point of
+the distribution. For example, if the observed <em>t</em> statistic is 2.0, with 50
+degrees of freedom, for which cumulative noncentral <em>t</em> distribution is <em>t</em> =
+2.0 the .025 quantile (answer: the noncentral <em>t</em> distribution with <em>ncp</em> =
+.04)? After estimating these confidence bounds on the <em>ncp</em>, they are
+converted into the effect size metric to obtain a confidence interval for the
+effect size (Steiger, 2004).
+<br /><br />
+For additional details on estimation and troubleshooting, see <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Cumming, G., &amp; Finch, S. (2001). A primer on the understanding, use, and
+calculation of confidence intervals that are based on central and noncentral
+distributions. Educational and Psychological Measurement, 61(4), 532-574.
+</p>
+</li>
+<li><p> Ben-Shachar, M.S., Patil, I., Thériault, R., Wiernik, B.M., Lüdecke, D.
+(2023). Phi, Fei, Fo, Fum: Effect Sizes for Categorical Data That Use the
+Chi‑Squared Statistic. Mathematics, 11, 1982. doi: <a href="https://doi.org/10.3390/math11091982">10.3390/math11091982</a>
+</p>
+</li>
+<li><p> Bergsma, W. (2013). A bias-correction for Cramer's V and Tschuprow's T.
+Journal of the Korean Statistical Society, 42(3), 323-328.
+</p>
+</li>
+<li><p> Johnston, J. E., Berry, K. J., &amp; Mielke Jr, P. W. (2006). Measures of
+effect size for chi-squared and likelihood-ratio goodness-of-fit tests.
+Perceptual and motor skills, 103(2), 412-414.
+</p>
+</li>
+<li><p> Rosenberg, M. S. (2010). A generalized formula for converting chi-square
+tests to effect sizes for meta-analysis. PloS one, 5(4), e10059.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/phi.html">phi()</a></code> for more details.
+</p>
+<p>Other effect size from test statistic: 
+<code><a href="../../effectsize/help/F_to_eta2.html">F_to_eta2</a>()</code>,
+<code><a href="../../effectsize/help/t_to_d.html">t_to_d</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data("Music_preferences")
+
+# chisq.test(Music_preferences)
+#&gt;
+#&gt; 	Pearson's Chi-squared test
+#&gt;
+#&gt; data:  Music_preferences
+#&gt; X-squared = 95.508, df = 6, p-value &lt; 2.2e-16
+#&gt;
+
+chisq_to_cohens_w(95.508,
+  n = sum(Music_preferences),
+  nrow = nrow(Music_preferences),
+  ncol = ncol(Music_preferences)
+)
+
+
+
+
+data("Smoking_FASD")
+
+# chisq.test(Smoking_FASD, p = c(0.015, 0.010, 0.975))
+#&gt;
+#&gt; 	Chi-squared test for given probabilities
+#&gt;
+#&gt; data:  Smoking_FASD
+#&gt; X-squared = 7.8521, df = 2, p-value = 0.01972
+
+chisq_to_fei(
+  7.8521,
+  n = sum(Smoking_FASD),
+  nrow = 1,
+  ncol = 3,
+  p = c(0.015, 0.010, 0.975)
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

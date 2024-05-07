@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fitting Thermal Quenching Data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fit_ThermalQuenching {Luminescence}"><tr><td>fit_ThermalQuenching {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fitting Thermal Quenching Data</h2>
+
+<h3>Description</h3>
+
+<p>Applying a nls-fitting to thermal quenching data.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+fit_ThermalQuenching(
+  data,
+  start_param = list(),
+  method_control = list(),
+  n.MC = 100,
+  verbose = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>): input data with three columns, the first column contains
+temperature values in deg. C, columns 2 and 3 the dependent values with its error</p>
+</td></tr>
+<tr valign="top"><td><code>start_param</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (optional): option to provide own start parameters for the fitting, see
+details</p>
+</td></tr>
+<tr valign="top"><td><code>method_control</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (optional): further options to fine tune the fitting, see details for
+further information</p>
+</td></tr>
+<tr valign="top"><td><code>n.MC</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>): number of Monte Carlo runs for the error estimation. If <code>n.MC</code> is
+<code>NULL</code> or <code style="white-space: pre;">&lt;=1</code>, the error estimation is skipped</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enables/disables terminal output</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enables/disables plot output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that can be passed to control the plotting, support are <code>main</code>, <code>pch</code>,
+<code>col_fit</code>, <code>col_points</code>, <code>lty</code>, <code>lwd</code>, <code>xlab</code>, <code>ylab</code>, <code>xlim</code>, <code>ylim</code>, <code>xaxt</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Used equation</strong><br />
+</p>
+<p>The equation used for the fitting is
+</p>
+<p style="text-align: center;"><i>y = (A / (1 + C * (exp(-W / (k * x))))) + c</i></p>
+
+<p><em>W</em> is the energy depth in eV and <em>C</em> is dimensionless constant. <em>A</em> and <em>c</em> are used to
+adjust the curve for the given signal. <em>k</em> is the Boltzmann in eV/K and <em>x</em> is the absolute
+temperature in K.
+</p>
+<p><strong>Error estimation</strong><br />
+</p>
+<p>The error estimation is done be varying the input parameters using the given uncertainties in
+a Monte Carlo simulation. Errors are assumed to follow a normal distribution.
+</p>
+<p><strong><code>start_param</code></strong> <br />
+</p>
+<p>The function allows the injection of own start parameters via the argument <code>start_param</code>. The
+parameters needs to be provided as names list. The names are the parameters to be optimised.
+Examples: <code>start_param = list(A = 1, C = 1e+5, W = 0.5, c = 0)</code>
+</p>
+<p><strong><code>method_control</code></strong> <br />
+</p>
+<p>The following arguments can be provided via <code>method_control</code>. Please note that arguments provided
+via <code>method_control</code> are not further tested, i.e., if the function crashes your input was probably
+wrong.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>ARGUMENT</strong> </td><td style="text-align: left;"> <strong>TYPE</strong> </td><td style="text-align: left;"> <strong>DESCRIPTION</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>upper</code> </td><td style="text-align: left;"> named <a href="../../base/html/vector.html">vector</a> </td><td style="text-align: left;"> sets upper fitting boundaries, if provided boundaries for all arguments
+are required, e.g., <code>c(A = 0, C = 0, W = 0, c = 0)</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>lower</code> </td><td style="text-align: left;"> names <a href="../../base/html/vector.html">vector</a> </td><td style="text-align: left;"> sets lower fitting boundaries (see <code>upper</code> for details) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>trace</code>   </td><td style="text-align: left;"> <a href="../../base/html/logical.html">logical</a> </td><td style="text-align: left;"> enables/disables progression trace for <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>weights</code> </td><td style="text-align: left;"> <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> option to provide own weights for the fitting, the length of this
+vector needs to be equal to the number for rows of the input <code>data.frame</code>. If set to <code>NULL</code> no weights
+are applied. The weights are defined by the third column of the input <code>data.frame</code>.
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Value</h3>
+
+<p>The function returns numerical output and an (<em>optional</em>) plot.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@data</code></strong>
+</p>
+<p><code style="white-space: pre;">[.. $data : data.frame]</code><br />
+</p>
+<p>A table with all fitting parameters and the number of Monte Carlo runs used for the error estimation.
+</p>
+<p><code style="white-space: pre;">[.. $fit : nls object]</code> <br />
+</p>
+<p>The nls <a href="../../stats/help/nls.html">stats::nls</a> object returned by the function <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>. This object
+can be further passed to other functions supporting an nls object (cf. details section
+in <a href="../../stats/help/nls.html">stats::nls</a>)
+</p>
+<p><strong>slot:</strong> <strong><code style="white-space: pre;">@info</code></strong>
+</p>
+<p><code style="white-space: pre;">[.. $call : call]</code><br />
+</p>
+<p>The original function call.
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ GAPHICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p>Plotted are temperature against the signal and their uncertainties.
+The fit is shown as dashed-line (can be modified). Please note that for the fitting the absolute
+temperature values are used but are re-calculated to deg. C for the plot.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. fit_ThermalQuenching(): Fitting Thermal Quenching Data. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Wintle, A.G., 1975. Thermal Quenching of Thermoluminescence in Quartz. Geophys. J. R. astr. Soc. 41, 107–113.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##create short example dataset
+data &lt;- data.frame(
+  T = c(25, 40, 50, 60, 70, 80, 90, 100, 110),
+  V = c(0.06, 0.058, 0.052, 0.051, 0.041, 0.034, 0.035, 0.033, 0.032),
+  V_X = c(0.012, 0.009, 0.008, 0.008, 0.007, 0.006, 0.005, 0.005, 0.004))
+
+##fit
+fit_ThermalQuenching(
+ data = data,
+ n.MC = NULL)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

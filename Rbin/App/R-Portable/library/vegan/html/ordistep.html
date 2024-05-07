@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Choose a Model by Permutation Tests in Constrained Ordination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordistep {vegan}"><tr><td>ordistep {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Choose a Model by Permutation Tests in Constrained Ordination
+</h2>
+
+<h3>Description</h3>
+
+<p>Automatic stepwise model building for constrained ordination methods
+(<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code>).
+The function <code>ordistep</code> is modelled after <code><a href="../../stats/html/step.html">step</a></code> and
+can do forward, backward and stepwise model selection using permutation tests.
+Function <code>ordiR2step</code> performs forward model choice solely on adjusted
+<i>R2</i> and P-value, for ordination objects created by <code><a href="../../vegan/help/rda.html">rda</a></code> or <code><a href="../../vegan/help/capscale.html">capscale</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordistep(object, scope, direction = c("both", "backward", "forward"),
+   Pin = 0.05, Pout = 0.1, permutations = how(nperm = 199), steps = 50,
+   trace = TRUE, ...)
+ordiR2step(object, scope, Pin = 0.05, R2scope = TRUE,
+   permutations = how(nperm = 499), trace = TRUE, R2permutations = 1000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+
+<p>In <code>ordistep</code>, an ordination object inheriting from
+<code><a href="../../vegan/help/cca.html">cca</a></code> or <code><a href="../../vegan/help/rda.html">rda</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p> Defines the range of models examined in the stepwise
+search.  This can be a list containing components <code>upper</code> and
+<code>lower</code>, both formulae. If it is a single item, it is interpreted
+the target scope, depending on the <code>direction</code>. If
+<code>direction</code> is <code>"forward"</code>, a single item is interpreted as
+the <code>upper</code> scope and the formula of the input <code>object</code> as
+the <code>lower</code> scope.  See <code><a href="../../stats/html/step.html">step</a></code> for details. In
+<code>ordiR2step</code>, this defines the upper scope; it can also be an
+ordination object from with the model is extracted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+
+<p>The mode of stepwise search, can be one of <code>"both"</code>,
+<code>"backward"</code>, or <code>"forward"</code>, with a default of
+<code>"both"</code>.  If the <code>scope</code> argument is missing, the default
+for <code>direction</code> is <code>"backward"</code> in <code>ordistep</code> (and
+<code>ordiR2step</code> does not have this argument, but only works
+forward).
+</p>
+</td></tr>
+<tr valign="top"><td><code>Pin, Pout</code></td>
+<td>
+
+<p>Limits of permutation <i>P</i>-values for adding (<code>Pin</code>) a term to
+the model, or dropping (<code>Pout</code>) from the model. Term is added if
+<i>P &lt;=</i> <code>Pin</code>, and removed if <i>P &gt;</i> <code>Pout</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R2scope</code></td>
+<td>
+
+<p>Use adjusted <i>R2</i> as the stopping criterion: only models with
+lower adjusted <i>R2</i> than scope are accepted.
+</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations as
+returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the number
+of permutations required, or a permutation matrix where each row
+gives the permuted indices. This is passed to
+<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>: see there for details.  </p>
+</td></tr>
+<tr valign="top"><td><code>steps</code></td>
+<td>
+
+<p>Maximum number of iteration steps of dropping and adding terms.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+
+<p>If positive, information is printed during the model building. Larger
+values may give more information.
+</p>
+</td></tr>
+<tr valign="top"><td><code>R2permutations</code></td>
+<td>
+<p>Number of permutations used in the estimation of
+adjusted <i>R2</i> for <code><a href="../../vegan/help/cca.html">cca</a></code> using
+<code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Any additional arguments to <code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> and
+<code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The basic functions for model choice in constrained ordination are
+<code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> and <code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>. With these functions,
+ordination models can be chosen with standard <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function
+<code><a href="../../stats/html/step.html">step</a></code> which bases the term choice on AIC. AIC-like
+statistics for ordination are provided by functions
+<code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code> and <code><a href="../../vegan/help/extractAIC.cca.html">extractAIC.cca</a></code> (with
+similar functions for <code><a href="../../vegan/help/rda.html">rda</a></code>). Actually, constrained
+ordination methods do not have AIC, and therefore the <code><a href="../../stats/html/step.html">step</a></code>
+may not be trusted. This function provides an alternative using
+permutation <i>P</i>-values.
+</p>
+<p>Function <code>ordistep</code> defines the model, <code>scope</code> of models
+considered, and <code>direction</code> of the procedure similarly as
+<code><a href="../../stats/html/step.html">step</a></code>. The function alternates with <code>drop</code> and
+<code>add</code> steps and stops when the model was not changed during one
+step. The <code>-</code> and <code>+</code> signs in the summary table indicate
+which stage is performed.  It is often sensible to have <code>Pout</code>
+<i>&gt;</i> <code>Pin</code> in stepwise models to avoid cyclic adds and drops
+of single terms.
+</p>
+<p>Function <code>ordiR2step</code> builds model forward so that it maximizes
+adjusted <i>R2</i> (function <code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code>) at every
+step, and stopping when the adjusted <i>R2</i> starts to decrease,
+or the adjusted <i>R2</i> of the <code>scope</code> is exceeded, or the
+selected permutation <i>P</i>-value is exceeded (Blanchet et
+al. 2008). The second criterion is ignored with option
+<code>R2scope = FALSE</code>, and the third criterion can be ignored setting
+<code>Pin = 1</code> (or higher).
+The function cannot be used if adjusted <i>R2</i>
+cannot be calculated, including partial models.  If the number of
+predictors is higher than the number of observations, adjusted
+<i>R2</i> is also unavailable, but such models can be analysed
+with <code>R2scope = FALSE</code>.  The <i>R2</i> of <code><a href="../../vegan/help/cca.html">cca</a></code>
+is based on simulations (see <code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code>) and different
+runs of <code>ordiR2step</code> can give different results.
+</p>
+<p>Functions <code>ordistep</code> (based on <i>P</i> values) and <code>ordiR2step</code>
+(based on adjusted <i>R2</i> and hence on eigenvalues) can select
+variables in different order.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Functions return the selected model with one additional
+component, <code>anova</code>, which contains brief information of steps
+taken. You can suppress voluminous output during model building by
+setting <code>trace = FALSE</code>, and find the summary of model history
+in the <code>anova</code> item.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen
+</p>
+
+
+<h3>References</h3>
+
+<p>Blanchet, F. G., Legendre, P. &amp; Borcard, D. (2008) Forward selection
+of explanatory variables. <em>Ecology</em> 89, 2623&ndash;2632.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The function handles constrained ordination methods
+<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. The underlying functions are
+<code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> and <code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>, and the function
+is modelled after standard <code><a href="../../stats/html/step.html">step</a></code> (which also can be
+used directly but uses AIC for model choice, see
+<code><a href="../../vegan/help/extractAIC.cca.html">extractAIC.cca</a></code>). Function <code>ordiR2step</code> builds
+upon <code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## See add1.cca for another example
+
+### Dune data
+data(dune)
+data(dune.env)
+mod0 &lt;- rda(dune ~ 1, dune.env)  # Model with intercept only
+mod1 &lt;- rda(dune ~ ., dune.env)  # Model with all explanatory variables
+
+## With scope present, the default direction is "both"
+mod &lt;- ordistep(mod0, scope = formula(mod1))
+mod
+## summary table of steps
+mod$anova
+
+## Example of ordistep, forward
+ordistep(mod0, scope = formula(mod1), direction="forward")
+
+## Example of ordiR2step (always forward)
+## stops because R2 of 'mod1' exceeded
+ordiR2step(mod0, mod1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

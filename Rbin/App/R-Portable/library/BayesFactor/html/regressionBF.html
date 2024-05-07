@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to compute Bayes factors for regression designs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for regressionBF {BayesFactor}"><tr><td>regressionBF {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to compute Bayes factors for regression designs</h2>
+
+<h3>Description</h3>
+
+<p>This function simultaneously computes Bayes factors for groups of models in
+regression designs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+regressionBF(formula, data, whichModels = "all",
+  progress = getOption("BFprogress", interactive()), rscaleCont = "medium",
+  callback = function(...) as.integer(0), noSample = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula containing all covariates to include in the
+analysis (see Examples)</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame containing data for all factors in the formula</p>
+</td></tr>
+<tr valign="top"><td><code>whichModels</code></td>
+<td>
+<p>which set of models to compare; see Details</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>if <code>TRUE</code>, show progress with a text progress bar</p>
+</td></tr>
+<tr valign="top"><td><code>rscaleCont</code></td>
+<td>
+<p>prior scale on all standardized slopes</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>noSample</code></td>
+<td>
+<p>if <code>TRUE</code>, do not sample, instead returning NA.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>regressionBF</code> computes Bayes factors to test the hypothesis that
+slopes are 0 against the alternative that all slopes are nonzero.
+</p>
+<p>The vector of observations <i>y</i> is assumed to be distributed as </p>
+<p style="text-align: center;"><i>y ~
+Normal(&alpha; 1 + X&beta;, &sigma;^2 I).</i></p>
+<p> The joint prior on
+<i>&alpha;,&sigma;^2</i> is proportional to <i>1/&sigma;^2</i>, the prior on
+<i>&beta;</i> is </p>
+<p style="text-align: center;"><i>&beta; ~ Normal(0, N g &sigma;^2(X'X)^{-1}).</i></p>
+<p> where
+<i>g ~ InverseGamma(1/2,r/2)</i>. See Liang et al. (2008) section 3 for
+details.
+</p>
+<p>Possible values for <code>whichModels</code> are 'all', 'top', and 'bottom', where
+'all' computes Bayes factors for all models, 'top' computes the Bayes
+factors for models that have one covariate missing from the full model, and
+'bottom' computes the Bayes factors for all models containing a single
+covariate. Caution should be used when interpreting the results; when the
+results of 'top' testing is interpreted as a test of each covariate, the
+test is conditional on all other covariates being in the model (and likewise
+'bottom' testing is conditional on no other covariates being in the model).
+</p>
+<p>An option is included to prevent analyzing too many models at once:
+<code>options('BFMaxModels')</code>, which defaults to 50,000, is the maximum
+number of models that 'regressionBF' will analyze at once. This can be
+increased by increasing the option value.
+</p>
+<p>For the <code>rscaleCont</code> argument, several named values are recongized:
+&quot;medium&quot;, &quot;wide&quot;, and &quot;ultrawide&quot;, which correspond <i>r</i> scales of
+<i>sqrt(2)/4</i>, 1/2, and <i>sqrt(2)/2</i>,
+respectively. These values were chosen to yield consistent Bayes factors
+with <code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class <code>BFBayesFactor</code>, containing the computed
+model comparisons
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>Liang, F. and Paulo, R. and Molina, G. and Clyde, M. A. and
+Berger, J. O. (2008). Mixtures of g-priors for Bayesian Variable
+Selection. Journal of the American Statistical Association, 103, pp.
+410-423
+</p>
+<p>Rouder, J. N.  and Morey, R. D. (in press). Bayesian testing in
+regression. Multivariate Behavioral Research.
+</p>
+<p>Zellner, A. and Siow, A., (1980) Posterior Odds Ratios for Selected
+Regression Hypotheses.  In Bayesian Statistics: Proceedings of the First
+Interanational Meeting held in Valencia (Spain).  Bernardo, J. M.,
+Lindley, D. V., and Smith A. F. M. (eds), pp. 585-603.  University of
+Valencia.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../BayesFactor/help/lmBF.html">lmBF</a></code>, for testing specific models, and
+<code><a href="../../BayesFactor/help/anovaBF.html">anovaBF</a></code> for the function similar to <code>regressionBF</code> for
+ANOVA models.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## See help(attitude) for details about the data set
+data(attitude)
+
+## Classical regression
+summary(fm1 &lt;- lm(rating ~ ., data = attitude))
+
+## Compute Bayes factors for all regression models
+output = regressionBF(rating ~ ., data = attitude, progress=FALSE)
+head(output)
+## Best model is 'complaints' only
+
+## Compute all Bayes factors against the full model, and
+## look again at best models
+head(output / output[63])
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

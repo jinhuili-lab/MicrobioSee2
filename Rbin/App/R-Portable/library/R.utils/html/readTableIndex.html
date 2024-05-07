@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a single column from file in table format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for readTableIndex {R.utils}"><tr><td>readTableIndex {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a single column from file in table format</h2>
+
+<h3>Description</h3>
+
+<p>Reads a single column from file in table format, which can then be used as a index-to-row (look-up) map
+for fast access to a subset of rows using <code><a href="../../R.utils/help/readTable.html">readTable</a></code>().
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+readTableIndex(..., indexColumn=1, colClass="character", verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>indexColumn</code></td>
+<td>
+<p>An single <code><a href="../../base/help/integer.html">integer</a></code> of the index column.</p>
+</td></tr>
+<tr valign="top"><td><code>colClass</code></td>
+<td>
+<p>A single <code><a href="../../base/help/character.html">character</a></code> specifying the class of the
+index column.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../R.utils/help/readTable.html">readTable</a></code>() used internally.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/readTable.html">readTable</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+   # File containing data table to be access many times
+   filename &lt;- "somefile.txt"
+
+   # Create a look-up index
+   index &lt;- readTableIndex(filename)
+
+   # Keys of interest
+   keys &lt;- c("foo", "bar", "wah")
+
+   # Read only those keys and do it fast
+   df &lt;- readTable(filename, rows=match(keys, index))
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the midpoints and limits for a centipede plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get.segs {plotrix}"><tr><td>get.segs {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the midpoints and limits for a centipede plot</h2>
+
+<h3>Description</h3>
+
+<p>Calculates midpoints and limits for a list or data frame for use with
+centipede.plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ get.segs(x,mct="mean",lower.limit="std.error",upper.limit=lower.limit)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a list or data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>mct</code></td>
+<td>
+<p>The name of the function to calculate midpoints.</p>
+</td></tr>
+<tr valign="top"><td><code>lower.limit,upper.limit</code></td>
+<td>
+<p>The names of the function(s) to calculate 
+lower and upper limits.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">get.segs</span> calls the functions whose names are passed to calculate
+midpoints and limits for each list element or data frame column. The
+user can define special functions for the central and dispersion measures
+if desired.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix with four rows and as many columns as were in the object
+<span class="samp">x</span>. The first row contains the midpoint values, the second and third
+the lower and upper limit values respectively and the fourth row the number
+of valid observations in the columns.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/centipede.plot.html">centipede.plot</a></p>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

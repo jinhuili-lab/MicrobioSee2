@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extend</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for extend {raster}"><tr><td>extend {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extend</h2>
+
+<h3>Description</h3>
+
+<p>Extend returns an Raster* object with a larger spatial extent. The output Raster object has the outer minimum and maximum coordinates of the input Raster and Extent arguments. Thus, all of the cells of the original raster are included. See <code><a href="../help/crop.html">crop</a></code> if you (also) want to remove rows or columns. 
+</p>
+<p>There is also an extend method for Extent objects to enlarge (or reduce) an Extent. You can also use algebraic notation to do that (see examples)
+</p>
+<p>This function has replaced function &quot;expand&quot; (to avoid a name conflict with the Matrix package).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+extend(x, y, value=NA, snap="near", filename='', ...) 
+
+## S4 method for signature 'Extent'
+extend(x, y, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster or Extent object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>If <code>x</code> is a Raster object, <code>y</code> should be an Extent object, or any object that is or has an Extent object, or an object from which it can be extracted (such as sp objects). Alternatively, you can provide a numeric vector of length 2 indicating the number of rows and columns that need to be added (or a single number when the number of rows and columns is equal)
+</p>
+<p>If <code>x</code> is an Extent object, <code>y</code> should be a numeric vector of 1, 2, or 4 elements</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>value to assign to new cells</p>
+</td></tr>  
+<tr valign="top"><td><code>snap</code></td>
+<td>
+<p>Character. One of &quot;near&quot;, &quot;in&quot;, or &quot;out&quot;, to determine in which direction the extent should be aligned. To the nearest border, inwards or outwards</p>
+</td></tr>  
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character (optional)</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick, or Extent
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Etienne B. Racine (Extent method)</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/crop.html">crop</a></code>, <code><a href="../help/merge.html">merge</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(xmn=-150, xmx=-120, ymx=60, ymn=30, ncol=36, nrow=18)
+values(r) &lt;- 1:ncell(r)
+e &lt;- extent(-180, 0, 0, 90)
+re &lt;- extend(r, e)
+
+# extend with a number of rows and columns (at each side)
+re2 &lt;- extend(r, c(2,10))
+
+# Extent object
+e &lt;- extent(r)
+e
+extend(e, 10)
+extend(e, 10, -10, 0, 20)
+e + 10
+e * 2
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

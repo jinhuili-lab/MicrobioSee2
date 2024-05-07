@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identifies all entries with replicated values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for isReplicated {R.utils}"><tr><td>isReplicated {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identifies all entries with replicated values</h2>
+
+<h3>Description</h3>
+
+<p>Identifies all entries with replicated values, that is, with values that exist more than once.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ isReplicated(x, ...)
+ replicates(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of length K.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/duplicated.html">duplicated</a></code>().</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Let <code>reps &lt;- isReplicated(x)</code>.  Then it always holds that:
+</p>
+
+<ul>
+<li> <p><code>reps == rev(isReplicated(rev(x)))</code>
+</p>
+</li>
+<li> <p><code>reps == duplicated(x) | duplicated(x, fromLast=TRUE)</code>
+</p>
+</li>
+<li> <p><code>reps == !is.element(x, setdiff(x, unique(x[duplicated(x)])))</code>
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length K,
+where <code><a href="../../base/help/logical.html">TRUE</a></code> indicates that the value exists elsewhere,
+otherwise not.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally <code><a href="../../base/help/duplicated.html">duplicated</a></code>() is used.
+See also <code><a href="../../R.utils/help/isSingle.html">isSingle</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+x &lt;- c(1,1,2,3,4,2,1)
+x &lt;- base::letters[x]
+print(x)
+
+# Identify entries with replicated values
+reps &lt;- isReplicated(x)
+print(x[reps])
+stopifnot(x[reps] == replicates(x))
+
+# Identify entries with unique values
+print(x[!reps])
+stopifnot(x[!reps] == singles(x))
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Validation
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+x &lt;- c(1,1,2,3,4,2,1)
+x &lt;- base::letters[x]
+reps &lt;- isReplicated(x)
+
+stopifnot(all(table(x[reps]) &gt; 1))
+stopifnot(all(table(x[!reps]) == 1))
+stopifnot(all(reps == rev(isReplicated(rev(x)))))
+stopifnot(all(reps == duplicated(x) | duplicated(x, fromLast=TRUE)))
+stopifnot(all(reps == !is.element(x, setdiff(x, unique(x[duplicated(x)])))))
+stopifnot(all(sort(c(singles(x), replicates(x))) == sort(x)))
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Benchmarking singles()
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+set.seed(0xBEEF)
+n &lt;- 1e6
+x &lt;- sample(1:(n/2), size=n, replace=TRUE)
+t &lt;- system.time({
+  s &lt;- isSingle(x)
+})
+print(sum(s))
+
+t0 &lt;- system.time({
+  s0 &lt;- !(x %in% x[duplicated(x)]);
+})
+print(t/t0)
+stopifnot(all(s == s0))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

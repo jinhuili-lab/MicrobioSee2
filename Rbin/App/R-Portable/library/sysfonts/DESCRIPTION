@@ -1,0 +1,24 @@
+Package: sysfonts
+Type: Package
+Title: Loading Fonts into R
+Version: 0.8.8
+Date: 2022-03-13
+Author: Yixuan Qiu and authors/contributors of the
+    included fonts. See file AUTHORS for details.
+Maintainer: Yixuan Qiu <yixuan.qiu@cos.name>
+Description: Loading system fonts and Google Fonts
+    <https://fonts.google.com/> into R, in order to
+    support other packages such as 'R2SWF' and 'showtext'.
+Suggests: curl, jsonlite
+Copyright: see file COPYRIGHTS
+SystemRequirements: zlib, libpng, FreeType
+URL: https://github.com/yixuan/sysfonts
+BugReports: https://github.com/yixuan/sysfonts/issues
+License: GPL-2
+RoxygenNote: 7.1.2
+NeedsCompilation: yes
+Packaged: 2022-03-13 12:44:14 UTC; qyx
+Repository: CRAN
+Date/Publication: 2022-03-13 13:40:02 UTC
+Built: R 4.1.3; x86_64-w64-mingw32; 2023-04-17 13:25:21 UTC; windows
+Archs: i386, x64

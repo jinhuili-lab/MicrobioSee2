@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identify comments that are shebangs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for is_shebang {styler}"><tr><td>is_shebang {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identify comments that are shebangs</h2>
+
+<h3>Description</h3>
+
+<p>Shebangs should be preserved and no space should be inserted between
+<code style="white-space: pre;">#</code> and <code>!</code>. A comment is a shebang if it is the first top-level token
+(identified with <code>pos_id</code>) and if it starts with <code style="white-space: pre;">#!</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+is_shebang(pd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+style_text("#!/usr/bin/env Rscript")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

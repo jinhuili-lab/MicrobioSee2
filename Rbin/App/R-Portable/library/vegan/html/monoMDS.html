@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Global and Local Non-metric Multidimensional Scaling and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for monoMDS {vegan}"><tr><td>monoMDS {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Global and Local Non-metric Multidimensional Scaling and
+Linear and Hybrid Scaling </h2>
+
+<h3>Description</h3>
+
+<p> Function implements Kruskal's (1964a,b) non-metric
+multidimensional scaling (NMDS) using monotone regression and
+primary (&ldquo;weak&rdquo;) treatment of ties. In addition to
+traditional global NMDS, the function implements local NMDS, linear
+and hybrid multidimensional scaling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+monoMDS(dist, y, k = 2, model = c("global", "local", "linear", "hybrid"),
+    threshold = 0.8, maxit = 200, weakties = TRUE, stress = 1,
+    scaling = TRUE, pc = TRUE, smin = 1e-4, sfgrmin = 1e-7,
+    sratmax=0.999999, ...)
+## S3 method for class 'monoMDS'
+scores(x, choices = NA, ...)
+## S3 method for class 'monoMDS'
+plot(x, choices = c(1,2), type = "t", ...)
+## S3 method for class 'monoMDS'
+points(x, choices = c(1,2), select, ...)
+## S3 method for class 'monoMDS'
+text(x, labels, choices = c(1,2), select, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dist</code></td>
+<td>
+<p>Input dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Starting configuration. A random configuration will be
+generated if this is missing.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>Number of dimensions. NB., the number of points <i>n</i>
+should be <i>n &gt; 2*k + 1</i>, and preferably higher in
+non-metric MDS.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>MDS model: <code>"global"</code> is normal non-metric MDS
+with a monotone regression, <code>"local"</code> is non-metric MDS with
+separate regressions for each point, <code>"linear"</code> uses linear
+regression, and <code>"hybrid"</code> uses linear regression for
+dissimilarities below a threshold in addition to monotone
+regression. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>Dissimilarity below which linear regression is
+used alternately with monotone regression. </p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>Maximum number of iterations.</p>
+</td></tr>
+<tr valign="top"><td><code>weakties</code></td>
+<td>
+<p>Use primary or weak tie treatment, where equal
+observed dissimilarities are allowed to have different fitted
+values. if <code>FALSE</code>, then secondary (strong) tie treatment is
+used, and tied values are not broken.</p>
+</td></tr>
+<tr valign="top"><td><code>stress</code></td>
+<td>
+<p>Use stress type 1 or 2 (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Scale final scores to unit root mean squares.</p>
+</td></tr>
+<tr valign="top"><td><code>pc</code></td>
+<td>
+<p>Rotate final scores to principal components.</p>
+</td></tr>
+<tr valign="top"><td><code>smin, sfgrmin, sratmax</code></td>
+<td>
+<p>Convergence criteria: iterations stop
+when stress drops below <code>smin</code>, scale factor of the gradient
+drops below <code>sfgrmin</code>, or stress ratio between two iterations
+goes over <code>sratmax</code> (but is still <i>&lt; 1</i>).</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>monoMDS</code> result.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Dimensions returned or plotted. The default <code>NA</code>
+returns all dimensions. </p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of the plot: <code>"t"</code> for text, <code>"p"</code>
+for points, and <code>"n"</code> for none.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Items to be displayed.  This can either be a logical
+vector which is <code>TRUE</code> for displayed items or a vector of
+indices of displayed items.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels to be use used instead of row names.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to the functions (ignored in
+<code>monoMDS</code>, passed to graphical functions in <code>plot</code>.).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> There are several versions of non-metric multidimensional
+scaling in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>, but <code>monoMDS</code> offers the following unique
+combination of features:
+</p>
+
+<ul>
+<li> <p>&ldquo;Weak&rdquo; treatment of ties (Kruskal 1964a,b), where tied
+dissimilarities can be broken in monotone regression. This is
+especially important for cases where compared sites share no species
+and dissimilarities are tied to their maximum value of one. Breaking
+ties allows these points to be at different distances and can help
+in recovering very long coenoclines (gradients).  Functions in the
+<a href="https://CRAN.R-project.org/package=smacof"><span class="pkg">smacof</span></a> package also hav adequate tie treatment.
+</p>
+</li>
+<li><p> Handles missing values in a meaningful way.
+</p>
+</li>
+<li><p> Offers &ldquo;local&rdquo; and &ldquo;hybrid&rdquo; scaling in
+addition to usual &ldquo;global&rdquo; NMDS (see below).
+</p>
+</li>
+<li><p> Uses fast compiled code (<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> of the
+<span class="pkg">MASS</span> package also uses compiled code).
+</p>
+</li></ul>
+
+<p>Function <code>monoMDS</code> uses Kruskal's (1964b) original monotone
+regression to minimize the stress. There are two alternatives of
+stress: Kruskal's (1964a,b) original or &ldquo;stress 1&rdquo; and an
+alternative version or &ldquo;stress 2&rdquo; (Sibson 1972). Both of
+these stresses can be expressed with a general formula
+</p>
+<p style="text-align: center;"><i>stress^2 = sum (d-dhat)^2/ sum (d-dnull)^2</i></p>
+
+<p>where <i>d</i> are distances among points in ordination configuration,
+<i>dhat</i> are the fitted ordination distances, and
+<i>dnull</i> are the ordination distances under null model.  For
+&ldquo;stress 1&rdquo; <i>dnull = 0</i>, and for &ldquo;stress 2&rdquo;
+<i>dnull = dbar</i> or mean distances. &ldquo;Stress 2&rdquo;
+can be expressed as <i>stress^2 = 1 - R2</i>,
+where<i>R2</i> is squared correlation between fitted values and
+ordination distances, and so related to the &ldquo;linear fit&rdquo; of
+<code><a href="../../vegan/help/stressplot.html">stressplot</a></code>.
+</p>
+<p>Function <code>monoMDS</code> can fit several alternative NMDS variants that
+can be selected with argument <code>model</code>.  The default <code>model =
+  "global"</code> fits global NMDS, or Kruskal's (1964a,b) original NMDS
+similar to <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> (<span class="pkg">MASS</span>).  Alternative
+<code>model = "local"</code> fits local NMDS where independent monotone
+regression is used for each point (Sibson 1972).  Alternative
+<code>model = "linear"</code> fits a linear MDS. This fits a linear
+regression instead of monotone, and is not identical to metric scaling
+or principal coordinates analysis (<code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>) that
+performs an eigenvector decomposition of dissimilarities (Gower
+1966). Alternative <code>model = "hybrid"</code> implements hybrid MDS that
+uses monotone regression for all points and linear regression for
+dissimilarities below or at a <code>threshold</code> dissimilarity in
+alternating steps (Faith et al. 1987). Function
+<code><a href="../../vegan/help/stressplot.html">stressplot</a></code> can be used to display the kind of regression
+in each <code>model</code>.
+</p>
+<p>Scaling, orientation and direction of the axes is arbitrary.
+However, the function always centres the axes, and the default
+<code>scaling</code> is to scale the configuration of unit root mean
+square and to rotate the axes (argument <code>pc</code>) to principal
+components so that the first dimension shows the major variation.
+It is possible to rotate the solution so that the first axis is
+parallel to a given environmental variable using function
+<code><a href="../../vegan/help/MDSrotate.html">MDSrotate</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p> Returns an object of class <code>"monoMDS"</code>. The final scores
+are returned in item <code>points</code> (function <code>scores</code> extracts
+these results), and the stress in item <code>stress</code>. In addition,
+there is a large number of other items (but these may change without
+notice in the future releases). </p>
+
+
+<h3>Convergence Criteria</h3>
+
+<p>NMDS is iterative, and the function stops when any of its
+convergence criteria is met. There is actually no criterion of
+assured convergence, and any solution can be a local optimum. You
+should compare several random starts (or use <code>monoMDS</code> via
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>) to assess if the solutions is likely a global
+optimum.
+</p>
+<p>The stopping criteria are:
+</p>
+
+<dl>
+<dt><code>maxit</code>:</dt><dd><p> Maximum number of iterations. Reaching this
+criterion means that solutions was almost certainly not found,
+and <code>maxit</code> should be increased.</p>
+</dd>
+<dt><code>smin</code>:</dt><dd><p> Minimum stress. If stress is nearly zero,
+the fit is almost perfect. Usually this means that data set is
+too small for the requested analysis, and there may be several
+different solutions that are almost as perfect. You should reduce
+the number of dimensions (<code>k</code>), get more data (more
+observations) or use some other method, such as metric scaling
+(<code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>, <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code>).</p>
+</dd>
+<dt><code>sratmax</code>:</dt><dd><p> Change in stress. Values close to one
+mean almost unchanged stress. This may mean a solution, but it
+can also signal stranding on suboptimal solution with flat stress
+surface.</p>
+</dd>
+<dt><code>sfgrmin</code>:</dt><dd><p> Minimum scale factor. Values close to
+zero mean almost unchanged configuration. This may mean a
+solution, but will also happen in local optima.</p>
+</dd>
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p> This is the default NMDS function used in
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>. Function <code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code> adds support
+functions so that NMDS can be run like recommended by Minchin
+(1987).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter R. Michin (Fortran core) and Jari Oksanen (R interface).
+</p>
+
+
+<h3>References</h3>
+
+<p>Faith, D.P., Minchin, P.R and Belbin, L. 1987. Compositional
+dissimilarity as a robust measure of ecological
+distance. <em>Vegetatio</em> 69, 57&ndash;68.
+</p>
+<p>Gower, J.C. (1966). Some distance properties of latent root and
+vector methods used in multivariate analysis. <em>Biometrika</em>
+53, 325&ndash;328.
+</p>
+<p>Kruskal, J.B. 1964a. Multidimensional scaling by optimizing
+goodness-of-fit to a nonmetric hypothesis. <em>Psychometrika</em>
+29, 1&ndash;28.
+</p>
+<p>Kruskal, J.B. 1964b. Nonmetric multidimensional scaling: a numerical
+method. <em>Psychometrika</em> 29, 115&ndash;129.
+</p>
+<p>Minchin, P.R. 1987. An evaluation of relative robustness of
+techniques for ecological ordinations. <em>Vegetatio</em> 69,
+89&ndash;107.
+</p>
+<p>Sibson, R. 1972. Order invariant methods for data
+analysis. <em>Journal of the Royal Statistical Society B</em> 34,
+311&ndash;349.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code> for the <span class="pkg">vegan</span> way of running NMDS,
+and <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> and <a href="https://CRAN.R-project.org/package=smacof"><span class="pkg">smacof</span></a> for some
+alternative implementations of NMDS. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+dis &lt;- vegdist(dune)
+m &lt;- monoMDS(dis, model = "loc")
+m
+plot(m)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

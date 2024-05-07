@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: color palettes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for intpalette {shape}"><tr><td>intpalette {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>color palettes</h2>
+
+<h3>Description</h3>
+
+<p>Returns color(s) that are a linear interpolation of a given set of colors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+intpalette(inputcol, numcol = length(x.to), x.from = NULL, x.to = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputcol </code></td>
+<td>
+<p>initial colors, *from* where to interpolate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>numcol </code></td>
+<td>
+<p>number of colors to interpolate *to*.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x.from </code></td>
+<td>
+<p>x-values *from* where to interpolate.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x.to </code></td>
+<td>
+<p>x-values where to interpolate *to*.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Return value is a vector of *colors* in hexadecimal format.
+</p>
+<p>This is different from <code><a href="../../grDevices/help/colorRamp.html">colorRamp</a></code>(R function),
+that returns a *function*
+</p>
+
+
+<h3>Value</h3>
+
+<p>a vector of character strings giving the interpolated colors in
+hexadecimal format
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shape/help/greycol.html">greycol</a></code>, <code><a href="../../shape/help/femmecol.html">femmecol</a></code>, <code><a href="../../shape/help/shadepalette.html">shadepalette</a></code>,
+<code><a href="../../grDevices/help/colorRamp.html">colorRamp</a></code> for comparable R function
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+intpalette(c("white", "black"), n = 10)
+grey(seq(1, 0, length.out = 10))
+image(matrix(nrow = 1,ncol = 100, data = 1:100),
+      col = intpalette(c("red", "blue"), numcol = 100),
+      main = "intpalette")
+image(matrix(nrow = 1, ncol = 100, data = 1:100),
+      col = intpalette(c("red", "blue", "yellow"), numcol = 100),
+      main = "intpalette")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

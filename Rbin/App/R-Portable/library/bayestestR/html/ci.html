@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Confidence/Credible/Compatibility Interval (CI)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ci {bayestestR}"><tr><td>ci {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Confidence/Credible/Compatibility Interval (CI)</h2>
+
+<h3>Description</h3>
+
+<p>Compute Confidence/Credible/Compatibility Intervals (CI) or Support Intervals
+(SI) for Bayesian and frequentist models. The Documentation is accessible
+for:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ci(x, ...)
+
+## S3 method for class 'numeric'
+ci(x, ci = 0.95, method = "ETI", verbose = TRUE, BF = 1, ...)
+
+## S3 method for class 'data.frame'
+ci(x, ci = 0.95, method = "ETI", verbose = TRUE, BF = 1, ...)
+
+## S3 method for class 'sim.merMod'
+ci(
+  x,
+  ci = 0.95,
+  method = "ETI",
+  effects = c("fixed", "random", "all"),
+  parameters = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'sim'
+ci(x, ci = 0.95, method = "ETI", parameters = NULL, verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+ci(
+  x,
+  ci = 0.95,
+  method = "ETI",
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  verbose = TRUE,
+  BF = 1,
+  ...
+)
+
+## S3 method for class 'brmsfit'
+ci(
+  x,
+  ci = 0.95,
+  method = "ETI",
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL,
+  verbose = TRUE,
+  BF = 1,
+  ...
+)
+
+## S3 method for class 'BFBayesFactor'
+ci(x, ci = 0.95, method = "ETI", verbose = TRUE, BF = 1, ...)
+
+## S3 method for class 'MCMCglmm'
+ci(x, ci = 0.95, method = "ETI", verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code>stanreg</code> or <code>brmsfit</code> model, or a vector representing a posterior
+distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Can be <a href="../../bayestestR/help/eti.html">&quot;ETI&quot;</a> (default), <a href="../../bayestestR/help/hdi.html">&quot;HDI&quot;</a>, <a href="../../bayestestR/help/bci.html">&quot;BCI&quot;</a>,
+<a href="../../bayestestR/help/spi.html">&quot;SPI&quot;</a> or <a href="../../bayestestR/help/si.html">&quot;SI&quot;</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>BF</code></td>
+<td>
+<p>The amount of support required to be included in the support interval.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li> <p><a href="https://easystats.github.io/bayestestR/articles/credible_interval.html">Bayesian models</a>
+</p>
+</li>
+<li> <p><a href="https://easystats.github.io/parameters/reference/ci.default.html">Frequentist models</a>
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame with following columns:
+</p>
+
+<ul>
+<li> <p><code>Parameter</code> The model parameter(s), if <code>x</code> is a model-object. If <code>x</code> is a
+vector, this column is missing.
+</p>
+</li>
+<li> <p><code>CI</code> The probability of the credible interval.
+</p>
+</li>
+<li> <p><code>CI_low</code>, <code>CI_high</code> The lower and upper credible interval limits for the parameters.
+</p>
+</li></ul>
+
+
+
+<h3>Note</h3>
+
+<p>When it comes to interpretation, we recommend thinking of the CI in terms of
+an &quot;uncertainty&quot; or &quot;compatibility&quot; interval, the latter being defined as
+&quot;Given any value in the interval and the background assumptions,
+the data should not seem very surprising&quot; (<em>Gelman &amp; Greenland 2019</em>).
+</p>
+<p>There is also a <a href="https://easystats.github.io/see/articles/bayestestR.html"><code>plot()</code>-method</a> implemented in the <a href="https://easystats.github.io/see/"><span class="pkg">see</span>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gelman A, Greenland S. Are confidence intervals better termed &quot;uncertainty
+intervals&quot;? BMJ 2019;l5381. 10.1136/bmj.l5381
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other ci: 
+<code><a href="../../bayestestR/help/bci.html">bci</a>()</code>,
+<code><a href="../../bayestestR/help/cwi.html">cwi</a>()</code>,
+<code><a href="../../bayestestR/help/eti.html">eti</a>()</code>,
+<code><a href="../../bayestestR/help/hdi.html">hdi</a>()</code>,
+<code><a href="../../bayestestR/help/si.html">si</a>()</code>,
+<code><a href="../../bayestestR/help/spi.html">spi</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+
+posterior &lt;- rnorm(1000)
+ci(posterior, method = "ETI")
+ci(posterior, method = "HDI")
+
+df &lt;- data.frame(replicate(4, rnorm(100)))
+ci(df, method = "ETI", ci = c(0.80, 0.89, 0.95))
+ci(df, method = "HDI", ci = c(0.80, 0.89, 0.95))
+
+model &lt;- suppressWarnings(
+  stan_glm(mpg ~ wt, data = mtcars, chains = 2, iter = 200, refresh = 0)
+)
+ci(model, method = "ETI", ci = c(0.80, 0.89))
+ci(model, method = "HDI", ci = c(0.80, 0.89))
+
+
+bf &lt;- ttestBF(x = rnorm(100, 1, 1))
+ci(bf, method = "ETI")
+ci(bf, method = "HDI")
+
+
+model &lt;- emtrends(model, ~1, "wt", data = mtcars)
+ci(model, method = "ETI")
+ci(model, method = "HDI")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

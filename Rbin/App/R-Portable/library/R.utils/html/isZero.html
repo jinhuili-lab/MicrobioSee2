@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checks if a value is (close to) zero or not</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for isZero {R.utils}"><tr><td>isZero {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checks if a value is (close to) zero or not</h2>
+
+<h3>Description</h3>
+
+<p>Checks if a value (or a vector of values) is (close to) zero or not
+where &quot;close&quot; means if the absolute value is less than <code>neps*eps</code>.
+<em>Note that <code>x == 0</code> will not work in all cases.</em>
+</p>
+<p>By default <code>eps</code> is the smallest possible floating point value
+that can be represented by the running machine, i.e.
+<code>.Machine$double.eps</code> and <code>neps</code> is one.
+By changing <code>neps</code> it is easy to adjust how close to zero &quot;close&quot;
+means without having to know the machine precision (or remembering how
+to get it).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+isZero(x, neps=1, eps=.Machine$double.eps, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of values.</p>
+</td></tr>
+<tr valign="top"><td><code>eps</code></td>
+<td>
+<p>The smallest possible floating point.</p>
+</td></tr>
+<tr valign="top"><td><code>neps</code></td>
+<td>
+<p>A scale factor of <code>eps</code> specifying how close to zero
+&quot;close&quot; means. If <code>eps</code> is the smallest value such that
+<code>1 + eps != 1</code>, i.e. <code>.Machine$double.eps</code>, <code>neps</code> must
+be greater or equal to one.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/logical.html">logical</a></code> <code><a href="../../base/help/vector.html">vector</a></code> indicating if the elements are zero or not.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/all.equal.html">all.equal</a></code>().
+<code><a href="../../base/help/Comparison.html">Comparison</a></code>.
+<code><a href="../../base/help/zMachine.html">.Machine</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 0
+print(x == 0)      # TRUE
+print(isZero(x))   # TRUE
+
+x &lt;- 1
+print(x == 0)      # FALSE
+print(isZero(x))   # FALSE
+
+x &lt;- .Machine$double.eps
+print(x == 0)      # FALSE
+print(isZero(x))   # FALSE
+
+x &lt;- 0.9*.Machine$double.eps
+print(x == 0)      # FALSE
+print(isZero(x))   # TRUE
+
+# From help(Comparisions)
+x1 &lt;- 0.5 - 0.3
+x2 &lt;- 0.3 - 0.1
+print(x1 - x2)
+print(x1 == x2)                           # FALSE on most machines
+print(identical(all.equal(x1, x2), TRUE)) # TRUE everywhere
+print(isZero(x1-x2))                      # TRUE everywhere
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

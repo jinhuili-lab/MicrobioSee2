@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Complete enumeration of all possible permutations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for allPerms {permute}"><tr><td>allPerms {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Complete enumeration of all possible permutations</h2>
+
+<h3>Description</h3>
+
+<p><code>allPerms</code> is a utility function to return the set of
+permutations for a given R object and a specified permutation design.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+allPerms(n, control = how(), check = TRUE)
+
+## S3 method for class 'allPerms'
+summary(object, ...)
+
+## S3 method for class 'allPerms'
+as.matrix(x, ...)
+
+as.allPerms(object, control)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>the number of observations or an 'object' from which the
+number of observations can be determined via <code>getNumObs</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values describing properties of the
+permutation design, as returned by a call to
+<code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>check</code></td>
+<td>
+<p>logical; should <code>allPerms</code> check the design? The
+default is to check, but this can be skipped, for example if a
+function checked the design earlier.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>for <code>summary.allPerms</code>, an object of class
+<code>"allPerms"</code>. For <code>as.allPerms</code> a matrix or something that
+can be coerced to a matrix by <code><a href="../../base/html/matrix.html">as.matrix</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments to other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>an object of class <code>"allPerms"</code>, as returned by <code>allPerms</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>allPerms</code> enumerates all possible permutations for the 
+number of observations and the selected permutation scheme. It has
+<code><a href="../../base/html/print.html">print</a></code> and <code><a href="../../base/html/summary.html">summary</a></code> methods. <code>allPerms</code>
+returns a matrix containing all possible permutations, possibly
+containing the observed ordering (if argument <code>observed</code> is
+<code>TRUE</code>). The rows of this matrix are the various permutations and
+the columns reflect the number of samples.
+</p>
+<p>With free permutation designs, and restricted permutation schemes with
+large numbers of observations, there are a potentially huge number of
+possible permutations of the samples. It would be inefficient, not to
+mention incredibly time consuming, to enumerate them all. Storing all
+possible permutations would also become problematic in such cases. To
+control this and guard against trying to evaluate too large a number
+of permutations, if the number of possible permutations is larger than
+<code>getMaxperm(control)</code>, <code>allPerms</code> exits with an error.
+</p>
+<p>The <code>as.matrix</code> method sets the <code>control</code> and <code>seed</code>
+attributes to <code>NULL</code> and removes the <code>"permutationMatrix"</code>
+class, resulting in a standard matrix object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>For <code>allPerms</code>, and object of class <code>"allPerms"</code>, a matrix
+whose rows are the set of all possible permutations for the supplies
+number of observations and permutation scheme selected. The matrix has
+two additional attributes <code>control</code> and
+<code>observed</code>. Attribute <code>control</code> contains the argument
+<code>control</code> (possibly updated via <code>check</code>). Attribute 
+<code>observed</code> contains argument <code>observed</code>.
+</p>
+
+
+<h3>Warning</h3>
+
+<p>If permuting the strata themselves, a balanced design is required (the
+same number of observations in each level of <code>strata</code>. This is
+common to all functions in the package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## allPerms can work with a vector
+vec &lt;- c(3,4,5)
+allPerms(vec) ## free permutation
+
+## enumerate all possible permutations for a more complicated
+## design
+fac &lt;- gl(2,6)
+ctrl &lt;- how(within = Within(type = "grid", mirror = FALSE,
+                            constant = TRUE, nrow = 3, ncol = 2),
+            plots = Plots(strata = fac))
+Nobs &lt;- length(fac)
+numPerms(seq_len(Nobs), control = ctrl) ## 6
+(tmp &lt;- allPerms(Nobs, control = update(ctrl, observed = TRUE)))
+(tmp2 &lt;- allPerms(Nobs, control = ctrl))
+
+## turn on mirroring
+##ctrl$within$mirror &lt;- TRUE
+ctrl &lt;- update(ctrl, within = update(getWithin(ctrl), mirror = TRUE))
+numPerms(seq_len(Nobs), control = ctrl)
+(tmp3 &lt;- allPerms(Nobs, control = update(ctrl, observed = TRUE)))
+(tmp4 &lt;- allPerms(Nobs, control = ctrl))
+
+## prints out details of the permutation scheme as
+## well as the matrix of permutations
+summary(tmp3)
+summary(tmp4)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get the data that was used to fit the model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_data {insight}"><tr><td>get_data {insight}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get the data that was used to fit the model</h2>
+
+<h3>Description</h3>
+
+<p>This functions tries to get the data that was used to fit the
+model and returns it as data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_data(x, ...)
+
+## Default S3 method:
+get_data(x, source = "environment", verbose = TRUE, ...)
+
+## S3 method for class 'glmmTMB'
+get_data(
+  x,
+  effects = "all",
+  component = "all",
+  source = "environment",
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'afex_aov'
+get_data(x, shape = c("long", "wide"), ...)
+
+## S3 method for class 'rma'
+get_data(
+  x,
+  source = "environment",
+  verbose = TRUE,
+  include_interval = FALSE,
+  transf = NULL,
+  transf_args = NULL,
+  ci = 0.95,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A fitted model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>source</code></td>
+<td>
+<p>String, indicating from where data should be recovered. If
+<code>source = "environment"</code> (default), data is recovered from the environment
+(e.g. if the data is in the workspace). This option is usually the fastest
+way of getting data and ensures that the original variables used for model
+fitting are returned. Note that always the <em>current</em> data is recovered from
+the environment. Hence, if the data was modified <em>after</em> model fitting
+(e.g., variables were recoded or rows filtered), the returned data may no
+longer equal the model data. If <code>source = "frame"</code> (or <code>"mf"</code>), the data
+is taken from the model frame. Any transformed variables are back-transformed,
+if possible. This option returns the data even if it is not available in
+the environment, however, in certain edge cases back-transforming to the
+original data may fail. If <code>source = "environment"</code> fails to recover the
+data, it tries to extract the data from the model frame; if
+<code>source = "frame"</code> and data cannot be extracted from the model frame, data
+will be recovered from the environment. Both ways only returns observations
+that have no missing data in the variables used for model fitting.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle messages and warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should model data for fixed effects (<code>"fixed"</code>), random
+effects (<code>"random"</code>) or both (<code>"all"</code>) be returned? Only applies to mixed
+or gee models.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should all predictor variables, predictor variables for the
+conditional model, the zero-inflated part of the model, the dispersion
+term or the instrumental variables be returned? Applies to models
+with zero-inflated and/or dispersion formula, or to models with instrumental
+variable (so called fixed-effects regressions). May be abbreviated. Note that the
+<em>conditional</em> component is also called <em>count</em> or <em>mean</em>
+component, depending on the model.</p>
+</td></tr>
+<tr valign="top"><td><code>shape</code></td>
+<td>
+<p>Return long or wide data? Only applicable in repeated measures
+designs.</p>
+</td></tr>
+<tr valign="top"><td><code>include_interval</code></td>
+<td>
+<p>For meta-analysis models, should normal-approximation
+confidence intervals be added for each response effect size?</p>
+</td></tr>
+<tr valign="top"><td><code>transf</code></td>
+<td>
+<p>For meta-analysis models, if intervals are included, a function
+applied to each response effect size and its interval.</p>
+</td></tr>
+<tr valign="top"><td><code>transf_args</code></td>
+<td>
+<p>For meta-analysis models, an optional list of arguments
+passed to the <code>transf</code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>For meta-analysis models, the Confidence Interval (CI) level if
+<code>include_interval = TRUE</code>. Default to 0.95 (95%).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The data that was used to fit the model.
+</p>
+
+
+<h3>Model components</h3>
+
+<p>Possible values for the <code>component</code> argument depend on the model class.
+Following are valid options:
+</p>
+
+<ul>
+<li> <p><code>"all"</code>: returns all model components, applies to all models, but will only
+have an effect for models with more than just the conditional model component.
+</p>
+</li>
+<li> <p><code>"conditional"</code>: only returns the conditional component, i.e. &quot;fixed effects&quot;
+terms from the model. Will only have an effect for models with more than
+just the conditional model component.
+</p>
+</li>
+<li> <p><code>"smooth_terms"</code>: returns smooth terms, only applies to GAMs (or similar
+models that may contain smooth terms).
+</p>
+</li>
+<li> <p><code>"zero_inflated"</code> (or <code>"zi"</code>): returns the zero-inflation component.
+</p>
+</li>
+<li> <p><code>"dispersion"</code>: returns the dispersion model component. This is common
+for models with zero-inflation or that can model the dispersion parameter.
+</p>
+</li>
+<li> <p><code>"instruments"</code>: for instrumental-variable or some fixed effects regression,
+returns the instruments.
+</p>
+</li>
+<li> <p><code>"location"</code>: returns location parameters such as <code>conditional</code>,
+<code>zero_inflated</code>, <code>smooth_terms</code>, or <code>instruments</code> (everything that are
+fixed or random effects - depending on the <code>effects</code> argument - but no
+auxiliary parameters).
+</p>
+</li>
+<li> <p><code>"distributional"</code> (or <code>"auxiliary"</code>): components like <code>sigma</code>, <code>dispersion</code>,
+<code>beta</code> or <code>precision</code> (and other auxiliary parameters) are returned.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(cbpp, package = "lme4")
+cbpp$trials &lt;- cbpp$size - cbpp$incidence
+m &lt;- glm(cbind(incidence, trials) ~ period, data = cbpp, family = binomial)
+head(get_data(m))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>insight</em> version 0.19.10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

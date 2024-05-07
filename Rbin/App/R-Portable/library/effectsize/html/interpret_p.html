@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret _p_-Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_p {effectsize}"><tr><td>interpret_p {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret <em>p</em>-Values</h2>
+
+<h3>Description</h3>
+
+<p>Interpret <em>p</em>-Values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_p(p, rules = "default")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>p</code></td>
+<td>
+<p>Value or vector of p-values.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"default"</code>, <code>"rss"</code> (for <em>Redefine statistical
+significance</em> rules) or custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Default
+</p>
+
+<ul>
+<li> <p><strong>p &gt;= 0.05</strong> - Not significant
+</p>
+</li>
+<li> <p><strong>p &lt; 0.05</strong> - Significant
+</p>
+</li></ul>
+
+</li>
+<li><p> Benjamin et al. (2018) (<code>"rss"</code>)
+</p>
+
+<ul>
+<li> <p><strong>p &gt;= 0.05</strong> - Not significant
+</p>
+</li>
+<li> <p><strong>0.005 &lt;= p &lt; 0.05</strong> - Suggestive
+</p>
+</li>
+<li> <p><strong>p &lt; 0.005</strong> - Significant
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Benjamin, D. J., Berger, J. O., Johannesson, M., Nosek, B. A., Wagenmakers, E. J., Berk, R., ... &amp; Cesarini, D. (2018). Redefine statistical significance. Nature Human Behaviour, 2(1), 6-10.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_p(c(.5, .02, 0.001))
+interpret_p(c(.5, .02, 0.001), rules = "rss")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

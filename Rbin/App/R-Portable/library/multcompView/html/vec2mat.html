@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert a vector with hyphenated names into a matrix.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vec2mat {multcompView}"><tr><td>vec2mat {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert a vector with hyphenated names into a matrix.</h2>
+
+<h3>Description</h3>
+
+<p>Convert a vector with hypehnated names into a symmetric matrix with names
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+vec2mat(x, sep = "-")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Either (1) a vector with hyphenated names indicating pairs of
+factor levels, groups or items that are and are not significantly different
+or (2) a matrix indicating same.  If x is already a matrix, it is checked
+for symmetry.  NAs are not allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>&quot;strsplit&quot; character to apply to names(x).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>x must have names each of which contains exactly one hyphen; if not, vec2mat
+issues an error message.  If the same comparison is present multiple times,
+the last value is used; no check is made for duplicates.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A symmetric matrix of the same class as the input with names
+obtained from unique(strsplit(names(x))).  All nonspecified elements will be
+1 if class(x) is numeric, FALSE if logical and &quot;&quot; if character.  Used by the
+functions 'multcompLetters' and 'multcompTs'.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code> <code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+dif3 &lt;- c(FALSE, FALSE, TRUE)
+names(dif3) &lt;- c("a-b", "a-c", "b-c")
+vec2mat(dif3)
+
+dif3. &lt;- 1:3
+names(dif3.) &lt;- c("a-b", "a-c", "b-c")
+vec2mat(dif3.)
+
+dif.ch &lt;- c("this",'is','it')
+names(dif.ch) &lt;- c("a-b", "a-c", "b-c")
+vec2mat(dif.ch)
+
+vec2mat(array(1, dim=c(2,2)))
+ 
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

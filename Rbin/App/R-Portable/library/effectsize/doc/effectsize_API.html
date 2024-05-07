@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Support Functions for Model Extensions</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Support Functions for Model Extensions</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#supporting-anova-effect-sizes" id="toc-supporting-anova-effect-sizes">Supporting ANOVA Effect Sizes</a>
+<ul>
+<li><a href="#simple-anova-tables" id="toc-simple-anova-tables">Simple
+ANOVA tables</a></li>
+<li><a href="#anova-tables-with-multiple-error-strata" id="toc-anova-tables-with-multiple-error-strata">ANOVA Tables with
+Multiple Error Strata</a></li>
+<li><a href="#approximate-effect-sizes" id="toc-approximate-effect-sizes">Approximate Effect sizes</a></li>
+<li><a href="#example" id="toc-example"><em>Example</em></a></li>
+</ul></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span></code></pre></div>
+<div id="supporting-anova-effect-sizes" class="section level2">
+<h2>Supporting ANOVA Effect Sizes</h2>
+<p>To add support for you model, create a new <code>.anova_es()</code>
+method function. This functions should generally do 3 things:</p>
+<ol style="list-style-type: decimal">
+<li>Build a data frame with all the required information.</li>
+<li>Pass the data frame to one of the 3 functions.</li>
+<li>Set some attributes to the output.</li>
+</ol>
+<div id="simple-anova-tables" class="section level3">
+<h3>Simple ANOVA tables</h3>
+<p>The input data frame must have these columns: -
+<code>Parameter</code> (char) - The name of the parameter or, more
+often, the term. - <code>Sum_Squares</code> (num) - The sum of squares.
+- <code>df</code> (num) - The degrees of freedom associated with the
+<code>Sum_Squares</code>. - <code>Mean_Square_residuals</code> (num;
+<em>optional</em>) - if <em>not</em> present, is calculated as
+<code>Sum_Squares / df</code>. (Any other column is ignored.)</p>
+<p>And exactly <em>1</em> row Where <code>Parameter</code> is
+<code>Residual</code>.</p>
+<p>Optionally, one of the rows can have a <code>(Intercept)</code> value
+for <code>Parameter</code>.</p>
+<p>An example of a minimally valid data frame:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>min_aov <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;Residuals&quot;</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="at">Sum_Squares =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">10</span>, <span class="dv">100</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="at">df =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">50</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>)</span></code></pre></div>
+<p>Pass the data frame to <code>.es_aov_simple()</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">.es_aov_simple</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  min_aov,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;eta&quot;</span>, <span class="at">partial =</span> <span class="cn">TRUE</span>, <span class="at">generalized =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">include_intercept =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">ci =</span> <span class="fl">0.95</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&gt;   Parameter Eta2_partial   CI CI_low CI_high
+&gt; 1         A        0.286 0.95   0.12       1
+&gt; 2         B        0.091 0.95   0.00       1</code></pre>
+<p>The output is a data frame with the columns: <code>Parameter</code>,
+the effect size, and (optionally) <code>CI</code> + <code>CI_low</code>
++ <code>CI_high</code>,</p>
+<p>And with the following attributes: <code>generalized</code>,
+<code>ci</code>, <code>alternative</code>, <code>anova_type</code>
+(<code>NA</code> or <code>NULL</code>), <code>approximate</code>.</p>
+<p>You can then set the <code>anova_type</code> attribute to {1, 2, 3,
+or <code>NA</code>} and return the output.</p>
+</div>
+<div id="anova-tables-with-multiple-error-strata" class="section level3">
+<h3>ANOVA Tables with Multiple Error Strata</h3>
+<p>(e.g., <code>aovlist</code> models.)</p>
+<p>The input data frame must have these columns:</p>
+<ul>
+<li><code>Group</code> (char) - The strata</li>
+<li><code>Parameter</code> (char)</li>
+<li><code>Sum_Squares</code> (num)</li>
+<li><code>df</code> (num)</li>
+<li><code>Mean_Square_residuals</code> (num; <em>optional</em>)</li>
+</ul>
+<p>And exactly <em>1</em> row <strong><em>per
+<code>Group</code></em></strong> Where <code>Parameter</code> is
+<code>Residual</code>.</p>
+<p>Optionally, one of the rows can have a <code>(Intercept)</code> value
+for <code>Parameter</code>.</p>
+<p>An example of a minimally valid data frame:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>min_aovlist <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="at">Group =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>, <span class="st">&quot;S&quot;</span>, <span class="st">&quot;S:A&quot;</span>, <span class="st">&quot;S:A&quot;</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;Residuals&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;Residuals&quot;</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="at">Sum_Squares =</span> <span class="fu">c</span>(<span class="dv">34</span>, <span class="dv">21</span>, <span class="dv">34</span>, <span class="dv">400</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="at">df =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">12</span>, <span class="dv">4</span>, <span class="dv">30</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>)</span></code></pre></div>
+<p>Pass the data frame to <code>.es_aov_strata()</code>, along with a
+list of predictors (including the stratifying variables) to the
+<code>DV_names</code> argument:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">.es_aov_strata</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  min_aovlist,</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">DV_names =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>, <span class="st">&quot;A&quot;</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;omega&quot;</span>, <span class="at">partial =</span> <span class="cn">TRUE</span>, <span class="at">generalized =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">ci =</span> <span class="fl">0.95</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">include_intercept =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&gt;   Group   Parameter Omega2_partial   CI CI_low CI_high
+&gt; 1     S (Intercept)           0.57 0.95   0.21       1
+&gt; 2   S:A           A           0.00 0.95   0.00       1</code></pre>
+<p>The output is a data frame with the columns: <code>Group</code>,
+<code>Parameter</code>, the effect size, and (optionally)
+<code>CI</code> + <code>CI_low</code> + <code>CI_high</code>,</p>
+<p>And with the following attributes: <code>generalized</code>,
+<code>ci</code>, <code>alternative</code>, <code>approximate</code>.</p>
+<p>You can then set the <code>anova_type</code> attribute to {1, 2, 3,
+or <code>NA</code>} and return the output.</p>
+</div>
+<div id="approximate-effect-sizes" class="section level3">
+<h3>Approximate Effect sizes</h3>
+<p>When <em>sums of squares</em> cannot be extracted, we can still get
+<em>approximate</em> effect sizes based on the <code>F_to_eta2()</code>
+family of functions.</p>
+<p>The input data frame must have these columns:</p>
+<ul>
+<li><code>Parameter</code> (char)</li>
+<li><code>F</code> (num) - The <em>F</em> test statistic.</li>
+<li><code>df</code> (num) - effect degrees of freedom.</li>
+<li>(Can also have a <code>t</code> col instead, in which case
+<code>df</code> is set to 1, and <code>F</code> is
+<code>t^2</code>).</li>
+<li><code>df_error</code> (num) - error degrees of freedom.</li>
+</ul>
+<p>Optionally, one of the rows can have <code>(Intercept)</code> as the
+<code>Parameter</code>.</p>
+<p>An example of a minimally valid data frame:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>min_anova <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="at">Parameter =</span> <span class="fu">c</span>(<span class="st">&quot;(Intercept)&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="at">F =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">7</span>, <span class="fl">0.7</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="at">df =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="at">df_error =</span> <span class="dv">34</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>)</span></code></pre></div>
+<p>Pass the table to <code>.es_aov_table()</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">.es_aov_table</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  min_anova,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;eta&quot;</span>, <span class="at">partial =</span> <span class="cn">TRUE</span>, <span class="at">generalized =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">include_intercept =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">ci =</span> <span class="fl">0.95</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&gt;   Parameter Eta2_partial   CI CI_low CI_high
+&gt; 1         A         0.17 0.95  0.023       1
+&gt; 2         B         0.04 0.95  0.000       1</code></pre>
+<p>The output is a data frame with the columns: <code>Parameter</code>,
+the effect size, and (optionally) <code>CI</code> + <code>CI_low</code>
++ <code>CI_high</code>,</p>
+<p>And with the following attributes: <code>generalized</code>,
+<code>ci</code>, <code>alternative</code>, <code>approximate</code>.</p>
+<p>You can then set the <code>anova_type</code> attribute to {1, 2, 3,
+or <code>NA</code>} and return the output, and optionally the
+<code>approximate</code> attribute, and return the output.</p>
+</div>
+<div id="example" class="section level3">
+<h3><em>Example</em></h3>
+<p>Let’s fit a simple linear model and change its class:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(mpg <span class="sc">~</span> <span class="fu">factor</span>(cyl) <span class="sc">+</span> am, mtcars)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">class</span>(mod) <span class="ot">&lt;-</span> <span class="st">&quot;superMODEL&quot;</span></span></code></pre></div>
+<p>We now need a new <code>.anova_es.superMODEL</code> function:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>.anova_es.superMODEL <span class="ot">&lt;-</span> <span class="cf">function</span>(model, ...) {</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="co"># Get ANOVA table</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  anov <span class="ot">&lt;-</span> <span class="fu">suppressWarnings</span>(stats<span class="sc">:::</span><span class="fu">anova.lm</span>(model))</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  anov <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(anov)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="co"># Clean up</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  anov[[<span class="st">&quot;Parameter&quot;</span>]] <span class="ot">&lt;-</span> <span class="fu">rownames</span>(anov)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">colnames</span>(anov)[<span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Sum_Squares&quot;</span>, <span class="st">&quot;df&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="co"># Pass</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">.es_aov_simple</span>(anov, ...)</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>  <span class="co"># Set attribute</span></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>  <span class="fu">attr</span>(out, <span class="st">&quot;anova_type&quot;</span>) <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>  out</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>}</span></code></pre></div>
+<p>And… that’s it! Our new <code>superMODEL</code> class of models is
+fully supported!</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">eta_squared</span>(mod)</span></code></pre></div>
+<pre><code>&gt; # Effect Size for ANOVA (Type I)
+&gt; 
+&gt; Parameter   | η² (partial) |       95% CI
+&gt; -----------------------------------------
+&gt; factor(cyl) |         0.76 | [0.61, 1.00]
+&gt; am          |         0.12 | [0.00, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">eta_squared</span>(mod, <span class="at">partial =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; # Effect Size for ANOVA (Type I)
+&gt; 
+&gt; Parameter   |   η² |       95% CI
+&gt; ---------------------------------
+&gt; factor(cyl) | 0.73 | [0.57, 1.00]
+&gt; am          | 0.03 | [0.00, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">omega_squared</span>(mod)</span></code></pre></div>
+<pre><code>&gt; # Effect Size for ANOVA (Type I)
+&gt; 
+&gt; Parameter   | ω² (partial) |       95% CI
+&gt; -----------------------------------------
+&gt; factor(cyl) |         0.73 | [0.56, 1.00]
+&gt; am          |         0.08 | [0.00, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="co"># Etc...</span></span></code></pre></div>
+<!-- ## Supporting Model Re-Fitting with Standardized Data -->
+<!-- `effectsize::standardize.default()` should support your model if you have methods for: -->
+<!-- 1. `{insight}` functions. -->
+<!-- 2. An `update()` method that can take the model and a data frame via the `data = ` argument. -->
+<!-- Or you can make your own `standardize.my_class()` function, DIY-style (possibly using `datawizard::standardize.data.frame()` or `datawizard::standardize.numeric()`). This function should return a fiffed model of the same class as the input model. -->
+<!-- ## Supporting Standardized Parameters -->
+<!-- `standardize_parameters.default()` offers a few methods of parameter standardization: -->
+<!-- - For `method = "refit"` all you need is to have `effectsize::standardize()` support (see above) as well as `parameters::model_parameters()`.   -->
+<!-- - ***API for post-hoc methods coming soon...***   -->
+<!-- `standardize_parameters.default()` should support your model if it is already supported by `{parameters}` and `{insight}`. -->
+<!-- - For `method = "refit"`, to have `effectsize::standardize()` support (see above). -->
+<!-- - For the post-hoc methods, you will need to have a method for `standardize_info()` (or use the default method). See next section. -->
+<!-- Or you can make your own `standardize_parameters.my_class()` and/or `standardize_info.my_class()` functions. -->
+<!-- ## Extracting Post-Hoc Standardization Information (`standardize_info`) -->
+<!-- The `standardize_info()` function computes the standardized units needed for standardization; In order to standardize some slope $b_{xi}$, we need to multiply it by a scaling factor: -->
+<!-- $$b^*_{xi} = \frac{\text{Deviation}_{xi}}{\text{Deviation}_{y}}\times b_{xi}$$ -->
+<!-- These "deviations" are univariate scaling factors of the response and the specific parameter (usin its corresponding feature in the design matrix). Most often these are a single standard deviation (*SD*), but depending on the `robust` and `two_sd` arguments, these can be also be two *MAD*s, etc. -->
+<!-- Let's look at an example: -->
+<!-- ```{r} -->
+<!-- m <- lm(mpg ~ factor(cyl) * am, data = mtcars) -->
+<!-- standardize_info(m) -->
+<!-- ``` -->
+<!-- - The first 4 columns (`Parameter`, `Type`, `Link`, `Secondary_Parameter`) are taken from `parameters::parameters_type()`.   -->
+<!-- - The `EffectSize_Type` column is not used here, but is used in the the `{report}` package.   -->
+<!-- - `Deviation_Response_Basic` and `Deviation_Response_Smart` correspond to the $\text{Deviation}_{y}$ scalar using two different methods of post-hoc standardization (see `standardize_parameters()` docs for more details).   -->
+<!--     - Note then when the response is not standardized (either due to `standardize_parameters(include_response = FALSE)` or because the model uses a non-continuous response), both methods are fixed at **1** (i.e., no standardization with respect to the outcome).   -->
+<!-- - `Deviation_Basic` and `Deviation_Smart` correspond to the $\text{Deviation}_{xi}$ scaler using two different methods of post-hoc standardization. -->
+<!-- This information is then used by the `standardize_parameters()` to standardize the parameters. -->
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

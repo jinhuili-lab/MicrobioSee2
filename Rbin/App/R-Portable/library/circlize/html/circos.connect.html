@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw connecting lines/ribons between two sets of points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.connect {circlize}"><tr><td>circos.connect {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw connecting lines/ribons between two sets of points
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw connecting lines/ribons between two sets of points
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.connect(x0, y0, x1, y1,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    type = c("normal", "segments", "bezier"),
+    segments.ratio = c(1, 1, 1),
+    col = par("col"),
+    border = "black",
+    lwd = par("lwd"),
+    lty = par("lty"),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x0</code></td>
+<td>
+<p>x coordinates for point set 1. The value can also be a two-column matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>y0</code></td>
+<td>
+<p>y coordinates for point set 1.</p>
+</td></tr>
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>x coordinates for point set 2. The value can also be a two-column matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>y1</code></td>
+<td>
+<p>y coordinates for point set 2.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Which type of connections. Values can be &quot;normal&quot;, &quot;segments&quot; and &quot;bezier&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>segments.ratio</code></td>
+<td>
+<p>When <code>type</code> is set to <code>segments</code>, each connecting line is segmented into three parts. This argument controls the length of the three parts of sub-segments.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color of the links.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+circos.initialize(c("a"), xlim = c(0, 1))
+circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA, 
+    panel.fun = function(x, y) {
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[1], 2), col = "#CCCCCC")
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[2], 2), col = "#CCCCCC")
+    x0 = runif(100)
+    x1 = runif(100)
+
+    circos.connect(x0, 0, x1, 1, 
+        type = "normal", border = NA,
+        col = rand_color(100, luminosity = "bright", transparency = 0.75))
+})
+
+circos.initialize(c("a"), xlim = c(0, 1))
+circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA, 
+    panel.fun = function(x, y) {
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[1], 2), col = "#CCCCCC")
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[2], 2), col = "#CCCCCC")
+    x0 = runif(100)
+    x1 = runif(100)
+
+    circos.connect(x0, 0, x1, 1, 
+        type = "bezier", border = NA,
+        col = rand_color(100, luminosity = "bright", transparency = 0.75))
+})
+
+circos.initialize(c("a"), xlim = c(0, 1))
+circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA, 
+    panel.fun = function(x, y) {
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[1], 2), col = "#CCCCCC")
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[2], 2), col = "#CCCCCC")
+    x0 = sort(runif(200))
+    x0 = matrix(x0, ncol = 2, byrow = TRUE)
+    x1 = sort(runif(200))
+    x1 = matrix(x1, ncol = 2, byrow = TRUE)
+
+    circos.connect(x0, 0, x1, 1, 
+        type = "normal", border = NA,
+        col = rand_color(100, luminosity = "bright", transparency = 0.5))
+})
+
+circos.initialize(c("a"), xlim = c(0, 1))
+circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA, 
+    panel.fun = function(x, y) {
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[1], 2), col = "#CCCCCC")
+    circos.lines(CELL_META$cell.xlim, rep(CELL_META$cell.ylim[2], 2), col = "#CCCCCC")
+    x0 = sort(runif(500))
+    x0 = matrix(x0, ncol = 2, byrow = TRUE)
+    x0 = x0[sample(nrow(x0), nrow(x0)), ]
+    x1 = sort(runif(500))
+    x1 = matrix(x1, ncol = 2, byrow = TRUE)
+    x1 = x1[sample(nrow(x1), nrow(x1)), ]
+
+    l = abs(x0[, 1] - x1[, 1]) &lt; 0.5
+
+    circos.connect(x0[l ,], 0, x1[l, ], 1, 
+        type = "bezier", border = NA,
+        col = rand_color(sum(l), luminosity = "bright", transparency = 0.5))
+})
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

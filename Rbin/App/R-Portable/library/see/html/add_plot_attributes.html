@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Complete figure with its attributes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_plot_attributes {see}"><tr><td>add_plot_attributes {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Complete figure with its attributes</h2>
+
+<h3>Description</h3>
+
+<p>The <code>data_plot()</code> function usually stores information (such as title, axes
+labels, etc.) as attributes, while <code>add_plot_attributes()</code> adds this
+information to the plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_plot_attributes(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(rstanarm)
+library(bayestestR)
+library(see)
+library(ggplot2)
+
+model &lt;- stan_glm(
+  Sepal.Length ~ Petal.Width + Species + Sepal.Width,
+  data = iris,
+  chains = 2, iter = 200
+)
+
+result &lt;- hdi(model, ci = c(0.5, 0.75, 0.9, 0.95))
+data &lt;- data_plot(result, data = model)
+
+p &lt;- ggplot(
+  data,
+  aes(x = x, y = y, height = height, group = y, fill = fill)
+) +
+  ggridges::geom_ridgeline_gradient()
+
+p
+p + add_plot_attributes(data)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

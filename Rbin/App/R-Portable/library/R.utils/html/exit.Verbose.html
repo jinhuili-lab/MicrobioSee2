@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Writes a message and unindents the following output</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for exit.Verbose {R.utils}"><tr><td>exit.Verbose {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Writes a message and unindents the following output</h2>
+
+<h3>Description</h3>
+
+<p>Writes a message and unindents the following output.
+The output is indented according to <code><a href="../help/enter.Verbose.html">*enter</a>()</code>/<code><a href="../help/exit.Verbose.html">*exit</a>()</code>
+calls.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Verbose'
+exit(this, ..., indent=-this$indentStep, sep="", suffix="...done", level=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Objects to be passed to <code><a href="../help/cat.Verbose.html">*cat</a>()</code>. If not specified
+the message used in the corresponding <code><a href="../help/enter.Verbose.html">*enter</a>()</code> call is used.</p>
+</td></tr>
+<tr valign="top"><td><code>indent</code></td>
+<td>
+<p>The number of characters to be removed from the indentation.</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The default separator <code><a href="../../base/help/character.html">character</a></code> string.</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string to be appended to the end of the message.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> value to be compared to the threshold.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

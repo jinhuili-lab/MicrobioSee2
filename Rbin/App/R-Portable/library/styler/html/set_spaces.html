@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Helper for setting spaces</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set_spaces {styler}"><tr><td>set_spaces {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Helper for setting spaces</h2>
+
+<h3>Description</h3>
+
+<p>Helper for setting spaces
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+set_spaces(spaces_after_prefix, force_one)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>spaces_after_prefix</code></td>
+<td>
+<p>An integer vector with the number of spaces
+after the prefix.</p>
+</td></tr>
+<tr valign="top"><td><code>force_one</code></td>
+<td>
+<p>Whether spaces_after_prefix should be set to one in all
+cases.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An integer vector of length spaces_after_prefix, which is either
+one (if <code>force_one = TRUE</code>) or <code>space_after_prefix</code> with all values
+below one set to one.
+</p>
+<p>Numeric vector indicating the number of spaces.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

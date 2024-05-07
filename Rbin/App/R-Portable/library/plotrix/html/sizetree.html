@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a hierarchical breakdown of disjunct categories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sizetree {plotrix}"><tr><td>sizetree {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a hierarchical breakdown of disjunct categories</h2>
+
+<h3>Description</h3>
+
+<p>Display a data frame in which the values in each successive
+column represent subcategories of the previous column as stacked
+rectangles.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ sizetree(x,left=0,top,right=1,lastcenter=NA,showval=TRUE,showcount=TRUE,
+  stacklabels=TRUE,firstcall=TRUE,col=NULL,border=NA,toplab=NULL,base.cex=1,
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame in which each successive column represents
+subcategories of the previous column.</p>
+</td></tr>
+<tr valign="top"><td><code>left</code></td>
+<td>
+<p>The left edge of the current stack of rectangles in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+<p>The top of the current stack of rectangles in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+<p>The right edge of the current stack of rectangles in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>lastcenter</code></td>
+<td>
+<p>The center of the previous rectangle from which the next
+breakdown of categories arises. There is almost no reason to change it.</p>
+</td></tr>
+<tr valign="top"><td><code>showval</code></td>
+<td>
+<p>Whether to display the values representing the categories.</p>
+</td></tr>
+<tr valign="top"><td><code>showcount</code></td>
+<td>
+<p>Whether to display the count for the categories.</p>
+</td></tr>
+<tr valign="top"><td><code>stacklabels</code></td>
+<td>
+<p>Whether to display the names of the dataframe beneath
+the stacked rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>firstcall</code></td>
+<td>
+<p>A flag for the function - do not alter this.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Optional fill colors for the rectangles. See Details</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Color for border around the rectangles. See details</p>
+</td></tr>
+<tr valign="top"><td><code>toplab</code></td>
+<td>
+<p>Optional labels to display a the top of each stack.</p>
+</td></tr>
+<tr valign="top"><td><code>base.cex</code></td>
+<td>
+<p>The base character expansion for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">sizetree</span> displays disjunct hierarchical categories as stacked rectangles.
+It accepts a data frame in which the values in the first column represent
+categories, the values in the second column represent subcategories of the
+first column, and so on. The first column will be displayed as a stack of
+rectangles, the height of each proportional to the count for each category.
+Each substack of rectangles in the second stack will represent the breakdown
+of counts for its superordinate category and so on through the columns.
+Empty categories are ignored and NAs will produce gaps, which will propagate
+across subsequent stacks.
+</p>
+<p>The user can simply pass the data frame, which should only contain columns that
+are hierarchical categories (example 1). The colors will probably not be ideal.
+The user can pass the same colors for the all levels (example 2). If this is
+done, <span class="samp">sizetree</span> will try to match colors to categories when
+the number of categories is diminishing (e.g. some levels are missing in the
+sub-categories) and the columns of <span class="samp">x</span> are factors with the same levels in
+the same order. This will work if the category labels are the same in each level,
+but remember to add the names to the colors before passing them to the function.
+This will not work if there are more categories in the lower levels. If <span class="samp">col</span>
+is a list, this is not done, and the user will have to work out the correct colors
+for each level. This is particularly important when the category labels and the
+number of categories is different in different levels (example 3).
+</p>
+<p>In some sizetrees, the subcategory counts are very low compared to the overall
+number of data objects. This results in rectangles that are very thin vertically.
+One way to get better legibility of the labels is to use dark colors for the
+rectangles, so that the labels are white, and no borders (set <span class="samp">border</span> to NA).
+The user can also select only part of the data frame <span class="samp">x</span> to expand sections
+of the sizetree as in the last example.
+</p>
+<p>The labels are sized to fit the vertical extent of the bars. However, it is
+possible that the labels may extend horizontally beyond the bar(s). The
+<span class="samp">base.cex</span> argument can be used to shrink the labels if this happens.
+Remember that <span class="samp">base.cex</span> will shrink all the labels, not just the ones
+that are too wide.
+</p>
+<p>The <span class="samp">firstcall</span> argument is necessary for the function to initialize the
+plot, as each breakdown involves a recursive call. If it is changed, the best
+that can be expected is an uninformative plot.
+</p>
+
+
+<h3>Value</h3>
+
+<p> nil </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ cat1&lt;-factor(sample(c("None","Low","Medium","High","Extreme"),40,TRUE),
+  levels=c("None","Low","Medium","High","Extreme"))
+ cat2&lt;-factor(sample(c("None","Low","Medium","High"),40,TRUE),
+  levels=c("None","Low","Medium","High"))
+ cat3&lt;-factor(sample(c("None","Low","High"),40,TRUE),
+  levels=c("None","Low","High"))
+ hcats&lt;-data.frame(cat1,cat2,cat3)
+ # throw in a few NAs
+ hcats$cat1[10]&lt;-NA
+ hcats$cat2[c(15,20)]&lt;-NA
+ hcats$cat3[c(11,14,25)]&lt;-NA
+ # first let sizetree work out the colors
+ sizetree(hcats,main="Sizetree with automatic colors")
+ # now see what happens with a list of the same colors for each level
+ bhcol&lt;-c("#ff8080","#dddd80","#80ff80","#0000ff","#80dddd")
+ sizetree(hcats,col=list(bhcol,bhcol,bhcol),
+  main="Sizetree with the same colors each level")
+ # finally, specify different colors for categories with different labels
+ sexhaireye&lt;-data.frame(sex=factor(sample(c("Male","Female"),50,TRUE)),
+  hair=factor(sample(c("Blond","Red","Brown","Black"),50,TRUE)),
+  eye=factor(sample(c("Gold","Green","Blue"),50,TRUE)))
+ shecol&lt;-list(c("pink","lightblue"),c("#000000","#dddd00","#886600","#ee8800"),
+  c("blue","gold","green"))
+ sizetree(sexhaireye,main="Sex, hair and eye color",
+  col=shecol,toplab=c("Sex","Hair color","Eye color"))
+ # now expand the female part of the sizetree
+ sizetree(sexhaireye[sexhaireye[,1]=="Female",],
+  main="Sex, hair and eye color (Females only)",
+  col=shecol,toplab=c("Sex","Hair color","Eye color"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

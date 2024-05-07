@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Import RF-files to R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for read_RF2R {Luminescence}"><tr><td>read_RF2R {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Import RF-files to R</h2>
+
+<h3>Description</h3>
+
+<p>Import files produced by the IR-RF 'ImageJ' macro (#TODO ADD REFERENCE) into R and create a list of <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>
+objects
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read_RF2R(file)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<strong>required</strong>): path and file name of the RF file. Alternatively a list of file
+names can be provided.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The results of spatially resolved IR-RF data are summarised in so-called RF-files (#TODO ADD REFERENCE).
+This functions provides an easy import to process the data seamlessly with the R package 'Luminescence'.
+The output of the function can be passed to the function <a href="../../Luminescence/help/analyse_IRSAR.RF.html">analyse_IRSAR.RF</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object containing
+<a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> objects for each curve.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. read_RF2R(): Import RF-files to R. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Science, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>#TODO ADD REFERENCE
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>, <a href="../../Luminescence/help/analyse_IRSAR.RF.html">analyse_IRSAR.RF</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##Import
+file &lt;- system.file("extdata", "RF_file.rf", package = "Luminescence")
+temp &lt;- read_RF2R(file)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

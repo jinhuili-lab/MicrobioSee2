@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Displays the contents of a text file with line numbers and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for displayCode {R.utils}"><tr><td>displayCode {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Displays the contents of a text file with line numbers and more</h2>
+
+<h3>Description</h3>
+
+<p>Displays the contents of a text file with line numbers and more.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+displayCode(con=NULL, code=NULL, numerate=TRUE, lines=-1, wrap=79, highlight=NULL,
+  pager=getOption("pager"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string filename.
+If <code>code</code> is specified, this argument is ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>code</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of code lines to be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>numerate</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, line are numbers, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>lines</code></td>
+<td>
+<p>If a single <code><a href="../../base/help/numeric.html">numeric</a></code>, the maximum number of lines to show.
+If -1, all lines are shown. If a <code><a href="../../base/help/vector.html">vector</a></code> of <code><a href="../../base/help/numeric.html">numeric</a></code>, the lines
+numbers to display.</p>
+</td></tr>
+<tr valign="top"><td><code>wrap</code></td>
+<td>
+<p>The (output) column <code><a href="../../base/help/numeric.html">numeric</a></code> where to wrap lines.</p>
+</td></tr>
+<tr valign="top"><td><code>highlight</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of line number to be highlighted.</p>
+</td></tr>
+<tr valign="top"><td><code>pager</code></td>
+<td>
+<p>If <code>"none"</code>, code is not displayed in a pager, but
+only returned. For other options, see <code><a href="../../base/help/file.show.html">file.show</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/file.show.html">file.show</a></code>(),
+which is used to display the formatted code.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the formatted code as a <code><a href="../../base/help/character.html">character</a></code> string.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/file.show.html">file.show</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+file &lt;- system.file("DESCRIPTION", package="R.utils")
+cat("Displaying: ", file, ":\n", sep="")
+displayCode(file)
+
+file &lt;- system.file("NEWS.md", package="R.utils")
+cat("Displaying: ", file, ":\n", sep="")
+displayCode(file, numerate=FALSE, lines=100:110, wrap=65)
+
+file &lt;- system.file("NEWS.md", package="R.utils")
+cat("Displaying: ", file, ":\n", sep="")
+displayCode(file, lines=100:110, wrap=65, highlight=c(101,104:108))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a terminal token</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for create_tokens {styler}"><tr><td>create_tokens {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a terminal token</h2>
+
+<h3>Description</h3>
+
+<p>Creates a terminal token represented as (a row of) a parse table.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_tokens(
+  tokens,
+  texts,
+  lag_newlines = 0L,
+  spaces = 0L,
+  pos_ids,
+  token_before = NA,
+  token_after = NA,
+  indention_ref_pos_ids = NA,
+  indents,
+  terminal = TRUE,
+  child = NULL,
+  stylerignore,
+  block = NA,
+  is_cached = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tokens</code></td>
+<td>
+<p>Character vector with tokens to create.</p>
+</td></tr>
+<tr valign="top"><td><code>texts</code></td>
+<td>
+<p>Character vector with texts of the token to create.</p>
+</td></tr>
+<tr valign="top"><td><code>lag_newlines</code></td>
+<td>
+<p>Character vector with lag_newlines corresponding to the
+tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>spaces</code></td>
+<td>
+<p>Character vector with spaces corresponding to the tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>pos_ids</code></td>
+<td>
+<p>Character vector with positional id corresponding to the
+tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>token_before</code></td>
+<td>
+<p>Character vector corresponding to the columns
+<code>token_before</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>token_after</code></td>
+<td>
+<p>Character vector corresponding to the columns
+<code>token_after</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>indention_ref_pos_ids</code></td>
+<td>
+<p>Character vector with indention ref ids
+corresponding to the tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>indents</code></td>
+<td>
+<p>Vector with indents corresponding to the tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>terminal</code></td>
+<td>
+<p>Boolean vector indicating whether a token is a terminal or
+not.</p>
+</td></tr>
+<tr valign="top"><td><code>child</code></td>
+<td>
+<p>The children of the tokens.</p>
+</td></tr>
+<tr valign="top"><td><code>stylerignore</code></td>
+<td>
+<p>Boolean to indicate if the line should be ignored by
+styler. Must take value from token before, can't have a default.</p>
+</td></tr>
+<tr valign="top"><td><code>block</code></td>
+<td>
+<p>The block (of caching) to which the token belongs. An integer.</p>
+</td></tr>
+<tr valign="top"><td><code>is_cached</code></td>
+<td>
+<p>Whether the token is cached already.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other token creators: 
+<code><a href="../../styler/help/create_pos_ids.html">create_pos_ids</a>()</code>,
+<code><a href="../../styler/help/validate_new_pos_ids.html">validate_new_pos_ids</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

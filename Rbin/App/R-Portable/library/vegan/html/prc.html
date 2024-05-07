@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Principal Response Curves for Treatments with Repeated...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for prc {vegan}"><tr><td>prc {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Principal Response Curves for Treatments with Repeated Observations </h2>
+
+<h3>Description</h3>
+
+<p> Principal Response Curves (PRC) are a special case of
+Redundancy Analysis (<code><a href="../../vegan/help/rda.html">rda</a></code>) for multivariate responses in
+repeated observation design. They were originally suggested for
+ecological communities. They should be easier to interpret than
+traditional constrained ordination. They can also be used to study how
+the effects of a factor <code>A</code> depend on the levels of a factor
+<code>B</code>, that is <code>A + A:B</code>, in a multivariate response
+experiment.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+prc(response, treatment, time, ...)
+## S3 method for class 'prc'
+summary(object, axis = 1, scaling = "symmetric", const,
+        digits = 4, correlation = FALSE, ...)
+## S3 method for class 'prc'
+plot(x, species = TRUE, select, scaling = "symmetric",
+     axis = 1, correlation = FALSE, const, type = "l", xlab, ylab, ylim,
+     lty = 1:5, col = 1:6, pch, legpos, cex = 0.8, ...)  
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>Multivariate response data. Typically these are
+community (species) data. If the data are counts, they probably
+should be log transformed prior to the analysis. </p>
+</td></tr>
+<tr valign="top"><td><code>treatment</code></td>
+<td>
+<p>A factor for treatments. </p>
+</td></tr>
+<tr valign="top"><td><code>time</code></td>
+<td>
+<p> An unordered factor defining the observations times in
+the repeated design.</p>
+</td></tr>
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+<p>An <code>prc</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>axis</code></td>
+<td>
+<p>Axis shown (only one axis can be selected).</p>
+</td></tr>
+<tr valign="top"><td><code>scaling</code></td>
+<td>
+<p>Scaling of species scores, identical to the
+<code>scaling</code> in <code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code>.
+</p>
+<p>The type of scores can also be specified as one of <code>"none"</code>,
+<code>"sites"</code>, <code>"species"</code>, or <code>"symmetric"</code>, which
+correspond to the values <code>0</code>, <code>1</code>, <code>2</code>, and <code>3</code>
+respectively. Argument <code>correlation</code> can be used in combination
+with these character descriptions to get the corresponding negative
+value.
+</p>
+</td></tr>
+<tr valign="top"><td><code>const</code></td>
+<td>
+<p>General scaling constant for species scores (see
+<code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code> for details). Lower values will reduce the
+range of species scores, but will not influence the regression
+coefficients.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of significant digits displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>correlation</code></td>
+<td>
+<p>logical; if <code>scaling</code> is a character
+description of the scaling type, <code>correlation</code> can be used to
+select correlation-like scores for PCA. See argument <code>scaling</code>
+for details.</p>
+</td></tr>
+<tr valign="top"><td><code>species</code></td>
+<td>
+<p>Display species scores.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Vector to select displayed species. This can be a vector
+of indices or a logical vector which is <code>TRUE</code> for the selected
+species</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of plot: <code>"l"</code> for lines, <code>"p"</code> for points
+or <code>"b"</code> for both.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Text to replace default axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Limits for the vertical axis.</p>
+</td></tr>
+<tr valign="top"><td><code>lty, col, pch</code></td>
+<td>
+<p>Line type, colour and plotting characters
+(defaults supplied).</p>
+</td></tr>
+<tr valign="top"><td><code>legpos</code></td>
+<td>
+<p>The position of the <code><a href="../../graphics/html/legend.html">legend</a></code>. A guess is
+made if this is not supplied, and <code>NA</code> will suppress legend. </p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for symbols and species labels.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other parameters passed to functions. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> PRC is a special case of <code><a href="../../vegan/help/rda.html">rda</a></code> with a single
+factor for <code>treatment</code> and a single factor for <code>time</code> points
+in repeated observations. In <span class="pkg">vegan</span>, the corresponding
+<code><a href="../../vegan/help/rda.html">rda</a></code> model is defined as <code>rda(response ~ treatment *
+  time + Condition(time))</code>. Since the <code>time</code> appears twice in the
+model formula, its main effects will be aliased, and only the main
+effect of treatment and interaction terms are available, and will be
+used in PRC. Instead of usual multivariate ordination diagrams, PRC
+uses canonical (regression) coefficients and species scores for a
+single axis. All that the current functions do is to provide a special
+<code>summary</code> and <code>plot</code> methods that display the
+<code><a href="../../vegan/help/rda.html">rda</a></code> results in the PRC fashion. The current version only
+works with default contrasts (<code><a href="../../stats/html/contrast.html">contr.treatment</a></code>) in which
+the coefficients are contrasts against the first level, and the levels
+must be arranged so that the first level is the control (or a
+baseline). If necessary, you must change the baseline level with
+function <code><a href="../../stats/html/relevel.html">relevel</a></code>.  
+</p>
+<p>Function <code>summary</code> prints the species scores and the
+coefficients. Function <code>plot</code> plots coefficients against
+<code>time</code> using <code><a href="../../graphics/html/matplot.html">matplot</a></code>, and has similar defaults.
+The graph (and PRC) is meaningful only if the first <code>treatment</code>
+level is the control, as the results are contrasts to the first level
+when unordered factors are used. The plot also displays species scores
+on the right vertical axis using function
+<code><a href="../../vegan/help/linestack.html">linestack</a></code>. Typically the number of species is so high
+that not all can be displayed with the default settings, but users can
+reduce character size or padding (<code>air</code>) in
+<code><a href="../../vegan/help/linestack.html">linestack</a></code>, or <code>select</code> only a subset of the
+species. A legend will be displayed unless suppressed with
+<code>legpos = NA</code>, and the functions tries to guess where to put the
+legend if <code>legpos</code> is not supplied.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function is a special case of <code><a href="../../vegan/help/rda.html">rda</a></code> and returns its
+result object (see <code><a href="../../vegan/help/cca.object.html">cca.object</a></code>). However, a special
+<code>summary</code> and <code>plot</code> methods display returns differently
+than in <code><a href="../../vegan/help/rda.html">rda</a></code>.
+</p>
+
+
+<h3>Warning </h3>
+
+<p>The first level of <code>treatment</code> must be the
+control: use function <code><a href="../../stats/html/relevel.html">relevel</a></code> to guarantee the correct
+reference level. The current version will ignore user setting of
+<code><a href="../../stats/html/contrasts.html">contrasts</a></code> and always use treatment contrasts
+(<code><a href="../../stats/html/contrast.html">contr.treatment</a></code>). The <code>time</code> must be an unordered
+factor.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen and Cajo ter Braak</p>
+
+
+<h3>References</h3>
+
+<p>van den Brink, P.J. &amp; ter Braak, C.J.F. (1999). Principal response
+curves: Analysis of time-dependent multivariate responses of
+biological community to stress. Environmental Toxicology and
+Chemistry, 18, 138&ndash;148.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Chlorpyrifos experiment and experimental design: Pesticide
+## treatment in ditches (replicated) and followed over from 4 weeks
+## before to 24 weeks after exposure 
+data(pyrifos)
+week &lt;- gl(11, 12, labels=c(-4, -1, 0.1, 1, 2, 4, 8, 12, 15, 19, 24))
+dose &lt;- factor(rep(c(0.1, 0, 0, 0.9, 0, 44, 6, 0.1, 44, 0.9, 0, 6), 11))
+ditch &lt;- gl(12, 1, length=132)
+# PRC
+mod &lt;- prc(pyrifos, dose, week)
+mod            # RDA
+summary(mod)   # PRC
+logabu &lt;- colSums(pyrifos)
+plot(mod, select = logabu &gt; 100)
+## Ditches are randomized, we have a time series, and are only
+## interested in the first axis
+ctrl &lt;- how(plots = Plots(strata = ditch,type = "free"),
+    within = Within(type = "series"), nperm = 99)
+anova(mod, permutations = ctrl, first=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

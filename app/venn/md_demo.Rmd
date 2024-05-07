@@ -1,0 +1,39 @@
+# Venn mapping description
+
+
+
+## Upload sample data
+
+You need to upload one data files including data table.
+
+such as
+
+| abc            | agh            | adf            |
+| -------------- | -------------- | -------------- |
+| zma-miR319b-3p | zma-miR827-5p  | zma-miR827-5p  |
+| zma-miR319d-3p | zma-miR827-3p  | zma-miR827-3p  |
+| zma-miR319a-3p | zma-miR529-5p  | zma-miR529-5p  |
+| zma-miR319c-3p | zma-miR528b-5p | zma-miR528b-5p |
+| zma-miR166a-3p | zma-miR528b-3p | zma-miR528b-3p |
+| zma-miR166h-3p | zma-miR528a-5p | zma-miR528a-5p |
+| zma-miR166f    | zma-miR528a-3p | zma-miR528a-3p |
+| zma-miR166g-3p | zma-miR444b    | zma-miR444b    |
+| zma-miR166i-3p | zma-miR444a    | zma-miR444a    |
+
+
+
+**Paying attention, please ,you need to upload the file in the format of the sample data.**
+
+
+
+
+
+## draw
+
+- You can adjust the transparency of the image color by entering a value from 0 to 1.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141663.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141713.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141764.png" style="zoom:33%;" />
+
+- You can adjust the color matching mode by **"Color"**.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141807.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141850.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141891.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112141930.png" style="zoom:33%;" />

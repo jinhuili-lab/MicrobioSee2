@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a plot with a rectangular section expanded in an...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for zoomInPlot {plotrix}"><tr><td>zoomInPlot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Display a plot with a rectangular section expanded in an adjacent plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Display one plot on the left half of a device and an expanded section of that
+plot on the right half of the device with connecting lines showing the expansion.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ zoomInPlot(x,y=NULL,xlim=NULL,ylim=NULL,rxlim=xlim,rylim=ylim,xend=NA,
+  zoomtitle=NULL,titlepos=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>numeric data vectors. If <span class="samp">y</span> is not specified, it is set equal
+to <span class="samp">x</span> and <span class="samp">x</span> is set to <span class="samp">1:length(y)</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim,ylim</code></td>
+<td>
+<p>Limits for the initial plot.</p>
+</td></tr>
+<tr valign="top"><td><code>rxlim,rylim</code></td>
+<td>
+<p>Limits for the expanded plot. These must be within the above.</p>
+</td></tr>
+<tr valign="top"><td><code>xend</code></td>
+<td>
+<p>Where to end the segments that indicate the expansion. Defaults to
+just left of the tick labels on the left ordinate.</p>
+</td></tr>
+<tr valign="top"><td><code>zoomtitle</code></td>
+<td>
+<p>The title of the plot, display in the top center.</p>
+</td></tr>
+<tr valign="top"><td><code>titlepos</code></td>
+<td>
+<p>The horizontal position of the title in user units of the
+zoomed plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">zoomInPlot</span> sets up a two column layout in the current device and calls
+<span class="samp">plot</span> to display a plot in the left column. It then draws a rectangle
+corresponding to the <span class="samp">rxlim</span> and <span class="samp">rylim</span> arguments and displays a
+second plot of that rectangle in the right column. It is currently very simple
+and will probably become more flexible in future versions.
+</p>
+<p>It just has. If <span class="samp">rxlim</span> is set to NA, <span class="samp">locator</span> will be called and
+the user can define the zoomed rectangle by clicking on each corner. This is a
+shameless ripoff of a suggestion by Greg Snow on the help list. Thanks, Greg.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ zoomInPlot(rnorm(100),rnorm(100),rxlim=c(-1,1),rylim=c(-1,1),
+  zoomtitle="Zoom In Plot",titlepos=-1.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

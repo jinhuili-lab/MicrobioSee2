@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a fan plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fan.plot {plotrix}"><tr><td>fan.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display a fan plot </h2>
+
+<h3>Description</h3>
+
+<p>Displays numerical values as the arcs of overlapping sectors.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ fan.plot(x,edges=200,radius=1,col=NULL,align.at=NULL,max.span=NULL,
+  labels=NULL,labelpos=NULL,label.radius=1.2,align="left",shrink=0.02,
+  main="",ticks=NULL,include.sumx=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector of numbers.</p>
+</td></tr>
+<tr valign="top"><td><code>edges</code></td>
+<td>
+<p>The number of edges with which to draw a circle.</p>
+</td></tr>
+<tr valign="top"><td><code>radius</code></td>
+<td>
+<p>The radius of the sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The colors with which to fill the sectors.</p>
+</td></tr>
+<tr valign="top"><td><code>align.at</code></td>
+<td>
+<p>Where to align the sectors (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>max.span</code></td>
+<td>
+<p>The angle of the maximal sector in radians. The default
+is to scale <span class="samp">x</span> so that it sums to 2*pi.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels placed around the sector arcs.</p>
+</td></tr>
+<tr valign="top"><td><code>labelpos</code></td>
+<td>
+<p>Optional circumferential positions for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>label.radius</code></td>
+<td>
+<p>How far away from the sectors the labels will
+be placed. May be a vector with a radius for each label.</p>
+</td></tr>
+<tr valign="top"><td><code>align</code></td>
+<td>
+<p>Position of the alignment of sectors (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>shrink</code></td>
+<td>
+<p>How much to shrink each successive sector in user units.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Optional title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>ticks</code></td>
+<td>
+<p>The number of ticks that would appear if the sectors were on
+a pie chart. Default is no ticks, TRUE gives the number of ticks equal to
+the integer sum of <span class="samp">x</span>, which is fairly sensible if 
+<span class="samp">x</span> is a vector of integers.</p>
+</td></tr>
+<tr valign="top"><td><code>include.sumx</code></td>
+<td>
+<p>Whether to include the sum of all <span class="samp">x</span> values
+as the largest sector.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">polygon</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">fan.plot</span> displays sectors much like a pie chart except that the
+sectors are overlapped. this allows the angular extents of the sectors to
+be visually compared much more accurately by the viewer. Sectors are plotted
+from the largest to the smallest, shrinking the radius of each successive
+sector.
+</p>
+<p>When sending output to the postscript device, the resulting image can be
+trimmed by changing the values in BoundingBox in the header with a text 
+editor.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The circumferential positions of the labels in radians. These are
+returned in order of decreasing size of the values plotted.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon, Anupam Tyagi</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ iucn.df&lt;-data.frame(area=c("Africa","Asia","Europe","N&amp;C America",
+  "S America","Oceania"),threatened=c(5994,7737,1987,4716,5097,2093))
+ fan.plot(iucn.df$threatened,max.span=pi,
+  labels=paste(iucn.df$area,iucn.df$threatened,sep="-"),
+  main="Threatened species by geographical area (fan.plot)",ticks=276)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

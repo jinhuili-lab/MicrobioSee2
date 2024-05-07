@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Highlight sectors and tracks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for highlight.sector {circlize}"><tr><td>highlight.sector {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Highlight sectors and tracks
+</h2>
+
+<h3>Description</h3>
+
+<p>Highlight sectors and tracks
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+highlight.sector(
+    sector.index,
+    track.index = get.all.track.index(),
+    col = "#FF000040",
+    border = NA,
+    lwd = par("lwd"),
+    lty = par("lty"),
+    padding = c(0, 0, 0, 0),
+    text = NULL,
+    text.col = par("col"),
+    text.vjust = 0.5,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>A vector of sector index</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>A vector of track index that you want to highlight</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color for highlighting. Note the color should be semi-transparent.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border of the highlighted region</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Width of borders</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Style of borders</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>Padding for the highlighted region. It should contain four values representing ratios of the width or height of the highlighted region</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>text added in the highlight region, only support plotting one string at a time</p>
+</td></tr>
+<tr valign="top"><td><code>text.vjust</code></td>
+<td>
+<p>adjustment on 'vertical' (radical) direction. Besides to set it as numeric values, the value can also be a string contain absoute unit, e.g. &quot;2.1mm&quot;, &quot;-1 inche&quot;, but only &quot;mm&quot;, &quot;cm&quot;, &quot;inches&quot;/&quot;inche&quot; are allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>text.col</code></td>
+<td>
+<p>color for the text</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>pass to <code><a href="../../circlize/help/circos.text.html">circos.text</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>You can use <code><a href="../../circlize/help/circos.info.html">circos.info</a></code> to find out index for all sectors and all tracks.
+</p>
+<p>The function calls <code><a href="../../circlize/help/draw.sector.html">draw.sector</a></code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#highlight-sectors-and-tracks">https://jokergoo.github.io/circlize_book/book/graphics.html#highlight-sectors-and-tracks</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sectors = letters[1:8]
+circos.initialize(sectors, xlim = c(0, 1))
+for(i in 1:4) {
+    circos.trackPlotRegion(ylim = c(0, 1))
+}
+circos.info(plot = TRUE)
+
+highlight.sector(c("a", "h"), track.index = 1)
+highlight.sector("c", col = "#00FF0040")
+highlight.sector("d", col = NA, border = "red", lwd = 2)
+highlight.sector("e", col = "#0000FF40", track.index = c(2, 3))
+highlight.sector(c("f", "g"), col = NA, border = "green",
+    lwd = 2, track.index = c(2, 3))
+highlight.sector(sectors, col = "#FFFF0040", track.index = 4)
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

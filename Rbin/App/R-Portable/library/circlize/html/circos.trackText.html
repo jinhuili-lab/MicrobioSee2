@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw text in cells among the whole track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.trackText {circlize}"><tr><td>circos.trackText {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw text in cells among the whole track
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw text in cells among the whole track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.trackText(
+    sectors,
+    x, y,
+    labels,
+    track.index = get.current.track.index(),
+    direction = NULL,
+    facing = c("inside", "outside", "reverse.clockwise", "clockwise",
+    "downward", "bending", "bending.inside", "bending.outside"),
+    niceFacing = FALSE,
+    adj = par("adj"),
+    cex = 1,
+    col = par("col"),
+    font = par("font"),
+    factors = sectors)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A <code><a href="../../base/html/factor.html">factor</a></code> or a character vector which represents the categories of data</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>The same as <code>sectors</code>. It will be removed in future versions. </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data points on x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data points on y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>deprecated, use <code>facing</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>Facing of text</p>
+</td></tr>
+<tr valign="top"><td><code>niceFacing</code></td>
+<td>
+<p>Should the facing of text be adjusted to fit human eyes?</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>Adjustment for text</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Font size</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Font color</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>Font style</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function adds texts in multiple cells by first splitting data into several parts in which
+each part corresponds to one factor (sector index) and then add texts in cells by calling <code><a href="../../circlize/help/circos.text.html">circos.text</a></code>.
+</p>
+<p>This function can be replaced by a <code>for</code> loop containing <code><a href="../../circlize/help/circos.text.html">circos.text</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

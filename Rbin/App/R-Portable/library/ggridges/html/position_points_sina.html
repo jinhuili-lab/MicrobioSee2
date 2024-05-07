@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Randomly distribute points in a ridgeline plot between...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for position_points_sina {ggridges}"><tr><td>position_points_sina {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Randomly distribute points in a ridgeline plot between baseline and ridgeline</h2>
+
+<h3>Description</h3>
+
+<p>This is a position adjustment specifically for <code><a href="../../ggridges/help/geom_density_ridges.html">geom_density_ridges()</a></code> and related geoms. It
+only jitters the points drawn by these geoms, if any. If no points are present, the plot
+remains unchanged. The effect is similar to a sina plot: Points are randomly distributed to fill
+the entire shaded area representing the data density.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+position_points_sina(rel_min = 0.02, rel_max = 0.98, seed = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rel_min</code></td>
+<td>
+<p>The relative minimum value at which a point can be placed.</p>
+</td></tr>
+<tr valign="top"><td><code>rel_max</code></td>
+<td>
+<p>The relative maximum value at which a point can be placed.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>See <code><a href="../../ggridges/help/position_points_jitter.html">position_points_jitter</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other position adjustments for ridgeline plots: <code><a href="../../ggridges/help/position_points_jitter.html">position_points_jitter</a></code>, <code><a href="../../ggridges/help/position_raincloud.html">position_raincloud</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges(jittered_points = TRUE, position = "points_sina", alpha = 0.7)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

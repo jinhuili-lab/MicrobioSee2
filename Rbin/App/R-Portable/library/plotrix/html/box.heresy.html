@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a sort of box plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for box.heresy {plotrix}"><tr><td>box.heresy {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a sort of box plot</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">box.heresy</span> displays a box plot in which a symbol represents a measure of
+central tendency, a surrounding box that represents an &quot;inner&quot; measure of dispersion
+(e.g. standard error) and whiskers represent an &quot;outer&quot; measure of dispersion
+(e.g. standard deviation). The function is pretty basic at this time and will 
+probably change a bit.
+</p>
+<p>The argument &quot;intervals&quot; is particularly important, and can wreak
+havoc on the resulting plot. The default of FALSE means that the
+values passed to the inner and outer measures of dispersion are
+absolute, not intervals away from the measure of central tendency.
+Mixing absolute and relative values will always lead to errors and
+typically a very strange looking plot. It is probably easiest to
+calculate the absolute values before calling box.heresy. The first and
+second examples show how intervals=FALSE and intervals=TRUE can be used.
+</p>
+<p>One of the first changes is to allow varying box widths. The user can specify
+the box widths as a vector of numeric values at least as long as the number
+of boxes to be displayed. The usual reason for doing this is to display widths
+that are proportional to the number of observations. A useful start is to pass
+<span class="samp">boxwidth</span> as the number of observations and let the function work it out.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ box.heresy(x,y,uinner,linner,ulim,llim,boxwidth=NULL,
+  intervals=FALSE,arrow.cap=NULL,pch=22,main="",xlab="",ylab="",
+  xaxlab=NULL,col="white",do.first=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>Vectors of numeric values representing measures of central tendency.</p>
+</td></tr>
+<tr valign="top"><td><code>uinner,linner</code></td>
+<td>
+<p>Vectors of numeric values representing &quot;inner&quot; measures of
+dispersion.</p>
+</td></tr>
+<tr valign="top"><td><code>ulim,llim</code></td>
+<td>
+<p>Vectors of numeric values representing &quot;outer&quot; measures of
+dispersion.</p>
+</td></tr>
+<tr valign="top"><td><code>boxwidth</code></td>
+<td>
+<p>Optional widths for the boxes.</p>
+</td></tr>
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p>Whether the values for dispersion are intervals (TRUE) or
+absolute limits (FALSE).</p>
+</td></tr>
+<tr valign="top"><td><code>arrow.cap</code></td>
+<td>
+<p>The width of the cap on the &quot;whiskers&quot; relative to the width
+of the plot. Defaults to the same width as the outer box.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>The symbol to be used to represent the measure(s) of central tendency
+in the box.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title for the plot (i.e. <span class="samp">main</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>The x and y axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxlab</code></td>
+<td>
+<p>Optional labels for the boxes.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The fill colors for the &quot;inner&quot; rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>do.first</code></td>
+<td>
+<p>An expression that will be evaluated before anything is displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to the <span class="samp">dispersion</span> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Gianni Lavaredo for the suggestion</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../graphics/html/boxplot.html">boxplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ y1&lt;-runif(20,2,10)
+ y2&lt;-rnorm(30,6,2)
+ y3&lt;-sample(0:20,40,TRUE)
+ Ns&lt;-c(20,30,40)
+ ymean&lt;-c(mean(y1),mean(y2),mean(y3))
+ y1inner&lt;-quantile(y1,probs=c(.16,.84))
+ y2inner&lt;-c(ymean[2]+sd(y2),ymean[2]-sd(y2))
+ y3inner&lt;-quantile(y3,probs=c(.16,.84))
+ uinner&lt;-c(y1inner[1],y2inner[1],y3inner[1])
+ linner&lt;-c(y1inner[2],y2inner[2],y3inner[2])
+ ulim&lt;-c(max(y1),max(y2),max(y3))
+ llim&lt;-c(min(y1),min(y2),min(y3))
+ box.heresy(ymean,uinner=uinner,linner=linner,ulim=ulim,llim=llim,boxwidth=Ns,
+  main="Boxplot of means, central spread and range",xlab="Distribution",
+  xaxlab=c("Uniform","Normal","Sample"))
+ y1outer&lt;-
+ y&lt;-runif(5)
+ ulim&lt;-runif(5)
+ llim&lt;-runif(5)
+ uinner&lt;-ulim/2
+ linner&lt;-llim/2
+ box.heresy(y,uinner=uinner,linner=linner,ulim=ulim,llim=llim,
+  intervals=TRUE,main="The heretical boxplot",
+  xlab="Number of observations",ylab="Value")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

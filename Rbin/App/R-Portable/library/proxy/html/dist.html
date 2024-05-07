@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Matrix Distance/Similarity Computation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dist {proxy}"><tr><td>dist {proxy}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Matrix Distance/Similarity Computation</h2>
+
+<h3>Description</h3>
+
+<p>These functions compute and return the auto-distance/similarity matrix
+between either rows or columns of a matrix/data frame, or a list,
+as well as the cross-distance matrix between two matrices/data frames/lists.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dist(x, y = NULL, method = NULL, ..., diag = FALSE, upper = FALSE,
+     pairwise = FALSE, by_rows = TRUE, convert_similarities = TRUE,
+     auto_convert_data_frames = TRUE)
+simil(x, y = NULL, method = NULL, ..., diag = FALSE, upper = FALSE,
+      pairwise = FALSE, by_rows = TRUE, convert_distances = TRUE,
+      auto_convert_data_frames = TRUE)
+
+pr_dist2simil(x)
+pr_simil2dist(x)
+
+as.dist(x, FUN = NULL)
+as.simil(x, FUN = NULL)
+
+## S3 method for class 'dist'
+as.matrix(x, diag = 0, ...)
+## S3 method for class 'simil'
+as.matrix(x, diag = NA, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>For <code>dist</code> and <code>simil</code>, a numeric matrix object, a data frame, or a list. A vector
+will be converted into a column matrix. For <code>as.simil</code> and
+<code>as.dist</code>, an object of class <code>dist</code> and
+<code>simil</code>, respectively, or a numeric matrix. For
+<code>pr_dist2simil</code> and <code>pr_simil2dist</code>, any numeric vector.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p><code>NULL</code>, or a similar object than <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>a function, a registry entry, or a mnemonic string referencing the
+proximity measure. A list of all available measures can be obtained
+using <code><a href="../../proxy/help/pr_DB.html">pr_DB</a></code> (see examples). The default for <code>dist</code> is
+<code>"Euclidean"</code>, and for <code>simil</code> <code>"correlation"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>diag</code></td>
+<td>
+<p>logical value indicating whether the diagonal of the
+distance/similarity matrix should be printed by
+<code><a href="../../proxy/help/print.dist.html">print.dist</a></code>/<code><a href="../../proxy/help/print.simil.html">print.simil</a></code>. Note that the
+diagonal values are never stored in <code>dist</code> objects. 
+</p>
+<p>In the context of <code>as.matrix</code> the value to use on the diagonal
+representing self-proximities. In case of similarities, this
+defaults to <code>NA</code> since a priori there are no upper bounds, so
+the maximum similarity needs to be specified by the user.</p>
+</td></tr>
+<tr valign="top"><td><code>upper</code></td>
+<td>
+<p>logical value indicating whether the upper triangle of the
+distance/similarity matrix should be printed by
+<code><a href="../../proxy/help/print.dist.html">print.dist</a></code>/<code><a href="../../proxy/help/print.simil.html">print.simil</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>pairwise</code></td>
+<td>
+<p>logical value indicating whether distances should be
+computed for the pairs of <code>x</code> and <code>y</code> only.</p>
+</td></tr>
+<tr valign="top"><td><code>by_rows</code></td>
+<td>
+<p>logical indicating whether proximities between rows, or
+columns should be computed.</p>
+</td></tr>
+<tr valign="top"><td><code>convert_similarities, convert_distances</code></td>
+<td>
+<p>logical indicating
+whether distances should be automatically converted into
+similarities (and the other way round) if needed.</p>
+</td></tr>
+<tr valign="top"><td><code>auto_convert_data_frames</code></td>
+<td>
+<p>logical indicating whether data frames
+should be converted to matrices if all variables are numeric,
+or all are logical, or all are complex.</p>
+</td></tr>
+<tr valign="top"><td><code>FUN</code></td>
+<td>
+<p>optional function to be used by <code>as.dist</code> and
+<code>as.simil</code>. If <code>NULL</code>, it is looked up in the method
+registry. If there is none specified there, <code>FUN</code> defaults to
+<code>pr_simil2dist</code> and <code>pr_dist2simil</code>, respectively.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to the proximity function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The interface is fashioned after <code><a href="../../stats/help/dist.html">dist</a></code>, but can
+also compute cross-distances, and allows user extensions by means of
+registry of all proximity measures (see <code><a href="../../proxy/help/pr_DB.html">pr_DB</a></code>).
+</p>
+<p>Missing values are allowed but are excluded from all computations 
+involving the rows within which they occur. If some columns are
+excluded in calculating a Euclidean, Manhattan, Canberra or
+Minkowski distance, the sum is scaled up proportionally to the
+number of columns used (compare <code><a href="../../stats/help/dist.html">dist</a></code> in
+package <span class="pkg">stats</span>).
+</p>
+<p>Data frames are silently coerced to matrix if all columns are of
+(same) mode <code>numeric</code> or <code>logical</code>.
+</p>
+<p>Distance measures can be used with <code>simil</code>, and similarity
+measures with <code>dist</code>. In these cases, the result is transformed
+accordingly using the specified coercion functions (default:
+<i>pr\_simil2dist(x) = 1 - abs(x)</i> and <i>pr\_dist2simil(x) = 1 / (1 + x)</i>).
+Objects of class <code>simil</code> and <code>dist</code> can be converted one in
+another using <code>as.dist</code> and <code>as.simil</code>, respectively.
+</p>
+<p>Distance and similarity objects can conveniently be subset
+(see examples). Note that duplicate indexes are silently ignored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Auto distances/similarities are returned as an object of class <code>dist</code>/<code>simil</code> and 
+cross-distances/similarities as an object of class <code>crossdist</code>/<code>crosssimil</code>. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Meyer <a href="mailto:David.Meyer@R-project.org">David.Meyer@R-project.org</a>
+and Christian Buchta <a href="mailto:Christian.Buchta@wu-wien.ac.at">Christian.Buchta@wu-wien.ac.at</a></p>
+
+
+<h3>References</h3>
+
+<p>Anderberg, M.R. (1973), <em>Cluster analysis for applications</em>,
+359 pp., Academic Press, New York, NY, USA.
+</p>
+<p>Cox, M.F. and Cox, M.A.A. (2001), <em>Multidimensional Scaling</em>,
+Chapman and Hall.
+</p>
+<p>Sokol, R.S. and Sneath P.H.A (1963), <em>Principles of Numerical
+Taxonomy</em>, W. H. Freeman and Co., San Francisco.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/help/dist.html">dist</a></code> for compatibility information, and
+<code><a href="../../proxy/help/pr_DB.html">pr_DB</a></code> for the proximity data base.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+### show available proximities
+summary(pr_DB)
+
+### get more information about a particular one
+pr_DB$get_entry("Jaccard")
+
+### binary data
+x &lt;- matrix(sample(c(FALSE, TRUE), 8, rep = TRUE), ncol = 2)
+dist(x, method = "Jaccard")
+
+### for real-valued data
+dist(x, method = "eJaccard")
+
+### for positive real-valued data
+dist(x, method = "fJaccard")
+
+### cross distances
+dist(x, x, method = "Jaccard")
+
+### pairwise (diagonal)
+dist(x, x, method = "Jaccard", 
+	 pairwise = TRUE)
+
+### this is the same but less efficient
+as.matrix(stats::dist(x, method = "binary"))
+
+### numeric data
+x &lt;- matrix(rnorm(16), ncol = 4)
+
+## test inheritance of names
+rownames(x) &lt;- LETTERS[1:4]
+colnames(x) &lt;- letters[1:4]
+dist(x)
+dist(x, x)
+
+## custom distance function
+f &lt;- function(x, y) sum(x * y)
+dist(x, f)
+
+## working with lists
+z &lt;- unlist(apply(x, 1, list), recursive = FALSE)
+(d &lt;- dist(z))
+dist(z, z)
+
+## subsetting
+d[[1:2]]
+subset(d, c(1,3,4))
+d[[c(1,2,2)]]	    # duplicate index gets ignored
+
+## transformations and self-proximities
+as.matrix(as.simil(d, function(x) exp(-x)), diag = 1)
+
+## row and column indexes
+row.dist(d)
+col.dist(d)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>proxy</em> version 0.4-26 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display the frequencies of two categories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for clustered.dotplots {plotrix}"><tr><td>clustered.dotplots {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display the frequencies of two categories</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">clustered.dotplots</span> displays a contingency table as clusters of
+symbols on a plot. It expects <span class="samp">xgroup</span> and <span class="samp">ygroup</span> to contain
+all or some of the combinations of their unique values. It also expects
+<span class="samp">freq</span> to contain the number of instances of each combination.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ clustered.dotplots(xgroup, ygroup, freq, type = "circles",
+ main="",xlab="",ylab="",x_las=1,y_las=1,axes=TRUE,size=1,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xgroup,ygroup</code></td>
+<td>
+<p>Vectors that specify the two groupings to be
+displayed (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>The frequencies in the two groupings.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of symbols to use as &quot;dots&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>main,xlab,ylab</code></td>
+<td>
+<p>As in plot.</p>
+</td></tr>
+<tr valign="top"><td><code>x_las,y_las</code></td>
+<td>
+<p>Orientation of the axis tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Whether to display axes.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>Spacing for the clusters.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to &quot;points&quot;.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Darshan Baral</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/cluster.overplot.html">cluster.overplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ df &lt;- structure(list(set = c("09t0101 TJ", "09t0102 MW", "09t0201 EH", 
+ "09t0202 NH", "09t0101 TJ", "09t0102 MW", "09t0201 EH", "09t0202 NH", 
+ "09t0101 TJ", "09t0102 MW", "09t0201 EH", "09t0202 NH", "09t0101 TJ", 
+ "09t0102 MW", "09t0201 EH", "09t0202 NH", "09t0202 NH"), grade = c("1", 
+ "1", "1", "1", "2", "2", "2", "2", "3", "3", "3", "3", "4", "4", 
+ "4", "4", "5"), freq = c(7, 8, 2, 3, 11, 4, 11, 3, 3, 8, 3, 8, 
+ 3, 9, 3, 2, 5)), .Names = c("set", "grade", "freq"), row.names = c(NA, 
+ 17L), class = "data.frame")
+ clustered.dotplots(xgroup = df$set, ygroup = df$grade, freq = df$freq)
+ clustered.dotplots(xgroup = df$set, ygroup = df$grade, freq = df$freq,
+  col = "gray")
+ clustered.dotplots(xgroup = df$set, ygroup = df$grade, freq = df$freq,
+  type = "points")
+ clustered.dotplots(xgroup = df$set, ygroup = df$grade, freq = df$freq,
+  type = "points", pch = 19, col = "red")
+ # this will cause an error
+ # clustered.dotplots(xgroup = mtcars$cyl, ygroup = mtcars$gear,
+ #  freq = mtcars$carb)
+ # how to fix it
+ cumcars&lt;-by(mtcars$carb,list(mtcars$cyl,mtcars$gear),valid.n)
+ mtcars2&lt;-data.frame(cyl=NA,gear=NA,carb=NA)
+ rownum&lt;-1
+ for(cyl in dimnames(cumcars)[[1]]) {
+  for(gear in dimnames(cumcars)[[2]]) {
+   if(!is.na(cumcars[cyl,gear])) {
+    mtcars2[rownum,]&lt;-c(as.numeric(cyl),as.numeric(gear),cumcars[cyl,gear])
+    rownum&lt;-rownum+1
+   }
+  }
+ }
+ clustered.dotplots(xgroup = mtcars2$cyl, ygroup = mtcars2$gear,
+  freq = mtcars2$carb,main="Cars by number of cylinders and gears",
+  xlab="Number of cylinders",ylab="Number of gears",type="points",pch=5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

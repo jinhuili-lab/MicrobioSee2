@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Read configuration values. Always use as 'config::get()'.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get {config}"><tr><td>get {config}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Read configuration values. Always use as <code>config::get()</code>.</h2>
+
+<h3>Description</h3>
+
+<p>Read from the currently active configuration, retrieving either a
+single named value or all values as a list.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get(
+  value = NULL,
+  config = Sys.getenv("R_CONFIG_ACTIVE", "default"),
+  file = Sys.getenv("R_CONFIG_FILE", "config.yml"),
+  use_parent = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>Name of value (<code>NULL</code> to read all values)</p>
+</td></tr>
+<tr valign="top"><td><code>config</code></td>
+<td>
+<p>Name of configuration to read from. Defaults to
+the value of the <code>R_CONFIG_ACTIVE</code> environment variable
+(&quot;default&quot; if the variable does not exist).</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Configuration file to read from (defaults to
+<code>"config.yml"</code>). If the file isn't found at the location
+specified then parent directories are searched for a file
+of the same name.</p>
+</td></tr>
+<tr valign="top"><td><code>use_parent</code></td>
+<td>
+<p><code>TRUE</code> to scan parent directories for
+configuration files if the specified config file isn't found.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For additional details see <a href="https://rstudio.github.io/config/">https://rstudio.github.io/config/</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The requested configuration value (or all values as
+a list of <code>NULL</code> is passed for <code>value</code>).
+</p>
+<p>A list, or vector, corresponding to the contents of the config file.
+</p>
+
+
+<h3>Warning - Do not attach the package using library(config)</h3>
+
+<p>We strongly recommend you use <code>config::get()</code> rather than attaching the
+package using <code>library(config)</code>.
+</p>
+<p>In fact, we strongly recommend you never use <code>library(config)</code>.
+</p>
+<p>The underlying reason is that the <code>get()</code> and <code>merge()</code> functions in
+<code>{config}</code> will mask these functions with the same names in base R.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../config/help/is_active.html">is_active()</a></code>, <code><a href="../../config/help/merge.html">merge()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+yaml &lt;- "
+default:
+  trials: 5
+  dataset: 'data-sampled.csv'
+
+production:
+  trials: 30
+  dataset: 'data.csv'
+"
+
+get &lt;- base::get
+
+
+
+with_config(yaml, config::get())
+with_config(yaml, config::get("trials"))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>config</em> version 0.3.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

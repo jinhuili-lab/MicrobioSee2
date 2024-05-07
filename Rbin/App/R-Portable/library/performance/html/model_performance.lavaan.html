@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of lavaan SEM / CFA Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_performance.lavaan {performance}"><tr><td>model_performance.lavaan {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of lavaan SEM / CFA Models</h2>
+
+<h3>Description</h3>
+
+<p>Compute indices of model performance for SEM or CFA models from the
+<strong>lavaan</strong> package.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'lavaan'
+model_performance(model, metrics = "all", verbose = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <strong>lavaan</strong> model.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>Can be <code>"all"</code> or a character vector of metrics to be
+computed (some of <code>"Chi2"</code>, <code>"Chi2_df"</code>, <code>"p_Chi2"</code>, <code>"Baseline"</code>,
+<code>"Baseline_df"</code>, <code>"p_Baseline"</code>, <code>"GFI"</code>, <code>"AGFI"</code>, <code>"NFI"</code>, <code>"NNFI"</code>,
+<code>"CFI"</code>, <code>"RMSEA"</code>, <code>"RMSEA_CI_low"</code>, <code>"RMSEA_CI_high"</code>, <code>"p_RMSEA"</code>,
+<code>"RMR"</code>, <code>"SRMR"</code>, <code>"RFI"</code>, <code>"PNFI"</code>, <code>"IFI"</code>, <code>"RNI"</code>, <code>"Loglikelihood"</code>,
+<code>"AIC"</code>, <code>"BIC"</code>, and <code>"BIC_adjusted"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Indices of fit</h4>
+
+
+<ul>
+<li> <p><strong>Chisq</strong>: The model Chi-squared assesses overall fit and the
+discrepancy between the sample and fitted covariance matrices. Its p-value
+should be &gt; .05 (i.e., the hypothesis of a perfect fit cannot be
+rejected). However, it is quite sensitive to sample size.
+</p>
+</li>
+<li> <p><strong>GFI/AGFI</strong>: The (Adjusted) Goodness of Fit is the proportion
+of variance accounted for by the estimated population covariance.
+Analogous to R2. The GFI and the AGFI should be &gt; .95 and &gt; .90,
+respectively.
+</p>
+</li>
+<li> <p><strong>NFI/NNFI/TLI</strong>: The (Non) Normed Fit Index. An NFI of 0.95,
+indicates the model of interest improves the fit by 95\
+null model. The NNFI (also called the Tucker Lewis index; TLI) is
+preferable for smaller samples. They should be &gt; .90 (Byrne, 1994) or &gt;
+.95 (Schumacker and Lomax, 2004).
+</p>
+</li>
+<li> <p><strong>CFI</strong>: The Comparative Fit Index is a revised form of NFI.
+Not very sensitive to sample size (Fan, Thompson, and Wang, 1999). Compares
+the fit of a target model to the fit of an independent, or null, model. It
+should be &gt; .90.
+</p>
+</li>
+<li> <p><strong>RMSEA</strong>: The Root Mean Square Error of Approximation is a
+parsimony-adjusted index. Values closer to 0 represent a good fit. It
+should be &lt; .08 or &lt; .05. The p-value printed with it tests the hypothesis
+that RMSEA is less than or equal to .05 (a cutoff sometimes used for good
+fit), and thus should be not significant.
+</p>
+</li>
+<li> <p><strong>RMR/SRMR</strong>: the (Standardized) Root Mean Square Residual
+represents the square-root of the difference between the residuals of the
+sample covariance matrix and the hypothesized model. As the RMR can be
+sometimes hard to interpret, better to use SRMR. Should be &lt; .08.
+</p>
+</li>
+<li> <p><strong>RFI</strong>: the Relative Fit Index, also known as RHO1, is not
+guaranteed to vary from 0 to 1. However, RFI close to 1 indicates a good
+fit.
+</p>
+</li>
+<li> <p><strong>IFI</strong>: the Incremental Fit Index (IFI) adjusts the Normed Fit
+Index (NFI) for sample size and degrees of freedom (Bollen's, 1989). Over
+0.90 is a good fit, but the index can exceed 1.
+</p>
+</li>
+<li> <p><strong>PNFI</strong>: the Parsimony-Adjusted Measures Index. There is no
+commonly agreed-upon cutoff value for an acceptable model for this index.
+Should be &gt; 0.50. </p>
+</li></ul>
+
+
+<p>See the documentation for <code>?lavaan::fitmeasures</code>.
+</p>
+
+
+<h4>What to report</h4>
+
+<p>Kline (2015) suggests that at a minimum the following indices should be
+reported: The model <strong>chi-square</strong>, the <strong>RMSEA</strong>, the <strong>CFI</strong>
+and the <strong>SRMR</strong>.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame (with one row) and one column per &quot;index&quot; (see
+<code>metrics</code>).
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Byrne, B. M. (1994). Structural equation modeling with EQS and
+EQS/Windows. Thousand Oaks, CA: Sage Publications.
+</p>
+</li>
+<li><p> Tucker, L. R., and Lewis, C. (1973). The reliability coefficient for
+maximum likelihood factor analysis. Psychometrika, 38, 1-10.
+</p>
+</li>
+<li><p> Schumacker, R. E., and Lomax, R. G. (2004). A beginner's guide to
+structural equation modeling, Second edition. Mahwah, NJ: Lawrence Erlbaum
+Associates.
+</p>
+</li>
+<li><p> Fan, X., B. Thompson, and L. Wang (1999). Effects of sample size,
+estimation method, and model specification on structural equation modeling
+fit indexes. Structural Equation Modeling, 6, 56-83.
+</p>
+</li>
+<li><p> Kline, R. B. (2015). Principles and practice of structural equation
+modeling. Guilford publications.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Confirmatory Factor Analysis (CFA) ---------
+data(HolzingerSwineford1939, package = "lavaan")
+structure &lt;- " visual  =~ x1 + x2 + x3
+               textual =~ x4 + x5 + x6
+               speed   =~ x7 + x8 + x9 "
+model &lt;- lavaan::cfa(structure, data = HolzingerSwineford1939)
+model_performance(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

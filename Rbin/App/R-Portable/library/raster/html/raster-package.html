@@ -1,0 +1,1133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Overview of the functions in the raster package</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for raster-package {raster}"><tr><td>raster-package {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Overview of the functions in the raster package
+</h2>
+
+<h3>Description</h3>
+
+<p>The raster package provides classes and functions to manipulate geographic (spatial) data in 'raster' format. Raster data divides space into cells (rectangles; pixels) of equal size (in units of the coordinate reference system). Such continuous spatial data are also referred to as 'grid' data, and be contrasted with discrete (object based) spatial data (points, lines, polygons).
+</p>
+<p>The package should be particularly useful when using very large datasets that can not be loaded into the computer's memory. Functions will work correctly, because they process large files in chunks, i.e., they read, compute, and write blocks of data, without loading all values into memory at once.
+</p>
+<p>Below is a list of some of the most important functions grouped by theme. See the vignette for more information and some examples (you can open it by running this command: <code>vignette('Raster')</code>)
+</p>
+
+
+<h3>Details</h3>
+
+<p>The package implements classes for Raster data (see <a href="../../raster/help/Raster-class.html">Raster-class</a>) and supports
+</p>
+
+<ul>
+<li><p> Creation of Raster* objects from scratch or from file
+</p>
+</li>
+<li><p> Handling extremely large raster files
+</p>
+</li>
+<li><p> Raster algebra and overlay functions
+</p>
+</li>
+<li><p> Distance, neighborhood (focal) and patch functions
+</p>
+</li>
+<li><p> Polygon, line and point to raster conversion
+</p>
+</li>
+<li><p> Model predictions
+</p>
+</li>
+<li><p> Summarizing raster values
+</p>
+</li>
+<li><p> Easy access to raster cell-values
+</p>
+</li>
+<li><p> Plotting (making maps)
+</p>
+</li>
+<li><p> Manipulation of raster extent, resolution and origin
+</p>
+</li>
+<li><p> Computation of row, column and cell numbers to coordinates and vice versa
+</p>
+</li>
+<li><p> Reading and writing various raster file types
+</p>
+</li></ul>
+
+<p>. 
+</p>
+
+
+<h3>I. Creating Raster* objects</h3>
+
+<p>RasterLayer, RasterStack, and RasterBrick objects are, as a group, referred to as Raster* objects. Raster* objects can be created, from scratch, files, or from objects of other classes, with the following functions:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/raster.html">raster</a></code></td><td style="text-align: left;"> To create a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/stack.html">stack</a></code> </td><td style="text-align: left;"> To create a RasterStack (multiple layers)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/brick.html">brick</a></code> </td><td style="text-align: left;"> To create a RasterBrick (multiple layers)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/subset.html">subset</a></code> </td><td style="text-align: left;"> Select layers of a RasterStack/Brick</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/addLayer.html">addLayer</a></code> </td><td style="text-align: left;"> Add a layer to a Raster* object</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/dropLayer.html">dropLayer</a></code> </td><td style="text-align: left;"> Remove a layer from a RasterStack or RasterBrick </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/unstack.html">unstack</a></code> </td><td style="text-align: left;"> Create a list of RasterLayer objects from a RasterStack </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> --------------------------------------------------------------------------------------------------- </td>
+</tr>
+<tr>
+ <td style="text-align: left;">  
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>II. Changing the spatial extent and/or resolution of Raster* objects</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/merge.html">merge</a></code> </td><td style="text-align: left;"> Combine Raster* objects with different extents (but same origin and resolution) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/mosaic.html">mosaic</a></code> </td><td style="text-align: left;"> Combine RasterLayers with different extents and a function for overlap areas </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/crop.html">crop</a></code> </td><td style="text-align: left;"> Select a geographic subset of a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/extend.html">extend</a></code> </td><td style="text-align: left;"> Enlarge a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/trim.html">trim</a></code> </td><td style="text-align: left;"> Trim a Raster* object by removing exterior rows and/or columns that only have NAs</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/aggregate.html">aggregate</a></code> </td><td style="text-align: left;"> Combine cells of a Raster* object to create larger cells </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/disaggregate.html">disaggregate</a></code> </td><td style="text-align: left;"> Subdivide cells </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/resample.html">resample</a></code> </td><td style="text-align: left;"> Warp values to a Raster* object with a different origin or resolution </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/projectRaster.html">projectRaster</a></code> </td><td style="text-align: left;"> project values to a raster with a different coordinate reference system </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/shift.html">shift</a></code> </td><td style="text-align: left;"> Move the location of Raster </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/flip.html">flip</a></code> </td><td style="text-align: left;">  Flip values horizontally or vertically </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rotate.html">rotate</a></code> </td><td style="text-align: left;"> Rotate values around the date-line (for lon/lat data) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/t.html">t</a></code> </td><td style="text-align: left;"> Transpose a Raster* object</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>III. Raster algebra</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/Arith-methods.html">Arith-methods</a></code> </td><td style="text-align: left;"> Arith functions (<code>+, -, *, ^, %%, %/%, /</code>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	<code><a href="../../raster/help/Math-methods.html">Math-methods</a></code> </td><td style="text-align: left;"> Math functions like <code>abs, sqrt, trunc, log, log10, exp, sin, round</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/Logic-methods.html">Logic-methods</a></code> </td><td style="text-align: left;"> Logic functions (<code>!, &amp;, |</code>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/Summary-methods.html">Summary-methods</a></code> </td><td style="text-align: left;"> Summary functions (<code>mean, max, min, range, prod, sum, any, all</code>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/Compare-methods.html">Compare-methods</a></code> </td><td style="text-align: left;"> Compare functions (<code>==, !=, &gt;, &lt;, &lt;=, &gt;=</code>) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	</td>
+</tr>
+
+</table>
+
+
+
+<h3>IV. Cell based computation</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/calc.html">calc</a></code> </td><td style="text-align: left;"> Computations on a single Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/overlay.html">overlay</a></code> </td><td style="text-align: left;"> Computations on multiple RasterLayer objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cover.html">cover</a></code> </td><td style="text-align: left;"> First layer covers second layer except where the first layer is <code>NA</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/mask.html">mask</a></code> </td><td style="text-align: left;"> Use values from first Raster except where cells of the mask Raster are <code>NA</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cut.html">cut</a></code> </td><td style="text-align: left;"> Reclassify values using ranges </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/subs.html">subs</a></code> </td><td style="text-align: left;"> Reclassify values using an 'is-becomes' matrix </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/reclassify.html">reclassify</a></code> </td><td style="text-align: left;"> Reclassify using a 'from-to-becomes' matrix </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/init.html">init</a></code> </td><td style="text-align: left;"> Initialize cells with new values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/stackApply.html">stackApply</a></code> </td><td style="text-align: left;"> Computations on groups of layers in Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/stackSelect.html">stackSelect</a></code> </td><td style="text-align: left;"> Select cell values from different layers using an index RasterLayer</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>V. Spatial contextual computation</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/distance.html">distance</a></code> </td><td style="text-align: left;"> Shortest distance to a cell that is not <code>NA</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/gridDistance.html">gridDistance</a></code> </td><td style="text-align: left;"> Distance when traversing grid cells that are not <code>NA</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/distanceFromPoints.html">distanceFromPoints</a></code> </td><td style="text-align: left;"> Shortest distance to any point in a set of points </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/direction.html">direction</a></code> </td><td style="text-align: left;"> Direction (azimuth) to or from cells that are not <code>NA</code></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/focal.html">focal</a></code> </td><td style="text-align: left;"> Focal (neighborhood; moving window) functions </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/localFun.html">localFun</a></code> </td><td style="text-align: left;"> Local association (using neighborhoods) functions </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/boundaries.html">boundaries</a></code> </td><td style="text-align: left;"> Detection of boundaries (edges)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/clump.html">clump</a></code> </td><td style="text-align: left;"> Find clumps (patches) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/adjacent.html">adjacent</a></code> </td><td style="text-align: left;"> Identify cells that are adjacent to a set of cells on a raster </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/area.html">area</a></code> </td><td style="text-align: left;"> Compute area of cells (for longitude/latitude data) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/terrain.html">terrain</a></code> </td><td style="text-align: left;"> Compute slope, aspect and other characteristics from elevation data </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/Moran.html">Moran</a></code> </td><td style="text-align: left;"> Compute global or local Moran or Geary indices of spatial autocorrelation  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>VI. Model predictions</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/predict.html">predict</a></code> </td><td style="text-align: left;"> Predict a non-spatial model to a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/interpolate.html">interpolate</a></code> </td><td style="text-align: left;"> Predict a spatial model to a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>VII. Data type conversion</h3>
+
+<p>You can coerce Raster* objects to Spatial* objects using <code>as</code>, as in <code>as(object, 'SpatialGridDataFrame')</code>  
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/raster.html">raster</a></code> </td><td style="text-align: left;"> RasterLayer from SpatialGrid*, image, or matrix objects</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterize.html">rasterize</a></code> </td><td style="text-align: left;"> Rasterizing points, lines or polygons</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterToPoints.html">rasterToPoints</a></code> </td><td style="text-align: left;"> Create points from a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterToPolygons.html">rasterToPolygons</a></code> </td><td style="text-align: left;"> Create polygons from a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterToContour.html">rasterToContour</a></code> </td><td style="text-align: left;"> Contour lines from a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterFromXYZ.html">rasterFromXYZ</a></code> </td><td style="text-align: left;"> RasterLayer from regularly spaced points</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterFromCells.html">rasterFromCells</a></code> </td><td style="text-align: left;"> RasterLayer from a Raster object and cell numbers</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>VIII. Summarizing</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cellStats.html">cellStats</a></code> </td><td style="text-align: left;"> Summarize a Raster cell values with a function </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../base/html/summary.html">summary</a></code> </td><td style="text-align: left;"> Summary of the values of a Raster* object (quartiles and mean) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/freq.html">freq</a></code> </td><td style="text-align: left;"> Frequency table of Raster cell values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/crosstab.html">crosstab</a></code> </td><td style="text-align: left;"> Cross-tabulate two Raster* objects</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/unique.html">unique</a></code> </td><td style="text-align: left;"> Get the unique values in a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/zonal.html">zonal</a></code> </td><td style="text-align: left;"> Summarize a Raster* object by zones in a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>IX. Accessing values of Raster* object cells</h3>
+
+<p>Apart from the function listed below, you can also use indexing with <code>[</code> for cell numbers, and <code>[[</code> for row / column number combinations <br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/getValues.html">getValues</a></code> </td><td style="text-align: left;"> Get all cell values (fails with very large rasters), or a row of values (safer) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/getValuesBlock.html">getValuesBlock</a></code> </td><td style="text-align: left;"> Get values for a block (a rectangular area) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/getValuesFocal.html">getValuesFocal</a></code> </td><td style="text-align: left;"> Get focal values for one or more rows</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/as.matrix.html">as.matrix</a></code> </td><td style="text-align: left;"> Get cell values as a matrix </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/as.array.html">as.array</a></code> </td><td style="text-align: left;"> Get cell values as an array </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/extract.html">extract</a></code> </td><td style="text-align: left;"> Extract cell values from a Raster* object (e.g., by cell, coordinates, polygon)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/sampleRandom.html">sampleRandom</a></code> </td><td style="text-align: left;"> Random sample </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/sampleRegular.html">sampleRegular</a></code> </td><td style="text-align: left;"> Regular sample </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/minValue.html">minValue</a></code> </td><td style="text-align: left;"> Get the minimum value of the cells of a Raster* object (not always known) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/maxValue.html">maxValue</a></code> </td><td style="text-align: left;"> Get the maximum value of the cells of a Raster* object (not always known) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/setMinMax.html">setMinMax</a></code> </td><td style="text-align: left;"> Compute the minimum and maximum value of a Raster* object if these are not known </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>X. Plotting</h3>
+
+<p>See the rasterVis package for additional plotting methods for Raster* objects using methods from 'lattice' and other packages.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <b>Maps</b> </td><td style="text-align: left;"> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/plot.html">plot</a></code> </td><td style="text-align: left;"> Plot a Raster* object. The main method to create a map </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/plotRGB.html">plotRGB</a></code> </td><td style="text-align: left;"> Combine three layers (red, green, blue channels) into a single 'real color' image </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/spplot.html">spplot</a></code> </td><td style="text-align: left;"> Plot a Raster* with the spplot function (sp package) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/image.html">image</a></code> </td><td style="text-align: left;"> Plot a Raster* with the image function </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/persp.html">persp</a></code> </td><td style="text-align: left;"> Perspective plot of a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/contour.html">contour</a></code> </td><td style="text-align: left;"> Contour plot of a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/filledContour.html">filledContour</a></code> </td><td style="text-align: left;"> Filled contour plot of a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/text.html">text</a></code> </td><td style="text-align: left;"> Plot the values of a RasterLayer on top of a map </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    .</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <b>Interacting with a map</b> </td><td style="text-align: left;"> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/zoom.html">zoom</a></code> </td><td style="text-align: left;"> Zoom in to a part of a map </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/click.html">click</a></code> </td><td style="text-align: left;"> Query values of Raster* or Spatial* objects by clicking on a map </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/select.html">select</a></code> </td><td style="text-align: left;"> Select a geometric subset of a Raster* or Spatial* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/drawPoly.html">drawPoly</a></code> </td><td style="text-align: left;"> Create a SpatialPolygons object by drawing it </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/drawLine.html">drawLine</a></code> </td><td style="text-align: left;"> Create a SpatialLines object by drawing it </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/drawExtent.html">drawExtent</a></code> </td><td style="text-align: left;"> Create an Extent object by drawing it </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    .</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	<b>Other plots</b> </td><td style="text-align: left;"> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/plot.html">plot</a></code> </td><td style="text-align: left;"> x-y scatter plot of the values of two RasterLayer objects</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/hist.html">hist</a></code> </td><td style="text-align: left;"> Histogram of Raster* object values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/barplot.html">barplot</a></code> </td><td style="text-align: left;"> barplot of a RasterLayer </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/density.html">density</a></code> </td><td style="text-align: left;"> Density plot of Raster* object values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/pairs.html">pairs</a></code> </td><td style="text-align: left;"> Pairs plot for layers in a RasterStack or RasterBrick </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/boxplot.html">boxplot</a></code> </td><td style="text-align: left;"> Box plot of the values of one or multiple layers</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>XI. Getting and setting Raster* dimensions </h3>
+
+<p>Basic parameters of existing Raster* objects can be obtained, and in most cases changed. If there are values associated with a RasterLayer object (either in memory or via a link to a file) these are lost when you change the number of columns or rows or the resolution. This is not the case when the extent is changed (as the number of columns and rows will not be affected). Similarly, with <b>projection</b> you can set the projection, but this does not transform the data (see <a href="../../raster/help/projectRaster.html">projectRaster</a> for that).   
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/ncol.html">ncol</a></code></td><td style="text-align: left;"> The number of columns </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/nrow.html">nrow</a></code> </td><td style="text-align: left;"> The number of rows </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/ncell.html">ncell</a></code> </td><td style="text-align: left;"> The number of cells (can not be set directly, only via ncol or nrow) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/res.html">res</a></code> </td><td style="text-align: left;"> The resolution (x and y) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/nlayers.html">nlayers</a></code> </td><td style="text-align: left;"> How many layers does the object have? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/names.html">names</a></code> </td><td style="text-align: left;"> Get or set the layer names </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/xres.html">xres</a></code> </td><td style="text-align: left;"> The x resolution (can be set with res) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/yres.html">yres</a></code> </td><td style="text-align: left;"> The y resolution (can be set with res)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/xmin.html">xmin</a></code> </td><td style="text-align: left;"> The minimum x coordinate (or longitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/xmax.html">xmax</a></code> </td><td style="text-align: left;"> The maximum x coordinate (or longitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/ymin.html">ymin</a></code> </td><td style="text-align: left;"> The minimum y coordinate (or latitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/ymax.html">ymax</a></code> </td><td style="text-align: left;"> The maximum y coordinate (or latitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	<code><a href="../../raster/help/extent.html">extent</a></code> </td><td style="text-align: left;"> The extent (minimum and maximum x and y coordinates) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	<code><a href="../../raster/help/origin.html">origin</a></code> </td><td style="text-align: left;"> The origin of a Raster* object</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/crs.html">crs</a></code> </td><td style="text-align: left;"> The coordinate reference system (map projection) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/isLonLat.html">isLonLat</a></code> </td><td style="text-align: left;"> Test if an object has a longitude/latitude coordinate reference system </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/filename.html">filename</a></code> </td><td style="text-align: left;"> Filename to which a RasterLayer or RasterBrick is linked </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/bandnr.html">bandnr</a></code> </td><td style="text-align: left;"> layer (=band) of a multi-band file that this RasterLayer is linked to </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/nbands.html">nbands</a></code> </td><td style="text-align: left;"> How many bands (layers) does the file associated with a RasterLayer object have? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    <code><a href="../../raster/help/compareRaster.html">compareRaster</a></code> </td><td style="text-align: left;"> Compare the geometry of Raster* objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;">		
+    <code><a href="../../raster/help/NAvalue.html">NAvalue</a></code> </td><td style="text-align: left;"> Get or set the <code>NA</code> value (for reading from a file) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+	
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>XII. Computing row, column, cell numbers and coordinates</h3>
+
+<p>Cell numbers start at 1 in the upper-left corner. They increase within rows, from left to right, and then row by row from top to bottom. Likewise, row numbers start at 1 at the top of the raster, and column numbers start at 1 at the left side of the raster. 
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/xFromCol.html">xFromCol</a></code> </td><td style="text-align: left;"> x-coordinates from column numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/yFromRow.html">yFromRow</a></code> </td><td style="text-align: left;"> y-coordinates from row numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/xFromCell.html">xFromCell</a></code> </td><td style="text-align: left;"> x-coordinates from row numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/yFromCell.html">yFromCell</a></code> </td><td style="text-align: left;"> y-coordinates from cell numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/xyFromCell.html">xyFromCell</a></code> </td><td style="text-align: left;"> x and y coordinates from cell numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/colFromX.html">colFromX</a></code> </td><td style="text-align: left;"> Column numbers from x-coordinates (or longitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rowFromY.html">rowFromY</a></code> </td><td style="text-align: left;"> Row numbers from y-coordinates (or latitude) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rowColFromCell.html">rowColFromCell</a></code> </td><td style="text-align: left;"> Row and column numbers from cell numbers</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cellFromXY.html">cellFromXY</a></code> </td><td style="text-align: left;"> Cell numbers from x and y coordinates </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cellFromRowCol.html">cellFromRowCol</a></code> </td><td style="text-align: left;"> Cell numbers from row and column numbers </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cellsFromExtent.html">cellsFromExtent</a></code> </td><td style="text-align: left;"> Cell numbers from extent object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/coordinates.html">coordinates</a></code> </td><td style="text-align: left;"> x and y coordinates for all cells </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/validCell.html">validCell</a></code> </td><td style="text-align: left;"> Is this a valid cell number? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/validCol.html">validCol</a></code> </td><td style="text-align: left;"> Is this a valid column number? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/validRow.html">validRow</a></code> </td><td style="text-align: left;"> Is this a valid row number? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>XIII. Writing files</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+   <b>Basic</b></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/setValues.html">setValues</a></code> </td><td style="text-align: left;"> Put new values in a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code> </td><td style="text-align: left;"> Write all values of Raster* object to disk </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/KML.html">KML</a></code> </td><td style="text-align: left;"> Save raster as KML file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+   .</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <b>Advanced</b></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <code><a href="../../raster/help/blockSize.html">blockSize</a></code> </td><td style="text-align: left;"> Get suggested block size for reading and writing </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <code><a href="../../raster/help/writeStart.html">writeStart</a></code> </td><td style="text-align: left;"> Open a file for writing </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <code><a href="../../raster/help/writeValues.html">writeValues</a></code> </td><td style="text-align: left;"> Write some values  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <code><a href="../../raster/help/writeStop.html">writeStop</a></code> </td><td style="text-align: left;"> Close the file after writing </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+   <code><a href="../../raster/help/update.html">update</a></code> </td><td style="text-align: left;"> Change the values of an existing file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>XIV. Manipulation of SpatialPolygons* and other vector type Spatial* objects</h3>
+
+<p>Some of these functions are in the <code>sp</code> package. The name in <b>bold</b> is the equivalent command in ArcGIS. These functions build on the geometry (&quot;spatial features&quot;) manipulation functions in package <code>rgeos</code>. These functions are extended here by also providing automated attribute data handling.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/bind.html">bind</a></code> </td><td style="text-align: left;"> <b>append</b> combine Spatial* objects of the same (vector) type </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/erase.html">erase</a></code> or "-" </td><td style="text-align: left;"> <b>erase</b> parts of a SpatialPolygons* object</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/intersect.html">intersect</a></code> or "*"  </td><td style="text-align: left;"> <b>intersect</b> SpatialPolygons* objects</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/union.html">union</a></code> or "+" </td><td style="text-align: left;"> <b>union</b> SpatialPolygons* objects</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/cover.html">cover</a></code> </td><td style="text-align: left;"> <b>update</b> and <b>identity</b> for a SpatialPolygons and another one</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/symdif.html">symdif</a></code> </td><td style="text-align: left;"><b>symmetrical difference</b> of two SpatialPolygons* objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;"> 
+  <code><a href="../../raster/help/aggregate.html">aggregate</a></code> </td><td style="text-align: left;"> <b>dissolve</b> smaller polygons into larger ones </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../sp/help/disaggregate.html">disaggregate</a></code> </td><td style="text-align: left;"> <b>explode</b>: turn polygon parts into separate polygons (in the <code>sp</code> package) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/crop.html">crop</a></code> </td><td style="text-align: left;"> <b>clip</b> a Spatial* object using a rectangle (Extent object)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/select.html">select</a></code> </td><td style="text-align: left;"> <b>select</b> - interactively select spatial features</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/click.html">click</a></code> </td><td style="text-align: left;"> <b>identify</b> attributes by clicking on a map</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../sp/help/merge.html">merge</a></code> </td><td style="text-align: left;"> <b>Join table</b> (in the <code>sp</code> package) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../sp/help/over.html">over</a></code> </td><td style="text-align: left;"> spatial queries between Spatial* objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/extract.html">extract</a></code> </td><td style="text-align: left;"> spatial queries between Spatial* and Raster* objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/as.data.frame.html">as.data.frame</a></code> </td><td style="text-align: left;"> coerce coordinates of <code>SpatialLines</code> or <code>SpatialPolygons</code> into a data.frame</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">  
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>XV. Extent objects</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/extent.html">extent</a></code> </td><td style="text-align: left;"> Create an extent object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/intersect.html">intersect</a></code> </td><td style="text-align: left;"> Intersect two extent objects  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/union.html">union</a></code> </td><td style="text-align: left;"> Combine two extent objects </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../base/html/Round.html">round</a></code> </td><td style="text-align: left;"> round/floor/ceiling of the coordinates of an Extent object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">			
+    <code><a href="../../raster/help/alignExtent.html">alignExtent</a></code> </td><td style="text-align: left;"> Align an extent with a Raster* object </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/drawExtent.html">drawExtent</a></code> </td><td style="text-align: left;"> Create an Extent object by drawing it on top of a map (see plot) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">		
+    --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+
+
+<h3>XVI. Miscellaneous</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/rasterOptions.html">rasterOptions</a></code> </td><td style="text-align: left;"> Show, set, save or get session options </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/getData.html">getData</a></code> </td><td style="text-align: left;"> Download and geographic data</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/pointDistance.html">pointDistance</a></code> </td><td style="text-align: left;"> Distance between points </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/readIniFile.html">readIniFile</a></code> </td><td style="text-align: left;"> Read a (windows) 'ini' file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/hdr.html">hdr</a></code> </td><td style="text-align: left;"> Write header file for a number of raster formats </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/trim.html">trim</a></code> </td><td style="text-align: left;"> Remove leading and trailing blanks from a character string </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/extension.html">extension</a></code> </td><td style="text-align: left;"> Get or set the extension of a filename </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/cv.html">cv</a></code> </td><td style="text-align: left;"> Coefficient of variation  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/modal.html">modal</a></code> </td><td style="text-align: left;"> Modal value  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/sampleInt.html">sampleInt</a></code> </td><td style="text-align: left;"> Random sample of (possibly very large) range of integer values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/showTmpFiles.html">showTmpFiles</a></code> </td><td style="text-align: left;"> Show temporary files </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    <code><a href="../../raster/help/removeTmpFiles.html">removeTmpFiles</a></code> </td><td style="text-align: left;"> Remove temporary files </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+    --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>XVII. For programmers</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/canProcessInMemory.html">canProcessInMemory</a></code> </td><td style="text-align: left;"> Test whether a file can be created in memory </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/pbCreate.html">pbCreate</a></code> </td><td style="text-align: left;"> Initialize a progress bar  </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/pbStep.html">pbStep</a></code> </td><td style="text-align: left;"> Take a progress bar step </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/pbClose.html">pbClose</a></code> </td><td style="text-align: left;"> Close a progress bar </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/readStart.html">readStart</a></code> </td><td style="text-align: left;"> Open file connections for efficient multi-chunk reading </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/readStop.html">readStop</a></code> </td><td style="text-align: left;"> Close file connections </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/rasterTmpFile.html">rasterTmpFile</a></code>  </td><td style="text-align: left;"> Get a name for a temporary file </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/inMemory.html">inMemory</a></code> </td><td style="text-align: left;"> Are the cell values in memory? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  <code><a href="../../raster/help/fromDisk.html">fromDisk</a></code> </td><td style="text-align: left;"> Are the cell values read from a file? </td>
+</tr>
+<tr>
+ <td style="text-align: left;">	
+    --------------------------- </td><td style="text-align: left;"> ------------------------------------------------------------------------------------------ </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Acknowledgments</h3>
+
+<p>Extensive contributions were made by Jacob van Etten, Jonathan Greenberg, Matteo Mattiuzzi, and Michael Sumner. Significant help was also provided by Phil Heilman, Agustin Lobo, Oscar Perpinan Lamigueiro, Stefan Schlaffer, Jon Olav Skoien, Steven Mosher, and Kevin Ummel. Contributions were also made by Jochen Albrecht, Neil Best, Andrew Bevan, Roger Bivand, Isabelle Boulangeat, Lyndon Estes, Josh Gray, Tim Haering, Herry Herry, Paul Hiemstra, Ned Hornig, Mayeul Kauffmann, Bart Kranstauber, Rainer Krug, Alice Laborte, John Lewis, Lennon Li, Justin McGrath, Babak Naimi, Carsten Neumann, Joshua Perlman, Richard Plant, Edzer Pebesma, Etienne Racine, David Ramsey, Shaun Walbridge, Julian Zeidler and many others.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Except where indicated otherwise, the functions in this package were written by Robert J. Hijmans</p>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

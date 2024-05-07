@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Concatenates and prints objects if above threshold</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cat.Verbose {R.utils}"><tr><td>cat.Verbose {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Concatenates and prints objects if above threshold</h2>
+
+<h3>Description</h3>
+
+<p>Concatenates and prints objects if above threshold.
+The output is indented according to <code><a href="../help/enter.Verbose.html">*enter</a>()</code>/<code><a href="../help/exit.Verbose.html">*exit</a>()</code>
+calls.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Verbose'
+cat(this, ..., sep="", newline=TRUE, level=this$defaultLevel, timestamp=this$.timestamp)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Objects to be passed to <code><a href="../../base/help/cat.html">cat</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>The default separator <code><a href="../../base/help/character.html">character</a></code> string.</p>
+</td></tr>
+<tr valign="top"><td><code>newline</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, a newline is added at the end, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>level</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> value to be compared to the threshold.</p>
+</td></tr>
+<tr valign="top"><td><code>timestamp</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> indicating if output should start with a
+timestamp, or not.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/timestampOn.Verbose.html">*timestampOn</a>()</code> and <code>timestampOff</code>().
+For more information see <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

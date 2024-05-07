@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create new variables in a data frame</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_modify {datawizard}"><tr><td>data_modify {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create new variables in a data frame</h2>
+
+<h3>Description</h3>
+
+<p>Create new variables or modify existing variables in a data frame. Unlike <code>base::transform()</code>, <code>data_modify()</code>
+can be used on grouped data frames, and newly created variables can be directly
+used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+data_modify(data, ...)
+
+## S3 method for class 'data.frame'
+data_modify(data, ..., .if = NULL, .at = NULL, .modify = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>One or more expressions that define the new variable name and the
+values or recoding of those new variables. These expressions can be one of:
+</p>
+
+<ul>
+<li><p> A sequence of named, literal expressions, where the left-hand side refers
+to the name of the new variable, while the right-hand side represent the
+values of the new variable. Example: <code>Sepal.Width = center(Sepal.Width)</code>.
+</p>
+</li>
+<li><p> A sequence of string values, representing expressions.
+</p>
+</li>
+<li><p> A variable that contains a string representation of the expression. Example:
+</p>
+<div class="sourceCode r"><pre>a &lt;- "2 * Sepal.Width"
+data_modify(iris, a)
+</pre></div>
+</li>
+<li><p> A character vector of expressions. Example:
+<code>c("SW_double = 2 * Sepal.Width", "SW_fraction = SW_double / 10")</code>. This
+type of expression cannot be mixed with other expressions, i.e. if a
+character vector is provided, you may not add further elements to <code>...</code>.
+</p>
+</li>
+<li><p> Using <code>NULL</code> as right-hand side removes a variable from the data frame.
+Example: <code>Petal.Width = NULL</code>.
+</p>
+</li></ul>
+
+<p>Note that newly created variables can be used in subsequent expressions,
+including <code>.at</code> or <code>.if</code>. See also 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>.if</code></td>
+<td>
+<p>A function that returns <code>TRUE</code> for columns in the data frame where
+<code>.if</code> applies. This argument is used in combination with the <code>.modify</code> argument.
+Note that only one of <code>.at</code> or <code>.if</code> can be provided, but not both at the same
+time. Newly created variables in <code>...</code> can also be selected, see 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>.at</code></td>
+<td>
+<p>A character vector of variable names that should be modified. This
+argument is used in combination with the <code>.modify</code> argument. Note that only one
+of <code>.at</code> or <code>.if</code> can be provided, but not both at the same time. Newly created
+variables in <code>...</code> can also be selected, see 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>.modify</code></td>
+<td>
+<p>A function that modifies the variables defined in <code>.at</code> or <code>.if</code>.
+This argument is used in combination with either the <code>.at</code> or the <code>.if</code> argument.
+Note that the modified variable (i.e. the result from <code>.modify</code>) must be either
+of length 1 or of same length as the input variable.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p><code>data_modify()</code> can also be used inside functions. However, it is
+recommended to pass the recode-expression as character vector or list of
+characters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(efc)
+new_efc &lt;- data_modify(
+  efc,
+  c12hour_c = center(c12hour),
+  c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE),
+  c12hour_z2 = standardize(c12hour)
+)
+head(new_efc)
+
+# using strings instead of literal expressions
+new_efc &lt;- data_modify(
+  efc,
+  "c12hour_c = center(c12hour)",
+  "c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE)",
+  "c12hour_z2 = standardize(c12hour)"
+)
+head(new_efc)
+
+# using character strings, provided as variable
+stand &lt;- "c12hour_c / sd(c12hour, na.rm = TRUE)"
+new_efc &lt;- data_modify(
+  efc,
+  c12hour_c = center(c12hour),
+  c12hour_z = stand
+)
+head(new_efc)
+
+# providing expressions as character vector
+new_exp &lt;- c(
+  "c12hour_c = center(c12hour)",
+  "c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE)"
+)
+new_efc &lt;- data_modify(efc, new_exp)
+head(new_efc)
+
+# attributes - in this case, value and variable labels - are preserved
+str(new_efc)
+
+# overwrite existing variable, remove old variable
+out &lt;- data_modify(iris, Petal.Length = 1 / Sepal.Length, Sepal.Length = NULL)
+head(out)
+
+# works on grouped data
+grouped_efc &lt;- data_group(efc, "c172code")
+new_efc &lt;- data_modify(
+  grouped_efc,
+  c12hour_c = center(c12hour),
+  c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE),
+  c12hour_z2 = standardize(c12hour)
+)
+head(new_efc)
+
+# works from inside functions
+foo &lt;- function(data, z) {
+  head(data_modify(data, z))
+}
+foo(iris, "var_a = Sepal.Width / 10")
+
+new_exp &lt;- c("SW_double = 2 * Sepal.Width", "SW_fraction = SW_double / 10")
+foo(iris, new_exp)
+
+# modify at specific positions or if condition is met
+d &lt;- iris[1:5, ]
+data_modify(d, .at = "Species", .modify = as.numeric)
+data_modify(d, .if = is.factor, .modify = as.numeric)
+
+# can be combined with dots
+data_modify(d, new_length = Petal.Length * 2, .at = "Species", .modify = as.numeric)
+
+# new variables used in `.at` or `.if`
+data_modify(
+  d,
+  new_length = Petal.Length * 2,
+  .at = c("Petal.Length", "new_length"),
+  .modify = round
+)
+
+# combine "data_find()" and ".at" argument
+out &lt;- data_modify(
+  d,
+  .at = data_find(d, select = starts_with("Sepal")),
+  .modify = as.factor
+)
+# "Sepal.Length" and "Sepal.Width" are now factors
+str(out)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply the internal-external-uncertainty (IEU) model after...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_IEU {Luminescence}"><tr><td>calc_IEU {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply the internal-external-uncertainty (IEU) model after Thomsen et al.
+(2007) to a given De distribution</h2>
+
+<h3>Description</h3>
+
+<p>Function to calculate the IEU De for a De data set.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_IEU(data, a, b, interval, decimal.point = 2, plot = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+for <a href="../../base/html/data.frame.html">data.frame</a>: two columns with De <code>(data[,1])</code> and
+De error <code>(values[,2])</code></p>
+</td></tr>
+<tr valign="top"><td><code>a</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+slope</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+intercept</p>
+</td></tr>
+<tr valign="top"><td><code>interval</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+fixed interval (e.g. 5 Gy) used for iteration of <code>Dbar</code>, from the mean to
+Lowest.De used to create Graph.IEU <code style="white-space: pre;">[Dbar.Fixed vs Z]</code></p>
+</td></tr>
+<tr valign="top"><td><code>decimal.point</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+number of decimal points for rounding calculations (e.g. 2)</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments (<code style="white-space: pre;">trace, verbose</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function uses the equations of Thomsen et al. (2007). The parameters a
+and b are estimated from dose-recovery experiments.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a plot (<em>optional</em>) and terminal output. In addition an
+<a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned containing the
+following elements:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>.$summary</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> summary of all relevant model results.</p>
+</td></tr>
+<tr valign="top"><td><code>.$data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> original input data</p>
+</td></tr>
+<tr valign="top"><td><code>.$args</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> used arguments</p>
+</td></tr>
+<tr valign="top"><td><code>.$call</code></td>
+<td>
+<p><a href="../../base/html/call.html">call</a> the function call</p>
+</td></tr>
+<tr valign="top"><td><code>.$tables</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> a list of data frames containing all calculation tables</p>
+</td></tr>
+</table>
+<p>The output should be accessed using the function <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Smedley, R.K., 2021. calc_IEU(): Apply the internal-external-uncertainty (IEU) model after Thomsen et al. (2007) to a given De distribution. Function version 0.1.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Rachel Smedley, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+Based on an excel spreadsheet and accompanying macro written by Kristina Thomsen.
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Smedley, R.K., 2015. A new R function for the Internal External Uncertainty (IEU) model.
+Ancient TL 33, 16-21.
+</p>
+<p>Thomsen, K.J., Murray, A.S., Boetter-Jensen, L. &amp; Kinahan, J.,
+2007. Determination of burial dose in incompletely bleached fluvial samples
+using single grains of quartz. Radiation Measurements 42, 370-379.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../Luminescence/help/calc_CommonDose.html">calc_CommonDose</a>, <a href="../../Luminescence/help/calc_CentralDose.html">calc_CentralDose</a>, <a href="../../Luminescence/help/calc_FiniteMixture.html">calc_FiniteMixture</a>,
+<a href="../../Luminescence/help/calc_FuchsLang2001.html">calc_FuchsLang2001</a>, <a href="../../Luminescence/help/calc_MinDose.html">calc_MinDose</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## load data
+data(ExampleData.DeValues, envir = environment())
+
+## apply the IEU model
+ieu &lt;- calc_IEU(ExampleData.DeValues$CA1, a = 0.2, b = 1.9, interval = 1)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

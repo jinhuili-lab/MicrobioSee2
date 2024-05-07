@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Attempts to install the development version of the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for install_DevelopmentVersion {Luminescence}"><tr><td>install_DevelopmentVersion {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Attempts to install the development version of the 'Luminescence' package</h2>
+
+<h3>Description</h3>
+
+<p>This function is a convenient method for installing the development
+version of the R package 'Luminescence' directly from GitHub.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+install_DevelopmentVersion(force_install = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>force_install</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>optional</em>):
+If <code>FALSE</code> (the default) the function produces and prints the required
+code to the console for the user to run manually afterwards. When <code>TRUE</code>
+and all requirements are fulfilled (see details) this function attempts to install
+the package itself.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function uses <a href="../../Luminescence/help/GitHub-API.html">Luminescence::github_branches</a> to check
+which development branches of the R package 'Luminescence' are currently
+available on GitHub. The user is then prompted to choose one of the branches
+to be installed. It further checks whether the R package 'devtools' is
+currently installed and available on the system. Finally, it prints R code
+to the console that the user can copy and paste to the R console in order
+to install the desired development version of the package.
+</p>
+<p>If <code>force_install=TRUE</code> the functions checks if 'devtools' is available
+and then attempts to install the chosen development branch via
+<a href="../../devtools/help/remote-reexports.html">devtools::remote-reexports</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function requires user input at the command prompt to choose the
+desired development branch to be installed. The required R code to install
+the package is then printed to the console.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+install_DevelopmentVersion()
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

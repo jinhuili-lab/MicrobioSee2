@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lines for triangle plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for triax.abline {plotrix}"><tr><td>triax.abline {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lines for triangle plot</h2>
+
+<h3>Description</h3>
+
+<p>Display lines on a triangle plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ triax.abline(b=NULL,r=NULL,l=NULL,col=par("col"),lty=par("lty"),
+  cc.axes=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>Lines relating to the bottom axis.</p>
+</td></tr>
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>Lines relating to the right axis.</p>
+</td></tr>
+<tr valign="top"><td><code>l</code></td>
+<td>
+<p>Lines relating to the left axis.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color(s) of the lines.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Type(s) of the lines.</p>
+</td></tr>
+<tr valign="top"><td><code>cc.axes</code></td>
+<td>
+<p>Clockwise/counterclockwise axes and ticks.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">triax.abline</span> displays one or more lines on a triangle plot. Lines
+are oriented in the conventional way, horizontal for the left axis, 
+slanting up to the right for the right axis and up to the left for the 
+bottom axis. If <span class="samp">cc.axes</span> is TRUE, the orientation is up-left for
+the left axis, horizontal for the right axis and up-right for the bottom
+axis.
+</p>
+<p>Remember to call <span class="samp">triax.plot</span> with <span class="samp">no.add=FALSE</span> and restore
+the graphics parameters as in the example or the lines will not be
+placed properly.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/triax.plot.html">triax.plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ triax.return&lt;-triax.plot(data.frame(bottom=0.4,right=0.3,left=0.3),
+  main="Triax ablines",no.add=FALSE)
+ triax.abline(l=0.3,col="red")
+ triax.abline(r=0.3,col="green")
+ triax.abline(b=0.4,col="blue")
+ par(triax.return$oldpar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

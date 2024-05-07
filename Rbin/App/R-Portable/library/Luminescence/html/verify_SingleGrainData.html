@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Verify single grain data sets and check for invalid grains,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for verify_SingleGrainData {Luminescence}"><tr><td>verify_SingleGrainData {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Verify single grain data sets and check for invalid grains, i.e.
+zero-light level grains</h2>
+
+<h3>Description</h3>
+
+<p>This function tries to identify automatically zero-light level curves (grains)
+from single grain data measurements.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+verify_SingleGrainData(
+  object,
+  threshold = 10,
+  cleanup = FALSE,
+  cleanup_level = "aliquot",
+  verbose = TRUE,
+  plot = FALSE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> or <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+input object. The function also accepts a list with objects of allowed type.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+numeric threshold value for the allowed difference between the <code>mean</code> and
+the <code>var</code> of the count values (see details)</p>
+</td></tr>
+<tr valign="top"><td><code>cleanup</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+if set to <code>TRUE</code> curves identified as zero light level curves are
+automatically removed. Output is an object as same type as the input, i.e.
+either <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> or <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a></p>
+</td></tr>
+<tr valign="top"><td><code>cleanup_level</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+selects the level for the cleanup of the input data sets.
+Two options are allowed: <code>"curve"</code> or <code>"aliquot"</code>:
+</p>
+
+<ul>
+<li><p> If  <code>"curve"</code> is selected every single curve marked as <code>invalid</code> is removed.
+</p>
+</li>
+<li><p> If <code>"aliquot"</code> is selected, curves of one aliquot (grain or disc) can be
+marked as invalid, but will not be removed. An aliquot will be only removed
+if all curves of this aliquot are marked as invalid.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables the terminal feedback</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables the graphical feedback</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>How does the method work?</strong>
+</p>
+<p>The function compares the expected values (<i>E(X)</i>) and the variance
+(<i>Var(X)</i>) of the count values for each curve. Assuming that the
+background roughly follows a Poisson distribution the absolute difference
+of both values should be zero or at least around zero as
+</p>
+<p style="text-align: center;"><i>E(x) = Var(x) = &lambda;</i></p>
+
+<p>Thus the function checks for:
+</p>
+<p style="text-align: center;"><i>abs(E(x) - Var(x)) &gt;= &Theta;</i></p>
+
+<p>With <i>&Theta;</i> an arbitrary, user defined, threshold. Values above the
+threshold indicating curves comprising a signal.
+</p>
+<p>Note: the absolute difference of <i>E(X)</i> and <i>Var(x)</i> instead of the
+ratio was chosen as both terms can become 0 which would result in 0 or <code>Inf</code>,
+if the ratio is calculated.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns
+</p>
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+<code style="white-space: pre;">[ NUMERICAL OUTPUT ]</code><br />
+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;<br />
+</p>
+<p><strong><code>RLum.Results</code></strong>-object
+</p>
+<p><strong>slot:****<code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$unique_pairs</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> the unique position and grain pairs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$selection_id</code> </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> the selection as record ID </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$selection_full</code> </td><td style="text-align: left;"> <code>data.frame</code> </td><td style="text-align: left;"> implemented models used in the baSAR-model core </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><strong>slot:****<code style="white-space: pre;">@info</code></strong>
+</p>
+<p>The original function call
+</p>
+<p><strong>Output variation</strong>
+</p>
+<p>For <code>cleanup = TRUE</code> the same object as the input is returned, but cleaned up
+(invalid curves were removed). This means: Either an <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>
+or an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object is returned in such cases.
+An <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object can be exported to a BIN-file by
+using the function <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. verify_SingleGrainData(): Verify single grain data sets and check for invalid grains, i.e. zero-light level grains. Function version 0.2.2. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function can work with <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects or
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> objects (or a list of it). However, the function is
+highly optimised for <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> objects as it make sense to
+remove identify invalid grains before the conversion to an
+<a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object.
+</p>
+<p>The function checking for invalid curves works rather robust and it is likely
+that Reg0 curves within a SAR cycle are removed as well. Therefore it is
+strongly recommended to use the argument <code>cleanup = TRUE</code> carefully.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>,
+<a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##01 - basic example I
+##just show how to apply the function
+data(ExampleData.XSYG, envir = environment())
+
+##verify and get data.frame out of it
+verify_SingleGrainData(OSL.SARMeasurement$Sequence.Object)$selection_full
+
+##02 - basic example II
+data(ExampleData.BINfileData, envir = environment())
+id &lt;- verify_SingleGrainData(object = CWOSL.SAR.Data,
+cleanup_level = "aliquot")$selection_id
+
+## Not run: 
+##03 - advanced example I
+##importing and exporting a BIN-file
+
+##select and import file
+file &lt;- file.choose()
+object &lt;- read_BIN2R(file)
+
+##remove invalid aliquots(!)
+object &lt;- verify_SingleGrainData(object, cleanup = TRUE)
+
+##export to new BIN-file
+write_R2BIN(object, paste0(dirname(file),"/", basename(file), "_CLEANED.BIN"))
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lists of Polynomials</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for polylist {polynom}"><tr><td>polylist {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lists of Polynomials</h2>
+
+<h3>Description</h3>
+
+<p>Create and manipulate lists of polynomials.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+polylist(...)
+as.polylist(x)
+is.polylist(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p><span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> objects, polynomials or capable of coercion to polynomials.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>polylist</code> takes a list of arguments, tries to convert each into
+a polynomial (see <code><a href="../../polynom/help/polynomial.html">polynomial</a></code>), and sets the class of the
+list to <code>"polylist"</code>.
+</p>
+<p><code>as.polylist</code> tries to coerce its arguments to a polylist, and
+will do so for arguments which are polynomials or lists thereof.
+</p>
+<p><code>is.polylist</code> tests whether its argument is a polylist.
+</p>
+<p>This class has several useful methods, such as taking derivatives
+(<code><a href="../../stats/html/deriv.html">deriv</a></code>) and antiderivatives (<code><a href="../../polynom/help/integral.html">integral</a></code>),
+printing and plotting, subscripting, computing sums and products of
+the elements, and methods for <code><a href="../../base/html/c.html">c</a></code>, <code><a href="../../base/html/rep.html">rep</a></code>, and
+<code><a href="../../base/html/unique.html">unique</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Calculate orthogonal polynomials
+pl &lt;- poly.orth(rep(1:4, 1:4), 3)
+pl
+plot(pl)
+deriv(pl)
+integral(pl)
+sum(pl)
+prod(pl)
+unique(rep(pl, 3)[c(8, 12)])
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

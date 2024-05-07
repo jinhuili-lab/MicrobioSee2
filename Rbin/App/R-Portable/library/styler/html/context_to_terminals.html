@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Propagate context to terminals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for context_to_terminals {styler}"><tr><td>context_to_terminals {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Propagate context to terminals</h2>
+
+<h3>Description</h3>
+
+<p>Implements a very specific pre-visiting scheme, namely to propagate
+indention, spaces and lag_newlines to inner token to terminals. This means
+that information regarding indention, line breaks and spaces (which is
+relative in <code>pd_nested</code>) will be converted into absolute.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+context_to_terminals(
+  pd_nested,
+  outer_lag_newlines,
+  outer_indent,
+  outer_spaces,
+  outer_indention_refs
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd_nested</code></td>
+<td>
+<p>A nested parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>outer_lag_newlines</code></td>
+<td>
+<p>The lag_newlines to be propagated inwards.</p>
+</td></tr>
+<tr valign="top"><td><code>outer_indent</code></td>
+<td>
+<p>The indention depth to be propagated inwards.</p>
+</td></tr>
+<tr valign="top"><td><code>outer_spaces</code></td>
+<td>
+<p>The number of spaces to be propagated inwards.</p>
+</td></tr>
+<tr valign="top"><td><code>outer_indention_refs</code></td>
+<td>
+<p>The reference pos id that should be propagated
+inwards.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An updated parse table.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>context_towards_terminals visitors
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

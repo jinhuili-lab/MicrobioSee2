@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Is this longitude/latitude data?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for isLonLat {raster}"><tr><td>isLonLat {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Is this longitude/latitude data?</h2>
+
+<h3>Description</h3>
+
+<p>Test whether a Raster* or other object has a longitude/latitude coordinate reference system (CRS) by inspecting the PROJ.4 coordinate reference system description. <code>couldBeLonLat</code> also returns <code>TRUE</code> if the CRS is <code>NA</code> but the x coordinates are within -365 and 365 and the y coordinates are within -90.1 and 90.1.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BasicRaster'
+isLonLat(x, ...)
+## S4 method for signature 'Spatial'
+isLonLat(x, ...)
+## S4 method for signature 'BasicRaster'
+couldBeLonLat(x, warnings=TRUE, ...)
+## S4 method for signature 'Spatial'
+couldBeLonLat(x, warnings=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Spatial* object</p>
+</td></tr>
+<tr valign="top"><td><code>warnings</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a warning is given if the CRS is <code>NA</code> or when the CRS is longitude/latitude but the coordinates do not match that</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Logical
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster()
+isLonLat(r)
+crs(r) &lt;- "+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +ellps=WGS84"
+isLonLat(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

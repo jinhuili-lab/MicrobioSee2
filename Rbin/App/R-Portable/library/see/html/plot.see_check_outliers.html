@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for checking outliers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_check_outliers {see}"><tr><td>plot.see_check_outliers {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for checking outliers</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>performance::check_outliers()</code>
+function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_check_outliers'
+plot(
+  x,
+  size_text = 3.5,
+  size_line = 0.8,
+  dot_alpha = 0.8,
+  colors = c("#3aaf85", "#1b6ca8", "#cd201f"),
+  rescale_distance = TRUE,
+  type = c("dots", "bars"),
+  show_labels = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>size_text</code></td>
+<td>
+<p>Numeric value specifying size of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>size_line</code></td>
+<td>
+<p>Numeric value specifying size of line geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>dot_alpha</code></td>
+<td>
+<p>Numeric value specifying alpha level of the
+confidence bands and point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>colors</code></td>
+<td>
+<p>Character vector of length two, indicating the colors (in
+hex-format) for points and line.</p>
+</td></tr>
+<tr valign="top"><td><code>rescale_distance</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, distance values are rescaled
+to a range from 0 to 1. This is mainly due to better catch the differences
+between distance values.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character vector, indicating the type of plot.</p>
+</td></tr>
+<tr valign="top"><td><code>show_labels</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, text labels are displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(performance)
+data(mtcars)
+mt1 &lt;- mtcars[, c(1, 3, 4)]
+mt2 &lt;- rbind(
+  mt1,
+  data.frame(mpg = c(37, 40), disp = c(300, 400), hp = c(110, 120))
+)
+model &lt;- lm(disp ~ mpg + hp, data = mt2)
+plot(check_outliers(model))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

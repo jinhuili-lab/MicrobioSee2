@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extract a single column</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pull.tbl_sql {dbplyr}"><tr><td>pull.tbl_sql {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extract a single column</h2>
+
+<h3>Description</h3>
+
+<p>This is a method for the dplyr <code><a href="../../dplyr/html/pull.html">pull()</a></code> generic. It evaluates the query
+retrieving just the specified column.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'tbl_sql'
+pull(.data, var = -1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>.data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>var</code></td>
+<td>
+<p>A variable specified as:
+</p>
+
+<ul>
+<li><p> a literal variable name
+</p>
+</li>
+<li><p> a positive integer, giving the position counting from the left
+</p>
+</li>
+<li><p> a negative integer, giving the position counting from the right.
+</p>
+</li></ul>
+
+<p>The default returns the last column (on the assumption that's the
+column you've created most recently).
+</p>
+<p>This argument is taken by expression and supports
+<a href="../../rlang/help/nse-force.html">quasiquotation</a> (you can unquote column
+names and column locations).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of data.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+db &lt;- memdb_frame(x = 1:5, y = 5:1)
+db %&gt;%
+  mutate(z = x + y * 2) %&gt;%
+  pull()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

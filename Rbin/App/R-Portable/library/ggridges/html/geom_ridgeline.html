@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a ridgeline (line with filled area underneath)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for geom_ridgeline {ggridges}"><tr><td>geom_ridgeline {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a ridgeline (line with filled area underneath)</h2>
+
+<h3>Description</h3>
+
+<p>Plots the sum of the <code>y</code> and <code>height</code> aesthetics versus <code>x</code>, filling the area between <code>y</code> and <code>y + height</code> with a color.
+Thus, the data mapped onto y and onto height must be in the same units.
+If you want relative scaling of the heights, you can use <code><a href="../../ggridges/help/geom_density_ridges.html">geom_density_ridges</a></code> with <code>stat = "identity"</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geom_ridgeline(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="../../ggplot2/html/aes.html">aes()</a></code> or
+<code><a href="../../ggplot2/html/aes_.html">aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="../../ggplot2/html/ggplot.html">ggplot()</a></code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame.</code>, and
+will be used as the layer data.</p>
+</td></tr>
+<tr valign="top"><td><code>stat</code></td>
+<td>
+<p>The statistical transformation to use on the data for this
+layer, as a string.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed on to <code><a href="../../ggplot2/html/layer.html">layer()</a></code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>color = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In addition to drawing ridgelines, this geom can also draw points if they are provided as part of the dataset.
+The stat <code><a href="../../ggridges/help/stat_density_ridges.html">stat_density_ridges()</a></code> takes advantage of this option to generate ridgeline plots with overlaid
+jittered points.
+</p>
+
+
+<h3>Aesthetics</h3>
+
+<p>Required aesthetics are in bold.
+</p>
+
+<ul>
+<li> <p><strong><code>x</code></strong>
+</p>
+</li>
+<li> <p><strong><code>y</code></strong>
+</p>
+</li>
+<li> <p><strong><code>height</code></strong> Height of the ridgeline, measured from the respective <code>y</code> value. Assumed to be positive, though this is not required.
+</p>
+</li>
+<li> <p><code>group</code> Defines the grouping. Required when the dataset contains multiple distinct ridgelines. Will typically be the same
+variable as is mapped to <code>y</code>.
+</p>
+</li>
+<li> <p><code>scale</code> A scaling factor to scale the height of the ridgelines.
+A value of 1 indicates that the heights are taken as is. This aesthetic can be used to convert
+<code>height</code> units into <code>y</code> units.
+</p>
+</li>
+<li> <p><code>min_height</code> A height cutoff on the drawn ridgelines. All values that fall below this cutoff will be removed.
+The main purpose of this cutoff is to remove long tails right at the baseline level, but other uses are possible.
+The cutoff is applied before any height
+scaling is applied via the <code>scale</code> aesthetic. Default is 0, so negative values are removed.
+</p>
+</li>
+<li> <p><code>colour</code> Color of the ridgeline
+</p>
+</li>
+<li> <p><code>fill</code> Fill color of the area under the ridgeline
+</p>
+</li>
+<li> <p><code>alpha</code> Transparency level of <code>fill</code>. Not applied to <code>color</code>. If you want transparent lines, you can set their
+color as RGBA value, e.g. #FF0000A0 for partially transparent red.
+</p>
+</li>
+<li> <p><code>group</code> Grouping, to draw multiple ridgelines from one dataset
+</p>
+</li>
+<li> <p><code>linetype</code> Linetype of the ridgeline
+</p>
+</li>
+<li> <p><code>size</code> Line thickness
+</p>
+</li>
+<li> <p><code>point_shape</code>, <code>point_colour</code>, <code>point_size</code>, <code>point_fill</code>, <code>point_alpha</code>, <code>point_stroke</code> Aesthetics applied
+to points drawn in addition to ridgelines.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+d &lt;- data.frame(x = rep(1:5, 3), y = c(rep(0, 5), rep(1, 5), rep(3, 5)),
+                height = c(0, 1, 3, 4, 0, 1, 2, 3, 5, 4, 0, 5, 4, 4, 1))
+ggplot(d, aes(x, y, height = height, group = y)) + geom_ridgeline(fill="lightblue")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

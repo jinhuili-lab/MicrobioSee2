@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of Mixed Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_performance.merMod {performance}"><tr><td>model_performance.merMod {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of Mixed Models</h2>
+
+<h3>Description</h3>
+
+<p>Compute indices of model performance for mixed models.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'merMod'
+model_performance(
+  model,
+  metrics = "all",
+  estimator = "REML",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A mixed effects model.</p>
+</td></tr>
+<tr valign="top"><td><code>metrics</code></td>
+<td>
+<p>Can be <code>"all"</code>, <code>"common"</code> or a character vector of
+metrics to be computed (some of <code>c("AIC", "AICc", "BIC", "R2", "ICC", "RMSE", "SIGMA", "LOGLOSS", "SCORE")</code>). <code>"common"</code> will compute AIC,
+BIC, R2, ICC and RMSE.</p>
+</td></tr>
+<tr valign="top"><td><code>estimator</code></td>
+<td>
+<p>Only for linear models. Corresponds to the different
+estimators for the standard deviation of the errors. If <code>estimator = "ML"</code>
+(default, except for <code>performance_aic()</code> when the model object is of class
+<code>lmerMod</code>), the scaling is done by <code>n</code> (the biased ML estimator), which is
+then equivalent to using <code>AIC(logLik())</code>. Setting it to <code>"REML"</code> will give
+the same results as <code>AIC(logLik(..., REML = TRUE))</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Intraclass Correlation Coefficient (ICC)</h4>
+
+<p>This method returns the <em>adjusted ICC</em> only, as this is typically of
+interest when judging the variance attributed to the random effects part of
+the model (see also <code><a href="../../performance/help/icc.html">icc()</a></code>).
+</p>
+
+
+
+<h4>REML versus ML estimator</h4>
+
+<p>The default behaviour of <code>model_performance()</code> when computing AIC or BIC of
+linear mixed model from package <strong>lme4</strong> is the same as for <code>AIC()</code> or
+<code>BIC()</code> (i.e. <code>estimator = "REML"</code>). However, for model comparison using
+<code>compare_performance()</code> sets <code>estimator = "ML"</code> by default, because
+<em>comparing</em> information criteria based on REML fits is usually not valid
+(unless all models have the same fixed effects). Thus, make sure to set
+the correct estimator-value when looking at fit-indices or comparing model
+fits.
+</p>
+
+
+
+<h4>Other performance indices</h4>
+
+<p>Furthermore, see 'Details' in <code><a href="../../performance/help/model_performance.lm.html">model_performance.lm()</a></code> for more details
+on returned indices.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame (with one row) and one column per &quot;index&quot; (see
+<code>metrics</code>).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+model &lt;- lme4::lmer(Petal.Length ~ Sepal.Length + (1 | Species), data = iris)
+model_performance(model)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

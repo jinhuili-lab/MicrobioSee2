@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display current Bioconductor and CRAN repositories.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for repositories {BiocManager}"><tr><td>repositories {BiocManager}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display current Bioconductor and CRAN repositories.</h2>
+
+<h3>Description</h3>
+
+<p><code>repositories()</code> reports the URLs from which to
+install <em>Bioconductor</em> and CRAN packages. It is used by
+<code>BiocManager::install()</code> and other functions.
+</p>
+<p><code>containerRepository()</code> reports the location of the repository
+of binary packages for fast installation within containerized versions
+of Bioconductor, if available.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+repositories(
+  site_repository = character(),
+  version = BiocManager::version(),
+  ...,
+  type = "both"
+)
+
+containerRepository(version = BiocManager::version(), type = "binary")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>site_repository</code></td>
+<td>
+<p>(Optional) <code>character(1)</code> representing an
+additional repository (e.g., a URL to an organization's
+internally maintained repository) in which to look for packages
+to install. This repository will be prepended to the default
+repositories returned by the function.</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>(Optional) <code>character(1)</code> or <code>package_version</code>
+indicating the <em>Bioconductor</em> version (e.g., &quot;3.8&quot;) for which
+repositories are required.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional parameters passed to lower level functions, not
+used.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>(Optional) <code>character(1)</code> indicating the type of package
+repository to retrieve (default: &quot;both&quot;). Setting <code>type</code> to &quot;source&quot; will
+disable any Bioconductor binary packages specifically built for the
+containers.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>repositories()</code> returns the appropriate software package
+repositories for your version of <em>Bioconductor</em>.
+</p>
+<p><em>Bioconductor</em> has a 'release' and a 'devel' semi-annual release
+cycle. Packages within a release have been tested against each
+other and the current version of packages on CRAN. <em>Bioconductor</em>
+best practice is to use packages from the same release, and from
+the appropriate CRAN repository.
+</p>
+<p>To install binary packages on containerized versions of Bioconductor,
+a default binary package location URL is set as a package constant,
+see <code>BiocManager:::BINARY_BASE_URL</code>. Binary package installations
+are enabled by default for Bioconductor Docker containers. Anyone
+wishing to opt out of the binary package installation can set either the
+variable or the option, <span class="env">BIOCONDUCTOR_USE_CONTAINER_REPOSITORY</span>, to
+<code>FALSE</code>. Note that the availability of Bioconductor package binaries is
+experimental and binary installations are intended to be used with
+<code>bioconductor/bioconductor_docker</code> images where such installations
+correspond to specific versions of Linux / Ubuntu.
+</p>
+<p>If alternative default repositories are known to provide appropriate
+versions of CRAN or <em>Bioconductor</em> packages, the message may be silenced
+by setting either the option or the variable to <code>FALSE</code>, i.e.,
+<code>options(BiocManager.check_repositories = FALSE)</code> or
+<span class="env">BIOCMANAGER_CHECK_REPOSITORIES=FALSE</span>. Alternative default
+repositories are not guaranteed to work without issues related to
+incompatible package installations and are used at the user's own risk.
+</p>
+<p>The intended use of <code style="white-space: pre;">site_repository =</code> is to enable installation of
+packages not available in the default repositories, e.g., packages
+internal to an organization and not yet publicly available. A
+secondary use might provide alternative versions (e.g., compiled
+binaries) of packages available in the default repositories. Note
+that <em>R</em>'s standard rules of package selection apply, so the most
+recent version of candidate packages is selected independent of the
+location of the repository in the vector returned by <code>repositories()</code>.
+To set a more permenanent <code>site_repository</code>, one can use either the
+<span class="env">BIOCMANAGER_SITE_REPOSITORY</span> environment variable or the
+<code>options(BiocManager.site_repository = ...)</code> option.
+</p>
+<p>For greater flexiblity in installing packages while still adhering
+as much as possible to <em>Bioconductor</em> best practices, use
+<code>repositories()</code> as a basis for constructing the <code style="white-space: pre;">repos =</code> argument
+to <code>install.packages()</code> and related functions.
+</p>
+<p>The unexported URL to the base repository is available with
+<code>BiocManager:::BINARY_BASE_URL</code>.
+</p>
+<p><span class="env">BIOCONDUCTOR_USE_CONTAINER_REPOSITORY</span> is an environment
+variable or global <code>options()</code> which, when set to <code>FALSE</code>, avoids
+the fast installation of binary packages within containerized
+versions of Bioconductor.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>repositories()</code>: named <code>character()</code> of repositories.
+</p>
+<p><code>containerRepository()</code>: character(1) location of binary repository,
+if available, or character(0) if not.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>BiocManager::<a href="../../BiocManager/help/install.html">install</a>()</code> Installs or updates Bioconductor,
+CRAN, and GitHub packages.
+</p>
+<p><code><a href="../../utils/html/chooseBioCmirror.html">chooseBioCmirror</a>()</code> choose an alternative Bioconductor
+mirror; not usually necessary.
+</p>
+<p><code><a href="../../utils/html/chooseCRANmirror.html">chooseCRANmirror</a>()</code> choose an alternative CRAN mirror; not
+usually necessary.
+</p>
+<p><code><a href="../../utils/html/setRepositories.html">setRepositories</a>()</code> Select additional repositories for
+searching.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+BiocManager::repositories()
+## Not run: 
+BiocManager::repositories(version="3.8")
+
+## End(Not run)
+
+containerRepository() # character(0) if not within a Bioconductor container
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BiocManager</em> version 1.30.22 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for density estimation of posterior samples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_estimate_density {see}"><tr><td>plot.see_estimate_density {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for density estimation of posterior samples</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>bayestestR::estimate_density()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_estimate_density'
+plot(
+  x,
+  stack = TRUE,
+  show_intercept = FALSE,
+  n_columns = 1,
+  priors = FALSE,
+  priors_alpha = 0.4,
+  posteriors_alpha = 0.7,
+  size_line = 0.9,
+  size_point = 2,
+  centrality = "median",
+  ci = 0.95,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>stack</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, densities are plotted as stacked lines.
+Else, densities are plotted for each parameter among each other.</p>
+</td></tr>
+<tr valign="top"><td><code>show_intercept</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the intercept-parameter is included
+in the plot. By default, it is hidden because in many cases the
+intercept-parameter has a posterior distribution on a very different
+location, so density curves of posterior distributions for other parameters
+are hardly visible.</p>
+</td></tr>
+<tr valign="top"><td><code>n_columns</code></td>
+<td>
+<p>For models with multiple components (like fixed and random,
+count and zero-inflated), defines the number of columns for the
+panel-layout. If <code>NULL</code>, a single, integrated plot is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>priors</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, prior distributions are simulated
+(using <code><a href="../../bayestestR/help/simulate_prior.html">bayestestR::simulate_prior()</a></code>) and added
+to the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>priors_alpha</code></td>
+<td>
+<p>Numeric value specifying alpha for the prior
+distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>posteriors_alpha</code></td>
+<td>
+<p>Numeric value specifying alpha for the posterior
+distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>size_line</code></td>
+<td>
+<p>Numeric value specifying size of line geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>centrality</code></td>
+<td>
+<p>Character specifying the point-estimate (centrality index)
+to compute. Can be <code>"median"</code>, <code>"mean"</code> or <code>"MAP"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Numeric value of probability of the CI (between 0 and 1) to be
+estimated. Default to <code>.95</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+if (require("bayestestR") &amp;&amp; require("rstanarm")) {
+  set.seed(123)
+  m &lt;&lt;- stan_glm(Sepal.Length ~ Petal.Width * Species, data = iris, refresh = 0)
+  result &lt;- estimate_density(m)
+  plot(result)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

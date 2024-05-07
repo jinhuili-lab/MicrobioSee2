@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculates the Thermal Lifetime using the Arrhenius equation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_ThermalLifetime {Luminescence}"><tr><td>calc_ThermalLifetime {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculates the Thermal Lifetime using the Arrhenius equation</h2>
+
+<h3>Description</h3>
+
+<p>The function calculates the thermal lifetime of charges for given E (in eV), s (in 1/s) and
+T (in deg. C.) parameters. The function can be used in two operational modes:
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_ThermalLifetime(
+  E,
+  s,
+  T = 20,
+  output_unit = "Ma",
+  profiling = FALSE,
+  profiling_config = NULL,
+  verbose = TRUE,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>E</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+vector of trap depths in eV,
+if <code>profiling = TRUE</code> only the first two elements are considered</p>
+</td></tr>
+<tr valign="top"><td><code>s</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<strong>required</strong>):
+vector of frequency factor in 1/s,
+if <code>profiling = TRUE</code> only the first two elements are considered</p>
+</td></tr>
+<tr valign="top"><td><code>T</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+temperature in deg. C for which the lifetime(s) will be calculated.
+A vector can be provided.</p>
+</td></tr>
+<tr valign="top"><td><code>output_unit</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+output unit of the calculated lifetimes, accepted
+entries are: <code>"Ma"</code>, <code>"ka"</code>, <code>"a"</code>, <code>"d"</code>, <code>"h"</code>, <code>"min"</code>, <code>"s"</code></p>
+</td></tr>
+<tr valign="top"><td><code>profiling</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+this option allows to estimate uncertainties based on
+given E and s parameters and their corresponding standard error
+(cf. details and examples section)</p>
+</td></tr>
+<tr valign="top"><td><code>profiling_config</code></td>
+<td>
+<p><a href="../../base/html/list.html">list</a> (<em>optional</em>):
+allows to set configuration parameters used for the profiling
+(and only have an effect here). Supported parameters are:
+</p>
+
+<ul>
+<li> <p><code>n</code> (number of MC runs),
+</p>
+</li>
+<li> <p><code>E.distribution</code> (distribution used for the re-sampling for E) and
+</p>
+</li>
+<li> <p><code>s.distribution</code> (distribution used for the re-sampling for s).
+</p>
+</li></ul>
+
+<p>Currently only the normal distribution is supported
+(e.g., <code>profiling_config = list(E.distribution = "norm")</code></p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a>:
+enables/disables verbose mode</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a>:
+enables/disables output plot, currently only in combination with <code>profiling = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that can be passed in combination with the plot output.
+Standard plot parameters are supported (<a href="../../graphics/html/plot.default.html">plot.default</a>)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Mode 1 <code>(profiling = FALSE)</code></strong>
+</p>
+<p>An arbitrary set of input parameters (E, s, T) can be provided and the
+function calculates the thermal lifetimes using the Arrhenius equation for
+all possible combinations of these input parameters. An array with 3-dimensions
+is returned that can be used for further analyses or graphical output (see example 1)
+</p>
+<p><strong>Mode 2 <code>(profiling = TRUE)</code></strong>
+</p>
+<p>This mode tries to profile the variation of the thermal lifetime for a chosen
+temperature by accounting for the provided E and s parameters and their corresponding
+standard errors, e.g., <code>E = c(1.600, 0.001)</code>
+The calculation based on a Monte Carlo simulation, where values are sampled from a normal
+distribution (for E and s).
+</p>
+<p><strong>Used equation (Arrhenius equation)</strong>
+</p>
+<p style="text-align: center;"><i>&tau; = 1/s exp(E/kT)</i></p>
+
+<p>where:
+<i>&tau;</i> in s as the mean time an electron spends in the trap for a given <i>T</i>,
+<i>E</i> trap depth in eV,
+<i>s</i> the frequency factor in 1/s,
+<i>T</i> the temperature in K and <i>k</i> the Boltzmann constant in eV/K (cf. Furetta, 2010).
+</p>
+
+
+<h3>Value</h3>
+
+<p>A <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned a along with a plot (for
+<code>profiling = TRUE</code>). The output object contain the following slots:
+</p>
+<p><strong><code style="white-space: pre;">@data</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Object</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>lifetimes</code> </td><td style="text-align: left;"> <a href="../../base/html/array.html">array</a> or <a href="../../base/html/numeric.html">numeric</a> </td><td style="text-align: left;"> calculated lifetimes </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>profiling_matrix</code> </td><td style="text-align: left;"> <a href="../../base/html/matrix.html">matrix</a> </td><td style="text-align: left;"> profiling matrix used for the MC runs
+</td>
+</tr>
+
+</table>
+
+<p><strong><code style="white-space: pre;">@info</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Object</strong> </td><td style="text-align: left;"> <strong>Type</strong> </td><td style="text-align: left;"> <strong>Description</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>call</code> </td><td style="text-align: left;"> <code>call</code> </td><td style="text-align: left;"> the original function call
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. calc_ThermalLifetime(): Calculates the Thermal Lifetime using the Arrhenius equation. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The profiling is currently based on re-sampling from a normal distribution, this
+distribution assumption might be, however, not valid for given E and s parameters.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Furetta, C., 2010. Handbook of Thermoluminescence, Second Edition. World Scientific.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/help/matplot.html">graphics::matplot</a>, <a href="../../stats/help/Normal.html">stats::rnorm</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##EXAMPLE 1
+##calculation for two trap-depths with similar frequency factor for different temperatures
+E &lt;- c(1.66, 1.70)
+s &lt;- 1e+13
+T &lt;- 10:20
+temp &lt;- calc_ThermalLifetime(
+  E = E,
+  s = s,
+  T = T,
+  output_unit = "Ma"
+)
+contour(x = E, y = T, z = temp$lifetimes[1,,],
+        ylab = "Temperature [\u00B0C]",
+        xlab = "Trap depth [eV]",
+        main = "Thermal Lifetime Contour Plot"
+)
+mtext(side = 3, "(values quoted in Ma)")
+
+##EXAMPLE 2
+##profiling of thermal life time for E and s and their standard error
+E &lt;- c(1.600, 0.003)
+s &lt;- c(1e+13,1e+011)
+T &lt;- 20
+calc_ThermalLifetime(
+  E = E,
+  s = s,
+  T = T,
+  profiling = TRUE,
+  output_unit = "Ma"
+)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Assign variable and value labels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for assign_labels {datawizard}"><tr><td>assign_labels {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assign variable and value labels</h2>
+
+<h3>Description</h3>
+
+<p>Assign variable and values labels to a variable or variables in a data frame.
+Labels are stored as attributes (<code>"label"</code> for variable labels and <code>"labels"</code>)
+for value labels.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+assign_labels(x, ...)
+
+## S3 method for class 'numeric'
+assign_labels(x, variable = NULL, values = NULL, ...)
+
+## S3 method for class 'data.frame'
+assign_labels(
+  x,
+  select = NULL,
+  exclude = NULL,
+  values = NULL,
+  ignore_case = FALSE,
+  regex = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame, factor or vector.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>variable</code></td>
+<td>
+<p>The variable label as string.</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>The value labels as (named) character vector. If <code>values</code> is
+<em>not</em> a named vector, the length of labels must be equal to the length of
+unique values. For a named vector, the left-hand side (LHS) is the value in
+<code>x</code>, the right-hand side (RHS) the associated value label. Non-matching
+labels are omitted.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Variables that will be included when performing the required
+tasks. Can be either
+</p>
+
+<ul>
+<li><p> a variable specified as a literal variable name (e.g., <code>column_name</code>),
+</p>
+</li>
+<li><p> a string with the variable name (e.g., <code>"column_name"</code>), or a character
+vector of variable names (e.g., <code>c("col1", "col2", "col3")</code>),
+</p>
+</li>
+<li><p> a formula with variable names (e.g., <code>~column_1 + column_2</code>),
+</p>
+</li>
+<li><p> a vector of positive integers, giving the positions counting from the left
+(e.g. <code>1</code> or <code>c(1, 3, 5)</code>),
+</p>
+</li>
+<li><p> a vector of negative integers, giving the positions counting from the
+right (e.g., <code>-1</code> or <code>-1:-3</code>),
+</p>
+</li>
+<li><p> one of the following select-helpers: <code>starts_with()</code>, <code>ends_with()</code>,
+<code>contains()</code>, a range using <code>:</code> or <code>regex("")</code>. <code>starts_with()</code>,
+<code>ends_with()</code>, and  <code>contains()</code> accept several patterns, e.g
+<code>starts_with("Sep", "Petal")</code>.
+</p>
+</li>
+<li><p> or a function testing for logical conditions, e.g. <code>is.numeric()</code> (or
+<code>is.numeric</code>), or any user-defined function that selects the variables
+for which the function returns <code>TRUE</code> (like: <code>foo &lt;- function(x) mean(x) &gt; 3</code>),
+</p>
+</li>
+<li><p> ranges specified via literal variable names, select-helpers (except
+<code>regex()</code>) and (user-defined) functions can be negated, i.e. return
+non-matching elements, when prefixed with a <code>-</code>, e.g. <code>-ends_with("")</code>,
+<code>-is.numeric</code> or <code>-(Sepal.Width:Petal.Length)</code>. <strong>Note:</strong> Negation means
+that matches are <em>excluded</em>, and thus, the <code>exclude</code> argument can be
+used alternatively. For instance, <code>select=-ends_with("Length")</code> (with
+<code>-</code>) is equivalent to <code>exclude=ends_with("Length")</code> (no <code>-</code>). In case
+negation should not work as expected, use the <code>exclude</code> argument instead.
+</p>
+</li></ul>
+
+<p>If <code>NULL</code>, selects all columns. Patterns that found no matches are silently
+ignored, e.g. <code>find_columns(iris, select = c("Species", "Test"))</code> will just
+return <code>"Species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>See <code>select</code>, however, column names matched by the pattern
+from <code>exclude</code> will be excluded instead of selected. If <code>NULL</code> (the default),
+excludes no columns.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore_case</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and when one of the select-helpers or
+a regular expression is used in <code>select</code>, ignores lower/upper case in the
+search pattern when matching against variable names.</p>
+</td></tr>
+<tr valign="top"><td><code>regex</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the search pattern from <code>select</code> will be
+treated as regular expression. When <code>regex = TRUE</code>, select <em>must</em> be a
+character string (or a variable containing a character string) and is not
+allowed to be one of the supported select-helpers or a character vector
+of length &gt; 1. <code>regex = TRUE</code> is comparable to using one of the two
+select-helpers, <code>select = contains("")</code> or <code>select = regex("")</code>, however,
+since the select-helpers may not work when called from inside other
+functions (see 'Details'), this argument may be used as workaround.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A labelled variable, or a data frame of labelled variables.
+</p>
+
+
+<h3>Selection of variables - the <code>select</code> argument</h3>
+
+<p>For most functions that have a <code>select</code> argument (including this function),
+the complete input data frame is returned, even when <code>select</code> only selects
+a range of variables. That is, the function is only applied to those variables
+that have a match in <code>select</code>, while all other variables remain unchanged.
+In other words: for this function, <code>select</code> will not omit any non-included
+variables, so that the returned data frame will include all variables
+from the input data frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 1:3
+# labelling by providing required number of labels
+assign_labels(
+  x,
+  variable = "My x",
+  values = c("one", "two", "three")
+)
+
+# labelling using named vectors
+data(iris)
+out &lt;- assign_labels(
+  iris$Species,
+  variable = "Labelled Species",
+  values = c(`setosa` = "Spec1", `versicolor` = "Spec2", `virginica` = "Spec3")
+)
+str(out)
+
+# data frame example
+out &lt;- assign_labels(
+  iris,
+  select = "Species",
+  variable = "Labelled Species",
+  values = c(`setosa` = "Spec1", `versicolor` = "Spec2", `virginica` = "Spec3")
+)
+str(out$Species)
+
+# Partial labelling
+x &lt;- 1:5
+assign_labels(
+  x,
+  variable = "My x",
+  values = c(`1` = "lowest", `5` = "highest")
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

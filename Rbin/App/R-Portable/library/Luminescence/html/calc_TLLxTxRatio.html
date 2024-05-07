@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate the Lx/Tx ratio for a given set of TL curves -beta...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_TLLxTxRatio {Luminescence}"><tr><td>calc_TLLxTxRatio {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate the Lx/Tx ratio for a given set of TL curves -beta version-</h2>
+
+<h3>Description</h3>
+
+<p>Calculate Lx/Tx ratio for a given set of TL curves.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_TLLxTxRatio(
+  Lx.data.signal,
+  Lx.data.background = NULL,
+  Tx.data.signal,
+  Tx.data.background = NULL,
+  signal.integral.min,
+  signal.integral.max
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Lx.data.signal</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+TL data (x = temperature, y = counts) (TL signal)</p>
+</td></tr>
+<tr valign="top"><td><code>Lx.data.background</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<em>optional</em>):
+TL data (x = temperature, y = counts).
+If no data are provided no background subtraction is performed.</p>
+</td></tr>
+<tr valign="top"><td><code>Tx.data.signal</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+TL data (x = temperature, y = counts) (TL test signal)</p>
+</td></tr>
+<tr valign="top"><td><code>Tx.data.background</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<em>optional</em>):
+TL data (x = temperature, y = counts).
+If no data are provided no background subtraction is performed.</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.min</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+channel number for the lower signal integral bound
+(e.g. <code>signal.integral.min = 100</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>signal.integral.max</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<strong>required</strong>):
+channel number for the upper signal integral bound
+(e.g. <code>signal.integral.max = 200</code>)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Uncertainty estimation</strong>
+</p>
+<p>The standard errors are calculated using the following generalised equation:
+</p>
+<p style="text-align: center;"><i>SE_{signal} &lt;- abs(Signal_{net} * BG_f /BG_{signal}</i></p>
+
+<p>where <i>BG_f</i> is a term estimated by calculating the standard deviation of the sum of
+the <i>L_x</i> background counts and the sum of the <i>T_x</i> background counts. However,
+if both signals are similar the error becomes zero.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 object of type <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>.
+Slot <code>data</code> contains a <a href="../../base/html/list.html">list</a> with the following structure:</p>
+<pre>$ LxTx.table
+.. $ LnLx
+.. $ LnLx.BG
+.. $ TnTx
+.. $ TnTx.BG
+.. $ Net_LnLx
+.. $ Net_LnLx.Error
+</pre>
+
+
+<h3>Function version</h3>
+
+<p>0.3.3
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Schmidt, C., 2021. calc_TLLxTxRatio(): Calculate the Lx/Tx ratio for a given set of TL curves -beta version-. Function version 0.3.3. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p><strong>This function has still BETA status!</strong> Please further note that a similar
+background for both curves results in a zero error and is therefore set to <code>NA</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+Christoph Schmidt, University of Bayreuth (Germany)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/analyse_SAR.TL.html">analyse_SAR.TL</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load package example data
+data(ExampleData.BINfileData, envir = environment())
+
+##convert Risoe.BINfileData into a curve object
+temp &lt;- Risoe.BINfileData2RLum.Analysis(TL.SAR.Data, pos = 3)
+
+
+Lx.data.signal &lt;- get_RLum(temp, record.id=1)
+Lx.data.background &lt;- get_RLum(temp, record.id=2)
+Tx.data.signal &lt;- get_RLum(temp, record.id=3)
+Tx.data.background &lt;- get_RLum(temp, record.id=4)
+signal.integral.min &lt;- 210
+signal.integral.max &lt;- 230
+
+output &lt;- calc_TLLxTxRatio(Lx.data.signal,
+                           Lx.data.background,
+                           Tx.data.signal, Tx.data.background,
+                           signal.integral.min, signal.integral.max)
+get_RLum(output)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

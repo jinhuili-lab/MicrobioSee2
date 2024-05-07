@@ -1,0 +1,27 @@
+Package: DEoptim
+Version: 2.2-6
+Title: Global Optimization by Differential Evolution
+Authors@R: c(person("David", "Ardia", role = c("aut"), email = "david.ardia.ch@gmail.com", comment = c(ORCID = "0000-0003-2823-782X")), 
+             person("Katharine", "Mullen", role = c("aut", "cre"), email="mullenkate@gmail.com"), 
+             person("Brian", "Peterson", role = "aut"), 
+             person("Joshua", "Ulrich", role = "aut"), 
+             person("Kris", "Boudt", role = "ctb"))
+Description: Implements the Differential Evolution algorithm for global optimization of a real-valued function 
+      of a real-valued parameter vector as described in Mullen et al. (2011) <doi:10.18637/jss.v040.i06>.
+Suggests: foreach, iterators, colorspace, lattice
+Depends: parallel
+BugReports: https://github.com/ArdiaD/DEoptim/issues
+URL: https://github.com/ArdiaD/DEoptim
+License: GPL (>= 2)
+Repository: CRAN
+Maintainer: Katharine Mullen <mullenkate@gmail.com>
+NeedsCompilation: yes
+Packaged: 2021-05-04 20:52:14 UTC; kmm
+Author: David Ardia [aut] (<https://orcid.org/0000-0003-2823-782X>),
+  Katharine Mullen [aut, cre],
+  Brian Peterson [aut],
+  Joshua Ulrich [aut],
+  Kris Boudt [ctb]
+Date/Publication: 2021-05-05 06:00:09 UTC
+Built: R 4.1.2; x86_64-w64-mingw32; 2024-05-05 18:19:18 UTC; windows
+Archs: i386, x64

@@ -1,0 +1,17 @@
+describe_nonlinear      Describe the smooth term (for GAMs) or
+                        non-linear predictors
+estimate_contrasts      Estimate Marginal Contrasts
+estimate_expectation    Model-based response estimates and uncertainty
+estimate_grouplevel     Group-specific parameters of mixed models
+                        random effects
+estimate_means          Estimate Marginal Means (Model-based average at
+                        each factor level)
+estimate_slopes         Estimate Marginal Effects
+find_inversions         Find points of inversion
+get_emcontrasts         Easy 'emmeans' and 'emtrends'
+get_marginaleffects     Easy marginaleffects
+smoothing               Smoothing a vector or a time series
+visualisation_matrix    Create a reference grid
+visualisation_recipe.estimate_grouplevel
+                        Visualisation Recipe for 'modelbased' Objects
+zero_crossings          Find zero crossings of a vector

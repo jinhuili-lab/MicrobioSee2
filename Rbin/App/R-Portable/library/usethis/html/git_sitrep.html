@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Git/GitHub sitrep</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for git_sitrep {usethis}"><tr><td>git_sitrep {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Git/GitHub sitrep</h2>
+
+<h3>Description</h3>
+
+<p>Get a situation report on your current Git/GitHub status. Useful for
+diagnosing problems. The default is to report all values; provide values
+for <code>tool</code> or <code>scope</code> to be more specific.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+git_sitrep(tool = c("git", "github"), scope = c("user", "project"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>tool</code></td>
+<td>
+<p>Report for <strong>git</strong>, or <strong>github</strong></p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p>Report globally for the current <strong>user</strong>, or locally for the
+current <strong>project</strong></p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# report all
+git_sitrep()
+
+# report git for current user
+git_sitrep("git", "user")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

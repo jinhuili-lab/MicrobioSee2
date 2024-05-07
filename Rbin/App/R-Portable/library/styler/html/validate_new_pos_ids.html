@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Validate sequence of new position ids</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for validate_new_pos_ids {styler}"><tr><td>validate_new_pos_ids {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate sequence of new position ids</h2>
+
+<h3>Description</h3>
+
+<p>Ids created with <code>after = TRUE</code> can have <code>pos_id</code> values between x.0 and
+x.5 and ids created with <code>after = FALSE</code> can have <code>pos_id</code> values between
+1+ x.0 and 1 + x.5 where x is the <code>pos_id</code> integer which was used as a
+reference to create the new <code>pos_ids</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+validate_new_pos_ids(new_ids, after)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>new_ids</code></td>
+<td>
+<p>A vector with new ids</p>
+</td></tr>
+<tr valign="top"><td><code>after</code></td>
+<td>
+<p>Whether the ids are created with <code>after = TRUE</code> (and hence
+should be in the range x.0-x.45) or not.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other token creators: 
+<code><a href="../../styler/help/create_pos_ids.html">create_pos_ids</a>()</code>,
+<code><a href="../../styler/help/create_tokens.html">create_tokens</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

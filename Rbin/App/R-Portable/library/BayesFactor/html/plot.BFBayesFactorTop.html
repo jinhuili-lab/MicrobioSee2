@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a Bayes factor top-down object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.BFBayesFactorTop {BayesFactor}"><tr><td>plot.BFBayesFactorTop {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a Bayes factor top-down object</h2>
+
+<h3>Description</h3>
+
+<p>Plot a Bayes factor top-down object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'BFBayesFactorTop'
+plot(x, include1 = TRUE, addDenom = FALSE,
+  sortbf = FALSE, logbase = c("log10", "log2", "ln"), marginExpand = 0.4,
+  pars = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a BFBayesFactorTop object</p>
+</td></tr>
+<tr valign="top"><td><code>include1</code></td>
+<td>
+<p>if <code>TRUE</code>, ensure that Bayes factor = 1 is on the plot</p>
+</td></tr>
+<tr valign="top"><td><code>addDenom</code></td>
+<td>
+<p>if <code>TRUE</code>, add the denominator model into the group</p>
+</td></tr>
+<tr valign="top"><td><code>sortbf</code></td>
+<td>
+<p>sort the Bayes factors before plotting them? Defaults to
+<code>TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>logbase</code></td>
+<td>
+<p>the base of the log Bayes factors in the plot</p>
+</td></tr>
+<tr valign="top"><td><code>marginExpand</code></td>
+<td>
+<p>an expansion factor for the left margin, in case more
+space is needed for model names</p>
+</td></tr>
+<tr valign="top"><td><code>pars</code></td>
+<td>
+<p>a list of par() settings</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to pass to barplot()</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function creates a barplot of the (log) Bayes factors in a Bayes factor
+object. Error bars are added (though in many cases they may be too small to
+see) in red to show the error in estimation of the Bayes factor. If a red question mark
+appears next to a bar, then that Bayes factor has no error estimate available.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(puzzles)
+
+bfs = anovaBF(RT ~ shape*color + ID, data = puzzles, whichRandom="ID",
+        whichModels='top', progress=FALSE)
+plot(bfs)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

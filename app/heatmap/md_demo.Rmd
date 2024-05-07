@@ -1,0 +1,58 @@
+# Rose mapping description
+
+
+
+## Upload sample data
+
+You need to upload one data files including abundance table.
+
+Such as
+
+| Name  | Test1    | Test2    | Test3    | Test4    | Test5    | Test6    | Test7    | Test8    | Test9    | Test10   |
+| ----- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
+| Gene1 | 1.95002  | 1.077037 | 3.208613 | -1.78024 | 3.279443 | 0.629247 | 3.120752 | 0.138576 | 3.937684 | -1.32603 |
+| Gene2 | 3.276197 | -1.86572 | 3.014863 | -0.40556 | 1.566751 | 0.330443 | 3.965179 | -1.41725 | 0.303218 | 0.190562 |
+| Gene3 | 3.317709 | -0.10454 | 2.960807 | -0.19455 | 2.742558 | -0.81468 | 2.012905 | 1.719803 | 1.787089 | 0.154111 |
+| Gene4 | 4.134366 | -1.90081 | 1.460098 | -0.60399 | 2.910103 | 0.959671 | 2.182429 | -1.31582 | 2.640119 | -0.06878 |
+| Gene5 | 3.94789  | 1.240085 | 3.936332 | 0.84429  | 3.990053 | 0.694025 | 3.932734 | -0.55117 | 2.80075  | -0.70247 |
+
+**Paying attention, please ,you need to upload the file in the format of the sample data.**
+
+
+
+
+
+## draw
+
+- If the values should be centered and scaled in either the row direction or the column direction, or none. Corresponding values are "row", "column" and "none".
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146100.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146143.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146195.png" style="zoom:33%;" />
+
+- The agglomeration method to be used. This should be (an unambiguous abbreviation of) one of "ward.D", "ward.D2", "single", "complete", "average" (= UPGMA), "mcquitty" (= WPGMA), "median" (= WPGMC) or "centroid" (= UPGMC).<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146237.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146272.png" style="zoom:33%;" />
+
+  
+
+- Whether to add a border
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146310.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146347.png" style="zoom:33%;" />
+
+
+
+- Whether to cluster rows and columns
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146383.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146420.png" style="zoom:33%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146458.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146493.png" style="zoom:33%;" />
+
+- Select the information to be displayed on the table
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146531.png" style="zoom:33%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112146565.png" style="zoom:33%;" />
+
+
+
+
+
+
+
+
+

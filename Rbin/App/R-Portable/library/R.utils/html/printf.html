@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: C-style formatted output</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for printf {R.utils}"><tr><td>printf {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>C-style formatted output</h2>
+
+<h3>Description</h3>
+
+<p>C-style formatted output.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+printf(fmt, ..., sep="", file="")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fmt</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> vector of format strings.
+See same argument for <code><a href="../../base/help/sprintf.html">sprintf</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments <code><a href="../../base/help/sprintf.html">sprintf</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>sep</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of strings to append after each element.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code>, or a <code><a href="../../base/help/character.html">character</a></code> of a file to print to.
+See same argument for <code><a href="../../base/help/cat.html">cat</a></code>().</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns nothing.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For C-style formatting of <code><a href="../../base/help/character.html">character</a></code> strings, see <code><a href="../../base/help/sprintf.html">sprintf</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  cat("Hello world\n")
+  printf("Hello world\n")
+
+  x &lt;- 1.23
+  cat(sprintf("x=%.2f\n", x))
+  printf("x=%.2f\n", x)
+
+  y &lt;- 4.56
+  cat(sprintf(c("x=%.2f\n", "y=%.2f\n"), c(x,y)), sep="")
+  printf(c("x=%.2f\n", "y=%.2f\n"), c(x,y))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

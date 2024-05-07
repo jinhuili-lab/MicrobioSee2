@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert portable OSL data to an Risoe.BINfileData object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for PSL2Risoe.BINfileData {Luminescence}"><tr><td>PSL2Risoe.BINfileData {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert portable OSL data to an Risoe.BINfileData object</h2>
+
+<h3>Description</h3>
+
+<p>Converts an <code>RLum.Analysis</code> object produced by the function <code>read_PSL2R()</code> to
+an <code>Risoe.BINfileData</code> object <strong>(BETA)</strong>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+PSL2Risoe.BINfileData(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> (<strong>required</strong>):
+<code>RLum.Analysis</code> object produced by <a href="../../Luminescence/help/read_PSL2R.html">read_PSL2R</a></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function converts an <a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> object that was produced
+by the <a href="../../Luminescence/help/read_PSL2R.html">read_PSL2R</a> function to an <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>.
+The <code>Risoe.BINfileData</code> can be used to write a Risoe BIN file via
+<a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an S4 <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> object that can be used to write a
+BIN file using <a href="../../Luminescence/help/write_R2BIN.html">write_R2BIN</a>.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.0.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., 2021. PSL2Risoe.BINfileData(): Convert portable OSL data to an Risoe.BINfileData object. Function version 0.0.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>,
+<a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# (1) load and plot example data set
+data("ExampleData.portableOSL", envir = environment())
+plot_RLum(ExampleData.portableOSL)
+
+# (2) merge all RLum.Analysis objects into one
+merged &lt;- merge_RLum(ExampleData.portableOSL)
+merged
+
+# (3) convert to RisoeBINfile object
+bin &lt;- PSL2Risoe.BINfileData(merged)
+bin
+
+# (4) write Risoe BIN file
+## Not run: 
+write_R2BIN(bin, "~/portableOSL.binx")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

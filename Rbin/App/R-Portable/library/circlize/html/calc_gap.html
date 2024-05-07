@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate gaps to make two Chord diagrams in the same scale</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_gap {circlize}"><tr><td>calc_gap {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Calculate gaps to make two Chord diagrams in the same scale
+</h2>
+
+<h3>Description</h3>
+
+<p>Calculate gaps to make two Chord diagrams in the same scale
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_gap(x1, x2, big.gap = 10, small.gap = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>The matrix or the data frame for the first Chord diagram.
+</p>
+</td></tr>
+<tr valign="top"><td><code>x2</code></td>
+<td>
+<p>The matrix or the data frame for the second Chord diagram.
+</p>
+</td></tr>
+<tr valign="top"><td><code>big.gap</code></td>
+<td>
+<p><code>big.gap</code> for the first Chord diagram.
+</p>
+</td></tr>
+<tr valign="top"><td><code>small.gap</code></td>
+<td>
+<p><code>small.gap</code> for both Chord diagrams.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Both Chord diagrams should be both two-group Chord diagram.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric value which can be directly set to <code>big.gap</code> in the second Chord diagram.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+mat1 = matrix(sample(20, 25, replace = TRUE), 5)
+chordDiagram(mat1, directional = 1, grid.col = rep(1:5, 2), transparency = 0.5,
+    big.gap = 10, small.gap = 1)
+mat2 = mat1 / 2
+gap = calc_gap(mat1, mat2, big.gap = 10, small.gap = 1)
+chordDiagram(mat2, directional = 1, grid.col = rep(1:5, 2), transparency = 0.5,
+    big.gap = gap, small.gap = 1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

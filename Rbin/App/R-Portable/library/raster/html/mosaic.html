@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge Raster* objects using a function for overlapping areas</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mosaic {raster}"><tr><td>mosaic {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Merge Raster* objects using a function for overlapping areas 
+</h2>
+
+<h3>Description</h3>
+
+<p>Mosaic Raster* objects to form a new object with a larger spatial extent. A function is used to compute cell values in areas where layers overlap (in contrast to the <code><a href="../help/merge.html">merge</a></code> function  which uses the values of the 'upper' layer). All objects must have the same origin, resolution, and coordinate reference system.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,Raster'
+mosaic(x, y, ..., fun, tolerance=0.05, filename="")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional Raster or Extent objects (and/or arguments for writing files as in <code><a href="../../raster/help/writeRaster.html">writeRaster</a>)</code></p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>Function. E.g. mean, min, or max. Must be a function that accepts a 'na.rm' argument</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>Numeric. permissible difference in origin (relative to the cell resolution). See <code><a href="../../base/help/all.equal.html">all.equal</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character. Output filename (optional)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Raster objects must have the same origin and resolution. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick object.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/merge.html">merge</a></code>, <code><a href="../help/extend.html">extend</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=100, nrow=100)
+r1 &lt;- crop(r, extent(-10, 11, -10, 11))
+r2 &lt;- crop(r, extent(0, 20, 0, 20))
+r3 &lt;- crop(r, extent(9, 30, 9, 30))
+
+values(r1) &lt;- 1:ncell(r1)
+values(r2) &lt;- 1:ncell(r2)
+values(r3) &lt;- 1:ncell(r3)
+
+m1 &lt;- mosaic(r1, r2, r3, fun=mean)
+
+s1 &lt;- stack(r1, r1*2)
+s2 &lt;- stack(r2, r2/2)
+s3 &lt;- stack(r3, r3*4)
+m2 &lt;- mosaic(s1, s2, s3, fun=min)
+
+# if you have a list of Raster objects, you can use do.call
+x &lt;- list(r1, r2, r3)
+names(x)[1:2] &lt;- c('x', 'y')
+x$fun &lt;- mean
+x$na.rm &lt;- TRUE
+
+y &lt;- do.call(mosaic, x)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

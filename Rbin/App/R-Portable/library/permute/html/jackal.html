@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Mandible lengths of male and female golden jackals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for jackal {permute}"><tr><td>jackal {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Mandible lengths of male and female golden jackals
+</h2>
+
+<h3>Description</h3>
+
+<p>Mandible lengths (in mm) for male and female golden jackals
+(<em>Canis aureus</em>) from a collection of specimens in the British
+Museum of Natural History, London, UK.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(jackal)</pre>
+
+
+<h3>Format</h3>
+
+<p>A data frame with 20 observations on the following 2 variables.
+</p>
+
+<dl>
+<dt><code>Length</code></dt><dd><p>a numeric vector</p>
+</dd>
+<dt><code>Sex</code></dt><dd><p>a factor with levels <code>Male</code> <code>Female</code></p>
+</dd>
+</dl>
+
+
+
+<h3>Source</h3>
+
+<p>The data were manually transcribed from Manly (2007).
+</p>
+
+
+<h3>References</h3>
+
+<p>Higham, C.F.W., Kijngam, A., and Manly, B.F.J. (1980) An analysis of
+prehistoric canid remains from Thailand. <em>Journal of
+Archaeological Science</em> <strong>7</strong>:149-165.
+</p>
+<p>Manly, B.F.J. (2007) <em>Randomization, bootstrap and Monte Carlo
+methods in biology. Third Edition</em>. Chapman \&amp; Hall/CRC, Boca
+Raton.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(jackal)
+str(jackal)
+
+## boxplot of mandible length vs sex
+plot(Length ~ Sex, data = jackal)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

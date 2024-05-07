@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place labels in boxes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for placeLabels {plotrix}"><tr><td>placeLabels {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Place labels in boxes </h2>
+
+<h3>Description</h3>
+
+<p>Places labels in boxes on an existing plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ placeLabels(x,y=NA,labels,pointer=TRUE,cex=1,labelcol=par("fg"),
+ labelbg="white",border=par("fg"),pointercol=par("fg"),
+ pch=1,col=1,bg="white",flagcol="red")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>x and y position of the centers of the labels. <span class="samp">x</span> can be an
+<a href="../../grDevices/html/xy.coords.html">xy.coords</a> list.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Text strings</p>
+</td></tr>
+<tr valign="top"><td><code>pointer</code></td>
+<td>
+<p>Whether to draw a line segment from the label to the 
+points labeled.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion. See <span class="samp">text</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>labelcol</code></td>
+<td>
+<p>The color(s) of the text in the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>labelbg</code></td>
+<td>
+<p>The background color(s) for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The color(s) for the borders around the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>pointercol</code></td>
+<td>
+<p>The color(s) of the pointer lines.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>The symbol(s) to use when redisplaying the original points 
+(see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>The color(s) of the original points.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>The background color(s) of the original points.</p>
+</td></tr>
+<tr valign="top"><td><code>flagcol</code></td>
+<td>
+<p>The color to use for &quot;flagging&quot; each point.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">placeLabels</span> steps through the points indexed by <span class="samp">x</span> and
+<span class="samp">y</span>, allowing the operator to manually place the labels for each 
+point. Each point is &quot;flagged&quot; by displaying a small colored circle (red
+by default). When the label for that point has been placed, the original
+symbol is displayed and the next point is flagged.
+</p>
+<p>Each point and label can have different colors and backgrounds.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil - adds labels to an existing plot.</p>
+
+
+<h3>Note</h3>
+
+<p>This function is handy for one-off plots with a moderate number of 
+points. It can be very useful for plots with clumps of points.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Marna Wagley for the idea.</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/spread.labels.html">spread.labels</a>, <a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # won't check because of the call to locator
+ ## Not run: 
+  x&lt;-rnorm(10)
+  y&lt;-rnorm(10)
+  plot(x,y)
+  placeLabels(x,y,LETTERS[1:10],flagcol="purple")
+ 
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

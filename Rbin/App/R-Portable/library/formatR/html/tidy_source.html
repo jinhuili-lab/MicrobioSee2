@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reformat R code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tidy_source {formatR}"><tr><td>tidy_source {formatR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reformat R code</h2>
+
+<h3>Description</h3>
+
+<p>Read R code from a file or the clipboard and reformat it. This function is
+based on <code><a href="../../base/html/parse.html">parse</a>()</code> and <code><a href="../../base/html/deparse.html">deparse</a>()</code>, but it does
+several other things, such as preserving blank lines and comments,
+substituting the assignment operator <code>=</code> with <code>&lt;-</code>, and
+re-indenting code with a specified number of spaces.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tidy_source(
+  source = "clipboard",
+  comment = getOption("formatR.comment", TRUE),
+  blank = getOption("formatR.blank", TRUE),
+  arrow = getOption("formatR.arrow", FALSE),
+  pipe = getOption("formatR.pipe", FALSE),
+  brace.newline = getOption("formatR.brace.newline", FALSE),
+  indent = getOption("formatR.indent", 4),
+  wrap = getOption("formatR.wrap", TRUE),
+  width.cutoff = getOption("formatR.width", getOption("width")),
+  args.newline = getOption("formatR.args.newline", FALSE),
+  output = TRUE,
+  text = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>source</code></td>
+<td>
+<p>A character string: file path to the source code (defaults to
+the clipboard).</p>
+</td></tr>
+<tr valign="top"><td><code>comment</code></td>
+<td>
+<p>Whether to keep comments.</p>
+</td></tr>
+<tr valign="top"><td><code>blank</code></td>
+<td>
+<p>Whether to keep blank lines.</p>
+</td></tr>
+<tr valign="top"><td><code>arrow</code></td>
+<td>
+<p>Whether to substitute the assignment operator <code>=</code> with
+<code>&lt;-</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pipe</code></td>
+<td>
+<p>Whether to substitute the <span class="pkg">magrittr</span> pipe <code>%&gt;%</code> with
+R's native pipe operator <code>|&gt;</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>brace.newline</code></td>
+<td>
+<p>Whether to put the left brace <code>{</code> to a new line.</p>
+</td></tr>
+<tr valign="top"><td><code>indent</code></td>
+<td>
+<p>Number of spaces to indent the code.</p>
+</td></tr>
+<tr valign="top"><td><code>wrap</code></td>
+<td>
+<p>Whether to wrap comments to the linewidth determined by
+<code>width.cutoff</code> (roxygen comments will never be wrapped).</p>
+</td></tr>
+<tr valign="top"><td><code>width.cutoff</code></td>
+<td>
+<p>An integer in <code>[20, 500]</code>: if a line's character
+length is at or over this number, the function will try to break it into a
+new line. In other words, this is the <em>lower bound</em> of the line width.
+See &lsquo;Details&rsquo; if an upper bound is desired instead.</p>
+</td></tr>
+<tr valign="top"><td><code>args.newline</code></td>
+<td>
+<p>Whether to start the arguments of a function call on a
+new line instead of after the function name and <code>(</code> when the arguments
+cannot fit one line.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>Whether to output to the console or a file using
+<code><a href="../../base/html/cat.html">cat</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>An alternative way to specify the input: if <code>NULL</code>, the
+function will use the <code>source</code> argument; if a character vector
+containing the source code, the function will use this and ignore the
+<code>source</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../base/html/cat.html">cat</a>()</code>, e.g. <code>file</code>
+(this can be useful for batch-processing R scripts, e.g.
+<code>tidy_source(source = 'input.R', file = 'output.R')</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A value of the argument <code>width.cutoff</code> wrapped in <code><a href="../../base/html/AsIs.html">I</a>()</code>
+(e.g., <code>I(60)</code>) will be treated as the <em>upper bound</em> of the line
+width. The corresponding argument to <code>deparse()</code> is a lower bound, so
+the function will perform a binary search for a width value that can make
+<code>deparse()</code> return code with line width smaller than or equal to the
+<code>width.cutoff</code> value. If the search fails, a warning will signal,
+suppressible by global option <code>options(formatR.width.warning = FALSE)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with components </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>text.tidy</code></td>
+<td>
+<p>the reformatted code as a
+character vector</p>
+</td></tr> <tr valign="top"><td><code>text.mask</code></td>
+<td>
+<p>the code containing comments, which are
+masked in assignments or with the weird operator</p>
+</td></tr></table>
+<p>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Be sure to read the reference to know other limitations.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Yihui Xie &lt;<a href="https://yihui.org">https://yihui.org</a>&gt; with substantial contribution
+from Yixuan Qiu &lt;<a href="https://yixuan.blog">https://yixuan.blog</a>&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://yihui.org/formatR/">https://yihui.org/formatR/</a> (an introduction to this
+package, with examples and further notes)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/parse.html">parse</a>()</code>, <code><a href="../../base/html/deparse.html">deparse</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(formatR)
+
+## a messy R script
+messy = system.file("format", "messy.R", package = "formatR")
+tidy_source(messy)
+
+## use the 'text' argument
+src = readLines(messy)
+
+## source code
+cat(src, sep = "\n")
+
+## the formatted version
+tidy_source(text = src)
+
+## preserve blank lines
+tidy_source(text = src, blank = TRUE)
+
+## indent with 2 spaces
+tidy_source(text = src, indent = 2)
+
+## discard comments!
+tidy_source(text = src, comment = FALSE)
+
+## wanna see the gory truth??
+tidy_source(text = src, output = FALSE)$text.mask
+
+
+## tidy up the source code of image demo
+x = file.path(system.file(package = "graphics"), "demo", "image.R")
+
+# to console
+tidy_source(x)
+
+# to a file
+f = tempfile()
+tidy_source(x, blank = TRUE, file = f)
+
+## check the original code here and see the difference
+file.show(x)
+file.show(f)
+
+## use global options
+options(comment = TRUE, blank = FALSE)
+tidy_source(x)
+
+## if you've copied R code into the clipboard
+if (interactive()) {
+    tidy_source("clipboard")
+    ## write into clipboard again
+    tidy_source("clipboard", file = "clipboard")
+}
+
+## the if-else structure
+tidy_source(text = c("{if(TRUE)1 else 2; if(FALSE){1+1", "## comments", "} else 2}"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>formatR</em> version 1.14.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

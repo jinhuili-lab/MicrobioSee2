@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets a writable pathname</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Arguments$getWritablePathname {R.utils}"><tr><td>Arguments$getWritablePathname {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets a writable pathname</h2>
+
+<h3>Description</h3>
+
+<p>Gets a writable pathname.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Arguments$getWritablePathname(..., mustExist=FALSE, mustNotExist=FALSE, mkdirs=TRUE,
+##   maxTries=5L)
+
+## Don't use the below:
+## S3 method for class 'Arguments'
+getWritablePathname(static, ..., mustExist=FALSE, mustNotExist=FALSE, mkdirs=TRUE,
+  maxTries=5L)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../help/getReadablePathname.Arguments.html">*getReadablePathname</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>mustExist</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and the pathname does not exists,
+an Exception is thrown, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>mustNotExist</code></td>
+<td>
+<p>If the file exists, and <code>mustNotExist</code> is
+<code><a href="../../base/help/logical.html">TRUE</a></code>, an Exception is thrown. If the file exists, and
+<code>mustNotExist</code> is <code><a href="../../base/help/logical.html">FALSE</a></code>, or the file does not exists, the
+pathname is accepted.</p>
+</td></tr>
+<tr valign="top"><td><code>mkdirs</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, <code>mustNotExist</code> is <code><a href="../../base/help/logical.html">FALSE</a></code>, and the path to
+the file does not exist, it is (recursively) created.</p>
+</td></tr>
+<tr valign="top"><td><code>maxTries</code></td>
+<td>
+<p>A positive <code><a href="../../base/help/integer.html">integer</a></code> specifying how many times the
+method should try to create a missing directory before giving up.
+For more details, see <code><a href="../help/mkdirs.html">mkdirs</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string of the pathname of the file.
+If the argument was invalid an <code><a href="../../R.oo/help/Exception.html">Exception</a></code> is thrown.
+</p>
+
+
+<h3>Missing values</h3>
+
+<p>If any argument in <code>...</code> is <code><a href="../../base/help/NA.html">NA</a></code>, an exception is thrown.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/getReadablePathname.Arguments.html">*getReadablePathname</a>()</code>.
+<code><a href="../help/filePath.html">filePath</a></code>.
+<code><a href="../help/mkdirs.html">mkdirs</a></code>.
+For more information see <code><a href="../../R.utils/help/Arguments.html">Arguments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret ANOVA Effect Sizes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_omega_squared {effectsize}"><tr><td>interpret_omega_squared {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret ANOVA Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>Interpret ANOVA Effect Sizes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_omega_squared(es, rules = "field2013", ...)
+
+interpret_eta_squared(es, rules = "field2013", ...)
+
+interpret_epsilon_squared(es, rules = "field2013", ...)
+
+interpret_r2_semipartial(es, rules = "field2013", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>es</code></td>
+<td>
+<p>Value or vector of (partial) eta / omega / epsilon squared or semipartial r squared values.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"field2013"</code> (default), <code>"cohen1992"</code> or custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used for now.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Field (2013) (<code>"field2013"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>ES &lt; 0.01</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.01 &lt;= ES &lt; 0.06</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.06 &lt;= ES &lt; 0.14</strong> - Medium
+</p>
+</li>
+<li><p> **ES &gt;= 0.14 ** - Large
+</p>
+</li></ul>
+
+</li>
+<li><p> Cohen (1992) (<code>"cohen1992"</code>) applicable to one-way anova, or to <em>partial</em>
+eta / omega / epsilon squared in multi-way anova.
+</p>
+
+<ul>
+<li> <p><strong>ES &lt; 0.02</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.02 &lt;= ES &lt; 0.13</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.13 &lt;= ES &lt; 0.26</strong> - Medium
+</p>
+</li>
+<li> <p><strong>ES &gt;= 0.26</strong> - Large
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Field, A (2013) Discovering statistics using IBM SPSS Statistics. Fourth
+Edition. Sage:London.
+</p>
+</li>
+<li><p> Cohen, J. (1992). A power primer. Psychological bulletin, 112(1), 155.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/effectSize/
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_eta_squared(.02)
+interpret_eta_squared(c(.5, .02), rules = "cohen1992")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

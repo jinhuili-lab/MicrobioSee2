@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Downloads a file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for downloadFile.character {R.utils}"><tr><td>downloadFile.character {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Downloads a file</h2>
+
+<h3>Description</h3>
+
+<p>Downloads a file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'character'
+downloadFile(url, filename=basename(url), path=NULL, skip=TRUE, overwrite=!skip, ...,
+  username=NULL, password=NULL, binary=TRUE, dropEmpty=TRUE, verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the URL to be downloaded.</p>
+</td></tr>
+<tr valign="top"><td><code>filename, path</code></td>
+<td>
+<p>(optional) <code><a href="../../base/help/character.html">character</a></code> strings specifying the
+local filename and the path of the downloaded file.</p>
+</td></tr>
+<tr valign="top"><td><code>skip</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an already downloaded file is skipped.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an already downloaded file is overwritten,
+otherwise an error is thrown.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../utils/help/download.file.html">download.file</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>username, password</code></td>
+<td>
+<p><code><a href="../../base/help/character.html">character</a></code> strings specifying the username
+and password for authenticated downloads.  The alternative is to
+specify these via the URL.</p>
+</td></tr>
+<tr valign="top"><td><code>binary</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the file is downloaded exactly &quot;as is&quot;, that is,
+byte by byte (recommended).</p>
+</td></tr>
+<tr valign="top"><td><code>dropEmpty</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and the downloaded file is empty, the file
+is ignored and <code><a href="../../base/help/NULL.html">NULL</a></code> is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code>, <code><a href="../../base/help/integer.html">integer</a></code>, or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Currently arguments <code>username</code> and <code>password</code> are only used
+for downloads via URL protocol 'https'.  The 'https' protocol requires
+that either of 'curl' or 'wget' are available on the system.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the local pathname to the downloaded filename,
+or <code><a href="../../base/help/NULL.html">NULL</a></code> if no file was downloaded.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally <code><a href="../../utils/help/download.file.html">download.file</a></code> is used.
+That function may generate an empty file if the URL is not available.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+ pathname &lt;- downloadFile("https://www.r-project.org/index.html", path="www.r-project.org/")
+ print(pathname)
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

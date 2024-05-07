@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Procrustes Rotation of Two Configurations and PROTEST</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for procrustes {vegan}"><tr><td>procrustes {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Procrustes Rotation of Two Configurations and PROTEST </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>procrustes</code> rotates a configuration to maximum similarity
+with another configuration. Function <code>protest</code> tests the
+non-randomness (significance) between two configurations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+procrustes(X, Y, scale = TRUE, symmetric = FALSE, scores = "sites", ...)
+## S3 method for class 'procrustes'
+summary(object, digits = getOption("digits"), ...)
+## S3 method for class 'procrustes'
+plot(x, kind=1, choices=c(1,2), to.target = TRUE, 
+    type = "p", xlab, ylab, main, ar.col = "blue", len=0.05, 
+    cex = 0.7, ...)
+## S3 method for class 'procrustes'
+points(x, display = c("target", "rotated"),
+    choices = c(1,2), truemean = FALSE, ...)
+## S3 method for class 'procrustes'
+text(x, display = c("target", "rotated"),
+    choices = c(1,2), labels, truemean = FALSE, ...)
+## S3 method for class 'procrustes'
+lines(x, type = c("segments", "arrows"),
+    choices = c(1, 2), truemean = FALSE, ...)
+## S3 method for class 'procrustes'
+residuals(object, ...)
+## S3 method for class 'procrustes'
+fitted(object, truemean = TRUE, ...)
+## S3 method for class 'procrustes'
+predict(object, newdata, truemean = TRUE, ...)
+protest(X, Y, scores = "sites", permutations = how(nperm = 999), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Target matrix</p>
+</td></tr>
+<tr valign="top"><td><code>Y</code></td>
+<td>
+<p>Matrix to be rotated.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Allow scaling of axes of <code>Y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>symmetric</code></td>
+<td>
+<p>Use symmetric Procrustes statistic (the rotation will
+still be non-symmetric).</p>
+</td></tr>
+<tr valign="top"><td><code>scores</code></td>
+<td>
+<p>Kind of scores used. This is the <code>display</code> argument
+used with the corresponding <code>scores</code> function: see
+<code><a href="../../vegan/help/scores.html">scores</a></code>, <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> and
+<code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> for alternatives.</p>
+</td></tr>
+<tr valign="top"><td><code>x, object</code></td>
+<td>
+<p>An object of class <code>procrustes</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>Number of digits in the output.</p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>For <code>plot</code> function, the kind of plot produced:
+<code>kind = 1</code> plots shifts in two configurations, <code>kind = 0</code>
+draws a corresponding empty plot, and <code>kind = 2</code>
+plots an impulse diagram of residuals.</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes (dimensions) plotted.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Axis labels, if defaults unacceptable.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Plot title, if default unacceptable.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Show only the <code>"target"</code> or <code>"rotated"</code>
+matrix as points.</p>
+</td></tr>
+<tr valign="top"><td><code>to.target</code></td>
+<td>
+<p>Draw arrows to point to target.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>The type of plot drawn. In <code>plot</code>, the <code>type</code>
+can be <code>"points"</code> or <code>"text"</code> to select the marker for
+the tail of the arrow, or <code>"none"</code> for drawing an empty
+plot. In <code>lines</code> the <code>type</code> selects either
+<code><a href="../../graphics/html/arrows.html">arrows</a></code> or line <code><a href="../../graphics/html/segments.html">segments</a></code> to connect
+target and rotated configuration.</p>
+</td></tr>
+<tr valign="top"><td><code>truemean</code></td>
+<td>
+<p>Use the original range of target matrix instead of
+centring the fitted values. Function <code>plot.procrustes</code> needs
+<code>truemean = FALSE</code>, and adding graphical items to the plots
+from the original results may need <code>truemean = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>Matrix of coordinates to be rotated and translated to
+the target.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>ar.col</code></td>
+<td>
+<p>Arrow colour.</p>
+</td></tr>
+<tr valign="top"><td><code>len</code></td>
+<td>
+<p>Width of the arrow head.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Character vector of text labels. Rownames of the result 
+object are used as default.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for points or text.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to functions. In <code>procrustes</code>
+and <code>protest</code> parameters are passed to <code><a href="../../vegan/help/scores.html">scores</a></code>, in
+graphical functions to underlying graphical functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Procrustes rotation rotates a matrix to maximum similarity with a
+target matrix minimizing sum of squared differences.  Procrustes
+rotation is typically used in comparison of ordination results.  It is
+particularly useful in comparing alternative solutions in
+multidimensional scaling.  If <code>scale=FALSE</code>, the function only
+rotates matrix <code>Y</code>. If <code>scale=TRUE</code>, it scales linearly
+configuration <code>Y</code> for maximum similarity.  Since <code>Y</code> is scaled
+to fit <code>X</code>, the scaling is non-symmetric. However, with
+<code>symmetric=TRUE</code>, the configurations are scaled to equal
+dispersions and  a symmetric version of the Procrustes statistic
+is computed.
+</p>
+<p>Instead of matrix, <code>X</code> and <code>Y</code> can be results from an
+ordination from which <code><a href="../../vegan/help/scores.html">scores</a></code> can extract results.
+Function <code>procrustes</code> passes extra arguments to
+<code><a href="../../vegan/help/scores.html">scores</a></code>, <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> etc. so that you can
+specify arguments such as <code>scaling</code>. 
+</p>
+<p>Function <code>plot</code> plots a <code>procrustes</code> object and returns
+invisibly an <code>ordiplot</code> object so that function
+<code><a href="../../vegan/help/identify.ordiplot.html">identify.ordiplot</a></code> can be used for identifying
+points. The items in the <code>ordiplot</code> object are called
+<code>heads</code> and <code>points</code> with <code>kind=1</code> (ordination
+diagram) and <code>sites</code> with <code>kind=2</code> (residuals).  In
+ordination diagrams, the arrow heads point to the target
+configuration if <code>to.target = TRUE</code>, and to rotated
+configuration if <code>to.target = FALSE</code>.  Target and original
+rotated axes are shown as cross hairs in two-dimensional Procrustes
+analysis, and with a higher number of dimensions, the rotated axes
+are projected onto plot with their scaled and centred
+range. Function <code>plot</code> passes parameters to underlying plotting
+functions.  For full control of plots, you can draw the axes using
+<code>plot</code> with <code>kind = 0</code>, and then add items with
+<code>points</code> or <code>lines</code>.  These functions pass all parameters
+to the underlying functions so that you can select the plotting
+characters, their size, colours etc., or you can select the width,
+colour and type of line <code><a href="../../graphics/html/segments.html">segments</a></code> or arrows, or you can
+select the orientation and head width of <code><a href="../../graphics/html/arrows.html">arrows</a></code>.
+</p>
+<p>Function <code>residuals</code> returns the pointwise
+residuals, and <code>fitted</code> the fitted values, either centred to zero
+mean (if <code>truemean=FALSE</code>) or with the original scale (these
+hardly make sense if <code>symmetric = TRUE</code>). In
+addition, there are <code>summary</code> and <code>print</code> methods.
+</p>
+<p>If matrix <code>X</code> has a lower number of columns than matrix
+<code>Y</code>, then matrix <code>X</code> will be filled with zero columns to
+match dimensions. This means that the function can be used to rotate
+an ordination configuration to an environmental variable (most
+practically extracting the result with the <code>fitted</code>
+function). Function <code>predict</code> can be used to add new rotated
+coordinates to the target. The <code>predict</code> function will always
+translate coordinates to the original non-centred matrix. The
+function cannot be used with <code>newdata</code> for <code>symmetric</code>
+analysis.
+</p>
+<p>Function <code>protest</code> performs symmetric Procrustes analysis
+repeatedly to estimate the significance of the Procrustes
+statistic. Function <code>protest</code> uses a correlation-like statistic
+derived from the symmetric Procrustes sum of squares <i>ss</i> as
+<i>r = sqrt(1-ss)</i>, and also prints the sum of
+squares of the symmetric analysis, sometimes called
+<i>squared m12</i>. Function <code>protest</code> has own
+<code>print</code> method, but otherwise uses <code>procrustes</code>
+methods. Thus <code>plot</code> with a <code>protest</code> object yields a
+Procrustean superimposition plot.  </p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>procrustes</code> returns an object of class
+<code>procrustes</code> with items. Function <code>protest</code> inherits from
+<code>procrustes</code>, but amends that with some new items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Yrot </code></td>
+<td>
+<p>Rotated matrix <code>Y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Target matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>ss </code></td>
+<td>
+<p>Sum of squared differences between <code>X</code> and <code>Yrot</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>rotation</code></td>
+<td>
+<p>Orthogonal rotation matrix.</p>
+</td></tr>
+<tr valign="top"><td><code>translation</code></td>
+<td>
+<p>Translation of the origin.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Scaling factor.</p>
+</td></tr>
+<tr valign="top"><td><code>xmean</code></td>
+<td>
+<p>The centroid of the target.</p>
+</td></tr>
+<tr valign="top"><td><code>symmetric</code></td>
+<td>
+<p>Type of <code>ss</code> statistic.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>Function call.</p>
+</td></tr>
+<tr valign="top"><td><code>t0</code></td>
+<td>
+<p>This and the following items are only in class
+<code>protest</code>:  Procrustes correlation from non-permuted solution.</p>
+</td></tr>
+<tr valign="top"><td><code>t</code></td>
+<td>
+<p>Procrustes correlations from permutations. The distribution
+of these correlations can be inspected with <code><a href="../../vegan/help/permustats.html">permustats</a></code>
+function.</p>
+</td></tr>
+<tr valign="top"><td><code>signif</code></td>
+<td>
+<p>Significance of <code>t</code></p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>Number of permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>A list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>the list passed to argument <code>control</code> describing
+the permutation design.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>The function <code>protest</code> follows Peres-Neto &amp; Jackson (2001),
+but the implementation is still after Mardia <em>et al.</em>
+(1979).</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Mardia, K.V., Kent, J.T. and Bibby,
+J.M. (1979). <em>Multivariate Analysis</em>. Academic Press.
+</p>
+<p>Peres-Neto, P.R. and Jackson, D.A. (2001). How well do multivariate
+data sets match? The advantages of a Procrustean superimposition
+approach over the Mantel test. <em>Oecologia</em> 129: 169-178.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>,  for obtaining
+objects for <code>procrustes</code>, and <code><a href="../../vegan/help/mantel.html">mantel</a></code> for an
+alternative to <code>protest</code> without need of dimension reduction. See
+<code><a href="../../permute/help/how.html">how</a></code> for details on specifying the type of
+permutation required.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+vare.dist &lt;- vegdist(wisconsin(varespec))
+mds.null &lt;- monoMDS(vare.dist, y = cmdscale(vare.dist))
+mds.alt &lt;- monoMDS(vare.dist)
+vare.proc &lt;- procrustes(mds.alt, mds.null)
+vare.proc
+summary(vare.proc)
+plot(vare.proc)
+plot(vare.proc, kind=2)
+residuals(vare.proc)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summary methods</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Summary-methods {raster}"><tr><td>Summary-methods {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Summary methods </h2>
+
+<h3>Description</h3>
+
+<p>The following summary methods are available for Raster* objects:
+</p>
+<p><code>mean, median, max, min, range, prod, sum, any, all</code>
+</p>
+<p>All methods take <code>na.rm</code> as an additional logical argument. Default is <code>na.rm=FALSE</code>. If <code>TRUE</code>, <code>NA</code> values are removed from calculations. 
+These methods compute a summary statistic based on cell values of RasterLayers and the result of these methods is always a single RasterLayer (except for range, which returns a RasterBrick with two layers).  See <code><a href="../../raster/help/calc.html">calc</a></code> for functions not included here (e.g. median) or any other custom functions.
+</p>
+<p>You can mix RasterLayer, RasterStack and RasterBrick objects with single numeric or logical values. However, because generic functions are used, the method applied is chosen based on the first argument: '<code>x</code>'. This means that if <code>r</code> is a RasterLayer object, <code>mean(r, 5)</code> will work, but <code>mean(5, r)</code> will not work.
+</p>
+<p>To summarize all cells within a single RasterLayer, see <code><a href="../help/cellStats.html">cellStats</a></code> and <code><a href="../help/extremeValues.html">maxValue</a></code> and <code><a href="../help/extremeValues.html">minValue</a></code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>a RasterLayer</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/calc.html">calc</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster(nrow=10, ncol=10)
+r1 &lt;- setValues(r1, runif(ncell(r1)))
+r2 &lt;- setValues(r1, runif(ncell(r1)))
+r3 &lt;- setValues(r1, runif(ncell(r1)))
+r &lt;- max(r1, r2, r3)
+r &lt;- range(r1, r2, r3, 1.2)
+
+s &lt;- stack(r1, r2, r3)
+r &lt;- mean(s, 2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

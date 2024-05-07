@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Probability of being in the ROPE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for p_rope {bayestestR}"><tr><td>p_rope {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Probability of being in the ROPE</h2>
+
+<h3>Description</h3>
+
+<p>Compute the proportion of the whole posterior distribution that doesn't lie within a region of practical equivalence (ROPE). It is equivalent to running <code>rope(..., ci = 1)</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+p_rope(x, ...)
+
+## S3 method for class 'numeric'
+p_rope(x, range = "default", verbose = TRUE, ...)
+
+## S3 method for class 'stanreg'
+p_rope(
+  x,
+  range = "default",
+  effects = c("fixed", "random", "all"),
+  component = c("location", "all", "conditional", "smooth_terms", "sigma",
+    "distributional", "auxiliary"),
+  parameters = NULL,
+  verbose = verbose,
+  ...
+)
+
+## S3 method for class 'brmsfit'
+p_rope(
+  x,
+  range = "default",
+  effects = c("fixed", "random", "all"),
+  component = c("conditional", "zi", "zero_inflated", "all"),
+  parameters = NULL,
+  verbose = verbose,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector representing a posterior distribution. Can also be a
+<code>stanreg</code> or <code>brmsfit</code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>ROPE's lower and higher bounds. Should be <code>"default"</code> or
+depending on the number of outcome variables a vector or a list. In
+models with one response, <code>range</code> should be a vector of length two (e.g.,
+<code>c(-0.1, 0.1)</code>). In multivariate models, <code>range</code> should be a list with a
+numeric vectors for each response variable. Vector names should correspond
+to the name of the response variables. If <code>"default"</code> and input is a vector,
+the range is set to <code>c(-0.1, 0.1)</code>. If <code>"default"</code> and input is a Bayesian
+model, <code><a href="../../bayestestR/help/rope_range.html">rope_range()</a></code> is used.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+<tr valign="top"><td><code>effects</code></td>
+<td>
+<p>Should results for fixed effects, random effects or both be
+returned? Only applies to mixed models. May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should results for all parameters, parameters for the
+conditional model or the zero-inflated part of the model be returned? May
+be abbreviated. Only applies to <span class="pkg">brms</span>-models.</p>
+</td></tr>
+<tr valign="top"><td><code>parameters</code></td>
+<td>
+<p>Regular expression pattern that describes the parameters
+that should be returned. Meta-parameters (like <code>lp__</code> or <code>prior_</code>) are
+filtered by default, so only parameters that typically appear in the
+<code>summary()</code> are returned. Use <code>parameters</code> to select specific parameters
+for the output.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+
+p_rope(x = rnorm(1000, 0, 0.01), range = c(-0.1, 0.1))
+p_rope(x = mtcars, range = c(-0.1, 0.1))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

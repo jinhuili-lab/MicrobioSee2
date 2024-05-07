@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a style guide</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for create_style_guide {styler}"><tr><td>create_style_guide {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a style guide</h2>
+
+<h3>Description</h3>
+
+<p>This is a helper function to create a style guide, which is technically
+speaking a named list of groups of transformer functions where each
+transformer function corresponds to one styling rule. The output of this
+function can be used as an argument for <code>style</code> in top-level functions
+like <code><a href="../../styler/help/style_text.html">style_text()</a></code> and friends. Note that for caching to work properly,
+unquote all inputs to the transformer function if possible with rlang's <code style="white-space: pre;">!!</code>,
+otherwise, they will be passed as references (generic variable names) instead
+of literals and <code>styler:::is_cached()</code> won't pick up changes. See how it's
+done in <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code> with <code>indent_by</code> and other arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_style_guide(
+  initialize = default_style_guide_attributes,
+  line_break = NULL,
+  space = NULL,
+  token = NULL,
+  indention = NULL,
+  use_raw_indention = FALSE,
+  reindention = tidyverse_reindention(),
+  style_guide_name = NULL,
+  style_guide_version = NULL,
+  more_specs_style_guide = NULL,
+  transformers_drop = specify_transformers_drop(),
+  indent_character = " "
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>initialize</code></td>
+<td>
+<p>The bare name of a function that initializes various
+variables on each level of nesting.</p>
+</td></tr>
+<tr valign="top"><td><code>line_break</code></td>
+<td>
+<p>A list of transformer functions that manipulate line_break
+information.</p>
+</td></tr>
+<tr valign="top"><td><code>space</code></td>
+<td>
+<p>A list of transformer functions that manipulate spacing
+information.</p>
+</td></tr>
+<tr valign="top"><td><code>token</code></td>
+<td>
+<p>A list of transformer functions that manipulate token text.</p>
+</td></tr>
+<tr valign="top"><td><code>indention</code></td>
+<td>
+<p>A list of transformer functions that manipulate indention.</p>
+</td></tr>
+<tr valign="top"><td><code>use_raw_indention</code></td>
+<td>
+<p>Boolean indicating whether or not the raw indention
+should be used.</p>
+</td></tr>
+<tr valign="top"><td><code>reindention</code></td>
+<td>
+<p>A list of parameters for regex re-indention, most
+conveniently constructed using <code><a href="../../styler/help/specify_reindention.html">specify_reindention()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>style_guide_name</code></td>
+<td>
+<p>The name of the style guide. Used as a meta attribute
+inside the created style guide, for example for caching. By convention,
+this is the style guide qualified by the package namespace plus the
+location of the style guide, separated by <code>@</code>. For example,
+<code>"styler::tidyverse_style@https://github.com/r-lib"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>style_guide_version</code></td>
+<td>
+<p>The version of the style guide. Used as a meta
+attribute inside the created style guide, for example for caching. This
+should correspond to the version of the R package that exports the
+style guide.</p>
+</td></tr>
+<tr valign="top"><td><code>more_specs_style_guide</code></td>
+<td>
+<p>Named vector (coercible to character)
+with all arguments passed to the style guide and used for cache
+invalidation. You can easily capture them in your style guide function
+declaration with <code>as.list(environment())</code> (compare source code of
+<code>tidyverse_style()</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>transformers_drop</code></td>
+<td>
+<p>A list specifying under which conditions
+transformer functions can be dropped since they have no effect on the
+code to format, most easily constructed with
+<code><a href="../../styler/help/specify_transformers_drop.html">specify_transformers_drop()</a></code>. This is argument experimental and may
+change in future releases without prior notification. It was mainly
+introduced to improve speed. Listing transformers here that occur almost
+always in code does not make sense because the process of excluding them
+also takes some time.</p>
+</td></tr>
+<tr valign="top"><td><code>indent_character</code></td>
+<td>
+<p>The character that is used for indention. We strongly
+advise for using spaces as indention characters.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+set_line_break_before_curly_opening &lt;- function(pd_flat) {
+  op &lt;- pd_flat$token %in% "'{'"
+  pd_flat$lag_newlines[op] &lt;- 1L
+  pd_flat
+}
+set_line_break_before_curly_opening_style &lt;- function() {
+  create_style_guide(
+    line_break = list(set_line_break_before_curly_opening),
+    style_guide_name = "some-style-guide",
+    style_guide_version = "some-version"
+  )
+}
+style_text(
+  "a &lt;- function(x) { x }",
+  style = set_line_break_before_curly_opening_style
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

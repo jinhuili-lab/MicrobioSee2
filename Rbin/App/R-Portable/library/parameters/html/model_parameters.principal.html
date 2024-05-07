@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from PCA, FA, CFA, SEM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.PCA {parameters}"><tr><td>model_parameters.PCA {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from PCA, FA, CFA, SEM</h2>
+
+<h3>Description</h3>
+
+<p>Format structural models from the <strong>psych</strong> or <strong>FactoMineR</strong> packages.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'PCA'
+model_parameters(
+  model,
+  sort = FALSE,
+  threshold = NULL,
+  labels = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'lavaan'
+model_parameters(
+  model,
+  ci = 0.95,
+  standardize = FALSE,
+  component = c("regression", "correlation", "loading", "defined"),
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+
+## S3 method for class 'principal'
+model_parameters(
+  model,
+  sort = FALSE,
+  threshold = NULL,
+  labels = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Model object.</p>
+</td></tr>
+<tr valign="top"><td><code>sort</code></td>
+<td>
+<p>Sort the loadings.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>A value between 0 and 1 indicates which (absolute) values
+from the loadings should be removed. An integer higher than 1 indicates the
+n strongest loadings to retain. Can also be <code>"max"</code>, in which case it
+will only display the maximum loading per variable (the most simple
+structure).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>A character vector containing labels to be added to the
+loadings data. Usually, the question related to the item.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>standardize</code></td>
+<td>
+<p>Return standardized parameters (standardized coefficients).
+Can be <code>TRUE</code> (or <code>"all"</code> or <code>"std.all"</code>) for standardized
+estimates based on both the variances of observed and latent variables;
+<code>"latent"</code> (or <code>"std.lv"</code>) for standardized estimates based
+on the variances of the latent variables only; or <code>"no_exogenous"</code>
+(or <code>"std.nox"</code>) for standardized estimates based on both the
+variances of observed and latent variables, but not the variances of
+exogenous covariates. See <code>lavaan::standardizedsolution</code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>What type of links to return. Can be <code>"all"</code> or some of
+<code>c("regression", "correlation", "loading", "variance", "mean")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For the structural models obtained with <strong>psych</strong>, the following indices
+are present:
+</p>
+
+<ul>
+<li> <p><strong>Complexity</strong> (<cite>Hoffman's, 1978; Pettersson and Turkheimer,
+2010</cite>) represents the number of latent components needed to account for
+the observed variables. Whereas a perfect simple structure solution has a
+complexity of 1 in that each item would only load on one factor, a
+solution with evenly distributed items has a complexity greater than 1.
+</p>
+</li>
+<li> <p><strong>Uniqueness</strong> represents the variance that is 'unique' to the
+variable and not shared with other variables. It is equal to <code style="white-space: pre;">1 – communality</code> (variance that is shared with other variables). A uniqueness
+of <code>0.20</code> suggests that <code style="white-space: pre;">20%</code> or that variable's variance is not shared
+with other variables in the overall factor model. The greater 'uniqueness'
+the lower the relevance of the variable in the factor model.
+</p>
+</li>
+<li> <p><strong>MSA</strong> represents the Kaiser-Meyer-Olkin Measure of Sampling
+Adequacy (<cite>Kaiser and Rice, 1974</cite>) for each item. It indicates
+whether there is enough data for each factor give reliable results for the
+PCA. The value should be &gt; 0.6, and desirable values are &gt; 0.8
+(<cite>Tabachnick and Fidell, 2013</cite>).
+</p>
+</li></ul>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices or loadings.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There is also a
+<a href="https://easystats.github.io/see/articles/parameters.html"><code>plot()</code>-method</a>
+for <code>lavaan</code> models implemented in the
+<a href="https://easystats.github.io/see/"><strong>see</strong>-package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Kaiser, H.F. and Rice. J. (1974). Little jiffy, mark iv. Educational and
+Psychological Measurement, 34(1):111–117
+</p>
+</li>
+<li><p> Pettersson, E., and Turkheimer, E. (2010). Item selection, evaluation, and
+simple structure in personality data. Journal of research in personality,
+44(4), 407-420.
+</p>
+</li>
+<li><p> Revelle, W. (2016). How To: Use the psych package for Factor Analysis and
+data reduction.
+</p>
+</li>
+<li><p> Tabachnick, B. G., and Fidell, L. S. (2013). Using multivariate statistics
+(6th ed.). Boston: Pearson Education.
+</p>
+</li>
+<li><p> Rosseel Y (2012). lavaan: An R Package for Structural Equation
+Modeling. Journal of Statistical Software, 48(2), 1-36.
+</p>
+</li>
+<li><p> Merkle EC , Rosseel Y (2018). blavaan: Bayesian Structural Equation
+Models via Parameter Expansion. Journal of Statistical Software, 85(4),
+1-30. http://www.jstatsoft.org/v85/i04/
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(parameters)
+if (require("psych", quietly = TRUE)) {
+  # Principal Component Analysis (PCA) ---------
+  pca &lt;- psych::principal(attitude)
+  model_parameters(pca)
+
+  pca &lt;- psych::principal(attitude, nfactors = 3, rotate = "none")
+  model_parameters(pca, sort = TRUE, threshold = 0.2)
+
+  principal_components(attitude, n = 3, sort = TRUE, threshold = 0.2)
+
+
+  # Exploratory Factor Analysis (EFA) ---------
+  efa &lt;- psych::fa(attitude, nfactors = 3)
+  model_parameters(efa,
+    threshold = "max", sort = TRUE,
+    labels = as.character(1:ncol(attitude))
+  )
+
+
+  # Omega ---------
+  omega &lt;- psych::omega(mtcars, nfactors = 3)
+  params &lt;- model_parameters(omega)
+  params
+  summary(params)
+}
+
+
+# lavaan
+
+library(parameters)
+
+# lavaan -------------------------------------
+if (require("lavaan", quietly = TRUE)) {
+  # Confirmatory Factor Analysis (CFA) ---------
+
+  structure &lt;- " visual  =~ x1 + x2 + x3
+                 textual =~ x4 + x5 + x6
+                 speed   =~ x7 + x8 + x9 "
+  model &lt;- lavaan::cfa(structure, data = HolzingerSwineford1939)
+  model_parameters(model)
+  model_parameters(model, standardize = TRUE)
+
+  # filter parameters
+  model_parameters(
+    model,
+    parameters = list(
+      To = "^(?!visual)",
+      From = "^(?!(x7|x8))"
+    )
+  )
+
+  # Structural Equation Model (SEM) ------------
+
+  structure &lt;- "
+    # latent variable definitions
+      ind60 =~ x1 + x2 + x3
+      dem60 =~ y1 + a*y2 + b*y3 + c*y4
+      dem65 =~ y5 + a*y6 + b*y7 + c*y8
+    # regressions
+      dem60 ~ ind60
+      dem65 ~ ind60 + dem60
+    # residual correlations
+      y1 ~~ y5
+      y2 ~~ y4 + y6
+      y3 ~~ y7
+      y4 ~~ y8
+      y6 ~~ y8
+  "
+  model &lt;- lavaan::sem(structure, data = PoliticalDemocracy)
+  model_parameters(model)
+  model_parameters(model, standardize = TRUE)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

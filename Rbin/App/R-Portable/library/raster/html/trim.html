@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Trim</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for trim {raster}"><tr><td>trim {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Trim</h2>
+
+<h3>Description</h3>
+
+<p>Trim (shrink) a Raster* object by removing outer rows and columns that all have the same value (e.g. NA).
+</p>
+<p>Or remove the whitespace before or after a string of characters (or a matrix, or the character values in a data.frame).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+trim(x, padding=0, values=NA, filename='', ...)
+## S4 method for signature 'character'
+trim(x, internal=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object or a character string</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>numeric. Value(s) based on which a Raster* should be trimmed</p>
+</td></tr>
+<tr valign="top"><td><code>padding</code></td>
+<td>
+<p>integer. Number of outer rows/columns to keep</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional output filename</p>
+</td></tr>
+<tr valign="top"><td><code>internal</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, sequential internal spaces are replaced by a single space</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>If <code>x</code> is a Raster* object: additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A RasterLayer or RasterBrick object (if <code>x</code> is a Raster* object) or a character string (if <code>x</code> is a character string).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Jacob van Etten</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=18,nrow=18)
+r[39:49] &lt;- 1
+r[113:155] &lt;- 2
+r[200] &lt;- 6
+s &lt;- trim(r) 
+
+
+trim("    hi folks    !   ")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

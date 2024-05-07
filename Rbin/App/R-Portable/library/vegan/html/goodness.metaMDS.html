@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Goodness of Fit and Shepard Plot for Nonmetric...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for goodness.metaMDS {vegan}"><tr><td>goodness.metaMDS {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Goodness of Fit and Shepard Plot for Nonmetric Multidimensional Scaling </h2>
+
+<h3>Description</h3>
+
+<p>Function <code>goodness.metaMDS</code> find goodness of fit measure for
+points in nonmetric multidimensional scaling, and function
+<code>stressplot</code> makes a <code><a href="../../MASS/help/Shepard.html">Shepard</a></code> diagram.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'metaMDS'
+goodness(object, dis, ...)
+## Default S3 method:
+stressplot(object, dis, pch, p.col = "blue", l.col = "red", 
+    lwd = 2, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A result object from <code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>, 
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> or <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>dis</code></td>
+<td>
+<p>Dissimilarities.  This should not be used with
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code> or <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>, but must be used with
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Plotting character for points.  Default is dependent on the
+number of points. </p>
+</td></tr>
+<tr valign="top"><td><code>p.col, l.col</code></td>
+<td>
+<p>Point and line colours.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width. For <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> the default is
+<code>lwd = 1</code> if more than two lines are drawn, and <code>lwd = 2</code> 
+otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to functions, e.g. graphical parameters.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>goodness.metaMDS</code> finds a goodness of fit statistic
+for observations (points).  This is defined so that sum of squared
+values is equal to squared stress.  Large values indicate poor fit.
+The absolute values of the goodness statistic depend on the
+definition of the stress: <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> expresses
+stress in percents, and therefore its goodness values are 100 times
+higher than those of <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> which expresses the
+stress as a proportion.
+</p>
+<p>Function <code>stressplot</code> draws a Shepard diagram which is a plot
+of ordination distances and monotone or linear fit line against
+original dissimilarities.  In addition, it displays two
+correlation-like statistics on the goodness of fit in the graph.
+The nonmetric fit is based on stress <i>S</i> and defined as <i>R2 = 1-S*S</i>.  The &ldquo;linear fit&rdquo; is the squared
+correlation between fitted values and ordination distances. For
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>, the &ldquo;linear fit&rdquo; and <i>R2</i>
+from &ldquo;stress type 2&rdquo; are equal.
+</p>
+<p>Both functions can be used with <code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>,
+<code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> and <code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>.  The original
+dissimilarities should not be given for <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code> or
+<code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code> results (the latter tries to reconstruct the
+dissimilarities using <code><a href="../../vegan/help/metaMDSredist.html">metaMDSredist</a></code> if
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> was used as its engine).  With
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> the dissimilarities must be given.  In
+either case, the functions inspect that dissimilarities are
+consistent with current ordination, and refuse to analyse
+inconsistent dissimilarities.  Function <code>goodness.metaMDS</code> is
+generic in <span class="pkg">vegan</span>, but you must spell its name completely with
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> which has no class.
+</p>
+
+
+<h3>Value</h3>
+
+<p> Function <code>goodness</code> returns a vector of values. Function
+<code>stressplot</code> returns invisibly an object with items for
+original dissimilarities, ordination distances and fitted values.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/metaMDS.html">metaMDS</a></code>,  <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>, 
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code>, <code><a href="../../MASS/help/Shepard.html">Shepard</a></code>. Similar
+diagrams for eigenvector ordinations can be drawn with
+<code><a href="../../vegan/help/stressplot.wcmdscale.html">stressplot.wcmdscale</a></code>, <code><a href="../../vegan/help/stressplot.cca.html">stressplot.cca</a></code>,
+<code><a href="../../vegan/help/stressplot.rda.html">stressplot.rda</a></code> and <code><a href="../../vegan/help/stressplot.capscale.html">stressplot.capscale</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+mod &lt;- metaMDS(varespec)
+stressplot(mod)
+gof &lt;- goodness(mod)
+gof
+plot(mod, display = "sites", type = "n")
+points(mod, display = "sites", cex = 2*gof/mean(gof))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

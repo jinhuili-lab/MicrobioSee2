@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finalizer methods called when object is clean out</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for finalize.Object {R.oo}"><tr><td>finalize.Object {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finalizer methods called when object is clean out</h2>
+
+<h3>Description</h3>
+
+<p>Finalizer methods are called just the moment before the object is
+about to be deleted by the garbage collector.
+</p>
+<p><b>If creating a custom <code>finalize()</code> method for a subclass
+in a package, then it needs to be exported in the NAMESPACE of
+that package.  If not, it will not be found nor called and
+there will be no error message.</b>
+</p>
+<p><b>A finalizer method should never be called explicitly!</b>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Object'
+finalize(this, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Object.html">Object</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+setConstructorS3("MyClass", function() {
+  extend(Object(), "MyClass")
+})
+
+setMethodS3("finalize", "MyClass", function(this, ...) {
+  cat(as.character(this), "is about to be removed from the memory!\n")
+})
+
+o &lt;- MyClass()
+o &lt;- MyClass()
+o &lt;- MyClass()
+o &lt;- MyClass()
+gc()
+
+## MyClass: 0x01BE602C is about to be removed from the memory!
+## MyClass: 0x01BFF634 is about to be removed from the memory!
+## MyClass: 0x01C13584 is about to be removed from the memory!
+##          used (Mb) gc trigger (Mb)
+## Ncells 229903  6.2     467875 12.5
+## Vcells  53725  0.5     786432  6.0
+
+rm(o)
+## MyClass: 0x01C578B0 is about to be removed from the memory!
+##          used (Mb) gc trigger (Mb)
+## Ncells 229903  6.1     467875 12.3
+## Vcells  53725  0.5     786432  6.0
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

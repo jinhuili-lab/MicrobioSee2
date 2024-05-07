@@ -1,0 +1,479 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fit and plot a growth curve for luminescence data (Lx/Tx...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_GrowthCurve {Luminescence}"><tr><td>plot_GrowthCurve {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fit and plot a growth curve for luminescence data (Lx/Tx against dose)</h2>
+
+<h3>Description</h3>
+
+<p>A dose response curve is produced for luminescence measurements using a
+regenerative or additive protocol. The function supports interpolation and
+extrapolation to calculate the equivalent dose.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_GrowthCurve(
+  sample,
+  na.rm = TRUE,
+  mode = "interpolation",
+  fit.method = "EXP",
+  fit.force_through_origin = FALSE,
+  fit.weights = TRUE,
+  fit.includingRepeatedRegPoints = TRUE,
+  fit.NumberRegPoints = NULL,
+  fit.NumberRegPointsReal = NULL,
+  fit.bounds = TRUE,
+  NumberIterations.MC = 100,
+  output.plot = TRUE,
+  output.plotExtended = TRUE,
+  output.plotExtended.single = FALSE,
+  cex.global = 1,
+  txtProgressBar = TRUE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sample</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+data frame with three columns for <code>x=Dose</code>,<code>y=LxTx</code>,<code>z=LxTx.Error</code>, <code>y1=TnTx</code>.
+The column for the test dose response is optional, but requires <code>'TnTx'</code> as
+column name if used. For exponential fits at least three dose points
+(including the natural) should be provided.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+excludes <code>NA</code> values from the data set prior to any further operations.</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+selects calculation mode of the function.
+</p>
+
+<ul>
+<li> <p><code>"interpolation"</code> (default) calculates the De by interpolation,
+</p>
+</li>
+<li> <p><code>"extrapolation"</code> calculates the De by extrapolation and
+</p>
+</li>
+<li> <p><code>"alternate"</code> calculates no De and just fits the data points.
+</p>
+</li></ul>
+
+<p>Please note that for option <code>"regenerative"</code> the first point is considered
+as natural dose</p>
+</td></tr>
+<tr valign="top"><td><code>fit.method</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+function used for fitting. Possible options are:
+</p>
+
+<ul>
+<li> <p><code>LIN</code>,
+</p>
+</li>
+<li> <p><code>QDR</code>,
+</p>
+</li>
+<li> <p><code>EXP</code>,
+</p>
+</li>
+<li> <p><code style="white-space: pre;">EXP OR LIN</code>,
+</p>
+</li>
+<li> <p><code>EXP+LIN</code>,
+</p>
+</li>
+<li> <p><code>EXP+EXP</code>,
+</p>
+</li>
+<li> <p><code>GOK</code>,
+</p>
+</li>
+<li> <p><code>LambertW</code>
+</p>
+</li></ul>
+
+<p>See details.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.force_through_origin</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>)
+allow to force the fitted function through the origin.
+For <code>method = "EXP+EXP"</code> and <code>method = "GOK"</code> the function will go through
+the origin in either case, so this option will have no effect.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.weights</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+option whether the fitting is done with or without weights. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.includingRepeatedRegPoints</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+includes repeated points for fitting (<code>TRUE</code>/<code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>fit.NumberRegPoints</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+set number of regeneration points manually. By default the number of all (!)
+regeneration points is used automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.NumberRegPointsReal</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>optional</em>):
+if the number of regeneration points is provided manually, the value of the
+real, regeneration points = all points (repeated points) including reg 0,
+has to be inserted.</p>
+</td></tr>
+<tr valign="top"><td><code>fit.bounds</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+set lower fit bounds for all fitting parameters to 0. Limited for the use
+with the fit methods <code>EXP</code>, <code>EXP+LIN</code>, <code style="white-space: pre;">EXP OR LIN</code>, <code>GOK</code>, <code>LambertW</code>
+Argument to be inserted for experimental application only!</p>
+</td></tr>
+<tr valign="top"><td><code>NumberIterations.MC</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+number of Monte Carlo simulations for error estimation. See details.</p>
+</td></tr>
+<tr valign="top"><td><code>output.plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+plot output (<code>TRUE/FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>output.plotExtended</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+If' <code>TRUE</code>, 3 plots on one plot area are provided:
+</p>
+
+<ol>
+<li><p> growth curve,
+</p>
+</li>
+<li><p> histogram from Monte Carlo error simulation and
+</p>
+</li>
+<li><p> a test dose response plot.
+</p>
+</li></ol>
+
+<p>If <code>FALSE</code>, just the growth curve will be plotted.
+<strong>Requires:</strong> <code>output.plot = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>output.plotExtended.single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+single plot output (<code>TRUE/FALSE</code>) to allow for plotting the results in
+single plot windows. Requires <code>output.plot = TRUE</code> and
+<code>output.plotExtended = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.global</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+global scaling factor.</p>
+</td></tr>
+<tr valign="top"><td><code>txtProgressBar</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables <code>txtProgressBar</code>. If <code>verbose = FALSE</code> also no
+<code>txtProgressBar</code> is shown.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables terminal feedback.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments and graphical parameters to be passed. Note:
+Standard arguments will only be passed to the growth curve plot. Supported:
+<code>xlim</code>, <code>ylim</code>, <code>main</code>, <code>xlab</code>, <code>ylab</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><strong>Fitting methods</strong>
+</p>
+<p>For all options (except for the <code>LIN</code>, <code>QDR</code> and the <code style="white-space: pre;">EXP OR LIN</code>),
+the <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a> function with the <code>LM</code> (Levenberg-Marquardt algorithm)
+algorithm is used. Note: For historical reasons for the Monte Carlo
+simulations partly the function <a href="../../stats/html/nls.html">nls</a> using the <code>port</code> algorithm.
+</p>
+<p>The solution is found by transforming the function or using <a href="../../stats/html/uniroot.html">uniroot</a>.
+</p>
+<p><code>LIN</code>: fits a linear function to the data using
+<a href="../../stats/html/lm.html">lm</a>: </p>
+<p style="text-align: center;"><i>y = m*x+n</i></p>
+
+<p><code>QDR</code>: fits a linear function to the data using
+<a href="../../stats/html/lm.html">lm</a>: </p>
+<p style="text-align: center;"><i>y = a + b * x + c * x^2</i></p>
+
+<p><code>EXP</code>: try to fit a function of the form
+</p>
+<p style="text-align: center;"><i>y = a*(1-exp(-(x+c)/b))</i></p>
+
+<p>Parameters b and c are approximated by a linear fit using <a href="../../stats/html/lm.html">lm</a>. Note: b = D0
+</p>
+<p><code style="white-space: pre;">EXP OR LIN</code>: works for some cases where an <code>EXP</code> fit fails.
+If the <code>EXP</code> fit fails, a <code>LIN</code> fit is done instead.
+</p>
+<p><code>EXP+LIN</code>: tries to fit an exponential plus linear function of the
+form:
+</p>
+<p style="text-align: center;"><i>y = a*(1-exp(-(x+c)/b)+(g*x))</i></p>
+
+<p>The De is calculated by iteration.
+</p>
+<p><strong>Note:</strong> In the context of luminescence dating, this
+function has no physical meaning. Therefore, no D0 value is returned.
+</p>
+<p><code>EXP+EXP</code>: tries to fit a double exponential function of the form
+</p>
+<p style="text-align: center;"><i>y = (a1*(1-exp(-(x)/b1)))+(a2*(1-exp(-(x)/b2)))</i></p>
+
+<p>This fitting procedure is not robust against wrong start parameters and
+should be further improved.
+</p>
+<p><code>GOK</code>: tries to fit the general-order kinetics function after
+Guralnik et al. (2015) of the form of
+</p>
+<p style="text-align: center;"><i>y = a*(1-(1+(1/b)*x*c)^(-1/c))</i></p>
+
+<p>where <strong>c &gt; 0</strong> is a kinetic order modifier
+(not to be confused with <strong>c</strong> in <code>EXP</code> or <code>EXP+LIN</code>!).
+</p>
+<p><code>LambertW</code>: tries to fit a dose-response curve based on the Lambert W function
+according to Pagonis et al. (2020). The function has the form
+</p>
+<p style="text-align: center;"><i>y ~ (1 + (W((R - 1) * exp(R - 1 - ((x + D_{int}) / D_{c}))) / (1 - R))) * N</i></p>
+
+<p>with <i>W</i> the Lambert W function, calculated using the package <a href="../../lamW/help/lamW.html">lamW::lambertW0</a>,
+<i>R</i> the dimensionless detrapping ratio, <i>N</i> the total concentration
+of trappings states in cm^-3 and <i>D_{c} = N/R</i> a constant. <i>D_{int}</i> is
+the offset on the x-axis.
+</p>
+<p><strong>Fit weighting</strong>
+</p>
+<p>If the option <code>fit.weights =  TRUE</code> is chosen, weights are calculated using
+provided signal errors (Lx/Tx error):
+</p>
+<p style="text-align: center;"><i>fit.weights = 1/error/(sum(1/error))</i></p>
+
+<p><strong>Error estimation using Monte Carlo simulation</strong>
+</p>
+<p>Error estimation is done using a parametric bootstrapping approach. A set of
+<code>Lx/Tx</code> values is constructed by randomly drawing curve data sampled from normal
+distributions. The normal distribution is defined by the input values (<code>mean = value</code>, <code>sd = value.error</code>). Then, a dose-response curve fit is attempted for each
+dataset resulting in a new distribution of single <code>De</code> values. The standard
+deviation of this distribution is becomes then the error of the <code>De</code>. With increasing
+iterations, the error value becomes more stable. However, naturally the error
+will not decrease with more MC runs.
+</p>
+<p>Alternatively, the function returns highest probability density interval
+estimates as output, users may find more useful under certain circumstances.
+</p>
+<p><strong>Note:</strong> It may take some calculation time with increasing MC runs,
+especially for the composed functions (<code>EXP+LIN</code> and <code>EXP+EXP</code>).<br />
+Each error estimation is done with the function of the chosen fitting method.
+</p>
+<p><strong>Subtitle information</strong>
+</p>
+<p>To avoid plotting the subtitle information, provide an empty user <code>mtext</code>
+<code>mtext = ""</code>. To plot any other subtitle text, use <code>mtext</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Along with a plot (so far wanted) an <code>RLum.Results</code> object is returned containing,
+the slot <code>data</code> contains the following elements:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>DATA.OBJECT</strong> </td><td style="text-align: left;"> <strong>TYPE</strong> </td><td style="text-align: left;"> <strong>DESCRIPTION</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>..$De</code> : </td><td style="text-align: left;">  <code>data.frame</code> </td><td style="text-align: left;"> Table with De values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>..$De.MC</code> : </td><td style="text-align: left;"> <code>numeric</code> </td><td style="text-align: left;"> Table with De values from MC runs </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>..$Fit</code> : </td><td style="text-align: left;"> <a href="../../stats/html/nls.html">nls</a> or <a href="../../stats/html/lm.html">lm</a> </td><td style="text-align: left;"> object from the fitting for <code>EXP</code>, <code>EXP+LIN</code> and <code>EXP+EXP</code>.
+In case of a resulting  linear fit when using <code>LIN</code>, <code>QDR</code> or <code style="white-space: pre;">EXP OR LIN</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>..$Formula</code> : </td><td style="text-align: left;"> <a href="../../base/html/expression.html">expression</a> </td><td style="text-align: left;"> Fitting formula as R expression </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>..$call</code> : </td><td style="text-align: left;"> <code>call</code> </td><td style="text-align: left;"> The original function call</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>1.11.3
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Dietze, M., 2021. plot_GrowthCurve(): Fit and plot a growth curve for luminescence data (Lx/Tx against dose). Function version 1.11.3. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)<br />
+Michael Dietze, GFZ Potsdam (Germany)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Berger, G.W., Huntley, D.J., 1989. Test data for exponential fits. Ancient TL 7, 43-46.
+</p>
+<p>Guralnik, B., Li, B., Jain, M., Chen, R., Paris, R.B., Murray, A.S., Li, S.-H., Pagonis, P.,
+Herman, F., 2015. Radiation-induced growth and isothermal decay of infrared-stimulated luminescence
+from feldspar. Radiation Measurements 81, 224-231.
+</p>
+<p>Pagonis, V., Kitis, G., Chen, R., 2020. A new analytical equation for the dose response of dosimetric materials,
+based on the Lambert W function. Journal of Luminescence 225, 117333. doi: <a href="https://doi.org/10.1016/j.jlumin.2020.117333">10.1016/j.jlumin.2020.117333</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../stats/html/nls.html">nls</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/get_RLum.html">get_RLum</a>, <a href="../../minpack.lm/help/nlsLM.html">minpack.lm::nlsLM</a>,
+<a href="../../stats/html/lm.html">lm</a>, <a href="../../stats/html/uniroot.html">uniroot</a>, <a href="../../lamW/help/lamW.html">lamW::lambertW0</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1) plot growth curve for a dummy data.set and show De value
+data(ExampleData.LxTxData, envir = environment())
+temp &lt;- plot_GrowthCurve(LxTxData)
+get_RLum(temp)
+
+##(1b) horizontal plot arrangement
+layout(mat = matrix(c(1,1,2,3), ncol = 2))
+plot_GrowthCurve(LxTxData, output.plotExtended.single = TRUE)
+
+##(1c) to access the fitting value try
+get_RLum(temp, data.object = "Fit")
+
+##(2) plot the growth curve only - uncomment to use
+##pdf(file = "~/Desktop/Growth_Curve_Dummy.pdf", paper = "special")
+plot_GrowthCurve(LxTxData)
+##dev.off()
+
+##(3) plot growth curve with pdf output - uncomment to use, single output
+##pdf(file = "~/Desktop/Growth_Curve_Dummy.pdf", paper = "special")
+plot_GrowthCurve(LxTxData, output.plotExtended.single = TRUE)
+##dev.off()
+
+##(4) plot resulting function for given intervall x
+x &lt;- seq(1,10000, by = 100)
+plot(
+ x = x,
+ y = eval(temp$Formula),
+ type = "l"
+)
+
+##(5) plot using the 'extrapolation' mode
+LxTxData[1,2:3] &lt;- c(0.5, 0.001)
+print(plot_GrowthCurve(LxTxData,mode = "extrapolation"))
+
+##(6) plot using the 'alternate' mode
+LxTxData[1,2:3] &lt;- c(0.5, 0.001)
+print(plot_GrowthCurve(LxTxData,mode = "alternate"))
+
+##(7) import and fit test data set by Berger &amp; Huntley 1989
+QNL84_2_unbleached &lt;-
+read.table(system.file("extdata/QNL84_2_unbleached.txt", package = "Luminescence"))
+
+results &lt;- plot_GrowthCurve(
+ QNL84_2_unbleached,
+ mode = "extrapolation",
+ plot = FALSE,
+ verbose = FALSE)
+
+#calculate confidence interval for the parameters
+#as alternative error estimation
+confint(results$Fit, level = 0.68)
+
+
+## Not run: 
+QNL84_2_bleached &lt;-
+read.table(system.file("extdata/QNL84_2_bleached.txt", package = "Luminescence"))
+STRB87_1_unbleached &lt;-
+read.table(system.file("extdata/STRB87_1_unbleached.txt", package = "Luminescence"))
+STRB87_1_bleached &lt;-
+read.table(system.file("extdata/STRB87_1_bleached.txt", package = "Luminescence"))
+
+print(
+ plot_GrowthCurve(
+ QNL84_2_bleached,
+ mode = "alternate",
+ plot = FALSE,
+ verbose = FALSE)$Fit)
+
+print(
+ plot_GrowthCurve(
+ STRB87_1_unbleached,
+ mode = "alternate",
+ plot = FALSE,
+ verbose = FALSE)$Fit)
+
+print(
+ plot_GrowthCurve(
+ STRB87_1_bleached,
+ mode = "alternate",
+ plot = FALSE,
+ verbose = FALSE)$Fit)
+ 
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

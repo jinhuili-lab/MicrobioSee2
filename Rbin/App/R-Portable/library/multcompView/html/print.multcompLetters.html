@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: print a multcompLetters object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for print.multcompLetters {multcompView}"><tr><td>print.multcompLetters {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>print a multcompLetters object</h2>
+
+<h3>Description</h3>
+
+<p>print method for an object of class 'multcompLetters'.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'multcompLetters'
+print(x, all = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>an object of class 'multcompLetters'</p>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+<p>FALSE to print only the character vector representations of the
+'multcompLetters' comparison summary; TRUE to print also the matrix
+representation.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other optional print parameters as described on the
+<code><a href="../../base/html/print.html">print</a></code> help page.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Prints only the Letters component of the 'multcompLetters' list unless
+all=TRUE.
+</p>
+
+
+<h3>Value</h3>
+
+<p>the named, character vector representation of the
+'multcompLetters' evaluation of the distance relationships
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+dif3 &lt;- c(FALSE, FALSE, TRUE)
+names(dif3) &lt;- c("A-B", "A-C", "B-C")
+dif3L &lt;- multcompLetters(dif3)
+dif3L
+print(dif3L)
+print(dif3L, TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

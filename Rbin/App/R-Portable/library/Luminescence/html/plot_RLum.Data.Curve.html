@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot function for an RLum.Data.Curve S4 class object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_RLum.Data.Curve {Luminescence}"><tr><td>plot_RLum.Data.Curve {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot function for an RLum.Data.Curve S4 class object</h2>
+
+<h3>Description</h3>
+
+<p>The function provides a standardised plot output for curve data of an
+<code>RLum.Data.Curve</code> S4-class object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_RLum.Data.Curve(
+  object,
+  par.local = TRUE,
+  norm = FALSE,
+  smooth = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> (<strong>required</strong>):
+S4 object of class <code>RLum.Data.Curve</code></p>
+</td></tr>
+<tr valign="top"><td><code>par.local</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+use local graphical parameters for plotting, e.g. the plot is shown in one
+column and one row. If <code>par.local = FALSE</code>, global parameters are inherited.</p>
+</td></tr>
+<tr valign="top"><td><code>norm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> <a href="../../base/html/character.html">character</a> (<em>with default</em>): allows curve normalisation to the
+highest count value ('default'). Alternatively, the function offers the
+modes <code>"max"</code>, <code>"min"</code> and <code>"huot"</code> for a background corrected normalisation, see details.</p>
+</td></tr>
+<tr valign="top"><td><code>smooth</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+provides an automatic curve smoothing based on <a href="../../zoo/help/rollmean.html">zoo::rollmean</a></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments and graphical parameters that will be passed
+to the <code>plot</code> function</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Only single curve data can be plotted with this function.Arguments
+according to <a href="../../graphics/html/plot.default.html">plot</a>.
+</p>
+<p><strong>Curve normalisation</strong>
+</p>
+<p>The argument <code>norm</code> normalises all count values, to date the following
+options are supported:
+</p>
+<p><code>norm = TRUE</code> or <code>norm = "max"</code>: Curve values are normalised to the highest
+count value in the curve
+</p>
+<p><code>norm = "last"</code>: Curves values are normalised to the last count value
+(this can be useful in particular for radiofluorescence curves)
+</p>
+<p><code>norm = "huot"</code>: Curve values are normalised as suggested by Sébastien Huot
+via GitHub:
+</p>
+<p style="text-align: center;"><i>
+y = (observed - median(background)) / (max(observed) - median(background))
+</i></p>
+
+<p>The background of the curve is defined as the last 20 % of the count values
+of a curve.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a plot.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.5
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. plot_RLum.Data.Curve(): Plot function for an RLum.Data.Curve S4 class object. Function version 0.2.5. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Not all arguments of <a href="../../graphics/html/plot.default.html">plot</a> will be passed!
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##plot curve data
+
+#load Example data
+data(ExampleData.CW_OSL_Curve, envir = environment())
+
+#transform data.frame to RLum.Data.Curve object
+temp &lt;- as(ExampleData.CW_OSL_Curve, "RLum.Data.Curve")
+
+#plot RLum.Data.Curve object
+plot_RLum.Data.Curve(temp)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

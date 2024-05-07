@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Assigns an objects elements locally</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for attachLocally.list {R.utils}"><tr><td>attachLocally.list {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Assigns an objects elements locally</h2>
+
+<h3>Description</h3>
+
+<p>Assigns an objects elements locally.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'list'
+attachLocally(object, fields=NULL, excludeFields=NULL, overwrite=TRUE,
+  envir=parent.frame(), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object with named elements such as an <code><a href="../../base/help/environment.html">environment</a></code>,
+a <code><a href="../../base/help/list.html">list</a></code>, or a <code><a href="../../base/help/data.frame.html">data.frame</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>fields</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying elements to be copied.
+If <code><a href="../../base/help/NULL.html">NULL</a></code>, all elements are considered.</p>
+</td></tr>
+<tr valign="top"><td><code>excludeFields</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying elements not to
+be copied.  This has higher priority than <code>fields</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">FALSE</a></code>, fields that already exists will not be
+copied.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> where elements are copied to.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of the fields copied.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.oo/help/attachLocally.Object.html">attachLocally</a>()</code> of class Object.
+<code><a href="../../base/help/attach.html">attach</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+foo &lt;- function(object) {
+  cat("Local objects in foo():\n")
+  print(ls())
+
+  attachLocally(object)
+
+  cat("\nLocal objects in foo():\n")
+  print(ls())
+
+  for (name in ls()) {
+    cat("\nObject '", name, "':\n", sep="")
+    print(get(name, inherits=FALSE))
+  }
+}
+
+a &lt;- "A string"
+l &lt;- list(a=1:10, msg="Hello world", df=data.frame(a=NA, b=2))
+foo(l)
+print(a)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

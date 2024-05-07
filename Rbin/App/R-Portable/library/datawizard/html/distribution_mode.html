@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute mode for a statistical distribution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for distribution_mode {datawizard}"><tr><td>distribution_mode {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute mode for a statistical distribution</h2>
+
+<h3>Description</h3>
+
+<p>Compute mode for a statistical distribution
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+distribution_mode(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An atomic vector, a list, or a data frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The value that appears most frequently in the provided data.
+The returned data structure will be the same as the entered one.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For continuous variables, the
+<strong>Highest Maximum a Posteriori probability estimate (MAP)</strong> may be
+a more useful way to estimate the most commonly-observed value
+than the mode. See <code><a href="../../bayestestR/help/map_estimate.html">bayestestR::map_estimate()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+distribution_mode(c(1, 2, 3, 3, 4, 5))
+distribution_mode(c(1.5, 2.3, 3.7, 3.7, 4.0, 5))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Specify what is re-indented how</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for reindention {styler}"><tr><td>reindention {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Specify what is re-indented how</h2>
+
+<h3>Description</h3>
+
+<p>This function returns a list that can be used as an input for the argument
+<code>reindention</code> of the function <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code>. It features sensible
+defaults, so the user can specify deviations from them conveniently without
+the need of setting all arguments explicitly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+specify_reindention(regex_pattern = NULL, indention = 0L, comments_only = TRUE)
+
+tidyverse_reindention()
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>regex_pattern</code></td>
+<td>
+<p>Character vector with regular expression patterns that
+are to be re-indented with spaces, <code>NULL</code> if no reindention needed.</p>
+</td></tr>
+<tr valign="top"><td><code>indention</code></td>
+<td>
+<p>The indention tokens should have if they match
+<code>regex_pattern</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>comments_only</code></td>
+<td>
+<p>Whether the <code>regex_reindention_pattern</code> should only be
+matched against comments or against all tokens. Mainly added for
+performance.</p>
+</td></tr>
+</table>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>specify_reindention()</code>: Allows to specify which tokens are reindented and
+how.
+</p>
+</li>
+<li> <p><code>tidyverse_reindention()</code>: Simple forwarder to
+<code>specify_reindention</code> with reindention according to the tidyverse style
+guide.
+</p>
+</li></ul>
+
+
+<h3>Examples</h3>
+
+<pre>
+style_text("a &lt;- xyz", reindention = specify_reindention(
+  regex_pattern = "xyz", indention = 4, comments_only = FALSE
+))
+style_text("a &lt;- xyz", reindention = tidyverse_reindention())
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

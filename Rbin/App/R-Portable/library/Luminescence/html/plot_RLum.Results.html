@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot function for an RLum.Results S4 class object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_RLum.Results {Luminescence}"><tr><td>plot_RLum.Results {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot function for an RLum.Results S4 class object</h2>
+
+<h3>Description</h3>
+
+<p>The function provides a standardised plot output for data of an RLum.Results
+S4 class object
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_RLum.Results(object, single = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> (<strong>required</strong>):
+S4 object of class <code>RLum.Results</code></p>
+</td></tr>
+<tr valign="top"><td><code>single</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+single plot output (<code>TRUE/FALSE</code>) to allow for plotting the results in as
+few plot windows as possible.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments and graphical parameters will be passed to
+the <code>plot</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function produces a multiple plot output.  A file output is recommended
+(e.g., <a href="../../grDevices/html/pdf.html">pdf</a>).
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns multiple plots.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., Kreutzer, S., 2021. plot_RLum.Results(): Plot function for an RLum.Results S4 class object. Function version 0.2.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>Not all arguments available for <a href="../../graphics/html/plot.default.html">plot</a> will be passed!
+Only plotting of <code>RLum.Results</code> objects are supported.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany) <br />
+Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+###load data
+data(ExampleData.DeValues, envir = environment())
+
+# apply the un-logged minimum age model
+mam &lt;- calc_MinDose(data = ExampleData.DeValues$CA1, sigmab = 0.2, log = TRUE, plot = FALSE)
+
+##plot
+plot_RLum.Results(mam)
+
+# estimate the number of grains on an aliquot
+grains&lt;- calc_AliquotSize(grain.size = c(100,150), sample.diameter = 1, plot = FALSE, MC.iter = 100)
+
+##plot
+plot_RLum.Results(grains)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

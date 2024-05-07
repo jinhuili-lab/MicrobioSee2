@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a local lazy tibble</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tbl_lazy {dbplyr}"><tr><td>tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a local lazy tibble</h2>
+
+<h3>Description</h3>
+
+<p>These functions are useful for testing SQL generation without having to
+have an active database connection. See <code><a href="../../dbplyr/help/simulate_dbi.html">simulate_dbi()</a></code> for a list
+available database simulations.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tbl_lazy(df, con = NULL, src = NULL)
+
+lazy_frame(..., con = NULL, src = NULL)
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr)
+df &lt;- data.frame(x = 1, y = 2)
+
+df_sqlite &lt;- tbl_lazy(df, con = simulate_sqlite())
+df_sqlite %&gt;% summarise(x = sd(x, na.rm = TRUE)) %&gt;% show_query()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

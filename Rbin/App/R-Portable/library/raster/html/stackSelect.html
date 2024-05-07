@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Select cell values from a multi-layer Raster* object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stackSelect {raster}"><tr><td>stackSelect {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Select cell values from a multi-layer Raster* object</h2>
+
+<h3>Description</h3>
+
+<p>Use a Raster* object to select cell values from different layers in a multi-layer Raster* object. The object to select values <code>y</code> should have values between <code>1</code> and <code>nlayers(x)</code>. The values of <code>y</code> are rounded. 
+</p>
+<p>See <code><a href="../../raster/help/extract.html">extract</a></code> for extraction of values by cell, point, or otherwise.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterStackBrick,Raster'
+stackSelect(x, y, recycle=FALSE, type='index', filename='', ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterStack or RasterBrick object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>recycle</code></td>
+<td>
+<p>Logical. Recursively select values (default = <code>FALSE</code>. Only relevant if <code>y</code> has multiple layers. E.g. if <code>x</code> has 12 layers, and <code>y</code> has 4 layers, the indices of the <code>y</code> layers are used three times.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Character. Only relevant when <code>recycle=TRUE</code>. Can be 'index' or 'truefalse'. If it is 'index', the cell values of <code>y</code> should represent layer numbers. If it is 'truefalse' layer numbers are indicated by 0 (not used, NA returned) and 1 (used)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>Character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Raster* object
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/stackApply.html">stackApply</a></code>, <code><a href="../../raster/help/extract.html">extract</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10, vals=1)
+s &lt;- stack(r, r+2, r+5)
+values(r) &lt;- round((runif(ncell(r)))*3)
+x &lt;- stackSelect(s, r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

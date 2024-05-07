@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find Effect Size Thresholds</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sexit_thresholds {bayestestR}"><tr><td>sexit_thresholds {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find Effect Size Thresholds</h2>
+
+<h3>Description</h3>
+
+<p>This function attempts at automatically finding suitable default
+values for a &quot;significant&quot; (i.e., non-negligible) and &quot;large&quot; effect. This is
+to be used with care, and the chosen threshold should always be explicitly
+reported and justified. See the detail section in <code><a href="../../bayestestR/help/sexit.html">sexit()</a></code> for more
+information.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sexit_thresholds(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Vector representing a posterior distribution. Can also be a
+<code>stanreg</code> or <code>brmsfit</code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Kruschke, J. K. (2018). Rejecting or accepting parameter values in Bayesian estimation. Advances in Methods and Practices in Psychological Science, 1(2), 270-280. doi: <a href="https://doi.org/10.1177/2515245918771304">10.1177/2515245918771304</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sexit_thresholds(rnorm(1000))
+
+if (require("rstanarm")) {
+  model &lt;- suppressWarnings(stan_glm(
+    mpg ~ wt + gear,
+    data = mtcars,
+    chains = 2,
+    iter = 200,
+    refresh = 0
+  ))
+  sexit_thresholds(model)
+
+  model &lt;- suppressWarnings(
+    stan_glm(vs ~ mpg, data = mtcars, family = "binomial", refresh = 0)
+  )
+  sexit_thresholds(model)
+}
+
+if (require("brms")) {
+  model &lt;- brm(mpg ~ wt + cyl, data = mtcars)
+  sexit_thresholds(model)
+}
+
+if (require("BayesFactor")) {
+  bf &lt;- ttestBF(x = rnorm(100, 1, 1))
+  sexit_thresholds(bf)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

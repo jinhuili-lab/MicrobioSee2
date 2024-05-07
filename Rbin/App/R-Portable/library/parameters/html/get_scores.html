@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get Scores from Principal Component Analysis (PCA)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_scores {parameters}"><tr><td>get_scores {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Scores from Principal Component Analysis (PCA)</h2>
+
+<h3>Description</h3>
+
+<p><code>get_scores()</code> takes <code>n_items</code> amount of items that load the most
+(either by loading cutoff or number) on a component, and then computes their
+average.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_scores(x, n_items = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object returned by <code><a href="../../parameters/help/principal_components.html">principal_components()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n_items</code></td>
+<td>
+<p>Number of required (i.e. non-missing) items to build the sum
+score. If <code>NULL</code>, the value is chosen to match half of the number of
+columns in a data frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>get_scores()</code> takes the results from <code><a href="../../parameters/help/principal_components.html">principal_components()</a></code> and
+extracts the variables for each component found by the PCA. Then, for each
+of these &quot;subscales&quot;, row means are calculated (which equals adding up the
+single items and dividing by the number of items). This results in a sum
+score for each component from the PCA, which is on the same scale as the
+original, single items that were used to compute the PCA.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with subscales, which are average sum scores for all
+items from each component.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("psych")) {
+  pca &lt;- principal_components(mtcars[, 1:7], n = 2, rotation = "varimax")
+
+  # PCA extracted two components
+  pca
+
+  # assignment of items to each component
+  closest_component(pca)
+
+  # now we want to have sum scores for each component
+  get_scores(pca)
+
+  # compare to manually computed sum score for 2nd component, which
+  # consists of items "hp" and "qsec"
+  (mtcars$hp + mtcars$qsec) / 2
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

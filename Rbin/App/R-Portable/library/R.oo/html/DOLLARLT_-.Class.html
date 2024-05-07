@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Makes the fields and methods of an Class assignable via the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for DOLLAR&amp;lt; -.Class {R.oo}"><tr><td>DOLLAR&lt; -.Class {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Makes the fields and methods of an Class assignable via the $&lt;- and the [[&lt;- operator</h2>
+
+<h3>Description</h3>
+
+<p>Makes the fields and methods of an Class assignable via the <code>$&lt;-</code>
+operator. This method is never called explicitly, but through an indirect
+usage of the <code>$&lt;-</code> operator, e.g. <code>obj$name &lt;- "foo"</code>.
+</p>
+
+<ol>
+<li><p> This method will first search for a </p>
+<pre>set&lt;Name&gt;()</pre>
+<p>method, e.g. if name has the value <code>"age"</code>, a <code>setAge()</code> will
+be looked for. If such a method exists it will be called with the Class
+as the first argument and <code>value</code> as the second, e.g.
+<code>setAge(this, value)</code>.
+A <code>get&lt;Name&gt;()</code> is only looked for if <code>&lt;name&gt;</code> is not a
+private field. A private field is a name <em>beginning</em> with a
+<code>.</code> (period). The rational for this naming convention is to be
+consistent with how <code><a href="../../base/help/ls.html">ls</a>()</code> works, which will not
+list such members  by default.
+</p>
+</li>
+<li><p> If no such method exists it will assign the <code>value</code> to a
+(existing or a non-existing) field named <code>name</code>.
+</p>
+</li></ol>
+
+<p>Because any </p>
+<pre>set&lt;Name&gt;()</pre><p> is called first, it is possible
+to <em>encapsulate</em> (hide away) fields with certain names or to put
+restrictions to what values can be assigned to them.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+  ## S3 replacement method for class 'Class'
+this$name &lt;- value
+  ## S3 replacement method for class 'Class'
+this[[name]] &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>The name of the </p>
+<pre>set&lt;Name&gt;()</pre><p> method or the
+name of the field to be assigned the new value.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>The value to be assigned.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns itself, i.e. <code>this</code>, as all <code>$&lt;-</code> methods must do.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Class.html">Class</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: For a complete example see help(Class).</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

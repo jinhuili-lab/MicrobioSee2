@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Syntax highlight and link an HTML page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for downlit_html_path {downlit}"><tr><td>downlit_html_path {downlit}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Syntax highlight and link an HTML page</h2>
+
+<h3>Description</h3>
+
+
+<ul>
+<li><p> Code blocks, identified by <code style="white-space: pre;">&lt;pre&gt;</code> tags with class <code style="white-space: pre;">sourceCode r</code>
+or any <code style="white-space: pre;">&lt;pre&gt;</code> tag inside of <code style="white-space: pre;">&lt;div class='downlit'&gt;</code>, are
+processed with <code><a href="../../downlit/help/highlight.html">highlight()</a></code>.
+</p>
+</li>
+<li><p> Inline code, identified by <code style="white-space: pre;">&lt;code&gt;</code> tags that contain only text
+(and don't have a header tag (e.g. <code style="white-space: pre;">&lt;h1&gt;</code>) or <code style="white-space: pre;">&lt;a&gt;</code> as an ancestor)
+are processed processed with <code><a href="../../downlit/help/autolink.html">autolink()</a></code>.
+</p>
+</li></ul>
+
+<p>Use <code>downlit_html_path()</code> to process an <code>.html</code> file on disk;
+use <code>downlit_html_node()</code> to process an in-memory <code>xml_node</code> as part of a
+larger pipeline.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+downlit_html_path(in_path, out_path, classes = classes_pandoc())
+
+downlit_html_node(x, classes = classes_pandoc())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>in_path, out_path</code></td>
+<td>
+<p>Input and output paths for HTML file</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>A mapping between token names and CSS class names.
+Bundled <code>classes_pandoc()</code> and <code>classes_chroma()</code> provide mappings
+that (roughly) match Pandoc and chroma (used by hugo) classes so you
+can use existing themes.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An <code>xml2::xml_node</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>downlit_html_path()</code> invisibly returns <code>output_path</code>;
+<code>downlit_html_node()</code> modifies <code>x</code> in place and returns nothing.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+node &lt;- xml2::read_xml("&lt;p&gt;&lt;code&gt;base::t()&lt;/code&gt;&lt;/p&gt;")
+node
+
+# node is modified in place
+downlit_html_node(node)
+node
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>downlit</em> version 0.4.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

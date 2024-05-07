@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw text in a cell</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.text {circlize}"><tr><td>circos.text {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw text in a cell
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw text in a cell
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.text(
+    x, y,
+    labels,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    direction = NULL,
+    facing = c("inside", "outside", "reverse.clockwise", "clockwise",
+    "downward", "bending", "bending.inside", "bending.outside"),
+    niceFacing = FALSE,
+    adj = par("adj"),
+    cex = 1,
+    col = par("col"),
+    font = par("font"),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data points on x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Data points on y-axis</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels for each points</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>deprecated, use <code>facing</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>facing</code></td>
+<td>
+<p>Facing of text. Please refer to vignette for different settings</p>
+</td></tr>
+<tr valign="top"><td><code>niceFacing</code></td>
+<td>
+<p>Should the facing of text be adjusted to fit human eyes?</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>offset for text. By default the text position adjustment is either horizontal or vertical in the canvas coordinate system. The &quot;circular horizontal&quot; offset can be set as a value in degree unit and the value should be wrapped by <code><a href="../../circlize/help/degree.html">degree</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../graphics/help/text.html">text</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Font size</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Font color</p>
+</td></tr>
+<tr valign="top"><td><code>font</code></td>
+<td>
+<p>Font style</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function is similar to <code><a href="../../graphics/help/text.html">text</a></code>. All you need to note is the <code>facing</code> settings.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/graphics.html#text">https://jokergoo.github.io/circlize_book/book/graphics.html#text</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+sectors = letters[1:4]
+circos.par(points.overflow.warning = FALSE)
+circos.initialize(sectors, xlim = c(0, 10))
+circos.trackPlotRegion(sectors, ylim = c(0, 10),
+  track.height = 0.5, panel.fun = function(x, y) {
+    circos.text(3, 1, "inside", facing = "inside", cex = 0.8)
+    circos.text(7, 1, "outside", facing = "outside", cex = 0.8)
+    circos.text(0, 5, "reverse.clockwise", facing = "reverse.clockwise",
+        adj = c(0.5, 0), cex = 0.8)
+    circos.text(10, 5, "clockwise", facing = "clockwise", adj = c(0.5, 0),
+        cex = 0.8)
+    circos.text(5, 5, "downward", facing = "downward", cex = 0.8)
+    circos.text(3, 9, "====bending.inside====", facing = "bending.inside",
+        cex = 0.8)
+    circos.text(7, 9, "====bending.outside====", facing = "bending.outside",
+        cex = 0.8)
+})
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

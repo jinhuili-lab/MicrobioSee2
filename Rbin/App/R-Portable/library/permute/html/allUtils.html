@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Utility functions for complete enumeration of all possible...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for allUtils {permute}"><tr><td>allUtils {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Utility functions for complete enumeration of all possible
+permutations</h2>
+
+<h3>Description</h3>
+
+<p>Utility functions to return the set of all permutations under
+different designs. For most practical applications, i.e. to combine
+designs permuting blocks and/or within blocks function
+<code><a href="../../permute/help/allPerms.html">allPerms</a></code> will be required.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+allFree(n, v = seq_len(n))
+
+allSeries(n, nperms, mirror = FALSE)
+
+allGrid(n, nperms, nr, nc, mirror, constant)
+
+allStrata(n, control)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>the number of observations.</p>
+</td></tr>
+<tr valign="top"><td><code>v</code></td>
+<td>
+<p>numeric; vector of indices. Default is <code>1:n</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>nperms</code></td>
+<td>
+<p>numeric; number of possible permutations.</p>
+</td></tr>
+<tr valign="top"><td><code>mirror</code></td>
+<td>
+<p>logical; mirroring of permutations allowed?</p>
+</td></tr>
+<tr valign="top"><td><code>nr,nc</code></td>
+<td>
+<p>integer; number of rows and columns of grid designs.</p>
+</td></tr>
+<tr valign="top"><td><code>constant</code></td>
+<td>
+<p>logical; same permutation within each block?</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>a list of control values describing properties of the
+permutation design, as returned by a call to <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These are utility functions and aren't designed for casual
+use. <code><a href="../../permute/help/allPerms.html">allPerms</a></code> should be used instead.
+</p>
+<p>Details on usage of these functions can be found in
+<code><a href="../../permute/help/allPerms.html">allPerms</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A matrix of all possible permutations of <code>n</code> observations or of
+<code>v</code>, given the provided options.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson</p>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

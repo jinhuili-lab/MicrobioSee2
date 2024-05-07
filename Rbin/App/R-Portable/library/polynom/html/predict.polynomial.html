@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate a Polynomial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for predict.polynomial {polynom}"><tr><td>predict.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate a Polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate a polynomial at a given numeric or polynomial argument.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+predict(object, newdata, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A polynomial object to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>Argument at which evaluation is requested.  May be
+numeric or itself a polynomial</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used by this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a method for the generic function <code><a href="../../stats/html/predict.html">predict</a></code>.
+</p>
+<p>The polynomial is evaluated according to the Horner scheme for speed
+and numerical accuracy.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Evaluated object of the same class as <code>newdata</code>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../polynom/help/as.function.polynomial.html">as.function.polynomial</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

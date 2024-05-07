@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prettify arbitrary R code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for style_dir {styler}"><tr><td>style_dir {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prettify arbitrary R code</h2>
+
+<h3>Description</h3>
+
+<p>Performs various substitutions in all <code>.R</code>, <code>.Rmd</code>, <code>.Rmarkdown</code>, <code>qmd</code>
+and/or <code>.Rnw</code> files in a directory (by default only <code>.R</code> files are styled -
+see <code>filetype</code> argument).
+Carefully examine the results after running this function!
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+style_dir(
+  path = ".",
+  ...,
+  style = tidyverse_style,
+  transformers = style(...),
+  filetype = c("R", "Rprofile", "Rmd", "Rmarkdown", "Rnw", "Qmd"),
+  recursive = TRUE,
+  exclude_files = NULL,
+  exclude_dirs = c("packrat", "renv"),
+  include_roxygen_examples = TRUE,
+  base_indention = 0L,
+  dry = "off"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Path to a directory with files to transform.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed on to the <code>style</code> function,
+see <code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code> for the default argument.</p>
+</td></tr>
+<tr valign="top"><td><code>style</code></td>
+<td>
+<p>A function that creates a style guide to use, by default
+<code><a href="../../styler/help/tidyverse_style.html">tidyverse_style</a></code>. Not used
+further except to construct the argument <code>transformers</code>. See
+<code><a href="../../styler/help/style_guides.html">style_guides()</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>transformers</code></td>
+<td>
+<p>A set of transformer functions. This argument is most
+conveniently constructed via the <code>style</code> argument and <code>...</code>. See
+'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>filetype</code></td>
+<td>
+<p>Vector of file extensions indicating which file types should
+be styled. Case is ignored, and the <code>.</code> is optional, e.g. <code>c(".R",".Rmd")</code>,
+or <code>c("r", "rmd")</code>. Supported values (after standardization) are:
+&quot;qmd&quot;, &quot;r&quot;, &quot;rmd&quot;, &quot;rmarkdown&quot;, &quot;rnw&quot;, and &quot;rprofile&quot;.
+Rmarkdown is treated as Rmd.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>A logical value indicating whether or not files in
+sub directories of <code>path</code> should be styled as well.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude_files</code></td>
+<td>
+<p>Character vector with regular expressions to files
+that should be excluded from styling.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude_dirs</code></td>
+<td>
+<p>Character vector with directories to exclude
+(recursively).</p>
+</td></tr>
+<tr valign="top"><td><code>include_roxygen_examples</code></td>
+<td>
+<p>Whether or not to style code in roxygen
+examples.</p>
+</td></tr>
+<tr valign="top"><td><code>base_indention</code></td>
+<td>
+<p>Integer scalar indicating by how many spaces the whole
+output text should be indented. Note that this is not the same as splitting
+by line and add a <code>base_indention</code> spaces before the code in the case
+multi-line strings are present. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>dry</code></td>
+<td>
+<p>To indicate whether styler should run in <em>dry</em> mode, i.e. refrain
+from writing back to files .<code>"on"</code> and <code>"fail"</code> both don't write back, the
+latter returns an error if the input code is not identical to the result
+of styling. &quot;off&quot;, the default, writes back if the input and output of
+styling are not identical.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns a data frame that indicates for each file considered for
+styling whether or not it was actually changed (or would be changed when
+<code>dry</code> is not &quot;off&quot;).
+</p>
+
+
+<h3>Warning</h3>
+
+<p>This function overwrites files (if styling results in a change of the
+code to be formatted and <code>dry = "off"</code>). It is strongly suggested to only
+style files that are under version control or to create a backup copy.
+</p>
+<p>We suggest to first style with <code>scope &lt; "tokens"</code> and inspect and commit
+changes, because these changes are guaranteed to leave the abstract syntax
+tree (AST) unchanged. See section 'Round trip validation' for details.
+</p>
+<p>Then, we suggest to style with <code>scope = "tokens"</code> (if desired) and carefully
+inspect the changes to make sure the AST is not changed in an unexpected way
+that invalidates code.
+</p>
+
+
+<h3>Round trip validation</h3>
+
+<p>The following section describes when and how styling is guaranteed to
+yield correct code.
+</p>
+<p>If tokens are not in the styling scope (as specified with the <code>scope</code>
+argument), no tokens are changed and the abstract syntax tree (AST) should
+not change.
+Hence, it is possible to validate the styling by comparing whether the parsed
+expression before and after styling have the same AST.
+This comparison omits roxygen code examples and comments. styler throws an
+error if the AST has changed through styling.
+</p>
+<p>Note that if tokens are to be styled, such a comparison is not conducted because
+the AST might well change and such a change is intended. There is no way
+styler can validate styling, that is why we inform the user to carefully
+inspect the changes.
+</p>
+<p>See section 'Warning' for a good strategy to apply styling safely.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other stylers: 
+<code><a href="../../styler/help/style_file.html">style_file</a>()</code>,
+<code><a href="../../styler/help/style_pkg.html">style_pkg</a>()</code>,
+<code><a href="../../styler/help/style_text.html">style_text</a>()</code>,
+<code><a href="../../styler/help/styler_addins.html">styler_addins</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+style_dir("path/to/dir", filetype = c("rmd", ".R"))
+
+# the following is identical (because of ... and defaults)
+# but the first is most convenient:
+style_dir(strict = TRUE)
+style_dir(style = tidyverse_style, strict = TRUE)
+style_dir(transformers = tidyverse_style(strict = TRUE))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

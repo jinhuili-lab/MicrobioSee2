@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Attaches or loads packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use {R.utils}"><tr><td>use {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Attaches or loads packages</h2>
+
+<h3>Description</h3>
+
+<p>Attaches or loads packages.
+If a package is not installed, it (and its dependencies) will be
+installed from one of the (known) repositories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+use(pkg="R.utils", version=NULL, how=c("attach", "load"), quietly=TRUE,
+  warn.conflicts=!quietly, install=getOption("R.utils.use.install",
+  Sys.getenv("R_R_UTILS_USE_INSTALL", "TRUE")), repos=getOption("use/repos",
+  c("[[current]]", "[[mainstream]]")), ..., verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying the package(s) to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p>(optional) Version constraint(s) on requested package(s).</p>
+</td></tr>
+<tr valign="top"><td><code>how</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying whether the package should be attached or loaded.</p>
+</td></tr>
+<tr valign="top"><td><code>quietly</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, minimal or no messages are reported.</p>
+</td></tr>
+<tr valign="top"><td><code>warn.conflicts</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, warnings on namespace conflicts are reported, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>install</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and the package is not installed or an too old version is installed, then tries to install a newer version, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>repos</code></td>
+<td>
+<p>(optional) A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying from which repositories
+to install the package from, iff a requested package is not already installed.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional <em>named</em> arguments passed to
+<code><a href="../../base/help/require.html">require</a></code>() or <code><a href="../../base/help/requireNamespace.html">requireNamespace</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, verbose output is generated (regardless
+of <code>quietly</code>).</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/vector.html">vector</a></code> of <code><a href="../../base/help/package_version.html">package_version</a></code>() for each package
+attached/loaded.
+If one of the requested packages/package versions is not available
+and could not be installed, an error is thrown.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/library.html">library</a></code>() and &quot;base::install.packages&quot;.
+To modify the set of known repositories, set option <code>repos</code>
+(see <code><a href="../../base/help/options.html">options</a></code>()),
+which can also be done via <code><a href="../../utils/help/setRepositories.html">setRepositories</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+  use("digest")
+  use("digest (&gt;= 0.6.3)")
+  use("digest (&gt;= 0.6.3)", repos=c("CRAN", "R-Forge"))
+  use("(CRAN|R-Forge)::digest (&gt;= 0.6.3)")
+  use("BioCsoft::ShortRead")
+  use("digest, R.rsp (&gt;= 0.9.17)")
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

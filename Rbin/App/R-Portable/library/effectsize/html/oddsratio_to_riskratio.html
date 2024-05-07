@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Between Odds Ratios, Risk Ratios and Other Metrics of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for oddsratio_to_riskratio {effectsize}"><tr><td>oddsratio_to_riskratio {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Between Odds Ratios, Risk Ratios and Other Metrics of Change in Probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Convert Between Odds Ratios, Risk Ratios and Other Metrics of Change in Probabilities
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+oddsratio_to_riskratio(OR, p0, log = FALSE, verbose = TRUE, ...)
+
+oddsratio_to_arr(OR, p0, log = FALSE, verbose = TRUE, ...)
+
+oddsratio_to_nnt(OR, p0, log = FALSE, verbose = TRUE, ...)
+
+logoddsratio_to_riskratio(logOR, p0, log = TRUE, verbose = TRUE, ...)
+
+logoddsratio_to_arr(logOR, p0, log = TRUE, verbose = TRUE, ...)
+
+logoddsratio_to_nnt(logOR, p0, log = TRUE, verbose = TRUE, ...)
+
+riskratio_to_oddsratio(RR, p0, log = FALSE, verbose = TRUE, ...)
+
+riskratio_to_arr(RR, p0, verbose = TRUE, ...)
+
+riskratio_to_logoddsratio(RR, p0, log = TRUE, verbose = TRUE, ...)
+
+riskratio_to_nnt(RR, p0, verbose = TRUE, ...)
+
+arr_to_riskratio(ARR, p0, verbose = TRUE, ...)
+
+arr_to_oddsratio(ARR, p0, log = FALSE, verbose = TRUE, ...)
+
+arr_to_logoddsratio(ARR, p0, log = TRUE, verbose = TRUE, ...)
+
+arr_to_nnt(ARR, ...)
+
+nnt_to_oddsratio(NNT, p0, log = FALSE, verbose = TRUE, ...)
+
+nnt_to_logoddsratio(NNT, p0, log = TRUE, verbose = TRUE, ...)
+
+nnt_to_riskratio(NNT, p0, verbose = TRUE, ...)
+
+nnt_to_arr(NNT, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>OR, logOR, RR, ARR, NNT</code></td>
+<td>
+<p>Odds-ratio of <code>odds(p1)/odds(p0)</code>, log-Odds-ratio
+of <code>log(odds(p1)/odds(p0))</code>, Risk ratio of <code>p1/p0</code>, Absolute Risk Reduction
+of <code>p1 - p0</code>, or Number-needed-to-treat of <code>1/(p1 - p0)</code>. <code>OR</code> and <code>logOR</code>
+can also be a logistic regression model.</p>
+</td></tr>
+<tr valign="top"><td><code>p0</code></td>
+<td>
+<p>Baseline risk</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>If:
+</p>
+
+<ul>
+<li> <p><code>TRUE</code>:
+</p>
+
+<ul>
+<li><p> In <code style="white-space: pre;">oddsratio_to_*()</code>, <code>OR</code> input is treated as <code>log(OR)</code>.
+</p>
+</li>
+<li><p> In <code style="white-space: pre;">*_to_oddsratio()</code>, returned value is <code>log(OR)</code>.
+</p>
+</li></ul>
+
+</li>
+<li> <p><code>FALSE</code>:
+</p>
+
+<ul>
+<li><p> In <code style="white-space: pre;">logoddsratio_to_*()</code>, <code>logOR</code> input is treated as <code>OR</code>.
+</p>
+</li>
+<li><p> In <code style="white-space: pre;">*_to_logoddsratio()</code>, returned value is <code>OR</code>.
+</p>
+</li></ul>
+
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to and from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Converted index, or if <code>OR</code>/<code>logOR</code> is a logistic regression model, a
+parameter table with the converted indices.
+</p>
+
+
+<h3>References</h3>
+
+<p>Grant, R. L. (2014). Converting an odds ratio to a range of plausible
+relative risks for better communication of research findings. Bmj, 348,
+f7450.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/oddsratio.html">oddsratio()</a></code>, <code><a href="../../effectsize/help/riskratio.html">riskratio()</a></code>, <code><a href="../../effectsize/help/arr.html">arr()</a></code>, and <code><a href="../../effectsize/help/nnt.html">nnt()</a></code>.
+</p>
+<p>Other convert between effect sizes: 
+<code><a href="../../effectsize/help/d_to_r.html">d_to_r</a>()</code>,
+<code><a href="../../effectsize/help/diff_to_cles.html">diff_to_cles</a></code>,
+<code><a href="../../effectsize/help/eta2_to_f2.html">eta2_to_f2</a>()</code>,
+<code><a href="../../effectsize/help/odds_to_probs.html">odds_to_probs</a>()</code>,
+<code><a href="../../effectsize/help/w_to_fei.html">w_to_fei</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+p0 &lt;- 0.4
+p1 &lt;- 0.7
+
+(OR &lt;- probs_to_odds(p1) / probs_to_odds(p0))
+(RR &lt;- p1 / p0)
+(ARR &lt;- p1 - p0)
+(NNT &lt;- arr_to_nnt(ARR))
+
+riskratio_to_oddsratio(RR, p0 = p0)
+oddsratio_to_riskratio(OR, p0 = p0)
+riskratio_to_arr(RR, p0 = p0)
+arr_to_oddsratio(nnt_to_arr(NNT), p0 = p0)
+
+m &lt;- glm(am ~ factor(cyl),
+  data = mtcars,
+  family = binomial()
+)
+oddsratio_to_riskratio(m, verbose = FALSE) # RR is relative to the intercept if p0 not provided
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

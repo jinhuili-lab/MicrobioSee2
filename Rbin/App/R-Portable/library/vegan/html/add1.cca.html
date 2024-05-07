@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add or Drop Single Terms to a Constrained Ordination Model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add1.cca {vegan}"><tr><td>add1.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Add or Drop  Single Terms to a Constrained Ordination Model </h2>
+
+<h3>Description</h3>
+
+<p>Compute all single terms that can be added to or dropped from a
+constrained ordination model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cca'
+add1(object, scope, test = c("none", "permutation"),
+    permutations = how(nperm=199), ...)
+## S3 method for class 'cca'
+drop1(object, scope, test = c("none", "permutation"), 
+    permutations = how(nperm=199), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p> A constrained ordination object from
+<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code> or <code><a href="../../vegan/help/capscale.html">capscale</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p> A formula giving the terms to be considered for adding
+or dropping; see <code><a href="../../stats/html/add1.html">add1</a></code> for details.</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p> Should a permutation test be added using <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../stats/html/add1.html">add1.default</a></code>,
+<code><a href="../../stats/html/add1.html">drop1.default</a></code>, and <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+ 
+<p>With argument <code>test = "none"</code> the functions will only call
+<code><a href="../../stats/html/add1.html">add1.default</a></code> or <code><a href="../../stats/html/add1.html">drop1.default</a></code>. With
+argument <code>test = "permutation"</code> the functions will add test
+results from <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>. Function <code>drop1.cca</code> will
+call <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code> with argument <code>by = "margin"</code>.
+Function <code>add1.cca</code> will implement a test for single term
+additions that is not directly available in <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>.
+</p>
+<p>Functions are used implicitly in <code><a href="../../stats/html/step.html">step</a></code>,
+<code><a href="../../vegan/help/ordiR2step.html">ordiR2step</a></code> and <code><a href="../../vegan/help/ordistep.html">ordistep</a></code>. The
+<code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code> and <code><a href="../../vegan/help/deviance.rda.html">deviance.rda</a></code> used in
+<code><a href="../../stats/html/step.html">step</a></code> have no firm basis, and setting argument <code>test
+  = "permutation"</code> may help in getting useful insight into validity of
+model building. Function <code><a href="../../vegan/help/ordistep.html">ordistep</a></code> calls alternately
+<code>drop1.cca</code> and <code>add1.cca</code> with argument 
+<code>test = "permutation"</code> and selects variables by their permutation
+<i>P</i>-values.  Meticulous use of <code>add1.cca</code> and
+<code>drop1.cca</code> will allow more judicious model building.
+</p>
+<p>The default number of <code>permutations</code> is set to a low value, because
+permutation tests can take a long time. It should be sufficient to
+give a impression on the significances of the terms, but higher
+values of <code>permutations</code> should be used if <i>P</i> values really
+are important.  
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a similar object as <code><a href="../../stats/html/add1.html">add1</a></code> and <code><a href="../../stats/html/add1.html">drop1</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../stats/html/add1.html">add1</a></code>, <code><a href="../../stats/html/add1.html">drop1</a></code> and
+<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code> for basic methods. You probably need these
+functions with <code><a href="../../stats/html/step.html">step</a></code> and <code><a href="../../vegan/help/ordistep.html">ordistep</a></code>. Functions
+<code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code> and <code><a href="../../vegan/help/extractAIC.cca.html">extractAIC.cca</a></code> are used
+to produce the other arguments than test results in the
+output. Functions <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> produce result objects for these functions.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+## Automatic model building based on AIC but with permutation tests
+step(cca(dune ~  1, dune.env), reformulate(names(dune.env)), test="perm")
+## see ?ordistep to do the same, but based on permutation P-values
+## Not run: 
+ordistep(cca(dune ~  1, dune.env), reformulate(names(dune.env)))
+
+## End(Not run)
+## Manual model building
+## -- define the maximal model for scope
+mbig &lt;- rda(dune ~  ., dune.env)
+## -- define an empty model to start with
+m0 &lt;- rda(dune ~ 1, dune.env)
+## -- manual selection and updating
+add1(m0, scope=formula(mbig), test="perm")
+m0 &lt;- update(m0, . ~ . + Management)
+add1(m0, scope=formula(mbig), test="perm")
+m0 &lt;- update(m0, . ~ . + Moisture)
+## -- included variables still significant?
+drop1(m0, test="perm")
+add1(m0, scope=formula(mbig), test="perm")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

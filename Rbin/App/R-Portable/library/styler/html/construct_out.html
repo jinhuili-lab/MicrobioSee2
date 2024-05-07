@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Construct *-out.R from a *-in.R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for construct_out {styler}"><tr><td>construct_out {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Construct *-out.R from a *-in.R</h2>
+
+<h3>Description</h3>
+
+<p>Multiple *-in.R files can have the same *-out.R file since to create the
+*-out.R file, everything after the first dash is replaced by *-out.R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+construct_out(in_paths)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>in_paths</code></td>
+<td>
+<p>A character vector that denotes paths to *-in.R files.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+styler:::construct_out(c(
+  "path/to/file/first-in.R",
+  "path/to/file/first-extended-in.R"
+))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

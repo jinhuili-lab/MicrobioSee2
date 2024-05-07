@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display Compact Ordered Community Tables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for vegemite {vegan}"><tr><td>vegemite {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display Compact Ordered Community Tables </h2>
+
+<h3>Description</h3>
+
+<p>Functions <code>vegemite</code> and <code>tabasco</code> display compact
+community tables.  Function <code>vegemite</code> prints text tables where
+species are rows, and each site takes only one column without
+spaces.  Function <code>tabasco</code> provides interface for
+<code><a href="../../stats/html/heatmap.html">heatmap</a></code> for a colour <code><a href="../../graphics/html/image.html">image</a></code> of the
+data. The community table can be ordered by explicit indexing, by
+environmental variables or results from an ordination or cluster
+analysis.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+vegemite(x, use, scale, sp.ind, site.ind, zero=".", select ,...)
+tabasco(x, use, sp.ind = NULL, site.ind = NULL, select,
+    Rowv = TRUE, Colv = TRUE, labRow = NULL, labCol = NULL,
+    scale, col = heat.colors(12), ...)
+coverscale(x, scale=c("Braun.Blanquet", "Domin", "Hult", "Hill", "fix","log"),
+           maxabund, character = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data. </p>
+</td></tr>
+<tr valign="top"><td><code>use</code></td>
+<td>
+<p>Either a vector, or an object from <code>cca</code>,
+<code>decorana</code> <em>etc.</em> or <code>hclust</code> or a
+<code><a href="../../stats/html/dendrogram.html">dendrogram</a></code> for ordering sites and species.</p>
+</td></tr>
+<tr valign="top"><td><code>sp.ind, site.ind</code></td>
+<td>
+<p>Species and site indices. In <code>tabasco</code>,
+these can also be <code><a href="../../stats/html/hclust.html">hclust</a></code> tree,
+<code><a href="../../cluster/help/agnes.html">agnes</a></code> clusterings or
+<code><a href="../../stats/html/dendrogram.html">dendrogram</a></code>s. </p>
+</td></tr>
+<tr valign="top"><td><code>zero</code></td>
+<td>
+<p>Character used for zeros. </p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Select a subset of sites.  This can be a logical vector
+(<code>TRUE</code> for selected sites), or a vector of indices of selected
+sites.  The order of indices does not influence results, but you
+must specify <code>use</code> or <code>site.ind</code> to reorder sites.
+</p>
+</td></tr>
+<tr valign="top"><td><code>Rowv, Colv</code></td>
+<td>
+<p>Re-order dendrograms for the rows (sites) or
+columns (species) of <code>x</code>.  If the <code>Rowv = TRUE</code>, row
+dendrograms are ordered by the first axis of correspondence
+analysis, and when <code>Colv = TRUE</code> column dendrograms by the
+weighted average (<code><a href="../../vegan/help/wascores.html">wascores</a></code>) of the row order.
+Alternatively, the arguments can be vectors that are used to
+reorder the dendrogram. </p>
+</td></tr>
+<tr valign="top"><td><code>labRow, labCol</code></td>
+<td>
+<p>character vectors with row and column labels
+used in the <code><a href="../../stats/html/heatmap.html">heatmap</a></code> instead of the default. NB., the
+input matrix is transposed so that row labels will be used for data
+columns.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>In <code>vegemite</code> and <code>coverscale</code>: cover scale
+used (can be abbreviated). In <code>tabasco</code>: scaling of colours
+in <code><a href="../../stats/html/heatmap.html">heatmap</a></code>. The alternatives of <code>coverscale</code>
+can be used in <code>tabasco</code>, and in addition <code>"column"</code> or
+<code>"row"</code> scale columns or rows to equal maxima (NB., these
+refer to the transposed data of the <code><a href="../../stats/html/heatmap.html">heatmap</a></code>), while
+<code>"none"</code> uses original values. </p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>A vector of colours used for above-zero abundance values.</p>
+</td></tr>
+<tr valign="top"><td><code>maxabund</code></td>
+<td>
+<p>Maximum abundance used with <code>scale = "log"</code>.
+Data maximum in the <code>select</code>ed subset will be used if this is
+missing.</p>
+</td></tr>
+<tr valign="top"><td><code>character</code></td>
+<td>
+<p>Return character codes suitable for
+<code>vegemite</code>. If <code>FALSE</code>, returns corresponding
+integers.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code>coverscale</code> (i.e., <code>maxabund</code>) in
+<code>vegemite</code> and to <code><a href="../../stats/html/heatmap.html">heatmap</a></code> in <code>tabasco</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>vegemite</code> prints a traditional community table.
+The display is transposed, so that species are in rows and sites in
+columns.  The table is printed in compact form: only one character
+can be used for abundance, and there are no spaces between
+columns. Species with no occurrences are dropped from the table.
+</p>
+<p>Function <code>tabasco</code> produces a similar table as <code>vegemite</code>
+using <code><a href="../../stats/html/heatmap.html">heatmap</a></code>, where abundances are coded by
+colours. The function scales the abundances to equal intervals for
+colour palette, but either rows or columns can be scaled to equal
+maxima, or the <code>coverscale</code> class systems can be used. The
+function can also display dendrograms for sites (columns) or species
+if these are given as an argument (<code>use</code> for sites,
+<code>sp.ind</code> for species).
+</p>
+<p>The parameter <code>use</code> will be used to re-order output. The
+<code>use</code> can be a vector or an object from <code><a href="../../stats/html/hclust.html">hclust</a></code> or
+<code><a href="../../cluster/help/agnes.html">agnes</a></code>, a <code><a href="../../stats/html/dendrogram.html">dendrogram</a></code> or any
+ordination result recognized by <code><a href="../../vegan/help/scores.html">scores</a></code> (all ordination
+methods in <span class="pkg">vegan</span> and some of those not in <span class="pkg">vegan</span>). The
+<code><a href="../../stats/html/hclust.html">hclust</a></code>, <code><a href="../../cluster/help/agnes.html">agnes</a></code> and
+<code><a href="../../stats/html/dendrogram.html">dendrogram</a></code> must be for sites. The dendrogram is
+displayed above the sites in <code>tabasco</code>, but is not shown in
+<code>vegemite</code>.  No dendrogram for species is displayed, except
+when given in <code>sp.ind</code>.
+</p>
+<p>If <code>use</code> is a vector, it is used for ordering sites.  If
+<code>use</code> is an object from ordination, both sites and species are
+arranged by the first axis (provided that results are available both
+also for species).  When <code>use</code> is an object from
+<code><a href="../../stats/html/hclust.html">hclust</a></code>, <code><a href="../../cluster/help/agnes.html">agnes</a></code> or a
+<code><a href="../../stats/html/dendrogram.html">dendrogram</a></code>, the sites are ordered similarly as in the
+cluster dendrogram.  Function <code>tabasco</code> re-orders the dendrogram
+if <code>Rowv = TRUE</code> or <code>Rowv</code> is a vector. Such re-ordering is
+not available for <code>vegemite</code>, but it can be done by hand using
+<code><a href="../../stats/html/reorder.dendrogram.html">reorder.dendrogram</a></code> or <code><a href="../../vegan/help/reorder.hclust.html">reorder.hclust</a></code>.
+Please note that <code><a href="../../stats/html/dendrogram.html">dendrogram</a></code> and <code><a href="../../stats/html/hclust.html">hclust</a></code>
+reordering can differ: unweighted means of merged branches are used in
+<code><a href="../../stats/html/dendrogram.html">dendrogram</a></code>, but weighted means (= means of leaves of the
+cluster) are used in <code><a href="../../vegan/help/reorder.hclust.html">reorder.hclust</a></code>.  In all cases where
+species scores are missing, species are ordered by their weighted
+averages (<code><a href="../../vegan/help/wascores.html">wascores</a></code>) on site order.
+</p>
+<p>Species and sites can be ordered explicitly giving their indices or
+names in parameters <code>sp.ind</code> and <code>site.ind</code>.  If these are
+given, they take precedence over <code>use</code>. A subset of sites can
+be displayed using argument <code>select</code>, but this cannot be used
+to order sites, but you still must give <code>use</code> or
+<code>site.ind</code>.  However, <code>tabasco</code> makes two exceptions:
+<code>site.ind</code> and <code>select</code> cannot be used when <code>use</code> is
+a dendrogram (clustering result). In addition, the <code>sp.ind</code> can
+be an <code><a href="../../stats/html/hclust.html">hclust</a></code> tree, <code><a href="../../cluster/help/agnes.html">agnes</a></code>
+clustering or a <code><a href="../../stats/html/dendrogram.html">dendrogram</a></code>, and in that case the
+dendrogram is plotted on the left side of the
+<code><a href="../../stats/html/heatmap.html">heatmap</a></code>. Phylogenetic trees cannot be directly used,
+<code><a href="../../ape/help/as.hclust.phylo.html">as.hclust.phylo</a></code> (package <span class="pkg">ape</span>) can transform
+these to <code><a href="../../stats/html/hclust.html">hclust</a></code> trees.
+</p>
+<p>If <code>scale</code> is given, <code>vegemite</code> calls <code>coverscale</code> to
+transform percent cover scale or some other scales into traditional
+class scales used in vegetation science (<code>coverscale</code> can be
+called directly, too). Function <code>tabasco</code> can also use these
+traditional class scales, but it treats the transformed values as
+corresponding integers.  Braun-Blanquet and Domin scales are
+actually not strict cover scales, and the limits used for codes
+<code>r</code> and <code>+</code> are arbitrary.  Scale <code>Hill</code> may be
+inappropriately named, since Mark O. Hill probably never intended
+this as a cover scale.  However, it is used as default &ldquo;cut levels&rdquo;
+in his <code>TWINSPAN</code>, and surprisingly many users stick to this
+default, and this is a <em>de facto</em> standard in publications.
+All traditional scales assume that values are cover percentages with
+maximum 100.  However, non-traditional alternative <code>log</code> can be
+used with any scale range.  Its class limits are integer powers of
+1/2 of the maximum (argument <code>maxabund</code>), with <code>+</code> used
+for non-zero entries less than 1/512 of the maximum (<code>log</code>
+stands alternatively for logarithmic or logical).  Scale <code>fix</code>
+is intended for &ldquo;fixing&rdquo; 10-point scales: it truncates scale values
+to integers, and replaces 10 with <code>X</code> and positive values below
+1 with <code>+</code>.  </p>
+
+
+<h3>Value</h3>
+
+<p>The functions are used mainly to display a table, but they return
+(invisibly) a list with items <code>species</code> for ordered species
+index, <code>sites</code> for ordered site index, and <code>table</code> for the
+final ordered community table.
+</p>
+<p>These items can be used as arguments <code>sp.ind</code> and <code>site.ind</code>
+to reproduce the table, or the <code>table</code> can be further edited. In
+addition to the table, <code>vegemite</code> prints the numbers of species
+and sites and the name of the used cover scale.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The name <code>vegemite</code> was chosen because the output is so
+compact, and the <code>tabasco</code> because it is just as compact, but
+uses heat colours.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>References</h3>
+
+<p> The cover scales are presented in many textbooks of vegetation
+science; I used:
+</p>
+<p>Shimwell, D.W. (1971) <em>The Description and Classification of
+Vegetation</em>. Sidgwick &amp; Jackson.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/cut.html">cut</a></code> and <code><a href="../../stats/html/approxfun.html">approx</a></code> for making your
+own &lsquo;cover scales&rsquo; for <code>vegemite</code>.  Function
+<code>tabasco</code> is based on <code><a href="../../stats/html/heatmap.html">heatmap</a></code> which in turn is
+based on <code><a href="../../graphics/html/image.html">image</a></code>. Both functions order species with
+weighted averages using <code><a href="../../vegan/help/wascores.html">wascores</a></code>.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+## Print only more common species
+freq &lt;- apply(varespec &gt; 0, 2, sum)
+vegemite(varespec, scale="Hult", sp.ind = freq &gt; 10)
+## Order by correspondence analysis, use Hill scaling and layout:
+dca &lt;- decorana(varespec)
+vegemite(varespec, dca, "Hill", zero="-")
+## Show one class from cluster analysis, but retain the ordering above
+clus &lt;- hclust(vegdist(varespec))
+cl &lt;- cutree(clus, 3)
+sel &lt;- vegemite(varespec, use=dca, select = cl == 3, scale="Br")
+## Re-create previous
+vegemite(varespec, sp=sel$sp, site=sel$site, scale="Hult")
+## Re-order clusters by ordination
+clus &lt;- as.dendrogram(clus)
+clus &lt;- reorder(clus, scores(dca, choices=1, display="sites"), agglo.FUN = mean)
+vegemite(varespec, clus, scale = "Hult")
+
+## Abundance values have such a wide range that they must be rescaled
+tabasco(varespec, dca, scale="Braun")
+
+## Classification trees for species
+data(dune, dune.taxon)
+taxontree &lt;- hclust(taxa2dist(dune.taxon))
+plotree &lt;- hclust(vegdist(dune), "average")
+## Automatic reordering of clusters
+tabasco(dune, plotree, sp.ind = taxontree)
+## No reordering of taxonomy
+tabasco(dune, plotree, sp.ind = taxontree, Colv = FALSE)
+## Species cluster: most dissimilarity indices do a bad job when
+## comparing rare and common species, but Raup-Crick makes sense
+sptree &lt;- hclust(vegdist(t(dune), "raup"), "average")
+tabasco(dune, plotree, sptree)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

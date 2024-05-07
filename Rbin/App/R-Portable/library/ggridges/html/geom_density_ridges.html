@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create ridgeline plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for geom_density_ridges {ggridges}"><tr><td>geom_density_ridges {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create ridgeline plot</h2>
+
+<h3>Description</h3>
+
+<p><code>geom_density_ridges</code> arranges multiple density plots in a staggered fashion, as in the cover of the famous Joy Division album Unknown Pleasures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geom_density_ridges(
+  mapping = NULL,
+  data = NULL,
+  stat = "density_ridges",
+  position = "points_sina",
+  panel_scaling = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
+
+geom_density_ridges2(
+  mapping = NULL,
+  data = NULL,
+  stat = "density_ridges",
+  position = "points_sina",
+  panel_scaling = TRUE,
+  na.rm = FALSE,
+  show.legend = NA,
+  inherit.aes = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="../../ggplot2/html/aes.html">aes()</a></code> or
+<code><a href="../../ggplot2/html/aes_.html">aes_()</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), it is combined with the default mapping at the top level of the
+plot. You must supply <code>mapping</code> if there is no plot mapping.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data to be displayed in this layer. There are three
+options:
+</p>
+<p>If <code>NULL</code>, the default, the data is inherited from the plot
+data as specified in the call to <code><a href="../../ggplot2/html/ggplot.html">ggplot()</a></code>.
+</p>
+<p>A <code>data.frame</code>, or other object, will override the plot
+data.
+</p>
+<p>A <code>function</code> will be called with a single argument,
+the plot data. The return value must be a <code>data.frame.</code>, and
+will be used as the layer data.</p>
+</td></tr>
+<tr valign="top"><td><code>stat</code></td>
+<td>
+<p>The statistical transformation to use on the data for this
+layer, as a string.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>panel_scaling</code></td>
+<td>
+<p>If <code>TRUE</code>, the default, relative scaling is calculated separately
+for each panel. If <code>FALSE</code>, relative scaling is calculated globally.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code>, the default, missing values are removed with
+a warning. If <code>TRUE</code>, missing values are silently removed.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed on to <code><a href="../../ggplot2/html/layer.html">layer()</a></code>. These are
+often aesthetics, used to set an aesthetic to a fixed value, like
+<code>color = "red"</code> or <code>size = 3</code>. They may also be parameters
+to the paired geom/stat.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>By default, this geom calculates densities from the point data mapped onto the x axis. If density calculation is
+not wanted, use <code>stat="identity"</code> or use <code><a href="../../ggridges/help/geom_ridgeline.html">geom_ridgeline</a></code>. The difference between <code>geom_density_ridges</code> and <code><a href="../../ggridges/help/geom_ridgeline.html">geom_ridgeline</a></code>
+is that <code>geom_density_ridges</code> will provide automatic scaling of the ridgelines (controlled by the <code>scale</code> aesthetic), whereas
+<a href="../../ggridges/help/geom_ridgeline.html">geom_ridgeline</a> will plot the data as is. Note that when you set <code>stat="identity"</code>, the <code>height</code> aesthetic must
+be provided.
+</p>
+<p>Note that the default <code><a href="../../ggridges/help/stat_density_ridges.html">stat_density_ridges</a></code> makes joint density estimation across all datasets. This may not generate
+the desired result when using faceted plots. As an alternative, you can set <code>stat = "density"</code> to use <code><a href="../../ggplot2/html/geom_density.html">stat_density</a></code>.
+In this case, it is required to add the aesthetic mapping <code>height = ..density..</code> (see examples).
+</p>
+
+
+<h3>Aesthetics</h3>
+
+<p>Required aesthetics are in bold.
+</p>
+
+<ul>
+<li> <p><strong><code>x</code></strong>
+</p>
+</li>
+<li> <p><strong><code>y</code></strong>
+</p>
+</li>
+<li> <p><code>group</code> Defines the grouping. Not needed if a categorical variable is mapped onto <code>y</code>, but needed otherwise. Will typically be the same
+variable as is mapped to <code>y</code>.
+</p>
+</li>
+<li> <p><code>height</code> The height of each ridgeline at the respective x value. Automatically calculated and
+provided by <code><a href="../../ggridges/help/stat_density_ridges.html">stat_density_ridges</a></code> if the default stat is not changed.
+</p>
+</li>
+<li> <p><code>scale</code> A scaling factor to scale the height of the ridgelines relative to the spacing between them.
+A value of 1 indicates that the maximum point of any ridgeline touches the baseline right above, assuming
+even spacing between baselines.
+</p>
+</li>
+<li> <p><code>rel_min_height</code> Lines with heights below this cutoff will be removed. The cutoff is measured relative to the
+overall maximum, so <code>rel_min_height=0.01</code> would remove everything that is 1\
+ridgelines. Default is 0, so nothing is removed.
+alpha
+</p>
+</li>
+<li> <p><code>colour</code>, <code>fill</code>, <code>group</code>, <code>alpha</code>, <code>linetype</code>, <code>size</code>, as in <code><a href="../../ggridges/help/geom_ridgeline.html">geom_ridgeline</a></code>.
+</p>
+</li>
+<li> <p><code>point_shape</code>, <code>point_colour</code>, <code>point_size</code>, <code>point_fill</code>, <code>point_alpha</code>, <code>point_stroke</code>, as in <code><a href="../../ggridges/help/geom_ridgeline.html">geom_ridgeline</a></code>.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+# set the `rel_min_height` argument to remove tails
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges(rel_min_height = 0.005) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_ridges()
+
+# set the `scale` to determine how much overlap there is among the plots
+ggplot(diamonds, aes(x = price, y = cut)) +
+  geom_density_ridges(scale = 4) +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_ridges()
+
+# the same figure with colors, and using the ggplot2 density stat
+ggplot(diamonds, aes(x = price, y = cut, fill = cut, height = ..density..)) +
+  geom_density_ridges(scale = 4, stat = "density") +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  scale_fill_brewer(palette = 4) +
+  theme_ridges() + theme(legend.position = "none")
+
+# use geom_density_ridges2() instead of geom_density_ridges() for solid polygons
+ggplot(iris, aes(x = Sepal.Length, y = Species)) +
+  geom_density_ridges2() +
+  scale_y_discrete(expand = c(0.01, 0)) +
+  scale_x_continuous(expand = c(0.01, 0)) +
+  theme_ridges()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,25 @@
+Package: lamW
+Type: Package
+Title: Lambert-W Function
+Version: 2.1.2
+Date: 2023-02-28
+Authors@R: c(person(given="Avraham", family="Adler",role=c("aut", "cph", "cre"),
+    email="Avraham.Adler@gmail.com", comment = c(ORCID = "0000-0002-3039-0703")))
+Description: Implements both real-valued branches of the Lambert-W function
+    (Corless et al, 1996) <doi:10.1007/BF02124750> without the need for
+    installing the entire GSL.
+License: BSD_2_clause + file LICENSE
+Imports: Rcpp, RcppParallel
+LinkingTo: Rcpp, RcppParallel
+SystemRequirements: GNU make
+Suggests: covr, tinytest
+NeedsCompilation: yes
+URL: https://github.com/aadler/lamW
+BugReports: https://github.com/aadler/lamW/issues
+Packaged: 2023-02-28 23:07:42 UTC; Parents
+Author: Avraham Adler [aut, cph, cre] (<https://orcid.org/0000-0002-3039-0703>)
+Maintainer: Avraham Adler <Avraham.Adler@gmail.com>
+Repository: CRAN
+Date/Publication: 2023-02-28 23:32:29 UTC
+Built: R 4.1.3; x86_64-w64-mingw32; 2023-04-17 14:18:36 UTC; windows
+Archs: i386, x64

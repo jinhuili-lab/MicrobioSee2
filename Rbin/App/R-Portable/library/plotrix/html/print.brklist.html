@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display the output of brkdnNest</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for print.brklist {plotrix}"><tr><td>print.brklist {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display the output of brkdnNest</h2>
+
+<h3>Description</h3>
+
+<p>Displays the list of values produced by <span class="samp">brkdnNest</span>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ ## S3 method for class 'brklist'
+print(x,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a list of summary values produced by <span class="samp">\link{brkdnNest}</span></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">print</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">print.brklist</span> displays frequency tables produced by <span class="samp">brkdnNest</span>.
+It is mainly for convenience, but does make a nicer display than when passed
+directly to <span class="samp">print</span>
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/brkdnNest.html">brkdnNest</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ printbrktest&lt;-data.frame(A=c(sample(1:10,99,TRUE),NA),
+  B=sample(c("Yes","No"),100,TRUE),
+  C=sample(LETTERS[1:3],100,TRUE))
+ pbt&lt;-brkdnNest(A~B+C,printbrktest)
+ print(pbt)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

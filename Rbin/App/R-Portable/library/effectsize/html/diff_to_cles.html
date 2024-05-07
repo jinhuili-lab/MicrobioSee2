@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Standardized Differences to Common Language Effect...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for diff_to_cles {effectsize}"><tr><td>diff_to_cles {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Standardized Differences to Common Language Effect Sizes</h2>
+
+<h3>Description</h3>
+
+<p>Convert Standardized Differences to Common Language Effect Sizes
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+d_to_p_superiority(d)
+
+rb_to_p_superiority(rb)
+
+rb_to_vda(rb)
+
+d_to_u2(d)
+
+d_to_u1(d)
+
+d_to_u3(d)
+
+d_to_overlap(d)
+
+rb_to_wmw_odds(rb)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d, rb</code></td>
+<td>
+<p>A numeric vector of Cohen's d / rank-biserial correlation <em>or</em>
+the output from <code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code> / <code><a href="../../effectsize/help/rank_biserial.html">rank_biserial()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function use the following formulae for Cohen's <em>d</em>:
+</p>
+<p style="text-align: center;"><i>Pr(superiority) = pnorm(d / sqrt(2))</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>U3 = pnorm(d)</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>U2 = pnorm(abs(d)/2)</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>U1 = (2 * U2 - 1) / U2</i></p>
+
+<p><br />
+</p>
+<p style="text-align: center;"><i>Overlap = 2 * pnorm(-abs(d) / 2)</i></p>
+
+<p><br />
+And the following for the rank-biserial correlation:
+</p>
+<p style="text-align: center;"><i>Pr(superiority) = (rb + 1)/2</i></p>
+
+<p><br />
+<i>WMW_{Odds} = Pr(superiority) / (1 - Pr(superiority))</i>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of <code style="white-space: pre;">Cohen's U3</code>, <code>Overlap</code>, <code>Pr(superiority)</code>, a
+numeric vector of <code>Pr(superiority)</code>, or a data frame, depending
+on the input.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For <em>d</em>, these calculations assume that the populations have equal variance
+and are normally distributed.
+</p>
+<p>Vargha and Delaney's <em>A</em> is an alias for the non-parametric <em>probability of
+superiority</em>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1977). Statistical power analysis for the behavioral sciences.
+New York: Routledge.
+</p>
+</li>
+<li><p> Reiser, B., &amp; Faraggi, D. (1999). Confidence intervals for the overlapping
+coefficient: the normal equal variance case. Journal of the Royal Statistical
+Society, 48(3), 413-418.
+</p>
+</li>
+<li><p> Ruscio, J. (2008). A probability-based measure of effect size: robustness
+to base rates and other factors. Psychological methods, 13(1), 19–30.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/cohens_u3.html">cohens_u3()</a></code> for descriptions of the effect sizes (also,
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>, <code><a href="../../effectsize/help/rank_biserial.html">rank_biserial()</a></code>).
+</p>
+<p>Other convert between effect sizes: 
+<code><a href="../../effectsize/help/d_to_r.html">d_to_r</a>()</code>,
+<code><a href="../../effectsize/help/eta2_to_f2.html">eta2_to_f2</a>()</code>,
+<code><a href="../../effectsize/help/odds_to_probs.html">odds_to_probs</a>()</code>,
+<code><a href="../../effectsize/help/oddsratio_to_riskratio.html">oddsratio_to_riskratio</a>()</code>,
+<code><a href="../../effectsize/help/w_to_fei.html">w_to_fei</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

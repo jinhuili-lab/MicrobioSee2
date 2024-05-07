@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Linear Model Diagnostics for Constrained Ordination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for influence.cca {vegan}"><tr><td>influence.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Linear Model Diagnostics for Constrained Ordination</h2>
+
+<h3>Description</h3>
+
+<p>This set of function extracts influence statistics and some other
+linear model statistics directly from a constrained ordination result
+object from <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> or <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>. The constraints are
+linear model functions and these support functions return identical
+results as the corresponding linear models (<code><a href="../../stats/html/lm.html">lm</a></code>), and you
+can use their documentation. The main functions for normal usage are
+leverage values (<code><a href="../../stats/html/influence.measures.html">hatvalues</a></code>), standardized residuals
+(<code><a href="../../stats/html/influence.measures.html">rstandard</a></code>), studentized or leave-one-out residuals
+(<code><a href="../../stats/html/influence.measures.html">rstudent</a></code>), and Cook's distance
+(<code><a href="../../stats/html/influence.measures.html">cooks.distance</a></code>).  In addition, <code><a href="../../stats/html/vcov.html">vcov</a></code>
+returns the variance-covariance matrix of coefficients, and its
+diagonal values the variances of coefficients. Other functions are
+mainly support functions for these, but they can be used directly.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+## S3 method for class 'cca'
+hatvalues(model, ...)
+## S3 method for class 'cca'
+rstandard(model, type = c("response", "canoco"), ...)
+## S3 method for class 'cca'
+rstudent(model, type = c("response", "canoco"), ...)
+## S3 method for class 'cca'
+cooks.distance(model, type = c("response", "canoco"), ...)
+
+## S3 method for class 'cca'
+sigma(object, type = c("response", "canoco"), ...)
+## S3 method for class 'cca'
+vcov(object, type = "canoco", ...)
+## S3 method for class 'cca'
+SSD(object, type = "canoco", ...)
+
+## S3 method for class 'cca'
+qr(x, ...)
+## S3 method for class 'cca'
+df.residual(object, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model, object, x</code></td>
+<td>
+<p>A constrained ordination result object.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of statistics used for extracting raw residuals and
+residual standard deviation (<code>sigma</code>). Either
+<code>"response"</code> for species data or difference of WA and LC
+scores for <code>"canoco"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to functions (ignored).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <span class="pkg">vegan</span> algorithm for constrained ordination uses linear model
+(or weighted linear model in <code><a href="../../vegan/help/cca.html">cca</a></code>) to find the fitted
+values of dependent community data, and constrained ordination is
+based on this fitted response (Legendre &amp; Legendre 2012). The
+<code><a href="../../stats/html/influence.measures.html">hatvalues</a></code> give the leverage values of these constraints,
+and the leverage is independent on the response data. Other influence
+statistics (<code><a href="../../stats/html/influence.measures.html">rstandard</a></code>, <code><a href="../../stats/html/influence.measures.html">rstudent</a></code>,
+<code><a href="../../stats/html/influence.measures.html">cooks.distance</a></code>) are based on leverage, and on the raw
+residuals and residual standard deviation (<code><a href="../../stats/html/sigma.html">sigma</a></code>). With
+<code>type = "response"</code> the raw residuals are given by the
+unconstrained component of the constrained ordination, and influence
+statistics are a matrix with dimensions no. of observations times
+no. of species. For <code><a href="../../vegan/help/cca.html">cca</a></code> the statistics are the same as
+obtained from the <code><a href="../../stats/html/lm.html">lm</a></code> model using Chi-square standardized
+species data (see <code><a href="../../vegan/help/decostand.html">decostand</a></code>) as dependent variable, and
+row sums of community data as weights, and for <code><a href="../../vegan/help/rda.html">rda</a></code> the
+<code><a href="../../stats/html/lm.html">lm</a></code> model uses non-modified community data and no
+weights.
+</p>
+<p>The algorithm in the CANOCO software constraints the results during
+iteration by performing a linear regression of weighted averages (WA)
+scores on constraints and taking the fitted values of this regression
+as linear combination (LC) scores (ter Braak 1984). The WA scores are
+directly found from species scores, but LC scores are linear
+combinations of constraints in the regression. With <code>type =
+  "canoco"</code> the raw residuals are the differences of WA and LC scores,
+and the residual standard deviation (<code><a href="../../stats/html/sigma.html">sigma</a></code>) is taken to
+be the axis sum of squared WA scores minus one. These quantities have
+no relationship to residual component of ordination, but they rather
+are methodological artefacts of an algorithm that is not used in
+<span class="pkg">vegan</span>. The result is a matrix with dimensions no. of
+observations times no. of constrained axes.
+</p>
+<p>Function <code><a href="../../stats/html/vcov.html">vcov</a></code> returns the matrix of variances and
+covariances of regression coefficients. The diagonal values of this
+matrix are the variances, and their square roots give the standard
+errors of regression coefficients. The function is based on
+<code><a href="../../stats/html/SSD.html">SSD</a></code> that extracts the sum of squares and crossproducts
+of residuals. The residuals are defined similarly as in influence
+measures and with each <code>type</code> they have similar properties and
+limitations, and define the dimensions of the result matrix. 
+</p>
+
+
+<h3>Note</h3>
+
+<p>Function <code><a href="../../vegan/help/as.mlm.html">as.mlm</a></code> casts an ordination object to a multiple
+linear model of class <code>"mlm"</code> (see <code><a href="../../stats/html/lm.html">lm</a></code>), and similar
+statistics can be derived from that modified object as with this set
+of functions. However, there are some problems in the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>
+implementation of the further analysis of multiple linear model
+objects. When the results differ, the current set of functions is more
+probable to be correct. The use of <code>as.mlm</code> objects should be
+avoided.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>References</h3>
+
+<p>Legendre, P. and Legendre, L. (2012) <em>Numerical Ecology</em>. 3rd
+English ed. Elsevier.
+</p>
+<p>ter Braak, C.J.F. (1984&ndash;): CANOCO &ndash; a FORTRAN program for
+<em>cano</em>nical <em>c</em>ommunity <em>o</em>rdination by [partial]
+[detrended] [canonical] correspondence analysis, principal components
+analysis and redundancy analysis. <em>TNO Inst. of Applied Computer
+Sci., Stat. Dept. Wageningen, The Netherlands</em>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Corresponding <code><a href="../../stats/html/lm.html">lm</a></code> methods and
+<code><a href="../../vegan/help/as.mlm.cca.html">as.mlm.cca</a></code>. Function <code><a href="../../vegan/help/ordiresids.html">ordiresids</a></code> provides
+lattice graphics for residuals.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(varespec, varechem)
+mod &lt;- cca(varespec ~ Al + P + K, varechem)
+## leverage
+hatvalues(mod)
+plot(hatvalues(mod), type = "h")
+## ordination plot with leverages: points with high leverage have
+## similar LC and WA scores
+plot(mod, type = "n")
+ordispider(mod)       # segment from LC to WA scores
+points(mod, dis="si", cex=5*hatvalues(mod), pch=21, bg=2) # WA scores
+text(mod, dis="bp", col=4)
+
+## deviation and influence
+head(rstandard(mod))
+head(cooks.distance(mod))
+
+## Influence measures from lm
+y &lt;- decostand(varespec, "chi.square") # needed in cca
+y1 &lt;- with(y, Cladstel)         # take one species for lm
+lmod1 &lt;- lm(y1 ~ Al + P + K, varechem, weights = rowSums(varespec))
+## numerically identical within 2e-15
+range(cooks.distance(lmod1) - cooks.distance(mod)[, "Cladstel"])
+
+## t-values of regression coefficients based on type = "canoco"
+## residuals
+coef(mod)
+coef(mod)/sqrt(diag(vcov(mod, type = "canoco")))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

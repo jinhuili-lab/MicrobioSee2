@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Reads a CEP (Canoco) data file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for read.cep {vegan}"><tr><td>read.cep {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Reads a CEP (Canoco) data file </h2>
+
+<h3>Description</h3>
+
+<p><code>read.cep</code> reads a file formatted with relaxed strict CEP format
+used in Canoco software, among others.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+read.cep(file, positive=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>File name (character variable). </p>
+</td></tr>
+<tr valign="top"><td><code>positive</code></td>
+<td>
+<p>Only positive entries, like in community data.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Cornell Ecology Programs (CEP) introduced several data formats
+designed for punched cards.  One of these was the &lsquo;condensed
+strict&rsquo; format which was adopted by popular software DECORANA and
+TWINSPAN. A relaxed variant of this format was later adopted in
+Canoco software (ter Braak 1984). Function <code>read.cep</code> reads
+legacy files written in this format.
+</p>
+<p>The condensed CEP and CANOCO formats have:
+</p>
+
+<ul>
+<li><p> Two or three title cards, most importantly specifying the format
+and the number of items per record.
+</p>
+</li>
+<li><p> Data in condensed format: First number on the line is the
+site identifier (an integer), and it is followed by pairs
+(&lsquo;couplets&rsquo;) of numbers identifying the species and its
+abundance (an integer and a floating point number).
+</p>
+</li>
+<li><p> Species and site names, given in Fortran format <code>(10A8)</code>:
+Ten names per line, eight columns for each.
+</p>
+</li></ul>
+
+<p>With option <code>positive = TRUE</code> the function removes all rows and
+columns with zero or negative marginal sums.  In community data
+with only positive entries, this removes empty sites and species.
+If data entries can be negative, this ruins data, and such data sets
+should be read in with option <code>positive = FALSE</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a data frame, where columns are species and rows are
+sites. Column and row names are taken from the CEP file, and changed
+into unique <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> names by <code><a href="../../base/html/make.names.html">make.names</a></code> after stripping the blanks.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Function <code>read.cep</code> used Fortran to read data in <span class="pkg">vegan</span>
+2.4-5 and earlier, but Fortran I/O is no longer allowed in CRAN
+packages, and the function was re-written in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>. The original
+Fortran code was more robust, and there are several legacy data sets
+that may fail with the current version, but could be read with the
+previous Fortran version. CRAN package <span class="pkg">cepreader</span> makes
+available the original Fortran-based code run in a separate
+subprocess. The <span class="pkg">cepreader</span> package can also read &lsquo;free&rsquo;
+and &lsquo;open&rsquo; Canoco formats that are not handled in this
+function.
+</p>
+<p>The function is based on <code><a href="../../utils/help/read.fortran.html">read.fortran</a></code>. If the
+<code>REAL</code> format defines a decimal part for species abundances
+(such as <code>F5.1</code>), <code><a href="../../utils/help/read.fortran.html">read.fortran</a></code> divides the
+input with the corresponding power of 10 even when the input data
+had explicit decimal separator. With <code>F5.1</code>, 100 would become
+10, and 0.1 become 0.01. Function <code>read.cep</code> tries to undo this
+division, but you should check the scaling of results after reading
+the data, and if necessary, multiply results to the original scale.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+ 
+<p>ter Braak, C.J.F. (1984&ndash;): CANOCO &ndash; a FORTRAN program for <em>cano</em>nical
+<em>c</em>ommunity <em>o</em>rdination by [partial] [detrended] [canonical]
+correspondence analysis, principal components analysis and redundancy
+analysis. <em>TNO Inst. of Applied Computer Sci., Stat. Dept. Wageningen,
+The Netherlands</em>. 
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Provided that you have the file "dune.spe"
+## Not run: 
+theclassic &lt;- read.cep("dune.spe")
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

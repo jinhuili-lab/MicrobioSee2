@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a grid of subplots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for subplots {R.utils}"><tr><td>subplots {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a grid of subplots</h2>
+
+<h3>Description</h3>
+
+<p>Creates a grid of subplots in the current figure. If arguments
+<code>nrow</code> and <code>ncol</code> are given a <code>nrow</code>-by-<code>ncol</code>
+grid of subplots are created. If only argument <code>n</code> is given
+then a r-by-s grid is created where |r-s| &lt;= 1, i.e. a square or almost
+a square of subplots is created. If <code>n</code> and <code>nrow</code> is
+given then a grid with <code>nrow</code> rows and at least <code>n</code> subplots
+are created. Similar if <code>n</code> and <code>ncol</code> is given.
+The argument <code>byrow</code> specifies if the order of the subplots
+should be rowwise (<code>byrow=TRUE</code>) or columnwise.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+subplots(n=1, nrow=NULL, ncol=NULL, byrow=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>If given, the minimum number of subplots.</p>
+</td></tr>
+<tr valign="top"><td><code>nrow</code></td>
+<td>
+<p>If given, the number of rows the grid of subplots should
+contain.</p>
+</td></tr>
+<tr valign="top"><td><code>ncol</code></td>
+<td>
+<p>If given, the number of columns the grid of subplots should
+contain.</p>
+</td></tr>
+<tr valign="top"><td><code>byrow</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the panels are ordered row by row in the grid,
+otherwise column by column.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the <code><a href="../../base/help/matrix.html">matrix</a></code> containing the order of plots.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/help/layout.html">layout</a></code> and <code>layout.show</code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+   subplots(nrow=2, ncol=3)  # 2-by-3 grid of subplots
+   subplots(n=6, nrow=2)     # 2-by-3 grid of subplots
+   subplots(n=5, ncol=2)     # 3-by-2 grid of subplots
+   subplots(1)               # (Reset) to a 1-by-1 grid of subplots
+   subplots(2)               # 1-by-2 grid of subplots
+   subplots(3)               # 2-by-2 grid of subplots
+   l &lt;- subplots(8)          # 3-by-3 grid of subplots
+   layout.show(length(l))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

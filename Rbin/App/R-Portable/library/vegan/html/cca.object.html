@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Result Object from Constrained Ordination</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cca.object {vegan}"><tr><td>cca.object {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Result Object from Constrained Ordination</h2>
+
+<h3>Description</h3>
+
+<p>Ordination methods <code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>,
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and <code><a href="../../vegan/help/capscale.html">capscale</a></code> return similar result
+objects. All these methods use the same internal function
+<code>ordConstrained</code>. They differ only in (1) initial
+transformation of the data and in defining inertia, (2) weighting,
+and (3) the use of rectangular rows <i>x</i> columns data or
+symmetric rows <i>x</i> rows dissimilarities:
+<code><a href="../../vegan/help/rda.html">rda</a></code> initializes data to give variance or correlations
+as inertia, <code><a href="../../vegan/help/cca.html">cca</a></code> is based on double-standardized data
+to give Chi-square inertia and uses row and column weights,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> maps the real part of dissimilarities to
+rectangular data and performs RDA, and <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> performs
+an RDA-like analysis directly on symmetric dissimilarities.
+</p>
+<p>Function <code>ordConstrained</code> returns the same result components
+for all these methods, and the calling function may add some more
+components to the final result. However, you should not access these
+result components directly (using <code>$</code>): the internal structure
+is not regarded as stable application interface (API), but it can
+change at any release. If you access the results components
+directly, you take a risk of breakage at any <span class="pkg">vegan</span> release.
+The <span class="pkg">vegan</span> provides a wide set of accessor functions to those
+components, and these functions are updated when the result object
+changes. This documentation gives an overview of accessor functions
+to the <code>cca</code> result object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+ordiYbar(x, model = c("CCA", "CA", "pCCA", "partial", "initial"))
+## S3 method for class 'cca'
+model.frame(formula, ...)
+## S3 method for class 'cca'
+model.matrix(object, ...)
+## S3 method for class 'cca'
+weights(object, display = "sites", ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x, formula</code></td>
+<td>
+<p>A result object from <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code>, or
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Show constrained (<code>"CCA"</code>), unconstrained
+(<code>"CA"</code>) or conditioned &ldquo;partial&rdquo; (<code>"pCCA"</code>)
+results. In <code>ordiYbar</code> the value can also be <code>"initial"</code>
+for the internal working input data, and <code>"partial"</code> for the
+internal working input data after removing the partial effects.</p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Display either <code>"sites"</code> or <code>"species"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to the the function.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The internal (&ldquo;working&rdquo;) form of the dependent (community)
+data can be accessed with function <code>ordiYbar</code>. The form depends
+on the ordination method: for instance, in <code><a href="../../vegan/help/cca.html">cca</a></code> the
+data are weighted and Chi-square transformed, and in
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code> they are Gower-centred dissimilarities. The
+input data in the original (&ldquo;response&rdquo;) form can be accessed
+with <code><a href="../../vegan/help/fitted.cca.html">fitted.cca</a></code> and <code><a href="../../vegan/help/residuals.cca.html">residuals.cca</a></code>.
+Function <code><a href="../../vegan/help/predict.cca.html">predict.cca</a></code> can return either working or
+response data, and also their lower-rank approximations.
+</p>
+<p>The model matrix of independent data (&ldquo;Constraints&rdquo; and
+&ldquo;Conditions&rdquo;) can be extracted with <code>model.matrix</code>. In
+partial analysis, the function returns a list of design matrices
+called <code>Conditions</code> and <code>Constraints</code>. If either component
+was missing, a single matrix is returned. The redundant (aliased)
+terms do not appear in the model matrix. These terms can be found
+with <code><a href="../../vegan/help/alias.cca.html">alias.cca</a></code>. Function <code>model.frame</code> tries to
+reconstruct the data frame from which the model matrices were
+derived. This is only possible if the original model was fitted with
+<code>formula</code> and <code>data</code> arguments, and still fails if the
+<code>data</code> are unavailable.
+</p>
+<p>The number of observations can be accessed with
+<code><a href="../../vegan/help/nobs.cca.html">nobs.cca</a></code>, and the residual degrees of freedom with
+<code><a href="../../vegan/help/df.residual.cca.html">df.residual.cca</a></code>. The information on observations with
+missing values can be accessed with <code><a href="../../stats/html/na.action.html">na.action</a></code>.  The
+terms and formula of the fitted model can be accessed with
+<code><a href="../../stats/html/formula.html">formula</a></code> and <code><a href="../../stats/html/terms.html">terms</a></code>.
+</p>
+<p>The weights used in <code><a href="../../vegan/help/cca.html">cca</a></code> can be accessed with
+<code>weights</code>. In unweighted methods (<code><a href="../../vegan/help/rda.html">rda</a></code>) all
+weights are equal.
+</p>
+<p>The ordination results are saved in separate components for partial
+terms, constraints and residual unconstrained ordination. There is
+no guarantee that these components will have the same internal names
+as currently, and you should be cautious when developing scripts and
+functions that directly access these components.
+</p>
+<p>The constrained ordination algorithm is based on QR decomposition of
+constraints and conditions (environmental data), and the QR
+component is saved separately for partial and constrained
+components.  The QR decomposition of constraints can be accessed
+with <code><a href="../../vegan/help/qr.cca.html">qr.cca</a></code>. This will also include the residual
+effects of partial terms (Conditions), and it should be used
+together with <code>ordiYbar(x, "partial")</code>. The environmental data
+are first centred in <code>rda</code> or weighted and centred in
+<code>cca</code>.  The QR decomposition is used in many functions that
+access <code>cca</code> results, and it can be used to find many items
+that are not directly stored in the object.  For examples, see
+<code><a href="../../vegan/help/coef.cca.html">coef.cca</a></code>, <code><a href="../../vegan/help/coef.rda.html">coef.rda</a></code>,
+<code><a href="../../vegan/help/vif.cca.html">vif.cca</a></code>, <code><a href="../../vegan/help/permutest.cca.html">permutest.cca</a></code>,
+<code><a href="../../vegan/help/predict.cca.html">predict.cca</a></code>, <code><a href="../../vegan/help/predict.rda.html">predict.rda</a></code>,
+<code><a href="../../vegan/help/calibrate.cca.html">calibrate.cca</a></code>. See <code><a href="../../Matrix/html/qr-methods.html">qr</a></code> for other possible
+uses of this component. For instance, the rank of the constraints
+can be found from the QR decomposition.
+</p>
+<p>The eigenvalues of the solution can be accessed with
+<code><a href="../../vegan/help/eigenvals.cca.html">eigenvals.cca</a></code>. Eigenvalues are not evaluated for
+partial component, and they will only be available for constrained
+and residual components.
+</p>
+<p>The ordination scores are internally stored as (weighted)
+orthonormal scores matrices. These results can be accessed with
+<code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code> and <code><a href="../../vegan/help/scores.rda.html">scores.rda</a></code> functions. The
+ordination scores are scaled when accessed with <code><a href="../../vegan/help/scores.html">scores</a></code>
+functions, but internal (weighted) orthonormal scores can be
+accessed by setting <code>scaling = FALSE</code>. Unconstrained residual
+component has species and site scores, and constrained component has
+also fitted site scores or linear combination scores for sites and
+biplot scores and centroids for constraint variables. The biplot
+scores correspond to the <code>model.matrix</code>, and centroids
+are calculated for factor variables when they were used. The scores
+can be selected by defining the axes, and there is no direct way of
+accessing all scores of a certain component. The number of dimensions
+can be assessed from <code><a href="../../vegan/help/eigenvals.html">eigenvals</a></code>. In addition, some
+other types can be derived from the results although not saved in
+the results. For instance, regression scores and model coefficients
+can be accessed with <code><a href="../../vegan/help/scores.html">scores</a></code> and <code><a href="../../stats/html/coef.html">coef</a></code>
+functions. Partial component will have no scores.
+</p>
+<p>Distance-based methods (<code><a href="../../vegan/help/dbrda.html">dbrda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code>)
+can have negative eigenvalues and associated imaginary axis
+scores. There is no way of accessing these imaginary scores.  In
+addition, species scores are initially missing in
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and they are accessory and found after analysis
+in <code><a href="../../vegan/help/capscale.html">capscale</a></code> (and may be misleading). Function
+<code><a href="../../vegan/help/sppscores.html">sppscores</a></code> can be used to add species scores or replace
+them with more meaningful ones.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Saving of &ldquo;working&rdquo; dependent (community) data changed in
+<span class="pkg">vegan</span> version 2.5-0, and you should use <code>ordiYbar</code>
+function instead of direct access, or your scripts and functions
+will fail (<code>ordiYbar</code> has been available since <span class="pkg">vegan</span>
+version 2.4-3, and it works both with the old and current result
+objects).
+</p>
+<p>The <code>model.matrix</code> returns the unweighted model matrix also for
+<code><a href="../../vegan/help/cca.html">cca</a></code>. Prior to <span class="pkg">vegan</span> version 2.5-0 it returned
+the weighted model matrix
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Legendre, P. and Legendre, L. (2012) <em>Numerical Ecology</em>. 3rd English
+ed. Elsevier.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The core function is <code><a href="../../vegan/help/ordConstrained.html">ordConstrained</a></code> which is called by
+<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> and
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. The basic class is <code>"cca"</code> for all
+methods, and the following functions are defined for this class:
+<code><a href="../../vegan/help/RsquareAdj.cca.html">RsquareAdj.cca</a></code>, <code><a href="../../vegan/help/SSD.cca.html">SSD.cca</a></code>, <code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code>, <code><a href="../../vegan/help/alias.cca.html">alias.cca</a></code>, <code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>, <code><a href="../../vegan/help/as.mlm.cca.html">as.mlm.cca</a></code>, <code><a href="../../vegan/help/biplot.cca.html">biplot.cca</a></code>, <code><a href="../../vegan/help/bstick.cca.html">bstick.cca</a></code>, <code><a href="../../vegan/help/calibrate.cca.html">calibrate.cca</a></code>, <code><a href="../../vegan/help/coef.cca.html">coef.cca</a></code>, <code><a href="../../vegan/help/cooks.distance.cca.html">cooks.distance.cca</a></code>, <code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code>, <code><a href="../../vegan/help/df.residual.cca.html">df.residual.cca</a></code>, <code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code>, <code><a href="../../vegan/help/eigenvals.cca.html">eigenvals.cca</a></code>, <code><a href="../../vegan/help/extractAIC.cca.html">extractAIC.cca</a></code>, <code><a href="../../vegan/help/fitted.cca.html">fitted.cca</a></code>, <code><a href="../../vegan/help/goodness.cca.html">goodness.cca</a></code>, <code><a href="../../vegan/help/hatvalues.cca.html">hatvalues.cca</a></code>, <code><a href="../../vegan/help/labels.cca.html">labels.cca</a></code>, <code><a href="../../vegan/help/model.frame.cca.html">model.frame.cca</a></code>, <code><a href="../../vegan/help/model.matrix.cca.html">model.matrix.cca</a></code>, <code><a href="../../vegan/help/nobs.cca.html">nobs.cca</a></code>, <code><a href="../../vegan/help/permutest.cca.html">permutest.cca</a></code>, <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>, <code><a href="../../vegan/help/points.cca.html">points.cca</a></code>, <code><a href="../../vegan/help/predict.cca.html">predict.cca</a></code>, <code><a href="../../vegan/help/print.cca.html">print.cca</a></code>, <code><a href="../../vegan/help/qr.cca.html">qr.cca</a></code>, <code><a href="../../vegan/help/residuals.cca.html">residuals.cca</a></code>, <code><a href="../../vegan/help/rstandard.cca.html">rstandard.cca</a></code>, <code><a href="../../vegan/help/rstudent.cca.html">rstudent.cca</a></code>, <code><a href="../../vegan/help/scores.cca.html">scores.cca</a></code>, <code><a href="../../vegan/help/screeplot.cca.html">screeplot.cca</a></code>, <code><a href="../../vegan/help/sigma.cca.html">sigma.cca</a></code>, <code><a href="../../vegan/help/simulate.cca.html">simulate.cca</a></code>, <code><a href="../../vegan/help/stressplot.cca.html">stressplot.cca</a></code>, <code><a href="../../vegan/help/summary.cca.html">summary.cca</a></code>, <code><a href="../../vegan/help/text.cca.html">text.cca</a></code>, <code><a href="../../vegan/help/tolerance.cca.html">tolerance.cca</a></code>, <code><a href="../../vegan/help/vcov.cca.html">vcov.cca</a></code>, <code><a href="../../vegan/help/weights.cca.html">weights.cca</a></code>.
+Other functions handling <code>"cca"</code> objects include <code><a href="../../vegan/help/inertcomp.html">inertcomp</a></code>,
+<code><a href="../../vegan/help/intersetcor.html">intersetcor</a></code>, <code><a href="../../vegan/help/mso.html">mso</a></code>, <code><a href="../../vegan/help/ordiresids.html">ordiresids</a></code>,
+<code><a href="../../vegan/help/ordistep.html">ordistep</a></code> and <code><a href="../../vegan/help/ordiR2step.html">ordiR2step</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

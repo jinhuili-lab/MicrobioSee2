@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a JSColor picker input widget</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for jscolorInput {RLumShiny}"><tr><td>jscolorInput {RLumShiny}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a JSColor picker input widget</h2>
+
+<h3>Description</h3>
+
+<p>Creates a JSColor (Javascript/HTML Color Picker) widget to be used in shiny applications.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+jscolorInput(inputId, label, value, position = "bottom",
+  color = "transparent", mode = "HSV", slider = TRUE,
+  close = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>inputId</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+Specifies the input slot that will be used to access the value.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>optional</em>):
+Display label for the control, or NULL for no label.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>optional</em>):
+Initial RGB value of the color picker. Default is black ('#000000').</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+Position of the picker relative to the text input ('bottom', 'left', 'top', 'right').</p>
+</td></tr>
+<tr valign="top"><td><code>color</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+Picker color scheme ('transparent' by default). Use RGB color coding ('000000').</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<em>with default</em>):
+Mode of hue, saturation and value. Can either be 'HSV' or 'HVS'.</p>
+</td></tr>
+<tr valign="top"><td><code>slider</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Show or hide the slider.</p>
+</td></tr>
+<tr valign="top"><td><code>close</code></td>
+<td>
+<p><code><a href="../../base/html/logical.html">logical</a></code> (<em>with default</em>):
+Show or hide a close button.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>Other input.elements: <code><a href="../../shiny/html/sliderInput.html">animationOptions</a></code>, <code><a href="../../shiny/html/sliderInput.html">sliderInput</a></code>;
+<code><a href="../../shiny/html/checkboxGroupInput.html">checkboxGroupInput</a></code>; <code><a href="../../shiny/html/checkboxInput.html">checkboxInput</a></code>; <code><a href="../../shiny/html/dateInput.html">dateInput</a></code>;
+<code><a href="../../shiny/html/dateRangeInput.html">dateRangeInput</a></code>; <code><a href="../../shiny/html/fileInput.html">fileInput</a></code>; <code><a href="../../shiny/html/numericInput.html">numericInput</a></code>;
+<code><a href="../../shiny/html/passwordInput.html">passwordInput</a></code>; <code><a href="../../shiny/html/radioButtons.html">radioButtons</a></code>; <code><a href="../../shiny/html/selectInput.html">selectInput</a></code>,
+<code><a href="../../shiny/html/selectInput.html">selectizeInput</a></code>; <code><a href="../../shiny/html/submitButton.html">submitButton</a></code>; <code><a href="../../shiny/html/textInput.html">textInput</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# html code
+jscolorInput("col", "Color", "21BF6B", slider = FALSE)
+
+# example app
+## Not run: 
+shinyApp(
+ui = fluidPage(
+  jscolorInput(inputId = "col", label = "JSColor Picker", 
+               value = "21BF6B", position = "right", 
+               mode = "HVS", close = TRUE),
+  plotOutput("plot")
+),
+server = function(input, output) {
+  output$plot &lt;- renderPlot({
+    plot(cars, col = input$col, cex = 2, pch = 16)
+ })
+})
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RLumShiny</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

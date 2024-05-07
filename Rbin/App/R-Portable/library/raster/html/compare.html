@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compare Raster objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compareRaster {raster}"><tr><td>compareRaster {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compare Raster objects</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate whether a two or more Raster* objects have the same extent, number of rows and columns, projection, resolution, and origin (or a subset of these comparisons). 
+</p>
+<p>all.equal is a wrapper around compareRaster with options <code>values=TRUE</code>, <code>stopiffalse=FALSE</code> and <code>showwarning=TRUE</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compareRaster(x, ..., extent=TRUE, rowcol=TRUE, crs=TRUE, res=FALSE, orig=FALSE,
+         rotation=TRUE, values=FALSE, tolerance, stopiffalse=TRUE, showwarning=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Raster* objects</p>
+</td></tr>
+<tr valign="top"><td><code>extent</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, bounding boxes are compared</p>
+</td></tr>
+<tr valign="top"><td><code>rowcol</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, number of rows and columns of the objects are compared</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, coordinate reference systems are compared.</p>
+</td></tr>
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, resolutions are compared (redundant when checking extent and rowcol)</p>
+</td></tr>
+<tr valign="top"><td><code>orig</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, origins are compared</p>
+</td></tr>
+<tr valign="top"><td><code>rotation</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, rotations are compared</p>
+</td></tr>  
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, cell values are compared</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>numeric between 0 and 0.5. If not supplied, the default value is used (see <code><a href="../../raster/help/rasterOptions.html">rasterOptions</a></code>. It sets difference (relative to the cell resolution) that is permissible for objects to be considered 'equal', if they have a non-integer origin or resolution. See <a href="../../base/html/all.equal.html">all.equal</a>. </p>
+</td></tr>
+<tr valign="top"><td><code>stopiffalse</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, an error will occur if the objects are not the same</p>
+</td></tr>
+<tr valign="top"><td><code>showwarning</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, an warning will be given if objects are not the same. Only relevant when <code>stopiffalse</code> is <code>TRUE</code></p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster()
+r2 &lt;- r1
+r3 &lt;- r1
+compareRaster(r1, r2, r3)
+nrow(r3) &lt;- 10
+
+# compareRaster(r1, r3)
+compareRaster(r1, r3, stopiffalse=FALSE)
+compareRaster(r1, r3, rowcol=FALSE)
+
+all.equal(r1, r2)
+all.equal(r1, r3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

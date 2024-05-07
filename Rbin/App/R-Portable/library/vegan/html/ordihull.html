@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display Groups or Factor Levels in Ordination Diagrams</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ordihull {vegan}"><tr><td>ordihull {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display Groups or Factor Levels in Ordination Diagrams</h2>
+
+<h3>Description</h3>
+
+<p> Functions to add convex hulls, &ldquo;spider&rdquo; graphs, ellipses
+or cluster dendrogram to ordination diagrams. The ordination
+diagrams can be produced by <code>vegan</code> <code><a href="../../vegan/help/plot.cca.html">plot.cca</a></code>,
+<code><a href="../../vegan/help/plot.decorana.html">plot.decorana</a></code> or <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code>.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ordihull(ord, groups, display = "sites", draw = c("lines","polygon", "none"),
+         col = NULL, alpha = 127, show.groups, label = FALSE,
+         border = NULL, lty = NULL, lwd = NULL, ...)
+ordiellipse(ord, groups, display="sites", kind = c("sd","se", "ehull"),
+         conf, draw = c("lines","polygon", "none"),
+	 w = weights(ord, display), col = NULL, alpha = 127, show.groups,
+	 label = FALSE, border = NULL, lty = NULL, lwd=NULL, ...)
+ordibar(ord, groups, display = "sites", kind = c("sd", "se"), conf,
+         w = weights(ord, display), col = 1, show.groups, label = FALSE,
+	 lwd = NULL, length = 0,  ...)
+ordispider(ord, groups, display="sites", w = weights(ord, display),
+	 spiders = c("centroid", "median"),  show.groups,
+         label = FALSE, col = NULL, lty = NULL, lwd = NULL, ...)
+ordicluster(ord, cluster, prune = 0, display = "sites",
+            w = weights(ord, display), col = 1, draw = c("segments", "none"),
+            ...)
+## S3 method for class 'ordihull'
+summary(object, ...)
+## S3 method for class 'ordiellipse'
+summary(object, ...)
+ordiareatest(ord, groups, area = c("hull", "ellipse"), kind = "sd",
+         permutations = 999, parallel = getOption("mc.cores"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ord</code></td>
+<td>
+<p>An ordination object or an <code><a href="../../vegan/help/ordiplot.html">ordiplot</a></code> object. </p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Factor giving the groups for which the graphical item is
+drawn. </p>
+</td></tr>
+<tr valign="top"><td><code>display</code></td>
+<td>
+<p>Item to displayed. </p>
+</td></tr>
+<tr valign="top"><td><code>draw</code></td>
+<td>
+<p>character; how should objects be represented on the plot?
+For <code>ordihull</code> and <code>ordiellipse</code> use either
+<code><a href="../../graphics/html/lines.html">lines</a></code> or <code><a href="../../graphics/html/polygon.html">polygon</a></code> to draw the
+lines. For <code>ordicluster</code>, line segments are drawn using
+<code><a href="../../graphics/html/segments.html">segments</a></code>. To suppress plotting, use
+<code>"none"</code>. Graphical parameters are passed to both. The main
+difference is that <code>polygon</code>s may be filled and
+non-transparent. With <code>none</code> nothing is drawn, but the function
+returns the <code><a href="../../base/html/invisible.html">invisible</a></code> plotting.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Colour of hull or ellipse lines (if <code>draw = "lines"</code>)
+or their fills (if <code>draw = "polygon"</code>) in <code>ordihull</code> and
+<code>ordiellipse</code>.  When <code>draw = "polygon"</code>, the colour of
+bordering lines can be set with argument <code>border</code> of the
+<code><a href="../../graphics/html/polygon.html">polygon</a></code> function. For other functions the effect
+depends on the underlining functions this argument is passed to.
+When multiple values of <code>col</code> are specified these are used
+for each element of <code>names(table(groups))</code> (in that order),
+shorter vectors are recycled. Function <code>ordicluster</code> has
+no <code>groups</code>, and there the argument will be recycled for
+points, and the colour of connecting lines is a mixture of point
+s in the cluster.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Transparency of the fill <code>col</code>our with <code>draw
+    = "polygon"</code> in <code>ordihull</code> and <code>ordiellipse</code>.  The
+argument takes precedence over possible transparency definitions
+of the colour. The value must be in range <i>0...255</i>, and low
+values are more transparent.  Transparency is not available in all
+graphics devices or file formats.</p>
+</td></tr>
+<tr valign="top"><td><code>show.groups</code></td>
+<td>
+<p>Show only given groups. This can be a vector, or
+<code>TRUE</code> if you want to show items for which condition is
+<code>TRUE</code>. This argument makes it possible to use different
+colours and line types for groups. The default is to show all groups. </p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Label the <code>groups</code> by their names in the centroid
+of the object. <code>ordiellipse</code> and <code>ordihull</code> use standard
+<code><a href="../../graphics/html/text.html">text</a></code>, and others use <code><a href="../../vegan/help/ordilabel.html">ordilabel</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Weights used to find the average within group. Weights are
+used automatically for <code><a href="../../vegan/help/cca.html">cca</a></code>
+and <code><a href="../../vegan/help/decorana.html">decorana</a></code> results, unless undone by the
+user. <code>w=NULL</code> sets equal weights to all points. </p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>Draw standard deviations of points (<code>sd</code>), standard
+errors (<code>se</code>) or ellipsoid hulls that enclose all points in
+the group (<code>ehull</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>conf</code></td>
+<td>
+<p>Confidence limit for ellipses, e.g. 0.95. If given, the
+corresponding <code>sd</code> or <code>se</code> is multiplied with the
+corresponding value found from the Chi-squared distribution with
+2df. </p>
+</td></tr>
+<tr valign="top"><td><code>spiders</code></td>
+<td>
+<p>Are centres or spider bodies calculated either as
+centroids (averages) or spatial medians.</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>Result of hierarchic cluster analysis, such as
+<code><a href="../../stats/html/hclust.html">hclust</a></code> or <code><a href="../../cluster/help/agnes.html">agnes</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>prune</code></td>
+<td>
+<p>Number of upper level hierarchies removed from the
+dendrogram. If <code>prune</code> <i>&gt;0</i>, dendrogram will be
+disconnected.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>A result object from <code>ordihull</code> or
+<code>ordiellipse</code>. The result is <code><a href="../../base/html/invisible.html">invisible</a></code>, but it
+can be saved, and used for summaries (areas etc. of hulls and
+ellipses). </p>
+</td></tr>
+<tr valign="top"><td><code>area</code></td>
+<td>
+<p>Evaluate the area of convex hulls of <code>ordihull</code>, or of
+ellipses of <code>ordiellipse</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing. The parallel processing is done with <span class="pkg">parallel</span>
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>lty, lwd, border</code></td>
+<td>
+<p>Vectors of these parameters can be supplied
+and will be applied (if appropriate) for each element of
+<code>names(table(groups))</code> (in that order). Shorter vectors will be
+recycled.</p>
+</td></tr>
+<tr valign="top"><td><code>length</code></td>
+<td>
+<p>Width (in inches) of the small (&ldquo;caps&rdquo;) at the
+ends of the bar segment (passed to <code><a href="../../graphics/html/arrows.html">arrows</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to graphical functions or to
+<code><a href="../../vegan/help/scores.html">scores</a></code> to select axes and scaling etc. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>ordihull</code> draws <code><a href="../../graphics/html/lines.html">lines</a></code> or
+<code><a href="../../graphics/html/polygon.html">polygon</a></code>s for the convex
+hulls found by function <code><a href="../../grDevices/html/chull.html">chull</a></code> encircling
+the items in the groups.
+</p>
+<p>Function <code>ordiellipse</code> draws <code><a href="../../graphics/html/lines.html">lines</a></code> or
+<code><a href="../../graphics/html/polygon.html">polygon</a></code>s for ellipses by <code>groups</code>. The function
+can either draw standard deviation of points (<code>kind="sd"</code>) or
+standard error of the (weighted) centroids (<code>kind="se"</code>), and
+the (weighted) correlation defines the direction of the principal
+axis of the ellipse. When <code>kind = "se"</code> is used together with
+argument <code>conf</code>, the ellipses will show the confidence regions
+for the locations of group centroids. With <code>kind="ehull"</code> the
+function draws an ellipse that encloses all points of a group using
+<code><a href="../../cluster/help/ellipsoidhull.html">ellipsoidhull</a></code> (<span class="pkg">cluster</span> package).
+</p>
+<p>Function <code>ordibar</code> draws crossed &ldquo;error bars&rdquo; using
+either either standard deviation of point scores or standard error
+of the (weighted) average of scores. These are the principal axes of
+the corresponding <code>ordiellipse</code>, and are found by principal
+component analysis of the (weighted) covariance matrix.
+</p>
+<p>Functions <code>ordihull</code> and <code>ordiellipse</code> return invisibly an
+object that has a <code>summary</code> method that returns the coordinates
+of centroids and areas of the hulls or ellipses. Function
+<code>ordiareatest</code> studies the one-sided hypothesis that these
+areas are smaller than with randomized <code>groups</code>. Argument
+<code>kind</code> can be used to select the kind of ellipse, and has no
+effect with convex hulls.
+</p>
+<p>Function <code>ordispider</code> draws a &lsquo;spider&rsquo; diagram where
+each point is connected to the group centroid with
+<code><a href="../../graphics/html/segments.html">segments</a></code>.  Weighted centroids are used in the
+correspondence analysis methods <code><a href="../../vegan/help/cca.html">cca</a></code> and
+<code><a href="../../vegan/help/decorana.html">decorana</a></code> or if the user gives the weights in the
+call. If <code>ordispider</code> is called with <code><a href="../../vegan/help/cca.html">cca</a></code> or
+<code><a href="../../vegan/help/rda.html">rda</a></code> result without <code>groups</code> argument, the
+function connects each &lsquo;WA&rsquo; scores to the corresponding
+&lsquo;LC&rsquo; score. If the argument is a (<code>invisible</code>)
+<code>ordihull</code> object, the function will connect the points of the
+hull to their centroid.
+</p>
+<p>Function <code>ordicluster</code> overlays a cluster dendrogram onto
+ordination. It needs the result from a hierarchic clustering such as
+<code><a href="../../stats/html/hclust.html">hclust</a></code> or <code><a href="../../cluster/help/agnes.html">agnes</a></code>, or other with
+a similar structure. Function <code>ordicluster</code> connects cluster
+centroids to each other with line <code><a href="../../graphics/html/segments.html">segments</a></code>. Function
+uses centroids of all points in the clusters, and is therefore
+similar to average linkage methods.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Functions <code>ordihull</code>, <code>ordiellipse</code> and <code>ordispider</code>
+return the <code><a href="../../base/html/invisible.html">invisible</a></code> plotting structure.
+</p>
+<p>Function <code>ordispider</code> return the coordinates to which each
+point is connected (centroids or &lsquo;LC&rsquo; scores).
+</p>
+<p>Function <code>ordihull</code> and <code>ordiellipse</code> return invisibly an
+object that has a <code>summary</code> method that returns the coordinates
+of centroids and areas of the hulls or ellipses. Function
+<code>ordiareatest</code> studies the one-sided hypothesis that these
+areas are smaller than with randomized <code>groups</code>.
+</p>
+
+
+<h3>Note</h3>
+
+<p>These functions add graphical items to ordination graph: You
+must draw a graph first. To draw line segments, grids or arrows, see
+<code><a href="../../vegan/help/ordisegments.html">ordisegments</a></code>, <code><a href="../../vegan/help/ordigrid.html">ordigrid</a></code>
+and<code><a href="../../vegan/help/ordiarrows.html">ordiarrows</a></code>.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>See Also</h3>
+
+<p>The functions pass parameters to basic graphical functions,
+and you may wish to change the default values in
+<code><a href="../../graphics/html/lines.html">lines</a></code>, <code><a href="../../graphics/html/segments.html">segments</a></code> and
+<code><a href="../../graphics/html/polygon.html">polygon</a></code>. You can pass parameters to
+<code><a href="../../vegan/help/scores.html">scores</a></code> as well. Underlying functions for
+<code>ordihull</code> is <code><a href="../../grDevices/html/chull.html">chull</a></code>. The underlying function for
+ellipsoid hulls in <code>ordiellipse</code> is
+<code><a href="../../cluster/help/ellipsoidhull.html">ellipsoidhull</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+mod &lt;- cca(dune ~ Management, dune.env)
+plot(mod, type="n", scaling = "symmetric")
+## Catch the invisible result of ordihull...
+pl &lt;- with(dune.env, ordihull(mod, Management,
+                              scaling = "symmetric", label = TRUE))
+## ... and find centres and areas of the hulls
+summary(pl)
+## use more colours and add ellipsoid hulls
+plot(mod, type = "n")
+pl &lt;- with(dune.env, ordihull(mod, Management,
+                              scaling = "symmetric", col = 1:4,
+                              draw="polygon", label =TRUE))
+with(dune.env, ordiellipse(mod, Management, scaling = "symmetric",
+                           kind = "ehull", col = 1:4, lwd=3))
+## ordispider to connect WA and LC scores
+plot(mod, dis=c("wa","lc"), type="p")
+ordispider(mod)
+## Other types of plots
+plot(mod, type = "p", display="sites")
+cl &lt;- hclust(vegdist(dune))
+ordicluster(mod, cl, prune=3, col = cutree(cl, 4))
+## confidence ellipse: location of the class centroids
+plot(mod, type="n", display = "sites")
+with(dune.env, text(mod, display="sites", labels = as.character(Management),
+                    col=as.numeric(Management)))
+pl &lt;- with(dune.env, ordiellipse(mod, Management, kind="se", conf=0.95, lwd=2,
+                                 draw = "polygon", col=1:4, border=1:4,
+                                 alpha=63))
+summary(pl)
+## add confidence bars
+with(dune.env, ordibar(mod, Management, kind="se", conf=0.95, lwd=2, col=1:4,
+                       label=TRUE))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

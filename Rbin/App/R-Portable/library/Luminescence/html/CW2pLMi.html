@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Transform a CW-OSL curve into a pLM-OSL curve via...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for CW2pLMi {Luminescence}"><tr><td>CW2pLMi {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Transform a CW-OSL curve into a pLM-OSL curve via interpolation under linear
+modulation conditions</h2>
+
+<h3>Description</h3>
+
+<p>Transforms a conventionally measured continuous-wave (CW) OSL-curve into a
+pseudo linearly modulated (pLM) curve under linear modulation conditions
+using the interpolation procedure described by Bos &amp; Wallinga (2012).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+CW2pLMi(values, P)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <a href="../../base/html/data.frame.html">data.frame</a> (<strong>required</strong>):
+<a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a> or <code>data.frame</code> with measured curve data of type
+stimulation time (t) (<code>values[,1]</code>) and measured counts (cts) (<code>values[,2]</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>P</code></td>
+<td>
+<p><a href="../../base/html/vector.html">vector</a> (<em>optional</em>):
+stimulation time in seconds. If no value is given the optimal value is
+estimated automatically (see details). Greater values of P produce more
+points in the rising tail of the curve.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The complete procedure of the transformation is given in Bos &amp; Wallinga
+(2012). The input <code>data.frame</code> consists of two columns: time (t) and
+count values (CW(t))
+</p>
+<p><strong>Nomenclature</strong>
+</p>
+
+<ul>
+<li><p> P = stimulation time (s)
+</p>
+</li>
+<li><p> 1/P = stimulation rate (1/s)
+</p>
+</li></ul>
+
+<p><strong>Internal transformation steps</strong>
+</p>
+<p>(1)
+log(CW-OSL) values
+</p>
+<p>(2)
+Calculate t' which is the transformed time:
+</p>
+<p style="text-align: center;"><i>t' = 1/2*1/P*t^2</i></p>
+
+<p>(3)
+Interpolate CW(t'), i.e. use the log(CW(t)) to obtain the count values
+for the transformed time (t'). Values beyond <code>min(t)</code> and <code>max(t)</code>
+produce <code>NA</code> values.
+</p>
+<p>(4)
+Select all values for t' &lt; <code>min(t)</code>, i.e. values beyond the time resolution
+of t. Select the first two values of the transformed data set which contain
+no <code>NA</code> values and use these values for a linear fit using <a href="../../stats/html/lm.html">lm</a>.
+</p>
+<p>(5)
+Extrapolate values for t' &lt; <code>min(t)</code> based on the previously obtained
+fit parameters.
+</p>
+<p>(6)
+Transform values using
+</p>
+<p style="text-align: center;"><i>pLM(t) = t/P*CW(t')</i></p>
+
+<p>(7)
+Combine values and truncate all values for t' &gt; <code>max(t)</code>
+</p>
+<p><strong>NOTE:</strong>
+The number of values for t' &lt; <code>min(t)</code> depends on the stimulation
+period (P) and therefore on the stimulation rate 1/P. To avoid the
+production of too many artificial data at the raising tail of the determined
+pLM curves it is recommended to use the automatic estimation routine for
+<code>P</code>, i.e. provide no own value for <code>P</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns the same data type as the input data type with
+the transformed curve values.
+</p>
+<p><strong><code>RLum.Data.Curve</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">$CW2pLMi.x.t</code> </td><td style="text-align: left;">: transformed time values </td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+<code style="white-space: pre;">$CW2pLMi.method</code> </td><td style="text-align: left;">: used method for the production of the new data points
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Function version</h3>
+
+<p>0.3.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. CW2pLMi(): Transform a CW-OSL curve into a pLM-OSL curve via interpolation under linear modulation conditions. Function version 0.3.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>According to Bos &amp; Wallinga (2012) the number of extrapolated points
+should be limited to avoid artificial intensity data. If <code>P</code> is
+provided manually and more than two points are extrapolated, a warning
+message is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+</p>
+<p>Based on comments and suggestions from:<br />
+Adrie J.J. Bos, Delft University of Technology, The Netherlands
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Bos, A.J.J. &amp; Wallinga, J., 2012. How to visualize quartz OSL
+signal components. Radiation Measurements, 47, 752-758.
+</p>
+<p><strong>Further Reading</strong>
+</p>
+<p>Bulur, E., 1996. An Alternative Technique For
+Optically Stimulated Luminescence (OSL) Experiment. Radiation Measurements,
+26, 701-709.
+</p>
+<p>Bulur, E., 2000. A simple transformation for converting CW-OSL curves to
+LM-OSL curves. Radiation Measurements, 32, 141-145.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/CW2pLM.html">CW2pLM</a>, <a href="../../Luminescence/help/CW2pHMi.html">CW2pHMi</a>, <a href="../../Luminescence/help/CW2pPMi.html">CW2pPMi</a>, <a href="../../Luminescence/help/fit_LMCurve.html">fit_LMCurve</a>,
+<a href="../../Luminescence/help/RLum.Data.Curve-class.html">RLum.Data.Curve</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##(1)
+##load CW-OSL curve data
+data(ExampleData.CW_OSL_Curve, envir = environment())
+
+##transform values
+values.transformed &lt;- CW2pLMi(ExampleData.CW_OSL_Curve)
+
+##plot
+plot(values.transformed$x, values.transformed$y.t, log = "x")
+
+##(2) - produce Fig. 4 from Bos &amp; Wallinga (2012)
+##load data
+data(ExampleData.CW_OSL_Curve, envir = environment())
+values &lt;- CW_Curve.BosWallinga2012
+
+##open plot area
+plot(NA, NA,
+     xlim = c(0.001,10),
+     ylim = c(0,8000),
+     ylab = "pseudo OSL (cts/0.01 s)",
+     xlab = "t [s]",
+     log = "x",
+     main = "Fig. 4 - Bos &amp; Wallinga (2012)")
+
+
+values.t &lt;- CW2pLMi(values, P = 1/20)
+lines(values[1:length(values.t[,1]),1],CW2pLMi(values, P = 1/20)[,2],
+      col = "red", lwd = 1.3)
+text(0.03,4500,"LM", col = "red", cex = .8)
+
+values.t &lt;- CW2pHMi(values, delta = 40)
+lines(values[1:length(values.t[,1]),1],CW2pHMi(values, delta = 40)[,2],
+      col = "black", lwd = 1.3)
+text(0.005,3000,"HM", cex =.8)
+
+values.t &lt;- CW2pPMi(values, P = 1/10)
+lines(values[1:length(values.t[,1]),1], CW2pPMi(values, P = 1/10)[,2],
+      col = "blue", lwd = 1.3)
+text(0.5,6500,"PM", col = "blue", cex = .8)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

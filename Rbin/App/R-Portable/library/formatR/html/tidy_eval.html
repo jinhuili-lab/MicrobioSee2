@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Insert output to source code</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tidy_eval {formatR}"><tr><td>tidy_eval {formatR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Insert output to source code</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate R code by chunks, then insert the output to each chunk. As the
+output is masked in comments, the source code will not break.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+tidy_eval(
+  source = "clipboard",
+  ...,
+  file = "",
+  prefix = "## ",
+  envir = parent.frame()
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>source</code></td>
+<td>
+<p>The input file name (by default the clipboard; see
+<code><a href="../../formatR/help/tidy_source.html">tidy_source</a>()</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to <code><a href="../../formatR/help/tidy_source.html">tidy_source</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>The file name to write to via <code><a href="../../base/html/cat.html">cat</a>()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+<p>The prefix to mask the output.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The environment in which to evaluate the code. By default the
+parent frame; set <code>envir = NULL</code> or <code>envir = new.env()</code> to avoid
+the possibility of contaminating the parent frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Evaluated R code with corresponding output (printed on screen or
+written to a file).
+</p>
+
+
+<h3>References</h3>
+
+<p><a href="https://yihui.org/formatR/">https://yihui.org/formatR/</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(formatR)
+## evaluate simple code as a character vector
+tidy_eval(text = c("a&lt;-1+1;a", "matrix(rnorm(10),5)"))
+
+## evaluate a file
+tidy_eval(system.file("format", "messy.R", package = "formatR"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>formatR</em> version 1.14.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

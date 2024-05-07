@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extracts p-values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for extract_p {multcompView}"><tr><td>extract_p {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extracts p-values</h2>
+
+<h3>Description</h3>
+
+<p>For a given object it will look for the column named &quot;p adj&quot; or &quot;difference&quot;
+and extract its value keeping its names
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+extract_p(x)
+
+## Default S3 method:
+extract_p(x)
+
+## S3 method for class 'TukeyHSD'
+extract_p(x)
+
+## S3 method for class 'mc'
+extract_p(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A object that has p-values or logical values.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A named vector with p-values or logical values.
+</p>
+
+
+<h3>Methods (by class)</h3>
+
+
+<ul>
+<li> <p><code>extract_p(default)</code>: 
+</p>
+</li>
+<li> <p><code>extract_p(TukeyHSD)</code>: extract p values from a TukeyHSD object
+</p>
+</li>
+<li> <p><code>extract_p(mc)</code>: 
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Luciano Selzer
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/multcompLetters.html">multcompLetters</a></code> <code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+experiment &lt;- data.frame(treatments = gl(11, 20, labels = c("dtl", "ctrl", "treat1", 
+              "treat2", "treatA2", "treatB", "treatB2",
+              "treatC", "treatD", "treatA1", "treatX")),
+              y = c(rnorm(20, 10, 5), rnorm(20, 20, 5), rnorm(20, 22, 5), rnorm(20, 24, 5),
+               rnorm(20, 35, 5), rnorm(20, 37, 5), rnorm(20, 40, 5), rnorm(20, 43, 5),
+               rnorm(20, 45, 5), rnorm(20, 60, 5), rnorm(20, 60, 5)))
+exp_tukey &lt;- TukeyHSD(exp_aov &lt;- aov(y  ~ treatments, data = experiment))
+
+extract_p(exp_tukey)
+
+if(require(pgirmess)){
+extract_p(kruskalmc(y ~ treatments, data = experiment))
+}
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

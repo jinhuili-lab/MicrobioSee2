@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multi-class AUC</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multiclass.roc {pROC}"><tr><td>multiclass.roc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Multi-class AUC
+</h2>
+
+<h3>Description</h3>
+
+<p>This function builds builds multiple ROC curve to compute the
+multi-class AUC as defined by Hand and Till.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multiclass.roc(...)
+## S3 method for class 'formula'
+multiclass.roc(formula, data, ...)
+## Default S3 method:
+multiclass.roc(response, predictor,
+levels=base::levels(as.factor(response)), 
+percent=FALSE, direction = c("auto", "&lt;", "&gt;"), ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>a factor, numeric or character vector of
+responses (true class), typically encoded with 0 (controls) and 1 (cases), as in
+<code><a href="../../pROC/help/roc.html">roc</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor</code></td>
+<td>
+<p>either a numeric vector, containing the value of each
+observation, as in <code><a href="../../pROC/help/roc.html">roc</a></code>, or, a matrix giving the decision value
+(e.g. probability) for each class.
+</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>a formula of the type <code>response~predictor</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a matrix or data.frame containing the variables in the
+formula. See <code><a href="../../stats/html/model.frame.html">model.frame</a></code> for more details.</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>the value of the response for controls and cases
+respectively. In contrast with <code>levels</code> argument to
+<code><a href="../../pROC/help/roc.html">roc</a></code>, all the levels are used and
+<a href="../../utils/html/combn.html">combined</a> to compute the multiclass AUC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>if the sensitivities, specificities and AUC must be
+given in percent (<code>TRUE</code>) or in fraction (<code>FALSE</code>, default).
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>in which direction to make the comparison?
+&ldquo;auto&rdquo; (default for univariate curves):
+automatically define in which group the
+median is higher and take the direction accordingly. 
+Not available for multivariate curves.
+&ldquo;&gt;&rdquo; (default for multivariate curves):
+if the predictor values for the control group are
+higher than the values of the case group (controls &gt; t &gt;= cases).
+&ldquo;&lt;&rdquo;: if the predictor values for the control group are lower
+or equal than the values of the case group (controls &lt; t &lt;= cases).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to <code><a href="../../pROC/help/roc.html">roc</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function performs multiclass AUC as defined by Hand and Till
+(2001). A multiclass AUC is a mean of several <code><a href="../../pROC/help/auc.html">auc</a></code> and
+cannot be plotted. Only AUCs can be computed for such curves.
+Confidence intervals, standard deviation, smoothing and
+comparison tests are not implemented.
+</p>
+<p>The <code>multiclass.roc</code> function can handle two types of datasets: uni- and multi-variate.
+In the univariate case, a single <code>predictor</code> vector is passed
+and all the combinations of responses are assessed.
+I the multivariate case, a <code><a href="../../base/html/matrix.html">matrix</a></code> or <code><a href="../../base/html/data.frame.html">data.frame</a></code>
+is passed as <code>predictor</code>. The columns must be named according to the
+levels of the <code>response</code>.
+</p>
+<p>This function has been much less tested than the rest of the package and
+is more subject to bugs. Please report them if you find one.
+</p>
+
+
+<h3>Value</h3>
+
+<p>If <code>predictor</code> is a vector, a list of class &ldquo;multiclass.roc&rdquo; 
+(univariate) or &ldquo;mv.multiclass.roc&rdquo; (multivariate), 
+with the following fields: 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>if called with <code>auc=TRUE</code>, a numeric of class &ldquo;auc&rdquo; as
+defined in <code><a href="../../pROC/help/auc.html">auc</a></code>. Note that this is not the standard AUC
+but the multi-class AUC as defined by Hand and Till.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>if called with <code>ci=TRUE</code>, a numeric of class &ldquo;ci&rdquo; as
+defined in <code><a href="../../pROC/help/ci.html">ci</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>response</code></td>
+<td>
+<p>the response vector as passed in argument. If
+<code>NA</code> values were removed, a <code>na.action</code> attribute similar
+to <code><a href="../../stats/html/na.fail.html">na.omit</a></code> stores the row numbers.
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor</code></td>
+<td>
+<p>the predictor vector as passed in argument. If
+<code>NA</code> values were removed, a <code>na.action</code> attribute similar
+to <code><a href="../../stats/html/na.fail.html">na.omit</a></code> stores the row numbers.
+</p>
+</td></tr>
+<tr valign="top"><td><code>levels</code></td>
+<td>
+<p>the levels of the response as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>if the sensitivities, specificities and AUC are
+reported in percent, as defined in argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>how the function was called. See <code><a href="../../base/html/match.call.html">match.call</a></code> for
+more details.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Warnings</h3>
+
+<p>If <code>response</code> is an ordered factor and one of the levels
+specified in <code>levels</code> is missing, a warning is issued and the
+level is ignored.
+</p>
+
+
+<h3>References</h3>
+
+<p>David J. Hand and Robert J. Till (2001). A Simple Generalisation of
+the Area Under the ROC Curve for Multiple Class Classification
+Problems. <em>Machine Learning</em> <b>45</b>(2), p. 171&ndash;186. DOI:
+doi: <a href="https://doi.org/10.1023/A:1010920819831">10.1023/A:1010920819831</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/auc.html">auc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+####
+# Examples for a univariate decision value
+####
+data(aSAH)
+
+# Basic example
+multiclass.roc(aSAH$gos6, aSAH$s100b)
+# Produces an innocuous warning because one level has no observation
+
+# Select only 3 of the aSAH$gos6 levels:
+multiclass.roc(aSAH$gos6, aSAH$s100b, levels=c(3, 4, 5))
+
+# Give the result in percent
+multiclass.roc(aSAH$gos6, aSAH$s100b, percent=TRUE)
+
+####
+# Examples for multivariate decision values (e.g. class probabilities)
+####
+
+## Not run: 
+# Example with a multinomial log-linear model from nnet
+# We use the iris dataset and split into a training and test set
+requireNamespace("nnet")
+data(iris)
+iris.sample &lt;- sample(1:150)
+iris.train &lt;- iris[iris.sample[1:75],]
+iris.test &lt;- iris[iris.sample[76:150],]
+mn.net &lt;- nnet::multinom(Species ~ ., iris.train)
+
+# Use predict with type="prob" to get class probabilities
+iris.predictions &lt;- predict(mn.net, newdata=iris.test, type="prob")
+head(iris.predictions)
+
+# This can be used directly in multiclass.roc:
+multiclass.roc(iris.test$Species, iris.predictions)
+
+## End(Not run)
+
+
+# Let's see an other example with an artificial dataset
+n &lt;- c(100, 80, 150)
+responses &lt;- factor(c(rep("X1", n[1]), rep("X2", n[2]), rep("X3", n[3])))
+# construct prediction matrix: one column per class
+
+preds &lt;- lapply(n, function(x) runif(x, 0.4, 0.6))
+predictor &lt;- as.matrix(data.frame(
+                "X1" = c(preds[[1]], runif(n[2] + n[3], 0, 0.7)),
+                "X2" = c(runif(n[1], 0.1, 0.4), preds[[2]], runif(n[3], 0.2, 0.8)),
+                "X3" = c(runif(n[1] + n[2], 0.3, 0.7), preds[[3]])
+             ))
+multiclass.roc(responses, predictor)
+
+# One can change direction , partial.auc, percent, etc:
+multiclass.roc(responses, predictor, direction = "&gt;")
+multiclass.roc(responses, predictor, percent = TRUE, 
+	partial.auc = c(100, 90), partial.auc.focus = "se")
+
+
+# Limit set of levels
+multiclass.roc(responses, predictor, levels = c("X1", "X2"))
+# Use with formula. Here we need a data.frame to store the responses as characters
+data &lt;- cbind(as.data.frame(predictor), "response" = responses)
+multiclass.roc(response ~ X1+X3, data)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

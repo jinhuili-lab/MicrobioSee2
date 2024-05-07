@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Winsorize data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for winsorize {datawizard}"><tr><td>winsorize {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Winsorize data</h2>
+
+<h3>Description</h3>
+
+<p>Winsorize data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+winsorize(data, ...)
+
+## S3 method for class 'numeric'
+winsorize(
+  data,
+  threshold = 0.2,
+  method = "percentile",
+  robust = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>data frame or vector.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>The amount of winsorization, depends on the value of <code>method</code>:
+</p>
+
+<ul>
+<li><p> For <code>method = "percentile"</code>: the amount to winsorize from <em>each</em> tail.
+The value of <code>threshold</code> must be between 0 and 0.5 and of length 1.
+</p>
+</li>
+<li><p> For <code>method = "zscore"</code>: the number of <em>SD</em>/<em>MAD</em>-deviations from the
+<em>mean</em>/<em>median</em> (see <code>robust</code>). The value of <code>threshold</code> must be greater
+than 0 and of length 1.
+</p>
+</li>
+<li><p> For <code>method = "raw"</code>: a vector of length 2 with the lower and upper bound
+for winsorization.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>One of &quot;percentile&quot; (default), &quot;zscore&quot;, or &quot;raw&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if TRUE, winsorizing through the &quot;zscore&quot; method is
+done via the median and the median absolute deviation (MAD); if FALSE, via
+the mean and the standard deviation.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Not used anymore since <code>datawizard</code> 0.6.6.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Winsorizing or winsorization is the transformation of statistics by limiting
+extreme values in the statistical data to reduce the effect of possibly
+spurious outliers. The distribution of many statistics can be heavily
+influenced by outliers. A typical strategy is to set all outliers (values
+beyond a certain threshold) to a specified percentile of the data; for
+example, a <code style="white-space: pre;">90%</code> winsorization would see all data below the 5th percentile set
+to the 5th percentile, and data above the 95th percentile set to the 95th
+percentile. Winsorized estimators are usually more robust to outliers than
+their more standard forms.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with winsorized columns or a winsorized vector.
+</p>
+
+
+<h3>See Also</h3>
+
+
+<ul>
+<li><p> Functions to rename stuff: <code><a href="../../datawizard/help/data_rename.html">data_rename()</a></code>, <code><a href="../../datawizard/help/data_rename_rows.html">data_rename_rows()</a></code>, <code><a href="../../datawizard/help/data_addprefix.html">data_addprefix()</a></code>, <code><a href="../../datawizard/help/data_addsuffix.html">data_addsuffix()</a></code>
+</p>
+</li>
+<li><p> Functions to reorder or remove columns: <code><a href="../../datawizard/help/data_reorder.html">data_reorder()</a></code>, <code><a href="../../datawizard/help/data_relocate.html">data_relocate()</a></code>, <code><a href="../../datawizard/help/data_remove.html">data_remove()</a></code>
+</p>
+</li>
+<li><p> Functions to reshape, pivot or rotate data frames: <code><a href="../../datawizard/help/data_to_long.html">data_to_long()</a></code>, <code><a href="../../datawizard/help/data_to_wide.html">data_to_wide()</a></code>, <code><a href="../../datawizard/help/data_rotate.html">data_rotate()</a></code>
+</p>
+</li>
+<li><p> Functions to recode data: <code><a href="../../datawizard/help/rescale.html">rescale()</a></code>, <code><a href="../../datawizard/help/reverse.html">reverse()</a></code>, <code><a href="../../datawizard/help/categorize.html">categorize()</a></code>, <code><a href="../../datawizard/help/recode_values.html">recode_values()</a></code>, <code><a href="../../datawizard/help/slide.html">slide()</a></code>
+</p>
+</li>
+<li><p> Functions to standardize, normalize, rank-transform: <code><a href="../../datawizard/help/center.html">center()</a></code>, <code><a href="../../datawizard/help/standardize.html">standardize()</a></code>, <code><a href="../../datawizard/help/normalize.html">normalize()</a></code>, <code><a href="../../datawizard/help/ranktransform.html">ranktransform()</a></code>, <code><a href="../../datawizard/help/winsorize.html">winsorize()</a></code>
+</p>
+</li>
+<li><p> Split and merge data frames: <code><a href="../../datawizard/help/data_partition.html">data_partition()</a></code>, <code><a href="../../datawizard/help/data_merge.html">data_merge()</a></code>
+</p>
+</li>
+<li><p> Functions to find or select columns: <code><a href="../../datawizard/help/data_select.html">data_select()</a></code>, <code><a href="../../datawizard/help/data_find.html">data_find()</a></code>
+</p>
+</li>
+<li><p> Functions to filter rows: <code><a href="../../datawizard/help/data_match.html">data_match()</a></code>, <code><a href="../../datawizard/help/data_filter.html">data_filter()</a></code>
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+hist(iris$Sepal.Length, main = "Original data")
+
+hist(winsorize(iris$Sepal.Length, threshold = 0.2),
+  xlim = c(4, 8), main = "Percentile Winsorization"
+)
+
+hist(winsorize(iris$Sepal.Length, threshold = 1.5, method = "zscore"),
+  xlim = c(4, 8), main = "Mean (+/- SD) Winsorization"
+)
+
+hist(winsorize(iris$Sepal.Length, threshold = 1.5, method = "zscore", robust = TRUE),
+  xlim = c(4, 8), main = "Median (+/- MAD) Winsorization"
+)
+
+hist(winsorize(iris$Sepal.Length, threshold = c(5, 7.5), method = "raw"),
+  xlim = c(4, 8), main = "Raw Thresholds"
+)
+
+# Also works on a data frame:
+winsorize(iris, threshold = 0.2)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Efron's R2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_efron {performance}"><tr><td>r2_efron {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Efron's R2</h2>
+
+<h3>Description</h3>
+
+<p>Calculates Efron's pseudo R2.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_efron(model)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Generalized linear model.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Efron's R2 is calculated by taking the sum of the squared model residuals,
+divided by the total variability in the dependent variable. This R2 equals
+the squared correlation between the predicted values and actual values,
+however, note that model residuals from generalized linear models are not
+generally comparable to those of OLS.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The R2 value.
+</p>
+
+
+<h3>References</h3>
+
+<p>Efron, B. (1978). Regression and ANOVA with zero-one data: Measures of
+residual variation. Journal of the American Statistical Association, 73,
+113-121.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Dobson (1990) Page 93: Randomized Controlled Trial:
+counts &lt;- c(18, 17, 15, 20, 10, 20, 25, 13, 12) #
+outcome &lt;- gl(3, 1, 9)
+treatment &lt;- gl(3, 3)
+model &lt;- glm(counts ~ outcome + treatment, family = poisson())
+
+r2_efron(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

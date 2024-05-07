@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: adds part of a cylinder to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cylindersegment {shape}"><tr><td>cylindersegment {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+adds part of a cylinder to a plot
+</h2>
+
+<h3>Description</h3>
+
+<p>adds a segment of a cylinder to a plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cylindersegment(rx = 1, ry = rx, from = pi, to = 3*pi/2, len = 1, 
+                mid = c(0,0), angle = 0, dr = 0.01, col = "black", 
+                delt = 1.0, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rx </code></td>
+<td>
+<p>horizontal radius of full cylinder.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ry </code></td>
+<td>
+<p>vertical radius  of full cylinder.
+</p>
+</td></tr>
+<tr valign="top"><td><code>from </code></td>
+<td>
+<p>start radius of segment, radians.
+</p>
+</td></tr>
+<tr valign="top"><td><code>to </code></td>
+<td>
+<p>end radius of segment, radians.
+</p>
+</td></tr>
+<tr valign="top"><td><code>len </code></td>
+<td>
+<p>cylinder length.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mid </code></td>
+<td>
+<p>midpoint of cylinder.
+</p>
+</td></tr>
+<tr valign="top"><td><code>angle </code></td>
+<td>
+<p>rotation angle, degrees.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dr </code></td>
+<td>
+<p>size of segments, in radians, to draw top/bottom ellipse 
+(decrease for smoother).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col </code></td>
+<td>
+<p>color of slice.
+</p>
+</td></tr>
+<tr valign="top"><td><code>delt </code></td>
+<td>
+<p>increase factor, from left to right.
+</p>
+</td></tr>
+<tr valign="top"><td><code>... </code></td>
+<td>
+<p>arguments passed to <a href="../../graphics/html/polygon.html">polygon</a> function.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When <code>angle</code> = 0 (the default), the cylindersegment is parallel
+to the x-axis.
+</p>
+<p><code>rx</code> and <code>ry</code> are the horizontal and vertical radiusses of
+the bordering ellipses.
+Here &quot;horizontal&quot; and &quot;vertical&quot; denote the position BEFORE rotation
+</p>
+<p>if <code>delt</code> &gt; 1, the width of the cylinder will increase from
+left to right.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shape/help/filledcylinder.html">filledcylinder</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+emptyplot(main = "cylindersegment")
+cylindersegment(mid = c(0.1, 0.5), rx = 0.1, ry = 0.1, 
+                from = pi, to = 3*pi/2, col = "blue",  
+                len = 0.5, delt = 1.1, lwd = 2, angle = 90)
+cylindersegment(mid = c(0.8, 0.5), rx = 0.1, ry = 0.1, 
+                from = 0, to = pi/2, col = "red", len = 0.5, 
+                delt = 1.0, lwd = 2, angle = 45)
+cylindersegment(mid = c(0.5, 0.5), rx = 0.1, ry = 0.1, 
+                from = pi/2, to = pi, col = "lightblue", 
+                len = 0.2, delt = 1.5, lwd = 2)  
+for (i in seq(0.1, 0.9, 0.1))
+  cylindersegment(mid = c(i, 0.9), rx = 0.035, ry = 0.05, 
+                  from = pi/2, to = 3*pi/2, col = "darkblue", 
+                  len = 0.1, angle = 90)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

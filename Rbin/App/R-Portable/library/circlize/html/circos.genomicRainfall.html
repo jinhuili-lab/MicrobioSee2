@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Genomic rainfall plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicRainfall {circlize}"><tr><td>circos.genomicRainfall {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Genomic rainfall plot
+</h2>
+
+<h3>Description</h3>
+
+<p>Genomic rainfall plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicRainfall(
+    data,
+    mode = "min",
+    ylim = NULL,
+    col = "black",
+    pch = par("pch"),
+    cex = par("cex"),
+    normalize_to_width = FALSE,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A bed-file-like data frame or a list of data frames.
+</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>How to calculate the distance of two neighbouring regions, pass to <code><a href="../../circlize/help/rainfallTransform.html">rainfallTransform</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>ylim for rainfall plot track. If <code>normalize_to_width</code> is <code>FALSE</code>, the value should correspond to <code>log10(dist+1)</code>,
+and if <code>normalize_to_width</code> is <code>TRUE</code>, the value should correspond to <code>log2(rel_dist)</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color of points. It should be length of one. If <code>data</code> is a list, the length of <code>col</code>
+can also be the length of the list.
+</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Style of points.
+</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Size of points.
+</p>
+</td></tr>
+<tr valign="top"><td><code>normalize_to_width</code></td>
+<td>
+<p>If it is <code>TRUE</code>, the value is the relative distance divided by the width of the region.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.trackPlotRegion.html">circos.trackPlotRegion</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is high-level graphical function, which mean, it will create a new track.
+</p>
+<p>Rainfall plot can be used to visualize distribution of regions. On the plot, y-axis
+corresponds to the distance to neighbour regions (log-based). So if there is a drop-down on
+the plot, it means there is a cluster of regions at that area.
+</p>
+<p>On the plot, y-axis are log10-transformed.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#genomic-density-and-rainfall-plot">https://jokergoo.github.io/circlize_book/book/high-level-genomic-functions.html#genomic-density-and-rainfall-plot</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+load(system.file(package = "circlize", "extdata", "DMR.RData"))
+
+# rainfall
+circos.initializeWithIdeogram(plotType = c("axis", "labels"))
+
+bed_list = list(DMR_hyper, DMR_hypo)
+circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = c("#FF000080", "#0000FF80"))
+
+circos.genomicDensity(bed_list[[1]], col = c("#FF000080"), track.height = 0.1)
+circos.genomicDensity(bed_list[[2]], col = c("#0000FF80"), track.height = 0.1)
+
+circos.clear()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

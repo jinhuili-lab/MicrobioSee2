@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Spread out a vector of numbers to a minimum interval</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for spreadout {plotrix}"><tr><td>spreadout {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Spread out a vector of numbers to a minimum interval</h2>
+
+<h3>Description</h3>
+
+<p>Spread out a vector of numbers so that there is a minimum interval
+between any two numbers when in ascending or descending order.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ spreadout(x,mindist)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric vector which may contain NAs.</p>
+</td></tr>
+<tr valign="top"><td><code>mindist</code></td>
+<td>
+<p>The minimum interval between any two values when in ascending
+or descending order.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">spreadout</span> starts at or near the middle of the vector and increases the
+intervals between the ordered values. NAs are preserved. <span class="samp">spreadout</span>
+first tries to spread groups of values with intervals less than <span class="samp">mindist</span>
+out neatly away from the mean of the group. If this doesn't entirely succeed,
+a second pass that forces values away from the middle is performed.
+</p>
+<p><span class="samp">spreadout</span> is currently used to avoid overplotting of axis tick labels
+where they may be close together.
+</p>
+
+
+<h3>Value</h3>
+
+<p>On success, the spread out values. If there are less than two valid
+values, the original vector is returned.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ spreadout(c(1,3,3,3,3,5),0.2)
+ spreadout(c(1,2.5,2.5,3.5,3.5,5),0.2)
+ spreadout(c(5,2.5,2.5,NA,3.5,1,3.5,NA),0.2)
+ # this will almost always invoke the brute force second pass
+ spreadout(rnorm(10),0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Conversion between EFA results and CFA structure</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_efa_to_cfa {parameters}"><tr><td>convert_efa_to_cfa {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Conversion between EFA results and CFA structure</h2>
+
+<h3>Description</h3>
+
+<p>Enables a conversion between Exploratory Factor Analysis (EFA) and
+Confirmatory Factor Analysis (CFA) <code>lavaan</code>-ready structure.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_efa_to_cfa(model, ...)
+
+## S3 method for class 'fa'
+convert_efa_to_cfa(
+  model,
+  threshold = "max",
+  names = NULL,
+  max_per_dimension = NULL,
+  ...
+)
+
+efa_to_cfa(model, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>An EFA model (e.g., a <code>psych::fa</code> object).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>A value between 0 and 1 indicates which (absolute) values
+from the loadings should be removed. An integer higher than 1 indicates the
+n strongest loadings to retain. Can also be <code>"max"</code>, in which case it
+will only display the maximum loading per variable (the most simple
+structure).</p>
+</td></tr>
+<tr valign="top"><td><code>names</code></td>
+<td>
+<p>Vector containing dimension names.</p>
+</td></tr>
+<tr valign="top"><td><code>max_per_dimension</code></td>
+<td>
+<p>Maximum number of variables to keep per dimension.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Converted index.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+library(parameters)
+data(attitude)
+efa &lt;- psych::fa(attitude, nfactors = 3)
+
+model1 &lt;- efa_to_cfa(efa)
+model2 &lt;- efa_to_cfa(efa, threshold = 0.3)
+model3 &lt;- efa_to_cfa(efa, max_per_dimension = 2)
+
+suppressWarnings(anova(
+  lavaan::cfa(model1, data = attitude),
+  lavaan::cfa(model2, data = attitude),
+  lavaan::cfa(model3, data = attitude)
+))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

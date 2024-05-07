@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw histogram in cells among a whole track</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.trackHist {circlize}"><tr><td>circos.trackHist {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw histogram in cells among a whole track
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw histogram in cells among a whole track
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.trackHist(
+    sectors,
+    x,
+    track.height = circos.par("track.height"),
+    track.index = NULL,
+    ylim = NULL,
+    force.ylim = TRUE,
+    col = ifelse(draw.density, "black", NA),
+    border = "black",
+    lty = par("lty"),
+    lwd = par("lwd"),
+    bg.col = NA,
+    bg.border = "black",
+    bg.lty = par("lty"),
+    bg.lwd = par("lwd"),
+    breaks = "Sturges",
+    include.lowest = TRUE,
+    right = TRUE,
+    draw.density = FALSE,
+    bin.size = NULL,
+    area = FALSE,
+    factors = sectors)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sectors</code></td>
+<td>
+<p>A <code><a href="../../base/html/factor.html">factor</a></code> or a character vector which represents the categories of data</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>The same as <code>sectors</code>. It will be removed in future versions. </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data on the x-axis</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track which is going to be updated. Setting it to <code>NULL</code> means creating the plotting regions in the next newest track.</p>
+</td></tr>
+<tr valign="top"><td><code>track.height</code></td>
+<td>
+<p>Height of the track. It is the percentage to the radius of the unit circle. If to update a track, this argument is disabled.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Ranges on y-direction. By default, <code>ylim</code> is calculated automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>force.ylim</code></td>
+<td>
+<p>Whether to force all cells in the track to share the same <code>ylim</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Filled color for histogram</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Border color for histogram</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line style for histogram</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width for histogram</p>
+</td></tr>
+<tr valign="top"><td><code>bg.col</code></td>
+<td>
+<p>Background color for the plotting regions</p>
+</td></tr>
+<tr valign="top"><td><code>bg.border</code></td>
+<td>
+<p>Color for the border of the plotting regions</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lty</code></td>
+<td>
+<p>Line style for the border of the plotting regions</p>
+</td></tr>
+<tr valign="top"><td><code>bg.lwd</code></td>
+<td>
+<p>Line width for the border of the plotting regions</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>see <code><a href="../../graphics/help/hist.html">hist</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>include.lowest</code></td>
+<td>
+<p>see <code><a href="../../graphics/help/hist.html">hist</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>right</code></td>
+<td>
+<p>see <code><a href="../../graphics/help/hist.html">hist</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>draw.density</code></td>
+<td>
+<p>whether draw density lines instead of histogram bars.</p>
+</td></tr>
+<tr valign="top"><td><code>area</code></td>
+<td>
+<p>whether to fill the area below the density lines. If it is set to <code>TRUE</code>, <code>col</code> controls the filled color in the area and <code>border</code> controls color of the line.</p>
+</td></tr>
+<tr valign="top"><td><code>bin.size</code></td>
+<td>
+<p>size of the bins of the histogram</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>It draw histogram in cells among a whole track. It is also an example to show how to add self-defined
+high-level graphics by this package.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/high-level-plots.html#histograms">https://jokergoo.github.io/circlize_book/book/high-level-plots.html#histograms</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+x = rnorm(1600)
+sectors = sample(letters[1:16], 1600, replace = TRUE)
+circos.initialize(sectors, x = x)
+circos.trackHist(sectors, x = x, col = "#999999",
+  border = "#999999")
+circos.trackHist(sectors, x = x, bin.size = 0.1,
+  col = "#999999", border = "#999999")
+circos.trackHist(sectors, x = x, draw.density = TRUE,
+  col = "#999999", border = "#999999")
+circos.clear()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

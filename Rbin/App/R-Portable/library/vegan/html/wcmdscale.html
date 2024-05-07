@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Weighted Classical (Metric) Multidimensional Scaling</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for wcmdscale {vegan}"><tr><td>wcmdscale {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Weighted Classical (Metric) Multidimensional Scaling</h2>
+
+<h3>Description</h3>
+
+<p>Weighted classical multidimensional scaling,
+also known as weighted <em>principal coordinates analysis</em>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+wcmdscale(d, k, eig = FALSE, add = FALSE, x.ret = FALSE, w)
+## S3 method for class 'wcmdscale'
+plot(x, choices = c(1, 2), type = "t", ...)
+## S3 method for class 'wcmdscale'
+scores(x, choices = NA, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>d</code></td>
+<td>
+<p>a distance structure such as that returned by <code>dist</code>
+or a full symmetric matrix containing the dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>k</code></td>
+<td>
+<p>the dimension of the space which the data are to be
+represented in; must be in <i>{1,2,&hellip;,n-1}</i>.
+If missing, all dimensions with above zero eigenvalue.</p>
+</td></tr>
+<tr valign="top"><td><code>eig</code></td>
+<td>
+<p>indicates whether eigenvalues should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>an additive constant <i>c</i> is added to the non-diagonal
+dissimilarities such that all <i>n-1</i> eigenvalues are
+non-negative. Alternatives are <code>"lingoes"</code> (default, also
+used with <code>TRUE</code>) and <code>"cailliez"</code> (which is the only
+alternative in <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>). See Legendre &amp; Anderson
+(1999).</p>
+</td></tr>
+<tr valign="top"><td><code>x.ret</code></td>
+<td>
+<p>indicates whether the doubly centred symmetric distance
+matrix should be returned.</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>Weights of points.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The <code>wcmdscale</code> result object when the function was
+called with options <code>eig = TRUE</code> or <code>x.ret = TRUE</code> (See
+Details).</p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Axes to be returned; <code>NA</code> returns all real axes.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type of graph which may be <code>"t"</code>ext, <code>"p"</code>oints
+or <code>"n"</code>one.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to graphical functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>wcmdscale</code> is based on function
+<code><a href="../../stats/html/cmdscale.html">cmdscale</a></code> (package <span class="pkg">stats</span> of base <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span>), but it uses
+point weights. Points with high weights will have a stronger
+influence on the result than those with low weights. Setting equal
+weights <code>w = 1</code> will give ordinary multidimensional scaling.
+</p>
+<p>With default options, the function returns only a matrix of scores
+scaled by eigenvalues for all real axes. If the function is called
+with <code>eig = TRUE</code> or <code>x.ret = TRUE</code>, the function returns
+an object of class <code>"wcmdscale"</code> with <code>print</code>,
+<code>plot</code>, <code>scores</code>, <code><a href="../../vegan/help/eigenvals.html">eigenvals</a></code> and
+<code><a href="../../vegan/help/stressplot.html">stressplot</a></code> methods, and described in section Value.
+</p>
+<p>The method is Euclidean, and with non-Euclidean dissimilarities some
+eigenvalues can be negative. If this disturbs you, this can be
+avoided by adding a constant to non-diagonal dissimilarities making
+all eigenvalues non-negative. The function implements methods
+discussed by Legendre &amp; Anderson (1999): The method of Lingoes
+(<code>add="lingoes"</code>) adds the constant <i>c</i> to squared
+dissimilarities <i>d</i> using <i>sqrt(d^2 + 2*c)</i>
+and the method of Cailliez (<code>add="cailliez"</code>) to
+dissimilarities using <i>d + c</i>. Legendre &amp; Anderson (1999)
+recommend the method of Lingoes, and base <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> function
+<code><a href="../../stats/html/cmdscale.html">cmdscale</a></code> implements the method of Cailliez.
+</p>
+
+
+<h3>Value</h3>
+
+<p> If <code>eig = FALSE</code> and <code>x.ret = FALSE</code> (default), a
+matrix with <code>k</code> columns whose rows give the coordinates of
+points corresponding to positive eigenvalues.  Otherwise, an object
+of class <code>wcmdscale</code> containing the components that are mostly
+similar as in <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>points</code></td>
+<td>
+<p>a matrix with <code>k</code> columns whose rows give the
+coordinates of the points chosen to represent the
+dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>eig</code></td>
+<td>
+<p>the <i>n-1</i> eigenvalues computed during the scaling
+process if <code>eig</code> is true.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>the doubly centred and weighted distance matrix if
+<code>x.ret</code> is true.</p>
+</td></tr>
+<tr valign="top"><td><code>ac, add</code></td>
+<td>
+<p>additive constant and adjustment method used to avoid
+negative eigenvalues. These are <code>NA</code> and <code>FALSE</code> if no
+adjustment was done.</p>
+</td></tr>
+<tr valign="top"><td><code>GOF</code></td>
+<td>
+<p>Goodness of fit statistics for <code>k</code> axes. The first
+value is based on the sum of absolute values of all eigenvalues,
+and the second value is based on the sum of positive eigenvalues</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Weights.</p>
+</td></tr>
+<tr valign="top"><td><code>negaxes</code></td>
+<td>
+<p>A matrix of scores for axes with negative eigenvalues
+scaled by the absolute eigenvalues similarly as
+<code>points</code>. This is <code>NULL</code> if there are no negative
+eigenvalues or <code>k</code> was specified, and would not include
+negative eigenvalues.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>Function call.</p>
+</td></tr>
+</table>
+
+
+<h3>References</h3>
+
+<p>Gower, J. C. (1966)
+Some distance properties of latent root and vector
+methods used in multivariate analysis.
+<em>Biometrika</em> <b>53</b>, 325&ndash;328.
+</p>
+<p>Legendre, P. &amp; Anderson, M. J. (1999). Distance-based redundancy
+analysis: testing multispecies responses in multifactorial
+ecological experiments. <em>Ecology</em> <b>69</b>, 1&ndash;24.
+</p>
+<p>Mardia, K. V., Kent, J. T. and Bibby, J. M. (1979).  Chapter 14 of
+<em>Multivariate Analysis</em>, London: Academic Press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The function is modelled after <code><a href="../../stats/html/cmdscale.html">cmdscale</a></code>, but adds
+weights (hence name) and handles negative eigenvalues differently.
+<code><a href="../../vegan/help/eigenvals.wcmdscale.html">eigenvals.wcmdscale</a></code> and
+<code><a href="../../vegan/help/stressplot.wcmdscale.html">stressplot.wcmdscale</a></code> are some specific methods. Other
+multidimensional scaling methods are <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>, and
+<code><a href="../../MASS/help/isoMDS.html">isoMDS</a></code> and <code><a href="../../MASS/help/sammon.html">sammon</a></code> in package
+<span class="pkg">MASS</span>.  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Correspondence analysis as a weighted principal coordinates
+## analysis of Euclidean distances of Chi-square transformed data
+data(dune)
+rs &lt;- rowSums(dune)/sum(dune)
+d &lt;- dist(decostand(dune, "chi"))
+ord &lt;- wcmdscale(d, w = rs, eig = TRUE)
+## Ordinary CA
+ca &lt;- cca(dune)
+## Eigevalues are numerically similar
+ca$CA$eig - ord$eig
+## Configurations are similar when site scores are scaled by
+## eigenvalues in CA
+procrustes(ord, ca, choices=1:19, scaling = "sites")
+plot(procrustes(ord, ca, choices=1:2, scaling="sites"))
+## Reconstruction of non-Euclidean distances with negative eigenvalues
+d &lt;- vegdist(dune)
+ord &lt;- wcmdscale(d, eig = TRUE)
+## Only positive eigenvalues:
+cor(d, dist(ord$points))
+## Correction with negative eigenvalues:
+cor(d, sqrt(dist(ord$points)^2 - dist(ord$negaxes)^2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

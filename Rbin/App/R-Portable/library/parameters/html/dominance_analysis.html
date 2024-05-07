@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dominance Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dominance_analysis {parameters}"><tr><td>dominance_analysis {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dominance Analysis</h2>
+
+<h3>Description</h3>
+
+<p>Computes Dominance Analysis Statistics and Designations
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+dominance_analysis(
+  model,
+  sets = NULL,
+  all = NULL,
+  conditional = TRUE,
+  complete = TRUE,
+  quote_args = NULL,
+  contrasts = model$contrasts,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A model object supported by <code>performance::r2()</code>. See 'Details'.</p>
+</td></tr>
+<tr valign="top"><td><code>sets</code></td>
+<td>
+<p>A (named) list of formula objects with no left hand
+side/response.  If the list has names, the name provided each element
+will be used as the label for the set.  Unnamed list elements will be
+provided a set number name based on its position among the sets as entered.
+</p>
+<p>Predictors in each formula are bound together as a set in the dominance
+analysis and dominance statistics and designations are computed for
+the predictors together.  Predictors in <code>sets</code> must be present in the model
+submitted to the <code>model</code> argument and cannot be in the <code>all</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>all</code></td>
+<td>
+<p>A formula with no left hand side/response.
+</p>
+<p>Predictors in the formula are included in each subset in the dominance
+analysis and the R2 value associated with them is subtracted from the
+overall value.  Predictors in <code>all</code> must be present in the model
+submitted to the <code>model</code> argument and cannot be in the <code>sets</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>conditional</code></td>
+<td>
+<p>Logical.  If <code>FALSE</code> then conditional dominance matrix is not computed.
+</p>
+<p>If conditional dominance is not desired as an importance criterion, avoiding computing the conditional dominance matrix can save computation time.</p>
+</td></tr>
+<tr valign="top"><td><code>complete</code></td>
+<td>
+<p>Logical.  If <code>FALSE</code> then complete dominance matrix is not computed.
+</p>
+<p>If complete dominance is not desired as an importance criterion, avoiding computing complete dominance designations can save computation time.</p>
+</td></tr>
+<tr valign="top"><td><code>quote_args</code></td>
+<td>
+<p>A character vector of arguments in the model submitted to
+<code>model</code> to <code>quote()</code> prior to submitting to the dominance analysis.  This
+is necessary for data masked arguments (e.g., <code>weights</code>) to prevent them
+from being evaluated before being applied to the model and causing an error.</p>
+</td></tr>
+<tr valign="top"><td><code>contrasts</code></td>
+<td>
+<p>A named list of <code><a href="../../stats/html/contrasts.html">contrasts</a></code> used by the model object.
+This list is required in order for the correct mapping of parameters to
+predictors in the output when the model creates indicator codes for factor
+variables using <code><a href="../../insight/help/get_modelmatrix.html">insight::get_modelmatrix()</a></code>. By default, the <code>contrast</code>
+element from the model object submitted is used. If the model object does
+not have a <code>contrast</code> element the user can supply this named list.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used at current.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Computes two decompositions of the model's R2 and returns
+a matrix of designations from which predictor relative importance
+determinations can be obtained.
+</p>
+<p>Note in the output that the &quot;constant&quot; subset is associated with a
+component of the model that does not directly contribute to the R2 such
+as an intercept. The &quot;all&quot; subset is apportioned a component of the fit
+statistic but is not considered a part of the dominance analysis and
+therefore does not receive a rank, conditional dominance statistics, or
+complete dominance designations.
+</p>
+<p>The input model is parsed using <code>insight::find_predictors()</code>, does not
+yet support interactions, transformations, or offsets applied in the R
+formula, and will fail with an error if any such terms are detected.
+</p>
+<p>The model submitted must accept an formula object as a <code>formula</code>
+argument.  In addition, the model object must accept the data on which
+the model is estimated as a <code>data</code> argument.  Formulas submitted
+using object references (i.e., <code>lm(mtcars$mpg ~ mtcars$vs)</code>) and
+functions that accept data as a non-<code>data</code> argument
+(e.g., <code>survey::svyglm()</code> uses <code>design</code>) will fail with an error.
+</p>
+<p>Models that return <code>TRUE</code> for the <code>insight::model_info()</code>
+function's values &quot;is_bayesian&quot;, &quot;is_mixed&quot;, &quot;is_gam&quot;,
+is_multivariate&quot;, &quot;is_zero_inflated&quot;,
+or &quot;is_hurdle&quot; are not supported at current.
+</p>
+<p>When <code>performance::r2()</code> returns multiple values, only the first is used
+by default.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Object of class <code>"parameters_da"</code>.
+</p>
+<p>An object of class <code>"parameters_da"</code> is a list of <code>data.frame</code>s composed
+of the following elements:
+</p>
+
+<dl>
+<dt><code>General</code></dt><dd><p>A <code>data.frame</code> which associates dominance statistics with
+model parameters. The variables in this <code>data.frame</code> include:
+</p>
+
+<dl>
+<dt><code>Parameter</code></dt><dd><p>Parameter names.</p>
+</dd>
+<dt><code>General_Dominance</code></dt><dd><p>Vector of general dominance statistics.
+The R2 ascribed to variables in the <code>all</code> argument are also reported
+here though they are not general dominance statistics.</p>
+</dd>
+<dt><code>Percent</code></dt><dd><p>Vector of general dominance statistics normalized
+to sum to 1.</p>
+</dd>
+<dt><code>Ranks</code></dt><dd><p>Vector of ranks applied to the general dominance
+statistics.</p>
+</dd>
+<dt><code>Subset</code></dt><dd><p>Names of the subset to which the parameter belongs in
+the dominance analysis.  Each other <code>data.frame</code> returned will refer
+to these subset names.</p>
+</dd></dl>
+</dd>
+<dt><code>Conditional</code></dt><dd><p>A <code>data.frame</code> of conditional dominance
+statistics.  Each observation represents a subset and each variable
+represents an the average increment to R2 with a specific number of
+subsets in the model.  <code>NULL</code> if <code>conditional</code> argument is <code>FALSE</code>.</p>
+</dd>
+<dt><code>Complete</code></dt><dd><p>A <code>data.frame</code> of complete dominance
+designations. The subsets in the observations are compared to the
+subsets referenced in each variable. Whether the subset
+in each variable dominates the subset in each observation is
+represented in the  logical value. <code>NULL</code> if <code>complete</code>
+argument is <code>FALSE</code>.</p>
+</dd>
+</dl>
+
+
+
+<h3>Author(s)</h3>
+
+<p>Joseph Luchman
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Azen, R., &amp; Budescu, D. V. (2003). The dominance analysis approach
+for comparing predictors in multiple regression. Psychological Methods,
+8(2), 129-148. doi:10.1037/1082-989X.8.2.129
+</p>
+</li>
+<li><p> Budescu, D. V. (1993). Dominance analysis: A new approach to the
+problem of relative importance of predictors in multiple regression.
+Psychological Bulletin, 114(3), 542-551. doi:10.1037/0033-2909.114.3.542
+</p>
+</li>
+<li><p> Groemping, U. (2007). Estimators of relative importance in linear
+regression based on variance decomposition. The American Statistician,
+61(2), 139-147. doi:10.1198/000313007X188252
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../domir/help/domin.html">domir::domin()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(mtcars)
+
+# Dominance Analysis with Logit Regression
+model &lt;- glm(vs ~ cyl + carb + mpg, data = mtcars, family = binomial())
+
+performance::r2(model)
+dominance_analysis(model)
+
+# Dominance Analysis with Weighted Logit Regression
+model_wt &lt;- glm(vs ~ cyl + carb + mpg,
+  data = mtcars,
+  weights = wt, family = quasibinomial()
+)
+
+dominance_analysis(model_wt, quote_args = "weights")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

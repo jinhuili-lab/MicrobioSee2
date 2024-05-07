@@ -1,0 +1,37 @@
+BetaDiv                 Beta diversity plotting and statistics
+MicroTest               Beta diversity statistics by adonis/anosim/MRPP
+                        in all groups
+RDA_CCA                 RDA or CCA calculate
+alpha_barplot           Plotting alpha diversity barplot for each group
+                        with anova statistics
+alpha_boxplot           Plotting alpha diversity boxplot for each group
+                        with ANOVA statistics
+alpha_rare_all          Plotting rarefaction curve for each sample or
+                        group
+alpha_rare_curve        Plotting rarefaction curve for each group
+alpha_sample_rare       Plotting sample rarefaction boxplot
+beta_cpcoa              Plotting beta diversity scatter plot of
+                        Constrained PCoA
+beta_cpcoa_dis          Plotting beta diversity scatter plot of
+                        Constrained PCoA
+beta_pcoa               Plotting beta diversity scatter plot
+beta_pcoa_stat          Calculate beta diversity p-value by Adonis
+compare                 Difference comparison
+format2lefse            Format otutab, metadata and taxonomy into LEfSe
+                        format
+format2lefse2           Format otutab, metadata and taxonomy into LEfSe
+                        format with level prefix p_
+format2maptree          Format feature table and taxonomy into maptree
+                        data
+format2stamp            Format otutab and taxonomy into each level for
+                        STAMP
+pairMicroTest           Beta diversity statistics by adonis/anosim/MRPP
+                        in pair
+tax_circlize            Plotting circlize of taxonomy for groups or
+                        samples
+tax_maptree             Plotting maptree of taxonomy
+tax_stack_clust         Plotting cluster tree + stackplot of taxonomy
+                        samples and groups
+tax_stackplot           Plotting stackplot of taxonomy for groups or
+                        samples
+tax_wordcloud           Wordcloud plot relative abundance of taxonomy

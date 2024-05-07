@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Biplot for Principal Components using ggplot2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ggbiplot {ggbiplot}"><tr><td>ggbiplot {ggbiplot}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Biplot for Principal Components using ggplot2</h2>
+
+<h3>Description</h3>
+
+<p>A biplot simultaneously displays information on the observations (as points)
+and the variables (as vectors) in a multidimensional dataset. The 2D biplot
+is typically based on the first two principal components of a dataset, giving a rank 2 approximation 
+to the data. The “bi” in biplot refers to the fact that two sets of points (i.e., the rows and
+columns of the data matrix) are visualized by scalar products, not the fact
+that the display is usually two-dimensional.
+</p>
+<p>The biplot method for principal component analysis was originally defined by Gabriel (1971, 1981).
+Gower &amp; Hand (1996) give a more complete treatment. Greenacre (2010) is a practical user-oriented guide to biplots.
+Gower et al. (2011) is the most up to date
+exposition of biplot methodology.
+</p>
+<p>This implementation handles the results of a principal components analysis using 
+<code><a href="../../stats/help/prcomp.html">prcomp</a></code>, <code><a href="../../stats/help/princomp.html">princomp</a></code>, <code><a href="../../FactoMineR/help/PCA.html">PCA</a></code> and <code><a href="../../ade4/help/dudi.pca.html">dudi.pca</a></code>;
+also handles a discriminant analysis using <code><a href="../../MASS/help/lda.html">lda</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ggbiplot(
+  pcobj,
+  choices = 1:2,
+  scale = 1,
+  pc.biplot = TRUE,
+  obs.scale = 1 - scale,
+  var.scale = scale,
+  var.factor = 1,
+  groups = NULL,
+  point.size = 1.5,
+  ellipse = FALSE,
+  ellipse.prob = 0.68,
+  ellipse.linewidth = 1.3,
+  ellipse.fill = TRUE,
+  ellipse.alpha = 0.25,
+  labels = NULL,
+  labels.size = 3,
+  alpha = 1,
+  var.axes = TRUE,
+  circle = FALSE,
+  circle.prob = 0.68,
+  varname.size = 3,
+  varname.adjust = 1.25,
+  varname.color = "black",
+  varname.abbrev = FALSE,
+  axis.title = "PC",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pcobj</code></td>
+<td>
+<p>an object returned by <code><a href="../../stats/help/prcomp.html">prcomp</a></code>, <code><a href="../../stats/help/princomp.html">princomp</a></code>, 
+<code><a href="../../FactoMineR/help/PCA.html">PCA</a></code>, <code><a href="../../ade4/help/dudi.pca.html">dudi.pca</a></code>, or <code><a href="../../MASS/help/lda.html">lda</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>choices</code></td>
+<td>
+<p>Which components to plot? An integer vector of length 2.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Covariance biplot (<code>scale = 1</code>), form biplot (<code>scale = 0</code>). 
+When <code>scale = 1</code> (the default), the inner product 
+between the variables approximates the covariance and the distance between the points 
+approximates the Mahalanobis distance.</p>
+</td></tr>
+<tr valign="top"><td><code>pc.biplot</code></td>
+<td>
+<p>Logical, for compatibility with <code>biplot.princomp()</code>. If <code>TRUE</code>, use what Gabriel (1971) 
+refers to as a &quot;principal component biplot&quot;, with <i>&alpha; = 1</i> and observations scaled 
+up by <i>sqrt(n)</i> and variables scaled down by <i>sqrt(n)</i>. Then inner products between 
+variables approximate covariances and distances between observations approximate 
+Mahalanobis distance.</p>
+</td></tr>
+<tr valign="top"><td><code>obs.scale</code></td>
+<td>
+<p>Scale factor to apply to observations</p>
+</td></tr>
+<tr valign="top"><td><code>var.scale</code></td>
+<td>
+<p>Scale factor to apply to variables</p>
+</td></tr>
+<tr valign="top"><td><code>var.factor</code></td>
+<td>
+<p>Factor to be applied to variable vectors after scaling. This allows the variable vectors to be reflected
+(<code>var.factor = -1</code>) or expanded in length (<code>var.factor &gt; 1</code>) for greater visibility.
+<code><a href="../../ggbiplot/help/reflect.html">reflect</a></code> provides a simpler way to reflect the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Optional factor variable indicating the groups that the observations belong to. 
+If provided the points will be colored according to groups and this allows data ellipses also
+to be drawn when <code>ellipse = TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>point.size</code></td>
+<td>
+<p>Size of observation points.</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse</code></td>
+<td>
+<p>Logical; draw a normal data ellipse for each group?</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse.prob</code></td>
+<td>
+<p>Coverage size of the data ellipse in Normal probability</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse.linewidth</code></td>
+<td>
+<p>Thickness of the line outlining the ellipses</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse.fill</code></td>
+<td>
+<p>Logical; should the ellipses be filled?</p>
+</td></tr>
+<tr valign="top"><td><code>ellipse.alpha</code></td>
+<td>
+<p>Transparency value (0 - 1) for filled ellipses</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Optional vector of labels for the observations. Often, this will be specified as the <code>row.names()</code>
+of the dataset.</p>
+</td></tr>
+<tr valign="top"><td><code>labels.size</code></td>
+<td>
+<p>Size of the text used for the point labels</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Alpha transparency value for the points (0 = transparent, 1 = opaque)</p>
+</td></tr>
+<tr valign="top"><td><code>var.axes</code></td>
+<td>
+<p>logical; draw arrows for the variables?</p>
+</td></tr>
+<tr valign="top"><td><code>circle</code></td>
+<td>
+<p>draw a correlation circle? (only applies when prcomp was called with 
+<code>scale = TRUE</code> and when <code>var.scale = 1</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>circle.prob</code></td>
+<td>
+<p>Size of the correlation circle</p>
+</td></tr>
+<tr valign="top"><td><code>varname.size</code></td>
+<td>
+<p>Size of the text for variable names</p>
+</td></tr>
+<tr valign="top"><td><code>varname.adjust</code></td>
+<td>
+<p>Adjustment factor the placement of the variable names, &gt;= 1 means farther from the arrow</p>
+</td></tr>
+<tr valign="top"><td><code>varname.color</code></td>
+<td>
+<p>Color for the variable vectors and names</p>
+</td></tr>
+<tr valign="top"><td><code>varname.abbrev</code></td>
+<td>
+<p>logical; whether or not to abbreviate the variable names, using <code><a href="../../base/html/abbreviate.html">abbreviate</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>axis.title</code></td>
+<td>
+<p>character; the prefix used as the axis labels. Default: <code>"PC"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed down</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The biplot is constructed by using the singular value decomposition (SVD) to obtain a low-rank 
+approximation to the data matrix <i>\mathbf{X}_{n \times p}</i> (centered, and optionally scaled to unit variances)
+whose <i>n</i> rows are the observations 
+and whose <i>p</i> columns are the variables. 
+</p>
+<p>Using the SVD, the matrix <i>\mathbf{X}</i>, of rank <i>r &le; p</i>
+can be expressed <em>exactly</em> as
+</p>
+<p style="text-align: center;"><i>\mathbf{X} = \mathbf{U} \mathbf{&Lambda;} \mathbf{V}'
+                 = &Sigma;_i^r &lambda;_i \mathbf{u}_i \mathbf{v}_i' \; ,</i></p>
+
+<p>where 
+</p>
+
+<ul>
+<li> <p><i>\mathbf{U}</i> is an <i>n \times r</i> orthonormal matrix of observation scores; these are also the eigenvectors
+of <i>\mathbf{X} \mathbf{X}'</i>,
+</p>
+</li>
+<li> <p><i>\mathbf{&Lambda;}</i> is an <i>r \times r</i> diagonal matrix of singular values, 
+<i>&lambda;_1 &ge; &lambda;_2 &ge; \cdots &lambda;_r</i> 
+
+
+</p>
+</li>
+<li> <p><i>\mathbf{V}</i> is an <i>r \times p</i> orthonormal matrix of variable weights and also the eigenvectors
+of <i>\mathbf{X}' \mathbf{X}</i>.
+</p>
+</li></ul>
+
+<p>Then, a rank 2 (or 3) PCA approximation <i>\widehat{\mathbf{X}}</i> to the data matrix used in the biplot
+can be obtained from the first 2 (or 3)
+singular values <i>&lambda;_i</i>
+and the corresponding <i>\mathbf{u}_i, \mathbf{v}_i</i> as
+</p>
+<p style="text-align: center;"><i>\mathbf{X} \approx \widehat{\mathbf{X}} = &lambda;_1 \mathbf{u}_1 \mathbf{v}_1' + &lambda;_2 \mathbf{u}_2 \mathbf{v}_2' \; .</i></p>
+
+<p>The variance of <i>\mathbf{X}</i> accounted for by each term is <i>&lambda;_i^2</i>.
+</p>
+<p>The biplot is then obtained by overlaying two scatterplots that share a common set of axes and have a between-set scalar 
+product interpretation. Typically, the observations (rows of <i>\mathbf{X}</i>) are represented as points
+and the variables (columns of <i>\mathbf{X}</i>) are represented as vectors from the origin.
+</p>
+<p>The <code>scale</code> factor, <i>&alpha;</i> allows the variances of the components to be apportioned between the
+row points and column vectors, with different interpretations, by representing the approximation
+<i>\widehat{\mathbf{X}}</i> as the product of two matrices,
+</p>
+<p style="text-align: center;"><i>\widehat{\mathbf{X}} = (\mathbf{U} \mathbf{&Lambda;}^&alpha;) (\mathbf{&Lambda;}^{1-&alpha;} \mathbf{V}')</i></p>
+
+<p>The choice <i>&alpha; = 1</i>, assigning the singular values totally to the left factor,
+gives a distance interpretation to the row display and 
+<i>&alpha; = 0</i> gives a distance interpretation to the column display.
+<i>&alpha; = 1/2</i> gives a symmetrically scaled biplot.
+</p>
+<p>When the singular values are assigned totally to the left or to the right factor, the resultant 
+coordinates are called <em>principal coordinates</em> and the sum of squared coordinates
+on each dimension equal the corresponding singular value.
+The other matrix, to which no part of the singular 
+values is assigned, contains the so-called <em>standard coordinates</em> and have sum of squared
+values equal to 1.0.
+</p>
+
+
+<h3>Value</h3>
+
+<p>a ggplot2 plot object of class <code>c("gg", "ggplot")</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Vincent Q. Vu.
+</p>
+
+
+<h3>References</h3>
+
+<p>Gabriel, K. R. (1971). The biplot graphical display of matrices with application to principal component analysis. 
+<em>Biometrika</em>, <b>58</b>, 453–467. doi: <a href="https://doi.org/10.2307/2334381">10.2307/2334381</a>.
+</p>
+<p>Gabriel, K. R. (1981). Biplot display of multivariate matrices for inspection of data and diagnosis. 
+In V. Barnett (Ed.), <em>Interpreting Multivariate Data</em>. London: Wiley. 
+</p>
+<p>Greenacre, M. (2010). <em>Biplots in Practice</em>. BBVA Foundation, Bilbao, Spain. 
+Available for free at <a href="https://www.fbbva.es/microsite/multivariate-statistics/">https://www.fbbva.es/microsite/multivariate-statistics/</a>.
+</p>
+<p>J.C. Gower and D. J. Hand (1996). <em>Biplots</em>. Chapman &amp; Hall.
+</p>
+<p>Gower, J. C., Lubbe, S. G., &amp; Roux, N. J. L. (2011). <em>Understanding Biplots</em>. Wiley.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../ggbiplot/help/reflect.html">reflect</a></code>, <code><a href="../../ggbiplot/help/ggscreeplot.html">ggscreeplot</a></code>;
+<code><a href="../../stats/help/biplot.html">biplot</a></code> for the original stats package version;
+<code><a href="../../factoextra/help/fviz_pca_biplot.html">fviz_pca_biplot</a></code> for the factoextra package version.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(wine)
+library(ggplot2)
+wine.pca &lt;- prcomp(wine, scale. = TRUE)
+ggbiplot(wine.pca, 
+         obs.scale = 1, var.scale = 1, 
+         varname.size = 4,
+         groups = wine.class, 
+         ellipse = TRUE, circle = TRUE)
+
+data(iris)
+iris.pca &lt;- prcomp (~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width,
+                    data=iris,
+                    scale. = TRUE)
+ggbiplot(iris.pca, obs.scale = 1, var.scale = 1,
+         groups = iris$Species, point.size=2,
+         varname.size = 5, 
+         varname.color = "black",
+         varname.adjust = 1.2,
+         ellipse = TRUE, 
+         circle = TRUE) +
+  labs(fill = "Species", color = "Species") +
+  theme_minimal(base_size = 14) +
+  theme(legend.direction = 'horizontal', legend.position = 'top')
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggbiplot</em> version 0.6.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

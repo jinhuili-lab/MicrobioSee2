@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: R interface to NLopt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for nloptr-package {nloptr}"><tr><td>nloptr-package {nloptr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>R interface to NLopt</h2>
+
+<h3>Description</h3>
+
+<p>nloptr is an R interface to NLopt, a free/open-source library for nonlinear
+optimization started by Steven G. Johnson, providing a common interface for
+a number of different free optimization routines available online as well as
+original implementations of various other algorithms. The NLopt library is
+available under the GNU Lesser General Public License (LGPL), and the
+copyrights are owned by a variety of authors. Most of the information here
+has been taken from
+<a href="https://nlopt.readthedocs.io/en/latest/">the NLopt website</a>,
+where more details are available.
+</p>
+
+
+<h3>Details</h3>
+
+<p>NLopt addresses general nonlinear optimization problems of the form:
+</p>
+<p style="text-align: center;"><i>min f(x) x in R^n</i></p>
+
+<p style="text-align: center;"><i>
+s.t.  g(x) &lt;= 0 h(x) = 0 lb &lt;= x &lt;= ub</i></p>
+
+<p>where <i>f(x)</i> is the objective function to be minimized and <i>x</i>
+represents the <i>n</i> optimization parameters. This problem may optionally
+be subject to the bound constraints (also called box constraints), <i>lb</i>
+and <i>ub</i>. For partially or totally unconstrained problems the bounds can
+take <code>-Inf</code> or <code>Inf</code>. One may also optionally have <i>m</i>
+nonlinear inequality constraints (sometimes called a nonlinear programming
+problem), which can be specified in <i>g(x)</i>, and equality constraints that
+can be specified in <i>h(x)</i>. Note that not all of the algorithms in NLopt
+can handle constraints.
+</p>
+<p>An optimization problem can be solved with the general <code>nloptr</code>
+interface, or using one of the wrapper functions for the separate algorithms;
+<code>auglag</code>, <code>bobyqa</code>, <code>ccsaq</code>, <code>cobyla</code>, <code>crs2lm</code>,
+<code>direct</code>, <code>directL</code>, <code>isres</code>, <code>lbfgs</code>, <code>mlsl</code>,
+<code>mma</code>, <code>neldermead</code>, <code>newuoa</code>, <code>sbplx</code>, <code>slsqp</code>,
+<code>stogo</code>, <code>tnewton</code>, <code>varmetric</code>.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">Package: </td><td style="text-align: left;"> nloptr</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Version: </td><td style="text-align: left;">
+2.0.3</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> Date: </td><td style="text-align: left;"> 2022-05-26</td>
+</tr>
+<tr>
+ <td style="text-align: left;"> License: </td><td style="text-align: left;"> L-GPL &gt;= 3</td>
+</tr>
+
+</table>
+
+
+
+<h3>Note</h3>
+
+<p>See ?nloptr for more examples.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Steven G. Johnson and others (C code) <br /> Jelmer Ypma (R interface)
+<br /> Hans W. Borchers (wrappers)
+</p>
+
+
+<h3>References</h3>
+
+<p>Steven G. Johnson, The NLopt nonlinear-optimization package,
+<a href="https://nlopt.readthedocs.io/en/latest/">https://nlopt.readthedocs.io/en/latest/</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/optim.html">optim</a></code> <code><a href="../../stats/html/nlm.html">nlm</a></code> <code><a href="../../stats/html/nlminb.html">nlminb</a></code>
+<code>Rsolnp::Rsolnp</code> <code>Rsolnp::solnp</code> <code><a href="../../nloptr/help/nloptr.html">nloptr</a></code>
+<code><a href="../../nloptr/help/auglag.html">auglag</a></code> <code><a href="../../nloptr/help/bobyqa.html">bobyqa</a></code>  <code><a href="../../nloptr/help/ccsaq.html">ccsaq</a></code>
+<code><a href="../../nloptr/help/cobyla.html">cobyla</a></code> <code><a href="../../nloptr/help/crs2lm.html">crs2lm</a></code> <code><a href="../../nloptr/help/direct.html">direct</a></code>
+<code><a href="../../nloptr/help/directL.html">directL</a></code> <code><a href="../../nloptr/help/isres.html">isres</a></code> <code><a href="../../nloptr/help/lbfgs.html">lbfgs</a></code>
+<code><a href="../../nloptr/help/mlsl.html">mlsl</a></code> <code><a href="../../nloptr/help/mma.html">mma</a></code> <code><a href="../../nloptr/help/neldermead.html">neldermead</a></code>
+<code><a href="../../nloptr/help/newuoa.html">newuoa</a></code> <code><a href="../../nloptr/help/sbplx.html">sbplx</a></code> <code><a href="../../nloptr/help/slsqp.html">slsqp</a></code>
+<code><a href="../../nloptr/help/stogo.html">stogo</a></code> <code><a href="../../nloptr/help/tnewton.html">tnewton</a></code> <code><a href="../../nloptr/help/varmetric.html">varmetric</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Example problem, number 71 from the Hock-Schittkowsky test suite.
+#
+# \min_{x} x1 * x4 * (x1 + x2 + x3) + x3
+# s.t.
+#    x1 * x2 * x3 * x4 &gt;= 25
+#    x1 ^ 2 + x2 ^ 2 + x3 ^ 2 + x4 ^ 2 = 40
+#    1 &lt;= x1, x2, x3, x4 &lt;= 5
+#
+# we re-write the inequality as
+#   25 - x1 * x2 * x3 * x4 &lt;= 0
+#
+# and the equality as
+#   x1 ^ 2 + x2 ^ 2 + x3 ^ 2 + x4 ^ 2 - 40 = 0
+#
+# x0 = (1, 5, 5, 1)
+#
+# optimal solution = (1.000000, 4.742999, 3.821151, 1.379408)
+
+library('nloptr')
+
+#
+# f(x) = x1 * x4 * (x1 + x2 + x3) + x3
+#
+eval_f &lt;- function(x) {
+    list("objective" = x[1] * x[4] * (x[1] + x[2] + x[3]) + x[3],
+         "gradient" = c(x[1] * x[4] + x[4] * (x[1] + x[2] + x[3]),
+                        x[1] * x[4],
+                        x[1] * x[4] + 1.0,
+                        x[1] * (x[1] + x[2] + x[3])))
+}
+
+# constraint functions
+# inequalities
+eval_g_ineq &lt;- function(x) {
+    constr &lt;- c(25 - x[1] * x[2] * x[3] * x[4])
+
+    grad   &lt;- c(-x[2] * x[3] * x[4],
+                -x[1] * x[3] * x[4],
+                -x[1] * x[2] * x[4],
+                -x[1] * x[2] * x[3] )
+    list("constraints" = constr, "jacobian" = grad)
+}
+
+# equalities
+eval_g_eq &lt;- function(x) {
+    constr &lt;- c(x[1] ^ 2 + x[2] ^ 2 + x[3] ^ 2 + x[4] ^ 2 - 40)
+
+    grad &lt;- c(2.0 * x[1],
+              2.0 * x[2],
+              2.0 * x[3],
+              2.0 * x[4])
+    list("constraints" = constr, "jacobian" = grad)
+}
+
+# initial values
+x0 &lt;- c(1, 5, 5, 1)
+
+# lower and upper bounds of control
+lb &lt;- c(1, 1, 1, 1)
+ub &lt;- c(5, 5, 5, 5)
+
+
+local_opts &lt;- list("algorithm" = "NLOPT_LD_MMA", "xtol_rel"  = 1.0e-7)
+opts &lt;- list("algorithm"  = "NLOPT_LD_AUGLAG",
+             "xtol_rel"   = 1.0e-7,
+             "maxeval"    = 1000,
+             "local_opts" = local_opts)
+
+res &lt;- nloptr(x0 = x0,
+              eval_f = eval_f,
+              lb = lb,
+              ub = ub,
+              eval_g_ineq = eval_g_ineq,
+              eval_g_eq = eval_g_eq,
+              opts = opts)
+print(res)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>nloptr</em> version 2.0.4 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

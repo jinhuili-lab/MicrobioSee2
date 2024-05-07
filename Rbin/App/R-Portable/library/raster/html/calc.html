@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Calculate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc {raster}"><tr><td>calc {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Calculate</h2>
+
+<h3>Description</h3>
+
+ 
+<p>Calculate values for a new Raster* object from another Raster* object, using a formula. 
+</p>
+<p>If <code>x</code> is a RasterLayer, <code>fun</code> is typically a function that can take a single vector as input, and return a vector of values of the same length (e.g. <code>sqrt</code>). If <code>x</code> is a RasterStack or RasterBrick, fun should operate on a vector of values (one vector for each cell). <code>calc</code> returns a RasterLayer if <code>fun</code> returns a single value (e.g. <code>sum</code>) and it returns a RasterBrick if <code>fun</code> returns more than one number, e.g., <code>fun=quantile</code>.
+</p>
+<p>In many cases, what can be achieved with <code>calc</code>, can also be accomplished with a more intuitive 'raster-algebra' notation (see <code><a href="../help/Arith-methods.html">Arith-methods</a></code>). For example, <code>r &lt;- r * 2</code> instead of
+</p>
+<p><code>r &lt;- calc(r, fun=function(x){x * 2}</code>, or <code>r &lt;- sum(s)</code> instead of
+</p>
+<p><code>r &lt;- calc(s, fun=sum)</code>. However, <code>calc</code> should be faster when using complex formulas on large datasets. With <code>calc</code> it is possible to set an output filename and file type preferences. 
+</p>
+<p>See (<code><a href="../help/overlay.html">overlay</a></code>) to use functions that refer to specific layers, like (<code>function(a,b,c){a + sqrt(b) / c}</code>)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,function'
+calc(x, fun, filename='', na.rm, forcefun=FALSE, forceapply=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Remove <code>NA</code> values, if supported by 'fun' (only relevant when summarizing a multilayer Raster object into a RasterLayer)</p>
+</td></tr>
+<tr valign="top"><td><code>forcefun</code></td>
+<td>
+<p>logical. Force <code>calc</code> to not use fun with apply; for use with ambiguous functions and for debugging (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>forceapply</code></td>
+<td>
+<p>logical. Force <code>calc</code> to use fun with apply; for use with ambiguous functions and for debugging (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>    
+</table>
+
+
+<h3>Details</h3>
+
+<p>The intent of some functions can be ambiguous. Consider:
+</p>
+<p><code>library(raster)</code>
+</p>
+<p><code>r &lt;- raster(volcano)</code>
+</p>
+<p><code>calc(r, function(x) x * 1:10)</code>
+</p>
+<p>In this case, the cell values are multiplied in a vectorized manner and a single layer is returned where the first cell has been multiplied with one, the second cell with two, the 11th cell with one again, and so on. But perhaps the intent was to create 10 new layers (<code>x*1, x*2, ...</code>)? This can be achieved by using argument <code>forceapply=TRUE</code> 
+</p>
+<p><code>calc(r, function(x) x * 1:10, forceapply=TRUE)</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>a Raster* object
+</p>
+
+
+<h3>Note</h3>
+
+<p>For large objects <code>calc</code> will compute values chunk by chunk. This means that for the result of <code>fun</code> to be  correct it should not depend on having access to _all_ values at once. For example, to scale the values of a Raster* object by subtracting its mean value (for each layer), you would _not_ do, for Raster object <code>x</code>: 
+</p>
+<p><code>calc(x, function(x)scale(x, scale=FALSE))</code>
+</p>
+<p>Because the mean value of each chunk will likely be different. Rather do something like
+</p>
+<p><code>m &lt;- cellStats(x, 'mean')</code>
+</p>
+<p><code>x - m</code>
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Matteo Mattiuzzi</p>
+
+
+<h3>See Also</h3>
+
+ <p><code> <a href="../help/overlay.html">overlay</a></code> ,  <code> <a href="../help/reclassify.html">reclassify</a></code>,  <a href="../help/Arith-methods.html">Arith-methods</a>, <a href="../help/Math-methods.html">Math-methods</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=36, nrows=18)
+values(r) &lt;- 1:ncell(r)
+
+# multiply values with 10
+fun &lt;- function(x) { x * 10 }
+rc1 &lt;- calc(r, fun)
+
+# set values below 100 to NA. 
+fun &lt;- function(x) { x[x&lt;100] &lt;- NA; return(x) }
+rc2 &lt;- calc(r, fun)
+
+# set NA values to -9999
+fun &lt;- function(x) { x[is.na(x)] &lt;- -9999; return(x)} 
+rc3 &lt;- calc(rc2, fun)
+
+# using a RasterStack as input
+s &lt;- stack(r, r*2, sqrt(r))
+# return a RasterLayer
+rs1 &lt;- calc(s, sum)
+
+# return a RasterBrick
+rs2 &lt;- calc(s, fun=function(x){x * 10})
+# recycling by layer
+rs3 &lt;- calc(s, fun=function(x){x * c(1, 5, 10)})
+
+# use overlay when you want to refer to individual layer in the function
+# but it can be done with calc: 
+rs4 &lt;- calc(s, fun=function(x){x[1]+x[2]*x[3]})
+
+## 
+# Some regression examples
+## 
+
+# create data
+r &lt;- raster(nrow=10, ncol=10)
+s1 &lt;- lapply(1:12, function(i) setValues(r, rnorm(ncell(r), i, 3)))
+s2 &lt;- lapply(1:12, function(i) setValues(r, rnorm(ncell(r), i, 3)))
+s1 &lt;- stack(s1)
+s2 &lt;- stack(s2)
+
+# regression of values in one brick (or stack) with another
+s &lt;- stack(s1, s2)
+# s1 and s2 have 12 layers; coefficients[2] is the slope
+fun &lt;- function(x) { lm(x[1:12] ~ x[13:24])$coefficients[2] }
+x1 &lt;- calc(s, fun)
+
+# regression of values in one brick (or stack) with 'time'
+time &lt;- 1:nlayers(s)
+fun &lt;- function(x) { lm(x ~ time)$coefficients[2] }
+x2 &lt;- calc(s, fun)
+
+# get multiple layers, e.g. the slope _and_ intercept
+fun &lt;- function(x) { lm(x ~ time)$coefficients }
+x3 &lt;- calc(s, fun)
+
+
+### A much (&gt; 100 times) faster approach is to directly use 
+### linear algebra and pre-compute some constants
+
+## add 1 for a model with an intercept
+X &lt;- cbind(1, time)
+
+## pre-computing constant part of least squares
+invXtX &lt;- solve(t(X) %*% X) %*% t(X)
+
+## much reduced regression model; [2] is to get the slope
+quickfun &lt;- function(y) (invXtX %*% y)[2]
+x4 &lt;- calc(s, quickfun) 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

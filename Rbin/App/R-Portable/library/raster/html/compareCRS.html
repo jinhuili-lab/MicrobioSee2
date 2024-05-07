@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Partially compare two CRS objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compareCRS {raster}"><tr><td>compareCRS {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Partially compare two CRS objects </h2>
+
+<h3>Description</h3>
+
+<p>Compare CRS objects 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compareCRS(x, y, unknown=FALSE, verbatim=FALSE, verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>CRS object, or object from which it can be extracted with <code><a href="../../raster/help/projection.html">projection</a></code>, or PROJ.4 format character string</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>same as <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>unknown</code></td>
+<td>
+<p>logical. Return <code>TRUE</code> if <code>x</code> or <code>y</code> is <code>TRUE</code></p>
+</td></tr>
+<tr valign="top"><td><code>verbatim</code></td>
+<td>
+<p>logical. If <code>TRUE</code> compare <code>x</code> and <code>y</code>, verbatim (not partially)</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, messages about the comparison may be printed</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>logical
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code>sp::identicalCRS</code>,  <code><a href="../../raster/help/crs.html">crs</a> </code></p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+compareCRS("+proj=lcc +lat_1=48 +lat_2=33 +lon_0=-100 +ellps=WGS84",
+  "+proj=longlat +datum=WGS84")
+compareCRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
+  "+proj=longlat +datum=WGS84")
+compareCRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0", 
+  "+proj=longlat +datum=WGS84", verbatim=TRUE)
+compareCRS("+proj=longlat +datum=WGS84", NA)
+compareCRS("+proj=longlat +datum=WGS84", NA, unknown=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

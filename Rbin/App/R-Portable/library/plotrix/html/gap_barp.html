@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a barplot with a gap (missing range) on one axis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for gap_barp {plotrix}"><tr><td>gap_barp {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Display a barplot with a gap (missing range) on one axis
+</h2>
+
+<h3>Description</h3>
+
+<p>Displays a barplot with a missing range.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ gap_barp(height,gap,width=0.4,names.arg=names(height),
+ col=NULL,main="",xlab="",ylab="",xlim=NULL,ylim=NULL,x=NULL,
+ height.at=pretty(height),height.lab=NULL,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>a vector of data values</p>
+</td></tr>
+<tr valign="top"><td><code>gap</code></td>
+<td>
+<p>the range of values to be left out</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>the proportion of bar width to bar spacing divided by 2.
+width=1 means no spaces between the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>names.arg</code></td>
+<td>
+<p>labels for the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color(s) in which to plot the values</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>label for the x axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>label for the y axis</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>Optional x limits for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>optional y limits for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>optional x positions for the bars.</p>
+</td></tr>
+<tr valign="top"><td><code>height.at</code></td>
+<td>
+<p>explicit positions for the y axis ticks</p>
+</td></tr>
+<tr valign="top"><td><code>height.lab</code></td>
+<td>
+<p>explicit labels for the y axis ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to <span class="samp">barp</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Displays a barplot omitting a range of values on the X or Y axis. Typically 
+used when there is a relatively large gap in the range of values 
+represented as bar heights. See <a href="../../plotrix/help/axis.break.html">axis.break</a> for a brief 
+discussion of plotting on discontinuous coordinates.
+</p>
+<p>If the user does not ask for specific y limits, the function will calculate
+limits based on the range of the data values. If passing specific limits, 
+remember to subtract the gap from the upper or lower limit.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The center positions of the bars.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/barp.html">barp</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ oneout&lt;-c(rnorm(5,sd=5),20,rnorm(5,sd=5))
+ gap_barp(oneout,gap=c(8,16),xlab="Index",height.at=c(-5,0,5,20),
+  ylab="Group values",main="Barplot with gap above zero")
+ oneout[6]&lt;--20
+ gap_barp(oneout,gap=c(-8,-16),xlab="Index",height.at=c(-20,-5,0,5),
+  ylab="Group values",main="Barplot with gap below zero")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

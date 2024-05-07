@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Base data set for cosmic dose rate calculation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for BaseDataSet.CosmicDoseRate {Luminescence}"><tr><td>BaseDataSet.CosmicDoseRate {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Base data set for cosmic dose rate calculation</h2>
+
+<h3>Description</h3>
+
+<p>Collection of data from various sources needed for cosmic dose rate
+calculation
+</p>
+
+
+<h3>Format</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+
+<code>values.cosmic.Softcomp</code>: </td><td style="text-align: left;">
+data frame containing cosmic dose rates
+for shallow depths (&lt; 167 g cm^-2) obtained using the "AGE" program by
+Rainer Gruen (cf. Gruen 2009). These data essentially reproduce the graph
+shown in Fig. 1 of Prescott &amp; Hutton (1988). </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+
+<code>values.factor.Altitude</code>: </td><td style="text-align: left;">
+data frame containing altitude factors
+for adjusting geomagnetic field-change factors. Values were read from Fig. 1
+in Prescott &amp; Hutton (1994). </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+
+<code>values.par.FJH</code>: </td><td style="text-align: left;">
+data frame containing values for parameters F, J
+and H (read from Fig. 2 in Prescott &amp; Hutton 1994) used in the expression </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p style="text-align: center;"><i>Dc = D0*(F+J*exp((altitude/1000)/H))</i></p>
+
+
+
+<h3>Version</h3>
+
+<p>0.1
+</p>
+
+
+<h3>Source</h3>
+
+<p>The following data were carefully read from figures in mentioned
+sources and used for fitting procedures. The derived expressions are used in
+the function <code>calc_CosmicDoseRate</code>.
+</p>
+<p><strong>values.cosmic.Softcomp</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Program: </td><td style="text-align: left;"> "AGE"</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> Gruen (2009) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Fit: </td><td style="text-align: left;"> Polynomials in the form of
+</td>
+</tr>
+
+</table>
+
+<p>For depths between 40-167 g cm^-2:
+</p>
+<p style="text-align: center;"><i>y = 2*10^-6*x^2-0.0008*x+0.2535</i></p>
+
+<p>(For depths &lt;40 g cm^-2)
+</p>
+<p style="text-align: center;"><i>y = -6*10^-8*x^3+2*10^-5*x^2-0.0025*x+0.2969</i></p>
+
+<p><strong><code>values.factor.Altitude</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> Prescott &amp; Hutton (1994) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Page: </td><td style="text-align: left;"> 499 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Figure: </td><td style="text-align: left;"> 1 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Fit: </td><td style="text-align: left;"> 2-degree polynomial in the form of
+</td>
+</tr>
+
+</table>
+
+<p style="text-align: center;"><i>y = -0.026*x^2 + 0.6628*x + 1.0435</i></p>
+
+<p><strong><code>values.par.FJH</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> Prescott &amp; Hutton (1994) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Page: </td><td style="text-align: left;"> 500 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Figure: </td><td style="text-align: left;"> 2 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Fits: </td><td style="text-align: left;"> 3-degree polynomials and linear fits
+</td>
+</tr>
+
+</table>
+
+<p>F (non-linear part, <i>&lambda;</i> &lt; 36.5 deg.):
+</p>
+<p style="text-align: center;"><i>y = -7*10^-7*x^3-8*10^-5*x^2-0.0009*x+0.3988</i></p>
+
+<p>F (linear part, <i>&lambda;</i> &gt; 36.5 deg.):
+</p>
+<p style="text-align: center;"><i>y = -0.0001*x + 0.2347</i></p>
+
+<p>J (non-linear part, <i>&lambda;</i> &lt; 34 deg.):
+</p>
+<p style="text-align: center;"><i>y = 5*10^-6*x^3-5*10^-5*x^2+0.0026*x+0.5177</i></p>
+
+<p>J (linear part, <i>&lambda;</i> &gt; 34 deg.):
+</p>
+<p style="text-align: center;"><i>y = 0.0005*x + 0.7388</i></p>
+
+<p>H (non-linear part, <i>&lambda;</i> &lt; 36 deg.):
+</p>
+<p style="text-align: center;"><i>y = -3*10^-6*x^3-5*10^-5*x^2-0.0031*x+4.398</i></p>
+
+<p>H (linear part, <i>&lambda;</i> &gt; 36 deg.):
+</p>
+<p style="text-align: center;"><i>y = 0.0002*x + 4.0914</i></p>
+
+
+
+<h3>References</h3>
+
+<p>Gruen, R., 2009. The &quot;AGE&quot; program for the calculation of luminescence age estimates.
+Ancient TL, 27, pp. 45-46.
+</p>
+<p>Prescott, J.R., Hutton, J.T., 1988. Cosmic ray and gamma ray dosimetry for
+TL and ESR. Nuclear Tracks and Radiation Measurements, 14, pp. 223-227.
+</p>
+<p>Prescott, J.R., Hutton, J.T., 1994. Cosmic ray contributions to dose rates
+for luminescence and ESR dating: large depths and long-term time variations.
+Radiation Measurements, 23, pp. 497-500.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##load data
+data(BaseDataSet.CosmicDoseRate)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

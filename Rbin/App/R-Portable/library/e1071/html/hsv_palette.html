@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sequential color palette based on HSV colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hsv_palette {e1071}"><tr><td>hsv_palette {e1071}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sequential color palette based on HSV colors</h2>
+
+<h3>Description</h3>
+
+<p>Computes a sequential color palette based on HSV colors by varying the
+saturation, given hue and value.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hsv_palette(h = 2/3, from = 0.7, to = 0.2, v = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>h</code></td>
+<td>
+<p>hue</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>lower bound for saturation</p>
+</td></tr>
+<tr valign="top"><td><code>to</code></td>
+<td>
+<p>upper bound for saturation</p>
+</td></tr>
+<tr valign="top"><td><code>v</code></td>
+<td>
+<p>value</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A function with one argument: the size of the palette, i.e., the number
+of colors.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>David Meyer <a href="mailto:David.Meyer@R-project.org">David.Meyer@R-project.org</a></p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../grDevices/help/hsv.html">hsv</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pie(rep(1, 10), col = hsv_palette()(10))
+pie(rep(1, 10), col = hsv_palette(h = 0)(10))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>e1071</em> version 1.7-9 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

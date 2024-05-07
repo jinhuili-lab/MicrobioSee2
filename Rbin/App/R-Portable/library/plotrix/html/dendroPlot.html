@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display distributions as dendrites</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dendroPlot {plotrix}"><tr><td>dendroPlot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display distributions as dendrites </h2>
+
+<h3>Description</h3>
+
+<p>Display the distributions of one or more sets of points as branching
+(dendritic) clusters.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ dendroPlot(x,breaks=list(10,10,10),pch=1,col=par("fg"),cex=1,nudge=NA,
+  setlabels=NA,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list or data frame of numeric or factor or character
+columns.</p>
+</td></tr>
+<tr valign="top"><td><code>breaks</code></td>
+<td>
+<p>A list of cutpoints to transform numeric values into factors
+(see <a href="../../base/html/cut.html">cut</a>). Must be at least one number &gt;= 2.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>Symbol(s) to use in plotting the values.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color(s) for the symbols.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Size of the symbol(s) to use in plotting.</p>
+</td></tr>
+<tr valign="top"><td><code>nudge</code></td>
+<td>
+<p>The amount to set each consecutive value in a category away from
+the center of the dendrite.</p>
+</td></tr>
+<tr valign="top"><td><code>setlabels</code></td>
+<td>
+<p>Labels to place along the abcissa to identify the sets.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed to plot.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">dendroPlot</span> displays the distributions of categorical values as stacks
+of &quot;branches&quot;. The lengths of the branches show the number of values in each
+category, rather like the opposed bars in a pyramid plot, except that there
+is no separation of groups. The distribution of numeric values can also be
+displayed by passing a set of breakpoints to categorize the values. The
+breakpoints will usually be equidistant, but unevenly spaced breakpoints can
+be passed. If an element of <span class="samp">x</span> is numeric, the values of the
+corresponding <span class="samp">x</span> element will be used to place the points, but the
+branches will be defined as the categories formed by applying the breaks to
+those numeric values.
+</p>
+<p>Note that in the first example, the breakpoints for the first and third elements
+are used to define the ten branches for each. The second element of <span class="samp">x</span>
+is already categorical, so the breakpoints are ignored. When comparing 
+distributions with very different ranges it may be necessary to adjust the
+breakpoints to get a satisfactory result.
+</p>
+<p>Each successive point in a category is <span class="samp">nudge</span>d away from the center
+of the dendrite. If <span class="samp">nudge</span> has more than one value, the points will be
+nudged up and down for categorical variables to enable closer packing. The
+second value of <span class="samp">nudge</span> is ignored for numeric variables. The aspect
+ratio of the plot, the character expansion and the nudging will have to be
+adjusted to give the best point spacing for most dendroPlots.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>The <span class="samp">ehplot</span> function is a much more versatile instantiation of this
+type of plot. <span class="samp">dendroPlot</span> has been retained as there are currently a few
+differences that some users may find valuable. However, it is not impossible
+that <span class="samp">dendroPlot</span> will disappear in the future. Another very useful version
+of this type of plot is <span class="samp">beeswarm</span> in the <span class="pkg">beeswarm</span> package.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/ehplot.html">ehplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-list(runif(90,1,3),factor(sample(LETTERS[1:10],100,TRUE)),rnorm(80,mean=5))
+ dendroPlot(x,xlab="Groups",ylab="Value of x",main="Test dendroPlot I")
+ # now apply a nudge factor and different breaks
+ dendroPlot(x,breaks=list(8,10,10),nudge=c(0.05,0.1),
+  xlab="Groups",ylab="Value of x",main="Test dendroPlot II")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

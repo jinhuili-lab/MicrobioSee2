@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Preprocess a vector of code lines</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compile.SmartComments {R.utils}"><tr><td>compile.SmartComments {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Preprocess a vector of code lines</h2>
+
+<h3>Description</h3>
+
+<p>Preprocess a vector of code lines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'SmartComments'
+compile(this, lines, trim=TRUE, excludeComments=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lines</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of lines of code to be preprocessed.</p>
+</td></tr>
+<tr valign="top"><td><code>trim</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, trailing whitespace characters are removed from
+every line of code, and contiguous empty lines are replaced with a
+single empty line.</p>
+</td></tr>
+<tr valign="top"><td><code>excludeComments</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, comments in the input lines, that is,
+also smart comments, are excluded.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When called, the compiler is reset.
+</p>
+<p>Just before trimming is done, the validate() method is called. In the
+current class, this does nothing, but can be overridden in subclasses.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/SmartComments.html">SmartComments</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

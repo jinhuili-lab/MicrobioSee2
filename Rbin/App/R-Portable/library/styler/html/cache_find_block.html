@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Find the groups of expressions that should be processed...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cache_find_block {styler}"><tr><td>cache_find_block {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Find the groups of expressions that should be processed together</h2>
+
+<h3>Description</h3>
+
+<p>Find the groups of expressions that should be processed together
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cache_find_block(pd)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A top-level nest.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>We want blocks to be formed according to these rules:
+</p>
+
+<ul>
+<li><p> Blocks should contain either cached or uncached expressions only. If a
+block contains cached expressions only, it does not have to be processed
+and can be returned immediately. If a block contains uncached expressions,
+it makes sense to put as many uncached expression in it, since processing
+one bigger block has less overhead than processing many smaller blocks.
+</p>
+</li>
+<li><p> Multiple expressions can sit on one row, e.g. in-line comment and commands
+separated with &quot;;&quot;. This creates a problem when processing each expression
+separately because when putting them together, we need complicated handling
+of line breaks between them, as it is not <em>a priori</em> clear that there is a
+line break separating them. To avoid this, we put top-level expressions
+that sit on the same line into one block, so the assumption that there is a
+line break between each block of expressions holds.
+</p>
+</li>
+<li><p> All expressions in a stylerignore sequence must be in the same block. If
+that's not the case, the first expression in a block might not be a
+top-level terminal, but another top-level expression.
+<code><a href="../../styler/help/apply_stylerignore.html">apply_stylerignore()</a></code>  joins <code>env_current$stylerignore</code>, which contains
+only terminals, with the first expression in a stylerignore sequence, based
+on the first <code>pos_id</code> in that stylerignore sequence
+(<code>first_pos_id_in_segment</code>).
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

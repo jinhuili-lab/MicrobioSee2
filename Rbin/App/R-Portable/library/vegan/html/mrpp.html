@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multi Response Permutation Procedure and Mean Dissimilarity...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mrpp {vegan}"><tr><td>mrpp {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multi Response Permutation Procedure and Mean Dissimilarity Matrix</h2>
+
+<h3>Description</h3>
+
+<p> Multiple Response Permutation Procedure (MRPP) provides a
+test of whether there is a significant difference between two or more
+groups of sampling units. Function <code>meandist</code> finds the mean within
+and between block dissimilarities.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mrpp(dat, grouping, permutations = 999, distance = "euclidean",
+     weight.type = 1, strata = NULL, parallel = getOption("mc.cores"))
+meandist(dist, grouping, ...)
+## S3 method for class 'meandist'
+summary(object, ...)
+## S3 method for class 'meandist'
+plot(x, kind = c("dendrogram", "histogram"),  cluster = "average", 
+     ylim, axes = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dat</code></td>
+<td>
+<p>data matrix or data frame in which rows are samples and
+columns are response variable(s), or a dissimilarity object or a
+symmetric square matrix of dissimilarities.</p>
+</td></tr> 
+<tr valign="top"><td><code>grouping</code></td>
+<td>
+<p> Factor or numeric index for grouping observations.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices. These are used to assess
+the significance of the MRPP statistic, <i>delta</i>.</p>
+</td></tr> 
+<tr valign="top"><td><code>distance</code></td>
+<td>
+<p>Choice of distance metric that measures the
+dissimilarity between two observations . See <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> for
+options.  This will be used if <code>dat</code> was not a dissimilarity
+structure of a symmetric square matrix.</p>
+</td></tr>  
+<tr valign="top"><td><code>weight.type</code></td>
+<td>
+<p> choice of group weights. See Details below for options.</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>An integer vector or factor specifying the strata for
+permutation. If supplied, observations are permuted only within the
+specified strata.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Number of parallel processes or a predefined socket
+cluster.  With <code>parallel = 1</code> uses ordinary, non-parallel
+processing. The parallel processing is done with <span class="pkg">parallel</span>
+package.</p>
+</td></tr>
+<tr valign="top"><td><code>dist</code></td>
+<td>
+<p>A <code><a href="../../stats/html/dist.html">dist</a></code> object of dissimilarities, such as
+produced by functions <code><a href="../../stats/html/dist.html">dist</a></code>, <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or
+<code><a href="../../vegan/help/designdist.html">designdist</a></code>.</p>
+</td></tr></table>
+<p>.
+</p>
+<table summary="R argblock">
+<tr valign="top"><td><code>object, x</code></td>
+<td>
+<p>A <code>meandist</code> result object.</p>
+</td></tr>
+<tr valign="top"><td><code>kind</code></td>
+<td>
+<p>Draw a dendrogram or a histogram; see Details.</p>
+</td></tr>
+<tr valign="top"><td><code>cluster</code></td>
+<td>
+<p>A clustering method for the <code><a href="../../stats/html/hclust.html">hclust</a></code>
+function for <code>kind = "dendrogram"</code>. 
+Any <code>hclust</code> method can be used, but perhaps only
+<code>"average"</code> and <code>"single"</code> make sense.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Limits for vertical axes (optional).</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Draw scale for the vertical axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments passed to functions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Multiple Response Permutation Procedure (MRPP) provides a test of
+whether there is a significant difference between two or more groups
+of sampling units. This difference may be one of location (differences
+in mean) or one of spread (differences in within-group distance;
+cf. Warton et al. 2012). Function <code>mrpp</code> operates on a
+<code>data.frame</code> matrix where rows are observations and responses
+data matrix. The response(s) may be uni- or multivariate. The method
+is philosophically and mathematically allied with analysis of
+variance, in that it compares dissimilarities within and among
+groups. If two groups of sampling units are really different (e.g. in
+their species composition), then average of the within-group
+compositional dissimilarities ought to be less than the average of the
+dissimilarities between two random collection of sampling units drawn
+from the entire population.
+</p>
+<p>The mrpp statistic <i>&delta;</i> is the overall weighted mean of
+within-group means of the pairwise dissimilarities among sampling
+units. The choice of group weights is currently not clear. The
+<code>mrpp</code> function offers three choices: (1) group size (<i>n</i>),
+(2) a degrees-of-freedom analogue (<i>n-1</i>), and (3) a weight that
+is the number of unique distances calculated among <i>n</i> sampling
+units (<i>n(n-1)/2</i>).
+</p>
+<p>The <code>mrpp</code> algorithm first calculates all pairwise distances in
+the entire dataset, then calculates <i>&delta;</i>. It then permutes the
+sampling units and their associated pairwise distances, and
+recalculates <i>&delta;</i> based on the permuted data. It repeats the
+permutation step <code>permutations</code> times. The significance test is
+the fraction of permuted deltas that are less than the observed delta,
+with a small sample correction. The function also calculates the
+change-corrected within-group agreement <i>A = 1 -&delta;/E(&delta;)</i>,
+where <i>E(&delta;)</i> is the expected <i>&delta;</i> assessed as the
+average of dissimilarities.
+</p>
+<p>If the first argument <code>dat</code> can be interpreted as
+dissimilarities, they will be used directly. In other cases the
+function treats <code>dat</code> as observations, and uses
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> to find the dissimilarities.  The default
+<code>distance</code> is Euclidean as in the traditional use of the method,
+but other dissimilarities in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> also are available.
+</p>
+<p>Function <code>meandist</code> calculates a matrix of mean within-cluster
+dissimilarities (diagonal) and between-cluster dissimilarities
+(off-diagonal elements), and an attribute <code>n</code> of <code>grouping</code>
+counts. Function <code>summary</code> finds the within-class, between-class
+and overall means of these dissimilarities, and the MRPP statistics
+with all <code>weight.type</code> options and the Classification Strength,
+CS (Van Sickle and Hughes, 2000). CS is defined for dissimilarities as
+<i>Bbar-Wbar</i>, where <i>Bbar</i> is the
+mean between cluster dissimilarity and <i>Wbar</i> is the mean
+within cluster dissimilarity with <code>weight.type = 1</code>. The function
+does not perform significance tests for these statistics, but you must
+use <code>mrpp</code> with appropriate <code>weight.type</code>. There is
+currently no significance test for CS, but <code>mrpp</code> with
+<code>weight.type = 1</code> gives the correct test for <i>Wbar</i>
+and a good approximation for CS.  Function <code>plot</code> draws a
+dendrogram or a histogram of the result matrix based on the
+within-group and between group dissimilarities. The dendrogram is
+found with the method given in the <code>cluster</code> argument using
+function <code><a href="../../stats/html/hclust.html">hclust</a></code>. The terminal segments hang to
+within-cluster dissimilarity. If some of the clusters are more
+heterogeneous than the combined class, the leaf segment are reversed.
+The histograms are based on dissimilarities, but ore otherwise similar
+to those of Van Sickle and Hughes (2000): horizontal line is drawn at
+the level of mean between-cluster dissimilarity and vertical lines
+connect within-cluster dissimilarities to this line.  </p>
+
+
+<h3>Value</h3>
+
+<p>The function returns a list of class mrpp with following items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>call </code></td>
+<td>
+<p>	Function call.</p>
+</td></tr>
+<tr valign="top"><td><code>delta </code></td>
+<td>
+<p>The overall weighted mean of group mean distances.</p>
+</td></tr>
+<tr valign="top"><td><code>E.delta</code></td>
+<td>
+<p>expected delta, under the null hypothesis of no group
+structure. This is the mean of original dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>CS</code></td>
+<td>
+<p>Classification strength (Van Sickle and Hughes,
+2000). Currently not implemented and always <code>NA</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Number of observations in each class.</p>
+</td></tr>
+<tr valign="top"><td><code>classdelta</code></td>
+<td>
+<p>Mean dissimilarities within classes. The overall
+<i>&delta;</i> is the weighted average of these values with given
+<code>weight.type</code></p>
+</td></tr></table>
+<p>. 
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Pvalue</code></td>
+<td>
+<p>Significance of the test.</p>
+</td></tr>
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>A chance-corrected estimate of the proportion of the distances
+explained by group identity; a value analogous to a coefficient of 
+determination in a linear model.</p>
+</td></tr> 
+<tr valign="top"><td><code>distance</code></td>
+<td>
+<p>Choice of distance metric used; the &quot;method&quot; entry of
+the dist object.</p>
+</td></tr>
+<tr valign="top"><td><code>weight.type</code></td>
+<td>
+<p>The choice of group weights used.</p>
+</td></tr>
+<tr valign="top"><td><code>boot.deltas</code></td>
+<td>
+<p>The vector of &quot;permuted deltas,&quot; the deltas
+calculated from each of the permuted datasets. The distribution of
+this item can be inspected with <code><a href="../../vegan/help/permustats.html">permustats</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>The number of permutations used.</p>
+</td></tr>
+<tr valign="top"><td><code>control</code></td>
+<td>
+<p>A list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+ 
+<p>This difference may be one of location (differences in mean) or one of
+spread (differences in within-group distance). That is, it may find a
+significant difference between two groups simply because one of those
+groups has a greater dissimilarities among its sampling units. Most
+<code>mrpp</code> models can be analysed with <code><a href="../../vegan/help/adonis2.html">adonis2</a></code> which seems
+not suffer from the same problems as <code>mrpp</code> and is a more robust
+alternative.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>M. Henry H. Stevens <a href="mailto:HStevens@muohio.edu">HStevens@muohio.edu</a> and Jari Oksanen.
+</p>
+
+
+<h3>References</h3>
+
+<p>B. McCune and J. B. Grace. 2002. <em>Analysis of Ecological
+Communities.</em> MjM  Software Design, Gleneden Beach, Oregon, USA.
+</p>
+<p>P. W. Mielke and K. J. Berry. 2001. <em>Permutation Methods: A
+Distance  Function Approach.</em> Springer Series in
+Statistics. Springer.  
+</p>
+<p>J. Van Sickle and R. M. Hughes 2000. Classification strengths of
+ecoregions, catchments, and geographic clusters of aquatic vertebrates
+in Oregon. <em>J. N. Am. Benthol. Soc.</em> 19:370&ndash;384.
+</p>
+<p>Warton, D.I., Wright, T.W., Wang, Y. 2012. Distance-based multivariate
+analyses confound location and dispersion effects. <em>Methods in
+Ecology and Evolution</em>, 3, 89&ndash;101
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/anosim.html">anosim</a></code> for a similar test based on ranks, and
+<code><a href="../../vegan/help/mantel.html">mantel</a></code> for comparing dissimilarities against continuous
+variables, and
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> for obtaining dissimilarities,
+<code><a href="../../vegan/help/adonis2.html">adonis2</a></code> is a more robust alternative in most cases.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+dune.mrpp &lt;- with(dune.env, mrpp(dune, Management))
+dune.mrpp
+
+# Save and change plotting parameters
+def.par &lt;- par(no.readonly = TRUE)
+layout(matrix(1:2,nr=1))
+
+plot(dune.ord &lt;- metaMDS(dune), type="text", display="sites" )
+with(dune.env, ordihull(dune.ord, Management))
+
+with(dune.mrpp, {
+  fig.dist &lt;- hist(boot.deltas, xlim=range(c(delta,boot.deltas)), 
+                 main="Test of Differences Among Groups")
+  abline(v=delta); 
+  text(delta, 2*mean(fig.dist$counts), adj = -0.5,
+     expression(bold(delta)), cex=1.5 )  }
+)
+par(def.par)
+## meandist
+dune.md &lt;- with(dune.env, meandist(vegdist(dune), Management))
+dune.md
+summary(dune.md)
+plot(dune.md)
+plot(dune.md, kind="histogram")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check uniformity of simulated residuals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_residuals {performance}"><tr><td>check_residuals {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check uniformity of simulated residuals</h2>
+
+<h3>Description</h3>
+
+<p><code>check_residuals()</code> checks generalized linear (mixed) models for uniformity
+of randomized quantile residuals, which can be used to identify typical model
+misspecification problems, such as over/underdispersion, zero-inflation, and
+residual spatial and temporal autocorrelation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_residuals(x, ...)
+
+## Default S3 method:
+check_residuals(x, alternative = c("two.sided", "less", "greater"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object returned by <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code> or
+<code><a href="../../DHARMa/help/simulateResiduals.html">DHARMa::simulateResiduals()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Passed down to <code><a href="../../stats/help/ks.test.html">stats::ks.test()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>A character string specifying the alternative hypothesis.
+See <code><a href="../../stats/help/ks.test.html">stats::ks.test()</a></code> for details.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Uniformity of residuals is checked using a Kolmogorov-Smirnov test.
+There is a <code>plot()</code> method to visualize the distribution of the residuals.
+The test for uniformity basically tests to which extent the observed values
+deviate from the model expectations (i.e. simulated values). In this sense,
+the <code>check_residuals()</code> function has similar goals like <code><a href="../../performance/help/check_predictions.html">check_predictions()</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The p-value of the test statistics.
+</p>
+
+
+<h3>Tests based on simulated residuals</h3>
+
+<p>For certain models, resp. model from certain families, tests like
+<code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation()</a></code> or <code><a href="../../performance/help/check_overdispersion.html">check_overdispersion()</a></code> are based on
+simulated residuals. These are usually more accurate for such tests than
+the traditionally used Pearson residuals. However, when simulating from more
+complex models, such as mixed models or models with zero-inflation, there are
+several important considerations. <code>simulate_residuals()</code> relies on
+<code><a href="../../DHARMa/help/simulateResiduals.html">DHARMa::simulateResiduals()</a></code>, and additional arguments specified in <code>...</code>
+are passed further down to that function. The defaults in DHARMa are set on
+the most conservative option that works for all models. However, in many
+cases, the help advises to use different settings in particular situations
+or for particular models. It is recommended to read the 'Details' in
+<code>?DHARMa::simulateResiduals</code> closely to understand the implications of the
+simulation process and which arguments should be modified to get the most
+accurate results.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>, <code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation()</a></code>,
+<code><a href="../../performance/help/check_overdispersion.html">check_overdispersion()</a></code> and <code><a href="../../performance/help/check_predictions.html">check_predictions()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+dat &lt;- DHARMa::createData(sampleSize = 100, overdispersion = 0.5, family = poisson())
+m &lt;- glm(observedResponse ~ Environment1, family = poisson(), data = dat)
+res &lt;- simulate_residuals(m)
+check_residuals(res)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

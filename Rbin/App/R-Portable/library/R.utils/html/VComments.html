@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: The VComments class</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for VComments {R.utils}"><tr><td>VComments {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>The VComments class</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class VComments</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code><a href="../help/SmartComments.html">SmartComments</a></code><br />
+<code>~~~~~~~|</code><br />
+<code>~~~~~~~+--</code><code>VComments</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<a href="../help/LComments.html">LComments</a><br />
+</p>
+<p>public static class <b>VComments</b><br />
+extends <em><a href="../help/SmartComments.html">SmartComments</a></em><br />
+</p>
+<p>The VComments class.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+VComments(letter="V", verboseName="verbose", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>letter</code></td>
+<td>
+<p>The smart letter.</p>
+</td></tr>
+<tr valign="top"><td><code>verboseName</code></td>
+<td>
+<p>The name of the verbose object.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The 'v' in VComments stands for 'verbose', because of its relationship
+to the <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> class.
+</p>
+<p>Here is a list of VComments and the <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> code that replaces each of them
+by the compiler:
+</p>
+<p><b>Constructors</b><br />
+</p>
+
+<dl>
+<dt>#V0#</dt><dd><p>[&lt;args&gt;] - NullVerbose(&lt;args&gt;)</p>
+</dd>
+<dt>#V1#</dt><dd><p>[&lt;args&gt;] - Verbose(&lt;args&gt;)</p>
+</dd>
+</dl>
+
+<p><b>Controls</b><br />
+</p>
+
+<dl>
+<dt>#V=#</dt><dd><p>[&lt;variable&gt;] - Sets the name of the &lt;verbose&gt; object.
+Default is 'verbose'.</p>
+</dd>
+<dt>#V^#</dt><dd><p>&lt;threshold&gt; - setThreshold(&lt;verbose&gt;, &lt;threshold&gt;)</p>
+</dd>
+<dt>#V?#</dt><dd><p>&lt;expression&gt; - if (isVisible(&lt;verbose&gt;)) { &lt;expression&gt; }</p>
+</dd>
+<dt>#V@#</dt><dd><p>&lt;level&gt; - setDefaultLevel(&lt;verbose&gt;, &lt;level&gt;)</p>
+</dd>
+<dt>#Vm#</dt><dd><p>&lt;method&gt; &lt;args&gt; - &lt;method&gt;(&lt;verbose&gt;, &lt;args&gt;)</p>
+</dd>
+</dl>
+
+<p><b>Enters and exits</b><br />
+</p>
+
+<dl>
+<dt>#V+#</dt><dd><p>[&lt;message&gt;] - enter(&lt;verbose&gt;, &lt;message&gt;)</p>
+</dd>
+<dt>#V-#</dt><dd><p>[&lt;message&gt;] - exit(&lt;verbose&gt;, &lt;message&gt;)</p>
+</dd>
+<dt>#V!#</dt><dd><p>[&lt;message&gt;] - pushState(&lt;verbose&gt;)<br />
+on.exit(popState(&lt;verbose&gt;))<br />
+If &lt;message&gt;, enter(&lt;verbose&gt;, &lt;message&gt;)</p>
+</dd>
+</dl>
+
+<p><b>Simple output</b><br />
+</p>
+
+<dl>
+<dt>#Vn#</dt><dd><p>&lt;ignored&gt; - newline(&lt;verbose&gt;)</p>
+</dd>
+<dt>#Vr#</dt><dd><p>&lt;ignored&gt; - ruler(&lt;verbose&gt;)</p>
+</dd>
+<dt>#Vt#</dt><dd><p>&lt;ignored&gt; - timestamp(&lt;verbose&gt;)</p>
+</dd>
+<dt>#Vw#</dt><dd><p>[&lt;title&gt;] - warnings(&lt;verbose&gt;, &lt;title&gt;)</p>
+</dd>
+</dl>
+
+<p><b>Output messages</b><br />
+</p>
+
+<dl>
+<dt>#Vc#</dt><dd><p>[&lt;message&gt;] - cat(&lt;verbose&gt;, &lt;message&gt;)</p>
+</dd>
+<dt>#Ve#</dt><dd><p>&lt;expression&gt; - eval(&lt;verbose&gt;, &lt;expression&gt;)</p>
+</dd>
+<dt>#Vh#</dt><dd><p>&lt;message&gt; - header(&lt;verbose&gt;, &lt;message&gt;)</p>
+</dd>
+<dt>#Vp#</dt><dd><p>&lt;object&gt; - print(&lt;verbose&gt;, &lt;object&gt;)</p>
+</dd>
+<dt>#Vs#</dt><dd><p>&lt;object&gt; - summary(&lt;verbose&gt;, &lt;object&gt;)</p>
+</dd>
+<dt>#Vz#</dt><dd><p>&lt;object&gt; - str(&lt;verbose&gt;, &lt;object&gt;)</p>
+</dd>
+</dl>
+
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>convertComment</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>reset</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>validate</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from SmartComments</b>:<br />
+compile, convertComment, parse, reset, validate
+</p>
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+filename &lt;- system.file("data-ex/exampleVComments.R", package="R.utils")
+lines &lt;- readLines(filename)
+
+cat("Code before preprocessing:\n")
+displayCode(code=lines, pager="console")
+
+lines &lt;- VComments$compile(lines)
+
+cat("Code after preprocessing:\n")
+displayCode(code=lines, pager="console")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

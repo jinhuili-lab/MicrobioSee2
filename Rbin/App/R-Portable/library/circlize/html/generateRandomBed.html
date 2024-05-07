@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generate random genomic data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for generateRandomBed {circlize}"><tr><td>generateRandomBed {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Generate random genomic data
+</h2>
+
+<h3>Description</h3>
+
+<p>Generate random genomic data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+generateRandomBed(
+    nr = 10000,
+    nc = 1,
+    fun = function(k) rnorm(k, 0, 0.5),
+    species = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nr</code></td>
+<td>
+<p>Number of rows
+</p>
+</td></tr>
+<tr valign="top"><td><code>nc</code></td>
+<td>
+<p>Number of numeric columns / value columns
+</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>Function for generating random values
+</p>
+</td></tr>
+<tr valign="top"><td><code>species</code></td>
+<td>
+<p>species, pass to <code><a href="../../circlize/help/read.cytoband.html">read.cytoband</a></code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function will uniformly sample positions from the genome. Chromosome names start with &quot;chr&quot;
+and positions are sorted. The final number of rows may not be exactly as same as <code>nr</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# There is no example
+NULL
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

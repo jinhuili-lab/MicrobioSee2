@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Defunct Travis and Appveyor functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_travis {usethis}"><tr><td>use_travis {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Defunct Travis and Appveyor functions</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#defunct"><img src="../help/figures/lifecycle-defunct.svg" alt='[Defunct]' /></a>
+</p>
+<p>These functions which formally supported CI on Appveyor and Travis are
+now defunct as we no longer recommend using these services. We now
+recommend using GitHub actions, e.g. with <code><a href="../../usethis/help/use_github_action.html">use_github_action()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+use_travis(browse = rlang::is_interactive(), ext = c("com", "org"))
+
+use_travis_badge(ext = c("com", "org"), repo_spec = NULL)
+
+use_pkgdown_travis()
+
+use_appveyor(browse = rlang::is_interactive())
+
+use_appveyor_badge(repo_spec = NULL)
+
+browse_travis(package = NULL, ext = c("com", "org"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,42 @@
+Package: JuliaCall
+Type: Package
+Title: Seamless Integration Between R and 'Julia'
+Version: 0.17.5
+Date: 2022-09-08
+Authors@R: c(
+    person("Changcheng", "Li", , "cxl508@psu.edu", c("aut", "cre")),
+    person("Randy", "Lai", role = "ctb"),
+    person("Dmitri", "Grominski", role = "ctb"),
+    person("Nagi", "Teramo", role = "ctb")
+    )
+Description: Provides an R interface to 'Julia',
+    which is a high-level, high-performance dynamic programming language
+    for numerical computing, see <https://julialang.org/> for more information.
+    It provides a high-level interface as well as a low-level interface.
+    Using the high level interface, you could call any 'Julia' function just like
+    any R function with automatic type conversion. Using the low level interface,
+    you could deal with C-level SEXP directly while enjoying the convenience of
+    using a high-level programming language like 'Julia'.
+Depends: R (>= 3.4.0)
+License: MIT + file LICENSE
+URL: https://github.com/Non-Contradiction/JuliaCall
+BugReports: https://github.com/Non-Contradiction/JuliaCall/issues
+Encoding: UTF-8
+Imports: utils, Rcpp (>= 0.12.7), knitr (>= 1.28), rjson
+RoxygenNote: 7.1.2
+LinkingTo: Rcpp
+NeedsCompilation: yes
+ByteCompile: yes
+SystemRequirements: Julia >= 0.6.0, RCall.jl
+Suggests: testthat, rmarkdown, rappdirs, sass
+VignetteBuilder: knitr
+Packaged: 2022-09-08 10:25:01 UTC; LiChangCheng
+Author: Changcheng Li [aut, cre],
+  Randy Lai [ctb],
+  Dmitri Grominski [ctb],
+  Nagi Teramo [ctb]
+Maintainer: Changcheng Li <cxl508@psu.edu>
+Repository: CRAN
+Date/Publication: 2022-09-08 11:23:04 UTC
+Built: R 4.1.3; x86_64-w64-mingw32; 2023-04-17 15:34:58 UTC; windows
+Archs: i386, x64

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Which cells are TRUE?</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for which {raster}"><tr><td>which {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Which cells are TRUE?</h2>
+
+<h3>Description</h3>
+
+<p><code>Which</code> returns a RasterLayer with <code>TRUE</code> or <code>FALSE</code> setting cells that are <code>NA</code> to <code>FALSE</code> (unless <code>na.rm=FALSE</code>). If the RasterLayer has numbers, all values that are 0 become <code>FALSE</code> and all other values become <code>TRUE</code>. The function can also return the cell numbers that are <code>TRUE</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+Which(x, cells=FALSE, na.rm=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>cells</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, cell numbers are returned, otherwise a RasterLayer is returned</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, <code>NA</code> values are treated as <code>FALSE</code>, otherwise they remain <code>NA</code> (only when <code>cells=FALSE</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments (none implemented)</p>
+</td></tr> 
+</table>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/which.max.html">which.max</a></code>,  <code><a href="../../raster/help/which.min.html">which.min</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10)
+set.seed(0)
+values(r) &lt;- runif(ncell(r))
+r[r &lt; 0.2 ] &lt;- 0
+r[r &gt; 0.8] &lt;- 1
+r[r &gt; 0 &amp; r &lt; 1 ] &lt;- 0.5
+
+Which(r, cells=TRUE)
+Which(r &gt; 0.5, cells=TRUE)
+
+s1 &lt;- r &gt; 0.5
+s2 &lt;- Which(r &gt; 0.5)
+s1[1:15]
+s2[1:15]
+
+# this expression
+x1 &lt;- Which(r, na.rm=FALSE)
+# is the inverse of
+x2 &lt;- r==0
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

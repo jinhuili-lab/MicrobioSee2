@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: K-means partitioning using a range of values of K</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cascadeKM {vegan}"><tr><td>cascadeKM {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>K-means partitioning using a range of values of K</h2>
+
+<h3>Description</h3>
+
+<p>This function is a wrapper for the <code>kmeans</code> function. It creates
+several partitions forming a cascade from a small to a large number of
+groups. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cascadeKM(data, inf.gr, sup.gr, iter = 100, criterion = "calinski")
+
+cIndexKM(y, x, index = "all")
+
+## S3 method for class 'cascadeKM'
+plot(x, min.g, max.g, grpmts.plot = TRUE, 
+     sortg = FALSE, gridcol = NA, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code> data </code></td>
+<td>
+<p> The data matrix. The objects (samples) are the rows.</p>
+</td></tr>
+<tr valign="top"><td><code> inf.gr </code></td>
+<td>
+<p> The number of groups for the partition with the 
+smallest number of groups of the cascade (min).</p>
+</td></tr>
+<tr valign="top"><td><code> sup.gr </code></td>
+<td>
+<p> The number of groups for the partition with the largest 	
+number of groups of the cascade (max).</p>
+</td></tr>
+<tr valign="top"><td><code> iter </code></td>
+<td>
+<p> The number of random starting configurations for each value
+of <i>K</i>.</p>
+</td></tr>
+<tr valign="top"><td><code> criterion </code></td>
+<td>
+<p> The criterion that will be used to select the best
+partition. The default value is <code>"calinski"</code>, which refers to
+the Calinski-Harabasz (1974) criterion. The simple structure index
+(<code>"ssi"</code>) is also available. Other indices are available in
+function <code><a href="../../cclust/help/clustIndex.html">clustIndex</a></code> (package <span class="pkg">cclust</span>). In
+our experience, the two indices that work best and are most likely
+to return their maximum value at or near the optimal number of
+clusters are <code>"calinski"</code> and <code>"ssi"</code>. </p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Object of class <code>"kmeans"</code> returned by a clustering algorithm
+such as <code><a href="../../stats/html/kmeans.html">kmeans</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Data matrix where columns correspond to variables and rows to
+observations, or the plotting object in <code>plot</code></p>
+</td></tr>
+<tr valign="top"><td><code>index</code></td>
+<td>
+<p>The available indices are: <code>"calinski"</code> and <code>"ssi"</code>. 
+Type <code>"all"</code> to obtain both indices. 
+Abbreviations of these names are also accepted.</p>
+</td></tr>
+<tr valign="top"><td><code>min.g, max.g</code></td>
+<td>
+<p>The minimum and maximum numbers of groups to be
+displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>grpmts.plot</code></td>
+<td>
+<p>Show the plot (<code>TRUE</code> or <code>FALSE</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>sortg</code></td>
+<td>
+<p>Sort the objects as a function of their group membership
+to produce a more easily interpretable graph. See Details. The
+original object names are kept; they are used as labels in the
+output table <code>x</code>, although not in the graph.  If there were no
+row names, sequential row numbers are used to keep track of the
+original order of the objects.</p>
+</td></tr>
+<tr valign="top"><td><code>gridcol</code></td>
+<td>
+<p>The colour of the grid lines in the plots. <code>NA</code>,
+which is the default value, removes the grid lines.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to the functions (ignored).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function creates several partitions forming a cascade from a small
+to a large number of groups formed by <code><a href="../../stats/html/kmeans.html">kmeans</a></code>.  Most
+of the work is performed by function <code>cIndex</code> which is based on the
+<code><a href="../../cclust/help/clustIndex.html">clustIndex</a></code> function (package <span class="pkg">cclust</span>). 
+Some of the criteria were removed from this version because computation 
+errors were generated when only one object was found in a group.
+</p>
+<p>The default value is <code>"calinski"</code>, which refers to the well-known
+Calinski-Harabasz (1974) criterion. The other available index is the
+simple structure index <code>"ssi"</code> (Dolnicar et al. 1999).
+In the case of groups of equal
+sizes, <code>"calinski"</code> is generally a good criterion to indicate the
+correct number of groups. Users should not take its indications
+literally when the groups are not equal in size. Type <code>"all"</code> to
+obtain  both indices. The indices are defined as: 
+</p>
+
+<dl>
+<dt>calinski:</dt><dd>
+<p><i>(SSB/(K-1))/(SSW/(n-K))</i>, where <i>n</i> is the
+number of data points and <i>K</i> is the number of clusters.
+<i>SSW</i> is the sum of squares within the clusters while
+<i>SSB</i> is the sum of squares among the clusters. This index
+is simply an <i>F</i> (ANOVA) statistic.</p>
+</dd>
+<dt>ssi:</dt><dd>
+<p>the &ldquo;Simple Structure Index&rdquo; multiplicatively combines
+several elements which influence the interpretability of a
+partitioning solution. The best partition is indicated by the
+highest SSI value.</p>
+</dd>
+</dl>
+
+<p>In a simulation study, Milligan and Cooper (1985) found
+that the Calinski-Harabasz criterion recovered the correct number of
+groups the most often. We recommend this criterion because, if the
+groups are of equal sizes, the maximum value of <code>"calinski"</code>
+usually indicates the correct number of groups. Another available
+index is the simple structure index <code>"ssi"</code>. Users should not
+take the indications of these indices literally when the groups are
+not equal in size and explore the groups corresponding to other values
+of <i>K</i>.
+</p>
+<p>Function <code>cascadeKM</code> has a <code>plot</code> method.  Two plots are
+produced. The graph on the left has the objects in 
+abscissa and the number of groups in ordinate. The groups are
+represented by colours. The graph on the right shows the values of the
+criterion (<code>"calinski"</code> or <code>"ssi"</code>) for determining the best
+partition. The highest value of the criterion is marked in red. Points
+marked in orange, if any, indicate partitions producing an increase in
+the criterion value as the number of groups increases; they may
+represent other interesting partitions.
+</p>
+<p>If <code>sortg=TRUE</code>, the objects are reordered by the following
+procedure: (1) a simple matching distance matrix is computed among the
+objects, based on the table of K-means assignments to groups, from
+<i>K</i> = <code>min.g</code> to <i>K</i> = <code>max.g</code>. (2) A principal
+coordinate analysis (PCoA, Gower 1966) is computed on the centred
+distance matrix. (3) The first principal coordinate is used as the new
+order of the objects in the graph. A simplified algorithm is used to
+compute the first principal coordinate only, using the iterative
+algorithm described in Legendre &amp; Legendre (2012). The
+full distance matrix among objects is never computed; this avoids
+the problem of storing it when the number of objects is
+large. Distance values are computed as they are needed by the
+algorithm.
+</p>
+
+
+<h3>Value</h3>
+
+<p> Function <code>cascadeKM</code> returns an object of class
+<code>cascadeKM</code> with items:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code> partition </code></td>
+<td>
+<p> Table with the partitions found for different numbers 
+of groups <i>K</i>, from <i>K</i> = <code>inf.gr</code> to <i>K</i> =
+<code>sup.gr</code>. </p>
+</td></tr> 
+<tr valign="top"><td><code> results </code></td>
+<td>
+<p> Values of the criterion to select the best
+partition. </p>
+</td></tr> 
+<tr valign="top"><td><code> criterion </code></td>
+<td>
+<p> The name of the criterion used. </p>
+</td></tr>
+<tr valign="top"><td><code> size </code></td>
+<td>
+<p> The number of objects found in each group, for all 
+partitions (columns). </p>
+</td></tr>
+</table>
+<p>Function <code>cIndex</code> returns a vector with the index values. The
+maximum value of these indices is supposed to indicate the best
+partition. These indices work best with groups of equal sizes. When
+the groups are not of equal sizes, one should not put too much faith
+in the maximum of these indices, and also explore the groups
+corresponding to other values of <i>K</i>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Marie-Helene Ouellette
+<a href="mailto:Marie-Helene.Ouellette@UMontreal.ca">Marie-Helene.Ouellette@UMontreal.ca</a>, Sebastien Durand
+<a href="mailto:Sebastien.Durand@UMontreal.ca">Sebastien.Durand@UMontreal.ca</a> and Pierre Legendre
+<a href="mailto:Pierre.Legendre@UMontreal.ca">Pierre.Legendre@UMontreal.ca</a>. Edited for <span class="pkg">vegan</span> by Jari
+Oksanen.
+</p>
+
+
+<h3>References</h3>
+
+<p>Calinski, T. and J. Harabasz. 1974. A dendrite method for cluster
+analysis. <em>Commun. Stat.</em> <strong>3</strong>: 1&ndash;27.
+</p>
+<p>Dolnicar, S., K. Grabler and J. A. Mazanec. 1999.  A tale of three
+cities: perceptual charting for analyzing destination images. Pp.
+39-62 in: Woodside, A. et al. [eds.] <em>Consumer psychology of
+tourism, hospitality and leisure</em>. CAB International, New York.
+</p>
+<p>Gower, J. C. 1966. Some distance properties of latent root and vector
+methods used in multivariate analysis. <em>Biometrika</em> <strong>53</strong>:
+325&ndash;338.
+</p>
+<p>Legendre, P. &amp; L. Legendre. 2012. <em>Numerical ecology</em>, 3rd
+English edition. Elsevier Science BV, Amsterdam.
+</p>
+<p>Milligan, G. W. &amp; M. C. Cooper. 1985. An examination of procedures for
+determining the number of clusters in a data set. <em>Psychometrika</em>
+<strong>50</strong>: 159&ndash;179.
+</p>
+<p>Weingessel, A., Dimitriadou, A. and Dolnicar, S. 2002. An examination
+of indexes for determining the number of clusters in binary data
+sets. <em>Psychometrika</em> <strong>67</strong>: 137&ndash;160.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/html/kmeans.html">kmeans</a></code>, <code><a href="../../cclust/help/clustIndex.html">clustIndex</a></code>.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # Partitioning a (10 x 10) data matrix of random numbers
+ mat &lt;- matrix(runif(100),10,10)
+ res &lt;- cascadeKM(mat, 2, 5, iter = 25, criterion = 'calinski') 
+ toto &lt;- plot(res)
+ 
+ # Partitioning an autocorrelated time series
+ vec &lt;- sort(matrix(runif(30),30,1))
+ res &lt;- cascadeKM(vec, 2, 5, iter = 25, criterion = 'calinski')
+ toto &lt;- plot(res)
+ 
+ # Partitioning a large autocorrelated time series
+ # Note that we remove the grid lines
+ vec &lt;- sort(matrix(runif(1000),1000,1))
+ res &lt;- cascadeKM(vec, 2, 7, iter = 10, criterion = 'calinski')
+ toto &lt;- plot(res, gridcol=NA)
+ 
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

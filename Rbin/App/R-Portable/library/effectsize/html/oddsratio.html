@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Odds Ratios, Risk Ratios and Other Effect Sizes for 2-by-2...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for oddsratio {effectsize}"><tr><td>oddsratio {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Odds Ratios, Risk Ratios and Other Effect Sizes for 2-by-2 Contingency Tables</h2>
+
+<h3>Description</h3>
+
+<p>Compute Odds Ratios, Risk Ratios, Cohen's <em>h</em>, Absolute Risk Reduction or
+Number Needed to Treat. Report with any <code><a href="../../stats/help/chisq.test.html">stats::chisq.test()</a></code> or
+<code><a href="../../stats/help/fisher.test.html">stats::fisher.test()</a></code>.
+<br /><br />
+Note that these are computed with each <strong>column</strong> representing the different
+groups, and the <em>first</em> column representing the treatment group and the
+<em>second</em> column baseline (or control). Effects are given as <code>treatment / control</code>. If you wish you use rows as groups you must pass a transposed
+table, or switch the <code>x</code> and <code>y</code> arguments.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+oddsratio(x, y = NULL, ci = 0.95, alternative = "two.sided", log = FALSE, ...)
+
+riskratio(x, y = NULL, ci = 0.95, alternative = "two.sided", log = FALSE, ...)
+
+cohens_h(x, y = NULL, ci = 0.95, alternative = "two.sided", ...)
+
+arr(x, y = NULL, ci = 0.95, alternative = "two.sided", ...)
+
+nnt(x, y = NULL, ci = 0.95, alternative = "two.sided", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector or matrix. <code>x</code> and <code>y</code> can also
+both be factors.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>a numeric vector; ignored if <code>x</code> is a matrix.  If
+<code>x</code> is a factor, <code>y</code> should be a factor of the same length.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Take in or output the log of the ratio (such as in logistic models),
+e.g. when the desired input or output are log odds ratios instead odds ratios.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Ignored</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size (<code>Odds_ratio</code>, <code>Risk_ratio</code>
+(possibly with the prefix <code>log_</code>), <code>Cohens_h</code>, <code>ARR</code>, <code>NNT</code>) and its CIs
+(<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals are estimated using the standard normal parametric
+method (see Katz et al., 1978; Szumilas, 2010).
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Katz, D. J. S. M., Baptista, J., Azen, S. P., &amp; Pike, M. C. (1978). Obtaining confidence intervals for the risk ratio in cohort studies. Biometrics, 469-474.
+</p>
+</li>
+<li><p> Szumilas, M. (2010). Explaining odds ratios. Journal of the Canadian academy of child and adolescent psychiatry, 19(3), 227.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other effect sizes for contingency table: 
+<code><a href="../../effectsize/help/cohens_g.html">cohens_g</a>()</code>,
+<code><a href="../../effectsize/help/phi.html">phi</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data("RCT_table")
+RCT_table # note groups are COLUMNS
+
+oddsratio(RCT_table)
+oddsratio(RCT_table, alternative = "greater")
+
+riskratio(RCT_table)
+
+cohens_h(RCT_table)
+
+arr(RCT_table)
+
+nnt(RCT_table)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

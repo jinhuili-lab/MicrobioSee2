@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Effect Sizes for Contingency Tables</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Effect Sizes for Contingency Tables</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#nominal-correlation" id="toc-nominal-correlation">Nominal
+Correlation</a>
+<ul>
+<li><a href="#by-2-tables" id="toc-by-2-tables">2-by-2 Tables</a></li>
+<li><a href="#larger-tables" id="toc-larger-tables">Larger
+Tables</a></li>
+<li><a href="#for-a-bayesian-chi2-test" id="toc-for-a-bayesian-chi2-test">For a Bayesian <span class="math inline">\(\chi^2\)</span>-test</a></li>
+</ul></li>
+<li><a href="#goodness-of-fit" id="toc-goodness-of-fit">Goodness of
+Fit</a></li>
+<li><a href="#differences-in-proportions" id="toc-differences-in-proportions">Differences in Proportions</a>
+<ul>
+<li><a href="#for-a-bayesian-chi2-test-1" id="toc-for-a-bayesian-chi2-test-1">For a Bayesian <span class="math inline">\(\chi^2\)</span>-test</a></li>
+</ul></li>
+<li><a href="#paired-contingency-tables" id="toc-paired-contingency-tables">Paired Contingency Tables</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<p>This vignette provides a review of effect sizes for 1- and 2-D
+contingency tables, which are typically analysed with
+<code>chisq.test()</code> and <code>fisher.test()</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">es.use_symbols =</span> <span class="cn">TRUE</span>) <span class="co"># get nice symbols when printing! (On Windows, requires R &gt;= 4.2.0)</span></span></code></pre></div>
+<div id="nominal-correlation" class="section level1">
+<h1>Nominal Correlation</h1>
+<div id="by-2-tables" class="section level2">
+<h2>2-by-2 Tables</h2>
+<p>For 2-by-2 contingency tables, <span class="math inline">\(\phi\)</span> (Phi) is homologous (though
+directionless) to the biserial correlation between two dichotomous
+variables, with 0 representing no association, and 1 representing a
+perfect association.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>(MPG_Gear <span class="ot">&lt;-</span> <span class="fu">table</span>(mtcars<span class="sc">$</span>mpg <span class="sc">&lt;</span> <span class="dv">20</span>, mtcars<span class="sc">$</span>vs))</span></code></pre></div>
+<pre><code>&gt;        
+&gt;          0  1
+&gt;   FALSE  3 11
+&gt;   TRUE  15  3</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">phi</span>(MPG_Gear, <span class="at">adjust =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; ϕ    |       95% CI
+&gt; -------------------
+&gt; 0.62 | [0.33, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Same as:</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">cor</span>(mtcars<span class="sc">$</span>mpg <span class="sc">&lt;</span> <span class="dv">20</span>, mtcars<span class="sc">$</span>vs)</span></code></pre></div>
+<pre><code>&gt; [1] -0.619</code></pre>
+<p>A “cousin” effect size is Pearson’s contingency coefficient, however
+it is not a true measure of correlation, but rather a type of normalized
+<span class="math inline">\(\chi^2\)</span> (see
+<code>chisq_to_pearsons_c()</code>):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">pearsons_c</span>(MPG_Gear)</span></code></pre></div>
+<pre><code>&gt; Pearson&#39;s C |       95% CI
+&gt; --------------------------
+&gt; 0.53        | [0.31, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+<div id="larger-tables" class="section level2">
+<h2>Larger Tables</h2>
+<p>For larger contingency tables, Cramér’s <em>V</em>, Tschuprow’s
+<em>T</em>, Cohen’s <em>w</em>, and Pearson’s <em>C</em> can be
+used.</p>
+<p>Both Cramér’s <em>V</em> and Tschuprow’s <em>T</em> are true measures
+of correlation: they range from 0 to 1, with 0 indicating complete
+independence between the nominal variables, and 1 indicating complete
+dependence. For square tables, they are equal, however for non-square
+tables <span class="math inline">\(T &lt; V\)</span>; While Cramér’s
+<em>V</em> defines complete dependence as “it is possible to know
+exactly the value of the columns from the rows <em>or</em> know exactly
+the value of the rows from the columns”, Tschuprow’s <em>T</em> required
+both to be true to achieve complete dependence - something that is not
+possible for non-square tables. For example:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;food_class&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>food_class</span></code></pre></div>
+<pre><code>&gt;           Soy Milk Meat
+&gt; Vegan      47    0    0
+&gt; Not-Vegan   0   12   21</code></pre>
+<p>In this case, if you know the food product, you know if it is vegan
+or not, but knowing if the food is vegan or not will not always let you
+know what food product it is.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">cramers_v</span>(food_class, <span class="at">adjust =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Cramer&#39;s V |       95% CI
+&gt; -------------------------
+&gt; 1.00       | [0.81, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">tschuprows_t</span>(food_class, <span class="at">adjust =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Tschuprow&#39;s T |       95% CI
+&gt; ----------------------------
+&gt; 0.84          | [0.68, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<p>Cohen’s <em>w</em> and Pearson’s <em>C</em> are not true measures of
+correlation, but are two types of normalized <span class="math inline">\(\chi^2\)</span> values. While Pearson’s <em>C</em>
+is capped at 1, Cohen’s <em>w</em> can be larger than 1 (for both, 0
+indicates no association between the variables).</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;Music_preferences2&quot;</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>Music_preferences2</span></code></pre></div>
+<pre><code>&gt;       Pop Rock Jazz Classic
+&gt; Psych 151  130   12       7
+&gt; Econ   77    6  111       4
+&gt; Law     0    4    2     165</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">chisq.test</span>(Music_preferences2)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Pearson&#39;s Chi-squared test
+&gt; 
+&gt; data:  Music_preferences2
+&gt; X-squared = 854, df = 6, p-value &lt;2e-16</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">cramers_v</span>(Music_preferences2)</span></code></pre></div>
+<pre><code>&gt; Cramer&#39;s V (adj.) |       95% CI
+&gt; --------------------------------
+&gt; 0.80              | [0.75, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">tschuprows_t</span>(Music_preferences2)</span></code></pre></div>
+<pre><code>&gt; Tschuprow&#39;s T (adj.) |       95% CI
+&gt; -----------------------------------
+&gt; 0.72                 | [0.68, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">pearsons_c</span>(Music_preferences2)</span></code></pre></div>
+<pre><code>&gt; Pearson&#39;s C |       95% CI
+&gt; --------------------------
+&gt; 0.75        | [0.73, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">cohens_w</span>(Music_preferences2) <span class="co"># &gt; 1</span></span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s w |       95% CI
+&gt; ------------------------
+&gt; 1.13      | [1.06, 1.41]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.41~].</code></pre>
+<p>(Cramer’s <em>V</em>, Tschuprow’s <em>T</em>, and Cohen’s <em>w</em>
+can also be used for 2-by-2 tables, but there they are equivalent to
+<span class="math inline">\(\phi\)</span>.)</p>
+</div>
+<div id="for-a-bayesian-chi2-test" class="section level2">
+<h2>For a Bayesian <span class="math inline">\(\chi^2\)</span>-test</h2>
+<p>A Bayesian estimate of these effect sizes can also be provided based
+on <code>BayesFactor</code>’s version of a <span class="math inline">\(\chi^2\)</span>-test via the
+<code>effectsize()</code> function:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>BFX <span class="ot">&lt;-</span> <span class="fu">contingencyTableBF</span>(MPG_Gear, <span class="at">sampleType =</span> <span class="st">&quot;jointMulti&quot;</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;phi&quot;</span>) <span class="co"># for 2 * 2</span></span></code></pre></div>
+<pre><code>&gt; ϕ (adj.) |       95% CI
+&gt; -----------------------
+&gt; 0.53     | [0.17, 0.76]</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>BFX <span class="ot">&lt;-</span> <span class="fu">contingencyTableBF</span>(Music_preferences2, <span class="at">sampleType =</span> <span class="st">&quot;jointMulti&quot;</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;cramers_v&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cramer&#39;s V (adj.) |       95% CI
+&gt; --------------------------------
+&gt; 0.78              | [0.75, 0.81]</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;tschuprows_t&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Tschuprow&#39;s T (adj.) |       95% CI
+&gt; -----------------------------------
+&gt; 0.71                 | [0.68, 0.73]</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;cohens_w&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s w |       95% CI
+&gt; ------------------------
+&gt; 1.11      | [1.06, 1.15]</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;pearsons_c&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Pearson&#39;s C |       95% CI
+&gt; --------------------------
+&gt; 0.74        | [0.73, 0.75]</code></pre>
+</div>
+</div>
+<div id="goodness-of-fit" class="section level1">
+<h1>Goodness of Fit</h1>
+<p>Cohen’s <em>w</em> and Pearson’s <em>C</em> are also applicable to
+tests of goodness-of-fit, where they indicate the degree of deviation
+from the hypothetical probabilities, with 0 reflecting no deviation.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>O <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>, <span class="dv">37</span>, <span class="dv">130</span>, <span class="dv">28</span>, <span class="dv">2</span>) <span class="co"># observed group sizes</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>E <span class="ot">&lt;-</span> <span class="fu">c</span>(.<span class="dv">40</span>, .<span class="dv">20</span>, .<span class="dv">20</span>, .<span class="dv">15</span>, .<span class="dv">05</span>) <span class="co"># expected group freq</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a><span class="fu">chisq.test</span>(O, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Chi-squared test for given probabilities
+&gt; 
+&gt; data:  O
+&gt; X-squared = 121, df = 4, p-value &lt;2e-16</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">pearsons_c</span>(O, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; Pearson&#39;s C |       95% CI
+&gt; --------------------------
+&gt; 0.55        | [0.48, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">cohens_w</span>(O, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s w |       95% CI
+&gt; ------------------------
+&gt; 0.65      | [0.54, 4.36]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [4.36~].</code></pre>
+<p>However, these values are not (anti)correlations - they do not
+properly adjust for the “shape” of the expected multinational
+distribution, making them inflated (additionally, Cohen’s <em>w</em> can
+be larger than 1, making it harder to interpret).</p>
+<p>For these reasons, we recommend the <span class="math inline">\(פ\)</span> (Fei) coefficient, which is a measure
+of anti-correlation between the observed and the expected distributions,
+ranging from 0 (observed distribution matches the expected distribution
+perfectly) and 1 (the observed distribution is maximally different than
+the expected one).</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">fei</span>(O, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; פ‎    |       95% CI
+&gt; -------------------
+&gt; 0.15 | [0.13, 1.00]
+&gt; 
+&gt; - Adjusted for uniform expected probabilities.
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="co"># Observed perfectly matches Expected</span></span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>(O1 <span class="ot">&lt;-</span> E <span class="sc">*</span> <span class="dv">286</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 114.4  57.2  57.2  42.9  14.3</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">fei</span>(O1, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; פ‎    |       95% CI
+&gt; -------------------
+&gt; 0.00 | [0.00, 1.00]
+&gt; 
+&gt; - Adjusted for uniform expected probabilities.
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="co"># Observed deviates maximally from Expected:</span></span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a><span class="co"># All observed values are in the least expected class!</span></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a>(O2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="dv">286</span>))</span></code></pre></div>
+<pre><code>&gt; [1]   0   0   0   0 286</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">fei</span>(O2, <span class="at">p =</span> E)</span></code></pre></div>
+<pre><code>&gt; פ‎    |       95% CI
+&gt; -------------------
+&gt; 1.00 | [0.98, 1.00]
+&gt; 
+&gt; - Adjusted for uniform expected probabilities.
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+</div>
+<div id="differences-in-proportions" class="section level1">
+<h1>Differences in Proportions</h1>
+<p>For 2-by-2 tables, we can also compute the Odds-ratio (OR), where
+each column represents a different <em>group</em>. Values larger than 1
+indicate that the odds are higher in the first group (and vice
+versa).</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;RCT_table&quot;</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a>RCT_table</span></code></pre></div>
+<pre><code>&gt;            Group
+&gt; Diagnosis   Treatment Control
+&gt;   Sick             71      30
+&gt;   Recovered        50     100</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">chisq.test</span>(RCT_table) <span class="co"># or fisher.test(RCT_table)</span></span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+&gt; 
+&gt; data:  RCT_table
+&gt; X-squared = 32, df = 1, p-value = 2e-08</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">oddsratio</span>(RCT_table)</span></code></pre></div>
+<pre><code>&gt; Odds ratio |       95% CI
+&gt; -------------------------
+&gt; 4.73       | [2.74, 8.17]</code></pre>
+<p>We can also compute the Risk-ratio (RR), which is the ratio between
+the proportions of the two groups, and the Absolute Risk Reduction
+(ARR), which is the <em>difference</em> between the proportions of the
+two groups - both are measures which some claim to be more
+intuitive.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="fu">riskratio</span>(RCT_table)</span></code></pre></div>
+<pre><code>&gt; Risk ratio |       95% CI
+&gt; -------------------------
+&gt; 2.54       | [1.80, 3.60]</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">arr</span>(RCT_table)</span></code></pre></div>
+<pre><code>&gt; ARR  |       95% CI
+&gt; -------------------
+&gt; 0.36 | [0.24, 0.47]</code></pre>
+<p>Additionally, Cohen’s <em>h</em> can also be computed, which uses the
+<em>arcsin</em> transformation. Negative values indicate smaller
+proportion in the first group (and vice versa).</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">cohens_h</span>(RCT_table)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s h |       95% CI
+&gt; ------------------------
+&gt; 0.74      | [0.50, 0.99]</code></pre>
+<div id="for-a-bayesian-chi2-test-1" class="section level2">
+<h2>For a Bayesian <span class="math inline">\(\chi^2\)</span>-test</h2>
+<p>A Bayesian estimate of these effect sizes can also be provided based
+on <code>BayesFactor</code>’s version of a <span class="math inline">\(\chi^2\)</span>-test via the
+<code>effectsize()</code> function:</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>BFX <span class="ot">&lt;-</span> <span class="fu">contingencyTableBF</span>(RCT_table, <span class="at">sampleType =</span> <span class="st">&quot;jointMulti&quot;</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;or&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Odds ratio |       95% CI
+&gt; -------------------------
+&gt; 4.63       | [2.71, 8.08]</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;rr&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Risk ratio |       95% CI
+&gt; -------------------------
+&gt; 2.48       | [1.82, 3.59]</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFX, <span class="at">type =</span> <span class="st">&quot;cohens_h&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s h |       95% CI
+&gt; ------------------------
+&gt; 0.74      | [0.49, 0.98]</code></pre>
+</div>
+</div>
+<div id="paired-contingency-tables" class="section level1">
+<h1>Paired Contingency Tables</h1>
+<p>For dependent (paired) contingency tables, Cohen’s <em>g</em>
+represents the symmetry of the table, ranging between 0 (perfect
+symmetry) and 0.5 (perfect asymmetry).</p>
+<p>For example, these two tests seem to be equally predictive of the
+disease they are screening:</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;screening_test&quot;</span>)</span>
+<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a></span>
+<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a><span class="fu">phi</span>(screening_test<span class="sc">$</span>Diagnosis, screening_test<span class="sc">$</span>Test1)</span></code></pre></div>
+<pre><code>&gt; ϕ (adj.) |       95% CI
+&gt; -----------------------
+&gt; 0.85     | [0.81, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="fu">phi</span>(screening_test<span class="sc">$</span>Diagnosis, screening_test<span class="sc">$</span>Test2)</span></code></pre></div>
+<pre><code>&gt; ϕ (adj.) |       95% CI
+&gt; -----------------------
+&gt; 0.85     | [0.81, 1.00]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [1.00].</code></pre>
+<p>Does this mean they give the same number of positive/negative
+results?</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>tests <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">Test1 =</span> screening_test<span class="sc">$</span>Test1, <span class="at">Test2 =</span> screening_test<span class="sc">$</span>Test2)</span>
+<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>tests</span></code></pre></div>
+<pre><code>&gt;        Test2
+&gt; Test1   &quot;Neg&quot; &quot;Pos&quot;
+&gt;   &quot;Neg&quot;   794    86
+&gt;   &quot;Pos&quot;   150   570</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">mcnemar.test</span>(tests)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   McNemar&#39;s Chi-squared test with continuity correction
+&gt; 
+&gt; data:  tests
+&gt; McNemar&#39;s chi-squared = 17, df = 1, p-value = 4e-05</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="fu">cohens_g</span>(tests)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s g |       95% CI
+&gt; ------------------------
+&gt; 0.14      | [0.07, 0.19]</code></pre>
+<p>Test 1 gives more positive results than test 2!</p>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stylers for RStudio Addins</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for styler_addins {styler}"><tr><td>styler_addins {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stylers for RStudio Addins</h2>
+
+<h3>Description</h3>
+
+<p>Helper functions for styling via RStudio Addins.
+</p>
+
+
+<h3>Addins</h3>
+
+
+<ul>
+<li><p> Set style: Select the style transformers to use. For flexibility, the user
+input is passed to the <code>transformers</code> argument, not the <code>style</code> argument,
+so entering <code>styler::tidyverse_style(scope = "spaces")</code> in the Addin is
+equivalent to <code>styler::style_text("1+1", scope = "spaces")</code> and
+<code>styler::style_text("1+1", transformers = styler::tidyverse_style(scope = "spaces"))</code>
+if the text to style is <code>1+1</code>. The style transformers are memorized
+within an R session via the R option <code>styler.addins_style_transformer</code> so
+if you want it to persist over sessions, set the option
+<code>styler.addins_style_transformer</code> in your <code>.Rprofile</code>.
+</p>
+</li>
+<li><p> Style active file: Styles the active file, by default with
+<code><a href="../../styler/help/tidyverse_style.html">tidyverse_style()</a></code> or the value of the option
+<code>styler.addins_style_transformer</code> if specified.
+</p>
+</li>
+<li><p> Style selection: Same as <em>Style active file</em>, but styles the highlighted
+code instead of the whole file.
+</p>
+</li></ul>
+
+
+
+<h3>Auto-Save Option</h3>
+
+<p>By default, both of the RStudio Addins will apply styling to the (selected)
+file contents without saving changes. Automatic saving can be enabled by
+setting the R option <code>styler.save_after_styling</code> to <code>TRUE</code>.
+Consider setting this in your <code>.Rprofile</code> file if you want to persist
+this setting across multiple sessions. Untitled files will always need to be
+saved manually after styling.
+</p>
+
+
+<h3>Life cycle</h3>
+
+<p>The way of specifying the style in the Addin as well as the auto-save option
+(see below) are experimental. We are currently considering letting the user
+specify the defaults for other style APIs like <code><a href="../../styler/help/style_text.html">style_text()</a></code>,
+either via R options, config files or other ways as well.
+See <a href="https://github.com/r-lib/styler/issues/319">r-lib/styler#319</a> for
+the current status of this.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other stylers: 
+<code><a href="../../styler/help/style_dir.html">style_dir</a>()</code>,
+<code><a href="../../styler/help/style_file.html">style_file</a>()</code>,
+<code><a href="../../styler/help/style_pkg.html">style_pkg</a>()</code>,
+<code><a href="../../styler/help/style_text.html">style_text</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+# save after styling when using the Addin
+options(styler.save_after_styling = TRUE)
+# only style with scope = "spaces" when using the Addin
+val &lt;- "styler::tidyverse_style(scope = 'spaces')"
+options(
+  styler.addins_style_transformer = val
+)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

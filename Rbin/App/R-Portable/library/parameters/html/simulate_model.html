@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulated draws from model coefficients</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simulate_model {parameters}"><tr><td>simulate_model {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulated draws from model coefficients</h2>
+
+<h3>Description</h3>
+
+<p>Simulate draws from a statistical model to return a data frame
+of estimates.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_model(model, iterations = 1000, ...)
+
+## S3 method for class 'glmmTMB'
+simulate_model(
+  model,
+  iterations = 1000,
+  component = c("all", "conditional", "zi", "zero_inflated", "dispersion"),
+  verbose = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Statistical model (no Bayesian models).</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of draws to simulate/bootstrap.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../insight/help/get_varcov.html">insight::get_varcov()</a></code>, e.g. to allow simulated
+draws to be based on heteroscedasticity consistent variance covariance matrices.</p>
+</td></tr>
+<tr valign="top"><td><code>component</code></td>
+<td>
+<p>Should all parameters, parameters for the conditional model,
+for the zero-inflation part of the model, or the dispersion model be returned?
+Applies to models with zero-inflation and/or dispersion component. <code>component</code>
+may be one of <code>"conditional"</code>, <code>"zi"</code>, <code>"zero-inflated"</code>, <code>"dispersion"</code> or
+<code>"all"</code> (default). May be abbreviated.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+
+<h4>Technical Details</h4>
+
+<p><code>simulate_model()</code> is a computationally faster alternative
+to <code>bootstrap_model()</code>. Simulated draws for coefficients are based
+on a multivariate normal distribution (<code>MASS::mvrnorm()</code>) with mean
+<code>mu = coef(model)</code> and variance <code>Sigma = vcov(model)</code>.
+</p>
+
+
+
+<h4>Models with Zero-Inflation Component</h4>
+
+<p>For models from packages <strong>glmmTMB</strong>, <strong>pscl</strong>, <strong>GLMMadaptive</strong> and
+<strong>countreg</strong>, the <code>component</code> argument can be used to specify
+which parameters should be simulated. For all other models, parameters
+from the conditional component (fixed effects) are simulated. This may
+include smooth terms, but not random effects.
+</p>
+
+
+
+<h3>Value</h3>
+
+<p>A data frame.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/simulate_parameters.html">simulate_parameters()</a></code>, <code><a href="../../parameters/help/bootstrap_model.html">bootstrap_model()</a></code>, <code><a href="../../parameters/help/bootstrap_parameters.html">bootstrap_parameters()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(Sepal.Length ~ Species * Petal.Width + Petal.Length, data = iris)
+head(simulate_model(model))
+
+if (require("glmmTMB", quietly = TRUE)) {
+  model &lt;- glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~mined,
+    family = poisson(),
+    data = Salamanders
+  )
+  head(simulate_model(model))
+  head(simulate_model(model, component = "zero_inflated"))
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

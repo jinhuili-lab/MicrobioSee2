@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a package for a Shiny App using '{golem}'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for create_golem {golem}"><tr><td>create_golem {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a package for a Shiny App using <code>{golem}</code></h2>
+
+<h3>Description</h3>
+
+<p>Create a package for a Shiny App using <code>{golem}</code>
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_golem(
+  path,
+  check_name = TRUE,
+  open = TRUE,
+  overwrite = FALSE,
+  package_name = basename(path),
+  without_comments = FALSE,
+  project_hook = golem::project_hook,
+  with_git = FALSE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>Name of the folder to create the package in.
+This will also be used as the package name.</p>
+</td></tr>
+<tr valign="top"><td><code>check_name</code></td>
+<td>
+<p>Should we check that the package name is
+correct according to CRAN requirements.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Boolean. Open the created project?</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>Boolean. Should the already existing project be overwritten ?</p>
+</td></tr>
+<tr valign="top"><td><code>package_name</code></td>
+<td>
+<p>Package name to use. By default, golem uses
+<code>basename(path)</code>. If <code>path == '.'</code> &amp; <code>package_name</code> is
+not explicitly set, then <code>basename(getwd())</code> will be used.</p>
+</td></tr>
+<tr valign="top"><td><code>without_comments</code></td>
+<td>
+<p>Boolean. Start project without golem comments</p>
+</td></tr>
+<tr valign="top"><td><code>project_hook</code></td>
+<td>
+<p>A function executed as a hook after project
+creation. Can be used to change the default <code>{golem}</code> structure.
+to override the files and content. This function is executed just
+after the project is created.</p>
+</td></tr>
+<tr valign="top"><td><code>with_git</code></td>
+<td>
+<p>Boolean. Initialize git repository</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to the <code>project_hook()</code> function.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The path, invisibly.
+</p>
+
+
+<h3>Note</h3>
+
+<p>For compatibility issue, this function turns <code>options(shiny.autoload.r)</code>
+to <code>FALSE</code>. See https://github.com/ThinkR-open/golem/issues/468 for more background.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

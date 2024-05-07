@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Updates the timestamp of a file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for touchFile {R.utils}"><tr><td>touchFile {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Updates the timestamp of a file</h2>
+
+<h3>Description</h3>
+
+<p>Updates the timestamp of a file.
+Currently, it is only possible to change the timestamp specifying when
+the file was last modified, and time can only be set to the current time.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+touchFile(pathname, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> specifying files to be updated.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) a <code><a href="../../base/help/vector.html">vector</a></code> of the old timestamps.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] R-devel mailing list thread
+<em>Unix-like touch to update modification timestamp of file?</em>,
+started on 2008-02-26.
+<a href="https://stat.ethz.ch/pipermail/r-devel/2008-February/048542.html">https://stat.ethz.ch/pipermail/r-devel/2008-February/048542.html</a><br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/Sys.setFileTime.html">Sys.setFileTime</a></code>() (iff available) and
+<code><a href="../../base/help/file.info.html">file.info</a></code>() are utilized.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# 1. Create a file
+pathname &lt;- tempfile()
+cat(file=pathname, "Hello world!")
+md5a &lt;- digest::digest(pathname, file=TRUE)
+
+# 2. Current time stamp
+ta &lt;- file.info(pathname)$mtime
+print(ta)
+
+# 3. Update time stamp
+Sys.sleep(1.2)
+touchFile(pathname)
+tb &lt;- file.info(pathname)$mtime
+print(tb)
+
+# 4. Verify that the timestamp got updated
+stopifnot(tb &gt; ta)
+
+# 5. Verify that the contents did not change
+md5b &lt;- digest::digest(pathname, file=TRUE)
+stopifnot(identical(md5a, md5b))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

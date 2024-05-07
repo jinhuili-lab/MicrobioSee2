@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Letter summary of similarities and differences</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multcompLetters {multcompView}"><tr><td>multcompLetters {multcompView}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Letter summary of similarities and differences</h2>
+
+<h3>Description</h3>
+
+<p>Convert a logical vector or a vector of p-values or a correlation or
+distance matrix into a character-based display in which common characters
+identify levels or groups that are not significantly different.  Designed
+for use with the output of functions like TukeyHSD, diststats, simint,
+simtest, csimint, csimtestmultcomp, friedmanmc, kruskalmcpgirmess.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+multcompLetters(
+  x,
+  compare = "&lt;",
+  threshold = 0.05,
+  Letters = c(letters, LETTERS, "."),
+  reversed = FALSE
+)
+
+multcompLetters2(formula, x, data, ...)
+
+multcompLetters3(z, y, x, data, ...)
+
+multcompLetters4(object, comp, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>One of the following: (1) A square, symmetric matrix with row
+names.  (2) A vector with hyphenated names, which identify individual items
+or factor levels after &quot;strsplit&quot;.  (3) An object of class &quot;dist&quot;.  If x (or
+x[1]) is not already of class &quot;logical&quot;, it is replaced with
+do.call(compare, list(x, threshold)), which by default converts numbers
+(typically p-values) less than 0.05 to TRUE and everything else to FALSE.
+If x is a matrix, its diagonal must be or must convert to FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>compare</code></td>
+<td>
+<p>function or binary operator; not used if class(x) is
+&quot;logical&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>Second (reference) argument to &quot;compare&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>Letters</code></td>
+<td>
+<p>Vector of distinct characters (or character strings) used to
+connect levels that are not significantly different.  They should be
+recognizable when concatenated.  The last element of &quot;Letters&quot; is used as a
+prefix for a reuse of &quot;Letters&quot; if more are needed than are provided.  For
+example, with the default &quot;Letters&quot;, if 53 distinct connection columns are
+required, they will be &quot;a&quot;, ..., &quot;z&quot;, &quot;A&quot;, ..., &quot;Z&quot;, and &quot;.a&quot;.  If 54 are
+required, the last one will be &quot;.b&quot;.  If 105 are required, the last one will
+be &quot;..a&quot;, etc.  (If the algorithm generates that many distinct groups, the
+display may be too busy to be useful, but the algorithm shouldn't break.)</p>
+</td></tr>
+<tr valign="top"><td><code>reversed</code></td>
+<td>
+<p>A logical value indicating whether the order of the letters
+should be reversed. Defaults to FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>formula</code></td>
+<td>
+<p>The formula used to make the test (lm, aov, glm, etc.).  Like
+y ~ x.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Data used to make the test.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Extra arguments passed to multcompLetters.</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>Categorical variables used in the test.</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Value of the response variable.</p>
+</td></tr>
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An object of class aov or lm for the time being.</p>
+</td></tr>
+<tr valign="top"><td><code>comp</code></td>
+<td>
+<p>A object with multiple comparison or a function name to perform
+a multiple comparison.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Produces a &quot;Letter-Based Representation of All- Pairwise Comparisons&quot; as
+described by Piepho (2004).  (The present algorithm does NOT perform his
+&quot;sweeping&quot; step.)  <code>multcompLettersx</code> are wrapper of multcompLetters
+that will reorder the levels of the data so that the letters appear in a
+descending order of the mean. <code>mulcompletters3</code> is similar to
+<code>multcompletters2</code> except that it uses vector names to separate and the
+later has an formula interface. <code>multcompLetters4</code> will take a aov or
+lm object and a comparison test and will produce all the letters for the
+terms and interactions.
+</p>
+
+
+<h3>Value</h3>
+
+<p>An object of class 'multcompLetters', which is a list with the
+following components: </p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>Letters </code></td>
+<td>
+<p>character vector with names = the
+names of the levels or groups compared and with values = character strings
+in which common values of the function argument &quot;Letters&quot; identify levels or
+groups that are not significantly different (or more precisely for which the
+corresponding element of &quot;x&quot; was FALSE or was converted to FALSE by
+&quot;compare&quot;).  </p>
+</td></tr> <tr valign="top"><td><code>monospacedLetters </code></td>
+<td>
+<p> Same as &quot;Letters&quot; but with spaces
+so the individual grouping letters will line up with a monospaced type font.
+</p>
+</td></tr> <tr valign="top"><td><code>LetterMatrix </code></td>
+<td>
+<p>Logical matrix with one row for each level compared
+and one column for each &quot;Letter&quot; in the &quot;letter-based representation&quot;.  The
+output component &quot;Letters&quot; is obtained by concatenating the column names of
+all columns with TRUE in that row.  </p>
+</td></tr></table>
+<p> multcompLetters4 will return a named
+list with the terms containing a object of class 'multcompLetters' as
+produced by <code>multcompLetters</code>.
+</p>
+
+
+<h3>Functions</h3>
+
+
+<ul>
+<li> <p><code>multcompLetters2()</code>: 
+</p>
+</li>
+<li> <p><code>multcompLetters3()</code>: create a compact letters display and order the 
+letters
+</p>
+</li>
+<li> <p><code>multcompLetters4()</code>: create a compact letters display using a aov object
+</p>
+</li></ul>
+
+
+<h3>Author(s)</h3>
+
+<p>Spencer Graves, Hans-Peter Piepho and Luciano Selzer
+</p>
+
+
+<h3>References</h3>
+
+<p>Piepho, Hans-Peter (2004) &quot;An Algorithm for a Letter-Based
+Representation of All-Pairwise Comparisons&quot;, Journal of Computational and
+Graphical Statistics, 13(2)456-466.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../multcompView/help/multcompBoxplot.html">multcompBoxplot</a></code> <code><a href="../../multcompView/help/plot.multcompLetters.html">plot.multcompLetters</a></code>
+<code><a href="../../multcompView/help/print.multcompLetters.html">print.multcompLetters</a></code> <code><a href="../../multcompView/help/multcompTs.html">multcompTs</a></code>
+<code><a href="../../multcompView/help/vec2mat.html">vec2mat</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##
+## 1.  a logical vector indicating signficant differences
+##
+dif3 &lt;- c(FALSE, FALSE, TRUE)
+names(dif3) &lt;- c("A-B", "A-C", "B-C")
+dif3L &lt;- multcompLetters(dif3)
+dif3L
+print(dif3L)
+print(dif3L, TRUE)
+
+##
+## 2.  numeric vector indicating statistical significance
+##
+dif4 &lt;- c(.01, .02, .03, 1)
+names(dif4) &lt;- c("a-b", "a-c", "b-d", "a-d")
+(diff4.T &lt;- multcompLetters(dif4))
+
+(dif4.L1 &lt;- multcompLetters(dif4,
+       Letters=c("*", ".")))
+# "Letters" can be any character strings,
+# but they should be recognizable when
+# concatenated.
+
+##
+## 3.  distance matrix
+##
+dJudge &lt;- dist(USJudgeRatings)
+dJl &lt;- multcompLetters(dJudge, compare='&gt;', threshold = median(dJudge))
+# comparison of 43 judges;  compact but undecipherable:
+dJl
+
+x &lt;- array(1:9, dim=c(3,3),
+   dimnames=list(LETTERS[1:3], NULL) )
+d3 &lt;- dist(x)
+dxLtrs &lt;- multcompLetters(d3, compare="&gt;", threshold=2)
+
+d3d &lt;- dist(x, diag=TRUE)
+dxdLtrs &lt;- multcompLetters(d3d, compare="&gt;", threshold=2)
+
+
+all.equal(dxLtrs, dxdLtrs)
+
+
+d3u &lt;- dist(x, upper=TRUE)
+dxuLtrs &lt;- multcompLetters(d3d, compare="&gt;", threshold=2)
+
+
+all.equal(dxLtrs, dxuLtrs)
+
+
+##
+## 4.  cor matrix
+##
+set.seed(4)
+x100 &lt;- matrix(rnorm(100), ncol=5,
+               dimnames=list(NULL, LETTERS[1:5]) )
+cx &lt;- cor(x100)
+cxLtrs &lt;- multcompLetters(abs(cx), threshold=.3)
+
+
+##
+##5. reversed
+##
+
+dif3 &lt;- c(FALSE, FALSE, TRUE)
+names(dif3) &lt;- c("A-B", "A-C", "B-C")
+dif3L &lt;- multcompLetters(dif3)
+dif3L.R &lt;- multcompLetters(dif3, rev = TRUE)
+dif3L
+dif3L.R
+
+
+##
+##6. multcompletters2 usage
+
+experiment &lt;- data.frame(treatments = gl(11, 20, labels = c("dtl", "ctrl", "treat1", 
+              "treat2", "treatA2", "treatB", "treatB2",
+              "treatC", "treatD", "treatA1", "treatX")),
+              y = c(rnorm(20, 10, 5), rnorm(20, 20, 5), rnorm(20, 22, 5), rnorm(20, 24, 5),
+               rnorm(20, 35, 5), rnorm(20, 37, 5), rnorm(20, 40, 5), rnorm(20, 43, 5),
+               rnorm(20, 45, 5), rnorm(20, 60, 5), rnorm(20, 60, 5)))
+exp_tukey &lt;- TukeyHSD(exp_aov &lt;- aov(y  ~ treatments, data = experiment))
+exp_letters1 &lt;- multcompLetters(exp_tukey$treatments[,4])
+exp_letters1
+#Notice lowest mean treatments gets a "e"
+#Ordered letters
+multcompLetters2(y ~ treatments, exp_tukey$treatments[,"p adj"], experiment)
+multcompLetters2(y ~ treatments, exp_tukey$treatments[,"p adj"], experiment, reversed = TRUE)
+
+##7. multcompletters3 usage
+
+multcompLetters3("treatments", "y", exp_tukey$treatments[,"p adj"], experiment)
+
+##8. multcompletters4 usage
+
+
+multcompLetters4(exp_aov, exp_tukey)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>multcompView</em> version 0.1-10 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

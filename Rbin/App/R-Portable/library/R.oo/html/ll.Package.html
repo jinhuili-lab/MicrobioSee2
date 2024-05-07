@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Generates a list of informative properties of all members of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ll.Package {R.oo}"><tr><td>ll.Package {R.oo}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Generates a list of informative properties of all members of the package</h2>
+
+<h3>Description</h3>
+
+<p>Generates a list of informative properties of all members of the package.
+</p>
+<p>If the package is not loaded, it will be loaded, the members will be
+retrieved and then the package will be unloaded again.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'Package'
+ll(this, envir=pos.to.env(getPosition(this)), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note the difference from the default definition of <code>ll()</code> as
+inherited from the <code><a href="../help/Object.html">Object</a></code> class. Here <code>ll()</code> has been
+redefined to list the members of the package, i.e. the members in
+the environment on search path that belongs to the package, whereas
+the original usage was to list the members of the Object. However,
+since the internal members of Package object is not of interest we
+decided on this definition instead.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/data.frame.html">data.frame</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.oo/help/Package.html">Package</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  ## Not run: ll(R.oo)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.oo</em> version 1.26.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

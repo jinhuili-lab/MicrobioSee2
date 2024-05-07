@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Standardized Differences</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Standardized Differences</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#standardized-differences" id="toc-standardized-differences">Standardized Differences</a>
+<ul>
+<li><a href="#two-independent-samples" id="toc-two-independent-samples">Two Independent Samples</a></li>
+<li><a href="#one-sample" id="toc-one-sample">One Sample</a></li>
+<li><a href="#paired-samples" id="toc-paired-samples">Paired
+Samples</a></li>
+<li><a href="#for-a-bayesian-t-test" id="toc-for-a-bayesian-t-test">For
+a Bayesian <em>t</em>-test</a></li>
+<li><a href="#multivariate-standardized-distances" id="toc-multivariate-standardized-distances">(Multivariate) Standardized
+Distances</a></li>
+<li><a href="#means-ratio" id="toc-means-ratio">Means Ratio</a></li>
+</ul></li>
+<li><a href="#dominance-effect-sizes" id="toc-dominance-effect-sizes">Dominance Effect Sizes</a>
+<ul>
+<li><a href="#two-independent-samples-1" id="toc-two-independent-samples-1">Two Independent Samples</a></li>
+<li><a href="#one-sample-1" id="toc-one-sample-1">One Sample</a></li>
+<li><a href="#paired-samples-1" id="toc-paired-samples-1">Paired
+Samples</a></li>
+</ul></li>
+<li><a href="#common-language-effect-sizes" id="toc-common-language-effect-sizes">Common Language Effect Sizes</a>
+<ul>
+<li><a href="#two-independent-samples-2" id="toc-two-independent-samples-2">Two Independent Samples</a>
+<ul>
+<li><a href="#measures-of-nonoverlap" id="toc-measures-of-nonoverlap">Measures of (Non)Overlap</a></li>
+<li><a href="#probabilistic-measures" id="toc-probabilistic-measures">Probabilistic Measures</a></li>
+</ul></li>
+<li><a href="#one-sample-and-paired-samples" id="toc-one-sample-and-paired-samples">One Sample and Paired
+Samples</a></li>
+<li><a href="#for-a-bayesian-t-test-1" id="toc-for-a-bayesian-t-test-1">For a Bayesian <em>t</em>-test</a></li>
+</ul></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<p>This vignette provides a review of effect sizes for comparisons of
+groups, which are typically achieved with the <code>t.test()</code> and
+<code>wilcox.test()</code> functions.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">options</span>(<span class="at">es.use_symbols =</span> <span class="cn">TRUE</span>) <span class="co"># get nice symbols when printing! (On Windows, requires R &gt;= 4.2.0)</span></span></code></pre></div>
+<div id="standardized-differences" class="section level1">
+<h1>Standardized Differences</h1>
+<p>For <em>t</em>-tests, it is common to report an effect size
+representing a standardized difference between the two compared samples’
+means. These measures range from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span>, with negative values indicating
+the second group’s mean is larger (and vice versa).</p>
+<div id="two-independent-samples" class="section level2">
+<h2>Two Independent Samples</h2>
+<p>For two independent samples, the difference between the means is
+standardized based on the pooled standard deviation of both samples
+(assumed to be equal in the population):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">t.test</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Two Sample t-test
+&gt; 
+&gt; data:  mpg by am
+&gt; t = -4, df = 30, p-value = 3e-04
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -10.85  -3.64
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;            17.1            24.4</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |         95% CI
+&gt; --------------------------
+&gt; -1.48     | [-2.27, -0.67]
+&gt; 
+&gt; - Estimated using pooled SD.</code></pre>
+<p>Hedges’ <em>g</em> provides a small-sample bias correction (for small
+sample sizes, <span class="math inline">\(N &lt; 20\)</span>).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">hedges_g</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Hedges&#39; g |         95% CI
+&gt; --------------------------
+&gt; -1.44     | [-2.21, -0.65]
+&gt; 
+&gt; - Estimated using pooled SD.</code></pre>
+<p>If variances cannot be assumed to be equal, it is possible to get
+estimates that are not based on the pooled standard deviation:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">t.test</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Welch Two Sample t-test
+&gt; 
+&gt; data:  mpg by am
+&gt; t = -4, df = 18, p-value = 0.001
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -11.28  -3.21
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;            17.1            24.4</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">pooled_sd =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |         95% CI
+&gt; --------------------------
+&gt; -1.41     | [-2.26, -0.53]
+&gt; 
+&gt; - Estimated using un-pooled SD.</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">hedges_g</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">pooled_sd =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Hedges&#39; g |         95% CI
+&gt; --------------------------
+&gt; -1.35     | [-2.17, -0.51]
+&gt; 
+&gt; - Estimated using un-pooled SD.</code></pre>
+<p>In cases where the differences between the variances are substantial,
+it is also common to standardize the difference based only on the
+standard deviation of one of the groups (usually the “control” group);
+this effect size is known as Glass’ <span class="math inline">\(\Delta\)</span> (delta) (Note that the standard
+deviation is taken from the <em>second</em> sample).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">glass_delta</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Glass&#39; Δ (adj.) |         95% CI
+&gt; --------------------------------
+&gt; -1.10           | [-1.80, -0.37]</code></pre>
+<p>For a one-sided hypothesis, it is also possible to construct
+one-sided confidence intervals:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">t.test</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">var.equal =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Two Sample t-test
+&gt; 
+&gt; data:  mpg by am
+&gt; t = -4, df = 30, p-value = 1e-04
+&gt; alternative hypothesis: true difference in means between group 0 and group 1 is less than 0
+&gt; 95 percent confidence interval:
+&gt;   -Inf -4.25
+&gt; sample estimates:
+&gt; mean in group 0 mean in group 1 
+&gt;            17.1            24.4</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">cohens_d</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">pooled_sd =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |        95% CI
+&gt; -------------------------
+&gt; -1.48     | [-Inf, -0.80]
+&gt; 
+&gt; - Estimated using pooled SD.
+&gt; - One-sided CIs: lower bound fixed at [-Inf].</code></pre>
+</div>
+<div id="one-sample" class="section level2">
+<h2>One Sample</h2>
+<p>In the case of a one-sample test, the effect size represents the
+standardized distance of the mean of the sample from the null value.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">t.test</span>(mtcars<span class="sc">$</span>wt, <span class="at">mu =</span> <span class="fl">2.7</span>)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   One Sample t-test
+&gt; 
+&gt; data:  mtcars$wt
+&gt; t = 3, df = 31, p-value = 0.005
+&gt; alternative hypothesis: true mean is not equal to 2.7
+&gt; 95 percent confidence interval:
+&gt;  2.86 3.57
+&gt; sample estimates:
+&gt; mean of x 
+&gt;      3.22</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">cohens_d</span>(mtcars<span class="sc">$</span>wt, <span class="at">mu =</span> <span class="fl">2.7</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |       95% CI
+&gt; ------------------------
+&gt; 0.53      | [0.15, 0.90]
+&gt; 
+&gt; - Deviation from a difference of 2.7.</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">hedges_g</span>(mtcars<span class="sc">$</span>wt, <span class="at">mu =</span> <span class="fl">2.7</span>)</span></code></pre></div>
+<pre><code>&gt; Hedges&#39; g |       95% CI
+&gt; ------------------------
+&gt; 0.52      | [0.15, 0.87]
+&gt; 
+&gt; - Deviation from a difference of 2.7.</code></pre>
+</div>
+<div id="paired-samples" class="section level2">
+<h2>Paired Samples</h2>
+<p>In a repeated-measures design, the same subjects are measured in
+multiple conditions or time points. Unlike the case of independent
+groups, there are multiple sources of variation that can be used to
+standardized the differences between the means of the conditions /
+times, and each provides a unique standardized mean difference.</p>
+<p>The most basic option is compute from the paired samples difference
+scores and compute a one-sample effect size. This effect size, known as
+Cohen’s <span class="math inline">\(d_z\)</span>, represents the
+difference in terms of its homogeneity (a small but stable difference
+will have a large <span class="math inline">\(d_z\)</span>).</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>sleep_wide <span class="ot">&lt;-</span> datawizard<span class="sc">::</span><span class="fu">data_to_wide</span>(sleep,</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="at">id_cols =</span> <span class="st">&quot;ID&quot;</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="at">values_from =</span> <span class="st">&quot;extra&quot;</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="at">names_from =</span> <span class="st">&quot;group&quot;</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="at">names_prefix =</span> <span class="st">&quot;extra_&quot;</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>)</span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a><span class="fu">t.test</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Paired t-test
+&gt; 
+&gt; data:  sleep_wide[[&quot;extra_1&quot;]] and sleep_wide[[&quot;extra_2&quot;]]
+&gt; t = -4, df = 9, p-value = 0.003
+&gt; alternative hypothesis: true mean difference is not equal to 0
+&gt; 95 percent confidence interval:
+&gt;  -2.46 -0.70
+&gt; sample estimates:
+&gt; mean difference 
+&gt;           -1.58</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">method =</span> <span class="st">&quot;z&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; d (z) |         95% CI
+&gt; ----------------------
+&gt; -1.17 | [-1.94, -0.41]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co"># same as:</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">hedges_g</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]] <span class="sc">-</span> sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]])</span></code></pre></div>
+<pre><code>&gt; Hedges&#39; g |         95% CI
+&gt; --------------------------
+&gt; -1.17     | [-1.94, -0.38]</code></pre>
+<p>Other options try to get close to the value that would have been
+reached if the samples were independant (see more info in the
+documentation of <code>repeated_measures_d()</code>):</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]])</span></code></pre></div>
+<pre><code>&gt; dᵣₘ   |         95% CI
+&gt; ----------------------
+&gt; -0.75 | [-1.17, -0.33]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">method =</span> <span class="st">&quot;av&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; dₐᵥ   |         95% CI
+&gt; ----------------------
+&gt; -0.76 | [-1.13, -0.39]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">method =</span> <span class="st">&quot;b&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Becker&#39;s d |         95% CI
+&gt; ---------------------------
+&gt; -0.72      | [-1.20, -0.24]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">method =</span> <span class="st">&quot;d&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |         95% CI
+&gt; --------------------------
+&gt; -0.80     | [-1.29, -0.30]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># all closer to:</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="fu">cohens_d</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]], <span class="at">ci =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d
+&gt; ---------
+&gt; -0.83    
+&gt; 
+&gt; - Estimated using pooled SD.</code></pre>
+<p>For data containing repetition in each condition/subject, another
+effect size (residual <em>d</em>) is also available:</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;rouder2016&quot;</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="fu">head</span>(rouder2016)</span></code></pre></div>
+<pre><code>&gt;   id cond    rt
+&gt; 1  1    1 0.560
+&gt; 2  1    1 0.930
+&gt; 3  1    1 0.795
+&gt; 4  1    1 0.615
+&gt; 5  1    1 1.028
+&gt; 6  1    1 0.845</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="fu">repeated_measures_d</span>(rt <span class="sc">~</span> cond <span class="sc">|</span> id, <span class="at">data =</span> rouder2016, <span class="at">method =</span> <span class="st">&quot;r&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; dᵣ    |         95% CI
+&gt; ----------------------
+&gt; -0.26 | [-0.33, -0.18]
+&gt; 
+&gt; - Adjusted for small sample bias.</code></pre>
+</div>
+<div id="for-a-bayesian-t-test" class="section level2">
+<h2>For a Bayesian <em>t</em>-test</h2>
+<p>A Bayesian estimate of Cohen’s <em>d</em> can also be provided based
+on <code>BayesFactor</code>’s version of a <em>t</em>-test via the
+<code>effectsize()</code> function:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>BFt <span class="ot">&lt;-</span> <span class="fu">ttestBF</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;d&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |         95% CI
+&gt; --------------------------
+&gt; -1.29     | [-2.11, -0.52]
+&gt; 
+&gt; - Estimated using pooled SD.</code></pre>
+</div>
+<div id="multivariate-standardized-distances" class="section level2">
+<h2>(Multivariate) Standardized Distances</h2>
+<p>When examining multivariate differences (e.g., with Hotelling’s <span class="math inline">\(T^2\)</span> test), Mahalanobis’ <em>D</em> can be
+used as the multivariate equivalent for Cohen’s <em>d</em>. Unlike
+Cohen’s <em>d</em> which is a measure of standardized
+<em>differences</em>, Mahalanobis’ <em>D</em> is a measure of
+standardized <em>distances</em>. As such, it cannot be negative, and
+ranges from 0 (no distance between the multivariate distributions) to
+<span class="math inline">\(+\infty\)</span>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">mahalanobis_d</span>(mpg <span class="sc">+</span> hp <span class="sc">+</span> cyl <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Mahalanobis&#39; D |      95% CI
+&gt; ----------------------------
+&gt; 2.14           | [1.22, Inf]
+&gt; 
+&gt; - One-sided CIs: upper bound fixed at [Inf].</code></pre>
+</div>
+<div id="means-ratio" class="section level2">
+<h2>Means Ratio</h2>
+<p>Instead of the <em>difference</em> between means, we can also look at
+the <em>ratio</em> between means. This effect size is only applicable to
+<strong>ratio scale</strong> outcomes (variables with an absolute
+zero).</p>
+<p>Lucky for us, miles-per-gallon is on a ratio scale!</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">means_ratio</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Means Ratio (adj.) |       95% CI
+&gt; ---------------------------------
+&gt; 0.70               | [0.59, 0.83]</code></pre>
+<p>Values range between <span class="math inline">\(0\)</span> and <span class="math inline">\(\infty\)</span>, with values smaller than 1
+indicating that the second mean is larger than the first, values larger
+than 1 indicating that the second mean is smaller than the first, and
+values of 1 indicating that the means are equal.</p>
+</div>
+</div>
+<div id="dominance-effect-sizes" class="section level1">
+<h1>Dominance Effect Sizes</h1>
+<p>The rank-biserial correlation (<span class="math inline">\(r_{rb}\)</span>) is a measure of dominance: larger
+values indicate that more of <em>X</em> is larger than more of
+<em>Y</em>, with a value of <span class="math inline">\((-1)\)</span>
+indicates that <em>all</em> observations in the second group are larger
+than the first, and a value of <span class="math inline">\((+1)\)</span>
+indicates that <em>all</em> observations in the first group are larger
+than the second.</p>
+<p>These effect sizes should be reported with the Wilcoxon
+(Mann-Whitney) test or the signed-rank test (both available in
+<code>wilcox.test()</code>).</p>
+<div id="two-independent-samples-1" class="section level2">
+<h2>Two Independent Samples</h2>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">48</span>, <span class="dv">48</span>, <span class="dv">77</span>, <span class="dv">86</span>, <span class="dv">85</span>, <span class="dv">85</span>)</span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">34</span>, <span class="dv">34</span>, <span class="dv">77</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a><span class="fu">wilcox.test</span>(A, B, <span class="at">exact =</span> <span class="cn">FALSE</span>) <span class="co"># aka Mann–Whitney U test</span></span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Wilcoxon rank sum test with continuity correction
+&gt; 
+&gt; data:  A and B
+&gt; W = 22, p-value = 0.05
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">rank_biserial</span>(A, B)</span></code></pre></div>
+<pre><code>&gt; r (rank biserial) |       95% CI
+&gt; --------------------------------
+&gt; 0.79              | [0.30, 0.95]</code></pre>
+</div>
+<div id="one-sample-1" class="section level2">
+<h2>One Sample</h2>
+<p>For one sample, <span class="math inline">\(r_{rb}\)</span> measures
+the symmetry around <span class="math inline">\(\mu\)</span> (mu; the
+null value), with 0 indicating perfect symmetry, <span class="math inline">\((-1)\)</span> indicates that all observations fall
+below <span class="math inline">\(\mu\)</span>, and <span class="math inline">\((+1)\)</span> indicates that all observations fall
+above <span class="math inline">\(\mu\)</span>.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.15</span>, <span class="fl">0.88</span>, <span class="fl">0.90</span>, <span class="fl">0.74</span>, <span class="fl">1.21</span>, <span class="fl">1.36</span>, <span class="fl">0.89</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" tabindex="-1"></a><span class="fu">wilcox.test</span>(x, <span class="at">mu =</span> <span class="dv">1</span>) <span class="co"># aka Signed-Rank test</span></span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Wilcoxon signed rank exact test
+&gt; 
+&gt; data:  x
+&gt; V = 16, p-value = 0.8
+&gt; alternative hypothesis: true location is not equal to 1</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="fu">rank_biserial</span>(x, <span class="at">mu =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>&gt; r (rank biserial) |        95% CI
+&gt; ---------------------------------
+&gt; 0.14              | [-0.59, 0.75]
+&gt; 
+&gt; - Deviation from a difference of 1.</code></pre>
+</div>
+<div id="paired-samples-1" class="section level2">
+<h2>Paired Samples</h2>
+<p>For paired samples, <span class="math inline">\(r_{rb}\)</span>
+measures the symmetry of the (paired) <em>differences</em> around <span class="math inline">\(\mu\)</span> as for the one sample case.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">1.83</span>, <span class="fl">0.50</span>, <span class="fl">1.62</span>, <span class="fl">2.48</span>, <span class="fl">1.68</span>, <span class="fl">1.88</span>, <span class="fl">1.55</span>, <span class="fl">3.06</span>, <span class="fl">1.30</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.88</span>, <span class="fl">0.65</span>, <span class="fl">0.60</span>, <span class="fl">2.05</span>, <span class="fl">1.06</span>, <span class="fl">1.29</span>, <span class="fl">1.06</span>, <span class="fl">3.14</span>, <span class="fl">1.29</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a><span class="fu">wilcox.test</span>(x, y, <span class="at">paired =</span> <span class="cn">TRUE</span>) <span class="co"># aka Signed-Rank test</span></span></code></pre></div>
+<pre><code>&gt; 
+&gt;   Wilcoxon signed rank exact test
+&gt; 
+&gt; data:  x and y
+&gt; V = 40, p-value = 0.04
+&gt; alternative hypothesis: true location shift is not equal to 0</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="fu">rank_biserial</span>(x, y, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>&gt; r (rank biserial) |       95% CI
+&gt; --------------------------------
+&gt; 0.78              | [0.30, 0.94]</code></pre>
+</div>
+</div>
+<div id="common-language-effect-sizes" class="section level1">
+<h1>Common Language Effect Sizes</h1>
+<p>Related effect sizes are the <em>common language effect sizes</em>
+which present information about group differences in terms of
+probability.</p>
+<div id="two-independent-samples-2" class="section level2">
+<h2>Two Independent Samples</h2>
+<div id="measures-of-nonoverlap" class="section level3">
+<h3>Measures of (Non)Overlap</h3>
+<p>These measures indicate the degree two independent distributions
+overlap: Cohen’s <span class="math inline">\(U_1\)</span> is the
+proportion of the total of both distributions that does not overlap,
+while <em>Overlap (OVL)</em> is the proportional overlap between the
+distributions.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" tabindex="-1"></a><span class="fu">cohens_u1</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U1 |       95% CI
+&gt; -------------------------
+&gt; 0.70       | [0.42, 0.85]</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a><span class="fu">p_overlap</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Overlap |       95% CI
+&gt; ----------------------
+&gt; 0.46    | [0.26, 0.74]</code></pre>
+<p>Note the by default, these functions return the parametric versions
+of these effect sizes: these assume equal normal variance in both
+populations. When these assumptions are not met, the values produced
+will be biased in unknown ways. In such cases, we should use the
+non-parametric versions (<span class="math inline">\(U_1\)</span> is not
+defined):</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="fu">p_overlap</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">parametric =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Overlap |       95% CI
+&gt; ----------------------
+&gt; 0.69    | [0.30, 1.00]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+</div>
+<div id="probabilistic-measures" class="section level3">
+<h3>Probabilistic Measures</h3>
+<p><em>Probability of superiority</em> is the probability that, when
+sampling an observation from each of the groups at random, that the
+observation from the second group will be larger than the sample from
+the first group.</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a><span class="fu">p_superiority</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.15            | [0.05, 0.32]</code></pre>
+<p>Here, this indicates that if we were to randomly draw a sample from
+<code>am==0</code> and from <code>am==1</code>, 15% of the time, the
+first will have a larger <code>mpg</code> values than the second.</p>
+<p>Cohen’s <span class="math inline">\(U_2\)</span> is the proportion of
+one of the groups that exceeds the same proportion in the other group,
+and Cohen’s <span class="math inline">\(U_3\)</span> is the proportion
+of the second group that is smaller than the median of the first
+group.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">cohens_u2</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U2 |       95% CI
+&gt; -------------------------
+&gt; 0.77       | [0.63, 0.87]</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="fu">cohens_u3</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U3 |       95% CI
+&gt; -------------------------
+&gt; 0.07       | [0.01, 0.25]</code></pre>
+<!-- ```{r, eval = requireNamespace("ggplot2"), echo=FALSE} -->
+<!-- mu <- tapply(mtcars$mpg, mtcars$am, mean) -->
+<!-- sigma <- sd_pooled(mtcars$mpg, factor(mtcars$am)) -->
+<!-- xlim <- sort(mu) + c(-4, 4) * sigma -->
+<!-- seg_u2 <- data.frame(x = mean(mu), -->
+<!--                      xend = xlim, -->
+<!--                      y = -exp(-5), -->
+<!--                      yend = -exp(-5), -->
+<!--                      color = c("0", "1")) -->
+<!-- ggplot2::ggplot() +  -->
+<!--   ggplot2::stat_function(ggplot2::aes(fill = "0"), size = 1, geom = "area", alpha = 0.6, -->
+<!--                 fun = dnorm, args = list(mean = mu[1], sd = sigma), xlim = xlim) +  -->
+<!--   ggplot2::stat_function(ggplot2::aes(fill = "1"), size = 1, geom = "area", alpha = 0.6, -->
+<!--                 fun = dnorm, args = list(mean = mu[2], sd = sigma), xlim = xlim) + -->
+<!--   # U3 -->
+<!--   ggplot2::stat_function(ggplot2::aes(fill = "1"), size = 1, geom = "area",  -->
+<!--                          color = "black", outline.type = "full",  -->
+<!--                 fun = dnorm, args = list(mean = mu[2], sd = sigma), xlim = c(xlim[1], mu[1])) + -->
+<!--   ggplot2::geom_vline(ggplot2::aes(xintercept = mu[1]), linetype = "dashed") +  -->
+<!--   ggplot2::annotate("text", x = mu[1]-2, y = -seg_u2$y, label = "U3") +  -->
+<!--   # U2 -->
+<!--   ggplot2::geom_vline(ggplot2::aes(xintercept = mean(mu))) +  -->
+<!--   ggplot2::geom_segment(ggplot2::aes(x = x, xend = xend, y = y, yend = yend, color = color), data = seg_u2,  -->
+<!--                         arrow = ggplot2::arrow(), -->
+<!--                         size = 0.4) +  -->
+<!--   see::scale_color_material(aesthetics = c("color", "fill"), name = "am") +  -->
+<!--   ggplot2::annotate("text", x = mu[2], y = 1.4*seg_u2$y, label = "U2 for am=1", hjust = "left") +  -->
+<!--   ggplot2::annotate("text", x = mu[1], y = 1.4*seg_u2$y, label = "U2 for am=0", hjust = "right") +  -->
+<!--   ggplot2::theme_bw() -->
+<!-- ``` -->
+<p>Here too we have a non-parametric versions when the assumptions of
+equal variance of normal populations:</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a><span class="fu">p_superiority</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">parametric =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.17            | [0.08, 0.32]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a><span class="fu">cohens_u2</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">parametric =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U2 |       95% CI
+&gt; -------------------------
+&gt; 0.80       | [0.50, 1.00]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" tabindex="-1"></a><span class="fu">cohens_u3</span>(mpg <span class="sc">~</span> am, <span class="at">data =</span> mtcars, <span class="at">parametric =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U3 |       95% CI
+&gt; -------------------------
+&gt; 0.15       | [0.00, 0.37]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+</div>
+</div>
+<div id="one-sample-and-paired-samples" class="section level2">
+<h2>One Sample and Paired Samples</h2>
+<p>For one sample, <em>probability of superiority</em> is the
+probability that, when sampling an observation at random, it will be
+larger than <span class="math inline">\(\mu\)</span>.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" tabindex="-1"></a><span class="fu">p_superiority</span>(mtcars<span class="sc">$</span>wt, <span class="at">mu =</span> <span class="fl">2.75</span>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.63            | [0.53, 0.72]</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" tabindex="-1"></a><span class="fu">p_superiority</span>(mtcars<span class="sc">$</span>wt, <span class="at">mu =</span> <span class="fl">2.75</span>, <span class="at">parametric =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.74            | [0.57, 0.86]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+<p>For paired samples, <em>probability of superiority</em> is the
+probability that, when sampling an observation at random, its
+<em>difference</em> will be larger than <span class="math inline">\(\mu\)</span>.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="fu">p_superiority</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]],</span>
+<span id="cb86-2"><a href="#cb86-2" tabindex="-1"></a>  <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">mu =</span> <span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb86-3"><a href="#cb86-3" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.37            | [0.22, 0.56]</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" tabindex="-1"></a><span class="fu">p_superiority</span>(sleep_wide[[<span class="st">&quot;extra_1&quot;</span>]], sleep_wide[[<span class="st">&quot;extra_2&quot;</span>]],</span>
+<span id="cb88-2"><a href="#cb88-2" tabindex="-1"></a>  <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">mu =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb88-3"><a href="#cb88-3" tabindex="-1"></a>  <span class="at">parametric =</span> <span class="cn">FALSE</span></span>
+<span id="cb88-4"><a href="#cb88-4" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.19            | [0.06, 0.49]
+&gt; 
+&gt; - Non-parametric CLES</code></pre>
+</div>
+<div id="for-a-bayesian-t-test-1" class="section level2">
+<h2>For a Bayesian <em>t</em>-test</h2>
+<p>A Bayesian estimate of (the parametric version of) these effect sizes
+can also be provided based on <code>BayesFactor</code>’s version of a
+<em>t</em>-test via the <code>effectsize()</code> function:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;p_superiority&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Pr(superiority) |       95% CI
+&gt; ------------------------------
+&gt; 0.18            | [0.07, 0.36]</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;u1&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U1 |       95% CI
+&gt; -------------------------
+&gt; 0.65       | [0.32, 0.83]</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;u2&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U2 |       95% CI
+&gt; -------------------------
+&gt; 0.74       | [0.60, 0.85]</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;u3&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s U3 |       95% CI
+&gt; -------------------------
+&gt; 0.10       | [0.02, 0.31]</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="fu">effectsize</span>(BFt, <span class="at">type =</span> <span class="st">&quot;overlap&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Overlap |       95% CI
+&gt; ----------------------
+&gt; 0.52    | [0.29, 0.80]</code></pre>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

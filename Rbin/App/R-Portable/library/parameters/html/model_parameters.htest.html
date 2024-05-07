@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters from hypothesis tests</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for model_parameters.htest {parameters}"><tr><td>model_parameters.htest {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters from hypothesis tests</h2>
+
+<h3>Description</h3>
+
+<p>Parameters of h-tests (correlations, t-tests, chi-squared, ...).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'htest'
+model_parameters(
+  model,
+  ci = 0.95,
+  alternative = NULL,
+  bootstrap = FALSE,
+  effectsize_type = NULL,
+  verbose = TRUE,
+  cramers_v = NULL,
+  phi = NULL,
+  standardized_d = NULL,
+  hedges_g = NULL,
+  omega_squared = NULL,
+  eta_squared = NULL,
+  epsilon_squared = NULL,
+  cohens_g = NULL,
+  rank_biserial = NULL,
+  rank_epsilon_squared = NULL,
+  kendalls_w = NULL,
+  ...
+)
+
+## S3 method for class 'coeftest'
+model_parameters(
+  model,
+  ci = 0.95,
+  ci_method = "wald",
+  keep = NULL,
+  drop = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Object of class <code>htest</code> or <code>pairwise.htest</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Level of confidence intervals for effect size statistic. Currently
+only applies to objects from <code>chisq.test()</code> or <code>oneway.test()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>A character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed
+(e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See section <em>One-Sided CIs</em> in
+the <a href="https://easystats.github.io/effectsize/">effectsize_CIs vignette</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>bootstrap</code></td>
+<td>
+<p>Should estimates be bootstrapped?</p>
+</td></tr>
+<tr valign="top"><td><code>effectsize_type</code></td>
+<td>
+<p>The effect size of interest. Not that possibly not all
+effect sizes are applicable to the model object. See 'Details'. For Anova
+models, can also be a character vector with multiple effect size names.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>cramers_v, phi, cohens_g, standardized_d, hedges_g, omega_squared, eta_squared, epsilon_squared, rank_biserial, rank_epsilon_squared, kendalls_w</code></td>
+<td>
+<p>Deprecated. Please use <code>effectsize_type</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. For instance, when
+<code>bootstrap = TRUE</code>, arguments like <code>type</code> or <code>parallel</code> are
+passed down to <code>bootstrap_model()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>Method for computing degrees of freedom for
+confidence intervals (CI) and the related p-values. Allowed are following
+options (which vary depending on the model class): <code>"residual"</code>,
+<code>"normal"</code>, <code>"likelihood"</code>, <code>"satterthwaite"</code>, <code>"kenward"</code>, <code>"wald"</code>,
+<code>"profile"</code>, <code>"boot"</code>, <code>"uniroot"</code>, <code>"ml1"</code>, <code>"betwithin"</code>, <code>"hdi"</code>,
+<code>"quantile"</code>, <code>"ci"</code>, <code>"eti"</code>, <code>"si"</code>, <code>"bci"</code>, or <code>"bcai"</code>. See section
+<em>Confidence intervals and approximation of degrees of freedom</em> in
+<code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code> for further details. When <code>ci_method=NULL</code>, in most
+cases <code>"wald"</code> is used then.</p>
+</td></tr>
+<tr valign="top"><td><code>keep</code></td>
+<td>
+<p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> is a character vector, every parameter
+name in the <em>&quot;Parameter&quot;</em> column that matches the regular expression in
+<code>keep</code> will be selected from the returned data frame (and vice versa,
+all parameter names matching <code>drop</code> will be excluded). Furthermore, if
+<code>keep</code> has more than one element, these will be merged with an <code>OR</code>
+operator into a regular expression pattern like this: <code>"(one|two|three)"</code>.
+If <code>keep</code> is a named list of regular expression patterns, the names of the
+list-element should equal the column name where selection should be
+applied. This is useful for model objects where <code>model_parameters()</code>
+returns multiple columns with parameter components, like in
+<code><a href="../../parameters/help/model_parameters.lavaan.html">model_parameters.lavaan()</a></code>. Note that the regular expression pattern
+should match the parameter names as they are stored in the returned data
+frame, which can be different from how they are printed. Inspect the
+<code style="white-space: pre;">$Parameter</code> column of the parameters table to get the exact parameter
+names.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>See <code>keep</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<ul>
+<li><p> For an object of class <code>htest</code>, data is extracted via <code><a href="../../insight/help/get_data.html">insight::get_data()</a></code>, and passed to the relevant function according to:
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default), <code>"hedges_g"</code>, or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+
+<ul>
+<li><p> For a <strong>Paired t-test</strong>: depending on <code>type</code>: <code>"rm_rm"</code>, <code>"rm_av"</code>, <code>"rm_b"</code>, <code>"rm_d"</code>, <code>"rm_z"</code>.
+</p>
+</li></ul>
+
+</li>
+<li><p> A <strong>Chi-squared tests of independence</strong> or <strong>Fisher's Exact Test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"tschuprows_t"</code>, <code>"phi"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>Chi-squared tests of goodness-of-fit</strong>, depending on <code>type</code>: <code>"fei"</code> (default) <code>"cohens_w"</code>, <code>"pearsons_c"</code>
+</p>
+</li>
+<li><p> A <strong>One-way ANOVA test</strong>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> A <strong>McNemar test</strong> returns <em>Cohen's g</em>.
+</p>
+</li>
+<li><p> A <strong>Wilcoxon test</strong> depending on <code>type</code>: returns &quot;<code>rank_biserial</code>&quot; correlation (default) or one of <code>"p_superiority"</code>, <code>"vda"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>Kruskal-Wallis test</strong> depending on <code>type</code>: <code>"epsilon"</code> (default) or <code>"eta"</code>.
+</p>
+</li>
+<li><p> A <strong>Friedman test</strong> returns <em>Kendall's W</em>.
+(Where applicable, <code>ci</code> and <code>alternative</code> are taken from the <code>htest</code> if not otherwise provided.)
+</p>
+</li></ul>
+
+</li>
+<li><p> For an object of class <code>BFBayesFactor</code>, using <code><a href="../../bayestestR/help/describe_posterior.html">bayestestR::describe_posterior()</a></code>,
+</p>
+
+<ul>
+<li><p> A <strong>t-test</strong> depending on <code>type</code>: <code>"cohens_d"</code> (default) or one of <code>"p_superiority"</code>, <code>"u1"</code>, <code>"u2"</code>, <code>"u3"</code>, <code>"overlap"</code>.
+</p>
+</li>
+<li><p> A <strong>correlation test</strong> returns <em>r</em>.
+</p>
+</li>
+<li><p> A <strong>contingency table test</strong>, depending on <code>type</code>: <code>"cramers_v"</code> (default), <code>"phi"</code>, <code>"tschuprows_t"</code>, <code>"cohens_w"</code>, <code>"pearsons_c"</code>, <code>"cohens_h"</code>, <code>"oddsratio"</code>, or <code>"riskratio"</code>, <code>"arr"</code>, or <code>"nnt"</code>.
+</p>
+</li>
+<li><p> A <strong>proportion test</strong> returns <em>p</em>.
+</p>
+</li></ul>
+
+</li>
+<li><p> Objects of class <code>anova</code>, <code>aov</code>, <code>aovlist</code> or <code>afex_aov</code>, depending on <code>type</code>: <code>"eta"</code> (default), <code>"omega"</code> or <code>"epsilon"</code> -squared, <code>"f"</code>, or <code>"f2"</code>.
+</p>
+</li>
+<li><p> Other objects are passed to <code><a href="../help/standardize_parameters.html">parameters::standardize_parameters()</a></code>.
+</p>
+</li></ul>
+
+<p><strong>For statistical models it is recommended to directly use the listed
+functions, for the full range of options they provide.</strong>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame of indices related to the model's parameters.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+model &lt;- cor.test(mtcars$mpg, mtcars$cyl, method = "pearson")
+model_parameters(model)
+
+model &lt;- t.test(iris$Sepal.Width, iris$Sepal.Length)
+model_parameters(model, effectsize_type = "hedges_g")
+
+model &lt;- t.test(mtcars$mpg ~ mtcars$vs)
+model_parameters(model, effectsize_type = "hedges_g")
+
+model &lt;- t.test(iris$Sepal.Width, mu = 1)
+model_parameters(model, effectsize_type = "cohens_d")
+
+data(airquality)
+airquality$Month &lt;- factor(airquality$Month, labels = month.abb[5:9])
+model &lt;- pairwise.t.test(airquality$Ozone, airquality$Month)
+model_parameters(model)
+
+smokers &lt;- c(83, 90, 129, 70)
+patients &lt;- c(86, 93, 136, 82)
+model &lt;- suppressWarnings(pairwise.prop.test(smokers, patients))
+model_parameters(model)
+
+model &lt;- suppressWarnings(chisq.test(table(mtcars$am, mtcars$cyl)))
+model_parameters(model, effectsize_type = "cramers_v")
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

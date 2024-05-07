@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Dominance Effect Sizes for Rank Based Differences</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rank_biserial {effectsize}"><tr><td>rank_biserial {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Dominance Effect Sizes for Rank Based Differences</h2>
+
+<h3>Description</h3>
+
+<p>Compute the rank-biserial correlation (<i>r_rb</i>) and Cliff's <em>delta</em>
+(<i>&delta;</i>) effect sizes for non-parametric
+(rank sum) differences. These effect sizes of dominance are closely related
+to the <a href="../../effectsize/help/cohens_u3.html">Common Language Effect Sizes</a>. Pair with any reported
+<code><a href="../../stats/help/wilcox.test.html">stats::wilcox.test()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rank_biserial(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  paired = FALSE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+cliffs_delta(
+  x,
+  y = NULL,
+  data = NULL,
+  mu = 0,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>A numeric or ordered vector, or a character name of one in <code>data</code>.
+Any missing values (<code>NA</code>s) are dropped from the resulting vector. <code>x</code> can
+also be a formula (see <code><a href="../../stats/help/wilcox.test.html">stats::wilcox.test()</a></code>), in which case <code>y</code> is
+ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>a number indicating the value around which (a-)symmetry (for
+one-sample or paired samples) or shift (for independent samples) is to be
+estimated. See <a href="../../stats/help/wilcox.test.html">stats::wilcox.test</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>paired</code></td>
+<td>
+<p>If <code>TRUE</code>, the values of <code>x</code> and <code>y</code> are considered as paired.
+This produces an effect size that is equivalent to the one-sample effect
+size on <code>x - y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The rank-biserial correlation is appropriate for non-parametric tests of
+differences - both for the one sample or paired samples case, that would
+normally be tested with Wilcoxon's Signed Rank Test (giving the
+<strong>matched-pairs</strong> rank-biserial correlation) and for two independent samples
+case, that would normally be tested with Mann-Whitney's <em>U</em> Test (giving
+<strong>Glass'</strong> rank-biserial correlation). See <a href="../../stats/help/wilcox.test.html">stats::wilcox.test</a>. In both
+cases, the correlation represents the difference between the proportion of
+favorable and unfavorable pairs / signed ranks (Kerby, 2014). Values range
+from <code>-1</code> complete dominance of the second sample (<em>all</em> values of the second
+sample are larger than <em>all</em> the values of the first sample) to <code>+1</code> complete
+dominance of the fist sample (<em>all</em> values of the second sample are smaller
+than <em>all</em> the values of the first sample).
+<br /><br />
+Cliff's <em>delta</em> is an alias to the rank-biserial correlation in the two sample case.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size <code>r_rank_biserial</code> and its CI
+(<code>CI_low</code> and <code>CI_high</code>).
+</p>
+
+
+<h3>Ties</h3>
+
+<p>When tied values occur, they are each given the average of the ranks that
+would have been given had no ties occurred. This results in an effect size of
+reduced magnitude. A correction has been applied for Kendall's <em>W</em>.
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals for the rank-biserial correlation (and Cliff's <em>delta</em>)
+are estimated using the normal approximation (via Fisher's transformation).
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Cureton, E. E. (1956). Rank-biserial correlation. Psychometrika, 21(3),
+287-290.
+</p>
+</li>
+<li><p> Glass, G. V. (1965). A ranking variable analogue of biserial correlation:
+Implications for short-cut item analysis. Journal of Educational Measurement,
+2(1), 91-95.
+</p>
+</li>
+<li><p> Kerby, D. S. (2014). The simple difference formula: An approach to teaching
+nonparametric correlation. Comprehensive Psychology, 3, 11-IT.
+</p>
+</li>
+<li><p> King, B. M., &amp; Minium, E. W. (2008). Statistical reasoning in the
+behavioral sciences. John Wiley &amp; Sons Inc.
+</p>
+</li>
+<li><p> Cliff, N. (1993). Dominance statistics: Ordinal analyses to answer ordinal
+questions. Psychological bulletin, 114(3), 494.
+</p>
+</li>
+<li><p> Tomczak, M., &amp; Tomczak, E. (2014). The need to report effect size estimates
+revisited. An overview of some recommended measures of effect size.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d</a>()</code>,
+<code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d</a>()</code>,
+<code><a href="../../effectsize/help/means_ratio.html">means_ratio</a>()</code>,
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/repeated_measures_d.html">repeated_measures_d</a>()</code>
+</p>
+<p>Other rank-based effect sizes: 
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_epsilon_squared.html">rank_epsilon_squared</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(mtcars)
+mtcars$am &lt;- factor(mtcars$am)
+mtcars$cyl &lt;- factor(mtcars$cyl)
+
+# Two Independent Samples ----------
+(rb &lt;- rank_biserial(mpg ~ am, data = mtcars))
+# Same as:
+# rank_biserial("mpg", "am", data = mtcars)
+# rank_biserial(mtcars$mpg[mtcars$am=="0"], mtcars$mpg[mtcars$am=="1"])
+# cliffs_delta(mpg ~ am, data = mtcars)
+
+# More options:
+rank_biserial(mpg ~ am, data = mtcars, mu = -5)
+print(rb, append_CLES = TRUE)
+
+
+# One Sample ----------
+# from help("wilcox.test")
+x &lt;- c(1.83, 0.50, 1.62, 2.48, 1.68, 1.88, 1.55, 3.06, 1.30)
+y &lt;- c(0.878, 0.647, 0.598, 2.05, 1.06, 1.29, 1.06, 3.14, 1.29)
+depression &lt;- data.frame(first = x, second = y, change = y - x)
+
+rank_biserial(change ~ 1, data = depression)
+
+# same as:
+# rank_biserial("change", data = depression)
+# rank_biserial(mtcars$wt)
+
+# More options:
+rank_biserial(change ~ 1, data = depression, mu = -0.5)
+
+
+# Paired Samples ----------
+(rb &lt;- rank_biserial(Pair(first, second) ~ 1, data = depression))
+
+# same as:
+# rank_biserial(depression$first, depression$second, paired = TRUE)
+
+interpret_rank_biserial(0.78)
+interpret(rb, rules = "funder2019")
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

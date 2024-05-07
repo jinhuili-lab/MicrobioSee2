@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scales for point aesthetics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for scale_point {ggridges}"><tr><td>scale_point {ggridges}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Scales for point aesthetics</h2>
+
+<h3>Description</h3>
+
+<p>These are various scales that can be applied to point aesthetics, such as
+<code>point_color</code>, <code>point_fill</code>, <code>point_size</code>. The individual scales all have the
+same usage as existing standard ggplot2 scales, only the name differs.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>See <code><a href="../../ggridges/help/scale_vline_color_hue.html">scale_vline_color_hue()</a></code> for specific scales for vline aesthetics
+and <code><a href="../../ggplot2/html/scale_manual.html">scale_discrete_manual()</a></code> for a general discrete scale.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(ggplot2)
+
+# default scales
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+  geom_density_ridges(
+    aes(
+      point_color = Species, point_fill = Species,
+      point_shape = Species
+    ),
+    alpha = .4, jittered_points = TRUE
+  ) +
+  theme_ridges()
+
+# modified scales
+ggplot(iris, aes(x=Sepal.Length, y=Species, fill = Species)) +
+  geom_density_ridges(
+    aes(
+      point_color = Species, point_fill = Species,
+      point_shape = Species
+    ),
+    alpha = .4, point_alpha = 1,
+    jittered_points = TRUE
+  ) +
+  scale_fill_hue(l = 50) +
+  scale_point_color_hue(l = 20) +
+  scale_point_fill_hue(l = 70) +
+  scale_discrete_manual("point_shape", values = c(21, 22, 23)) +
+  theme_ridges()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggridges</em> version 0.5.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

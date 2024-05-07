@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function to calculate statistic measures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for calc_Statistics {Luminescence}"><tr><td>calc_Statistics {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function to calculate statistic measures</h2>
+
+<h3>Description</h3>
+
+<p>This function calculates a number of descriptive statistics for estimates
+with a given standard error (SE), most fundamentally using error-weighted approaches.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+calc_Statistics(
+  data,
+  weight.calc = "square",
+  digits = NULL,
+  n.MCM = NULL,
+  na.rm = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><a href="../../base/html/data.frame.html">data.frame</a> or <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object (<strong>required</strong>):
+for <a href="../../base/html/data.frame.html">data.frame</a> two columns: De (<code>data[,1]</code>) and De error (<code>data[,2]</code>).
+To plot several data sets in one plot the data sets must be provided
+as <code>list</code>, e.g. <code>list(data.1, data.2)</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>weight.calc</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a>:
+type of weight calculation. One out of <code>"reciprocal"</code> (weight is 1/error),
+<code>"square"</code> (weight is 1/error^2). Default is <code>"square"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+round numbers to the specified digits.
+If digits is set to <code>NULL</code> nothing is rounded.</p>
+</td></tr>
+<tr valign="top"><td><code>n.MCM</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>):
+number of samples drawn for Monte Carlo-based statistics.
+<code>NULL</code> (the default) disables MC runs.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+indicating whether <code>NA</code> values should be stripped before the computation proceeds.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The option to use Monte Carlo Methods (<code>n.MCM</code>) allows calculating
+all descriptive statistics based on random values. The distribution of these
+random values is based on the Normal distribution with <code>De</code> values as
+means and <code>De_error</code> values as one standard deviation. Increasing the
+number of MCM-samples linearly increases computation time. On a Lenovo X230
+machine evaluation of 25 Aliquots with n.MCM = 1000 takes 0.01 s, with
+n = 100000, ca. 1.65 s. It might be useful to work with logarithms of these
+values. See Dietze et al. (2016, Quaternary Geochronology) and the function
+<a href="../../Luminescence/help/plot_AbanicoPlot.html">plot_AbanicoPlot</a> for details.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a list with weighted and unweighted statistic measures.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.7
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Dietze, M., 2021. calc_Statistics(): Function to calculate statistic measures. Function version 0.1.7. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Michael Dietze, GFZ Potsdam (Germany)
+, RLum Developer Team</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## load example data
+data(ExampleData.DeValues, envir = environment())
+
+## show a rough plot of the data to illustrate the non-normal distribution
+plot_KDE(ExampleData.DeValues$BT998)
+
+## calculate statistics and show output
+str(calc_Statistics(ExampleData.DeValues$BT998))
+
+## Not run: 
+## now the same for 10000 normal distributed random numbers with equal errors
+x &lt;- as.data.frame(cbind(rnorm(n = 10^5, mean = 0, sd = 1),
+                         rep(0.001, 10^5)))
+
+## note the congruent results for weighted and unweighted measures
+str(calc_Statistics(x))
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

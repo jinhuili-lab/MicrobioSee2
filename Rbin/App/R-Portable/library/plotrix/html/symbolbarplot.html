@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: barplot filled with symbols</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for symbolbarplot {plotrix}"><tr><td>symbolbarplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>barplot filled with symbols</h2>
+
+<h3>Description</h3>
+
+<p>Produces a barplot where each piece of the barplot is filled with the
+number of symbols equal to the size of the bar
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ symbolbarplot(height,width=1,space=NULL,names.arg=NULL,
+  legend.text=NULL,beside=FALSE,horiz=FALSE,col=heat.colors(NR),
+  border=par("fg"),main=NULL,sub=NULL,xlab=NULL,ylab=NULL,xlim=NULL,
+  ylim=NULL,axes=TRUE,axisnames=TRUE,inside=TRUE,plot=TRUE,rel.width=0.8,
+  symbol="circles",symbbox=TRUE,debug=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>numeric vector or matrix of barplot heights</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>width of bars</p>
+</td></tr>
+<tr valign="top"><td><code>space</code></td>
+<td>
+<p>space between bars</p>
+</td></tr>
+<tr valign="top"><td><code>names.arg</code></td>
+<td>
+<p>vector of names</p>
+</td></tr>
+<tr valign="top"><td><code>legend.text</code></td>
+<td>
+<p>vector of legend text</p>
+</td></tr>
+<tr valign="top"><td><code>beside</code></td>
+<td>
+<p>(logical) plot bars beside each other?</p>
+</td></tr>
+<tr valign="top"><td><code>horiz</code></td>
+<td>
+<p>(logical) horizontal barplot?</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>vector of colors</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>plot border?</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>main title</p>
+</td></tr>
+<tr valign="top"><td><code>sub</code></td>
+<td>
+<p>subtitle</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>x axis label</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>y axis label</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>x limits</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>y limits</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>draw axes?</p>
+</td></tr>
+<tr valign="top"><td><code>axisnames</code></td>
+<td>
+<p>label horizontal axis?</p>
+</td></tr>
+<tr valign="top"><td><code>inside</code></td>
+<td>
+<p>draw lines dividing adjacent bars?</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>produce plot?</p>
+</td></tr>
+<tr valign="top"><td><code>rel.width</code></td>
+<td>
+<p>relative width of symbols</p>
+</td></tr>
+<tr valign="top"><td><code>symbol</code></td>
+<td>
+<p>which symbol to use</p>
+</td></tr>
+<tr valign="top"><td><code>symbbox</code></td>
+<td>
+<p>draw boxes for symbol boxes?</p>
+</td></tr>
+<tr valign="top"><td><code>debug</code></td>
+<td>
+<p>debug output?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to multsymbolbox</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Nil
+</p>
+
+
+<h3>Note</h3>
+
+<p>This is a mostly a hack of barplot()</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(1001)
+ bvals &lt;- matrix(rpois(12,20),nrow=3)
+ b &lt;- symbolbarplot(bvals)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

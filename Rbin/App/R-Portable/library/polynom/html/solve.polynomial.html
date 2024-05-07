@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Zeros of a Polynomial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for solve.polynomial {polynom}"><tr><td>solve.polynomial {polynom}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Zeros of a Polynomial</h2>
+
+<h3>Description</h3>
+
+<p>Find the zeros, if any, of a given polynomial.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'polynomial'
+solve(a, b, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>a</code></td>
+<td>
+<p>A polynomial object for which the zeros are required.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>a numeric value specifying an additional intercept.  If
+given, the zeros of <code>a - b</code> are found.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used by this method.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a method for the generic function <code><a href="../../Matrix/html/solve-methods.html">solve</a></code>.
+</p>
+<p>The zeros are found as the eigenvalues of the companion matrix,
+sorted according to their real parts.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A numeric vector, generally complex, of zeros.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/html/polyroot.html">polyroot</a></code>,
+<code><a href="../../polynom/help/poly.calc.html">poly.calc</a></code>,
+<code><a href="../../polynom/help/summary.polynomial.html">summary.polynomial</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+p &lt;- polynomial(6:1)
+p
+## 6 + 5*x + 4*x^2 + 3*x^3 + 2*x^4 + x^5 
+pz &lt;- solve(p)
+pz
+## [1] -1.49180+0.0000i -0.80579-1.2229i -0.80579+1.2229i
+## [4]  0.55169-1.2533i  0.55169+1.2533i
+## To retrieve the original polynomial from the zeros:
+poly.calc(pz)
+## Warning: imaginary parts discarded in coercion
+## 6 + 5*x + 4*x^2 + 3*x^3 + 2*x^4 + x^5
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>polynom</em> version 1.4-0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

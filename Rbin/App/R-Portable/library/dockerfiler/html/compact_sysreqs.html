@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compact Sysreqs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for compact_sysreqs {dockerfiler}"><tr><td>compact_sysreqs {dockerfiler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compact Sysreqs</h2>
+
+<h3>Description</h3>
+
+<p>Compact Sysreqs
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+compact_sysreqs(
+  pkg_installs,
+  update_cmd = "apt-get update -y",
+  install_cmd = "apt-get install -y",
+  clean_cmd = "rm -rf /var/lib/apt/lists/*"
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pkg_installs</code></td>
+<td>
+<p>pkg_sysreqs as vector, <code>pak::pkg_system_requirements</code> output</p>
+</td></tr>
+<tr valign="top"><td><code>update_cmd</code></td>
+<td>
+<p>command used to update packages, &quot;apt-get update -y&quot; by default</p>
+</td></tr>
+<tr valign="top"><td><code>install_cmd</code></td>
+<td>
+<p>command used to install packages, &quot;apt-get install -y&quot; by default</p>
+</td></tr>
+<tr valign="top"><td><code>clean_cmd</code></td>
+<td>
+<p>command used to clean package folder, &quot;rm -rf /var/lib/apt/lists/*&quot; by default</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>vector of compacted command to run to install sysreqs
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+pkg_installs &lt;- list("apt-get install -y htop", "apt-get install -y top")
+compact_sysreqs(pkg_installs)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dockerfiler</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

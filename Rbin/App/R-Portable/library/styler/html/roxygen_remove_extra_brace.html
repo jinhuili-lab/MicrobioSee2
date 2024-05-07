@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fix 'tools::parse_Rd()' output</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for roxygen_remove_extra_brace {styler}"><tr><td>roxygen_remove_extra_brace {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fix <code><a href="../../tools/help/parse_Rd.html">tools::parse_Rd()</a></code> output</h2>
+
+<h3>Description</h3>
+
+<p>Since <code><a href="../../tools/help/parse_Rd.html">tools::parse_Rd()</a></code> treats braces in quotes as literal braces when
+determining brace symmetry, a brace might be added in error to the parsed
+data (at the end). We'll remove one at the time, check if output is parsable
+until no braces are left. If we end up with no braces left, we signal a
+parsing error, otherwise, we return the initial (not parsable input due to
+<em>dont</em> sequence) with the trailing braces removed.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+roxygen_remove_extra_brace(parsed)
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+styler:::parse_roxygen(
+  c(
+    "#' @examples",
+    "#' x &lt;- '{'",
+    "#' \\dontrun{",
+    "#' fu(x = 3)",
+    "#' }"
+  )
+)
+styler:::parse_roxygen(
+  c(
+    "#' @examples",
+    "#' x &lt;- '{'",
+    "#' \\dontrun{",
+    "#' c('{', \"'{{{\" ,\"[\")",
+    "#' }"
+  )
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Covariance of two paired ROC curves</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cov.roc {pROC}"><tr><td>cov.roc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Covariance of two paired ROC curves
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the covariance between the AUC of two correlated (or paired) ROC
+curves. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cov(...)
+## Default S3 method:
+cov(...)
+## S3 method for class 'auc'
+cov(roc1, roc2, ...)
+## S3 method for class 'smooth.roc'
+cov(roc1, roc2, ...)
+## S3 method for class 'roc'
+cov(roc1, roc2, method=c("delong", "bootstrap", "obuchowski"),
+  reuse.auc=TRUE, boot.n=2000, boot.stratified=TRUE, boot.return=FALSE,
+  progress=getOption("pROCProgress")$name, parallel=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc1, roc2</code></td>
+<td>
+<p>the two ROC curves on which to compute the covariance. Either
+&ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo;, &ldquo;<a href="../../pROC/help/auc.html">auc</a>&rdquo; or
+&ldquo;<a href="../../pROC/help/smooth.roc.html">smooth.roc</a>&rdquo; objects (types can be mixed as long as
+the original ROC curve are paired).
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>the method to use, either &ldquo;delong&rdquo; or
+&ldquo;bootstrap&rdquo;. The first letter is
+sufficient. If omitted, the appropriate method is selected as
+explained in details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc</code></td>
+<td>
+<p>if <code>TRUE</code> (default) and the &ldquo;roc&rdquo; objects
+contain an &ldquo;auc&rdquo; field, re-use these specifications for the
+test. See details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.n</code></td>
+<td>
+<p>for <code>method="bootstrap"</code> only: the number of
+bootstrap replicates or permutations. Default: <var>2000</var>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.stratified</code></td>
+<td>
+<p>for <code>method="bootstrap"</code> only:
+should the bootstrap be stratified (same number 
+of cases/controls in each replicate than in the original sample) or
+not. Default: <var>TRUE</var>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>boot.return</code></td>
+<td>
+
+<p>if <var>TRUE</var> and <code>method="bootstrap"</code>, also return the
+bootstrapped values. See the &ldquo;Value&rdquo; section for
+more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>the name of progress bar to display. Typically
+&ldquo;none&rdquo;, &ldquo;win&rdquo;, &ldquo;tk&rdquo; or &ldquo;text&rdquo; (see the
+<code>name</code> argument to <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code> for
+more information), but a list as returned by <code><a href="../../plyr/help/create_progress_bar.html">create_progress_bar</a></code>
+is also accepted. See also the &ldquo;Progress bars&rdquo; section of
+<a href="../../pROC/help/pROC-package.html">this package's documentation</a>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>if TRUE, the bootstrap is processed in parallel, using 
+parallel backend provided by plyr (foreach).
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code>cov.roc</code> when calling <code>cov</code>,
+<code>cov.auc</code> or <code>cov.smooth.roc</code>. Arguments for
+<code><a href="../../pROC/help/auc.html">auc</a></code> (if <code>reuse.auc=FALSE</code>) and
+<code><a href="../../utils/html/txtProgressBar.html">txtProgressBar</a></code> (only <code>char</code> and <code>style</code>) if
+applicable.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function computes the covariance between the AUC of two
+correlated (or paired, according to the detection of <code><a href="../../pROC/help/are.paired.html">are.paired</a></code>) ROC
+curves. It is typically called with the two <a href="../../pROC/help/roc.html">roc</a> objects of
+interest. Two methods are available: &ldquo;delong&rdquo; and
+&ldquo;bootstrap&rdquo; (see &ldquo;Computational
+details&rdquo; section below).
+</p>
+<p>The default is to use &ldquo;delong&rdquo; method except with
+partial AUC and smoothed curves where &ldquo;bootstrap&rdquo; is employed.
+Using &ldquo;delong&rdquo; for partial AUC and smoothed ROCs is not
+supported.
+</p>
+<p>For <a href="../../pROC/help/smooth.roc.html">smoothed ROC curves</a>, smoothing is performed again at each
+bootstrap replicate with the parameters originally provided.
+If a density smoothing was performed with user-provided
+<code>density.cases</code> or <code>density.controls</code> the bootstrap cannot
+be performed and an error is issued.
+</p>
+<p><code>cov.default</code> forces the usage of the
+<code><a href="../../stats/help/cor.html">cov</a></code> function in the <span class="pkg">stats</span> package, so
+that other code relying on <code>cov</code> should continue to function
+normally.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The numeric value of the covariance.
+</p>
+<p>If <code>boot.return=TRUE</code> and <code>method="bootstrap"</code>, an attribute
+<code>resampled.values</code> is set with the resampled (bootstrapped)
+values. It contains a matrix with the columns representing the two ROC
+curves, and the rows the <code>boot.n</code> bootstrap replicates.
+</p>
+
+
+<h3>AUC specification</h3>
+
+<p>To compute the covariance of the AUC of the ROC curves, <code>cov</code> needs a specification of the
+AUC. The specification is defined by:
+</p>
+
+<ol>
+<li><p> the &ldquo;auc&rdquo; field in the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects if
+<code>reuse.auc</code> is set to <code>TRUE</code> (default)
+</p>
+</li>
+<li><p> passing the specification to <code><a href="../../pROC/help/auc.html">auc</a></code> with ...
+(arguments <code>partial.auc</code>, <code>partial.auc.correct</code> and
+<code>partial.auc.focus</code>). In this case, you must ensure either that
+the <code><a href="../../pROC/help/roc.html">roc</a></code> object do not contain an <code>auc</code> field (if
+you called <code><a href="../../pROC/help/roc.html">roc</a></code> with <code>auc=FALSE</code>), or set
+<code>reuse.auc=FALSE</code>.
+</p>
+</li></ol>
+
+<p>If <code>reuse.auc=FALSE</code> the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always
+be called with <code>...</code> to determine the specification, even if
+the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do contain an <code>auc</code> field.
+</p>
+<p>As well if the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; objects do not contain an <code>auc</code>
+field, the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always be called with
+<code>...</code> to determine the specification.
+</p>
+<p>Warning: if the roc object passed to roc.test contains an <code>auc</code>
+field and <code>reuse.auc=TRUE</code>, <a href="../../pROC/help/auc.html">auc</a> is not called and
+arguments such as <code>partial.auc</code> are silently ignored.
+</p>
+
+
+<h3>Computation details</h3>
+
+<p>With <code>method="bootstrap"</code>, the processing is done as follow:
+</p>
+
+<ol>
+<li> <p><code>boot.n</code> bootstrap replicates are drawn from the
+data. If <code>boot.stratified</code> is <var>TRUE</var>, each replicate contains
+exactly the same number of controls and cases than the original
+sample, otherwise if <var>FALSE</var> the numbers can vary.
+</p>
+</li>
+<li><p> for each bootstrap replicate, the AUC of the two ROC curves
+are computed and stored.
+</p>
+</li>
+<li><p> the variance (as per <code><a href="../../pROC/help/var.roc.html">var.roc</a></code>) of the resampled
+AUCs and their covariance are assessed in a single bootstrap pass.
+</p>
+</li>
+<li><p> The following formula is used to compute the final covariance:
+<i>Var[AUC1] + Var[AUC2] - 2cov[AUC1,AUC2]</i>
+</p>
+</li></ol>
+
+<p>With <code>method="delong"</code>, the processing is done as described in
+Hanley and Hajian-Tilaki (1997) using the algorithm by Sun and Xu (2014). 
+</p>
+<p>With <code>method="obuchowski"</code>, the processing is done as described
+in Obuchowski and McClish (1997), Table 1 and Equation 5, p. 1531. The
+computation of <i>g</i> for partial area under the ROC curve is
+modified as: 
+</p>
+<p style="text-align: center;"><i>expr1 * (2 * pi * expr2) ^ {(-1)} * (-expr4) - A * B * expr1 * (2 * pi * expr2^3) ^ {(-1/2)} * expr3</i></p>
+<p>.
+</p>
+
+
+<h3>Binormality assumption</h3>
+
+<p>The &ldquo;obuchowski&rdquo; method makes the assumption that the data is binormal.
+If the data shows a deviation from this assumption, it might help to
+normalize the data first (that is, before calling <code><a href="../../pROC/help/roc.html">roc</a></code>),
+for example with quantile normalization: 
+</p>
+<pre>
+    norm.x &lt;- qnorm(rank(x)/(length(x)+1))
+    cov(roc(response, norm.x, ...), ...)
+  </pre>
+<p>&ldquo;delong&rdquo; and &ldquo;bootstrap&rdquo; methods make no such assumption.
+</p>
+
+
+<h3>Errors</h3>
+
+<p>If <code>density.cases</code> and <code>density.controls</code> were provided
+for smoothing, the error &ldquo;Cannot compute the covariance on ROC
+curves smoothed with density.controls and density.cases.&rdquo; is
+issued.
+</p>
+
+
+<h3>Warnings</h3>
+
+<p>If &ldquo;auc&rdquo; specifications are different in both roc objects, the
+warning &ldquo;Different AUC specifications in the ROC
+curves. Enforcing the inconsistency, but unexpected results may be
+produced.&rdquo; is issued. Unexpected results may be produced.
+</p>
+<p>If one or both ROC curves are &ldquo;smooth.roc&rdquo; objects with
+different smoothing specifications, the warning 
+&ldquo;Different smoothing parameters in the ROC curves. Enforcing
+the inconsistency, but unexpected results may be produced.&rdquo; is issued.
+This warning can be benign, especially if ROC curves were generated
+with <code>roc(..., smooth=TRUE)</code> with different arguments to other
+functions (such as plot), or if you really want to compare two ROC
+curves smoothed differently.
+</p>
+<p>If <code>method="delong"</code> and the AUC specification specifies a
+partial AUC, the warning &ldquo;Using DeLong for partial AUC is
+not supported. Using bootstrap test instead.&rdquo; is issued. The
+<code>method</code> argument is ignored and &ldquo;bootstrap&rdquo; is used instead.
+</p>
+<p>If <code>method="delong"</code> and the ROC
+curve is smoothed, the warning &ldquo;Using DeLong for
+smoothed ROCs is not supported. Using bootstrap instead.&rdquo; is
+issued. The <code>method</code> argument is ignored and &ldquo;bootstrap&rdquo;
+is used instead.
+</p>
+<p>DeLong ignores the direction of the ROC curve so that if two
+ROC curves have a different <code>direction</code>, the warning
+&ldquo;&quot;DeLong should not be applied to ROC curves with a different
+direction.&quot;&rdquo; is printed. However, the spurious computation is enforced.
+</p>
+<p>If <code>boot.stratified=FALSE</code> and the sample has a large imbalance between
+cases and controls, it could happen that one or more of the replicates
+contains no case or control observation, or that there are not enough
+points for smoothing, producing a <code>NA</code> area.
+The warning &ldquo;NA value(s) produced during bootstrap were ignored.&rdquo;
+will be issued and the observation will be ignored. If you have a large
+imbalance in your sample, it could be safer to keep
+<code>boot.stratified=TRUE</code>.
+</p>
+<p>When both ROC curves have an <code><a href="../../pROC/help/auc.html">auc</a></code> of 1 (or 100%), their covariance will always be null.
+This is true for both &ldquo;delong&rdquo; and &ldquo;bootstrap&rdquo; and methods. This result is misleading,
+as the covariance is of course not null.
+A <code><a href="../../base/html/warning.html">warning</a></code> will be displayed to inform of this condition, and of the misleading output.
+</p>
+
+
+<h3>Messages</h3>
+
+<p>The covariance can only be computed on paired data. This
+assumption is enforced by <code><a href="../../pROC/help/are.paired.html">are.paired</a></code>. If the ROC curves
+are not paired, the covariance is <code>0</code> and the message &ldquo;ROC
+curves are unpaired.&rdquo; is printed. If your ROC curves are paired, make
+sure they fit <code><a href="../../pROC/help/are.paired.html">are.paired</a></code> criteria.
+</p>
+
+
+<h3>References</h3>
+
+<p>Elisabeth R. DeLong, David M. DeLong and Daniel L. Clarke-Pearson
+(1988) &ldquo;Comparing the areas under two or more correlated receiver
+operating characteristic curves: a nonparametric
+approach&rdquo;. <em>Biometrics</em> <b>44</b>, 837&ndash;845.
+</p>
+<p>James A. Hanley and Karim O. Hajian-Tilaki (1997) &ldquo;Sampling
+variability of nonparametric estimates of the areas under receiver
+operating characteristic curves: An update&rdquo;. <em>Academic
+Radiology</em> <b>4</b>, 49&ndash;58. DOI:
+doi: <a href="https://doi.org/10.1016/S1076-6332(97)80161-4">10.1016/S1076-6332(97)80161-4</a>.
+</p>
+<p>Nancy A. Obuchowski, Donna K. McClish (1997). &ldquo;Sample size
+determination for diagnostic accurary studies involving binormal ROC
+curve indices&rdquo;. <em>Statistics in Medicine</em>, <b>16</b>(13),
+1529&ndash;1542. DOI: doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(19970715)16:13%3C1529::AID-SIM565%3E3.0.CO;2-H">10.1002/(SICI)1097-0258(19970715)16:13&lt;1529::AID-SIM565&gt;3.0.CO;2-H</a>.
+</p>
+<p>Xu Sun and Weichao Xu (2014) &ldquo;Fast Implementation of DeLongs Algorithm for Comparing
+the Areas Under Correlated Receiver Operating Characteristic Curves&rdquo;. <em>IEEE Signal
+Processing Letters</em>, <b>21</b>, 1389&ndash;1393. 
+DOI: doi: <a href="https://doi.org/10.1109/LSP.2014.2337313">10.1109/LSP.2014.2337313</a>.
+</p>
+<p>Hadley Wickham (2011) &ldquo;The Split-Apply-Combine Strategy for Data Analysis&rdquo;. <em>Journal of Statistical Software</em>, <b>40</b>, 1&ndash;29.
+URL: <a href="https://www.jstatsoft.org/v40/i01">www.jstatsoft.org/v40/i01</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/var.roc.html">var.roc</a></code>
+</p>
+<p>CRAN package <span class="pkg">plyr</span>, employed in this function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+# Basic example with 2 roc objects
+roc1 &lt;- roc(aSAH$outcome, aSAH$s100b)
+roc2 &lt;- roc(aSAH$outcome, aSAH$wfns)
+cov(roc1, roc2)
+
+## Not run: 
+# The latter used Delong. To use bootstrap:
+cov(roc1, roc2, method="bootstrap")
+# Decrease boot.n for a faster execution:
+cov(roc1, roc2, method="bootstrap", boot.n=1000)
+
+## End(Not run)
+
+# To use Obuchowski:
+cov(roc1, roc2, method="obuchowski")
+
+## Not run: 
+# Comparison can be done on smoothed ROCs
+# Smoothing is re-done at each iteration, and execution is slow
+cov(smooth(roc1), smooth(roc2))
+
+## End(Not run)
+# or from an AUC (no smoothing)
+cov(auc(roc1), roc2)
+
+## Not run: 
+# With bootstrap and return.values, one can compute the variances of the
+# ROC curves in one single bootstrap run:
+cov.rocs &lt;- cov(roc1, roc2, method="bootstrap", boot.return=TRUE)
+# var(roc1):
+var(attr(cov.rocs, "resampled.values")[,1])
+# var(roc2):
+var(attr(cov.rocs, "resampled.values")[,2])
+
+## End(Not run)
+
+## Not run: 
+# Covariance of partial AUC:
+roc3 &lt;- roc(aSAH$outcome, aSAH$s100b, partial.auc=c(1, 0.8), partial.auc.focus="se")
+roc4 &lt;- roc(aSAH$outcome, aSAH$wfns, partial.auc=c(1, 0.8), partial.auc.focus="se")
+cov(roc3, roc4)
+# This is strictly equivalent to:
+cov(roc3, roc4, method="bootstrap")
+
+# Alternatively, we could re-use roc1 and roc2 to get the same result:
+cov(roc1, roc2, reuse.auc=FALSE, partial.auc=c(1, 0.8), partial.auc.focus="se")
+
+## End(Not run)
+
+# Spurious use of DeLong's test with different direction:
+roc5 &lt;- roc(aSAH$outcome, aSAH$s100b, direction="&lt;")
+roc6 &lt;- roc(aSAH$outcome, aSAH$s100b, direction="&gt;")
+cov(roc5, roc6, method="delong")
+
+## Test data from Hanley and Hajian-Tilaki, 1997
+disease.present &lt;- c("Yes", "No", "Yes", "No", "No", "Yes", "Yes", "No",
+                     "No", "Yes", "No", "No", "Yes", "No", "No")
+field.strength.1 &lt;- c(1, 2, 5, 1, 1, 1, 2, 1, 2, 2, 1, 1, 5, 1, 1)
+field.strength.2 &lt;- c(1, 1, 5, 1, 1, 1, 4, 1, 2, 2, 1, 1, 5, 1, 1)
+roc7 &lt;- roc(disease.present, field.strength.1)
+roc8 &lt;- roc(disease.present, field.strength.2)
+# Assess the covariance:
+cov(roc7, roc8)
+
+## Not run: 
+# With bootstrap:
+cov(roc7, roc8, method="bootstrap")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

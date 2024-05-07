@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Print model parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for print.parameters_model {parameters}"><tr><td>print.parameters_model {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Print model parameters</h2>
+
+<h3>Description</h3>
+
+<p>A <code>print()</code>-method for objects from <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'parameters_model'
+print(
+  x,
+  pretty_names = TRUE,
+  split_components = TRUE,
+  select = NULL,
+  caption = NULL,
+  footer = NULL,
+  digits = 2,
+  ci_digits = digits,
+  p_digits = 3,
+  footer_digits = 3,
+  show_sigma = FALSE,
+  show_formula = FALSE,
+  zap_small = FALSE,
+  groups = NULL,
+  column_width = NULL,
+  ci_brackets = c("[", "]"),
+  include_reference = FALSE,
+  ...
+)
+
+## S3 method for class 'parameters_model'
+summary(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, object</code></td>
+<td>
+<p>An object returned by <code><a href="../../parameters/help/model_parameters.html">model_parameters()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>pretty_names</code></td>
+<td>
+<p>Can be <code>TRUE</code>, which will return &quot;pretty&quot; (i.e. more human
+readable) parameter names. Or <code>"labels"</code>, in which case value and variable
+labels will be used as parameters names. The latter only works for &quot;labelled&quot;
+data, i.e. if the data used to fit the model had <code>"label"</code> and <code>"labels"</code>
+attributes. See also section <em>Global Options to Customize Messages when Printing</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>split_components</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> (default), For models with
+multiple components (zero-inflation, smooth terms, ...), each component is
+printed in a separate table. If <code>FALSE</code>, model parameters are printed
+in a single table and a <code>Component</code> column is added to the output.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>Determines which columns and and which layout columns are
+printed. There are three options for this argument:
+</p>
+
+<ol>
+<li><p> Selecting columns by name or index
+<br />
+<code>select</code> can be a character vector (or numeric index) of column names that
+should be printed. There are two pre-defined options for selecting columns:
+<code>select = "minimal"</code> prints coefficients, confidence intervals and p-values,
+while <code>select = "short"</code> prints coefficients, standard errors and p-values.
+</p>
+</li>
+<li><p> A string expression with layout pattern
+<br />
+<code>select</code> is a string with &quot;tokens&quot; enclosed in braces. These tokens will
+be replaced by their associated columns, where the selected columns will
+be collapsed into one column. However, it is possible to create multiple
+columns as well. Following tokens are replaced by the related coefficients
+or statistics: <code>{estimate}</code>, <code>{se}</code>, <code>{ci}</code> (or <code>{ci_low}</code> and <code>{ci_high}</code>),
+<code>{p}</code> and <code>{stars}</code>. The token <code>{ci}</code> will be replaced by <code style="white-space: pre;">{ci_low}, {ci_high}</code>.
+Furthermore, a <code>|</code> separates values into new cells/columns. If
+<code>format = "html"</code>, a <code style="white-space: pre;">&lt;br&gt;</code> inserts a line break inside a cell. See
+'Examples'.
+</p>
+</li>
+<li><p> A string indicating a pre-defined layout
+<br />
+<code>select</code> can be one of the following string values, to create one of the
+following pre-defined column layouts:
+</p>
+
+<ul>
+<li> <p><code>"ci"</code>: Estimates and confidence intervals, no asterisks for p-values.
+This is equivalent to <code>select = "{estimate} ({ci})"</code>.
+</p>
+</li>
+<li> <p><code>"se"</code>: Estimates and standard errors, no asterisks for p-values. This is
+equivalent to <code>select = "{estimate} ({se})"</code>.
+</p>
+</li>
+<li> <p><code>"ci_p"</code>: Estimates, confidence intervals and asterisks for p-values. This
+is equivalent to <code>select = "{estimate}{stars} ({ci})"</code>.
+</p>
+</li>
+<li> <p><code>"se_p"</code>: Estimates, standard errors and asterisks for p-values. This is
+equivalent to <code>select = "{estimate}{stars} ({se})"</code>..
+</p>
+</li>
+<li> <p><code>"ci_p2"</code>: Estimates, confidence intervals and numeric p-values, in two
+columns. This is equivalent to <code>select = "{estimate} ({ci})|{p}"</code>.
+</p>
+</li>
+<li> <p><code>"se_p2"</code>: Estimate, standard errors and numeric p-values, in two columns.
+This is equivalent to <code>select = "{estimate} ({se})|{p}"</code>.
+</p>
+</li></ul>
+
+</li></ol>
+
+<p>For <code>model_parameters()</code>, glue-like syntax is still experimental in the
+case of more complex models (like mixed models) and may not return expected
+results.</p>
+</td></tr>
+<tr valign="top"><td><code>caption</code></td>
+<td>
+<p>Table caption as string. If <code>NULL</code>, depending on the model,
+either a default caption or no table caption is printed. Use <code>caption = ""</code>
+to suppress the table caption.</p>
+</td></tr>
+<tr valign="top"><td><code>footer</code></td>
+<td>
+<p>Can either be <code>FALSE</code> or an empty string (i.e. <code>""</code>) to
+suppress the footer, <code>NULL</code> to print the default footer, or a string. The
+latter will combine the string value with the default footer.</p>
+</td></tr>
+<tr valign="top"><td><code>digits, ci_digits, p_digits</code></td>
+<td>
+<p>Number of digits for rounding or
+significant figures. May also be <code>"signif"</code> to return significant
+figures or <code>"scientific"</code> to return scientific notation. Control the
+number of digits by adding the value as suffix, e.g. <code>digits = "scientific4"</code>
+to have scientific notation with 4 decimal places, or <code>digits = "signif5"</code>
+for 5 significant figures (see also <code><a href="../../base/html/Round.html">signif()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>footer_digits</code></td>
+<td>
+<p>Number of decimal places for values in the footer summary.</p>
+</td></tr>
+<tr valign="top"><td><code>show_sigma</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, adds information about the residual
+standard deviation.</p>
+</td></tr>
+<tr valign="top"><td><code>show_formula</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, adds the model formula to the output.</p>
+</td></tr>
+<tr valign="top"><td><code>zap_small</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, small values are rounded after
+<code>digits</code> decimal places. If <code>FALSE</code>, values with more decimal
+places than <code>digits</code> are printed in scientific notation.</p>
+</td></tr>
+<tr valign="top"><td><code>groups</code></td>
+<td>
+<p>Named list, can be used to group parameters in the printed output.
+List elements may either be character vectors that match the name of those
+parameters that belong to one group, or list elements can be row numbers
+of those parameter rows that should belong to one group. The names of the
+list elements will be used as group names, which will be inserted as &quot;header
+row&quot;. A possible use case might be to emphasize focal predictors and control
+variables, see 'Examples'. Parameters will be re-ordered according to the
+order used in <code>groups</code>, while all non-matching parameters will be added
+to the end.</p>
+</td></tr>
+<tr valign="top"><td><code>column_width</code></td>
+<td>
+<p>Width of table columns. Can be either <code>NULL</code>, a named
+numeric vector, or <code>"fixed"</code>. If <code>NULL</code>, the width for each table column is
+adjusted to the minimum required width. If a named numeric vector, value
+names are matched against column names, and for each match, the specified
+width is used. If <code>"fixed"</code>, and table is split into multiple components,
+columns across all table components are adjusted to have the same width.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_brackets</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> (default), CI-values are
+encompassed in square brackets (else in parentheses).</p>
+</td></tr>
+<tr valign="top"><td><code>include_reference</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, the reference level of factors will
+be added to the parameters table. This is only relevant for models with
+categorical predictors. The coefficient for the reference level is always
+<code>0</code> (except when <code>exponentiate = TRUE</code>, then the coefficient will be <code>1</code>),
+so this is just for completeness.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>summary()</code> is a convenient shortcut for
+<code>print(object, select = "minimal", show_sigma = TRUE, show_formula = TRUE)</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Invisibly returns the original input object.
+</p>
+
+
+<h3>Global Options to Customize Messages and Tables when Printing</h3>
+
+<p>The <code>verbose</code> argument can be used to display or silence messages and
+warnings for the different functions in the <strong>parameters</strong> package. However,
+some messages providing additional information can be displayed or suppressed
+using <code>options()</code>:
+</p>
+
+<ul>
+<li> <p><code>parameters_summary</code>: <code>options(parameters_summary = TRUE)</code> will override the
+<code>summary</code> argument in <code>model_parameters()</code> and always show the model summary
+for non-mixed models.
+</p>
+</li>
+<li> <p><code>parameters_mixed_summary</code>: <code>options(parameters_mixed_summary = TRUE)</code> will
+override the <code>summary</code> argument in <code>model_parameters()</code> for mixed models, and
+will then always show the model summary.
+</p>
+</li>
+<li> <p><code>parameters_cimethod</code>: <code>options(parameters_cimethod = TRUE)</code> will show the
+additional information about the approximation method used to calculate
+confidence intervals and p-values. Set to <code>FALSE</code> to hide this message when
+printing <code>model_parameters()</code> objects.
+</p>
+</li>
+<li> <p><code>parameters_exponentiate</code>: <code>options(parameters_exponentiate = TRUE)</code> will
+show the additional information on how to interpret coefficients of models
+with log-transformed response variables or with log-/logit-links when the
+<code>exponentiate</code> argument in <code>model_parameters()</code> is not <code>TRUE</code>. Set this option
+to <code>FALSE</code> to hide this message when printing <code>model_parameters()</code> objects.
+</p>
+</li></ul>
+
+<p>There are further options that can be used to modify the default behaviour
+for printed outputs:
+</p>
+
+<ul>
+<li> <p><code>parameters_labels</code>: <code>options(parameters_labels = TRUE)</code> will use variable
+and value labels for pretty names, if data is labelled. If no labels
+available, default pretty names are used.
+</p>
+</li>
+<li> <p><code>parameters_interaction</code>: <code style="white-space: pre;">options(parameters_interaction = &lt;character&gt;)</code>
+will replace the interaction mark (by default, <code>*</code>) with the related character.
+</p>
+</li>
+<li> <p><code>parameters_select</code>: <code style="white-space: pre;">options(parameters_select = &lt;value&gt;)</code> will set the
+default for the <code>select</code> argument. See argument's documentation for available
+options.
+</p>
+</li>
+<li> <p><code>easystats_html_engine</code>: <code>options(easystats_html_engine = "gt")</code> will set
+the default HTML engine for tables to <code>gt</code>, i.e. the <em>gt</em> package is used to
+create HTML tables. If set to <code>tt</code>, the <em>tinytable</em> package is used.
+</p>
+</li></ul>
+
+
+
+<h3>Interpretation of Interaction Terms</h3>
+
+<p>Note that the <em>interpretation</em> of interaction terms depends on many
+characteristics of the model. The number of parameters, and overall
+performance of the model, can differ <em>or not</em> between <code>a * b</code>
+<code>a : b</code>, and <code>a / b</code>, suggesting that sometimes interaction terms
+give different parameterizations of the same model, but other times it gives
+completely different models (depending on <code>a</code> or <code>b</code> being factors
+of covariates, included as main effects or not, etc.). Their interpretation
+depends of the full context of the model, which should not be inferred
+from the parameters table alone - rather, we recommend to use packages
+that calculate estimated marginal means or marginal effects, such as
+<a href="https://CRAN.R-project.org/package=modelbased"><span class="pkg">modelbased</span></a>, <a href="https://CRAN.R-project.org/package=emmeans"><span class="pkg">emmeans</span></a>, <a href="https://CRAN.R-project.org/package=ggeffects"><span class="pkg">ggeffects</span></a>, or
+<a href="https://CRAN.R-project.org/package=marginaleffects"><span class="pkg">marginaleffects</span></a>. To raise awareness for this issue, you may use
+<code>print(...,show_formula=TRUE)</code> to add the model-specification to the output
+of the <code><a href="../../parameters/help/print.parameters_model.html">print()</a></code> method for <code>model_parameters()</code>.
+</p>
+
+
+<h3>Labeling the Degrees of Freedom</h3>
+
+<p>Throughout the <strong>parameters</strong> package, we decided to label the residual
+degrees of freedom <em>df_error</em>. The reason for this is that these degrees
+of freedom not always refer to the residuals. For certain models, they refer
+to the estimate error - in a linear model these are the same, but in - for
+instance - any mixed effects model, this isn't strictly true. Hence, we
+think that <code>df_error</code> is the most generic label for these degrees of
+freedom.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>There is a dedicated method to use inside rmarkdown files,
+<code><a href="../../parameters/help/print_md.parameters_model.html">print_md()</a></code>. See also
+<code><a href="../../parameters/help/display.parameters_model.html">display()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+library(parameters)
+model &lt;- glmmTMB::glmmTMB(
+  count ~ spp + mined + (1 | site),
+  ziformula = ~mined,
+  family = poisson(),
+  data = Salamanders
+)
+mp &lt;- model_parameters(model)
+
+print(mp, pretty_names = FALSE)
+
+print(mp, split_components = FALSE)
+
+print(mp, select = c("Parameter", "Coefficient", "SE"))
+
+print(mp, select = "minimal")
+
+
+# group parameters ------
+
+data(iris)
+model &lt;- lm(
+  Sepal.Width ~ Sepal.Length + Species + Petal.Length,
+  data = iris
+)
+# don't select "Intercept" parameter
+mp &lt;- model_parameters(model, parameters = "^(?!\\(Intercept)")
+groups &lt;- list(
+  "Focal Predictors" = c("Speciesversicolor", "Speciesvirginica"),
+  "Controls" = c("Sepal.Length", "Petal.Length")
+)
+print(mp, groups = groups)
+
+# or use row indices
+print(mp, groups = list(
+  "Focal Predictors" = c(1, 4),
+  "Controls" = c(2, 3)
+))
+
+# only show coefficients, CI and p,
+# put non-matched parameters to the end
+
+data(mtcars)
+mtcars$cyl &lt;- as.factor(mtcars$cyl)
+mtcars$gear &lt;- as.factor(mtcars$gear)
+model &lt;- lm(mpg ~ hp + gear * vs + cyl + drat, data = mtcars)
+
+# don't select "Intercept" parameter
+mp &lt;- model_parameters(model, parameters = "^(?!\\(Intercept)")
+print(mp, groups = list(
+  "Engine" = c("cyl6", "cyl8", "vs", "hp"),
+  "Interactions" = c("gear4:vs", "gear5:vs")
+))
+
+
+
+# custom column layouts ------
+
+data(iris)
+lm1 &lt;- lm(Sepal.Length ~ Species, data = iris)
+lm2 &lt;- lm(Sepal.Length ~ Species + Petal.Length, data = iris)
+
+# custom style
+result &lt;- compare_parameters(lm1, lm2, select = "{estimate}{stars} ({se})")
+print(result)
+
+
+# custom style, in HTML
+result &lt;- compare_parameters(lm1, lm2, select = "{estimate}&lt;br&gt;({se})|{p}")
+print_html(result)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

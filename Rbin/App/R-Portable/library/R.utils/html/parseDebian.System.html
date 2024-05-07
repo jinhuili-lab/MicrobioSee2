@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parses a string, file or connection for Debian formatted...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for System$parseDebian {R.utils}"><tr><td>System$parseDebian {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parses a string, file or connection for Debian formatted parameters</h2>
+
+<h3>Description</h3>
+
+<p>Parses a text, file or a connection for Debian formatted parameters.
+A file in Debian format contains rows with parameters of the form
+<code>KEY=VALUE</code>. It is allowed to have duplicated keys.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## System$parseDebian(text=NULL, file=NULL, keys=NULL, ...)
+
+## Don't use the below:
+## S3 method for class 'System'
+parseDebian(this, text=NULL, file=NULL, keys=NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>text</code></td>
+<td>
+<p>The text to be parsed. Default value is <code><a href="../../base/help/NULL.html">NULL</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p>Name file, a <code>File</code> object or connection to be parsed.
+Default value is <code><a href="../../base/help/NULL.html">NULL</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>keys</code></td>
+<td>
+<p>The keys (names of the parameters) to be retrieved.
+If <code><a href="../../base/help/NULL.html">NULL</a></code> all fields are returned. Default value is <code><a href="../../base/help/NULL.html">NULL</a></code>.</p>
+</td></tr>
+</table>
+<p>Either, <code>text</code> or <code>file</code> must be given.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a named <code><a href="../../base/help/list.html">list</a></code> of parameter values.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/System.html">System</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ file &lt;- file.path(Package("R.utils")$path, "DESCRIPTION")
+ l &lt;- System$parseDebian(file=file)
+ print(l)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

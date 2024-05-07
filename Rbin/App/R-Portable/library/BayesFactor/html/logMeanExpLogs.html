@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Functions to compute the logarithm of the mean (and...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for logMeanExpLogs {BayesFactor}"><tr><td>logMeanExpLogs {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Functions to compute the logarithm of the mean (and cumulative means) of
+vectors of logarithms</h2>
+
+<h3>Description</h3>
+
+<p>Given a vector of numeric values of real values represented in log form,
+<code>logMeanExpLogs</code> computes the logarithm of the mean of the
+(exponentiated) values. <code>logCumMeanExpLogs</code> computes the logarithm of
+the cumulative mean.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+logMeanExpLogs(v)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>v</code></td>
+<td>
+<p>A vector of (log) values</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Given a vector of values of log values <var>v</var>, one could compute
+<code>log(mean(exp(v)))</code> in R. However, exponentiating and summing will cause
+a loss of precision, and possibly an overflow. These functions use the
+identity </p>
+<p style="text-align: center;"><i>log(e^a + e^b) = a +
+log[ 1 + e^(b-a) ]</i></p>
+<p> and the method of computing <i>log(1+e^x)</i>
+that avoids overflow (see the references). The code is written in C for very
+fast computations.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>logMeanExpLogs</code> returns a single value,
+<code>logCumMeanExpLogs</code> returns a vector of values of the same length as
+<var>v</var>, and <code>logSummaryStats</code> returns a list of the
+log mean, log variance, and cumulative log means.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Richard D. Morey (<a href="mailto:richarddmorey@gmail.com">richarddmorey@gmail.com</a>)
+</p>
+
+
+<h3>References</h3>
+
+<p>For details of the approximation of <i>log(1+e^x)</i>
+used to prevent loss of precision, see
+<a href="http://www.codeproject.com/Articles/25294/Avoiding-Overflow-Underflow-and-Loss-of-Precision">http://www.codeproject.com/Articles/25294/Avoiding-Overflow-Underflow-and-Loss-of-Precision</a> and
+<a href="http://www.johndcook.com/blog/standard_deviation/">http://www.johndcook.com/blog/standard_deviation/</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Sample 100 values
+y = log(rexp(100,1))
+
+# These will give the same value,
+# since e^y is "small"
+logMeanExpLogs(y)
+log(mean(exp(y)))
+
+# We can make e^x overflow by multiplying
+# e^y by e^1000
+largeVals = y + 1000
+
+# This will return 1000 + log(mean(exp(y)))
+logMeanExpLogs(largeVals)
+
+# This will overflow
+log(mean(exp(largeVals)))
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

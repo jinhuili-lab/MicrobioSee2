@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Apply a function on subsets of a RasterStack or RasterBrick</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stackApply {raster}"><tr><td>stackApply {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Apply a function on subsets of a RasterStack or RasterBrick</h2>
+
+<h3>Description</h3>
+
+<p>Apply a function on subsets of a RasterStack or RasterBrick. The layers to be combined are indicated with the vector <code>indices</code>. 
+The function used should return a single value, and the number of layers in the output Raster* equals the number of unique values in <code>indices</code>.
+For example, if you have a RasterStack with 6 layers, you can use <code>indices=c(1,1,1,2,2,2)</code> and <code>fun=sum</code>. This will return a RasterBrick with two layers. The first layer is the sum of the first three layers in the input RasterStack, and the second layer is the sum of the last three layers in the input RasterStack. Indices are recycled such that <code>indices=c(1,2)</code> would also return a RasterBrick with two layers (one based on the odd layers (1,3,5), the other based on the even layers (2,4,6)). 
+</p>
+<p>See <code><a href="../../raster/help/calc.html">calc</a></code> if you want to use a more efficient function that returns multiple layers based on _all_ layers in the Raster* object.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+stackApply(x, indices, fun, filename='', na.rm=TRUE, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>indices</code></td>
+<td>
+<p>integer. Vector of length <code>nlayers(x)</code> (shorter vectors are recycled) containing all integer values between 1 and the number of layers of the output Raster*</p>
+</td></tr>
+<tr valign="top"><td><code>fun</code></td>
+<td>
+<p>function that returns a single value, e.g. <code>mean</code> or <code>min</code>, and that takes a <code>na.rm</code> argument (or can pass through arguments via <code>...</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, <code>NA</code> cells are removed from calculations</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional output filename</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>A new Raster* object, and in some cases the side effect of a new file on disk.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/calc.html">calc</a>, <a href="../../raster/help/stackSelect.html">stackSelect</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=10, nrow=10)
+values(r) &lt;- 1:ncell(r)
+s &lt;- brick(r,r,r,r,r,r)
+s &lt;- s * 1:6
+b1 &lt;- stackApply(s, indices=c(1,1,1,2,2,2), fun=sum)
+b1
+b2 &lt;- stackApply(s, indices=c(1,2,3,1,2,3), fun=sum)
+b2
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

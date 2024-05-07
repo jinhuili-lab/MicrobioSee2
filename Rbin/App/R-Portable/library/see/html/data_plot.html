@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Prepare objects for plotting or plot objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for data_plot {see}"><tr><td>data_plot {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Prepare objects for plotting or plot objects</h2>
+
+<h3>Description</h3>
+
+<p><code>data_plot()</code> extracts and transforms an object for plotting,
+while <code>plot()</code> visualizes results of functions from different packages in
+<a href="https://github.com/easystats">easystats-project</a>. See the documentation
+for your object's class:
+</p>
+
+<ul>
+<li><p><a href="../../see/help/plot.see_bayesfactor_models.html">bayestestR::bayesfactor_models()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_bayesfactor_parameters.html">bayestestR::bayesfactor_parameters()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_equivalence_test.html">bayestestR::equivalence_test()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_estimate_density.html">bayestestR::estimate_density()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_hdi.html">bayestestR::hdi()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_p_direction.html">bayestestR::p_direction()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_p_significance.html">bayestestR::p_significance()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_si.html">bayestestR::si()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_easycormatrix.html">correlation::correlation()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_easycorrelation.html">correlation::correlation()</a> (Gaussian Graphical Models)
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_effectsize_table.html">effectsize::effectsize()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_estimate_contrasts.html">modelbased::estimate_contrasts()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_cluster_analysis.html">parameters::cluster_analysis()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_compare_parameters.html">parameters::compare_parameters()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_parameters_distribution.html">parameters::describe_distribution()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_parameters_model.html">parameters::model_parameters()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_parameters_pca.html">parameters::principal_components()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_n_factors.html">parameters::n_clusters()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_n_factors.html">parameters::n_factors()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_parameters_simulate.html">parameters::simulate_parameters()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_check_collinearity.html">performance::check_collinearity()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_check_heteroscedasticity.html">performance::check_heteroscedasticity()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_check_homogeneity.html">performance::check_homogeneity()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_check_normality.html">performance::check_normality()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_check_outliers.html">performance::check_outliers()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_compare_performance.html">performance::compare_performance()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_performance_roc.html">performance::performance_roc()</a>
+</p>
+</li>
+<li><p><a href="../../see/help/plot.see_performance_pp_check.html">performance::check_posterior_predictions()</a>
+</p>
+</li></ul>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+data_plot(x, data = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The original data used to create this object. Can be a
+statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>data_plot()</code> is in most situation not needed when the purpose
+is plotting, since most <code>plot()</code>-functions in <span class="pkg">see</span> internally call
+<code>data_plot()</code> to prepare the data for plotting.
+<br /> <br />
+Many <code>plot()</code>-functions have a <code>data</code>-argument that is needed when
+the data or model for plotting can't be retrieved via <code>data_plot()</code>. In
+such cases, <code>plot()</code> gives an error and asks for providing data or models.
+<br /> <br />
+Most <code>plot()</code>-functions work out-of-the-box, i.e. you don't need to do much
+more than calling <code style="white-space: pre;">plot(&lt;object&gt;)</code> (see 'Examples'). Some plot-functions
+allow to specify arguments to modify the transparency or color of geoms,
+these are shown in the 'Usage' section.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://easystats.github.io/see/articles/">Package-Vignettes</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(bayestestR)
+if (require("rstanarm")) {
+  model &lt;- stan_glm(
+    Sepal.Length ~ Petal.Width * Species,
+    data = iris,
+    chains = 2, iter = 200, refresh = 0
+  )
+
+  x &lt;- rope(model)
+  plot(x)
+
+  x &lt;- hdi(model)
+  plot(x) + theme_modern()
+
+  data &lt;- rnorm(1000, 1)
+  x &lt;- p_direction(data)
+  plot(x)
+
+  x &lt;- p_direction(model)
+  plot(x)
+
+  model &lt;- stan_glm(
+    mpg ~ wt + gear + cyl + disp,
+    chains = 2,
+    iter = 200,
+    refresh = 0,
+    data = mtcars
+  )
+  x &lt;- equivalence_test(model)
+  plot(x)
+}
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

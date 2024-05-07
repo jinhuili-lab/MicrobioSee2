@@ -1,0 +1,38 @@
+term	type	Count
+establishment of skin barrier	biological process	69
+regulation of water loss via skin	cell component	263
+intermediate filament cytoskeleton organization	molecular function	214
+intermediate filament-based process	biological process	247
+multicellular organismal water homeostasis	cell component	6
+water homeostasis	molecular function	282
+maintenance of gastrointestinal epithelium	biological process	120
+skin development	biological process	247
+epithelial structure maintenance	cell component	134
+nucleus organization	molecular function	7
+skeletal muscle fiber development	biological process	198
+keratinocyte differentiation	cell component	2
+myotube cell development	molecular function	172
+sarcomere organization	biological process	168
+muscle cell differentiation	biological process	158
+muscle cell development	cell component	111
+epidermal cell differentiation	molecular function	42
+histone H3-K4 methylation	biological process	253
+myofibril assembly	cell component	49
+striated muscle cell development	molecular function	264
+heart morphogenesis	biological process	6
+cardiac muscle cell development	biological process	252
+cardiac cell development	cell component	252
+striated muscle cell differentiation	molecular function	117
+cell-substrate junction assembly	biological process	80
+cell-substrate junction organization	cell component	39
+digestive system process	molecular function	280
+cellular component assembly involved in morphogenesis	biological process	34
+epidermis development	biological process	224
+histone lysine methylation	cell component	99
+muscle organ development	molecular function	182
+myotube differentiation	biological process	127
+response to fructose	cell component	243
+positive regulation of B cell receptor signaling pathway	molecular function	110
+presynaptic modulation of chemical synaptic transmission	biological process	136
+regulation of mitophagy	biological process	65
+negative regulation of neuron migration	cell component	42

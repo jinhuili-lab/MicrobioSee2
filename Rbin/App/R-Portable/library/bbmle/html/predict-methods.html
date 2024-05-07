@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predicted values from an mle2 fit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for predict-methods {bbmle}"><tr><td>predict-methods {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Predicted values from an mle2 fit</h2>
+
+<h3>Description</h3>
+
+<p>Given an <code>mle2</code> fit and an optional list
+of new data, return predictions (more generally,
+summary statistics of the predicted distribution)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+    ## S4 method for signature 'mle2'
+predict(object, newdata=NULL,
+                         location="mean", newparams=NULL, ...)
+    ## S4 method for signature 'mle2'
+simulate(object, nsim,
+                         seed, newdata=NULL, newparams=NULL, ...)
+    ## S4 method for signature 'mle2'
+residuals(object,type=c("pearson","response"),
+                   location="mean",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an mle2 object</p>
+</td></tr>
+<tr valign="top"><td><code>newdata</code></td>
+<td>
+<p>optional list of new data</p>
+</td></tr>
+<tr valign="top"><td><code>newparams</code></td>
+<td>
+<p>optional vector of new parameters</p>
+</td></tr>
+<tr valign="top"><td><code>location</code></td>
+<td>
+<p>name of the summary statistic to return</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+<p>number of simulations</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>random number seed</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>residuals type</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (for generic compatibility)</p>
+</td></tr>
+</table>
+
+
+<h3>Methods</h3>
+
+
+<dl>
+<dt>x = &quot;mle2&quot;</dt><dd><p>an <code>mle2</code> fit</p>
+</dd>
+</dl>
+
+
+<h3>Note</h3>
+
+<p>For some models (e.g. constant models), <code>predict</code> may
+return a single value rather than a vector of the appropriate length.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(1002)
+lymax &lt;- c(0,2)
+lhalf &lt;- 0
+x &lt;- runif(200)
+g &lt;- factor(rep(c("a","b"),each=100))
+y &lt;- rnbinom(200,mu=exp(lymax[g])/(1+x/exp(lhalf)),size=2)
+dat &lt;- data.frame(y,g,x)
+
+fit3 &lt;- mle2(y~dnbinom(mu=exp(lymax)/(1+x/exp(lhalf)),size=exp(logk)),
+    parameters=list(lymax~g),
+    start=list(lymax=0,lhalf=0,logk=0),
+data=dat)
+
+plot(y~x,col=g)
+## true curves
+curve(exp(0)/(1+x/exp(0)),add=TRUE)
+curve(exp(2)/(1+x/exp(0)),col=2,add=TRUE)
+## model predictions
+xvec = seq(0,1,length=100)
+lines(xvec,predict(fit3,newdata=list(g=factor(rep("a",100),levels=c("a","b")),
+                                x = xvec)),col=1,lty=2)
+lines(xvec,predict(fit3,newdata=list(g=factor(rep("b",100),levels=c("a","b")),
+                                x = xvec)),col=2,lty=2)
+
+
+## comparing automatic and manual predictions
+p1 = predict(fit3)
+p2A =
+with(as.list(coef(fit3)),exp(`lymax.(Intercept)`)/(1+x[1:100]/exp(lhalf)))
+p2B =
+with(as.list(coef(fit3)),exp(`lymax.(Intercept)`+lymax.gb)/(1+x[101:200]/exp(lhalf)))
+all(p1==c(p2A,p2B))
+##
+simulate(fit3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

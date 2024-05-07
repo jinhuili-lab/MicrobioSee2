@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw y-axis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.yaxis {circlize}"><tr><td>circos.yaxis {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw y-axis
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw y-axis
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.yaxis(
+    side = c("left", "right"),
+    at = NULL,
+    labels = TRUE,
+    tick = TRUE,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    labels.font = par("font"),
+    labels.cex = par("cex"),
+    labels.niceFacing = TRUE,
+    tick.length = convert_x(1, "mm", sector.index, track.index),
+    lwd = par("lwd"),
+    col = par("col"),
+    labels.col = par("col"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>side</code></td>
+<td>
+<p>add the y-axis on the left or right of the cell</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>If it is numeric vector, it identifies the positions of the ticks. It can exceed <code>ylim</code> value and the exceeding part would be trimmed automatically.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>labels of the ticks. The exceeding part would be trimmed automatically. The value can also be logical (either an atomic value or a vector) which represents which labels to show.</p>
+</td></tr>
+<tr valign="top"><td><code>tick</code></td>
+<td>
+<p>Whether to draw ticks.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track</p>
+</td></tr>
+<tr valign="top"><td><code>labels.font</code></td>
+<td>
+<p>font style for the axis labels</p>
+</td></tr>
+<tr valign="top"><td><code>labels.cex</code></td>
+<td>
+<p>font size for the axis labels</p>
+</td></tr>
+<tr valign="top"><td><code>labels.niceFacing</code></td>
+<td>
+<p>Should facing of axis labels be human-easy</p>
+</td></tr>
+<tr valign="top"><td><code>tick.length</code></td>
+<td>
+<p>length of the tick</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>line width for ticks</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>color for the axes</p>
+</td></tr>
+<tr valign="top"><td><code>labels.col</code></td>
+<td>
+<p>color for the labels</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Note, you need to set the gap between sectors manually by <code><a href="../../circlize/help/circos.par.html">circos.par</a></code> to make sure there is enough space
+for y-axis.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+op = par(no.readonly = TRUE)
+
+sectors = letters[1:8]
+circos.par(points.overflow.warning = FALSE)
+circos.par(gap.degree = 8)
+circos.initialize(sectors, xlim = c(0, 10))
+circos.trackPlotRegion(sectors, ylim = c(0, 10), track.height = 0.5)
+par(cex = 0.8)
+for(a in letters[2:4]) {
+  circos.yaxis(side = "left", sector.index = a)
+}
+for(a in letters[5:7]) {
+  circos.yaxis(side = "right", sector.index = a)
+}
+circos.clear()
+
+par(op)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Multiple (stack) plot with two ordinates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for twoord.stackplot {plotrix}"><tr><td>twoord.stackplot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Multiple (stack) plot with two ordinates</h2>
+
+<h3>Description</h3>
+
+<p>Two set of data are plotted on two different ordinate scales.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+twoord.stackplot(lx, rx, ldata, rdata, lcol, rcol, ltype, rtype, 
+	border, rylab, lylab, xlab, ..., incrylim=NULL,
+	halfwidth=0.4, leftfront=FALSE, mar = c(5, 4, 4, 4))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lx,rx</code></td>
+<td>
+<p>x-values for left/right data.</p>
+</td></tr>
+<tr valign="top"><td><code>ldata,rdata</code></td>
+<td>
+<p>data on the left/right y-axes.</p>
+</td></tr>
+<tr valign="top"><td><code>lcol, rcol</code></td>
+<td>
+<p>colors to be used for left/right data.</p>
+</td></tr>
+<tr valign="top"><td><code>ltype, rtype</code></td>
+<td>
+<p>line types to be used for left/right data, see details.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>color for the border of barplot</p>
+</td></tr>
+<tr valign="top"><td><code>rylab,lylab</code></td>
+<td>
+<p>labels for the left/right y-axes.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>labels for the x-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to be passed to <span class="samp">plot</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>incrylim</code></td>
+<td>
+<p>a number to increase the limits of y-axes.</p>
+</td></tr>
+<tr valign="top"><td><code>halfwidth</code></td>
+<td>
+<p>half the width of the bars in user units. 
+The bars are centered on successive integers if no x values are supplied</p>
+</td></tr>
+<tr valign="top"><td><code>leftfront</code></td>
+<td>
+<p>if <span class="samp">TRUE</span>, plot the left data on the front layer.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>optional margin adjustment, defaults to c(5,4,4,4).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">twoord.stackplot</span> works in the same way as <span class="samp">twoord.plot</span>
+on which it is heavily inspired. The functions let the user plot
+multiple curve/point or bar plots on the same graph with two different axes.
+The line type can be one of the following <span class="samp">"l"</span> for lines,
+<span class="samp">"p"</span> for points, <span class="samp">"b"</span> for both points and line, 
+<span class="samp">"o"</span> for overplotted, <span class="samp">"bar"</span> for barplot.
+</p>
+
+
+<h3>Value</h3>
+
+<p> nil </p>
+
+
+<h3>Author(s)</h3>
+
+<p> Christophe Dutang </p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/twoord.plot.html">twoord.plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# plot data
+#
+
+time &lt;- 0:25
+
+A &lt;- 1+1/2*sin(time/2)
+B &lt;- A + rnorm(length(A), sd=1/10)
+B &lt;- B + rnorm(length(A), sd=1/10)
+
+sizeA &lt;- floor(450*(1 + 1/4*sin(time/2+2))*(1+.1))
+sizeB &lt;- 1000-sizeA
+
+C &lt;- (A*sizeA + B*sizeB)/(sizeA+sizeB)
+
+
+#typical usage 
+#
+
+twoord.stackplot(lx=time, rx=time, ldata=cbind(sizeA, sizeB), 
+	rdata=cbind(A, B, C),  lcol=c("grey80", "white"), 
+	rcol=c("blue", "red","black"), ltype="bar", rtype=c("l","p","o"), 
+	border="grey80", lylab="Size", rylab="A,B,C", xlab="Time", 
+	main="a plot", incrylim=2/100)
+
+#add a legend
+#
+
+par(xpd=TRUE) #extend the area of plotting
+par(new=TRUE) #to add new graph "layers"
+plot(0:1, 0:1, type="n", xlab="",ylab="", axes=FALSE) #redo the x/y limits
+
+#first legend
+legend(-0.18, 1.2, leg=c("Size A", "Size B"), fill=c("grey80", "white")) 
+#second legend
+legend(.97, -0.08, leg=c("A", "B", "C"), col=c("blue", "red","black"), 
+	pch=c(NA, 19, 19), lty=c(1,NA,1)) 
+
+par(xpd=FALSE, new=FALSE) #default setting
+
+
+
+#reverse the order of plotting
+twoord.stackplot(lx=time, rx=time, ldata=cbind(sizeA, sizeB), 
+	rdata=cbind(A, B, C),  lcol=c("grey80", "white"), 
+	rcol=c("blue", "red","black"), ltype="bar", rtype=c("l","p","o"), 
+	border="grey80", lylab="Size", rylab="A,B,C", xlab="Time", 
+	main="a plot", incrylim=2/100, leftfront=TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

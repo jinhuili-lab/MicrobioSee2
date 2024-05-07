@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Nakagawa's R2 for mixed models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_nakagawa {performance}"><tr><td>r2_nakagawa {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Nakagawa's R2 for mixed models</h2>
+
+<h3>Description</h3>
+
+<p>Compute the <em>marginal</em> and <em>conditional</em> r-squared value for
+mixed effects models with complex random effects structures.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_nakagawa(
+  model,
+  by_group = FALSE,
+  tolerance = 1e-05,
+  ci = NULL,
+  iterations = 100,
+  ci_method = NULL,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A mixed effects model.</p>
+</td></tr>
+<tr valign="top"><td><code>by_group</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, returns the explained variance
+at different levels (if there are multiple levels). This is essentially
+similar to the variance reduction approach by <em>Hox (2010), pp. 69-78</em>.</p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>Tolerance for singularity check of random effects, to decide
+whether to compute random effect variances for the conditional r-squared
+or not. Indicates up to which value the convergence result is accepted. When
+<code>r2_nakagawa()</code> returns a warning, stating that random effect variances
+can't be computed (and thus, the conditional r-squared is <code>NA</code>),
+decrease the tolerance-level. See also <code><a href="../../performance/help/check_singularity.html">check_singularity()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence resp. credible interval level. For <code>icc()</code> and <code>r2()</code>,
+confidence intervals are based on bootstrapped samples from the ICC resp.
+R2 value. See <code>iterations</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>Number of bootstrap-replicates when computing confidence
+intervals for the ICC or R2.</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>Character string, indicating the bootstrap-method. Should
+be <code>NULL</code> (default), in which case <code>lme4::bootMer()</code> is used for
+bootstrapped confidence intervals. However, if bootstrapped intervals cannot
+be calculated this was, try <code>ci_method = "boot"</code>, which falls back to
+<code>boot::boot()</code>. This may successfully return bootstrapped confidence intervals,
+but bootstrapped samples may not be appropriate for the multilevel structure
+of the model. There is also an option <code>ci_method = "analytical"</code>, which tries
+to calculate analytical confidence assuming a chi-squared distribution.
+However, these intervals are rather inaccurate and often too narrow. It is
+recommended to calculate bootstrapped confidence intervals for mixed models.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed down to <code>brms::posterior_predict()</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Marginal and conditional r-squared values for mixed models are calculated
+based on <em>Nakagawa et al. (2017)</em>. For more details on the computation of
+the variances, see <code>?insight::get_variance</code>. The random effect variances are
+actually the mean random effect variances, thus the r-squared value is also
+appropriate for mixed models with random slopes or nested random effects
+(see <em>Johnson, 2014</em>).
+</p>
+
+<ul>
+<li> <p><strong>Conditional R2</strong>: takes both the fixed and random effects into account.
+</p>
+</li>
+<li> <p><strong>Marginal R2</strong>: considers only the variance of the fixed effects.
+</p>
+</li></ul>
+
+<p>The contribution of random effects can be deduced by subtracting the
+marginal R2 from the conditional R2 or by computing the <code><a href="../../performance/help/icc.html">icc()</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with the conditional and marginal R2 values.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Hox, J. J. (2010). Multilevel analysis: techniques and applications
+(2nd ed). New York: Routledge.
+</p>
+</li>
+<li><p> Johnson, P. C. D. (2014). Extension of Nakagawa and Schielzeth’s R2 GLMM
+to random slopes models. Methods in Ecology and Evolution, 5(9), 944–946.
+doi: <a href="https://doi.org/10.1111/2041-210X.12225">10.1111/2041-210X.12225</a>
+</p>
+</li>
+<li><p> Nakagawa, S., and Schielzeth, H. (2013). A general and simple method for
+obtaining R2 from generalized linear mixed-effects models. Methods in
+Ecology and Evolution, 4(2), 133–142. doi: <a href="https://doi.org/10.1111/j.2041-210x.2012.00261.x">10.1111/j.2041-210x.2012.00261.x</a>
+</p>
+</li>
+<li><p> Nakagawa, S., Johnson, P. C. D., and Schielzeth, H. (2017). The
+coefficient of determination R2 and intra-class correlation coefficient from
+generalized linear mixed-effects models revisited and expanded. Journal of
+The Royal Society Interface, 14(134), 20170213.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+
+model &lt;- lme4::lmer(Sepal.Length ~ Petal.Length + (1 | Species), data = iris)
+r2_nakagawa(model)
+r2_nakagawa(model, by_group = TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

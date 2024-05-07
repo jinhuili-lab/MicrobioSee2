@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Legend matching categories or values to colors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for color.legend {plotrix}"><tr><td>color.legend {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Legend matching categories or values to colors</h2>
+
+<h3>Description</h3>
+
+<p>Display a color legend on a plot</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ color.legend(xl,yb,xr,yt,legend,rect.col,cex=1,align="lt",gradient="x",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>xl,yb,xr,yt</code></td>
+<td>
+<p>The lower left and upper right coordinates of the
+rectange of colors in user coordinates.</p>
+</td></tr>
+<tr valign="top"><td><code>legend</code></td>
+<td>
+<p>The labels that will appear next to some or all of the colors.</p>
+</td></tr>
+<tr valign="top"><td><code>rect.col</code></td>
+<td>
+<p>The colors that will fill the rectangle.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion factor for the labels.</p>
+</td></tr>
+<tr valign="top"><td><code>align</code></td>
+<td>
+<p>How to align the labels relative to the color rectangle.</p>
+</td></tr>
+<tr valign="top"><td><code>gradient</code></td>
+<td>
+<p>Whether to have a horizontal (x) or vertical (y) color
+gradient.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">text</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">color.legend</span> displays a rectangle defined by the first four arguments
+filled with smaller rectangles of color defined by the <span class="samp">rect.col</span> argument.
+Labels, defined by the <span class="samp">legend</span> argument, are placed next to the color
+rectangle. The position of the labels is determined by whether the color
+rectangle is horizontal or vertical and the <span class="samp">align</span> argument. The default
+value of <span class="samp">lt</span> places the labels at the left of a vertical rectangle or the
+top of a horizontal one. <span class="samp">rb</span> puts them on the other side. To have the
+labels in the same color as the rectangles, include a <span class="samp">col</span> argument that
+will be passed to <span class="samp">text</span> as in the example.
+</p>
+<p>There can be fewer labels than colors. The labels will be evenly spaced along
+the rectangle in this case. It is possible to use empty labels to get uneven
+spacing. The user can pass more labels than colors, but the labels will almost
+certainly be crowded and I have only found one use for this. If the user wants
+the labels at the intersection of the boxes rather than in the center, see the
+alternative specification for the labels in the example (thanks Claudia Tebaldi).
+To have complete control over the labels, see <a href="../../plotrix/help/gradient.rect.html">gradient.rect</a> and 
+<a href="../../graphics/html/text.html">text</a> or <a href="../../graphics/html/mtext.html">mtext</a>.
+</p>
+<p><span class="samp">colorlegend</span> in the <span class="pkg">shape</span> package offers a different approach,
+creating a large number of colors from a color generating function (a bit
+like <span class="samp">color.gradient</span>) and then allowing the user to specify tick
+marks at arbitrary points along the color bar.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/color.gradient.html">color.gradient</a>, <a href="../../plotrix/help/gradient.rect.html">gradient.rect</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # get some extra room
+ par(mar=c(7,4,4,6))
+ testcol&lt;-color.gradient(c(0,1),0,c(1,0),nslices=5)
+ col.labels&lt;-c("Cold","Warm","Hot")
+ # this will put the labels at the intersections
+ # col.labels&lt;-c("","Cold","","Warm","","Warmer","","Hot","")
+ color2D.matplot(matrix(rnorm(100),nrow=10),c(1,0),0,c(0,1),
+  main="Test color legends")
+ color.legend(11,6,11.8,9,col.labels,testcol,gradient="y")
+ color.legend(10.2,2,11,5,col.labels,testcol,align="rb",gradient="y")
+ color.legend(0.5,-2,3.5,-1.2,col.labels,testcol)
+ color.legend(7,-1.8,10,-1,col.labels,testcol,align="rb",col=testcol[c(1,3,5)])
+ par(mar=c(5,4,4,2))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

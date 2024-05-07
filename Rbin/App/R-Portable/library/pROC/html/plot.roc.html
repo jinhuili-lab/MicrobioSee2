@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.roc {pROC}"><tr><td>plot.roc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Plot a ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This function plots a ROC curve. It can accept many arguments to
+tweak the appearance of the plot. Two syntaxes are possible: one
+object of class &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo;, or either two vectors (response, predictor) or a
+formula (response~predictor) as in the <code><a href="../../pROC/help/roc.html">roc</a></code> function. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'roc'
+plot(x, ...)
+## S3 method for class 'smooth.roc'
+plot(x, ...)
+## S3 method for class 'roc'
+plot.roc(x, add=FALSE, reuse.auc=TRUE,
+axes=TRUE, legacy.axes=FALSE,
+# Generic arguments for par:
+xlim=if(x$percent){c(100, 0)} else{c(1, 0)},
+ylim=if(x$percent){c(0, 100)} else{c(0, 1)},
+xlab=ifelse(x$percent, ifelse(legacy.axes, "100 - Specificity (%)", "Specificity (%)"),
+            ifelse(legacy.axes, "1 - Specificity", "Specificity")),
+ylab=ifelse(x$percent, "Sensitivity (%)", "Sensitivity"),
+asp=1,
+mar=c(4, 4, 2, 2)+.1,
+mgp=c(2.5, 1, 0),
+# col, lty and lwd for the ROC line only
+col=par("col"),
+lty=par("lty"),
+lwd=2,
+type="l",
+# Identity line
+identity=!add,
+identity.col="darkgrey",
+identity.lty=1,
+identity.lwd=1,
+# Print the thresholds on the plot
+print.thres=FALSE,
+print.thres.pch=20,
+print.thres.adj=c(-.05,1.25),
+print.thres.col="black",
+print.thres.pattern=ifelse(x$percent, "%.1f (%.1f%%, %.1f%%)", "%.3f (%.3f, %.3f)"),
+print.thres.cex=par("cex"),
+print.thres.pattern.cex=print.thres.cex,
+print.thres.best.method=NULL,
+print.thres.best.weights=c(1, 0.5),
+# Print the AUC on the plot
+print.auc=FALSE,
+print.auc.pattern=NULL,
+print.auc.x=ifelse(x$percent, 50, .5),
+print.auc.y=ifelse(x$percent, 50, .5),
+print.auc.adj=c(0,1),
+print.auc.col=col,
+print.auc.cex=par("cex"),
+# Grid
+grid=FALSE,
+grid.v={if(is.logical(grid) &amp;&amp; grid[1]==TRUE)
+          {seq(0, 1, 0.1) * ifelse(x$percent, 100, 1)}
+        else if(is.numeric(grid)) 
+          {seq(0, ifelse(x$percent, 100, 1), grid[1])} else {NULL}},
+grid.h={if (length(grid) == 1) {grid.v} 
+        else if (is.logical(grid) &amp;&amp; grid[2]==TRUE)
+          {seq(0, 1, 0.1) * ifelse(x$percent, 100, 1)} 
+        else if(is.numeric(grid))
+          {seq(0, ifelse(x$percent, 100, 1), grid[2])} else {NULL}},
+grid.lty=3,
+grid.lwd=1,
+grid.col="#DDDDDD",
+# Polygon for the AUC
+auc.polygon=FALSE,
+auc.polygon.col="gainsboro",
+auc.polygon.lty=par("lty"),
+auc.polygon.density=NULL,
+auc.polygon.angle=45,
+auc.polygon.border=NULL,
+# Polygon for the maximal AUC possible                           
+max.auc.polygon=FALSE,
+max.auc.polygon.col="#EEEEEE", 
+max.auc.polygon.lty=par("lty"),
+max.auc.polygon.density=NULL,
+max.auc.polygon.angle=45,
+max.auc.polygon.border=NULL,
+# Confidence interval
+ci=!is.null(x$ci),
+ci.type=c("bars", "shape", "no"),
+ci.col=ifelse(ci.type=="bars", par("fg"), "gainsboro"),
+...)
+## S3 method for class 'formula'
+plot.roc(x, data, subset, na.action, ...)
+## Default S3 method:
+plot.roc(x, predictor, ...)
+## S3 method for class 'smooth.roc'
+plot.roc(x, ...)
+
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a roc object from the <a href="../../pROC/help/roc.html">roc</a> function (for plot.roc.roc),
+a formula (for plot.roc.formula) or a response vector (for
+plot.roc.default).
+</p>
+</td></tr>
+<tr valign="top"><td><code>predictor, data</code></td>
+<td>
+<p>arguments for the <a href="../../pROC/help/roc.html">roc</a> function.</p>
+</td></tr>
+<tr valign="top"><td><code>subset,na.action</code></td>
+<td>
+<p>arguments for <code><a href="../../stats/html/model.frame.html">model.frame</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>if TRUE, the ROC curve will be added to an existing
+plot. If FALSE (default), a new plot will be created.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc</code></td>
+<td>
+<p>if <code>TRUE</code> (default) and the &ldquo;roc&rdquo; object
+contains an &ldquo;auc&rdquo; field, re-use these specifications for the
+plot (specifically <code>print.auc</code>, <code>auc.polygon</code> and
+<code>max.auc.polygon</code> arguments). See details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>a logical indicating if the plot axes must be drawn.</p>
+</td></tr>
+<tr valign="top"><td><code>legacy.axes</code></td>
+<td>
+<p>a logical indicating if the specificity axis (x
+axis) must be plotted as as decreasing &ldquo;specificity&rdquo;
+(<code>FALSE</code>, the default) or increasing &ldquo;1 - specificity&rdquo;
+(<code>TRUE</code>) as in most legacy software. This affects only the
+axis, not the plot coordinates.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim, xlab, ylab, asp, mar, mgp</code></td>
+<td>
+<p>Generic arguments for the
+plot. See <a href="../../pROC/help/plot.html">plot</a> and <a href="../../graphics/html/plot.window.html">plot.window</a> for more details. Only
+used if <code>add=FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col,lty, lwd</code></td>
+<td>
+<p>color, line type and line width for the ROC
+curve. See <a href="../../graphics/html/par.html">par</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>type of plotting as in <code><a href="../../pROC/help/plot.html">plot</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>identity</code></td>
+<td>
+<p>logical: whether or not the identity line (no discrimination
+line) must be displayed. Default: only on new plots.
+</p>
+</td></tr>
+<tr valign="top"><td><code>identity.col, identity.lty, identity.lwd</code></td>
+<td>
+<p>color, line type and
+line width for the identity line. Used only if identity=TRUE. See
+<a href="../../graphics/html/par.html">par</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.thres</code></td>
+<td>
+<p>Should a selected set of thresholds be displayed on
+the ROC curve? <code>FALSE</code>, <code>NULL</code> or &ldquo;no&rdquo;: no threshold is
+displayed. <code>TRUE</code> or &ldquo;best&rdquo;: the threshold with the
+highest sum sensitivity + specificity is plotted (this might be more
+than one threshold). &ldquo;all&rdquo;: all the points of the ROC
+curve. &ldquo;local maximas&rdquo;: all the local maximas. Numeric
+vector: direct definition of the thresholds to display.
+Note that on a smoothed ROC curve, only &ldquo;best&rdquo; is supported.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.thres.pch, print.thres.adj, print.thres.col,
+print.thres.cex</code></td>
+<td>
+<p>the plotting character (pch), text string
+adjustment (adj), color (col) and character expansion factor (cex)
+parameters for the printing of the thresholds. See <a href="../../graphics/html/points.html">points</a> and
+<a href="../../graphics/html/par.html">par</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.thres.pattern</code></td>
+<td>
+<p>the text pattern for the thresholds, as a
+<a href="../../base/html/sprintf.html">sprintf</a> format. Three numerics are passed to sprintf:
+threshold, specificity, sensitivity.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.thres.pattern.cex</code></td>
+<td>
+<p>the character expansion factor (cex) for the
+threshold text pattern. See <a href="../../graphics/html/par.html">par</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.thres.best.method, print.thres.best.weights</code></td>
+<td>
+<p>if
+<code>print.thres="best"</code> or <code>print.thres=TRUE</code>, what method must be used to determine which
+threshold is the best. See argument <code>best.method</code> and <code>best.weights</code> to
+<code><a href="../../pROC/help/coords.html">coords</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.auc</code></td>
+<td>
+<p>boolean. Should the numeric value of AUC be printed
+on the plot?
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.auc.pattern</code></td>
+<td>
+<p>the text pattern for the AUC, as a
+<a href="../../base/html/sprintf.html">sprintf</a> format. If NULL, a reasonable value is computed that
+takes partial AUC, CI and percent into account. If the CI
+of the AUC was computed, three numerics are passed to
+sprintf: AUC, lower CI bound, higher CI bound. Otherwise, only AUC is
+passed.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.auc.x, print.auc.y</code></td>
+<td>
+<p>x and y position for the printing of
+the AUC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>print.auc.adj, print.auc.cex, print.auc.col</code></td>
+<td>
+<p>the text
+adjustment, character expansion factor and color for the printing of
+the AUC. See <a href="../../graphics/html/par.html">par</a> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid</code></td>
+<td>
+<p>boolean or numeric vector of length 1 or 2. Should a
+background grid be added to the plot? Numeric: show a grid with the
+specified interval between each line; Logical: show the grid or
+not. Length 1: same values are taken for horizontal and vertical
+lines. Length 2: grid value for vertical (grid[1]) and horizontal
+(grid[2]). Note that these values are used to compute grid.v and
+grid.h. Therefore if you specify a grid.h and grid.v, it will be
+ignored. 
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid.v, grid.h</code></td>
+<td>
+<p>numeric. The x and y values at which a vertical
+or horizontal line (respectively) must be drawn. NULL if no line
+must be added.
+</p>
+</td></tr>
+<tr valign="top"><td><code>grid.lty, grid.lwd, grid.col</code></td>
+<td>
+<p>the line type (lty), line width (lwd) and
+color (col) of the lines of the grid. See <a href="../../graphics/html/par.html">par</a> for
+more details. Note that you can pass vectors of length 2, in which
+case it specifies the vertical (1) and horizontal (2) lines.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc.polygon</code></td>
+<td>
+<p>boolean. Whether or not to display the area as a
+polygon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc.polygon.col, auc.polygon.lty, auc.polygon.density,
+auc.polygon.angle, auc.polygon.border</code></td>
+<td>
+<p>color (col), line type
+(lty), density, angle and border for the AUC polygon. See
+<code><a href="../../graphics/html/polygon.html">polygon</a></code> and <code><a href="../../graphics/html/par.html">par</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>max.auc.polygon</code></td>
+<td>
+<p>boolean. Whether or not to display the maximal
+possible area as a polygon.
+</p>
+</td></tr>
+<tr valign="top"><td><code>max.auc.polygon.col, max.auc.polygon.lty, max.auc.polygon.density,
+max.auc.polygon.angle, max.auc.polygon.border</code></td>
+<td>
+<p>color (col), line type
+(lty), density, angle and border for the maximum AUC polygon. See
+<code><a href="../../graphics/html/polygon.html">polygon</a></code> and <code><a href="../../graphics/html/par.html">par</a></code> for more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>boolean. Should we plot the confidence intervals?</p>
+</td></tr>
+<tr valign="top"><td><code>ci.type, ci.col</code></td>
+<td>
+<p><code>type</code> and <code>col</code> arguments for
+<code><a href="../../pROC/help/plot.ci.html">plot.ci</a></code>. The special value &ldquo;no&rdquo; disables the plotting of confidence intervals.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code><a href="../../pROC/help/roc.html">roc</a></code> and <code>plot.roc.roc</code> when calling
+<code>plot.roc.default</code> or <code>plot.roc.formula</code>. Note that the
+<code>plot</code> argument for <code><a href="../../pROC/help/roc.html">roc</a></code> is not allowed.
+Arguments for <code><a href="../../pROC/help/auc.html">auc</a></code> and graphical functions
+<code><a href="../../pROC/help/plot.html">plot</a></code>, <code><a href="../../graphics/html/abline.html">abline</a></code>, <code><a href="../../graphics/html/polygon.html">polygon</a></code>,
+<code><a href="../../graphics/html/points.html">points</a></code>, <code><a href="../../graphics/html/text.html">text</a></code> and <code><a href="../../pROC/help/plot.ci.html">plot.ci</a></code>
+if applicable.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is typically called from <code><a href="../../pROC/help/roc.html">roc</a></code> when plot=TRUE (not by
+default). <code>plot.roc.formula</code> and <code>plot.roc.default</code> are convenience methods
+that build the ROC curve (with the <code><a href="../../pROC/help/roc.html">roc</a></code> function) before
+calling <code>plot.roc.roc</code>. You can pass them arguments for both
+<code><a href="../../pROC/help/roc.html">roc</a></code> and <code>plot.roc.roc</code>. Simply use <code>plot.roc</code>
+that will dispatch to the correct method.
+</p>
+<p>The plotting is done in the following order:
+</p>
+
+<ol>
+<li><p> A new plot is created if <code>add=FALSE</code>.
+</p>
+</li>
+<li><p> The grid is added if <code>grid.v</code> and <code>grid.h</code> are not NULL.
+</p>
+</li>
+<li><p> The maximal AUC polygon is added if <code>max.auc.polygon=TRUE</code>.
+</p>
+</li>
+<li><p> The CI shape is added if <code>ci=TRUE</code>, <code>ci.type="shape"</code> and <code>x$ci</code> isn't a &ldquo;ci.auc&rdquo;.
+</p>
+</li>
+<li><p> The AUC polygon is added if <code>auc.polygon=TRUE</code>.
+</p>
+</li>
+<li><p> The identity line if <code>identity=TRUE</code>.
+</p>
+</li>
+<li><p> The actual ROC line is added.
+</p>
+</li>
+<li><p> The CI bars are added if <code>ci=TRUE</code>, <code>ci.type="bars"</code> and <code>x$ci</code> isn't a &ldquo;ci.auc&rdquo;.
+</p>
+</li>
+<li><p> The selected thresholds are printed if <code>print.thres</code> is <code>TRUE</code> or numeric.
+</p>
+</li>
+<li><p> The AUC is printed if <code>print.auc=TRUE</code>.
+</p>
+</li></ol>
+
+<p>Graphical functions are called with <a href="../../base/html/warning.html">suppressWarnings</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>This function returns a list of class &ldquo;roc&rdquo; invisibly. See <a href="../../pROC/help/roc.html">roc</a> for more details.
+</p>
+
+
+<h3>AUC specification</h3>
+
+<p>For <code>print.auc</code>, <code>auc.polygon</code> and <code>max.auc.polygon</code>
+arguments, an AUC specification is
+required. By default, the total AUC is plotted, but you may want a
+partial AUCs. The specification is defined by:
+</p>
+
+<ol>
+<li><p> the &ldquo;auc&rdquo; field in the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object if
+<code>reuse.auc</code> is set to <code>TRUE</code> (default). It is naturally
+inherited from any call to <code><a href="../../pROC/help/roc.html">roc</a></code> and fits most cases.
+</p>
+</li>
+<li><p> passing the specification to <code><a href="../../pROC/help/auc.html">auc</a></code> with ...
+(arguments <code>partial.auc</code>, <code>partial.auc.correct</code> and
+<code>partial.auc.focus</code>). In this case, you must ensure either that
+the <code><a href="../../pROC/help/roc.html">roc</a></code> object do not contain an <code>auc</code> field (if
+you called <code><a href="../../pROC/help/roc.html">roc</a></code> with <code>auc=FALSE</code>), or set
+<code>reuse.auc=FALSE</code>.
+</p>
+</li></ol>
+
+<p>If <code>reuse.auc=FALSE</code> the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always
+be called with <code>...</code> to determine the specification, even if
+the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object do contain an <code>auc</code> field.
+</p>
+<p>As well if the &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object do not contain an <code>auc</code>
+field, the <code><a href="../../pROC/help/auc.html">auc</a></code> function will always be called with
+<code>...</code> to determine the specification.
+</p>
+<p>Warning: if the roc object passed to plot.roc contains an <code>auc</code>
+field and <code>reuse.auc=TRUE</code>, <a href="../../pROC/help/auc.html">auc</a> is not called and
+arguments such as <code>partial.auc</code> are silently ignored.
+</p>
+
+
+<h3>References</h3>
+
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/auc.html">auc</a></code>, <code><a href="../../pROC/help/ci.html">ci</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a few ROC curves:
+data(aSAH)
+roc.s100b &lt;- roc(aSAH$outcome, aSAH$s100b)
+roc.wfns &lt;- roc(aSAH$outcome, aSAH$wfns)
+roc.ndka &lt;- roc(aSAH$outcome, aSAH$wfns)
+
+# Simple example:
+plot(roc.s100b)
+
+# Add a smoothed ROC:
+plot(smooth(roc.s100b), add=TRUE, col="blue")
+legend("bottomright", legend=c("Empirical", "Smoothed"),
+       col=c(par("fg"), "blue"), lwd=2)
+
+# With more options:
+plot(roc.s100b, print.auc=TRUE, auc.polygon=TRUE, grid=c(0.1, 0.2),
+     grid.col=c("green", "red"), max.auc.polygon=TRUE,
+     auc.polygon.col="lightblue", print.thres=TRUE)
+
+# To plot a different partial AUC, we need to ignore the existing value
+# with reuse.auc=FALSE:
+plot(roc.s100b, print.auc=TRUE, auc.polygon=TRUE, partial.auc=c(1, 0.8),
+     partial.auc.focus="se", grid=c(0.1, 0.2), grid.col=c("green", "red"),
+     max.auc.polygon=TRUE, auc.polygon.col="lightblue", 
+     print.thres=TRUE, print.thres.adj = c(1, -1),
+     reuse.auc=FALSE)
+
+# Add a second ROC curve to the previous plot:
+plot(roc.wfns, add=TRUE)
+
+# Plot some thresholds, add them to the same plot
+plot(roc.ndka, print.thres="best", print.thres.best.method="youden")
+plot(roc.ndka, print.thres="best", print.thres.best.method="closest.topleft",
+                                   add = TRUE)
+plot(roc.ndka, print.thres="best", print.thres.best.method="youden",
+                                   print.thres.best.weights=c(50, 0.2),
+                                   print.thres.adj = c(1.1, 1.25),
+                                   add = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Options for maximum likelihood estimation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mle2.options {bbmle}"><tr><td>mle2.options {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Options for maximum likelihood estimation</h2>
+
+<h3>Description</h3>
+
+<p>Query or set MLE parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mle2.options(...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>names of arguments to query,
+or a list of values to set</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+
+<dl>
+<dt>optim.method</dt><dd><p>name of optimization method (see
+<code><a href="../../stats/html/optim.html">optim</a></code> for choices)</p>
+</dd>
+<dt>confint</dt><dd><p>name of confidence interval method: choices
+are &quot;spline&quot;, &quot;uniroot&quot;, &quot;hessian&quot; corresponding
+to spline inversion, attempt to find best answer via uniroot,
+information-matrix approximation</p>
+</dd>
+<dt>optimizer</dt><dd><p>optimization function to use by default
+(choices: &quot;optim&quot;, &quot;nlm&quot;, &quot;nlminb&quot;, &quot;constrOptim&quot;)</p>
+</dd>
+</dl>
+
+
+
+<h3>Value</h3>
+
+<p>Values of queried parameters, or (invisibly) the full list of parameters
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../bbmle/help/mle2-class.html">mle2-class</a></code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

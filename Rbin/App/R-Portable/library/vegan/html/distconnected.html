@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Connectedness of Dissimilarities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for distconnected {vegan}"><tr><td>distconnected {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Connectedness of Dissimilarities</h2>
+
+<h3>Description</h3>
+
+<p>Function <code>distconnected</code> finds groups that are connected
+disregarding dissimilarities that are at or above a threshold or
+<code>NA</code>. The function can be used to find groups that can be
+ordinated together or transformed by
+<code><a href="../../vegan/help/stepacross.html">stepacross</a></code>. Function <code>no.shared</code> returns a logical
+dissimilarity object, where <code>TRUE</code> means that sites have no
+species in common. This is a minimal structure for
+<code>distconnected</code> or can be used to set missing values to
+dissimilarities.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+distconnected(dis, toolong = 1, trace = TRUE)
+
+no.shared(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dis</code></td>
+<td>
+<p>Dissimilarity data inheriting from class <code>dist</code> or
+a an object, such as a matrix, that can be converted to a
+dissimilarity matrix. Functions <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> and
+<code><a href="../../stats/html/dist.html">dist</a></code> are some functions producing suitable
+dissimilarity data.</p>
+</td></tr>
+<tr valign="top"><td><code>toolong</code></td>
+<td>
+<p> Shortest dissimilarity regarded as <code>NA</code>.
+The function uses a fuzz factor, so
+that dissimilarities close to the limit will be made <code>NA</code>, too.
+If <code>toolong = 0</code> (or negative), no dissimilarity is regarded
+as too long.
+</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>Summarize results of <code>distconnected</code></p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Data sets are disconnected if they have sample plots or groups of
+sample plots which share no species with other sites or groups of
+sites. Such data sets cannot be sensibly ordinated by any
+unconstrained method because these subsets cannot be related to each
+other. For instance, correspondence analysis will polarize these
+subsets with eigenvalue 1. Neither can such dissimilarities be
+transformed with <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>, because there is no path
+between all points, and result will contain <code>NA</code>s. Function
+<code>distconnected</code> will find such subsets in dissimilarity
+matrices. The function will return a grouping vector that can be used
+for sub-setting the data. If data are connected, the result vector will
+be all <i>1</i>s. The connectedness between two points can be defined
+either by a threshold <code>toolong</code> or using input dissimilarities
+with <code>NA</code>s.
+</p>
+<p>Function <code>no.shared</code> returns a <code>dist</code> structure having value
+<code>TRUE</code> when two sites have nothing in common, and value
+<code>FALSE</code> when they have at least one shared species. This is a
+minimal structure that can be analysed with <code>distconnected</code>. The
+function can be used to select dissimilarities with no shared species
+in indices which do not have a fixed upper limit.
+</p>
+<p>Function <code>distconnected</code> uses depth-first search
+(Sedgewick 1990). 
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>distconnected</code> returns a vector for
+observations using integers to identify connected groups. If the data
+are connected, values will be all <code>1</code>. Function <code>no.shared</code>
+returns an object of class <code><a href="../../stats/html/dist.html">dist</a></code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Jari Oksanen </p>
+
+
+<h3>References</h3>
+
+<p>Sedgewick, R. (1990). <em>Algorithms in C</em>. Addison Wesley. 
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/vegdist.html">vegdist</a></code> or <code><a href="../../stats/html/dist.html">dist</a></code> for getting
+dissimilarities, <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> for a case where you may need
+<code>distconnected</code>, and for connecting points <code><a href="../../vegan/help/spantree.html">spantree</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## There are no disconnected data in vegan, and the following uses an
+## extremely low threshold limit for connectedness. This is for
+## illustration only, and not a recommended practice.
+data(dune)
+dis &lt;- vegdist(dune)
+gr &lt;- distconnected(dis, toolong=0.4)
+# Make sites with no shared species as NA in Manhattan dissimilarities
+dis &lt;- vegdist(dune, "manhattan")
+is.na(dis) &lt;- no.shared(dune)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

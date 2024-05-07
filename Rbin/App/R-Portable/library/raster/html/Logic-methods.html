@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Logical operators and functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Logic-methods {raster}"><tr><td>Logic-methods {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Logical operators and functions</h2>
+
+<h3>Description</h3>
+
+<p>The following logical (boolean) operators are available for computations with RasterLayer objects: 
+</p>
+<p><code>&amp;, |, and !</code>
+</p>
+<p>The following functions are available with a Raster* argument: 
+</p>
+<p><code>is.na</code>, <code>is.nan</code>, <code>is.finite</code>, <code>is.infinite</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>A Raster object with logical (<code>TRUE/FALSE</code> values)
+</p>
+
+
+<h3>Note</h3>
+
+<p>These are convenient operators/functions that are most usful for relatively small RasterLayers for which all the values can be held in memory. 
+If the values of the output RasterLayer cannot be held in memory, they will be saved to a temporary file. In that case it could be more 
+efficient to use <code><a href="../help/calc.html">calc</a></code> instead.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/Math-methods.html">Math-methods</a></code>, <code><a href="../help/overlay.html">overlay</a></code>, <code><a href="../help/calc.html">calc</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=10, nrows=10)
+values(r) &lt;- runif(ncell(r)) * 10
+r1 &lt;- r &lt; 3 | r &gt; 6
+r2 &lt;- !r1
+r3 &lt;- r &gt;= 3 &amp; r &lt;= 6
+r4 &lt;- r2 == r3
+r[r&gt;3] &lt;- NA
+r5 &lt;- is.na(r)
+r[1:5]
+r1[1:5]
+r2[1:5]
+r3[1:5]
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

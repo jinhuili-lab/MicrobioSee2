@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Backend: MySQL/MariaDB</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for backend-mysql {dbplyr}"><tr><td>backend-mysql {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Backend: MySQL/MariaDB</h2>
+
+<h3>Description</h3>
+
+<p>See <code>vignette("translate-function")</code> and <code>vignette("translate-verb")</code> for
+details of overall translation technology. Key differences for this backend
+are:
+</p>
+
+<ul>
+<li> <p><code>paste()</code> uses <code>CONCAT_WS()</code>
+</p>
+</li>
+<li><p> String translations for <code>str_detect()</code>, <code>str_locate()</code>, and
+<code>str_replace_all()</code>
+</p>
+</li>
+<li><p> Clear error message for unsupported full joins
+</p>
+</li></ul>
+
+<p>Use <code>simulate_mysql()</code> with <code>lazy_frame()</code> to see simulated SQL without
+converting to live access database.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_mysql()
+</pre>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(dplyr, warn.conflicts = FALSE)
+
+lf &lt;- lazy_frame(a = TRUE, b = 1, c = 2, d = "z", con = simulate_mysql())
+lf %&gt;% transmute(x = paste0(z, " times"))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Expand SQL tables to include all possible combinations of...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for expand.tbl_lazy {dbplyr}"><tr><td>expand.tbl_lazy {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Expand SQL tables to include all possible combinations of values</h2>
+
+<h3>Description</h3>
+
+<p>This is a method for the <a href="../../tidyr/help/expand.html">tidyr::expand</a> generics. It doesn't sort the
+result explicitly, so the order might be different to what <code>expand()</code>
+returns for data frames.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+expand.tbl_lazy(data, ..., .name_repair = "check_unique")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A lazy data frame backed by a database query.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Specification of columns to expand. See <a href="../../tidyr/help/expand.html">tidyr::expand</a> for
+more details.</p>
+</td></tr>
+<tr valign="top"><td><code>.name_repair</code></td>
+<td>
+<p>Treatment of problematic column names:
+</p>
+
+<ul>
+<li> <p><code>"minimal"</code>: No name repair or checks, beyond basic existence,
+</p>
+</li>
+<li> <p><code>"unique"</code>: Make sure names are unique and not empty,
+</p>
+</li>
+<li> <p><code>"check_unique"</code>: (default value), no name repair, but check they are
+<code>unique</code>,
+</p>
+</li>
+<li> <p><code>"universal"</code>: Make the names <code>unique</code> and syntactic
+</p>
+</li>
+<li><p> a function: apply custom name repair (e.g., <code>.name_repair = make.names</code>
+for names in the style of base R).
+</p>
+</li>
+<li><p> A purrr-style anonymous function, see <code><a href="../../rlang/help/as_function.html">rlang::as_function()</a></code>
+</p>
+</li></ul>
+
+<p>This argument is passed on as <code>repair</code> to <code><a href="../../vctrs/help/vec_as_names.html">vctrs::vec_as_names()</a></code>.
+See there for more details on these terms and the strategies used
+to enforce them.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Another <code>tbl_lazy</code>. Use <code><a href="../../dplyr/html/explain.html">show_query()</a></code> to see the generated
+query, and use <code><a href="../../dbplyr/help/collect.tbl_sql.html">collect()</a></code> to execute the query
+and return data to R.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("tidyr", quietly = TRUE)) {
+  fruits &lt;- memdb_frame(
+    type   = c("apple", "orange", "apple", "orange", "orange", "orange"),
+    year   = c(2010, 2010, 2012, 2010, 2010, 2012),
+    size = c("XS", "S",  "M", "S", "S", "M"),
+    weights = rnorm(6)
+  )
+
+  # All possible combinations ---------------------------------------
+  fruits %&gt;% expand(type)
+  fruits %&gt;% expand(type, size)
+
+  # Only combinations that already appear in the data ---------------
+  fruits %&gt;% expand(nesting(type, size))
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

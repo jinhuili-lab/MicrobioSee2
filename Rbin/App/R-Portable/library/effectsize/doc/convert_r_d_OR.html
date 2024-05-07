@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Converting Between r, d, and Odds Ratios</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Converting Between r, d, and Odds
+Ratios</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#converting-between-d-and-r" id="toc-converting-between-d-and-r">Converting Between <em>d</em> and
+<em>r</em></a>
+<ul>
+<li><a href="#in-multiple-regression" id="toc-in-multiple-regression">In
+multiple regression</a></li>
+</ul></li>
+<li><a href="#converting-between-or-and-d" id="toc-converting-between-or-and-d">Converting Between <em>OR</em> and
+<em>d</em></a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<p>The <code>effectsize</code> package contains function to convert
+among indices of effect size. This can be useful for meta-analyses, or
+any comparison between different types of statistical analyses.</p>
+<div id="converting-between-d-and-r" class="section level1">
+<h1>Converting Between <em>d</em> and <em>r</em></h1>
+<p>The most basic conversion is between <em>r</em> values, a measure of
+standardized association between two continuous measures, and <em>d</em>
+values (such as Cohen’s <em>d</em>), a measure of standardized
+differences between two groups / conditions.</p>
+<p>Let’s looks at some (simulated) data:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;hardlyworking&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">head</span>(hardlyworking)</span></code></pre></div>
+<pre><code>&gt;   salary xtra_hours n_comps age seniority is_senior
+&gt; 1  19745       4.16       1  32         3     FALSE
+&gt; 2  11302       1.62       0  34         3     FALSE
+&gt; 3  20636       1.19       3  33         5      TRUE
+&gt; 4  23047       7.19       1  35         3     FALSE
+&gt; 5  27342      11.26       0  33         4     FALSE
+&gt; 6  25657       3.63       2  30         5      TRUE</code></pre>
+<p>We can compute Cohen’s <em>d</em> between the two groups:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cohens_d</span>(salary <span class="sc">~</span> is_senior, <span class="at">data =</span> hardlyworking)</span></code></pre></div>
+<pre><code>&gt; Cohen&#39;s d |         95% CI
+&gt; --------------------------
+&gt; -0.72     | [-0.90, -0.53]
+&gt; 
+&gt; - Estimated using pooled SD.</code></pre>
+<p>But we can also compute a point-biserial correlation, which is
+Pearson’s <em>r</em> when treating the 2-level <code>is_senior</code>
+variable as a numeric binary variable:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>correlation<span class="sc">::</span><span class="fu">cor_test</span>(hardlyworking, <span class="st">&quot;salary&quot;</span>, <span class="st">&quot;is_senior&quot;</span>)</span></code></pre></div>
+<pre><code>&gt; Parameter1 | Parameter2 |    r |       95% CI | t(498) |         p
+&gt; ------------------------------------------------------------------
+&gt; salary     |  is_senior | 0.34 | [0.26, 0.41] |   7.95 | &lt; .001***
+&gt; 
+&gt; Observations: 500</code></pre>
+<p>But what if we only have summary statistics? Say, we only have <span class="math inline">\(d=-0.72\)</span> and we want to know what the
+<em>r</em> would have been? We can approximate <em>r</em> using the
+following formula <span class="citation">(Borenstein et al.
+2009)</span>:</p>
+<p><span class="math display">\[
+r \approx \frac{d}{\sqrt{d^2 + 4}}
+\]</span> And indeed, if we use <code>d_to_r()</code>, we get a pretty
+decent approximation:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">d_to_r</span>(<span class="sc">-</span><span class="fl">0.72</span>)</span></code></pre></div>
+<pre><code>&gt; [1] -0.339</code></pre>
+<p>(Which also works in the other way, with <code>r_to_d(0.12)</code>
+gives 0.723)</p>
+<p>As we can see, these are rough approximations, but they can be useful
+when we don’t have the raw data on hand.</p>
+<div id="in-multiple-regression" class="section level2">
+<h2>In multiple regression</h2>
+<p>Although not exactly a classic Cohen’s d, we can also approximate a
+partial-<em>d</em> value (that is, the standardized difference between
+two groups / conditions, with variance from other predictors partilled
+out). For example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(salary <span class="sc">~</span> is_senior <span class="sc">+</span> xtra_hours, <span class="at">data =</span> hardlyworking)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>parameters<span class="sc">::</span><span class="fu">model_parameters</span>(fit)</span></code></pre></div>
+<pre><code>&gt; Parameter     | Coefficient |     SE |               95% CI | t(497) |      p
+&gt; -----------------------------------------------------------------------------
+&gt; (Intercept)   |    14258.87 | 238.71 | [13789.86, 14727.87] |  59.73 | &lt; .001
+&gt; is seniorTRUE |     1683.65 | 316.85 | [ 1061.12,  2306.17] |   5.31 | &lt; .001
+&gt; xtra hours    |     1257.75 |  40.33 | [ 1178.51,  1336.99] |  31.19 | &lt; .001</code></pre>
+<pre><code>&gt; 
+&gt; Uncertainty intervals (equal-tailed) and p-values (two-tailed) computed
+&gt;   using a Wald t-distribution approximation.</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># A couple of ways to get partial-d:</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fl">1683.65</span> <span class="sc">/</span> <span class="fu">sigma</span>(fit)</span></code></pre></div>
+<pre><code>&gt; [1] 0.495</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">t_to_d</span>(<span class="fl">5.31</span>, <span class="at">df_error =</span> <span class="dv">497</span>)[[<span class="dv">1</span>]]</span></code></pre></div>
+<pre><code>&gt; [1] 0.476</code></pre>
+<p>We can convert these semi-<em>d</em> values to <em>r</em> values, but
+in this case these represent the <em>partial</em> correlation:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">t_to_r</span>(<span class="fl">5.31</span>, <span class="at">df_error =</span> <span class="dv">497</span>)</span></code></pre></div>
+<pre><code>&gt; r    |       95% CI
+&gt; -------------------
+&gt; 0.23 | [0.15, 0.31]</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>correlation<span class="sc">::</span><span class="fu">correlation</span>(hardlyworking[, <span class="fu">c</span>(<span class="st">&quot;salary&quot;</span>, <span class="st">&quot;xtra_hours&quot;</span>, <span class="st">&quot;is_senior&quot;</span>)],</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="at">include_factors =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="at">partial =</span> <span class="cn">TRUE</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>)[<span class="dv">2</span>, ]</span></code></pre></div>
+<pre><code>&gt; # Correlation Matrix (pearson-method)
+&gt; 
+&gt; Parameter1 | Parameter2 |    r |       95% CI | t(498) |         p
+&gt; ------------------------------------------------------------------
+&gt; salary     |  is_senior | 0.23 | [0.15, 0.31] |   5.32 | &lt; .001***
+&gt; 
+&gt; p-value adjustment method: Holm (1979)
+&gt; Observations: 500</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># all close to:</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">d_to_r</span>(<span class="fl">0.47</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 0.229</code></pre>
+</div>
+</div>
+<div id="converting-between-or-and-d" class="section level1">
+<h1>Converting Between <em>OR</em> and <em>d</em></h1>
+<p>In binomial regression (more specifically in logistic regression),
+Odds ratios (OR) are themselves measures of effect size; they indicate
+the expected change in the odds of a some event.</p>
+<p>In some fields, it is common to dichotomize outcomes in order to be
+able to analyze them with logistic models. For example, if the outcome
+is the count of white blood cells, it can be more useful (medically) to
+predict the crossing of the threshold rather than the raw count itself.
+And so, where some scientists would maybe analyze the above data with a
+<em>t</em>-test and present Cohen’s <em>d</em>, others might analyze it
+with a logistic regression model on the dichotomized outcome, and
+present OR. So the question can be asked: given such a OR, what would
+Cohen’s <em>d</em> have been?</p>
+<p>Fortunately, there is a formula to approximate this <span class="citation">(Sánchez-Meca, Marı́n-Martı́nez, and Chacón-Moscoso
+2003)</span>:</p>
+<p><span class="math display">\[
+d = log(OR) \times \frac{\sqrt{3}}{\pi}
+\]</span></p>
+<p>which is implemented in the <code>oddsratio_to_d()</code>
+function.</p>
+<p>Let’s give it a try:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># 1. Set a threshold</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>thresh <span class="ot">&lt;-</span> <span class="dv">22500</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a><span class="co"># 2. dichotomize the outcome</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>hardlyworking<span class="sc">$</span>salary_high <span class="ot">&lt;-</span> hardlyworking<span class="sc">$</span>salary <span class="sc">&lt;</span> thresh</span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a><span class="co"># 3. Fit a logistic regression:</span></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(salary_high <span class="sc">~</span> is_senior,</span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="at">data =</span> hardlyworking,</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">binomial</span>()</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>)</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>parameters<span class="sc">::</span><span class="fu">model_parameters</span>(fit)</span></code></pre></div>
+<pre><code>&gt; Parameter     | Log-Odds |   SE |         95% CI |     z |      p
+&gt; -----------------------------------------------------------------
+&gt; (Intercept)   |     1.55 | 0.16 | [ 1.25,  1.87] |  9.86 | &lt; .001
+&gt; is seniorTRUE |    -1.22 | 0.21 | [-1.63, -0.82] | -5.86 | &lt; .001</code></pre>
+<pre><code>&gt; 
+&gt; Uncertainty intervals (profile-likelihood) and p-values (two-tailed)
+&gt;   computed using a Wald z-distribution approximation.</code></pre>
+<pre><code>&gt; 
+&gt; The model has a log- or logit-link. Consider using `exponentiate =
+&gt;   TRUE` to interpret coefficients as ratios.</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co"># Convert log(OR) (the coefficient) to d</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">oddsratio_to_d</span>(<span class="sc">-</span><span class="fl">1.22</span>, <span class="at">log =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>&gt; [1] -0.673</code></pre>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-borenstein2009converting" class="csl-entry">
+Borenstein, Michael, Larry V Hedges, JPT Higgins, and Hannah R
+Rothstein. 2009. <span>“Converting Among Effect Sizes.”</span>
+<em>Introduction to Meta-Analysis</em>, 45–49.
+</div>
+<div id="ref-sanchez2003effect" class="csl-entry">
+Sánchez-Meca, Julio, Fulgencio Marı́n-Martı́nez, and Salvador
+Chacón-Moscoso. 2003. <span>“Effect-Size Indices for Dichotomized
+Outcomes in Meta-Analysis.”</span> <em>Psychological Methods</em> 8 (4):
+448.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

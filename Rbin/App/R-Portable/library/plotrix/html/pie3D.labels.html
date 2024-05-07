@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display labels on a 3D pie chart</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pie3D.labels {plotrix}"><tr><td>pie3D.labels {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display labels on a 3D pie chart</h2>
+
+<h3>Description</h3>
+
+<p>Displays labels on a 3D pie chart.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ pie3D.labels(radialpos,radius=1,height=0.1,theta=pi/6,
+  labels,labelcol=par("fg"),labelcex=1.5,labelrad=1.25,minsep=0.3)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>radialpos</code></td>
+<td>
+<p>Position of the label in radians</p>
+</td></tr>
+<tr valign="top"><td><code>radius</code></td>
+<td>
+<p>the radius of the pie in user units</p>
+</td></tr>
+<tr valign="top"><td><code>height</code></td>
+<td>
+<p>the height of the pie in user units</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>The angle of viewing in radians</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>The label to display</p>
+</td></tr>
+<tr valign="top"><td><code>labelcol</code></td>
+<td>
+<p>The color of the labels</p>
+</td></tr>
+<tr valign="top"><td><code>labelcex</code></td>
+<td>
+<p>The character expansion factor for the labels</p>
+</td></tr>
+<tr valign="top"><td><code>labelrad</code></td>
+<td>
+<p>The expansion for the labels around the pie.</p>
+</td></tr>
+<tr valign="top"><td><code>minsep</code></td>
+<td>
+<p>The minimum angular separation between label positions.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">pie3D.label</span> displays labels on a 3D pie chart. The positions
+of the labels are given as angles in radians (usually the bisector of the
+pie sectors). As the labels can be passed directly to <a href="../../plotrix/help/pie3D.html">pie3D</a>,
+this function would probably not be called by the user.
+</p>
+<p><span class="samp">pie3D.labels</span> tries to separate labels that are placed closer than
+<span class="samp">minsep</span> radians. This simple system will handle minor crowding of
+labels. If labels are very crowded, capturing the return value of 
+<span class="samp">pie3D</span> and editing the label positions may allow the user to avoid
+manually placing labels.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/pie3D.html">pie3D</a>, <a href="../../plotrix/help/draw.tilted.sector.html">draw.tilted.sector</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ pieval&lt;-c(2,4,6,8)
+ bisectors&lt;-pie3D(pieval,explode=0.1,main="3D PIE OPINIONS")
+ pielabels&lt;-
+  c("We hate\n pies","We oppose\n  pies","We don't\n  care","We just love pies")
+ pie3D.labels(bisectors,labels=pielabels)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

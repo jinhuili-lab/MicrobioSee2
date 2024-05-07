@@ -1,0 +1,1141 @@
+---
+title: "Coming from 'tidyverse'"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  \usepackage[utf8]{inputenc}
+  %\VignetteIndexEntry{Coming from 'tidyverse'}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE, eval = TRUE}
+library(knitr)
+options(knitr.kable.NA = "")
+knitr::opts_chunk$set(
+  eval = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dpi = 300
+)
+
+pkgs <- c(
+  "dplyr",
+  "datawizard",
+  "tidyr"
+)
+
+# since we explicitely put eval = TRUE for some chunks, we can't rely on
+# knitr::opts_chunk$set(eval = FALSE) at the beginning of the script. So we make
+# a logical that is FALSE only if deps are not installed (cf easystats/easystats#317)
+evaluate_chunk <- TRUE
+
+if (!all(vapply(pkgs, requireNamespace, quietly = TRUE, FUN.VALUE = logical(1L)))) {
+  evaluate_chunk <- FALSE
+}
+```
+
+This vignette can be referred to by citing the following:
+
+Patil et al., (2022). datawizard: An R Package for Easy Data Preparation and Statistical Transformations. *Journal of Open Source Software*, *7*(78), 4684, https://doi.org/10.21105/joss.04684
+
+```{css, echo=FALSE, eval = evaluate_chunk}
+.datawizard, .datawizard > .sourceCode {
+  background-color: #e6e6ff;
+}
+.tidyverse, .tidyverse > .sourceCode {
+  background-color: #d9f2e5;
+}
+```
+
+# Introduction
+
+`{datawizard}` package aims to make basic data wrangling easier than 
+with base R. The data wrangling workflow it supports is similar to the one
+supported by the tidyverse package combination of `{dplyr}` and `{tidyr}`. However,
+one of its main features is that it has a very few dependencies: `{stats}` and `{utils}`
+(included in base R) and `{insight}`, which is the core package of the _easystats_ 
+ecosystem. This package grew organically to simultaneously satisfy the 
+"0 non-base hard dependency" principle of _easystats_ and the data wrangling needs
+of the constituent packages in this ecosystem.
+
+One drawback of this genesis is that not all features of the `{tidyverse}` 
+packages are supported since only features that were necessary for _easystats_ 
+ecosystem have been implemented. Some of these missing features (such as `summarize`
+or the pipe operator `%>%`) are made available in other dependency-free packages, 
+such as [`{poorman}`](https://github.com/nathaneastwood/poorman/). It is also 
+important to note that `{datawizard}` was designed to avoid namespace collisions 
+with `{tidyverse}` packages.
+
+In this article, we will see how to go through basic data wrangling steps with 
+`{datawizard}`. We will also compare it to the `{tidyverse}` syntax for achieving the same. 
+This way, if you decide to make the switch, you can easily find the translations here.
+This vignette is largely inspired from `{dplyr}`'s [Getting started vignette](https://dplyr.tidyverse.org/articles/dplyr.html).
+
+```{r, eval = evaluate_chunk}
+library(dplyr)
+library(tidyr)
+library(datawizard)
+
+data(efc)
+efc <- head(efc)
+```
+
+# Workhorses
+
+Before we look at their *tidyverse* equivalents, we can first have a look at 
+`{datawizard}`'s key functions for data wrangling:
+
+| Function          | Operation                                         |
+| :---------------- | :------------------------------------------------ |
+| `data_filter()`   | [to select only certain observations](#filtering) |
+| `data_select()`   | [to select only a few variables](#selecting)      |
+| `data_modify()`   | [to create variables or modify existing ones](#modifying) |
+| `data_arrange()`  | [to sort observations](#sorting)                  |
+| `data_extract()`  | [to extract a single variable](#extracting)       |
+| `data_rename()`   | [to rename variables](#renaming)                  |
+| `data_relocate()` | [to reorder a data frame](#relocating)            |
+| `data_to_long()`  | [to convert data from wide to long](#reshaping)   |
+| `data_to_wide()`  | [to convert data from long to wide](#reshaping)   |
+| `data_join()`     | [to join two data frames](#joining)               |
+| `data_unite()`    | [to concatenate several columns into a single one](#uniting)               |
+| `data_separate()` | [to separate a single column into multiple columns](#separating)               |
+
+Note that there are a few functions in `{datawizard}` that have no strict equivalent
+in `{dplyr}` or `{tidyr}` (e.g `data_rotate()`), and so we won't discuss them in
+the next section.
+
+# Equivalence with `{dplyr}` / `{tidyr}`
+
+Before we look at them individually, let's first have a look at the summary table of this equivalence.
+
+| Function          | Tidyverse equivalent(s)                                             |
+| :---------------- | :------------------------------------------------------------------ |
+| `data_filter()`   | `dplyr::filter()`, `dplyr::slice()`                                 |
+| `data_select()`   | `dplyr::select()`                                                   |
+| `data_modify()`   | `dplyr::mutate()`                                 |
+| `data_arrange()`  | `dplyr::arrange()`                                                  |
+| `data_extract()`  | `dplyr::pull()`                                                     |
+| `data_rename()`   | `dplyr::rename()`                                                   |
+| `data_relocate()` | `dplyr::relocate()`                                                 |
+| `data_to_long()`  | `tidyr::pivot_longer()`                                             |
+| `data_to_wide()`  | `tidyr::pivot_wider()`                                              |
+| `data_join()`     | `dplyr::inner_join()`, `dplyr::left_join()`, `dplyr::right_join()`, |
+|                   | `dplyr::full_join()`, `dplyr::anti_join()`, `dplyr::semi_join()`    |
+| `data_peek()`     | `dplyr::glimpse()`                                                  |
+| `data_unite()`    | `tidyr::unite()`                                              |
+| `data_separate()` | `tidyr::separate()`                                           |
+
+## Filtering {#filtering}
+
+`data_filter()` is a wrapper around `subset()`. However, if you want to have several filtering conditions, you can either use `&` (as in `subset()`) or `,` (as in `dplyr::filter()`).
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r filter, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_filter(
+    skin_color == "light",
+    eye_color == "brown"
+  )
+
+# or
+starwars %>%
+  data_filter(
+    skin_color == "light" &
+      eye_color == "brown"
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  filter(
+    skin_color == "light",
+    eye_color == "brown"
+  )
+```
+:::
+
+::::
+
+```{r filter, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+<!-- Shorten output to make it easier to read: -->
+```{r, echo = FALSE, eval = evaluate_chunk}
+starwars <- head(starwars)
+```
+
+## Selecting {#selecting}
+
+`data_select()` is the equivalent of `dplyr::select()`. 
+The main difference between these two functions is that `data_select()` uses two
+arguments (`select` and `exclude`) and requires quoted column names if we want to 
+select several variables, while `dplyr::select()` accepts any unquoted column names.
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r select1, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_select(select = c("hair_color", "skin_color", "eye_color"))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  select(hair_color, skin_color, eye_color)
+```
+:::
+
+::::
+
+```{r select1, eval = evaluate_chunk, echo = FALSE}
+```
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r select2, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_select(select = -ends_with("color"))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  select(-ends_with("color"))
+```
+:::
+
+::::
+
+```{r select2, eval = evaluate_chunk, echo = FALSE}
+```
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+<!-- TODO: Although we say the column names need to be quoted, they are unquoted
+here and quoting them won't work. Should we comment on that? -->
+
+```{r select3, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_select(select = -(hair_color:eye_color))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  select(!(hair_color:eye_color))
+```
+:::
+
+::::
+
+```{r select3, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r select4, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_select(exclude = regex("color$"))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  select(-contains("color$"))
+```
+:::
+
+::::
+
+```{r select4, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r select5, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_select(select = is.numeric)
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  select(where(is.numeric))
+```
+:::
+
+::::
+
+```{r select5, eval = evaluate_chunk, echo = FALSE}
+```
+
+You can find a list of all the select helpers with `?data_select`.
+
+
+## Modifying {#modifying}
+
+`data_modify()` is a wrapper around `base::transform()` but has several additional 
+benefits: 
+
+* it allows us to use newly created variables in the following expressions;
+* it works with grouped data;
+* it preserves variable attributes such as labels;
+* it accepts expressions as character vectors so that it is easy to program with it
+
+
+This last point is also the main difference between `data_modify()` and 
+`dplyr::mutate()`. 
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r modify1, class.source = "datawizard"}
+# ---------- datawizard -----------
+efc %>%
+  data_modify(
+    c12hour_c = center(c12hour),
+    c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE),
+    c12hour_z2 = standardize(c12hour)
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+efc %>%
+  mutate(
+    c12hour_c = center(c12hour),
+    c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE),
+    c12hour_z2 = standardize(c12hour)
+  )
+```
+:::
+
+::::
+
+```{r modify1, eval = evaluate_chunk, echo = FALSE}
+```
+
+`data_modify()` accepts expressions as strings:
+
+```{r eval=evaluate_chunk}
+new_exp <- c(
+  "c12hour_c = center(c12hour)",
+  "c12hour_z = c12hour_c / sd(c12hour, na.rm = TRUE)"
+)
+data_modify(efc, new_exp)
+```
+
+This makes it easy to use it in custom functions:
+
+```{r eval=evaluate_chunk}
+miles_to_km <- function(data, var) {
+  data_modify(
+    data,
+    paste0("km = ", var, "* 1.609344")
+  )
+}
+
+distance <- data.frame(miles = c(1, 8, 233, 88, 9))
+distance
+
+miles_to_km(distance, "miles")
+```
+
+
+
+## Sorting {#sorting}
+
+`data_arrange()` is the equivalent of `dplyr::arrange()`. It takes two arguments:
+a data frame, and a vector of column names used to sort the rows. Note that contrary
+to most other functions in `{datawizard}`, it is not possible to use select helpers
+such as `starts_with()` in `data_arrange()`.
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+:::{}
+```{r arrange1, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_arrange(c("hair_color", "height"))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  arrange(hair_color, height)
+```
+:::
+
+::::
+
+```{r arrange1, eval = evaluate_chunk, echo = FALSE}
+```
+
+You can also sort variables in descending order by putting a `"-"` in front of 
+their name, like below:
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+:::{}
+```{r arrange2, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_arrange(c("-hair_color", "-height"))
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  arrange(desc(hair_color), -height)
+```
+:::
+
+::::
+
+```{r arrange2, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+## Extracting {#extracting}
+
+Although we mostly work on data frames, it is sometimes useful to extract a single 
+column as a vector. This can be done with `data_extract()`, which reproduces the 
+behavior of `dplyr::pull()`:
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+:::{}
+```{r extract1, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_extract(gender)
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  pull(gender)
+```
+:::
+
+::::
+
+```{r extract1, eval = evaluate_chunk, echo = FALSE}
+```
+
+We can also specify several variables in `select`. In this case, `data_extract()`
+is equivalent to `data_select()`:
+
+```{r eval = evaluate_chunk}
+starwars %>%
+  data_extract(select = contains("color"))
+```
+
+
+
+
+## Renaming {#renaming}
+
+`data_rename()` is the equivalent of `dplyr::rename()` but the syntax between the 
+two is different. While `dplyr::rename()` takes new-old pairs of column
+names, `data_rename()` requires a vector of column names to rename, and then 
+a vector of new names for these columns that must be of the same length.
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r rename1, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_rename(
+    pattern = c("sex", "hair_color"),
+    replacement = c("Sex", "Hair Color")
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  rename(
+    Sex = sex,
+    "Hair Color" = hair_color
+  )
+```
+:::
+
+::::
+
+```{r rename1, eval = evaluate_chunk, echo = FALSE}
+```
+
+The way `data_rename()` is designed makes it easy to apply the same modifications 
+to a vector of column names. For example, we can remove underscores and use 
+TitleCase with the following code:
+
+```{r rename2}
+to_rename <- names(starwars)
+
+starwars %>%
+  data_rename(
+    pattern = to_rename,
+    replacement = tools::toTitleCase(gsub("_", " ", to_rename, fixed = TRUE))
+  )
+```
+
+```{r rename2, eval = evaluate_chunk, echo = FALSE}
+```
+
+It is also possible to add a prefix or a suffix to all or a subset of variables 
+with `data_addprefix()` and `data_addsuffix()`. The argument `select` accepts 
+all select helpers that we saw above with `data_select()`:
+
+```{r rename3}
+starwars %>%
+  data_addprefix(
+    pattern = "OLD.",
+    select = contains("color")
+  ) %>%
+  data_addsuffix(
+    pattern = ".NEW",
+    select = -contains("color")
+  )
+```
+
+```{r rename3, eval = evaluate_chunk, echo = FALSE}
+```
+
+## Relocating {#relocating}
+
+Sometimes, we want to relocate one or a small subset of columns in the dataset.
+Rather than typing many names in `data_select()`, we can use `data_relocate()`,
+which is the equivalent of `dplyr::relocate()`. Just like `data_select()`, we can
+specify a list of variables we want to relocate with `select` and `exclude`.
+Then, the arguments `before` and `after`^[Note that we use `before` and `after` 
+whereas `dplyr::relocate()` uses `.before` and `.after`.] specify where the selected columns should
+be relocated:
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r relocate1, class.source = "datawizard"}
+# ---------- datawizard -----------
+starwars %>%
+  data_relocate(sex:homeworld, before = "height")
+```
+:::
+  
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+starwars %>%
+  relocate(sex:homeworld, .before = height)
+```
+:::
+  
+::::
+
+```{r relocate1, eval = evaluate_chunk, echo = FALSE}
+```
+
+In addition to column names, `before` and `after` accept column indices. Finally,
+one can use `before = -1` to relocate the selected columns just before the last 
+column, or `after = -1` to relocate them after the last column.
+
+```{r eval = evaluate_chunk}
+# ---------- datawizard -----------
+starwars %>%
+  data_relocate(sex:homeworld, after = -1)
+```
+
+
+## Reshaping {#reshaping}
+
+### Longer
+
+Reshaping data from wide to long or from long to wide format can be done with
+`data_to_long()` and `data_to_wide()`. These functions were designed to match 
+`tidyr::pivot_longer()` and `tidyr::pivot_wider()` arguments, so that the only 
+thing to do is to change the function name. However, not all of 
+`tidyr::pivot_longer()` and `tidyr::pivot_wider()` features are available yet. 
+
+We will use the `relig_income` dataset, as in the [`{tidyr}` vignette](https://tidyr.tidyverse.org/articles/pivot.html).
+
+```{r eval = evaluate_chunk}
+relig_income
+```
+
+
+We would like to reshape this dataset to have 3 columns: religion, count, and 
+income. The column "religion" doesn't need to change, so we exclude it with 
+`-religion`. Then, each remaining column corresponds to an income category. 
+Therefore, we want to move all these column names to a single column called 
+"income". Finally, the values corresponding to each of these columns will be 
+reshaped to be in a single new column, called "count".
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r pivot1, class.source = "datawizard"}
+# ---------- datawizard -----------
+relig_income %>%
+  data_to_long(
+    -religion,
+    names_to = "income",
+    values_to = "count"
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+relig_income %>%
+  pivot_longer(
+    !religion,
+    names_to = "income",
+    values_to = "count"
+  )
+```
+:::
+
+::::
+
+```{r pivot1, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+To explore a bit more the arguments of `data_to_long()`, we will use another
+dataset: the `billboard` dataset.
+```{r eval = evaluate_chunk}
+billboard
+```
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r pivot2, class.source = "datawizard"}
+# ---------- datawizard -----------
+billboard %>%
+  data_to_long(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+billboard %>%
+  pivot_longer(
+    cols = starts_with("wk"),
+    names_to = "week",
+    values_to = "rank",
+    values_drop_na = TRUE
+  )
+```
+:::
+
+::::
+
+```{r pivot2, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+### Wider
+
+Once again, we use an example in the `{tidyr}` vignette to show how close `data_to_wide()`
+and `pivot_wider()` are:
+```{r eval = evaluate_chunk}
+fish_encounters
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r pivot3, class.source = "datawizard"}
+# ---------- datawizard -----------
+fish_encounters %>%
+  data_to_wide(
+    names_from = "station",
+    values_from = "seen",
+    values_fill = 0
+  )
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+fish_encounters %>%
+  pivot_wider(
+    names_from = station,
+    values_from = seen,
+    values_fill = 0
+  )
+```
+:::
+
+::::
+
+```{r pivot3, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+
+## Joining {#joining}
+
+<!-- explain a bit more the args of data_join -->
+
+In `{datawizard}`, joining datasets is done with `data_join()` (or its alias 
+`data_merge()`). Contrary to `{dplyr}`, this unique function takes care of all 
+types of join, which are then specified inside the function with the argument
+`join` (by default, `join = "left"`).
+
+Below, we show how to perform the four most common joins: full, left, right and 
+inner. We will use the datasets `band_members`and `band_instruments` provided by `{dplyr}`:
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r eval = evaluate_chunk}
+band_members
+```
+:::
+
+::: {}
+
+```{r eval = evaluate_chunk}
+band_instruments
+```
+:::
+
+::::
+
+
+### Full join
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r join1, class.source = "datawizard"}
+# ---------- datawizard -----------
+band_members %>%
+  data_join(band_instruments, join = "full")
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+band_members %>%
+  full_join(band_instruments)
+```
+:::
+
+::::
+
+```{r join1, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+
+### Left and right joins
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r join2, class.source = "datawizard"}
+# ---------- datawizard -----------
+band_members %>%
+  data_join(band_instruments, join = "left")
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+band_members %>%
+  left_join(band_instruments)
+```
+:::
+
+::::
+
+```{r join2, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r join3, class.source = "datawizard"}
+# ---------- datawizard -----------
+band_members %>%
+  data_join(band_instruments, join = "right")
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+band_members %>%
+  right_join(band_instruments)
+```
+:::
+
+::::
+
+```{r join3, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+
+### Inner join
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r join4, class.source = "datawizard"}
+# ---------- datawizard -----------
+band_members %>%
+  data_join(band_instruments, join = "inner")
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+band_members %>%
+  inner_join(band_instruments)
+```
+:::
+
+::::
+
+```{r join4, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+## Uniting {#uniting}
+
+Uniting variables is useful e.g to create unique indices by combining several
+variables or to gather years, months, and days into a single date. `data_unite()`
+offers an interface very close to `tidyr::unite()`:
+
+```{r eval=evaluate_chunk}
+test <- data.frame(
+  year = 2002:2004,
+  month = c("02", "03", "09"),
+  day = c("11", "22", "28"),
+  stringsAsFactors = FALSE
+)
+test
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r unite1, class.source = "datawizard"}
+# ---------- datawizard -----------
+test %>%
+  data_unite(
+    new_column = "date",
+    select = c("year", "month", "day"),
+    separator = "-"
+  )
+```
+:::
+  
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+test %>%
+  unite(
+    col = "date",
+    year, month, day,
+    sep = "-"
+  )
+```
+:::
+  
+::::
+
+```{r unite1, eval = evaluate_chunk, echo = FALSE}
+```
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r unite2, class.source = "datawizard"}
+# ---------- datawizard -----------
+test %>%
+  data_unite(
+    new_column = "date",
+    select = c("year", "month", "day"),
+    separator = "-",
+    append = TRUE
+  )
+```
+:::
+  
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+test %>%
+  unite(
+    col = "date",
+    year, month, day,
+    sep = "-",
+    remove = FALSE
+  )
+```
+:::
+  
+::::
+
+```{r unite2, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+## Separating {#separating}
+
+Separating variables is the counterpart to uniting variables and is useful to split values into multiple columns, e.g. when splitting a date into values for years, months and days. `data_separate()` offers an interface very close to `tidyr::separate()`:
+
+```{r eval=evaluate_chunk}
+test <- data.frame(
+  date_arrival = c("2002-02-11", "2003-03-22", "2004-09-28"),
+  date_departure = c("2002-03-15", "2003-03-28", "2004-09-30"),
+  stringsAsFactors = FALSE
+)
+test
+```
+
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r separate1, class.source = "datawizard"}
+# ---------- datawizard -----------
+test %>%
+  data_separate(
+    select = "date_arrival",
+    new_columns = c("Year", "Month", "Day")
+  )
+```
+:::
+  
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+test %>%
+  separate(
+    date_arrival,
+    into = c("Year", "Month", "Day")
+  )
+```
+:::
+  
+::::
+
+```{r separate1, eval = evaluate_chunk, echo = FALSE}
+```
+
+
+Unlike `tidyr::separate()`, you can separate multiple columns in one step with `data_separate()`.
+
+```{r eval = evaluate_chunk}
+test %>%
+  data_separate(
+    new_columns = list(
+      date_arrival = c("Arr_Year", "Arr_Month", "Arr_Day"),
+      date_departure = c("Dep_Year", "Dep_Month", "Dep_Day")
+    )
+  )
+```
+
+
+# Other useful functions
+
+`{datawizard}` contains other functions that are not necessarily included in 
+`{dplyr}` or `{tidyr}` or do not directly modify the data. Some of them are 
+inspired from the package `janitor`. 
+
+## Work with rownames
+
+We can convert a column in rownames and move rownames to a new column with
+`rownames_as_column()` and `column_as_rownames()`:
+
+```{r eval = evaluate_chunk}
+mtcars <- head(mtcars)
+mtcars
+
+mtcars2 <- mtcars %>%
+  rownames_as_column(var = "model")
+
+mtcars2
+
+mtcars2 %>%
+  column_as_rownames(var = "model")
+```
+
+## Work with row ids
+
+`rowid_as_column()` is close but not identical to `tibble::rowid_to_column()`.
+The main difference is when we use it with grouped data. While `tibble::rowid_to_column()`
+uses one distinct rowid for every row in the dataset, `rowid_as_column()` creates
+one id for every row *in each group*. Therefore, two rows in different groups
+can have the same row id. 
+
+This means that `rowid_as_column()` is closer to using `n()` in `mutate()`, like
+the following:
+
+```{r eval=evaluate_chunk}
+test <- data.frame(
+  group = c("A", "A", "B", "B"),
+  value = c(3, 5, 8, 1),
+  stringsAsFactors = FALSE
+)
+test
+
+test %>%
+  data_group(group) %>%
+  tibble::rowid_to_column()
+
+test %>%
+  data_group(group) %>%
+  rowid_as_column()
+
+test %>%
+  data_group(group) %>%
+  mutate(id = seq_len(n()))
+```
+
+
+## Work with column names
+
+When dealing with messy data, it is sometimes useful to use a row as column
+names, and vice versa. This can be done with `row_to_colnames()` and
+`colnames_to_row()`.
+
+```{r eval = evaluate_chunk}
+x <- data.frame(
+  X_1 = c(NA, "Title", 1:3),
+  X_2 = c(NA, "Title2", 4:6)
+)
+x
+x2 <- x %>%
+  row_to_colnames(row = 2)
+x2
+
+x2 %>%
+  colnames_to_row()
+```
+
+## Take a quick look at the data
+
+:::: {style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 10px;"}
+
+::: {}
+
+```{r glimpse, class.source = "datawizard"}
+# ---------- datawizard -----------
+data_peek(iris)
+```
+:::
+
+::: {}
+
+```{r, class.source = "tidyverse"}
+# ---------- tidyverse -----------
+glimpse(iris)
+```
+:::
+
+::::
+
+```{r glimpse, eval = evaluate_chunk, echo = FALSE}
+```

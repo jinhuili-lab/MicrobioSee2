@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Converting Between Probabilities, Odds (Ratios), and Risk Ratios</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Converting Between Probabilities, Odds
+(Ratios), and Risk Ratios</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#converting-between-p-and-odds" id="toc-converting-between-p-and-odds">Converting Between <em>p</em> and
+Odds</a>
+<ul>
+<li><a href="#odds-are-not-odds-ratios" id="toc-odds-are-not-odds-ratios">Odds are <em>not</em> Odds
+Ratios</a></li>
+</ul></li>
+<li><a href="#converting-between-odds-ratios-risk-ratios-and-absolute-risk-reduction" id="toc-converting-between-odds-ratios-risk-ratios-and-absolute-risk-reduction">Converting
+Between Odds Ratios, Risk Ratios and Absolute Risk Reduction</a></li>
+<li><a href="#references" id="toc-references">References</a></li>
+</ul>
+</div>
+
+<p>The <code>effectsize</code> package contains function to convert
+among indices of effect size. This can be useful for meta-analyses, or
+any comparison between different types of statistical analyses.</p>
+<div id="converting-between-p-and-odds" class="section level1">
+<h1>Converting Between <em>p</em> and Odds</h1>
+<p>Odds are the ratio between a probability and its complement:</p>
+<p><span class="math display">\[
+Odds = \frac{p}{1-p}
+\]</span></p>
+<p><span class="math display">\[
+p = \frac{Odds}{Odds + 1}
+\]</span> Say your bookies gives you the odds of Doutelle to win the
+horse race at 13:4, what is the probability Doutelle’s will win?</p>
+<p>Manually, we can compute <span class="math inline">\(\frac{13}{13+4}=0.765\)</span>. Or we can</p>
+<p>Odds of 13:4 can be expressed as <span class="math inline">\((13/4):(4/4)=3.25:1\)</span>, which we can
+convert:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">odds_to_probs</span>(<span class="dv">13</span> <span class="sc">/</span> <span class="dv">4</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 0.765</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># or</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">odds_to_probs</span>(<span class="fl">3.25</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 0.765</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># convert back</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">probs_to_odds</span>(<span class="fl">0.764</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 3.24</code></pre>
+<p>Will you take that bet?</p>
+<div id="odds-are-not-odds-ratios" class="section level2">
+<h2>Odds are <em>not</em> Odds Ratios</h2>
+<p>Note that in logistic regression, the non-intercept coefficients
+represent the (log) odds ratios, not the odds.</p>
+<p><span class="math display">\[
+OR = \frac{Odds_1}{Odds_2} = \frac{\frac{p_1}{1-p_1}}{\frac{p_2}{1-p_2}}
+\]</span> The intercept, however, <em>does</em> represent the (log)
+odds, when all other variables are fixed at 0.</p>
+</div>
+</div>
+<div id="converting-between-odds-ratios-risk-ratios-and-absolute-risk-reduction" class="section level1">
+<h1>Converting Between Odds Ratios, Risk Ratios and Absolute Risk
+Reduction</h1>
+<p>Odds ratio, although popular, are not very intuitive in their
+interpretations. We don’t often think about the chances of catching a
+disease in terms of <em>odds</em>, instead we instead tend to think in
+terms of <em>probability</em> or some event - or the <em>risk</em>.
+Talking about <em>risks</em> we can also talk about the <em>change in
+risk</em>, either as a <em>risk ratio</em> (<em>RR</em>), or a(n
+<em>absolute) risk reduction</em> (ARR).</p>
+<p>For example, if we find that for individual suffering from a
+migraine, for every bowl of brussels sprouts they eat, their odds of
+reducing the migraine increase by an <span class="math inline">\(OR =
+3.5\)</span> over a period of an hour. So, should people eat brussels
+sprouts to effectively reduce pain? Well, hard to say… Maybe if we look
+at <em>RR</em> we’ll get a clue.</p>
+<p>We can convert between <em>OR</em> and <em>RR</em> for the following
+formula <span class="citation">(Grant 2014)</span>:</p>
+<p><span class="math display">\[
+RR = \frac{OR}{(1 - p0 + (p0 \times OR))}  
+\]</span></p>
+<p>Where <span class="math inline">\(p0\)</span> is the base-rate risk -
+the probability of the event without the intervention (e.g., what is the
+probability of the migraine subsiding within an hour without eating any
+brussels sprouts). If it the base-rate risk is, say, 85%, we get a
+<em>RR</em> of:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fl">3.5</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>baserate <span class="ot">&lt;-</span> <span class="fl">0.85</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>(RR <span class="ot">&lt;-</span> <span class="fu">oddsratio_to_riskratio</span>(OR, baserate))</span></code></pre></div>
+<pre><code>&gt; [1] 1.12</code></pre>
+<p>That is - for every bowl of brussels sprouts, we increase the chances
+of reducing the migraine by a mere 12%! Is if worth it? Depends on you
+affinity to brussels sprouts…</p>
+<p>Similarly, we can look at ARR, which can be converted via</p>
+<p><span class="math display">\[
+ARR = RR \times p0 - p0
+\]</span></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">riskratio_to_arr</span>(RR, baserate)</span></code></pre></div>
+<pre><code>&gt; [1] 0.102</code></pre>
+<p>Or directly:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">oddsratio_to_arr</span>(OR, baserate)</span></code></pre></div>
+<pre><code>&gt; [1] 0.102</code></pre>
+<p>Note that the base-rate risk is crucial here. If instead of 85% it
+was only 4%, then the <em>RR</em> would be:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">oddsratio_to_riskratio</span>(OR, <span class="fl">0.04</span>)</span></code></pre></div>
+<pre><code>&gt; [1] 3.18</code></pre>
+<p>That is - for every bowl of brussels sprouts, we increase the chances
+of reducing the migraine by a whopping 318%! Is if worth it? I guess
+that still depends on your affinity to brussels sprouts…</p>
+</div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-grant2014converting" class="csl-entry">
+Grant, Robert L. 2014. <span>“Converting an Odds Ratio to a Range of
+Plausible Relative Risks for Better Communication of Research
+Findings.”</span> <em>Bmj</em> 348: f7450.
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

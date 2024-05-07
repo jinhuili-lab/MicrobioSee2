@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Finds one or several files in multiple directories</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for findFiles {R.utils}"><tr><td>findFiles {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Finds one or several files in multiple directories</h2>
+
+<h3>Description</h3>
+
+<p>Finds one or several files in multiple directories.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+findFiles(pattern=NULL, paths=NULL, recursive=FALSE, firstOnly=TRUE, allFiles=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pattern</code></td>
+<td>
+<p>A regular expression file name pattern to match.</p>
+</td></tr>
+<tr valign="top"><td><code>paths</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of paths to be searched.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, subdirectories are recursively processed,
+and not if <code><a href="../../base/help/logical.html">FALSE</a></code>.  Alternatively, the maximum recursive depth can
+be specified as a non-negative <code><a href="../../base/help/numeric.html">numeric</a></code>, where <code><a href="../../base/help/logical.html">FALSE</a></code> corresponds to
+<code>0L</code> depth and <code><a href="../../base/help/logical.html">TRUE</a></code> corresponds <code>+Inf</code> depth.</p>
+</td></tr>
+<tr valign="top"><td><code>firstOnly</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the method returns as soon as a matching
+file is found, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>allFiles</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">FALSE</a></code>, files and directories starting with
+a period will be skipped, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to <code><a href="../../base/help/list.files.html">list.files</a></code>().</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/vector.html">vector</a></code> of the full pathnames of the files found.
+</p>
+
+
+<h3>Search path</h3>
+
+<p>The <code>paths</code> argument may also contain paths specified as
+semi-colon (<code>";"</code>) separated paths, e.g.
+<code>"/usr/;usr/bin/;.;"</code>.
+</p>
+
+
+<h3>Recursive searching</h3>
+
+<p>Recursive searching of directory structure is done breath-first
+in a lexicographic order.
+</p>
+
+
+<h3>Windows Shortcut links</h3>
+
+<p>Windows Shortcut links (*.lnk) are recognized and can be used
+to imitate links to directories elsewhere.
+For more details, see <code><a href="../../R.utils/help/filePath.html">filePath</a></code>().
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

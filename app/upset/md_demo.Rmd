@@ -1,0 +1,59 @@
+# Upset mapping description
+
+It is another form of the Venne diagram, which has the function that the Venne diagram cannot draw multiple intersection modes.
+
+## Upload sample data
+
+You need to upload one data files including abundance table.
+
+Such as
+
+| date | Action | Adventure | Children | Comedy | Crime | Documentary | Drama | Fantasy | Noir |
+| ---- | ------ | --------- | -------- | ------ | ----- | ----------- | ----- | ------- | ---- |
+| 1995 | 0      | 0         | 1        | 1      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 0      | 1         | 1        | 0      | 0     | 0           | 0     | 1       | 0    |
+| 1995 | 0      | 0         | 0        | 1      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 0      | 0         | 0        | 1      | 0     | 0           | 1     | 0       | 0    |
+| 1995 | 0      | 0         | 0        | 1      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 1      | 0         | 0        | 0      | 1     | 0           | 0     | 0       | 0    |
+| 1995 | 0      | 0         | 0        | 1      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 0      | 1         | 1        | 0      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 1      | 0         | 0        | 0      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 1      | 1         | 0        | 0      | 0     | 0           | 0     | 0       | 0    |
+| 1995 | 0      | 0         | 0        | 1      | 0     | 0           | 1     | 0       | 0    |
+
+This first column is sample information,the following column refers to the abundance of the sample with a certain attribute.
+
+**Paying attention, please ,you need to upload the file in the format of the sample data.**
+
+
+
+
+
+
+
+## draw
+
+- You can select columns representing different characteristic attributes of the sample to draw.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112140868.png" style="zoom: 33%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112140923.png" style="zoom:33%;" />
+
+  
+
+- The most concentrated feature attributes the sample has.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112140972.png" style="zoom: 33%;" />
+
+  
+
+- There are several attributes on the connection at the same time.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112140015.png" style="zoom:33%;" />
+
+- The abundance ranking of various feature combinations of samples.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112140054.png" style="zoom:33%;" />
+
+  

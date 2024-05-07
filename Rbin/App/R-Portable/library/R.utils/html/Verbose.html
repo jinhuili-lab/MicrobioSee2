@@ -1,0 +1,368 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class to writing verbose messages to a connection or file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Verbose {R.utils}"><tr><td>Verbose {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class to writing verbose messages to a connection or file</h2>
+
+<h3>Description</h3>
+
+<p>Package:  R.utils <br />
+<b>Class Verbose</b><br />
+</p>
+<p><code><a href="../../R.oo/help/Object.html">Object</a></code><br />
+<code>~~|</code><br />
+<code>~~+--</code><code>Verbose</code><br />
+</p>
+<p><b>Directly known subclasses:</b><br />
+<a href="../help/MultiVerbose.html">MultiVerbose</a>, <a href="../help/NullVerbose.html">NullVerbose</a><br />
+</p>
+<p>public static class <b>Verbose</b><br />
+extends <a href="../../R.oo/help/Object.html">Object</a><br />
+</p>
+<p>Class to writing verbose messages to a connection or file.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+Verbose(con=stderr(), on=TRUE, threshold=0, asGString=TRUE, timestamp=FALSE,
+  removeFile=TRUE, core=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>A <code><a href="../../base/help/connections.html">connection</a></code> or a <code><a href="../../base/help/character.html">character</a></code> string filename.</p>
+</td></tr>
+<tr valign="top"><td><code>on</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> indicating if the writer is on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>threshold</code></td>
+<td>
+<p>A <code><a href="../../base/help/numeric.html">numeric</a></code> threshold that the <code>level</code> argument
+of any write method has to be equal to or larger than in order to the
+message being written. Thus, the lower the threshold is the more and
+more details will be outputted.</p>
+</td></tr>
+<tr valign="top"><td><code>timestamp</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, each output is preceded with a timestamp.</p>
+</td></tr>
+<tr valign="top"><td><code>removeFile</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and <code>con</code> is a filename, the file is
+first deleted, if it exists.</p>
+</td></tr>
+<tr valign="top"><td><code>asGString</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, all messages are interpreted as
+<code><a href="../../R.utils/help/GString.html">GString</a></code> before being output, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>core</code></td>
+<td>
+<p>Internal use only.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Fields and Methods</h3>
+
+<p><b>Methods:</b><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.character</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.double</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>as.logical</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>capture</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>cat</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>enter</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>enterf</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>equals</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>evaluate</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>exit</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getThreshold</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>getTimestampFormat</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>header</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>isOn</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>isVisible</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>less</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>more</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>newline</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>off</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>on</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>popState</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>print</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>printWarnings</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>printf</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>pushState</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>ruler</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setDefaultLevel</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setThreshold</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>setTimestampFormat</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>str</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>summary</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>timestamp</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>timestampOff</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>timestampOn</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+ </td><td style="text-align: left;"> <code>writeRaw</code> </td><td style="text-align: left;">  -</td>
+</tr>
+<tr>
+ <td style="text-align: right;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Methods inherited from Object</b>:<br />
+$, $&lt;-, [[, [[&lt;-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, names, objectSize, print, save
+</p>
+
+
+<h3>Output levels</h3>
+
+<p>As a guideline, use the following levels when outputting verbose/debug
+message using the Verbose class. For a message to be shown, the output
+level must be greater than (not equal to) current threshold.
+Thus, the lower the threshold is set, the more messages will be seen.
+</p>
+
+<dl>
+<dt>&lt;= -100</dt><dd><p>Only for debug messages, i.e. messages containing all
+necessary information for debugging purposes and to find bugs in
+the code. Normally these messages are so detailed so they will be
+a pain for the regular user, but very useful for bug reporting and
+bug tracking by the developer.</p>
+</dd>
+<dt>-99 &ndash; -11</dt><dd><p>Detailed verbose messages. These will typically be
+useful for the user to understand what is going on and do some simple
+debugging fixing problems typically due to themselves and not due to
+bugs in the code.</p>
+</dd>
+<dt>-10 &ndash; -1</dt><dd><p>Verbose messages. For example, these will typically
+report the name of the file to be read, the current step in a sequence
+of analysis steps and so on. These message are not very useful for
+debugging.</p>
+</dd>
+<dt>0</dt><dd><p>Default level in all output methods and default threshold.
+Thus, by default, messages at level 0 are not shown.</p>
+</dd>
+<dt>&gt;= +1</dt><dd><p>Message that are always outputted (if threshold is
+kept at 0).  We recommend not to output message at this level, because
+methods should be quiet by default (at the default threshold 0).</p>
+</dd>
+</dl>
+
+
+
+<h3>A compatibility trick and a speed-up trick</h3>
+
+<p>If you want to include calls to Verbose in a package of yours in order
+to debug code, but not use it otherwise, you might not want to load
+R.utils all the time, but only for debugging.
+To achieve this, the value of a reference variable to a Verbose class
+is always set to <code><a href="../../base/help/logical.html">TRUE</a></code>, cf. typically an Object reference has value <code><a href="../../base/help/NA.html">NA</a></code>.
+This makes it possible to use the reference variable as a first test
+before calling Verbose methods. Example:
+</p>
+<pre>
+    foo &lt;- function(..., verbose=FALSE) {
+      # enter() will never be called if verbose==FALSE, thus no error.
+      verbose &amp;&amp; enter(verbose, "Loading")
+    }
+  </pre>
+<p>Thus, R.utils is not required for <code>foo()</code>, but for
+<code>foo(verbose==Verbose(level=-1))</code> it is.
+</p>
+<p>Moreover, if using the <code><a href="../../R.utils/help/NullVerbose.html">NullVerbose</a></code> class for ignoring all verbose
+messages, the above trick will indeed speed up the code, because
+the value of a NullVerbose reference variable is always <code><a href="../../base/help/logical.html">FALSE</a></code>.
+</p>
+
+
+<h3>Extending the Verbose class</h3>
+
+<p>If extending this class, make sure to output messages via
+<code><a href="../help/writeRaw.Verbose.html">*writeRaw</a>()</code> or one of the other output methods (which in
+turn all call the former).
+This guarantees that <code><a href="../help/writeRaw.Verbose.html">*writeRaw</a>()</code> has full control of the
+output, e.g. this makes it possible to split output to standard
+output and to file.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/NullVerbose.html">NullVerbose</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+verbose &lt;- Verbose(threshold=-1)
+
+header(verbose, "A verbose writer example", padding=0)
+
+enter(verbose, "Analysis A")
+for (kk in 1:10) {
+  printf(verbose, "step %d\n", kk)
+  if (kk == 2) {
+    cat(verbose, "Turning ON automatic timestamps")
+    timestampOn(verbose)
+  } else if (kk == 4) {
+    timestampOff(verbose)
+    cat(verbose, "Turned OFF automatic timestamps")
+    cat(verbose, "Turning OFF verbose messages for steps ", kk, "-6")
+    off(verbose)
+  } else if (kk == 6) {
+    on(verbose)
+    cat(verbose, "Turned ON verbose messages just before step ", kk+1)
+  }
+
+  if (kk %in% c(5,8)) {
+    enterf(verbose, "Sub analysis #%d", kk)
+    for (jj in c("i", "ii", "iii")) {
+      cat(verbose, "part ", jj)
+    }
+    exit(verbose)
+  }
+}
+cat(verbose, "All steps completed!")
+exit(verbose)
+
+ruler(verbose)
+cat(verbose, "Demo of some other methods:")
+str(verbose, c(a=1, b=2, c=3))
+print(verbose, c(a=1, b=2, c=3))
+summary(verbose, c(a=1, b=2, c=3))
+evaluate(verbose, rnorm, n=3, mean=2, sd=3)
+
+ruler(verbose)
+newline(verbose)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

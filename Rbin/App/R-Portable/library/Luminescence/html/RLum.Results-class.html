@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Class '&quot;RLum.Results&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for RLum.Results-class {Luminescence}"><tr><td>RLum.Results-class {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Class <code>"RLum.Results"</code></h2>
+
+<h3>Description</h3>
+
+<p>Object class contains results data from functions (e.g., <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RLum.Results'
+show(object)
+
+## S4 method for signature 'RLum.Results'
+set_RLum(class, originator, .uid, .pid, data = list(), info = list())
+
+## S4 method for signature 'RLum.Results'
+get_RLum(object, data.object, info.object = NULL, drop = TRUE)
+
+## S4 method for signature 'RLum.Results'
+length_RLum(object)
+
+## S4 method for signature 'RLum.Results'
+names_RLum(object)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>; <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> (<strong>required</strong>):
+an object of class <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> to be evaluated</p>
+</td></tr>
+<tr valign="top"><td><code>class</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> <strong>(required)</strong>:
+name of the <code>RLum</code> class to create</p>
+</td></tr>
+<tr valign="top"><td><code>originator</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+contains the name of the calling function (the function that produces this object);
+can be set manually.</p>
+</td></tr>
+<tr valign="top"><td><code>.uid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>automatic</em>):
+sets an unique ID for this object using the internal C++ function <code>create_UID</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>.pid</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>with default</em>):
+option to provide a parent id for nesting at will.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/list.html">list</a> (<em>optional</em>):
+a list containing the data to
+be stored in the object</p>
+</td></tr>
+<tr valign="top"><td><code>info</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/set_RLum.html">set_RLum</a></code>; <a href="../../base/html/list.html">list</a> (<em>optional</em>):
+a list containing additional info data for the object</p>
+</td></tr>
+<tr valign="top"><td><code>data.object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>; <a href="../../base/html/character.html">character</a> or <a href="../../base/html/numeric.html">numeric</a>:
+name or index of the data slot to be returned</p>
+</td></tr>
+<tr valign="top"><td><code>info.object</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>; <a href="../../base/html/character.html">character</a> (<em>optional</em>):
+name of the wanted info element</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p><code><a href="../../Luminescence/help/get_RLum.html">get_RLum</a></code>; <a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+coerce to the next possible layer (which are data objects, <code>drop = FALSE</code>
+keeps the original <code>RLum.Results</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><strong><code>set_RLum</code></strong>:
+</p>
+<p>Returns an object from the class <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>
+</p>
+<p><strong><code>get_RLum</code></strong>:
+</p>
+<p>Returns:
+</p>
+
+<ol>
+<li><p> Data object from the specified slot
+</p>
+</li>
+<li> <p><a href="../../base/html/list.html">list</a> of data objects from the slots if 'data.object' is vector or
+</p>
+</li>
+<li><p> an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> for <code>drop = FALSE</code>.
+</p>
+</li></ol>
+
+<p><strong><code>length_RLum</code></strong>
+</p>
+<p>Returns the number of data elements in the <code>RLum.Results</code> object.
+</p>
+<p><strong><code>names_RLum</code></strong>
+</p>
+<p>Returns the names of the data elements in the object.
+</p>
+
+
+<h3>Methods (by generic)</h3>
+
+
+<ul>
+<li> <p><code>show</code>: Show structure of <code>RLum.Results</code> object
+</p>
+</li>
+<li> <p><code>set_RLum</code>: Construction method for an RLum.Results object.
+</p>
+</li>
+<li> <p><code>get_RLum</code>: Accessor method for RLum.Results object. The argument data.object allows
+directly accessing objects delivered within the slot data. The default
+return object depends on the object originator (e.g., <code>fit_LMCurve</code>).
+If nothing is specified always the first <code>data.object</code> will be returned.
+</p>
+<p>Note: Detailed specification should be made in combination with the originator slot in the
+receiving function if results are pipped.
+</p>
+</li>
+<li> <p><code>length_RLum</code>: Returns the length of the object, i.e., number of stored data.objects
+</p>
+</li>
+<li> <p><code>names_RLum</code>: Returns the names data.objects
+</p>
+</li></ul>
+
+
+<h3>Slots</h3>
+
+
+<dl>
+<dt><code>data</code></dt><dd><p>Object of class <a href="../../base/html/list.html">list</a> containing output data</p>
+</dd>
+</dl>
+
+
+<h3>Objects from the Class</h3>
+
+<p>Objects can be created by calls of the form <code>new("RLum.Results", ...)</code>.
+</p>
+
+
+<h3>Class version</h3>
+
+<p>0.5.2
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. RLum.Results-class(): Class 'RLum.Results'. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The class is intended to store results from functions to be used by
+other functions. The data in the object should always be accessed by the
+method <code>get_RLum</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a>, <a href="../../Luminescence/help/plot_RLum.html">plot_RLum</a>, <a href="../../Luminescence/help/merge_RLum.html">merge_RLum</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+showClass("RLum.Results")
+
+##create an empty object from this class
+set_RLum(class = "RLum.Results")
+
+##use another function to show how it works
+
+##Basic calculation of the dose rate for a specific date
+ dose.rate &lt;-  calc_SourceDoseRate(
+   measurement.date = "2012-01-27",
+   calib.date = "2014-12-19",
+   calib.dose.rate = 0.0438,
+   calib.error = 0.0019)
+
+##show object
+dose.rate
+
+##get results
+get_RLum(dose.rate)
+
+##get parameters used for the calcualtion from the same object
+get_RLum(dose.rate, data.object = "parameters")
+
+##alternatively objects can be accessed using S3 generics, such as
+dose.rate$parameters
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

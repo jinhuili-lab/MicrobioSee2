@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Function for generation of nested linear models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for enumerateGeneralModels {BayesFactor}"><tr><td>enumerateGeneralModels {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Function for generation of nested linear models</h2>
+
+<h3>Description</h3>
+
+<p>Generate lists of nested models, given a model formula
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+enumerateGeneralModels(fmla, whichModels, neverExclude = NULL,
+  includeBottom = TRUE, data = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fmla</code></td>
+<td>
+<p>formula for the &quot;full&quot; model</p>
+</td></tr>
+<tr valign="top"><td><code>whichModels</code></td>
+<td>
+<p>which subsets of models to generate</p>
+</td></tr>
+<tr valign="top"><td><code>neverExclude</code></td>
+<td>
+<p>a character vector of terms to never remove</p>
+</td></tr>
+<tr valign="top"><td><code>includeBottom</code></td>
+<td>
+<p>Include the base model containing only <code>neverExclude</code> terms</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>a data frame containing the columns mentioned in <code>fmla</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is a backend function not intended for users. It is exposed for third-party
+applications.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lower binomial confidence limit</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for binciWl {plotrix}"><tr><td>binciWl {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lower binomial confidence limit</h2>
+
+<h3>Description</h3>
+
+<p>Returns the lower binomial confidence limit using the Wilson approximation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ binciWl(x,n,alpha=0.05,trueval=TRUE,na.rm=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The number of successes or failures for which the CI is to be calculated.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>The number of trials as above.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>The desired coverage - 0.05 produces 95 percent coverage</p>
+</td></tr>
+<tr valign="top"><td><code>trueval</code></td>
+<td>
+<p>The value representing the outcome of interest for the CI.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Argument needed to make this work</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">binciWl</span> now calls <span class="samp">binciW</span> and returns the lower limit.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The lower binomial confidence limit</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/binciWu.html">binciWu</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ binciWl(c(rep(5,TRUE),rep(37,FALSE)))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

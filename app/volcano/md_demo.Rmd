@@ -1,0 +1,51 @@
+# Volcano mapping description
+
+The volcano map can be used to show the distribution of differences in gene expression levels between the two sets of samples.
+
+## Upload sample data
+
+You need to upload one data files including sample data.
+
+Such as
+
+| gene         | logFC    | P.Value  |
+| ------------ | -------- | -------- |
+| LOC100909539 | -4.51401 | 4.33E-12 |
+| Steap2       | -3.67818 | 1.12E-11 |
+| Trpt1        | 2.594115 | 1.21E-11 |
+| Cers6        | -3.63077 | 1.45E-11 |
+| Hs3st1       | -3.12966 | 1.74E-11 |
+| Lama5        | -2.77238 | 2.51E-11 |
+| Basp1        | -2.73166 | 2.59E-11 |
+| C1qtnf6      | -2.71698 | 2.69E-11 |
+| Homer1       | 2.187527 | 3.08E-11 |
+| LOC100361913 | -3.23122 | 3.16E-11 |
+| Lmnb1        | -2.60727 | 3.58E-11 |
+| RT1-M3-1     | -2.42831 | 3.65E-11 |
+
+**Paying attention, please ,you need to upload the file in the format of the sample data.**
+
+
+
+
+
+
+## draw
+
+- The horizontal axis **log2 fold change** differential expression multiples (Fold Change value, referred to as FC, judge whether the expression of these genes has increased or decreased according to the sign of the log2 fold change value), the X-axis of the gene distribution with the greater difference is at the two ends.
+
+- The ordinate is represented by -log10 **p-value**, and the P value is converted to -log10, -log10 (p-value=0.05) is approximately equal to 1.30, (-log10(0.01))=2, it can be seen that the more the vertical axis goes up P The smaller the value, and the smaller the P value, the more significant it is. So after we perform -log10 (p-value) conversion, the larger the value, the more significant the difference.
+
+  ![](https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112142815.png)
+
+- You can set the p value
+
+- <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112142861.png" style="zoom:33%;" />
+
+- <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112142909.png" style="zoom:33%;" />
+
+- You can set the log2 fold change value
+
+- <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112142949.png" style="zoom:33%;" />
+
+- <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112142336.png" style="zoom:33%;" />

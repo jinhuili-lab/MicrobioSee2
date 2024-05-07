@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: draping colors over a persp plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for drapecol {shape}"><tr><td>drapecol {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+draping colors over a persp plot
+</h2>
+
+<h3>Description</h3>
+
+<p>generates color(s) that will appear on the surface facets of a &quot;persp&quot; plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+drapecol(A, col = femmecol(100), NAcol = "white", lim = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A </code></td>
+<td>
+<p>matrix with input grid.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col </code></td>
+<td>
+<p>color palette.
+</p>
+</td></tr>
+<tr valign="top"><td><code>NAcol </code></td>
+<td>
+<p>color of <code>NA</code> elements.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lim </code></td>
+<td>
+<p>The limits of the data; if <code>NULL</code>, the data range will be chosen.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>a vector of character strings giving the colors in hexadecimal format,
+one for each surface facet.
+</p>
+
+
+<h3>Note</h3>
+
+<p>This function is inspired by a similar function in package <code>fields</code>,
+unfortunately made unavailable in most recent version of fields
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../graphics/html/persp.html">persp</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+persp(volcano, theta = 135, phi = 30, col = drapecol(volcano),
+      main = "drapecol")
+persp(volcano, theta = 135, phi = 30, col = drapecol(volcano),
+      border = NA, main = "drapecol")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

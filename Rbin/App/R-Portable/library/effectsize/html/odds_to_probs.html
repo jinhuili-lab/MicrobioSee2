@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert Between Odds and Probabilities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for odds_to_probs {effectsize}"><tr><td>odds_to_probs {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert Between Odds and Probabilities</h2>
+
+<h3>Description</h3>
+
+<p>Convert Between Odds and Probabilities
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+odds_to_probs(odds, log = FALSE, ...)
+
+## S3 method for class 'data.frame'
+odds_to_probs(odds, log = FALSE, select = NULL, exclude = NULL, ...)
+
+probs_to_odds(probs, log = FALSE, ...)
+
+## S3 method for class 'data.frame'
+probs_to_odds(probs, log = FALSE, select = NULL, exclude = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>odds</code></td>
+<td>
+<p>The <em>Odds</em> (or <code>log(odds)</code> when <code>log = TRUE</code>) to convert.</p>
+</td></tr>
+<tr valign="top"><td><code>log</code></td>
+<td>
+<p>Take in or output log odds (such as in logistic models).</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>select</code></td>
+<td>
+<p>When a data frame is passed, character or list of of column
+names to be transformed.</p>
+</td></tr>
+<tr valign="top"><td><code>exclude</code></td>
+<td>
+<p>When a data frame is passed, character or list of column names
+to be excluded from transformation.</p>
+</td></tr>
+<tr valign="top"><td><code>probs</code></td>
+<td>
+<p>Probability values to convert.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Converted index.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats/help/Logistic.html">stats::plogis()</a></code>
+</p>
+<p>Other convert between effect sizes: 
+<code><a href="../../effectsize/help/d_to_r.html">d_to_r</a>()</code>,
+<code><a href="../../effectsize/help/diff_to_cles.html">diff_to_cles</a></code>,
+<code><a href="../../effectsize/help/eta2_to_f2.html">eta2_to_f2</a>()</code>,
+<code><a href="../../effectsize/help/oddsratio_to_riskratio.html">oddsratio_to_riskratio</a>()</code>,
+<code><a href="../../effectsize/help/w_to_fei.html">w_to_fei</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+odds_to_probs(3)
+odds_to_probs(1.09, log = TRUE)
+
+probs_to_odds(0.95)
+probs_to_odds(0.95, log = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

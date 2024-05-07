@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Recode values from one or more variables into a new variable</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for recode_into {datawizard}"><tr><td>recode_into {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Recode values from one or more variables into a new variable</h2>
+
+<h3>Description</h3>
+
+<p>This functions recodes values from one or more variables into a new variable.
+It is a convenient function to avoid nested <code><a href="../../base/html/ifelse.html">ifelse()</a></code> statements, which
+is similar to <code>dplyr::case_when()</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+recode_into(
+  ...,
+  data = NULL,
+  default = NA,
+  overwrite = TRUE,
+  preserve_na = FALSE,
+  verbose = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>A sequence of two-sided formulas, where the left hand side (LHS)
+is a logical matching condition that determines which values match this case.
+The LHS of this formula is also called &quot;recode pattern&quot; (e.g., in messages).
+The right hand side (RHS) indicates the replacement value.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>Optional, name of a data frame. This can be used to avoid writing
+the data name multiple times in <code>...</code>. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>default</code></td>
+<td>
+<p>Indicates the default value that is chosen when no match in
+the formulas in <code>...</code> is found. If not provided, <code>NA</code> is used as default
+value.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> (default) and more than one recode pattern
+apply to the same case, already recoded values will be overwritten by subsequent
+recode patterns. If <code>FALSE</code>, former recoded cases will not be altered by later
+recode patterns that would apply to those cases again. A warning message is
+printed to alert such situations and to avoid unintentional recodings.</p>
+</td></tr>
+<tr valign="top"><td><code>preserve_na</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and <code>default</code> is not <code>NA</code>, missing
+values in the original variable will be set back to <code>NA</code> in the recoded
+variable (unless overwritten by other recode patterns). If <code>FALSE</code>, missing
+values in the original variable will be recoded to <code>default</code>. Setting
+<code>preserve_na = TRUE</code> prevents unintentional overwriting of missing values
+with <code>default</code>, which means that you won't find valid values where the
+original data only had missing values. See 'Examples'.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector with recoded values.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 1:30
+recode_into(
+  x &gt; 15 ~ "a",
+  x &gt; 10 &amp; x &lt;= 15 ~ "b",
+  default = "c"
+)
+
+x &lt;- 1:10
+# default behaviour: second recode pattern "x &gt; 5" overwrites
+# some of the formerly recoded cases from pattern "x &gt;= 3 &amp; x &lt;= 7"
+recode_into(
+  x &gt;= 3 &amp; x &lt;= 7 ~ 1,
+  x &gt; 5 ~ 2,
+  default = 0,
+  verbose = FALSE
+)
+
+# setting "overwrite = FALSE" will not alter formerly recoded cases
+recode_into(
+  x &gt;= 3 &amp; x &lt;= 7 ~ 1,
+  x &gt; 5 ~ 2,
+  default = 0,
+  overwrite = FALSE,
+  verbose = FALSE
+)
+
+set.seed(123)
+d &lt;- data.frame(
+  x = sample(1:5, 30, TRUE),
+  y = sample(letters[1:5], 30, TRUE),
+  stringsAsFactors = FALSE
+)
+
+# from different variables into new vector
+recode_into(
+  d$x %in% 1:3 &amp; d$y %in% c("a", "b") ~ 1,
+  d$x &gt; 3 ~ 2,
+  default = 0
+)
+
+# no need to write name of data frame each time
+recode_into(
+  x %in% 1:3 &amp; y %in% c("a", "b") ~ 1,
+  x &gt; 3 ~ 2,
+  data = d,
+  default = 0
+)
+
+# handling of missing values
+d &lt;- data.frame(
+  x = c(1, NA, 2, NA, 3, 4),
+  y = c(1, 11, 3, NA, 5, 6)
+)
+# first NA in x is overwritten by valid value from y
+# we have no known value for second NA in x and y,
+# thus we get one NA in the result
+recode_into(
+  x &lt;= 3 ~ 1,
+  y &gt; 5 ~ 2,
+  data = d,
+  default = 0,
+  preserve_na = TRUE
+)
+# first NA in x is overwritten by valid value from y
+# default value is used for second NA
+recode_into(
+  x &lt;= 3 ~ 1,
+  y &gt; 5 ~ 2,
+  data = d,
+  default = 0,
+  preserve_na = FALSE
+)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

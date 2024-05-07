@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Identifies raw Rmd or Rnw code chunks</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for identify_raw_chunks {styler}"><tr><td>identify_raw_chunks {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Identifies raw Rmd or Rnw code chunks</h2>
+
+<h3>Description</h3>
+
+<p>Raw in the sense that these chunks don't contain pure R code, but they
+contain a header and footer of markdown. Only code chunks that have an engine
+whose name matches <code>engine-pattern</code> are considered as R code.
+For every opening, we match the next closing. If there are not the same
+amount of closing and openings after this matching, we throw an error.
+Similarly, if there are two openings before a closing, the closing gets
+matched twice, on which we throw an error.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+identify_raw_chunks(lines, filetype, engine_pattern = get_engine_pattern())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lines</code></td>
+<td>
+<p>A character vector of lines from an Rmd or Rnw file.</p>
+</td></tr>
+<tr valign="top"><td><code>filetype</code></td>
+<td>
+<p>A string indicating the filetype - either 'Rmd' or 'Rnw'.</p>
+</td></tr>
+<tr valign="top"><td><code>engine_pattern</code></td>
+<td>
+<p>A regular expression that must match the engine name.</p>
+</td></tr>
+</table>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

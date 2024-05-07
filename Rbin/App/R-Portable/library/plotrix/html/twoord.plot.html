@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot with two ordinates</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for twoord.plot {plotrix}"><tr><td>twoord.plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Plot with two ordinates </h2>
+
+<h3>Description</h3>
+
+<p>Two sets of values are displayed on the same plot with different ordinate
+scales on the left and right.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ twoord.plot(lx,ly,rx,ry,data=NULL,main="",xlim=NULL,lylim=NULL,rylim=NULL,
+ mar=c(5,4,4,4),lcol=1,rcol=2,xlab="",lytickpos=NA,ylab="",ylab.at=NA,
+ rytickpos=NA,rylab="",rylab.at=NA,lpch=1,rpch=2,
+ type="b",xtickpos=NULL,xticklab=NULL,halfwidth=0.4,axislab.cex=1,
+ do.first=NULL,xaxt="s",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lx,ly,rx,ry</code></td>
+<td>
+<p>y and optional x values for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>an optional data frame from which to obtain the above values</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Title for the plot</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>optional x limits as in <span class="samp">plot</span></p>
+</td></tr>
+<tr valign="top"><td><code>lylim,rylim</code></td>
+<td>
+<p>optional y limits for the left and right axes
+respectively</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>optional margin adjustment, defaults to <span class="samp">c(5,4,4,4)</span></p>
+</td></tr>
+<tr valign="top"><td><code>lcol,rcol</code></td>
+<td>
+<p>colors to distinguish the two sets of values</p>
+</td></tr>
+<tr valign="top"><td><code>xlab</code></td>
+<td>
+<p>X axis label as in <span class="samp">plot</span></p>
+</td></tr>
+<tr valign="top"><td><code>lytickpos</code></td>
+<td>
+<p>Optional positions for the left axis tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>ylab</code></td>
+<td>
+<p>Left Y axis label as in <span class="samp">plot</span></p>
+</td></tr>
+<tr valign="top"><td><code>ylab.at</code></td>
+<td>
+<p>Optional position for the left Y axis label</p>
+</td></tr>
+<tr valign="top"><td><code>rytickpos</code></td>
+<td>
+<p>Optional positions for the right axis tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>rylab</code></td>
+<td>
+<p>Right Y axis label</p>
+</td></tr>
+<tr valign="top"><td><code>rylab.at</code></td>
+<td>
+<p>Optional position for the right Y axis label</p>
+</td></tr>
+<tr valign="top"><td><code>lpch,rpch</code></td>
+<td>
+<p>plot symbols to distinguish the two sets of values</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>as in <span class="samp">plot</span></p>
+</td></tr>
+<tr valign="top"><td><code>xtickpos</code></td>
+<td>
+<p>Optional positions for x-axis tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>xticklab</code></td>
+<td>
+<p>Optional labels for x-axis. Useful for things like dates.</p>
+</td></tr>
+<tr valign="top"><td><code>halfwidth</code></td>
+<td>
+<p>Half the width of the bars in user units. The bars are
+centered on successive integers if no <span class="samp">x</span> values are supplied.</p>
+</td></tr>
+<tr valign="top"><td><code>axislab.cex</code></td>
+<td>
+<p>Character expansion for the axis labels and tick labels.</p>
+</td></tr>
+<tr valign="top"><td><code>do.first</code></td>
+<td>
+<p>Optional command(s) that will be executed immediately after
+the blank plot is displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxt</code></td>
+<td>
+<p>Whether to display the x-axis - &quot;n&quot; = no.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">plot</span> and <span class="samp">points</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">twoord.plot</span> automates the process of displaying two sets of
+values that have different ranges on the same plot. It is principally
+useful in illustrating some relationship between the values across the
+observations. It is assumed that the <span class="samp">lx</span> and <span class="samp">rx</span> values
+are at least adjacent, and probably overlapping.
+</p>
+<p>It is best to pass all the arguments <span class="samp">lx, ly, rx, ry</span>, but the
+function will attempt to substitute sensible x values if one or two
+are missing.
+</p>
+<p>If at least one of the <span class="samp">type</span> arguments is &quot;bar&quot;, bars will be plotted
+instead of points or lines. It is best to plot the bars first (i.e. relative
+to the left axis) if the other type is points or lines, as the bars will
+usually obscure at least some of the points or lines. Using NA for the color
+of the bars will partially correct this. If both types are to be bars,
+remember to pass somewhat different x values or the bars will be overplotted.
+</p>
+<p>Note that more values can be added to the plot using <span class="samp">points</span> or
+<span class="samp">lines</span>, but remember that these will be plotted relative to the left
+ordinate.
+</p>
+<p>The <span class="samp">do.first</span> argument is useful for adding a background color or grid
+to the plot as shown in the first two examples.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>There are many objections to the use of plots with two different 
+ordinate scales, and some of them are even sensible and supported by 
+controlled observation. Many of the objections rest on assertions that the 
+spatial arrangement of the values plotted will override all other 
+evidence. Here are two:
+</p>
+<p>The viewer will assume that the vertical position of the data points 
+indicates a quantitative relationship.
+</p>
+<p>To some extent. It is probably not a good idea to have the spatial 
+relationship of the points opposed to their numerical relationship. That 
+is to say, if one set of values is in the range of 0-10 and the other 
+20-100, it is best to arrange the plot so that the latter values are 
+not plotted below the former. See the second example, which illustrates 
+a method for separating the two series and offsetting the axes.
+</p>
+<p>The viewer will assume that an intersection of lines indicates an 
+intersection of values.
+</p>
+<p>If the visual elements representing values can be arranged to avoid 
+intersections, so much the better. Many people have no trouble 
+distinguishing which visual elements are linked to which axis as long as 
+they are both coded similarly, usually with colors and/or symbols. In the 
+special case where there is an underlying relationship between the two 
+such as the probability of that value occurring under some conditions, it 
+may help to mark the point(s) where this occurs.
+</p>
+<p>It may be useful to consider <span class="samp">gap.plot</span> or separate plots as an
+alternative.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon (thanks to Christophe Dutang for the idea of using bars
+and lines in the same plot, Clair Crossupton for pointing out that
+dates on the x-axis weren't very good, Jacob Kasper for the axis
+character expansion and Ye Lin for finally motivating me to add the
+do.first argument.)</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ xval1 &lt;- seq.Date(as.Date("2017-01-02"),
+  as.Date("2017-01-10"), by="day")
+ xval2 &lt;- seq.Date(as.Date("2017-01-01"),
+  as.Date("2017-01-15"), by="day")
+ going_up&lt;-seq(3,7,by=0.5)+rnorm(9)
+ going_down&lt;-rev(60:74)+rnorm(15)
+ twoord.plot(2:10,going_up,1:15,going_down,xlab="Sequence",
+  ylab="Ascending values",rylab="Descending values",lcol=4,
+  main="Plot with two ordinates - points and lines",
+  do.first="plot_bg();grid(col=\"white\",lty=1)")
+ axis.Date(1,xval2)
+ # now separate the lines
+ twoord.plot(2:10,going_up,1:15,going_down,xlab="Sequence",
+  lylim=range(going_up)+c(-1,10),rylim=range(going_down)+c(-10,2),
+  ylab="Ascending values",ylab.at=5,rylab="Descending values",
+  rylab.at=65,lcol=4,main="Plot with two ordinates - separated lines",
+  lytickpos=3:7,rytickpos=seq(55,75,by=5),
+  do.first="plot_bg();grid(col=\"white\",lty=1)")
+ twoord.plot(2:10,going_up,1:15,going_down,xlab="Sequence",
+  lylim=range(going_up)+c(-1,10),rylim=range(going_down)+c(-10,2),
+  type=c("bar","l"),ylab="Ascending values",ylab.at=5,
+  rylab="Descending values",rylab.at=65,
+  main="Bars on left axis, lines on right axis",
+  lytickpos=3:7,rytickpos=seq(55,75,by=5),
+  lcol=3,rcol=4,do.first="plot_bg()")
+ twoord.plot(2:10,going_up,1:15,going_down,xlab="Sequence",
+  lylim=c(-3,8),rylim=c(50,100),type=c("l","bar"),
+  ylab="Ascending values",rylab="Descending values",
+  lytickpos=3:7,rytickpos=seq(55,75,by=5),ylab.at=5,rylab.at=65,
+  main="Lines on left axis, bars on right axis",
+  lcol=3,rcol=4,do.first="plot_bg(\"yellow\")")
+ # histogram with density curve superimposed
+ xhist&lt;-hist(rnorm(100),plot=FALSE)
+ xdens&lt;-dnorm(seq(-3,3,by=0.05))
+ twoord.plot(xhist$mids,xhist$counts,seq(-3,3,by=0.05),
+ xdens,type=c("bar","l"),lcol=4,rcol=2,ylab="Counts",
+ rylab="Density",main="Histogram and density curve",
+ halfwidth=0.2,lylim=c(0,max(xhist$counts)+1),rylim=c(0,0.45),lwd=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

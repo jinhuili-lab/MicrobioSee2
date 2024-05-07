@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Run Luminescence shiny apps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for app_RLum {RLumShiny}"><tr><td>app_RLum {RLumShiny}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Run Luminescence shiny apps</h2>
+
+<h3>Description</h3>
+
+<p>A wrapper for <code><a href="../../shiny/html/runApp.html">runApp</a></code> to start interactive shiny apps for the R package Luminescence.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+app_RLum(app = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>app</code></td>
+<td>
+<p><code><a href="../../base/html/character.html">character</a></code> (<strong>required</strong>):
+name of the application to start. See details for a list of available apps.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments to pass to <code><a href="../../shiny/html/runApp.html">runApp</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The RLumShiny package provides a single function from which all shiny apps can be started: <code>app_RLum()</code>.
+It essentially only takes one argument, which is a unique keyword specifying which application to start.
+See the table below for a list of available shiny apps and which keywords to use. If no keyword is used
+a dashboard will be started instead, from which an application can be started.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Application name:</strong> </td><td style="text-align: center;">  <strong>Keyword:</strong>  </td><td style="text-align: left;"> <strong>Function:</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Abanico Plot </td><td style="text-align: center;"> <em>abanico</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_AbanicoPlot.html">plot_AbanicoPlot</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Histogram </td><td style="text-align: center;"> <em>histogram</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_Histogram.html">plot_Histogram</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Kernel Density Estimate Plot </td><td style="text-align: center;"> <em>KDE</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_KDE.html">plot_KDE</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Radial Plot </td><td style="text-align: center;"> <em>radialplot</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_RadialPlot.html">plot_RadialPlot</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Dose Recovery Test </td><td style="text-align: center;"> <em>doserecovery</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_DRTResults.html">plot_DRTResults</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Cosmic Dose Rate </td><td style="text-align: center;"> <em>cosmicdose</em>  </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/calc_CosmicDoseRate.html">calc_CosmicDoseRate</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+CW Curve Transformation </td><td style="text-align: center;"> <em>transformCW</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/CW2pHMi.html">CW2pHMi</a></code>, <code><a href="../../Luminescence/html/CW2pLM.html">CW2pLM</a></code>, <code><a href="../../Luminescence/html/CW2pLMi.html">CW2pLMi</a></code>, <code><a href="../../Luminescence/html/CW2pPMi.html">CW2pPMi</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Filter Combinations </td><td style="text-align: center;"> <em>filter</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/plot_FilterCombinations.html">plot_FilterCombinations</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Fast Ratio </td><td style="text-align: center;"> <em>fastratio</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/calc_FastRatio.html">calc_FastRatio</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Fading Correction </td><td style="text-align: center;"> <em>fading</em> </td><td style="text-align: left;"> <code><a href="../../Luminescence/html/analyse_FadingMeasurement.html">analyse_FadingMeasurement</a></code>, <code><a href="../../Luminescence/html/calc_FadingCorr.html">calc_FadingCorr</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Test Stimulation Power </td><td style="text-align: center;"> <em>teststimulationpower</em> </td><td style="text-align: left;">  <code><a href="../../Luminescence/html/plot_RLum.html">plot_RLum</a></code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Scale Gamma Dose Rate </td><td style="text-align: center;"> <em>scalegamma</em> </td><td style="text-align: left;"> <code>scale_GammaDose</code> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+RCarb app </td><td style="text-align: center;"> <em>RCarb</em> </td><td style="text-align: left;"> <a href="../../RCarb/help/model_DoseRate.html">RCarb::model_DoseRate</a>
+</td>
+</tr>
+
+</table>
+
+<p>The <code>app_RLum()</code> function is just a wrapper for <code><a href="../../shiny/html/runApp.html">runApp</a></code>.
+Via the <code>...</code> argument further arguments can be directly passed to <code><a href="../../shiny/html/runApp.html">runApp</a></code>.
+See <code>?shiny::runApp</code> for further details on valid arguments.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany)
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../shiny/html/runApp.html">runApp</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+# Dashboard
+app_RLum()
+
+# Plotting apps
+app_RLum("abanico")
+app_RLum("histogram")
+app_RLum("KDE")
+app_RLum("radialplot")
+app_RLum("doserecovery")
+
+# Further apps
+app_RLum("cosmicdose")
+app_RLum("transformCW")
+app_RLum("filter")
+app_RLum("fastratio")
+app_RLum("fading")
+app_RLum("surfaceexposure")
+app_RLum("teststimulationpower")
+app_RLum("scalegamma")
+app_RLum("RCarb")
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>RLumShiny</em> version 0.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

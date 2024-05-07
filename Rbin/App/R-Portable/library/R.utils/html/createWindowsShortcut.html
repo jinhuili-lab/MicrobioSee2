@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Creates a Microsoft Windows Shortcut (.lnk file)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for createWindowsShortcut {R.utils}"><tr><td>createWindowsShortcut {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Creates a Microsoft Windows Shortcut (.lnk file)</h2>
+
+<h3>Description</h3>
+
+<p>Creates a Microsoft Windows Shortcut (.lnk file).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+createWindowsShortcut(pathname, target, overwrite=FALSE, mustWork=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>The pathname (with file extension *.lnk) of the link
+file to be created.</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>The target file or directory to which the shortcut should
+point to.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an existing link file is overwritten,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>mustWork</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an error is produced if the Windows Shortcut
+link is not created, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the pathname.
+</p>
+
+
+<h3>Required privileges on Windows</h3>
+
+<p>In order for this method, which utilizes Windows Script Host a VBScript,
+to succeed on Windows, the client/R session must run with sufficient
+privileges (it has been reported that Administrative rights are necessary).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] Create a windows shortcut (.LNK file), SS64.com,
+<a href="https://ss64.com/nt/shortcut.html">https://ss64.com/nt/shortcut.html</a> <br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/readWindowsShortcut.html">readWindowsShortcut</a></code>()
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create Windows Shortcut links to a directory and a file
+targets &lt;- list(
+  system.file(package="R.utils"),
+  system.file("DESCRIPTION", package="R.utils")
+)
+
+for (kk in seq_along(targets)) {
+  cat("Link #", kk, "\n", sep="")
+
+  target &lt;- targets[[kk]]
+  cat("Target: ", target, "\n", sep="")
+
+  # Name of *.lnk file
+  pathname &lt;- sprintf("%s.LNK", tempfile())
+
+  tryCatch({
+    # Will only work on Windows systems with support for VB scripting
+    createWindowsShortcut(pathname, target=target)
+  }, error = function(ex) {
+    print(ex)
+  })
+
+  # Was it created?
+  if (isFile(pathname)) {
+    cat("Created link file: ", pathname, "\n", sep="")
+
+    # Validate that it points to the correct target
+    dest &lt;- filePath(pathname, expandLinks="any")
+    cat("Available target: ", dest, "\n", sep="")
+
+    res &lt;- all.equal(tolower(dest), tolower(target))
+    if (!isTRUE(res)) {
+      msg &lt;- sprintf("Link target does not match expected target: %s != %s", dest, target)
+      cat(msg, "\n")
+      warning(msg)
+    }
+
+    # Cleanup
+    file.remove(pathname)
+  }
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

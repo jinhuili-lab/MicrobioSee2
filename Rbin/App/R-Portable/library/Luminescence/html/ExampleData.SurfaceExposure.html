@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example OSL surface exposure dating data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ExampleData.SurfaceExposure {Luminescence}"><tr><td>ExampleData.SurfaceExposure {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example OSL surface exposure dating data</h2>
+
+<h3>Description</h3>
+
+<p>A set of synthetic OSL surface exposure dating data to demonstrate the
+<a href="../../Luminescence/help/fit_SurfaceExposure.html">fit_SurfaceExposure</a> functionality. See examples to reproduce the data
+interactively.
+</p>
+
+
+<h3>Format</h3>
+
+<p>A <a href="../../base/html/list.html">list</a> with 4 elements:
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>Element</strong> </td><td style="text-align: left;"> <strong>Content</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$sample_1</code> </td><td style="text-align: left;"> A <a href="../../base/html/data.frame.html">data.frame</a> with 3 columns (depth, intensity, error) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$sample_2</code> </td><td style="text-align: left;"> A <a href="../../base/html/data.frame.html">data.frame</a> with 3 columns (depth, intensity, error) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$set_1</code> </td><td style="text-align: left;"> A <a href="../../base/html/list.html">list</a> of 4 <a href="../../base/html/data.frame.html">data.frame</a>s, each representing a sample with different ages </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code style="white-space: pre;">$set_2</code> </td><td style="text-align: left;"> A <a href="../../base/html/list.html">list</a> of 5 <a href="../../base/html/data.frame.html">data.frame</a>s, each representing a sample with different ages </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Details</h3>
+
+<p><strong><code style="white-space: pre;">$sample_1</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<strong>mu</strong> </td><td style="text-align: center;"> <strong><code>sigmaphi</code></strong> </td><td style="text-align: center;"> <strong>age</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0.9 </td><td style="text-align: center;"> 5e-10 </td><td style="text-align: center;"> 10000 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p><strong><code style="white-space: pre;">$sample_2</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<strong>mu</strong> </td><td style="text-align: center;"> <strong><code>sigmaphi</code></strong> </td><td style="text-align: center;"> <strong>age</strong> </td><td style="text-align: center;"> <strong>Dose rate</strong> </td><td style="text-align: center;"> <strong>D0</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0.9 </td><td style="text-align: center;"> 5e-10 </td><td style="text-align: center;"> 10000 </td><td style="text-align: center;"> 2.5 </td><td style="text-align: center;"> 40 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p><strong><code style="white-space: pre;">$set_1</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<strong>mu</strong> </td><td style="text-align: center;"> <strong><code>sigmaphi</code></strong> </td><td style="text-align: center;"> <strong>ages</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0.9 </td><td style="text-align: center;"> 5e-10 </td><td style="text-align: center;"> 1e3, 1e4, 1e5, 1e6 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p><strong><code style="white-space: pre;">$set_2</code></strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<strong>mu</strong> </td><td style="text-align: center;"> <strong><code>sigmaphi</code></strong> </td><td style="text-align: center;"> <strong>ages</strong> </td><td style="text-align: center;"> <strong>Dose rate</strong> </td><td style="text-align: center;"> <strong>D0</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0.9 </td><td style="text-align: center;"> 5e-10 </td><td style="text-align: center;"> 1e2, 1e3, 1e4, 1e5, 1e6 </td><td style="text-align: center;"> 1.0 </td><td style="text-align: center;"> 40 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>Source</h3>
+
+<p>See examples for the code used to create the data sets.
+</p>
+
+
+<h3>References</h3>
+
+<p>Unpublished synthetic data
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## ExampleData.SurfaceExposure$sample_1
+sigmaphi &lt;- 5e-10
+age &lt;- 10000
+mu &lt;- 0.9
+x &lt;- seq(0, 10, 0.1)
+fun &lt;- exp(-sigmaphi * age * 365.25*24*3600 * exp(-mu * x))
+
+set.seed(666)
+synth_1 &lt;- data.frame(depth = x,
+                      intensity = jitter(fun, 1, 0.1),
+                      error = runif(length(x), 0.01, 0.2))
+
+## VALIDATE sample_1
+fit_SurfaceExposure(synth_1, mu = mu, sigmaphi = sigmaphi)
+
+
+
+
+## ExampleData.SurfaceExposure$sample_2
+sigmaphi &lt;- 5e-10
+age &lt;- 10000
+mu &lt;- 0.9
+x &lt;- seq(0, 10, 0.1)
+Ddot &lt;- 2.5   / 1000 / 365.25 / 24 / 60 / 60 # 2.5 Gy/ka in Seconds
+D0 &lt;- 40
+fun &lt;- (sigmaphi * exp(-mu * x) *
+          exp(-(age * 365.25*24*3600) *
+                (sigmaphi * exp(-mu * x) + Ddot/D0)) + Ddot/D0) /
+  (sigmaphi * exp(-mu * x) + Ddot/D0)
+
+set.seed(666)
+synth_2 &lt;- data.frame(depth = x,
+                      intensity = jitter(fun, 1, 0.1),
+                      error = runif(length(x), 0.01, 0.2))
+
+## VALIDATE sample_2
+fit_SurfaceExposure(synth_2, mu = mu, sigmaphi = sigmaphi, Ddot = 2.5, D0 = D0)
+
+
+
+## ExampleData.SurfaceExposure$set_1
+sigmaphi &lt;- 5e-10
+mu &lt;- 0.9
+x &lt;- seq(0, 15, 0.2)
+age &lt;- c(1e3, 1e4, 1e5, 1e6)
+set.seed(666)
+
+synth_3 &lt;- vector("list", length = length(age))
+
+for (i in 1:length(age)) {
+  fun &lt;- exp(-sigmaphi * age[i] * 365.25*24*3600 * exp(-mu * x))
+  synth_3[[i]] &lt;- data.frame(depth = x,
+                             intensity = jitter(fun, 1, 0.05))
+}
+
+
+## VALIDATE set_1
+fit_SurfaceExposure(synth_3, age = age, sigmaphi = sigmaphi)
+
+
+
+## ExampleData.SurfaceExposure$set_2
+sigmaphi &lt;- 5e-10
+mu &lt;- 0.9
+x &lt;- seq(0, 15, 0.2)
+age &lt;- c(1e2, 1e3, 1e4, 1e5, 1e6)
+Ddot &lt;- 1.0 / 1000 / 365.25 / 24 / 60 / 60 # 2.0 Gy/ka in Seconds
+D0 &lt;- 40
+set.seed(666)
+
+synth_4 &lt;- vector("list", length = length(age))
+
+for (i in 1:length(age)) {
+  fun &lt;- (sigmaphi * exp(-mu * x) *
+            exp(-(age[i] * 365.25*24*3600) *
+                  (sigmaphi * exp(-mu * x) + Ddot/D0)) + Ddot/D0) /
+    (sigmaphi * exp(-mu * x) + Ddot/D0)
+
+  synth_4[[i]] &lt;- data.frame(depth = x,
+                             intensity = jitter(fun, 1, 0.05))
+}
+
+
+## VALIDATE set_2
+fit_SurfaceExposure(synth_4, age = age, sigmaphi = sigmaphi, D0 = D0, Ddot = 1.0)
+
+## Not run: 
+ExampleData.SurfaceExposure &lt;- list(
+  sample_1 = synth_1,
+  sample_2 = synth_2,
+  set_1 = synth_3,
+  set_2 = synth_4
+)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

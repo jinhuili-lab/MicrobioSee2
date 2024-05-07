@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Set up a GitHub Actions workflow</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for use_github_action {usethis}"><tr><td>use_github_action {usethis}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Set up a GitHub Actions workflow</h2>
+
+<h3>Description</h3>
+
+<p>Sets up continuous integration (CI) for an R package that is developed on
+GitHub using <a href="https://github.com/features/actions">GitHub Actions</a>. CI can be
+used to trigger various operations for each push or pull request, e.g.
+running <code style="white-space: pre;">R CMD check</code> or building and deploying a pkgdown site.
+</p>
+
+
+<h4>Workflows</h4>
+
+<p>There are four particularly important workflows that are used by many
+packages:
+</p>
+
+<ul>
+<li> <p><code>check-standard</code>: Run <code style="white-space: pre;">R CMD check</code> using R-latest on Linux, Mac, and
+Windows, and using R-devel and R-oldrel on Linux. This is a good baseline
+if you plan on submitting your package to CRAN.
+</p>
+</li>
+<li> <p><code>test-coverage</code>: Compute test coverage and report to
+<a href="https://about.codecov.io">https://about.codecov.io</a> by calling <code><a href="../../covr/help/codecov.html">covr::codecov()</a></code>.
+</p>
+</li>
+<li> <p><code>pkgdown</code>: Automatically build and publish a pkgdown website.
+But we recommend instead calling <code><a href="../../usethis/help/use_pkgdown_github_pages.html">use_pkgdown_github_pages()</a></code> which
+performs other important set up.
+</p>
+</li>
+<li> <p><code>pr-commands</code>: Enables the use of two R-specific commands in pull request
+issue comments: <code style="white-space: pre;">/document</code> to run <code>roxygen2::roxygenise()</code> and
+<code style="white-space: pre;">/style</code> to run <code>styler::style_pkg()</code>. Both will update the PR with any
+changes once they're done.
+</p>
+</li></ul>
+
+<p>If you call <code>use_github_action()</code> without arguments, you'll be prompted to
+pick from one of these. Otherwise you can see a complete list of
+possibilities provided by r-lib at
+<a href="https://github.com/r-lib/actions/tree/v2/examples">https://github.com/r-lib/actions/tree/v2/examples</a>, or you can supply
+your own <code>url</code> to use any other workflow.
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+use_github_action(
+  name = NULL,
+  ref = NULL,
+  url = NULL,
+  save_as = NULL,
+  readme = NULL,
+  ignore = TRUE,
+  open = FALSE,
+  badge = NULL
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>name</code></td>
+<td>
+<p>For <code>use_github_action()</code>: Name of one of the example workflow
+from <a href="https://github.com/r-lib/actions/tree/v2/examples">https://github.com/r-lib/actions/tree/v2/examples</a> (with or
+without extension), e.g. <code>"pkgdown"</code>, <code>"check-standard.yaml"</code>.
+</p>
+<p>If the <code>name</code> starts with <code style="white-space: pre;">check-</code>, <code>save_as</code> will default to
+<code>R-CMD-check.yaml</code> and <code>badge</code> default to <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ref</code></td>
+<td>
+<p>Desired Git reference, usually the name of a tag (<code>"v2"</code>) or
+branch (<code>"main"</code>). Other possibilities include a commit SHA (<code>"d1c516d"</code>)
+or <code>"HEAD"</code> (meaning &quot;tip of remote's default branch&quot;). If not specified,
+defaults to the latest published release of <code>r-lib/actions</code>
+(<a href="https://github.com/r-lib/actions/releases">https://github.com/r-lib/actions/releases</a>).</p>
+</td></tr>
+<tr valign="top"><td><code>url</code></td>
+<td>
+<p>The full URL to a <code>.yaml</code> file on GitHub. See more details in
+<code><a href="../../usethis/help/use_github_file.html">use_github_file()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>save_as</code></td>
+<td>
+<p>Name of the local workflow file. Defaults to <code>name</code> or
+<code>fs::path_file(url)</code> for <code>use_github_action()</code>. Do not specify any other
+part of the path; the parent directory will always be <code>.github/workflows</code>,
+within the active project.</p>
+</td></tr>
+<tr valign="top"><td><code>readme</code></td>
+<td>
+<p>The full URL to a <code>README</code> file that provides more details
+about the workflow. Ignored when <code>url</code> is <code>NULL</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ignore</code></td>
+<td>
+<p>Should the newly created file be added to <code>.Rbuildignore</code>?</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>Open the newly created file for editing? Happens in RStudio, if
+applicable, or via <code><a href="../../utils/help/file.edit.html">utils::file.edit()</a></code> otherwise.</p>
+</td></tr>
+<tr valign="top"><td><code>badge</code></td>
+<td>
+<p>Should we add a badge to the <code>README</code>?</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+use_github_action()
+
+use_github_action_check_standard()
+
+use_github_action("pkgdown")
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>usethis</em> version 2.2.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

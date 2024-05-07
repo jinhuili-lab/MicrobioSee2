@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Dockerfile for your App</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for add_dockerfile {golem}"><tr><td>add_dockerfile {golem}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Dockerfile for your App</h2>
+
+<h3>Description</h3>
+
+<p>Build a container containing your Shiny App. <code>add_dockerfile()</code> and
+<code>add_dockerfile_with_renv()</code> and <code>add_dockerfile_with_renv()</code> creates
+a generic Dockerfile, while <code>add_dockerfile_shinyproxy()</code>,
+<code>add_dockerfile_with_renv_shinyproxy()</code> , <code>add_dockerfile_with_renv_shinyproxy()</code> and
+<code>add_dockerfile_heroku()</code> creates platform specific Dockerfile.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+add_dockerfile(
+  path = "DESCRIPTION",
+  output = "Dockerfile",
+  pkg = get_golem_wd(),
+  from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
+  as = NULL,
+  port = 80,
+  host = "0.0.0.0",
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  open = TRUE,
+  update_tar_gz = TRUE,
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
+)
+
+add_dockerfile_shinyproxy(
+  path = "DESCRIPTION",
+  output = "Dockerfile",
+  pkg = get_golem_wd(),
+  from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
+  as = NULL,
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  open = TRUE,
+  update_tar_gz = TRUE,
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
+)
+
+add_dockerfile_heroku(
+  path = "DESCRIPTION",
+  output = "Dockerfile",
+  pkg = get_golem_wd(),
+  from = paste0("rocker/verse:", R.Version()$major, ".", R.Version()$minor),
+  as = NULL,
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  open = TRUE,
+  update_tar_gz = TRUE,
+  build_golem_from_source = TRUE,
+  extra_sysreqs = NULL
+)
+
+add_dockerfile_with_renv(
+  source_folder = ".",
+  lockfile = NULL,
+  output_dir = fs::path(tempdir(), "deploy"),
+  distro = "focal",
+  from = "rocker/verse",
+  as = NULL,
+  sysreqs = TRUE,
+  port = 80,
+  host = "0.0.0.0",
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  open = TRUE,
+  document = TRUE,
+  extra_sysreqs = NULL,
+  update_tar_gz = TRUE,
+  dockerfile_cmd = NULL,
+  ...
+)
+
+add_dockerfile_with_renv_shinyproxy(
+  source_folder = ".",
+  lockfile = NULL,
+  output_dir = fs::path(tempdir(), "deploy"),
+  distro = "focal",
+  from = "rocker/verse",
+  as = NULL,
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  extra_sysreqs = NULL,
+  open = TRUE,
+  document = TRUE,
+  update_tar_gz = TRUE,
+  ...
+)
+
+add_dockerfile_with_renv_heroku(
+  source_folder = ".",
+  lockfile = NULL,
+  output_dir = fs::path(tempdir(), "deploy"),
+  distro = "focal",
+  from = "rocker/verse",
+  as = NULL,
+  sysreqs = TRUE,
+  repos = c(CRAN = "https://cran.rstudio.com/"),
+  expand = FALSE,
+  extra_sysreqs = NULL,
+  open = TRUE,
+  document = TRUE,
+  update_tar_gz = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>path to the DESCRIPTION file to use as an input.</p>
+</td></tr>
+<tr valign="top"><td><code>output</code></td>
+<td>
+<p>name of the Dockerfile output.</p>
+</td></tr>
+<tr valign="top"><td><code>pkg</code></td>
+<td>
+<p>Path to the root of the package. Default is <code>get_golem_wd()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>from</code></td>
+<td>
+<p>The FROM of the Dockerfile. Default is
+</p>
+<div class="sourceCode"><pre>FROM rocker/verse
+
+without renv.lock file passed
+`R.Version()$major`.`R.Version()$minor` is used as tag
+</pre></div></td></tr>
+<tr valign="top"><td><code>as</code></td>
+<td>
+<p>The AS of the Dockerfile. Default it NULL.</p>
+</td></tr>
+<tr valign="top"><td><code>port</code></td>
+<td>
+<p>The <code>options('shiny.port')</code> on which to run the App.
+Default is 80.</p>
+</td></tr>
+<tr valign="top"><td><code>host</code></td>
+<td>
+<p>The <code>options('shiny.host')</code> on which to run the App.
+Default is 0.0.0.0.</p>
+</td></tr>
+<tr valign="top"><td><code>sysreqs</code></td>
+<td>
+<p>boolean. If TRUE, RUN statements to install packages
+system requirements will be included in the Dockerfile.</p>
+</td></tr>
+<tr valign="top"><td><code>repos</code></td>
+<td>
+<p>character. The URL(s) of the repositories to use for <code>options("repos")</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>expand</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> each system requirement will have its own <code>RUN</code> line.</p>
+</td></tr>
+<tr valign="top"><td><code>open</code></td>
+<td>
+<p>boolean. Should the Dockerfile/README/README be open after creation? Default is <code>TRUE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>update_tar_gz</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> and <code>build_golem_from_source</code> is also <code>TRUE</code>,
+an updated tar.gz is created.</p>
+</td></tr>
+<tr valign="top"><td><code>build_golem_from_source</code></td>
+<td>
+<p>boolean. If <code>TRUE</code> no tar.gz is created and
+the Dockerfile directly mount the source folder.</p>
+</td></tr>
+<tr valign="top"><td><code>extra_sysreqs</code></td>
+<td>
+<p>character vector. Extra debian system requirements.</p>
+</td></tr>
+<tr valign="top"><td><code>source_folder</code></td>
+<td>
+<p>path to the Package/golem source folder to deploy.
+default is current folder '.'</p>
+</td></tr>
+<tr valign="top"><td><code>lockfile</code></td>
+<td>
+<p>path to the renv.lock file to use. default is <code>NULL</code></p>
+</td></tr>
+<tr valign="top"><td><code>output_dir</code></td>
+<td>
+<p>folder to export everything deployment related.</p>
+</td></tr>
+<tr valign="top"><td><code>distro</code></td>
+<td>
+<p>One of &quot;focal&quot;, &quot;bionic&quot;, &quot;xenial&quot;, &quot;centos7&quot;, or &quot;centos8&quot;.
+See available distributions at https://hub.docker.com/r/rstudio/r-base/.</p>
+</td></tr>
+<tr valign="top"><td><code>document</code></td>
+<td>
+<p>boolean. If TRUE (by default), DESCRIPTION file is updated using <code><a href="../../attachment/help/att_amend_desc.html">attachment::att_amend_desc()</a></code> before creating the renv.lock file</p>
+</td></tr>
+<tr valign="top"><td><code>dockerfile_cmd</code></td>
+<td>
+<p>What is the CMD to add to the Dockerfile. If NULL, the default,
+the CMD will be <code style="white-space: pre;">R -e "options('shiny.port'={port},shiny.host='{host}');library({appname});{appname}::run_app()\</code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments to pass to <code><a href="../../renv/help/snapshot.html">renv::snapshot()</a></code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The <code>{dockerfiler}</code> object, invisibly.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Add a standard Dockerfile
+if (interactive() &amp; requireNamespace("dockerfiler")) {
+  add_dockerfile()
+}
+# Crete a 'deploy' folder containing everything needed to deploy
+# the golem using docker based on {renv}
+if (interactive() &amp; requireNamespace("dockerfiler")) {
+  add_dockerfile_with_renv(
+    # lockfile = "renv.lock", # uncomment to use existing renv.lock file
+    output_dir = "deploy"
+  )
+}
+# Add a Dockerfile for ShinyProxy
+if (interactive() &amp; requireNamespace("dockerfiler")) {
+  add_dockerfile_shinyproxy()
+}
+
+# Crete a 'deploy' folder containing everything needed to deploy
+# the golem with ShinyProxy using docker based on {renv}
+if (interactive() &amp; requireNamespace("dockerfiler")) {
+  add_dockerfile_with_renv(
+    # lockfile = "renv.lock",# uncomment to use existing renv.lock file
+    output_dir = "deploy"
+  )
+}
+
+# Add a Dockerfile for Heroku
+if (interactive() &amp; requireNamespace("dockerfiler")) {
+  add_dockerfile_heroku()
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>golem</em> version 0.4.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

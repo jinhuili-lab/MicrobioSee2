@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Export RLum-objects to CSV</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for write_RLum2CSV {Luminescence}"><tr><td>write_RLum2CSV {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Export RLum-objects to CSV</h2>
+
+<h3>Description</h3>
+
+<p>This function exports <a href="../../Luminescence/help/RLum-class.html">RLum</a>-objects to CSV-files using the R function
+<a href="../../utils/help/write.table.html">utils::write.table</a>. All <a href="../../Luminescence/help/RLum-class.html">RLum</a>-objects are supported, but the
+export is lossy, i.e. the pure numerical values are exported only. Information
+that cannot be coerced to a <a href="../../base/html/data.frame.html">data.frame</a> or a <a href="../../base/html/matrix.html">matrix</a> are discarded as well as
+metadata.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+write_RLum2CSV(
+  object,
+  path = NULL,
+  prefix = "",
+  export = TRUE,
+  compact = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum-class.html">RLum</a> or a <a href="../../base/html/list.html">list</a> of <code>RLum</code> objects (<strong>required</strong>):
+objects to be written</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+character string naming folder for the output to be written. If nothing
+is provided <code>path</code> will be set to the working directory.
+<strong>Note:</strong> this argument is ignored if the the argument <code>export</code> is set to <code>FALSE</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>prefix</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>with default</em>):
+optional prefix to name the files. This prefix is valid for all written files</p>
+</td></tr>
+<tr valign="top"><td><code>export</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enable or disable the file export. If set to <code>FALSE</code> nothing is written to
+the file connection, but a list comprising objects of type <a href="../../base/html/data.frame.html">data.frame</a> and <a href="../../base/html/matrix.html">matrix</a>
+is returned instead</p>
+</td></tr>
+<tr valign="top"><td><code>compact</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): if <code>TRUE</code> (the default) the output will be more
+simple but less comprehensive, means not all elements in the objects will be fully broken down.
+This is in particular useful for writing <code>RLum.Results</code> objects to CSV-files, such objects
+can be rather complex and not all information are needed in a CSV-file or can be meaningful translated
+to it.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments that will be passed to the function
+<a href="../../utils/help/write.table.html">utils::write.table</a>. All arguments except the argument <code>file</code> are supported</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>However, in combination with the implemented import functions, nearly every
+supported import data format can be exported to CSV-files, this gives a great
+deal of freedom in terms of compatibility with other tools.
+</p>
+<p><strong>Input is a list of objects</strong>
+</p>
+<p>If the input is a <a href="../../base/html/list.html">list</a> of objects all explicit function arguments can be provided
+as <a href="../../base/html/list.html">list</a>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function returns either a CSV-file (or many of them) or for the
+option <code>export == FALSE</code> a list comprising objects of type <a href="../../base/html/data.frame.html">data.frame</a> and <a href="../../base/html/matrix.html">matrix</a>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. write_RLum2CSV(): Export RLum-objects to CSV. Function version 0.2.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Science, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a>, <a href="../../Luminescence/help/RLum.Data-class.html">RLum.Data</a>, <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>,
+<a href="../../utils/help/write.table.html">utils::write.table</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+##transform values to a list (and do not write)
+data(ExampleData.BINfileData, envir = environment())
+object &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data)[[1]]
+write_RLum2CSV(object, export = FALSE)
+
+## Not run: 
+
+##create temporary filepath
+##(for usage replace by own path)
+temp_file &lt;- tempfile(pattern = "output", fileext = ".csv")
+
+##write CSV-file to working directory
+write_RLum2CSV(temp_file)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

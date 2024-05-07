@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Gets a short human readable string representation of an...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for seqToHumanReadable {R.utils}"><tr><td>seqToHumanReadable {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Gets a short human readable string representation of an vector of indices</h2>
+
+<h3>Description</h3>
+
+<p>Gets a short human readable string representation of an vector of indices.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+seqToHumanReadable(idx, tau=2L, delimiter="-", collapse=", ", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>idx</code></td>
+<td>
+<p>A <code><a href="../../base/help/vector.html">vector</a></code> of <code><a href="../../base/help/integer.html">integer</a></code> indices.</p>
+</td></tr>
+<tr valign="top"><td><code>tau</code></td>
+<td>
+<p>A non-negative <code><a href="../../base/help/integer.html">integer</a></code> specifying the minimum span of
+of a contiguous sequences for it to be collapsed to
+<code>&lt;from&gt;-&lt;to&gt;</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>delimiter</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string delimiter.</p>
+</td></tr>
+<tr valign="top"><td><code>collapse</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string used to collapse subsequences.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../R.utils/help/seqToIntervals.html">seqToIntervals</a></code>() is used.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  print(seqToHumanReadable(1:2))                 # "1, 2"
+  print(seqToHumanReadable(1:2, tau=1))          # "1-2"
+  print(seqToHumanReadable(1:10))                # "1-10"
+  print(seqToHumanReadable(c(1:10, 15:18, 20)))  # "1-10, 15-18, 20"
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

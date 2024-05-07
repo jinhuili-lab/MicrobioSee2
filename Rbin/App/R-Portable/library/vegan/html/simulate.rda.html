@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate Responses with Gaussian Error or Permuted Residuals...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simulate.rda {vegan}"><tr><td>simulate.rda {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Simulate Responses with Gaussian Error or Permuted Residuals for Constrained Ordination </h2>
+
+<h3>Description</h3>
+
+<p> Function simulates a response data frame so that it adds
+Gaussian error to the fitted responses of Redundancy Analysis
+(<code><a href="../../vegan/help/rda.html">rda</a></code>), Constrained Correspondence Analysis
+(<code><a href="../../vegan/help/cca.html">cca</a></code>) or distance-based RDA (<code><a href="../../vegan/help/capscale.html">capscale</a></code>).
+The function is a special case of generic <code><a href="../../stats/html/simulate.html">simulate</a></code>, and
+works similarly as <code>simulate.lm</code>.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'rda'
+simulate(object, nsim = 1, seed = NULL, indx = NULL,
+    rank = "full", correlated = FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>an object representing a fitted <code><a href="../../vegan/help/rda.html">rda</a></code>,
+<code><a href="../../vegan/help/cca.html">cca</a></code> or <code><a href="../../vegan/help/capscale.html">capscale</a></code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>nsim</code></td>
+<td>
+<p>number of response matrices to be simulated. Only one
+dissimilarity matrix is returned for <code><a href="../../vegan/help/capscale.html">capscale</a></code>, and
+larger <code>nsim</code> is an error.</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>an object specifying if and how the random number
+generator should be initialized (&lsquo;seeded&rsquo;). See 
+<code><a href="../../stats/html/simulate.html">simulate</a></code> for details. </p>
+</td></tr>
+<tr valign="top"><td><code>indx</code></td>
+<td>
+<p>Index of residuals added to the fitted values, such as
+produced by <code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> or
+<code><a href="../../base/html/sample.html">sample</a></code>.  The index can have duplicate entries so
+that bootstrapping is allowed. If <code>nsim</code> <i>&gt;1</i>, the output
+should be compliant with <code><a href="../../permute/help/shuffleSet.html">shuffleSet</a></code> with
+one line for each simulation.  If <code>nsim</code> is missing, the
+number of rows of <code>indx</code> is used to define the number of
+simulations, but if <code>nsim</code> is given, it should match number
+of rows in <code>indx</code>. If null, parametric simulation is used and
+Gaussian error is added to the fitted values.</p>
+</td></tr>
+<tr valign="top"><td><code>rank</code></td>
+<td>
+<p>The rank of the constrained component: passed to
+<code><a href="../../vegan/help/predict.rda.html">predict.rda</a></code> or <code><a href="../../vegan/help/predict.cca.html">predict.cca</a></code>. </p>
+</td></tr>
+<tr valign="top"><td><code>correlated</code></td>
+<td>
+<p>Are species regarded as correlated in parametric
+simulation or when <code>indx</code> is not given? If
+<code>correlated = TRUE</code>, multivariate Gaussian random error is
+generated, and if <code>FALSE</code>, Gaussian random error is generated
+separately for each species. The argument has no effect in
+<code><a href="../../vegan/help/capscale.html">capscale</a></code> which has no information on species.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional optional arguments (ignored). </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p> The implementation follows <code>"lm"</code> method of
+<code><a href="../../stats/html/simulate.html">simulate</a></code>, and adds Gaussian (Normal) error to the fitted
+values (<code><a href="../../vegan/help/fitted.rda.html">fitted.rda</a></code>) using function <code><a href="../../stats/html/Normal.html">rnorm</a></code>
+if <code>correlated = FALSE</code> or <code><a href="../../MASS/help/mvrnorm.html">mvrnorm</a></code> if
+<code>correlated = TRUE</code>. The standard deviations (<code><a href="../../stats/html/Normal.html">rnorm</a></code>)
+or covariance matrices for species (<code><a href="../../MASS/help/mvrnorm.html">mvrnorm</a></code>) are
+estimated from the residuals after fitting the constraints.
+Alternatively, the function can take a permutation index that is used
+to add permuted residuals (unconstrained component) to the fitted
+values. Raw data are used in <code><a href="../../vegan/help/rda.html">rda</a></code>. Internal Chi-square
+transformed data are used in <code><a href="../../vegan/help/cca.html">cca</a></code> within the function,
+but the returned matrix is similar to the original input data. The
+simulation is performed on internal metric scaling data in
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>, but the function returns the Euclidean
+distances calculated from the simulated data.  The simulation uses
+only the real components, and the imaginary dimensions are ignored.  </p>
+
+
+<h3>Value</h3>
+
+<p> If <code>nsim = 1</code>, returns a matrix or dissimilarities (in
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>) with similar additional arguments on random
+number seed as <code><a href="../../stats/html/simulate.html">simulate</a></code>. If <code>nsim &gt; 1</code>, returns a
+similar array as returned by <code><a href="../../vegan/help/simulate.nullmodel.html">simulate.nullmodel</a></code> with
+similar attributes.  </p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../stats/html/simulate.html">simulate</a></code> for the generic case and for
+<code><a href="../../stats/html/lm.html">lm</a></code> objects, and <code><a href="../../vegan/help/simulate.nullmodel.html">simulate.nullmodel</a></code> for
+community null model simulation. Functions <code><a href="../../vegan/help/fitted.rda.html">fitted.rda</a></code>
+and <code><a href="../../vegan/help/fitted.cca.html">fitted.cca</a></code> return fitted values without the error
+component. See <code><a href="../../stats/html/Normal.html">rnorm</a></code> and <code><a href="../../MASS/help/mvrnorm.html">mvrnorm</a></code>
+(<span class="pkg">MASS</span> package) for simulating Gaussian random error. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(dune)
+data(dune.env)
+mod &lt;- rda(dune ~  Moisture + Management, dune.env)
+## One simulation
+update(mod, simulate(mod) ~  .)
+## An impression of confidence regions of site scores
+plot(mod, display="sites")
+for (i in 1:5) lines(procrustes(mod, update(mod, simulate(mod) ~ .)), col="blue")
+## Simulate a set of null communities with permutation of residuals
+simulate(mod, indx = shuffleSet(nrow(dune), 99))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

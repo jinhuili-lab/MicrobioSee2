@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Retrieves the name of the user running R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for System$getUsername {R.utils}"><tr><td>System$getUsername {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Retrieves the name of the user running R</h2>
+
+<h3>Description</h3>
+
+<p>Retrieves the name of the user running R.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## System$getUsername(...)
+
+## Don't use the below:
+## S3 method for class 'System'
+getUsername(static, ...)
+</pre>
+
+
+<h3>Details</h3>
+
+<p>First, this function checks the system environment variables <code>USER</code>,
+and <code>USERNAME</code>.
+Second, it checks <code>Sys.info()["user"]</code> for user name details.
+Finally, it tries to query the system command <code>whoami</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/getHostname.System.html">*getHostname</a>()</code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

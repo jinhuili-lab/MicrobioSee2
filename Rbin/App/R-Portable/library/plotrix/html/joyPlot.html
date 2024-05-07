@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a series of density curves.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for joyPlot {plotrix}"><tr><td>joyPlot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a series of density curves.</h2>
+
+<h3>Description</h3>
+
+<p><span class="samp">joyPlot</span> displays a matrix of density curves or other two
+component lists whose names are <span class="samp">x</span> and <span class="samp">y</span>. The labels for 
+each line/polygon are displayed on the left axis of the plot. 
+The labels default to the names of the components of <span class="samp">x</span> if these 
+are present.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ joyPlot(x,mar=c(5,4,4,2),newrange=c(0,1),border=NA,fill=NULL,
+ main="",xlab="",ylab="",xlim=NA,line_labels=names(x),xat=NULL,
+ xaxlab=NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A list of density curves or other objects with x and y values.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>Margins for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>newrange</code></td>
+<td>
+<p>Passed to <span class="samp">rescale</span> to scale the values to fit the
+bands on the plot. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The border colors for the polygons.</p>
+</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+<p>Optional fill colors for the polygons.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Text for the title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>The x and y axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>Optional limit for the x axis as <span class="samp">density</span> returns
+values outside the range of the values in <span class="samp">x</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>line_labels</code></td>
+<td>
+<p>Labels for the lines/polygons dieplayed.</p>
+</td></tr>
+<tr valign="top"><td><code>xat</code></td>
+<td>
+<p>Optional custom x tick positions.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxlab</code></td>
+<td>
+<p>Optional custom x tick labels.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The density curves or other x/y lists will be scaled so that the largest
+will fit into the one user unit band allocated for each curve by default.
+If the second value of <span class="samp">newrange</span> is changed, the heights of the 
+curves will change proportionately. See the third exampls.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/plot.default.html">plot</a>, <a href="../../plotrix/help/stackpoly.html">stackpoly</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x1&lt;-c(sample(20:50,20),sample(40:80,30))
+ x2&lt;-c(sample(10:40,30),sample(50:90,30))
+ x3&lt;-sample(20:90,50)
+ xdens1&lt;-density(x1)
+ xdens2&lt;-density(x2)
+ xdens3&lt;-density(x3)
+ joyPlot(list(xdens1,xdens2,xdens3),main="joyPlot with lines",
+  xlab="Position",xlim=c(0,100))
+ xlist&lt;-list(first=xdens1,second=xdens2,third=xdens3)
+ joyPlot(xlist,main="joyPlot with polygons",xlab="Position",
+  fill=c("#ffcccc","#ccffcc","#ccccff"),xlim=c(0,100))
+ joyPlot(xlist,main="joyPlot with overlapping polygons",
+  fill=c("#ffcccc","#ccffcc","#ccccff"),xlim=c(0,100),
+  newrange=c(0,1.5),xlab="Position")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

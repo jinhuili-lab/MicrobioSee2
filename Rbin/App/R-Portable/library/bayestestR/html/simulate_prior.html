@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Returns Priors of a Model as Empirical Distributions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for simulate_prior {bayestestR}"><tr><td>simulate_prior {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Returns Priors of a Model as Empirical Distributions</h2>
+
+<h3>Description</h3>
+
+<p>Transforms priors information to actual distributions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simulate_prior(model, n = 1000, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A <code>stanreg</code>, <code>stanfit</code>, <code>brmsfit</code>, <code>blavaan</code>, or <code>MCMCglmm</code> object.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Size of the simulated prior distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../bayestestR/help/unupdate.html">unupdate()</a></code> for directly sampling from the prior
+distribution (useful for complex priors and designs).
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+library(bayestestR)
+if (require("rstanarm")) {
+  model &lt;- suppressWarnings(
+    stan_glm(mpg ~ wt + am, data = mtcars, chains = 1, refresh = 0)
+  )
+  simulate_prior(model)
+}
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

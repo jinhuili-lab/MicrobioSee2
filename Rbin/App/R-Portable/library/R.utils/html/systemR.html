@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Launches another R process from within R</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for systemR {R.utils}"><tr><td>systemR {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Launches another R process from within R</h2>
+
+<h3>Description</h3>
+
+<p>Launches another R process from within R via <code><a href="../../base/help/system.html">system</a></code>() by automatically locating the
+R executable, cf [1].
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+systemR(command="", ..., Rcommand="R", verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>command</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string be appended to the <code><a href="../../base/help/system.html">system</a></code>()
+call.  If a <code><a href="../../base/help/vector.html">vector</a></code>, then the strings are concatenated separated
+with a space.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../base/help/system.html">system</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>Rcommand</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying the basename of
+the R executable.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or a <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code> object.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns what <code><a href="../../base/help/system.html">system</a></code>() returns.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] R-devel thread 'Best way to locate R executable from within R?',
+May 22, 2012.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>The R executable is located using <code><a href="../../base/help/R.home.html">R.home</a></code>(), which
+is then launched using <code><a href="../../base/help/system.html">system</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+res &lt;- systemR(paste("--slave -e", shQuote("cat(runif(1))")), intern=TRUE)
+cat("A random number: ", res, "\n", sep="")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

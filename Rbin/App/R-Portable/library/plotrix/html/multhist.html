@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot a multiple histogram, as a barplot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for multhist {plotrix}"><tr><td>multhist {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot a multiple histogram, as a barplot</h2>
+
+<h3>Description</h3>
+
+<p>Given a list, plots a side-by-side barplot containing the histograms
+of the elements
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ multhist(x,beside=TRUE,freq=NULL,probability=!freq,plot.it=TRUE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a list of numeric vectors</p>
+</td></tr>
+<tr valign="top"><td><code>beside</code></td>
+<td>
+<p>plot histogram bars for groups side-by-side?</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>logical; if 'TRUE', the histogram graphic is a representation
+of frequencies, the 'counts' component of the result; if
+'FALSE', probability densities, component 'density', are
+plotted (so that the histogram has a total area of one).
+Defaults to 'TRUE' if 'probability' is not specified
+(does not consider equidistant breaks as in <a href="../../graphics/html/hist.html">hist</a>)</p>
+</td></tr>
+<tr valign="top"><td><code>probability</code></td>
+<td>
+<p>an alias for '!freq', for S compatibility</p>
+</td></tr>
+<tr valign="top"><td><code>plot.it</code></td>
+<td>
+<p>Whether or not to display the histogram.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments to <a href="../../graphics/html/hist.html">hist</a> or <a href="../../graphics/html/barplot.html">barplot</a></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list including the return value for the first call to <span class="samp">hist</span> (itself a list)
+and the values for the bar heights.
+</p>
+
+
+<h3>Note</h3>
+
+<p>The 'inside' argument to <a href="../../graphics/html/barplot.html">barplot</a> (which is not currently
+implemented in barplot anyway) is deleted from the argument list. The
+default value of NULL for <span class="samp">freq</span> is for consistency with <span class="samp">hist</span>
+but is equivalent to TRUE.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/hist.html">hist</a>,<a href="../../graphics/html/barplot.html">barplot</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ set.seed(1234)
+ l &lt;- list(runif(10)*10,1:10,c(1,1,1,1,4,8))
+ multhist(l)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

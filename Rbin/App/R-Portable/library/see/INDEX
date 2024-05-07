@@ -1,0 +1,106 @@
+add_plot_attributes     Complete figure with its attributes
+bluebrown_colors        Extract blue-brown colors as hex codes
+coord_radar             Radar coordinate system
+data_plot               Prepare objects for plotting or plot objects
+flat_colors             Extract Flat UI colors as hex codes
+geom_binomdensity       Add dot-densities for binary 'y' variables
+geom_from_list          Create ggplot2 geom(s) from a list
+geom_point2             Better looking points
+geom_poolpoint          Pool ball points
+geom_violindot          Half-violin Half-dot plot
+geom_violinhalf         Half-violin plot
+golden_ratio            Golden Ratio
+material_colors         Extract material design colors as hex codes
+metro_colors            Extract Metro colors as hex codes
+palette_bluebrown       Blue-brown design color palette
+palette_flat            Flat UI color palette
+palette_material        Material design color palette
+palette_metro           Metro color palette
+palette_pizza           Pizza color palette
+palette_see             See design color palette
+palette_social          Social color palette
+pizza_colors            Extract pizza colors as hex codes
+plot.see_bayesfactor_models
+                        Plot method for Bayes Factors for model
+                        comparison
+plot.see_bayesfactor_parameters
+                        Plot method for Bayes Factors for a single
+                        parameter
+plot.see_check_collinearity
+                        Plot method for multicollinearity checks
+plot.see_check_distribution
+                        Plot method for classifying the distribution of
+                        a model-family
+plot.see_check_heteroscedasticity
+                        Plot method for (non-)constant error variance
+                        checks
+plot.see_check_homogeneity
+                        Plot method for homogeneity of variances checks
+plot.see_check_normality
+                        Plot method for check model for (non-)normality
+                        of residuals
+plot.see_check_outliers
+                        Plot method for checking outliers
+plot.see_cluster_analysis
+                        Plot method for computing cluster analysis
+plot.see_compare_parameters
+                        Plot method for comparison of model parameters
+plot.see_compare_performance
+                        Plot method for comparing model performances
+plot.see_easycormatrix
+                        Plot method for correlation matrices
+plot.see_easycorrelation
+                        Plot method for Gaussian Graphical Models
+plot.see_effectsize_table
+                        Plot method for effect size tables
+plot.see_equivalence_test_effectsize
+                        Plot method for (conditional) equivalence
+                        testing
+plot.see_estimate_contrasts
+                        Plot method for estimating contrasts
+plot.see_estimate_density
+                        Plot method for density estimation of posterior
+                        samples
+plot.see_hdi            Plot method for uncertainty or credible
+                        intervals
+plot.see_n_factors      Plot method for numbers of clusters to extract
+                        or factors to retain
+plot.see_p_direction    Plot method for probability of direction
+plot.see_p_significance
+                        Plot method for practical significance
+plot.see_parameters_brms_meta
+                        Plot method for Model Parameters from Bayesian
+                        Meta-Analysis
+plot.see_parameters_distribution
+                        Plot method for describing distributions of
+                        vectors
+plot.see_parameters_model
+                        Plot method for model parameters
+plot.see_parameters_pca
+                        Plot method for principal component analysis
+plot.see_parameters_simulate
+                        Plot method for simulated model parameters
+plot.see_performance_roc
+                        Plot method for ROC curves
+plot.see_point_estimate
+                        Plot method for point estimates of posterior
+                        samples
+plot.see_rope           Plot method for Region of Practical Equivalence
+plot.see_si             Plot method for support intervals
+plots                   Multiple plots side by side
+print.see_performance_pp_check
+                        Plot method for posterior predictive checks
+scale_color_bluebrown   Blue-brown color palette
+scale_color_flat        Flat UI color palette
+scale_color_material    Material design color palette
+scale_color_metro       Metro color palette
+scale_color_pizza       Pizza color palette
+scale_color_see         See color palette
+scale_color_social      Social color palette
+see_colors              Extract See colors as hex codes
+social_colors           Extract Social colors as hex codes
+theme_abyss             Abyss theme
+theme_blackboard        Blackboard dark theme
+theme_lucid             Lucid theme
+theme_modern            The easystats' minimal theme
+theme_radar             Themes for radar plots

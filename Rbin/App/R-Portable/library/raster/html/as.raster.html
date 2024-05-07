@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Coerce to a 'raster' object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for as.raster {raster}"><tr><td>as.raster {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Coerce to a 'raster' object</h2>
+
+<h3>Description</h3>
+
+<p>Implementation of the generic <code><a href="../../grDevices/help/as.raster.html">as.raster</a></code> function to create a 'raster' (small r) object. NOT TO BE CONFUSED with the Raster* (big R) objects defined by the raster package! Such objects can be used for plotting with the <code><a href="../../graphics/help/rasterImage.html">rasterImage</a></code> function. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+as.raster(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p> RasterLayer object </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Additional arguments. 
+</p>
+<p><code>maxpixels</code> Integer. To regularly subsample very large objects 
+</p>
+<p><code>col</code> Vector of colors. Default is col=rev(terrain.colors(255)))
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>'raster' object
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=3, nrow=3)
+values(r) &lt;- 1:ncell(r)
+as.raster(r)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

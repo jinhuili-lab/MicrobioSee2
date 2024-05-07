@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Get Standardization Information</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for standardize_info {parameters}"><tr><td>standardize_info {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Get Standardization Information</h2>
+
+<h3>Description</h3>
+
+<p>This function extracts information, such as the deviations (SD or MAD) from
+parent variables, that are necessary for post-hoc standardization of
+parameters. This function gives a window on how standardized are obtained,
+i.e., by what they are divided. The &quot;basic&quot; method of standardization uses.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+standardize_info(model, ...)
+
+## Default S3 method:
+standardize_info(
+  model,
+  robust = FALSE,
+  two_sd = FALSE,
+  include_pseudo = FALSE,
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>robust</code></td>
+<td>
+<p>Logical, if <code>TRUE</code>, centering is done by subtracting the
+median from the variables and dividing it by the median absolute deviation
+(MAD). If <code>FALSE</code>, variables are standardized by subtracting the
+mean and dividing it by the standard deviation (SD).</p>
+</td></tr>
+<tr valign="top"><td><code>two_sd</code></td>
+<td>
+<p>If <code>TRUE</code>, the variables are scaled by two times the deviation
+(SD or MAD depending on <code>robust</code>). This method can be useful to obtain
+model coefficients of continuous parameters comparable to coefficients
+related to binary predictors, when applied to <strong>the predictors</strong> (not the
+outcome) (Gelman, 2008).</p>
+</td></tr>
+<tr valign="top"><td><code>include_pseudo</code></td>
+<td>
+<p>(For (G)LMMs) Should Pseudo-standardized information be
+included?</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with information on each parameter (see
+<code><a href="../../parameters/help/parameters_type.html">parameters_type()</a></code>), and various standardization coefficients
+for the post-hoc methods (see <code><a href="../../parameters/help/standardize_parameters.html">standardize_parameters()</a></code>) for the predictor
+and the response.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other standardize: 
+<code><a href="../../parameters/help/standardize_parameters.html">standardize_parameters</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+model &lt;- lm(mpg ~ ., data = mtcars)
+standardize_info(model)
+standardize_info(model, robust = TRUE)
+standardize_info(model, two_sd = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

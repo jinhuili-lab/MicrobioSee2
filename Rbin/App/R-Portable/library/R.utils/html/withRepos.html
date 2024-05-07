@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression with repositories set temporarily</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withRepos {R.utils}"><tr><td>withRepos {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression with repositories set temporarily</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression with repositories set temporarily.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withRepos(expr, repos="[[mainstream]]", ..., substitute=TRUE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>repos</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of repositories to use.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <code><a href="../../R.utils/help/useRepos.html">useRepos</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression.
+See also <code><a href="../../base/help/options.html">options</a></code>() and <code><a href="../../utils/help/install.packages.html">install.packages</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+  # Install from BioC related repositories only
+  withRepos(install.packages("edgeR"), repos="[[BioC]]")
+
+  # Install from CRAN or BioC related repositories only
+  withRepos(install.packages("edgeR"), repos=c("CRAN", "[[BioC]]"))
+
+  # Install from mainstream repositories only (same as previous)
+  withRepos(install.packages("edgeR"), repos="[[mainstream]]")
+
+  # Install from R-Forge and mainstream repositories only
+  withRepos(install.packages("R.utils"), repos="[[R-Forge]]")
+
+  # Update only CRAN packages
+  withRepos(update.packages(ask=FALSE), repos="[[CRAN]]")
+
+  # Update only Bioconductor packages
+  withRepos(update.packages(ask=FALSE), repos="[[BioC]]")
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

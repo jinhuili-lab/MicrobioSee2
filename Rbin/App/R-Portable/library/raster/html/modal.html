@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: modal value</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for modal {raster}"><tr><td>modal {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>modal value</h2>
+
+<h3>Description</h3>
+
+<p>Compute the mode for a vector of numbers, or across raster layers. The mode, or modal value, is the most frequent value in a set of values. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'ANY'
+modal(x, ..., ties='random', na.rm=FALSE, freq=FALSE)
+
+## S4 method for signature 'Raster'
+modal(x, ..., ties='random', na.rm=FALSE, freq=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>vector of numbers (typically integers), characters, logicals, or factors, or a Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional argument of the same type as <code>x</code></p>
+</td></tr>
+<tr valign="top"><td><code>ties</code></td>
+<td>
+<p>character. Indicates how to treat ties. Either 'random', 'lowest', 'highest', 'first', or 'NA'</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, <code>NA</code> values are ignored. If <code>FALSE</code>, <code>NA</code> is returned if <code>x</code> has any <code>NA</code> values</p>
+</td></tr>
+<tr valign="top"><td><code>freq</code></td>
+<td>
+<p>return the frequency of the modal value, instead of the modal value</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>vector or RasterLayer. The vector has length 1 and is of the same type as <code>x</code>, except when <code>x</code> is a factor and additional arguments (values) are supplied, in which case the values are coerced to characters and a character value is returned.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data &lt;- c(0,1,2,3,3,3,3,4,4,4,5,5,6,7,7,8,9,NA)
+modal(data, na.rm=TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

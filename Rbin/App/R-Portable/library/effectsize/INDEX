@@ -1,0 +1,79 @@
+F_to_eta2               Convert _F_ and _t_ Statistics to
+                        *partial*-eta^2 and Other ANOVA Effect Sizes
+Music_preferences       Music Preference by College Major
+Music_preferences2      Music Preference by College Major
+RCT_table               Fictional Results from a Workers' Randomized
+                        Control Trial
+Smoking_FASD            Frequency of FASD for Smoking Mothers
+chisq_to_phi            Convert chi^2 to phi and Other Correlation-like
+                        Effect Sizes
+cohens_d                Cohen's _d_ and Other Standardized Differences
+cohens_g                Effect Size for Paired Contingency Tables
+d_to_r                  Convert Between _d_, _r_, and Odds Ratio
+diff_to_cles            Convert Standardized Differences to Common
+                        Language Effect Sizes
+effectsize.BFBayesFactor
+                        Effect Sizes
+effectsize_API          'effectsize' API
+effectsize_CIs          Confidence (Compatibility) Intervals
+effectsize_deprecated   Deprecated / Defunct Functions
+effectsize_options      'effectsize' options
+equivalence_test.effectsize_table
+                        Test Effect Size for Practical Equivalence to
+                        the Null
+eta2_to_f2              Convert Between ANOVA Effect Sizes
+eta_squared             eta^2 and Other Effect Size for ANOVA
+food_class              Classification of Foods
+format_standardize      Format a Standardized Vector
+hardlyworking           Workers' Salary and Other Information
+interpret               Generic Function for Interpretation
+interpret_bf            Interpret Bayes Factor (BF)
+interpret_cohens_d      Interpret Standardized Differences
+interpret_cohens_g      Interpret Cohen's _g_
+interpret_direction     Interpret Direction
+interpret_ess           Interpret Bayesian Diagnostic Indices
+interpret_gfi           Interpret of CFA / SEM Indices of Goodness of
+                        Fit
+interpret_icc           Interpret Intraclass Correlation Coefficient
+                        (ICC)
+interpret_kendalls_w    Interpret Kendall's Coefficient of Concordance
+                        _W_
+interpret_oddsratio     Interpret Odds Ratio
+interpret_omega_squared
+                        Interpret ANOVA Effect Sizes
+interpret_p             Interpret _p_-Values
+interpret_pd            Interpret Probability of Direction (pd)
+interpret_r             Interpret Correlation Coefficient
+interpret_r2            Interpret Coefficient of Determination (R^2)
+interpret_rope          Interpret Bayesian Posterior Percentage in
+                        ROPE.
+interpret_vif           Interpret the Variance Inflation Factor (VIF)
+is_effectsize_name      Checks for a Valid Effect Size Name
+mahalanobis_d           Mahalanobis' _D_ (a multivariate Cohen's _d_)
+means_ratio             Ratio of Means
+odds_to_probs           Convert Between Odds and Probabilities
+oddsratio               Odds Ratios, Risk Ratios and Other Effect Sizes
+                        for 2-by-2 Contingency Tables
+oddsratio_to_riskratio
+                        Convert Between Odds Ratios, Risk Ratios and
+                        Other Metrics of Change in Probabilities
+p_superiority           Cohen's _U_s and Other Common Language Effect
+                        Sizes (CLES)
+phi                     phi and Other Contingency Tables Correlations
+plot.effectsize_table   Methods for '{effectsize}' Tables
+r2_semipartial          Semi-Partial (Part) Correlation Squared (Delta
+                        R^2)
+rank_biserial           Dominance Effect Sizes for Rank Based
+                        Differences
+rank_epsilon_squared    Effect Size for Rank Based ANOVA
+repeated_measures_d     Standardized Mean Differences for Repeated
+                        Measures
+rouder2016              Jeff Rouder's Example Dataset for Repeated
+                        Measures
+rules                   Create an Interpretation Grid
+screening_test          Results from 2 Screening Tests
+sd_pooled               Pooled Indices of (Co)Deviation
+t_to_d                  Convert _t_, _z_, and _F_ to Cohen's _d_ or
+                        *partial*-_r_
+w_to_fei                Convert Between Effect Sizes for Contingency
+                        Tables Correlations

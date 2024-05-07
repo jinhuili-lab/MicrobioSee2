@@ -1,0 +1,21 @@
+cor_lower               Return the upper or lower triangular part
+cor_smooth              Smooth a non-positive definite correlation
+                        matrix to make it positive definite
+cor_sort                Sort a correlation matrix to improve
+                        readability of groups and clusters
+cor_test                Correlation test
+cor_text                Correlation text
+cor_to_ci               Convert correlation to p-values and CIs
+cor_to_cov              Convert a correlation to covariance
+cor_to_pcor             Correlation Matrix to (Semi) Partial
+                        Correlations
+correlation             Correlation Analysis
+correlation-deprecated
+                        Deprecated functions
+display.easycormatrix   Export tables into different output formats
+is.cor                  Check if matrix ressembles a correlation matrix
+isSquare                Check if Square Matrix
+matrix_inverse          Matrix Inversion
+visualisation_recipe.easycor_test
+                        Visualisation Recipe for 'correlation' Objects
+z_fisher                Fisher z-transformation

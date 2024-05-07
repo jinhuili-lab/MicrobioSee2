@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merges intervals</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for mergeIntervals.numeric {R.utils}"><tr><td>mergeIntervals.numeric {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Merges intervals</h2>
+
+<h3>Description</h3>
+
+<p>Merges intervals by returning an index <code><a href="../../base/help/vector.html">vector</a></code> specifying the (first)
+interval that each value maps to, if any.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'numeric'
+mergeIntervals(intervals, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>intervals</code></td>
+<td>
+<p>The N intervals to be merged.
+If an Nx2 <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/matrix.html">matrix</a></code>, the first column should be the lower
+bounds and the second column the upper bounds of each interval.
+If a <code><a href="../../base/help/numeric.html">numeric</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of length 2N, each consecutive pair should
+be the lower and upper bounds of an interval.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The upper and lower bounds are considered to be inclusive, that is,
+all intervals are interpreted to be of form [a,b].
+There is currently no way to specify intervals with open bounds,
+e.g. (a,b].
+</p>
+<p>Furthermore, the bounds are currently treated as real values.
+For instance, merging [0,1] and [2,3] will return the same intervals.
+Note, if integer intervals were treated specially, we would merge
+these intervals to integer interval [0,3] == {0,1,2,3}.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/matrix.html">matrix</a></code> (or a <code><a href="../../base/help/vector.html">vector</a></code>) of M intervals, where M &lt;= N.
+The intervals are ordered by their lower bounds.
+The @mode of the returned intervals is the same as the mode of
+the input intervals.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/inAnyInterval.html">inAnyInterval</a></code>().
+<code><a href="../../base/help/match.html">match</a></code>().
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

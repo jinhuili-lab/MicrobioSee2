@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: McKelvey &amp; Zavoinas R2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_mckelvey {performance}"><tr><td>r2_mckelvey {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>McKelvey &amp; Zavoinas R2</h2>
+
+<h3>Description</h3>
+
+<p>Calculates McKelvey and Zavoinas pseudo R2.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_mckelvey(model)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Generalized linear model.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>McKelvey and Zavoinas R2 is based on the explained variance,
+where the variance of the predicted response is divided by the sum
+of the variance of the predicted response and residual variance.
+For binomial models, the residual variance is either <code>pi^2/3</code>
+for logit-link and 1 for probit-link. For poisson-models, the
+residual variance is based on log-normal approximation, similar to
+the <em>distribution-specific variance</em> as described in
+<code>?insight::get_variance</code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The R2 value.
+</p>
+
+
+<h3>References</h3>
+
+<p>McKelvey, R., Zavoina, W. (1975), &quot;A Statistical Model for the Analysis of
+Ordinal Level Dependent Variables&quot;, Journal of Mathematical Sociology 4, S.
+103–120.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Dobson (1990) Page 93: Randomized Controlled Trial:
+counts &lt;- c(18, 17, 15, 20, 10, 20, 25, 13, 12) #
+outcome &lt;- gl(3, 1, 9)
+treatment &lt;- gl(3, 3)
+model &lt;- glm(counts ~ outcome + treatment, family = poisson())
+
+r2_mckelvey(model)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

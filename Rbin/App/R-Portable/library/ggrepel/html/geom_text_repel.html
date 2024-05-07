@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Repulsive textual annotations.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for geom_label_repel {ggrepel}"><tr><td>geom_label_repel {ggrepel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Repulsive textual annotations.</h2>
+
+<h3>Description</h3>
+
+<p><code>geom_text_repel</code> adds text directly to the plot.
+<code>geom_label_repel</code> draws a rectangle underneath the text, making it
+easier to read. The text labels repel away from each other and away from
+the data points.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geom_label_repel(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  parse = FALSE,
+  ...,
+  box.padding = 0.25,
+  label.padding = 0.25,
+  point.padding = 1e-06,
+  label.r = 0.15,
+  label.size = 0.25,
+  min.segment.length = 0.5,
+  arrow = NULL,
+  force = 1,
+  force_pull = 1,
+  max.time = 0.5,
+  max.iter = 10000,
+  max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
+  nudge_x = 0,
+  nudge_y = 0,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  na.rm = FALSE,
+  show.legend = NA,
+  direction = c("both", "y", "x"),
+  seed = NA,
+  verbose = FALSE,
+  inherit.aes = TRUE
+)
+
+geom_text_repel(
+  mapping = NULL,
+  data = NULL,
+  stat = "identity",
+  position = "identity",
+  parse = FALSE,
+  ...,
+  box.padding = 0.25,
+  point.padding = 1e-06,
+  min.segment.length = 0.5,
+  arrow = NULL,
+  force = 1,
+  force_pull = 1,
+  max.time = 0.5,
+  max.iter = 10000,
+  max.overlaps = getOption("ggrepel.max.overlaps", default = 10),
+  nudge_x = 0,
+  nudge_y = 0,
+  xlim = c(NA, NA),
+  ylim = c(NA, NA),
+  na.rm = FALSE,
+  show.legend = NA,
+  direction = c("both", "y", "x"),
+  seed = NA,
+  verbose = FALSE,
+  inherit.aes = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mapping</code></td>
+<td>
+<p>Set of aesthetic mappings created by <code><a href="../../ggplot2/help/aes.html">aes</a></code> or
+<code><a href="../../ggplot2/help/aes_.html">aes_</a></code>. If specified and <code>inherit.aes = TRUE</code> (the
+default), is combined with the default mapping at the top level of the
+plot. You only need to supply <code>mapping</code> if there isn't a mapping
+defined for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame. If specified, overrides the default data frame
+defined at the top level of the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>stat</code></td>
+<td>
+<p>The statistical transformation to use on the data for this
+layer, as a string.</p>
+</td></tr>
+<tr valign="top"><td><code>position</code></td>
+<td>
+<p>Position adjustment, either as a string, or the result of
+a call to a position adjustment function.</p>
+</td></tr>
+<tr valign="top"><td><code>parse</code></td>
+<td>
+<p>If TRUE, the labels will be parsed into expressions and
+displayed as described in ?plotmath</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other arguments passed on to <code><a href="../../ggplot2/help/layer.html">layer</a></code>. There are
+three types of arguments you can use here:
+</p>
+
+<ul>
+<li><p> Aesthetics: to set an aesthetic to a fixed value, like
+<code>colour = "red"</code> or <code>size = 3</code>.
+</p>
+</li>
+<li><p> Other arguments to the layer, for example you override the
+default <code>stat</code> associated with the layer.
+</p>
+</li>
+<li><p> Other arguments passed on to the stat.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>box.padding</code></td>
+<td>
+<p>Amount of padding around bounding box, as unit or number.
+Defaults to 0.25. (Default unit is lines, but other units can be specified
+by passing <code>unit(x, "units")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>label.padding</code></td>
+<td>
+<p>Amount of padding around label, as unit or number.
+Defaults to 0.25. (Default unit is lines, but other units can be specified
+by passing <code>unit(x, "units")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>point.padding</code></td>
+<td>
+<p>Amount of padding around labeled point, as unit or
+number. Defaults to 0. (Default unit is lines, but other units can be
+specified by passing <code>unit(x, "units")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>label.r</code></td>
+<td>
+<p>Radius of rounded corners, as unit or number. Defaults
+to 0.15. (Default unit is lines, but other units can be specified by
+passing <code>unit(x, "units")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>label.size</code></td>
+<td>
+<p>Size of label border, in mm.</p>
+</td></tr>
+<tr valign="top"><td><code>min.segment.length</code></td>
+<td>
+<p>Skip drawing segments shorter than this, as unit or
+number. Defaults to 0.5. (Default unit is lines, but other units can be
+specified by passing <code>unit(x, "units")</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>arrow</code></td>
+<td>
+<p>specification for arrow heads, as created by <code><a href="../../grid/help/arrow.html">arrow</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>force</code></td>
+<td>
+<p>Force of repulsion between overlapping text labels. Defaults
+to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>force_pull</code></td>
+<td>
+<p>Force of attraction between a text label and its
+corresponding data point. Defaults to 1.</p>
+</td></tr>
+<tr valign="top"><td><code>max.time</code></td>
+<td>
+<p>Maximum number of seconds to try to resolve overlaps.
+Defaults to 0.5.</p>
+</td></tr>
+<tr valign="top"><td><code>max.iter</code></td>
+<td>
+<p>Maximum number of iterations to try to resolve overlaps.
+Defaults to 10000.</p>
+</td></tr>
+<tr valign="top"><td><code>max.overlaps</code></td>
+<td>
+<p>Exclude text labels that overlap too many things.
+Defaults to 10.</p>
+</td></tr>
+<tr valign="top"><td><code>nudge_x, nudge_y</code></td>
+<td>
+<p>Horizontal and vertical adjustments to nudge the
+starting position of each text label. The units for <code>nudge_x</code> and
+<code>nudge_y</code> are the same as for the data units on the x-axis and y-axis.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim, ylim</code></td>
+<td>
+<p>Limits for the x and y axes. Text labels will be constrained
+to these limits. By default, text labels are constrained to the entire plot
+area.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>If <code>FALSE</code> (the default), removes missing values with
+a warning.  If <code>TRUE</code> silently removes missing values.</p>
+</td></tr>
+<tr valign="top"><td><code>show.legend</code></td>
+<td>
+<p>logical. Should this layer be included in the legends?
+<code>NA</code>, the default, includes if any aesthetics are mapped.
+<code>FALSE</code> never includes, and <code>TRUE</code> always includes.</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>&quot;both&quot;, &quot;x&quot;, or &quot;y&quot; &ndash; direction in which to adjust position of labels</p>
+</td></tr>
+<tr valign="top"><td><code>seed</code></td>
+<td>
+<p>Random seed passed to <code><a href="../../base/help/set.seed.html">set.seed</a></code>. Defaults to
+<code>NA</code>, which means that <code>set.seed</code> will not be called.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code>TRUE</code>, some diagnostics of the repel algorithm are printed</p>
+</td></tr>
+<tr valign="top"><td><code>inherit.aes</code></td>
+<td>
+<p>If <code>FALSE</code>, overrides the default aesthetics,
+rather than combining with them. This is most useful for helper functions
+that define both data and aesthetics and shouldn't inherit behaviour from
+the default plot specification, e.g. <code><a href="../../ggplot2/help/borders.html">borders</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These geoms are based on <code><a href="../../ggplot2/help/geom_text.html">geom_text</a></code> and
+<code><a href="../../ggplot2/help/geom_label.html">geom_label</a></code>. See the documentation for those
+functions for more details. Differences from those functions are noted
+here.
+</p>
+<p>Text labels have height and width, but they are physical units, not data
+units. The amount of space they occupy on that plot is not constant in data
+units: when you resize a plot, labels stay the same size, but the size of
+the axes changes. The text labels are repositioned after resizing a plot.
+</p>
+
+
+<h3><code>geom_label_repel</code></h3>
+
+<p>Currently <code>geom_label_repel</code> does not support the <code>rot</code> argument
+and is considerably slower than <code>geom_text_repel</code>. The <code>fill</code>
+aesthetic controls the background colour of the label.
+</p>
+
+
+<h3>Alignment with <code>hjust</code> or <code>vjust</code></h3>
+
+<p>The arguments <code>hjust</code> and <code>vjust</code> are supported, but they only
+control the initial positioning, so repulsive forces may disrupt alignment.
+Alignment with <code>hjust</code> will be preserved if labels only move up and down
+by using <code>direction="y"</code>. For <code>vjust</code>, use <code>direction="x"</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+p &lt;- ggplot(mtcars,
+  aes(wt, mpg, label = rownames(mtcars), colour = factor(cyl))) +
+  geom_point()
+
+# Avoid overlaps by repelling text labels
+p + geom_text_repel()
+# Labels with background
+p + geom_label_repel()
+
+## Not run: 
+p + geom_text_repel(family = "Times New Roman",
+  box.padding = 0.5)
+
+# Add aesthetic mappings
+p + geom_text_repel(aes(alpha=wt, size=mpg))
+p + geom_label_repel(aes(fill=factor(cyl)), colour="white", segment.colour="black")
+
+# Draw all line segments
+p + geom_text_repel(min.segment.length = 0)
+
+# Omit short line segments (default behavior)
+p + geom_text_repel(min.segment.length = 0.5)
+
+# Omit all line segments
+p + geom_text_repel(segment.colour = NA)
+
+# Repel just the labels and totally ignore the data points
+p + geom_text_repel(point.size = NA)
+
+# Hide some of the labels, but repel from all data points
+mtcars$label &lt;- rownames(mtcars)
+mtcars$label[1:15] &lt;- ""
+p + geom_text_repel(data = mtcars, aes(wt, mpg, label = label))
+
+# Nudge the starting positions
+p + geom_text_repel(nudge_x = ifelse(mtcars$cyl == 6, 1, 0),
+                    nudge_y = ifelse(mtcars$cyl == 6, 8, 0))
+
+# Change the text size
+p + geom_text_repel(aes(size = wt))
+# Scale height of text, rather than sqrt(height)
+p + geom_text_repel(aes(size = wt)) + scale_radius(range = c(3,6))
+
+# You can display expressions by setting parse = TRUE.  The
+# details of the display are described in ?plotmath, but note that
+# geom_text_repel uses strings, not expressions.
+p + geom_text_repel(aes(label = paste(wt, "^(", cyl, ")", sep = "")),
+  parse = TRUE)
+
+# Add a text annotation
+p +
+  geom_text_repel() +
+  annotate(
+    "text", label = "plot mpg vs. wt",
+    x = 2, y = 15, size = 8, colour = "red"
+  )
+
+# Add arrows
+p +
+  geom_point(colour = "red") +
+  geom_text_repel(
+    arrow = arrow(length = unit(0.02, "npc")),
+    box.padding = 1
+  )
+
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>ggrepel</em> version 0.9.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

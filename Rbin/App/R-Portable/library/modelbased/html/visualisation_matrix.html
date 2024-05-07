@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a reference grid</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for visualisation_matrix {modelbased}"><tr><td>visualisation_matrix {modelbased}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a reference grid</h2>
+
+<h3>Description</h3>
+
+<p>This function is an alias (another name) for the <code><a href="../../insight/help/get_datagrid.html">insight::get_datagrid()</a></code>
+function. Same arguments apply.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+visualisation_matrix(x, ...)
+
+## S3 method for class 'data.frame'
+visualisation_matrix(
+  x,
+  at = "all",
+  target = NULL,
+  factors = "reference",
+  numerics = "mean",
+  preserve_range = FALSE,
+  reference = x,
+  ...
+)
+
+## S3 method for class 'numeric'
+visualisation_matrix(x, ...)
+
+## S3 method for class 'factor'
+visualisation_matrix(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object from which to construct the reference grid.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods (for instance, <code>length</code>
+or <code>range</code> to control the spread of numeric variables.).</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Indicates the <em>focal predictors</em> (variables) for the reference grid
+and at which values focal predictors should be represented. If not specified
+otherwise, representative values for numeric variables or predictors are
+evenly distributed from the minimum to the maximum, with a total number of
+<code>length</code> values covering that range (see 'Examples'). Possible options for
+<code>at</code> are:
+</p>
+
+<ul>
+<li> <p><code>"all"</code>, which will include all variables or predictors.
+</p>
+</li>
+<li><p> a character vector of one or more variable or predictor names, like
+<code>c("Species", "Sepal.Width")</code>, which will create a grid of all combinations
+of unique values. For factors, will use all levels, for numeric variables,
+will use a range of length <code>length</code> (evenly spread from minimum to maximum)
+and for character vectors, will use all unique values.
+</p>
+</li>
+<li><p> a list of named elements, indicating focal predictors and their representative
+values, e.g. <code>at = list(Sepal.Length = c(2, 4), Species = "setosa")</code>.
+</p>
+</li>
+<li><p> a string with assignments, e.g. <code>at = "Sepal.Length = 2"</code> or
+<code>at = c("Sepal.Length = 2", "Species = 'setosa'")</code> - note the usage of single
+and double quotes to assign strings within strings.
+</p>
+</li></ul>
+
+<p>There is a special handling of assignments with <em>brackets</em>, i.e. values
+defined inside <code>[</code> and <code style="white-space: pre;">]</code>.For <strong>numeric</strong> variables, the value(s) inside
+the brackets should either be
+</p>
+
+<ul>
+<li><p> two values, indicating minimum and maximum (e.g. <code>at = "Sepal.Length = [0, 5]"</code>),
+for which a range of length <code>length</code> (evenly spread from given minimum to
+maximum) is created.
+</p>
+</li>
+<li><p> more than two numeric values <code>at = "Sepal.Length = [2,3,4,5]"</code>, in which
+case these values are used as representative values.
+</p>
+</li>
+<li><p> a &quot;token&quot; that creates pre-defined representative values:
+</p>
+
+<ul>
+<li><p> for mean and -/+ 1 SD around the mean: <code>"x = [sd]"</code>
+</p>
+</li>
+<li><p> for median and -/+ 1 MAD around the median: <code>"x = [mad]"</code>
+</p>
+</li>
+<li><p> for Tukey's five number summary (minimum, lower-hinge, median, upper-hinge, maximum): <code>"x = [fivenum]"</code>
+</p>
+</li>
+<li><p> for terciles, including minimum and maximum: <code>"x = [terciles]"</code>
+</p>
+</li>
+<li><p> for terciles, excluding minimum and maximum: <code>"x = [terciles2]"</code>
+</p>
+</li>
+<li><p> for quartiles, including minimum and maximum: <code>"x = [quartiles]"</code>
+</p>
+</li>
+<li><p> for quartiles, excluding minimum and maximum: <code>"x = [quartiles2]"</code>
+</p>
+</li>
+<li><p> for minimum and maximum value: <code>"x = [minmax]"</code>
+</p>
+</li>
+<li><p> for 0 and the maximum value: <code>"x = [zeromax]"</code>
+</p>
+</li></ul>
+
+</li></ul>
+
+<p>For <strong>factor</strong> variables, the value(s) inside the brackets should indicate
+one or more factor levels, like <code>at = "Species = [setosa, versicolor]"</code>.
+<strong>Note</strong>: the <code>length</code> argument will be ignored when using brackets-tokens.
+</p>
+<p>The remaining variables not specified in <code>at</code> will be fixed (see also arguments
+<code>factors</code> and <code>numerics</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>Deprecated name. Please use <code>at</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>factors</code></td>
+<td>
+<p>Type of summary for factors. Can be <code>"reference"</code> (set at the
+reference level), <code>"mode"</code> (set at the most common level) or <code>"all"</code> to
+keep all levels.</p>
+</td></tr>
+<tr valign="top"><td><code>numerics</code></td>
+<td>
+<p>Type of summary for numeric values. Can be <code>"all"</code> (will
+duplicate the grid for all unique values), any function (<code>"mean"</code>,
+<code>"median"</code>, ...) or a value (e.g., <code>numerics = 0</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>preserve_range</code></td>
+<td>
+<p>In the case of combinations between numeric variables
+and factors, setting <code>preserve_range = TRUE</code> will drop the observations
+where the value of the numeric variable is originally not present in the
+range of its factor level. This leads to an unbalanced grid. Also, if you
+want the minimum and the maximum to closely match the actual ranges, you
+should increase the <code>length</code> argument.</p>
+</td></tr>
+<tr valign="top"><td><code>reference</code></td>
+<td>
+<p>The reference vector from which to compute the mean and SD.
+Used when standardizing or unstandardizing the grid using <code>effectsize::standardize</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Reference grid data frame.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(modelbased)
+
+# Add one row to change the "mode" of Species
+data &lt;- rbind(iris, iris[149, ], make.row.names = FALSE)
+
+# Single variable is of interest; all others are "fixed"
+visualisation_matrix(data, at = "Sepal.Length")
+visualisation_matrix(data, at = "Sepal.Length", length = 3)
+visualisation_matrix(data, at = "Sepal.Length", range = "ci", ci = 0.90)
+visualisation_matrix(data, at = "Sepal.Length", factors = "mode")
+
+# Multiple variables are of interest, creating a combination
+visualisation_matrix(data, at = c("Sepal.Length", "Species"), length = 3)
+visualisation_matrix(data, at = c(1, 3), length = 3)
+visualisation_matrix(data, at = c("Sepal.Length", "Species"), preserve_range = TRUE)
+visualisation_matrix(data, at = c("Sepal.Length", "Species"), numerics = 0)
+visualisation_matrix(data, at = c("Sepal.Length = 3", "Species"))
+visualisation_matrix(data, at = c("Sepal.Length = c(3, 1)", "Species = 'setosa'"))
+
+# with list-style at-argument
+visualisation_matrix(data, at = list(Sepal.Length = c(1, 3), Species = "setosa"))
+
+# Standardize
+vizdata &lt;- visualisation_matrix(data, at = "Sepal.Length")
+standardize(vizdata)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>modelbased</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

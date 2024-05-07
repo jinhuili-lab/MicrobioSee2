@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Likelihood profiles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for profile-methods {bbmle}"><tr><td>profile-methods {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Likelihood profiles </h2>
+
+<h3>Description</h3>
+
+<p>Compute likelihood profiles for a fitted model
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+proffun(fitted, which = 1:p, maxsteps = 100,
+                    alpha = 0.01, zmax = sqrt(qchisq(1 - alpha/2, p)),
+                    del = zmax/5, trace = FALSE, skiperrs=TRUE,
+                    std.err, 
+                    tol.newmin = 0.001, debug=FALSE,
+                    prof.lower, prof.upper,
+                    skip.hessian = TRUE,
+                    continuation = c("none","naive","linear"),
+                    try_harder=FALSE, ...)
+## S4 method for signature 'mle2'
+profile(fitted, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>fitted</code></td>
+<td>
+<p>A fitted maximum likelihood model of class
+&ldquo;mle2&rdquo;</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>a numeric or character vector describing which parameters
+to profile (default is to profile all parameters)</p>
+</td></tr>
+<tr valign="top"><td><code>maxsteps</code></td>
+<td>
+<p>maximum number of steps to take looking for an upper
+value of the negative log-likelihood</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>maximum (two-sided) likelihood ratio test confidence
+level to find</p>
+</td></tr>
+<tr valign="top"><td><code>zmax</code></td>
+<td>
+<p>maximum value of signed square root of deviance difference
+to find (default value corresponds to a
+2-tailed chi-squared test at level alpha)</p>
+</td></tr>
+<tr valign="top"><td><code>del</code></td>
+<td>
+<p>step size for profiling</p>
+</td></tr>
+<tr valign="top"><td><code>trace</code></td>
+<td>
+<p>(logical) produce tracing output?</p>
+</td></tr>
+<tr valign="top"><td><code>skiperrs</code></td>
+<td>
+<p>(logical) ignore errors produced during profiling?</p>
+</td></tr>
+<tr valign="top"><td><code>std.err</code></td>
+<td>
+<p>Optional numeric vector of standard errors, for cases
+when the Hessian is badly behaved.  Will be replicated if necessary,
+and NA values will be replaced by the corresponding values from
+the fit summary</p>
+</td></tr>
+<tr valign="top"><td><code>tol.newmin</code></td>
+<td>
+<p>tolerance for diagnosing a new minimum below the
+minimum deviance estimated in initial fit is found</p>
+</td></tr>
+<tr valign="top"><td><code>debug</code></td>
+<td>
+<p>(logical) debugging output?</p>
+</td></tr>
+<tr valign="top"><td><code>prof.lower</code></td>
+<td>
+<p>optional vector of lower bounds for profiles</p>
+</td></tr>
+<tr valign="top"><td><code>prof.upper</code></td>
+<td>
+<p>optional vector of upper bounds for profiles</p>
+</td></tr>
+<tr valign="top"><td><code>continuation</code></td>
+<td>
+<p>use continuation method to set starting values?
+<code>"none"</code> sets starting values to best fit; <code>"naive"</code>
+sets starting values to those of previous profiling fit;
+<code>"linear"</code> (not yet implemented) would use linear extrapolation
+from the previous two profiling fits</p>
+</td></tr>
+<tr valign="top"><td><code>skip.hessian</code></td>
+<td>
+<p>skip hessian (defunct?)</p>
+</td></tr>
+<tr valign="top"><td><code>try_harder</code></td>
+<td>
+<p>(logical) ignore <code>NA</code> and flat spots in the
+profile, try to continue anyway?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments (not used)</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>proffun</code> is the guts of the profile method, exposed
+so that other packages can use it directly.
+</p>
+<p>See the vignette (<code>vignette("mle2",package="bbmle")</code>)
+for more technical details of how profiling is done.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../stats4/html/profile.mle-class.html">profile.mle-class</a></code></p>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

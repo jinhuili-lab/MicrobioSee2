@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw segments through pairwise of points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.segments {circlize}"><tr><td>circos.segments {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Draw segments through pairwise of points
+</h2>
+
+<h3>Description</h3>
+
+<p>Draw segments through pairwise of points
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.segments(
+    x0, y0, x1, y1,
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index(),
+    straight = FALSE,
+    col = par("col"),
+    lwd = par("lwd"),
+    lty = par("lty"),
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x0</code></td>
+<td>
+<p>x coordinates for starting points.</p>
+</td></tr>
+<tr valign="top"><td><code>y0</code></td>
+<td>
+<p>y coordinates for ending points.</p>
+</td></tr>
+<tr valign="top"><td><code>x1</code></td>
+<td>
+<p>x coordinates for starting points.</p>
+</td></tr>
+<tr valign="top"><td><code>y1</code></td>
+<td>
+<p>y coordinates for ending points.</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>Index for the sector.</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>Index for the track.</p>
+</td></tr>
+<tr valign="top"><td><code>straight</code></td>
+<td>
+<p>Whether the segment is a straight line.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type of the segments.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../graphics/help/lines.html">lines</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+circos.initialize(letters[1:8], xlim = c(0, 1))
+circos.track(ylim = c(0, 1), track.height = 0.3, panel.fun = function(x, y) {
+    x = seq(0.2, 0.8, by = 0.2)
+    y = seq(0.2, 0.8, by = 0.2)
+
+    circos.segments(x, 0.1, x, 0.9)
+    circos.segments(0.1, y, 0.9, y)
+})
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

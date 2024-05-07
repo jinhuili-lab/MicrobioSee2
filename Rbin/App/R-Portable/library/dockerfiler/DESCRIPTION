@@ -1,0 +1,40 @@
+Package: dockerfiler
+Title: Easy Dockerfile Creation from R
+Version: 0.2.2
+Authors@R: c(
+    person("Colin", "Fay", , "contact@colinfay.me", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0001-7343-1846")),
+    person("Vincent", "Guyader", , "vincent@thinkr.fr", role = "aut",
+           comment = c(ORCID = "0000-0003-0671-9270")),
+    person("Josiah", "Parry", , "josiah.parry@gmail.com", role = "aut",
+           comment = c(ORCID = "0000-0001-9910-865X")),
+    person("Sébastien", "Rochette", , "sebastien@thinkr.fr", role = "aut",
+           comment = c(ORCID = "0000-0002-1565-9313"))
+  )
+Description: Build a Dockerfile straight from your R session.
+    'dockerfiler' allows you to create step by step a Dockerfile, and
+    provide convenient tools to wrap R code inside this Dockerfile.
+License: MIT + file LICENSE
+URL: https://github.com/ThinkR-open/dockerfiler
+BugReports: https://github.com/ThinkR-open/dockerfiler/issues
+Imports: attempt (>= 0.3.1), cli (>= 2.3.0), desc (>= 1.2.0), fs (>=
+        1.5.0), glue (>= 1.4.2), jsonlite (>= 1.7.2), memoise, pak (>=
+        0.2.0), pkgbuild (>= 1.2.0), R6 (>= 2.5.0), remotes (>= 2.2.0),
+        usethis (>= 2.0.1), utils
+Suggests: knitr (>= 1.31), rmarkdown (>= 2.6), testthat (>= 3.0.0),
+        withr
+VignetteBuilder: knitr
+Config/fusen/version: 0.5.1
+Config/testthat/edition: 3
+Encoding: UTF-8
+RoxygenNote: 7.2.3
+NeedsCompilation: no
+Packaged: 2023-11-13 11:41:37 UTC; vincent
+Author: Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
+  Vincent Guyader [aut] (<https://orcid.org/0000-0003-0671-9270>),
+  Josiah Parry [aut] (<https://orcid.org/0000-0001-9910-865X>),
+  Sébastien Rochette [aut] (<https://orcid.org/0000-0002-1565-9313>)
+Maintainer: Colin Fay <contact@colinfay.me>
+Repository: CRAN
+Date/Publication: 2023-11-13 13:03:29 UTC
+Built: R 4.1.2; ; 2024-05-01 17:14:54 UTC; windows

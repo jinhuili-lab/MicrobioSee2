@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Extractor functions to access components of a permutation...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get-methods {permute}"><tr><td>get-methods {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Extractor functions to access components of a permutation design</h2>
+
+<h3>Description</h3>
+
+<p>Simple functions to allow abstracted access to components of a
+permutation design, for example as returned by
+<code><a href="../../permute/help/how.html">how</a></code>. Whilst many of these are very simple index
+opertations on a list, using these rather than directly accessing that
+list allows the internal representation of the permutation design to
+change without breaking code.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+getAllperms(object, ...)
+getBlocks(object, ...)
+getComplete(object, ...)
+getConstant(object, ...)
+getCol(object, ...)
+getDim(object, ...)
+getMake(object, ...)
+getMaxperm(object, ...)
+getMinperm(object, ...)
+getMirror(object, ...)
+getNperm(object, ...)
+getObserved(object, ...)
+getPlots(object, ...)
+getRow(object, ...)
+getStrata(object, ...)
+getType(object, ...)
+getWithin(object, ...)
+getControl(object, ...)
+getHow(object, ...)
+
+## S3 method for class 'how'
+getAllperms(object, ...)
+
+## S3 method for class 'how'
+getBlocks(object, ...)
+
+## S3 method for class 'how'
+getCol(object, which = c("plots", "within"), ...)
+## S3 method for class 'Plots'
+getCol(object, ...)
+## S3 method for class 'Within'
+getCol(object, ...)
+
+## S3 method for class 'how'
+getComplete(object, ...)
+
+## S3 method for class 'how'
+getConstant(object, ...)
+## S3 method for class 'Within'
+getConstant(object, ...)
+
+## S3 method for class 'how'
+getDim(object, which = c("plots", "within"), ...)
+## S3 method for class 'Plots'
+getDim(object, ...)
+## S3 method for class 'Within'
+getDim(object, ...)
+
+## S3 method for class 'how'
+getMake(object, ...)
+
+## S3 method for class 'how'
+getMaxperm(object, ...)
+
+## S3 method for class 'how'
+getMinperm(object, ...)
+
+## S3 method for class 'how'
+getMirror(object, which = c("plots", "within"), ...)
+## S3 method for class 'Plots'
+getMirror(object, ...)
+## S3 method for class 'Within'
+getMirror(object, ...)
+
+## S3 method for class 'how'
+getNperm(object, ...)
+
+## S3 method for class 'how'
+getObserved(object, ...)
+
+## S3 method for class 'how'
+getPlots(object, ...)
+
+## S3 method for class 'how'
+getRow(object, which = c("plots", "within"), ...)
+## S3 method for class 'Plots'
+getRow(object, ...)
+## S3 method for class 'Within'
+getRow(object, ...)
+
+## S3 method for class 'how'
+getStrata(object, which = c("plots", "blocks"),
+          drop = TRUE, ...)
+## S3 method for class 'Plots'
+getStrata(object, drop = TRUE, ...)
+
+## S3 method for class 'how'
+getType(object, which = c("plots", "within"), ...)
+## S3 method for class 'Plots'
+getType(object, ...)
+## S3 method for class 'Within'
+getType(object, ...)
+
+## S3 method for class 'how'
+getWithin(object, ...)
+
+## S3 method for class 'allPerms'
+getControl(object, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An R object to dispatch on.</p>
+</td></tr>
+<tr valign="top"><td><code>which</code></td>
+<td>
+<p>character; which level of restriction to extract
+information for.</p>
+</td></tr>
+<tr valign="top"><td><code>drop</code></td>
+<td>
+<p>logical; should un-used factor levels be dropped?</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed on to other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These are extractor functions for working with permutation design
+objects created by <code><a href="../../permute/help/how.html">how</a></code>. They should be used in
+preference to directly subsetting the permutation design in case the
+internal structure of object changes as <span class="pkg">permute</span> is developed.
+</p>
+<p><code>getHow</code> is an alias for <code>getControl</code>; specific methods are
+implemented for <code>getControl</code> if you are debugging.
+</p>
+
+
+<h3>Value</h3>
+
+<p>These are simple extractor functions and return the contents of the
+corresponding components of <code>object</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../permute/help/check.html">check</a></code>, a utility function for checking
+permutation scheme described by <code><a href="../../permute/help/how.html">how</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## extract components from a "how" object
+hh &lt;- how()
+getWithin(hh)
+getNperm(hh)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

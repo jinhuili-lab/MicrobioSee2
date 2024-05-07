@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Union Extent or SpatialPolygons* objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for union {raster}"><tr><td>union {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Union Extent or SpatialPolygons* objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Extent objects: Objects are combined into their union. See <code><a href="../../raster/help/crop.html">crop</a></code> and <code><a href="../../raster/help/extend.html">extend</a></code> to union a Raster object with an Extent object.
+</p>
+<p>Two SpatialPolygons* objects. Overlapping polygons (between layers, not within layers) are intersected, other spatial objects are appended. Tabular attributes are joined. See <code><a href="../../raster/help/bind.html">bind</a></code> if you want to combine polygons without intersection.
+</p>
+<p>Single SpatialPolygons* object. Overlapping polygons are intersected. Original attributes are lost. New attributes allow for determining how many, and which, polygons overlapped. 
+</p>
+<p>Union for SpatialLines and SpatialPoints simply combines the two data sets; without any geometric intersections. This is equivalent to <code><a href="../../raster/help/bind.html">bind</a></code>. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Extent,Extent'
+union(x, y)
+
+## S4 method for signature 'SpatialPolygons,SpatialPolygons'
+union(x, y)
+
+## S4 method for signature 'SpatialPolygons,missing'
+union(x, y)
+
+## S4 method for signature 'SpatialLines,SpatialLines'
+union(x, y)
+
+## S4 method for signature 'SpatialPoints,SpatialPoints'
+union(x, y)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Extent or SpatialPolygons* object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Same as <code>x</code> or missing</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Extent or SpatialPolygons object
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../help/intersect.html">intersect</a>, <a href="../help/extent.html">extent</a>, <a href="../help/setExtent.html">setExtent</a></code>
+</p>
+<p><code><a href="../../sp/help/merge.html">merge</a></code> for merging a data.frame with attributes of Spatial objects 
+and <code><a href="../../raster/help/+2B+2CSpatialPolygons+2CSpatialPolygons-method.html">+,SpatialPolygons,SpatialPolygons-method</a></code> for an algebraic notation
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+e1 &lt;- extent(-10, 10, -20, 20)
+e2 &lt;- extent(0, 20, -40, 5)
+union(e1, e2)
+
+#SpatialPolygons
+if (require(rgdal) &amp; require(rgeos)) {
+	p &lt;- shapefile(system.file("external/lux.shp", package="raster"))
+	p0 &lt;- aggregate(p)
+	b &lt;- as(extent(6, 6.4, 49.75, 50), 'SpatialPolygons')
+	crs(b) &lt;- crs(p)
+	u &lt;- union(p0, b)
+	plot(u, col=2:4)
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

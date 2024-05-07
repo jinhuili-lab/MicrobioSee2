@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Semi-Partial (Part) Correlation Squared (Delta R^2)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for r2_semipartial {effectsize}"><tr><td>r2_semipartial {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Semi-Partial (Part) Correlation Squared (<i>&Delta; R^2</i>)</h2>
+
+<h3>Description</h3>
+
+<p>Compute the semi-partial (part) correlation squared (also known as
+<i>&Delta; R^2</i>). Currently, only <code>lm()</code> models are supported.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+r2_semipartial(
+  model,
+  type = c("terms", "parameters"),
+  ci = 0.95,
+  alternative = "greater",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>An <code>lm</code> model.</p>
+</td></tr>
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Type, either <code>"terms"</code>, or <code>"parameters"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"greater"</code> (default) or <code>"less"</code>
+(one-sided CI), or <code>"two.sided"</code> (two-sided CI). Partial matching is
+allowed (e.g., <code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in
+<a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This is similar to the last column of the &quot;Conditional Dominance Statistics&quot;
+section of the <code><a href="../../parameters/help/dominance_analysis.html">parameters::dominance_analysis()</a></code> output. For each term, the
+model is refit <em>without</em> the columns on the <a href="../../stats/help/model.matrix.html">model matrix</a> that correspond to that term. The <i>R^2</i> of
+this <em>sub</em>-model is then subtracted from the <i>R^2</i> of the <em>full</em> model to
+yield the <i>&Delta; R^2</i>. (For <code>type = "parameters"</code>, this is done for each
+column in the model matrix.)
+</p>
+<p><strong>Note</strong> that this is unlike <code><a href="../../parameters/help/dominance_analysis.html">parameters::dominance_analysis()</a></code>, where term
+deletion is done via the formula interface, and therefore may lead to
+different results.
+</p>
+<p>For other, non-<code>lm()</code> models, as well as more verbose information and
+options, please see the documentation for <code><a href="../../parameters/help/dominance_analysis.html">parameters::dominance_analysis()</a></code>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size.
+</p>
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals are based on the normal approximation as provided by Alf
+and Graf (1999). An adjustment to the lower bound of the CI is used, to
+improve the coverage properties of the CIs, according to Algina et al (2008):
+If the <em>F</em> test associated with the <i>sr^2</i> is significant (at <code>1-ci</code>
+level), but the lower bound of the CI is 0, it is set to a small value
+(arbitrarily to a 10th of the estimated <i>sr^2</i>); if the <em>F</em> test is not
+significant, the lower bound is set to 0. (Additionally, lower and upper
+bound are &quot;fixed&quot; so that they cannot be smaller than 0 or larger than 1.)
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Alf Jr, E. F., &amp; Graf, R. G. (1999). Asymptotic confidence limits for the
+difference between two squared multiple correlations: A simplified approach.
+<em>Psychological Methods, 4</em>(1), 70-75. doi: <a href="https://doi.org/10.1037/1082-989X.4.1.70">10.1037/1082-989X.4.1.70</a>
+</p>
+</li>
+<li><p> Algina, J., Keselman, H. J., &amp; Penfield, R. D. (2008). Confidence intervals
+for the squared multiple semipartial correlation coefficient. <em>Journal of
+Modern Applied Statistical Methods, 7</em>(1), 2-10. doi: <a href="https://doi.org/10.22237/jmasm/1209614460">10.22237/jmasm/1209614460</a>
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/eta_squared.html">eta_squared()</a></code>, <code><a href="../../effectsize/help/cohens_f.html">cohens_f()</a></code> for comparing two models,
+<code><a href="../../parameters/help/dominance_analysis.html">parameters::dominance_analysis()</a></code> and
+<code><a href="../../parameters/help/standardize_parameters.html">parameters::standardize_parameters()</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data("hardlyworking")
+
+m &lt;- lm(salary ~ factor(n_comps) + xtra_hours * seniority, data = hardlyworking)
+
+r2_semipartial(m)
+
+r2_semipartial(m, type = "parameters")
+
+
+
+# Compare to `eta_squared()`
+# --------------------------
+npk.aov &lt;- lm(yield ~ N + P + K, npk)
+
+# When predictors are orthogonal,
+# eta_squared(partial = FALSE) gives the same effect size:
+performance::check_collinearity(npk.aov)
+
+eta_squared(npk.aov, partial = FALSE)
+
+r2_semipartial(npk.aov)
+
+
+# Compare to `dominance_analysis()`
+# ---------------------------------
+m_full &lt;- lm(salary ~ ., data = hardlyworking)
+
+r2_semipartial(m_full)
+
+# Compare to last column of "Conditional Dominance Statistics":
+parameters::dominance_analysis(m_full)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Subset a raster by cell numbers</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rasterFromCells {raster}"><tr><td>rasterFromCells {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Subset a raster by cell numbers</h2>
+
+<h3>Description</h3>
+
+<p>This function returns a new raster based on an existing raster and cell numbers for that raster.
+The new raster is cropped to the cell numbers provided, and, if <code>values=TRUE</code> has values that are the cell numbers of the original raster.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rasterFromCells(x, cells, values=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object (or a SpatialPixels* or SpatialGrid* object)</p>
+</td></tr>
+<tr valign="top"><td><code>cells</code></td>
+<td>
+<p>vector of cell numbers</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>Logical. If <code>TRUE</code>, the new RasterLayer has cell values that correspond to the cell numbers of <code>x</code></p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Cell numbers start at 1 in the upper left corner, and increase from left to right, and then from top to bottom.
+The last cell number equals the number of cells of the Raster* object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/rowFromCell.html">rowFromCell</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncols=100, nrows=100)
+cells &lt;- c(3:5, 210)
+r &lt;- rasterFromCells(r, cells)
+cbind(1:ncell(r), getValues(r))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

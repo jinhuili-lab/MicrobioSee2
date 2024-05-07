@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulation of Brownian Bridge</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rbridge {e1071}"><tr><td>rbridge {e1071}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulation of Brownian Bridge</h2>
+
+<h3>Description</h3>
+
+<p><code>rwiener</code> returns a time series containing a simulated realization
+of the Brownian bridge on the interval [0,<code>end</code>]. If W(t) is a
+Wiener process, then the Brownian bridge is defined as W(t) - t W(1).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rbridge(end = 1, frequency = 1000)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>end</code></td>
+<td>
+<p>the time of the last observation.</p>
+</td></tr>
+<tr valign="top"><td><code>frequency</code></td>
+<td>
+<p>the number of observations per unit of time.</p>
+</td></tr>
+</table>
+
+
+<h3>See Also</h3>
+
+<p>rwiener
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# simulate a Brownian bridge on [0,1] and plot it
+
+x &lt;- rbridge()
+plot(x,type="l")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>e1071</em> version 1.7-9 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

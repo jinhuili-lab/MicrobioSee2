@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Recompute a Bayes factor computation or MCMC object.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for recompute {BayesFactor}"><tr><td>recompute {BayesFactor}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Recompute a Bayes factor computation or MCMC object.</h2>
+
+<h3>Description</h3>
+
+<p>Take an object and redo the computation (useful for sampling). In cases where sampling is
+used to compute the Bayes factor, the estimate of the precision of new samples will be added
+to the estimate precision of the old sample will be added to produce a new estimate of the
+precision.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+recompute(x, progress = getOption("BFprogress", interactive()),
+  multicore = FALSE, callback = function(...) as.integer(0), ...)
+
+## S4 method for signature 'BFBayesFactor'
+recompute(x, progress = getOption("BFprogress",
+  interactive()), multicore = FALSE, callback = function(...) as.integer(0),
+  ...)
+
+## S4 method for signature 'BFBayesFactorTop'
+recompute(x, progress = getOption("BFprogress",
+  interactive()), multicore = FALSE, callback = function(...) as.integer(0),
+  ...)
+
+## S4 method for signature 'BFmcmc'
+recompute(x, progress = getOption("BFprogress",
+  interactive()), multicore = FALSE, callback = function(...) as.integer(0),
+  ...)
+
+## S4 method for signature 'BFodds'
+recompute(x, progress = getOption("BFprogress",
+  interactive()), multicore = FALSE, callback = function(...) as.integer(0),
+  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>object to recompute</p>
+</td></tr>
+<tr valign="top"><td><code>progress</code></td>
+<td>
+<p>report progress of the computation?</p>
+</td></tr>
+<tr valign="top"><td><code>multicore</code></td>
+<td>
+<p>Use multicore, if available</p>
+</td></tr>
+<tr valign="top"><td><code>callback</code></td>
+<td>
+<p>callback function for third-party interfaces</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>arguments passed to and from related methods</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns an object of the same type, after repeating the sampling (perhaps with more iterations)
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Sample from the posteriors for two models
+data(puzzles)
+
+## Main effects model; result is a BFmcmc object, inheriting
+## mcmc from the coda package
+bf = lmBF(RT ~ shape + color + ID, data = puzzles, whichRandom = "ID",
+   progress = FALSE)
+
+## recompute Bayes factor object
+recompute(bf, iterations = 1000, progress = FALSE)
+
+## Sample from posterior distribution of model above, and recompute:
+chains = posterior(bf, iterations = 1000, progress = FALSE)
+newChains = recompute(chains, iterations = 1000, progress=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>BayesFactor</em> version 0.9.12-4.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

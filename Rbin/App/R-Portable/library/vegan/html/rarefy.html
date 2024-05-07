@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rarefaction Species Richness</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rarefy {vegan}"><tr><td>rarefy {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rarefaction Species Richness</h2>
+
+<h3>Description</h3>
+
+<p> Rarefied species richness for community ecologists.  </p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rarefy(x, sample, se = FALSE, MARGIN = 1)
+rrarefy(x, sample)
+drarefy(x, sample)
+rarecurve(x, step = 1, sample, xlab = "Sample Size", ylab = "Species",
+          label = TRUE, col, lty, ...)
+rareslope(x, sample)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Community data, a matrix-like object or a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>MARGIN</code></td>
+<td>
+<p>Margin for which the index is computed. </p>
+</td></tr>
+<tr valign="top"><td><code>sample</code></td>
+<td>
+<p>Subsample size for rarefying community, either a single
+value or a vector.</p>
+</td></tr>
+<tr valign="top"><td><code>se</code></td>
+<td>
+<p>Estimate standard errors.</p>
+</td></tr>
+<tr valign="top"><td><code>step</code></td>
+<td>
+<p>Step size for sample sizes in rarefaction curves.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab, ylab</code></td>
+<td>
+<p>Axis labels in plots of rarefaction curves.</p>
+</td></tr>
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>Label rarefaction curves by rownames of <code>x</code>
+(logical).</p>
+</td></tr>
+<tr valign="top"><td><code>col, lty</code></td>
+<td>
+<p>plotting colour and line type, see
+<code><a href="../../graphics/html/par.html">par</a></code>. Can be a vector of length <code>nrow(x)</code>, one per
+sample, and will be extended to such a length internally.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to <code><a href="../../stats/html/nlm.html">nlm</a></code>, or to <code><a href="../../graphics/html/plot.default.html">plot</a></code>,
+<code><a href="../../graphics/html/lines.html">lines</a></code> and <code><a href="../../vegan/help/ordilabel.html">ordilabel</a></code> in <code>rarecurve</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Function <code>rarefy</code> gives the expected species richness in random
+subsamples of size <code>sample</code> from the community. The size of
+<code>sample</code> should be smaller than total community size, but the
+function will work for larger <code>sample</code> as well (with a warning)
+and return non-rarefied species richness (and standard error =
+0). If <code>sample</code> is a vector, rarefaction of all observations is
+performed for each sample size separately.  Rarefaction can be
+performed only with genuine counts of individuals.  The function
+<code>rarefy</code> is based on Hurlbert's (1971) formulation, and the
+standard errors on Heck et al. (1975).
+</p>
+<p>Function <code>rrarefy</code> generates one randomly rarefied community
+data frame or vector of given <code>sample</code> size. The <code>sample</code>
+can be a vector giving the sample sizes for each row.  If the
+<code>sample</code> size is equal to or larger than the observed number
+of individuals, the non-rarefied community will be returned.  The
+random rarefaction is made without replacement so that the variance
+of rarefied communities is rather related to rarefaction proportion
+than to the size of the <code>sample</code>. Random rarefaction is
+sometimes used to remove the effects of different sample
+sizes. This is usually a bad idea: random rarefaction discards valid
+data, introduces random error and reduces the quality of the data
+(McMurdie &amp; Holmes 2014). It is better to use normalizing
+transformations (<code><a href="../../vegan/help/decostand.html">decostand</a></code> in <span class="pkg">vegan</span>) possible
+with variance stabilization (<code><a href="../../vegan/help/decostand.html">decostand</a></code> and
+<code><a href="../../vegan/help/dispweight.html">dispweight</a></code> in <span class="pkg">vegan</span>) and methods that are not
+sensitive to sample sizes.
+</p>
+<p>Function <code>drarefy</code> returns probabilities that species occur in
+a rarefied community of size <code>sample</code>. The <code>sample</code> can be
+a vector giving the sample sizes for each row. If the <code>sample</code>
+is equal to or smaller than the observed number of individuals, all
+observed species will have sampling probability 1.
+</p>
+<p>Function <code>rarecurve</code> draws a rarefaction curve for each row of
+the input data. The rarefaction curves are evaluated using the
+interval of <code>step</code> sample sizes, always including 1 and total
+sample size.  If <code>sample</code> is specified, a vertical line is
+drawn at <code>sample</code> with horizontal lines for the rarefied
+species richnesses.
+</p>
+<p>Function <code>rareslope</code> calculates the slope of <code>rarecurve</code>
+(derivative of <code>rarefy</code>) at given <code>sample</code> size; the
+<code>sample</code> need not be an integer.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A vector of rarefied species richness values. With a single
+<code>sample</code> and <code>se = TRUE</code>, function <code>rarefy</code> returns a
+2-row matrix with rarefied richness (<code>S</code>) and its standard error
+(<code>se</code>). If <code>sample</code> is a vector in <code>rarefy</code>, the
+function returns a matrix with a column for each <code>sample</code> size,
+and if <code>se = TRUE</code>, rarefied richness and its standard error are
+on consecutive lines.
+</p>
+<p>Function <code>rarecurve</code> returns <code><a href="../../base/html/invisible.html">invisible</a></code> list of
+<code>rarefy</code> results corresponding each drawn curve.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>References</h3>
+
+<p>Heck, K.L., van Belle, G. &amp; Simberloff, D. (1975). Explicit
+calculation of the rarefaction diversity measurement and the
+determination of sufficient sample size. <em>Ecology</em> <strong>56</strong>,
+1459&ndash;1461.
+</p>
+<p>Hurlbert, S.H. (1971). The nonconcept of species diversity: a critique
+and alternative parameters. <em>Ecology</em> <strong>52</strong>, 577&ndash;586.
+</p>
+<p>McMurdie, P.J. &amp; Holmes, S. (2014). Waste not, want not: Why
+rarefying microbiome data is inadmissible. <em>PLoS Comput Biol</em>
+<strong>10(4):</strong> e1003531. doi: <a href="https://doi.org/10.1371/journal.pcbi.1003531">10.1371/journal.pcbi.1003531</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Use <code><a href="../../vegan/help/specaccum.html">specaccum</a></code> for species accumulation curves
+where sites are sampled instead of individuals. <code><a href="../../vegan/help/specpool.html">specpool</a></code>
+extrapolates richness to an unknown sample size.</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+S &lt;- specnumber(BCI) # observed number of species
+(raremax &lt;- min(rowSums(BCI)))
+Srare &lt;- rarefy(BCI, raremax)
+plot(S, Srare, xlab = "Observed No. of Species", ylab = "Rarefied No. of Species")
+abline(0, 1)
+rarecurve(BCI, step = 20, sample = raremax, col = "blue", cex = 0.6)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

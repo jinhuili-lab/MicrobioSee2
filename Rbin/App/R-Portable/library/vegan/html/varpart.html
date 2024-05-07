@@ -1,0 +1,464 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Partition the Variation of Community Matrix by 2, 3, or 4...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for varpart {vegan}"><tr><td>varpart {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Partition the Variation of Community Matrix by 2, 3, or 4 Explanatory Matrices </h2>
+
+<h3>Description</h3>
+
+ 
+<p>The function partitions the variation in community data or community
+dissimilarities with respect to two, three, or four explanatory
+tables, using adjusted <i>R-squared</i> in redundancy analysis
+ordination (RDA) or distance-based redundancy analysis. If response
+is a single vector, partitioning is by partial regression. Collinear
+variables in the explanatory tables do NOT have to be removed prior
+to partitioning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+varpart(Y, X, ..., data, chisquare = FALSE, transfo, scale = FALSE,
+    add = FALSE, sqrt.dist = FALSE, permutations)
+showvarparts(parts, labels, bg = NULL, alpha = 63, Xnames,
+    id.size = 1.2,  ...)
+## S3 method for class 'varpart234'
+plot(x, cutoff = 0, digits = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>Y</code></td>
+<td>
+<p> Data frame or matrix containing the response data table or
+dissimilarity structure inheriting from <code><a href="../../stats/html/dist.html">dist</a></code>. In
+community ecology, that table is often a site-by-species table or a
+dissimilarity object. </p>
+</td></tr>
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>Two to four explanatory models, variables or tables.  These can
+be defined in three alternative ways: (1) one-sided model formulae
+beginning with <code>~</code> and then defining the model, (2) name of a
+single numeric or factor variable, or (3) name of matrix with numeric
+or data frame with numeric and factor variables.  The model formulae
+can have factors, interaction terms and transformations of
+variables. The names of the variables in the model formula are found
+in data frame given in <code>data</code> argument, and if not found there,
+in the user environment.  Single variables, data frames or matrices
+are found in the user environment.  All entries till the next argument
+(<code>data</code> or <code>transfo</code>) are interpreted as explanatory models,
+and the names of these extra arguments cannot be abbreviated nor
+omitted.  </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters passed to functions. NB, arguments after
+dots cannot be abbreviated but they must be spelt out completely.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>The data frame with the variables used in the formulae in
+<code>X</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>chisquare</code></td>
+<td>
+<p>Partition Chi-square or the inertia of Correspondence
+Analysis (<code><a href="../../vegan/help/cca.html">cca</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>transfo</code></td>
+<td>
+<p> Transformation for <code>Y</code> (community data) using
+<code><a href="../../vegan/help/decostand.html">decostand</a></code>.  All alternatives in <code>decostand</code> can
+be used, and those preserving Euclidean metric include
+<code>"hellinger"</code>, <code>"chi.square"</code>, <code>"total"</code>,
+<code>"norm"</code>. Ignored if <code>Y</code> are dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>scale</code></td>
+<td>
+<p>Should the columns of <code>Y</code> be standardized to unit
+variance. Ignored if <code>Y</code> are dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Add a constant to the non-diagonal values to euclidify
+dissimilarities (see <code><a href="../../vegan/help/wcmdscale.html">wcmdscale</a></code> for details). Choice
+<code>"lingoes"</code> (or <code>TRUE</code>) use the recommended method of
+Legendre &amp; Anderson (1999: &ldquo;method 1&rdquo;) and <code>"cailliez"</code>
+uses their &ldquo;method 2&rdquo;. The argument has an effect only when
+<code>Y</code> are dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>sqrt.dist</code></td>
+<td>
+<p>Take square root of dissimilarities. This often
+euclidifies dissimilarities. NB., the argument name cannot be
+abbreviated. The argument has an effect only when <code>Y</code> are
+dissimilarities.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>If <code>chisquare = TRUE</code>, the adjusted
+<i>R-squared</i> is estimated by permutations, and this
+paramater can be a list of control values for the permutations as
+returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the number
+of permutations required, or a permutation matrix where each row
+gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>parts</code></td>
+<td>
+<p>Number of explanatory tables (circles) displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Labels used for displayed fractions. Default is to use
+the same letters as in the printed output.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>Fill colours of circles or ellipses.</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>Transparency of the fill colour.  The argument takes
+precedence over possible transparency definitions of the
+colour. The value must be in range <i>0...255</i>, and low values
+are more transparent.  Transparency is not available in all
+graphics devices or file formats.</p>
+</td></tr>
+<tr valign="top"><td><code>Xnames</code></td>
+<td>
+<p>Names for sources of variation. Default names are <code>X1</code>,
+<code>X2</code>, <code>X3</code> and <code>X4</code>. <code>Xnames=NA</code>,
+<code>Xnames=NULL</code> and <code>Xnames=""</code> produce no names. The names
+can be changed to other names. It is often best to use short names. </p>
+</td></tr>
+<tr valign="top"><td><code>id.size</code></td>
+<td>
+<p>A numerical value giving the character expansion factor
+for the names of circles or ellipses. </p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>The <code>varpart</code> result.</p>
+</td></tr>
+<tr valign="top"><td><code>cutoff</code></td>
+<td>
+<p>The values below <code>cutoff</code> will not be displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>digits</code></td>
+<td>
+<p>The number of significant digits; the number of decimal
+places is at least one higher.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The functions partition the variation in <code>Y</code> into components
+accounted for by two to four explanatory tables and their combined
+effects. If <code>Y</code> is a multicolumn data frame or matrix, the
+partitioning is based on redundancy analysis (RDA, see
+<code><a href="../../vegan/help/rda.html">rda</a></code>) or on constrained correspondence analysis if
+<code>chisquare = TRUE</code> (CCA, see <code><a href="../../vegan/help/cca.html">cca</a></code>).  If <code>Y</code>
+is a single variable, the partitioning is based on linear
+regression.  If <code>Y</code> are dissimilarities, the decomposition is
+based on distance-based redundancy analysis (db-RDA, see
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>) following McArdle &amp; Anderson (2001). The
+input dissimilarities must be compatible to the results of
+<code><a href="../../stats/html/dist.html">dist</a></code>. <span class="pkg">Vegan</span> functions <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>,
+<code><a href="../../vegan/help/designdist.html">designdist</a></code>, <code><a href="../../vegan/help/raupcrick.html">raupcrick</a></code> and
+<code><a href="../../vegan/help/betadiver.html">betadiver</a></code> produce such objects, as do many other
+dissimilarity functions in <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> packages. However, symmetric square
+matrices are not recognized as dissimilarities but must be
+transformed with <code><a href="../../stats/html/dist.html">as.dist</a></code>.  Partitioning will be made
+to squared dissimilarities analogously to using variance with
+rectangular data &ndash; unless <code>sqrt.dist = TRUE</code> was specified.
+</p>
+<p>The function primarily uses adjusted <i>R-squared</i> to assess
+the partitions explained by the explanatory tables and their
+combinations (see <code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code>), because this is the
+only unbiased method (Peres-Neto et al., 2006). The raw
+<i>R-squared</i> for basic fractions are also displayed, but
+these are biased estimates of variation explained by the explanatory
+table. In correspondence analysis (<code>chisquare = TRUE</code>), the
+adjusted <i>R-squared</i> are found by permutation and they vary
+in repeated analyses.
+</p>
+<p>The identifiable fractions are designated by lower case alphabets. The
+meaning of the symbols can be found in the separate document (use
+<code>browseVignettes("vegan")</code>), or can be displayed graphically
+using function <code>showvarparts</code>.
+</p>
+<p>A fraction is testable if it can be directly expressed as an RDA or
+db-RDA model.  In these cases the printed output also displays the
+corresponding RDA model using notation where explanatory tables
+after <code>|</code> are conditions (partialled out; see <code><a href="../../vegan/help/rda.html">rda</a></code>
+for details). Although single fractions can be testable, this does
+not mean that all fractions simultaneously can be tested, since the
+number of testable fractions is higher than the number of estimated
+models. The non-testable components are found as differences of
+testable components. The testable components have permutation
+variance in correspondence analysis (<code>chisquare = TRUE</code>), and
+the non-testable components have even higher variance.
+</p>
+<p>An abridged explanation of the alphabetic symbols for the individual
+fractions follows, but computational details should be checked in the
+vignette (readable with <code>browseVignettes("vegan")</code>) or in the
+source code.
+</p>
+<p>With two explanatory tables, the fractions explained 
+uniquely by each of the two tables are <code>[a]</code> and
+<code>[c]</code>, and their joint effect
+is  <code>[b]</code> following Borcard et al. (1992).
+</p>
+<p>With three explanatory tables, the fractions explained uniquely
+by each of the three tables are  
+<code>[a]</code> to <code>[c]</code>, joint fractions between two tables are
+<code>[d]</code> to <code>[f]</code>, and the joint fraction between all three
+tables is <code>[g]</code>.
+</p>
+<p>With four explanatory tables, the fractions explained uniquely by each
+of the four tables are <code>[a]</code>
+to <code>[d]</code>, joint fractions between two tables are <code>[e]</code> to
+<code>[j]</code>, joint fractions between three variables are <code>[k]</code> to
+<code>[n]</code>, and the joint fraction between all four tables is
+<code>[o]</code>.
+</p>
+<p>There is a <code>plot</code> function that displays the Venn diagram and
+labels each intersection (individual fraction) with the adjusted R
+squared if this is higher than <code>cutoff</code>.  A helper function
+<code>showvarpart</code> displays the fraction labels. The circles and
+ellipses are labelled by short default names or by names defined by
+the user in argument <code>Xnames</code>. Longer explanatory file names can
+be written on the varpart output plot as follows: use option
+<code>Xnames=NA</code>, then add new names using the <code>text</code> function. A
+bit of fiddling with coordinates (see <code><a href="../../graphics/html/locator.html">locator</a></code>) and
+character size should allow users to place names of reasonably short
+lengths on the <code>varpart</code> plot.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Function <code>varpart</code> returns an
+object of class <code>"varpart"</code> with items <code>scale</code> and
+<code>transfo</code> (can be missing) which hold information on
+standardizations, <code>tables</code> which contains names of explanatory
+tables, and <code>call</code> with the function <code><a href="../../base/html/call.html">call</a></code>. The
+function <code>varpart</code> calls function <code>varpart2</code>,
+<code>varpart3</code> or <code>varpart4</code> which return an object of class
+<code>"varpart234"</code> and saves its result in the item <code>part</code>.
+The items in this object are:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>SS.Y</code></td>
+<td>
+<p>Sum of squares of matrix <code>Y</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Number of observations (rows).</p>
+</td></tr>
+<tr valign="top"><td><code>nsets</code></td>
+<td>
+<p>Number of explanatory tables</p>
+</td></tr>
+<tr valign="top"><td><code>bigwarning</code></td>
+<td>
+<p>Warnings on collinearity.</p>
+</td></tr>
+<tr valign="top"><td><code>fract</code></td>
+<td>
+<p>Basic fractions from all estimated constrained models.</p>
+</td></tr>
+<tr valign="top"><td><code>indfract</code></td>
+<td>
+<p>Individual fractions or all possible subsections in
+the Venn diagram (see <code>showvarparts</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>contr1</code></td>
+<td>
+<p>Fractions that can be found after conditioning on single
+explanatory table in models with three or four explanatory tables.</p>
+</td></tr>
+<tr valign="top"><td><code>contr2</code></td>
+<td>
+<p>Fractions that can be found after conditioning on two
+explanatory tables in models with four explanatory tables.</p>
+</td></tr>
+</table>
+
+
+<h3>Fraction Data Frames</h3>
+
+<p>Items <code>fract</code>,
+<code>indfract</code>, <code>contr1</code> and <code>contr2</code> are all data frames with
+items:
+</p>
+
+<ul>
+<li><p><code>Df</code>: Degrees of freedom of numerator of the <i>F</i>-statistic
+for the fraction.
+</p>
+</li>
+<li><p><code>R.square</code>: Raw <i>R-squared</i>. This is calculated only for
+<code>fract</code> and this is <code>NA</code> in other items.
+</p>
+</li>
+<li><p><code>Adj.R.square</code>: Adjusted <i>R-squared</i>.
+</p>
+</li>
+<li><p><code>Testable</code>: If the fraction can be expressed as a (partial) RDA
+model, it is directly <code>Testable</code>, and this field is
+<code>TRUE</code>.  In that case the fraction label also gives the
+specification of the testable RDA model.
+</p>
+</li></ul>
+
+
+
+<h3>Note</h3>
+
+<p>You can use command <code>browseVignettes("vegan")</code> to display
+document which presents Venn diagrams showing the fraction names in
+partitioning the variation of Y with respect to 2, 3, and 4 tables of
+explanatory variables, as well as the equations used in variation
+partitioning.
+</p>
+<p>The functions frequently give negative estimates of variation.
+Adjusted <i>R-squared</i> can be negative for any fraction;
+unadjusted <i>R-squared</i> of testable fractions of variances
+will be non-negative.  Non-testable fractions cannot be found
+directly, but by subtracting different models, and these subtraction
+results can be negative.  The fractions are orthogonal, or linearly
+independent, but more complicated or nonlinear dependencies can
+cause negative non-testable fractions. Any fraction can be negative
+for non-Euclidean dissimilarities because the underlying db-RDA model
+can yield negative eigenvalues (see <code><a href="../../vegan/help/capscale.html">capscale</a></code>,
+<code><a href="../../vegan/help/dbrda.html">dbrda</a></code>). These negative eigenvalues in the underlying
+analysis can be avoided with arguments <code>sqrt.dist</code> and <code>add</code>
+which have a similar effect as in <code><a href="../../vegan/help/capscale.html">capscale</a></code>: the square
+roots of several dissimilarities do not have negative eigenvalues, and
+no negative eigenvalues are produced after Lingoes or Cailliez
+adjustment, which in effect add random variation to the
+dissimilarities.
+</p>
+<p>A simplified, fast version of RDA, CCA adn dbRDA are used (functions
+<code>simpleRDA2</code>, <code>simpleCCA</code> and <code>simpleDBRDA</code>).  The
+actual calculations are done in functions <code>varpart2</code> to
+<code>varpart4</code>, but these are not intended to be called directly by
+the user.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Pierre Legendre, Departement de Sciences Biologiques, Universite de
+Montreal, Canada.  Further developed by Jari Oksanen. </p>
+
+
+<h3>References</h3>
+
+ 
+<p>(a) References on variation partitioning
+</p>
+<p>Borcard, D., P. Legendre &amp; P. Drapeau. 1992. Partialling out the spatial
+component of ecological variation. Ecology 73: 1045&ndash;1055.
+</p>
+<p>Legendre, P. &amp; L. Legendre. 2012. Numerical ecology, 3rd English edition.
+Elsevier Science BV, Amsterdam.
+</p>
+<p>(b) Reference on transformations for species data
+</p>
+<p>Legendre, P. and E. D. Gallagher. 2001. Ecologically meaningful
+transformations for ordination of species data. Oecologia 129: 271&ndash;280.
+</p>
+<p>(c) Reference on adjustment of the bimultivariate redundancy statistic
+</p>
+<p>Peres-Neto, P., P. Legendre, S. Dray and D. Borcard. 2006. Variation partitioning
+of species data matrices: estimation and comparison of fractions.
+Ecology 87: 2614&ndash;2625.
+</p>
+<p>(d) References on partitioning of dissimilarities
+</p>
+<p>Legendre, P. &amp; Anderson, M. J. (1999). Distance-based redundancy
+analysis: testing multispecies responses in multifactorial ecological
+experiments. <em>Ecological Monographs</em> 69, 1&ndash;24.
+</p>
+<p>McArdle, B.H. &amp; Anderson, M.J. (2001). Fitting multivariate models
+to community data: a comment on distance-based redundancy
+analysis. Ecology 82, 290-297.
+</p>
+
+
+<h3>See Also</h3>
+
+ 
+<p>For analysing testable fractions, see <code><a href="../../vegan/help/rda.html">rda</a></code> and
+<code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>. For data transformation, see
+<code><a href="../../vegan/help/decostand.html">decostand</a></code>. Function <code><a href="../../vegan/help/inertcomp.html">inertcomp</a></code> gives
+(unadjusted) components of variation for each species or site
+separately.  Function <code><a href="../../vegan/help/rda.html">rda</a></code> displays unadjusted
+components in its output, but <code><a href="../../vegan/help/RsquareAdj.html">RsquareAdj</a></code> will give
+adjusted <i>R-squared</i> that are similar to the current
+function also for partial models.  
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(mite)
+data(mite.env)
+data(mite.pcnm)
+
+# Two explanatory data frames -- Hellinger-transform Y
+mod &lt;- varpart(mite, mite.env, mite.pcnm, transfo="hel")
+mod
+
+## Use fill colours
+showvarparts(2, bg = c("hotpink","skyblue"))
+plot(mod, bg = c("hotpink","skyblue"))
+## Test fraction [a] using partial RDA, '~ .' in formula tells to use
+## all variables of data mite.env.
+aFrac &lt;- rda(decostand(mite, "hel"), mite.env, mite.pcnm)
+anova(aFrac)
+## RsquareAdj gives the same result as component [a] of varpart
+RsquareAdj(aFrac)
+
+## Partition Bray-Curtis dissimilarities
+varpart(vegdist(mite), mite.env, mite.pcnm)
+## Three explanatory tables with formula interface
+mod &lt;- varpart(mite, ~ SubsDens + WatrCont, ~ Substrate + Shrub + Topo,
+   mite.pcnm, data=mite.env, transfo="hel")
+mod
+showvarparts(3, bg=2:4)
+plot(mod, bg=2:4)
+
+## Use RDA to test fraction [a]
+## Matrix can be an argument in formula
+rda.result &lt;- rda(decostand(mite, "hell") ~ SubsDens + WatrCont +
+   Condition(Substrate + Shrub + Topo) +
+   Condition(as.matrix(mite.pcnm)), data = mite.env)
+anova(rda.result)
+
+## Four explanatory tables
+mod &lt;- varpart(mite, ~ SubsDens + WatrCont, ~Substrate + Shrub + Topo,
+  mite.pcnm[,1:11], mite.pcnm[,12:22], data=mite.env, transfo="hel")
+mod
+plot(mod, bg=2:5)
+## Show values for all partitions by putting 'cutoff' low enough:
+plot(mod, cutoff = -Inf, cex = 0.7, bg=2:5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

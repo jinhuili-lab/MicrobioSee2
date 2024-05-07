@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Bayesian Posterior Percentage in ROPE.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_rope {effectsize}"><tr><td>interpret_rope {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Bayesian Posterior Percentage in ROPE.</h2>
+
+<h3>Description</h3>
+
+<p>Interpretation of
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_rope(rope, ci = 0.9, rules = "default")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>rope</code></td>
+<td>
+<p>Value or vector of percentages in ROPE.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>The Credible Interval (CI) probability, corresponding to the proportion of HDI, that was used. Can be <code>1</code> in the case of &quot;full ROPE&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>A character string (see details) or a custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+
+<ul>
+<li><p> Default
+</p>
+
+<ul>
+<li><p> For CI &lt; 1
+</p>
+
+<ul>
+<li> <p><strong>Rope = 0</strong> - Significant
+</p>
+</li>
+<li> <p><strong>0 &lt; Rope &lt; 1</strong> - Undecided
+</p>
+</li>
+<li> <p><strong>Rope = 1</strong> - Negligible
+</p>
+</li></ul>
+
+</li>
+<li><p> For CI = 1
+</p>
+
+<ul>
+<li> <p><strong>Rope &lt; 0.01</strong> - Significant
+</p>
+</li>
+<li> <p><strong>0.01 &lt; Rope &lt; 0.025</strong> - Probably significant
+</p>
+</li>
+<li> <p><strong>0.025 &lt; Rope &lt; 0.975</strong> - Undecided
+</p>
+</li>
+<li> <p><strong>0.975 &lt; Rope &lt; 0.99</strong> - Probably negligible
+</p>
+</li>
+<li> <p><strong>Rope &gt; 0.99</strong> - Negligible
+</p>
+</li></ul>
+
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>References</h3>
+
+<p><a href="https://easystats.github.io/bayestestR/articles/guidelines.html">BayestestR's reporting guidelines</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_rope(0, ci = 0.9)
+interpret_rope(c(0.005, 0.99), ci = 1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

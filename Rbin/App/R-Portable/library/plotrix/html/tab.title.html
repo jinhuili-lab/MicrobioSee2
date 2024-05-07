@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display the title of a plot as a colored tab</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for tab.title {plotrix}"><tr><td>tab.title {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Display the title of a plot as a colored tab
+</h2>
+
+<h3>Description</h3>
+
+<p>Display the title of a plot as a colored tab.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ tab.title(label,text.col=par("fg"),tab.col=par("bg"),border=par("fg"),
+  lwd=par("lwd"),cex=1.5,pad.mult=1.6,radius=0)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>label</code></td>
+<td>
+<p>The title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>text.col</code></td>
+<td>
+<p>The color for the title text.</p>
+</td></tr>
+<tr valign="top"><td><code>tab.col</code></td>
+<td>
+<p>The color for the tab fill.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>The color for the tab border.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>The line width for the border.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion for the title.</p>
+</td></tr>
+<tr valign="top"><td><code>pad.mult</code></td>
+<td>
+<p>How much higher to make the tab relative to the label.</p>
+</td></tr>
+<tr valign="top"><td><code>radius</code></td>
+<td>
+<p>What proportion of the tab corners to round off.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">tab.title</span> displays the plot title in a colored tab. The tab can be
+rounded at the upper corners by specifying the proportion of the tab
+height to be rounded as a number between 0 and 1. If the tab is too high
+to fit on the figure region, a warning will be displayed and the tab will
+still be shown. 
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/polygon.html">polygon</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ testx&lt;-matrix(cumsum(rnorm(30)^2)+1,nrow=10)
+ stackpoly(testx,main="",
+  xaxlab=c("One","Two","Three","Four","Five",
+  "Six","Seven","Eight","Nine","Ten"),staxx=TRUE)
+ tab.title("Three Squiggly Lines",tab.col="yellow",radius=0.5)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

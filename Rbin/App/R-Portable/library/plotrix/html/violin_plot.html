@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display a &quot;violin&quot; plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for violin_plot {plotrix}"><tr><td>violin_plot {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Display a &quot;violin&quot; plot</h2>
+
+<h3>Description</h3>
+
+<p>Displays violin plots (rotated kernel density plots on each
+side of boxplots).</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ violin_plot(X=rnorm(50),at,add=FALSE,na.rm=TRUE,bw,violin_width,
+ violin_end_width=0.005,equal_width=TRUE,show_box=TRUE,box_width=0.01,
+ box_col="black",show_outliers=TRUE,outlier_pch=NA,range=1.5,xlim,ylim,
+ axes=TRUE,ann=TRUE,xlab="",ylab="",x_axis_labels,main="Violin Plot",
+ col="red",median_col="white",show_mean=FALSE,mean_pch=19,
+ mean_pch_col="yellow",...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>X</code></td>
+<td>
+<p>A vector or matrix or data frame of numeric values.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>Horizontal position(s) for the violin plot(s).</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>Whether this violin should be added to an existing plot.</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>Remove NA values. Passed to functions such as
+<span class="samp">boxplot</span> or <span class="samp">density</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>bw</code></td>
+<td>
+<p>Vector or bandwidth values for <span class="samp">density</span>. Will be
+recycled. If not provided then will be calculated using <span class="samp">bw.nrd0</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>violin_width</code></td>
+<td>
+<p>Multiplier to scale the width of the <span class="samp">violin</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>violin_end_width</code></td>
+<td>
+<p>Multiplier to scale the width of the ends of the
+violin.</p>
+</td></tr>
+<tr valign="top"><td><code>equal_width</code></td>
+<td>
+<p>Should all violin widths be equal?</p>
+</td></tr>
+<tr valign="top"><td><code>show_box</code></td>
+<td>
+<p>Whether to display the box.</p>
+</td></tr>
+<tr valign="top"><td><code>box_width</code></td>
+<td>
+<p>Multiplier for the width of internal boxes.</p>
+</td></tr>
+<tr valign="top"><td><code>box_col</code></td>
+<td>
+<p>Fill color for the internal rectangle.</p>
+</td></tr>
+<tr valign="top"><td><code>show_outliers</code></td>
+<td>
+<p>Whther to display outliers as points.</p>
+</td></tr>
+<tr valign="top"><td><code>outlier_pch</code></td>
+<td>
+<p>Symbol for displaying outliers.</p>
+</td></tr>
+<tr valign="top"><td><code>range</code></td>
+<td>
+<p>Passed to <span class="samp">boxplot</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim,ylim</code></td>
+<td>
+<p>Explicitly set the plot limits.</p>
+</td></tr>
+<tr valign="top"><td><code>axes</code></td>
+<td>
+<p>Logical value indicating whether both axes should be
+drawn on the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>ann</code></td>
+<td>
+<p>Annotate the plots with axis titles and overall titles.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>Labels for the X and Y axes.</p>
+</td></tr>
+<tr valign="top"><td><code>x_axis_labels</code></td>
+<td>
+<p>Labels for the violins.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>Title for the violin plot.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Fill color for the violin(s). Will be recycled.</p>
+</td></tr>
+<tr valign="top"><td><code>median_col</code></td>
+<td>
+<p>Fill color for the median mark.</p>
+</td></tr>
+<tr valign="top"><td><code>show_mean</code></td>
+<td>
+<p>Whether to plot the mean as well as the median.</p>
+</td></tr>
+<tr valign="top"><td><code>mean_pch</code></td>
+<td>
+<p>Symbol to use for the mean.</p>
+</td></tr>
+<tr valign="top"><td><code>mean_pch_col</code></td>
+<td>
+<p>Fill color for the mean symbol.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Extra arguments passed to <span class="samp">polygon</span> used for
+representing violin(s).</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">violin_plot</span> displays one or more violin plots by drawing 
+rotated kernel density curves on each side of box plots.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Darshan Baral</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # plotting a data frame
+ violin_plot(mtcars)
+
+ set.seed(42)
+ normvar&lt;-c(rnorm(49),-3)
+ unifvar&lt;-runif(50,-2,2)
+ normvar2&lt;-rnorm(45)
+
+ # plotting a matrix
+ violin_plot(matrix(c(normvar,unifvar),ncol=2),
+  main="Default Plot",x_axis_labels=c("Normal","Uniform"))
+
+ # plotting with different colors and with at specified
+ violin_plot(matrix(c(normvar,unifvar),ncol=2),at=1:3,
+  main="Different colors and extra space",
+  x_axis_labels=c("Normal","Uniform","Normal"),
+  show_outliers=TRUE,col=c("blue","red"),median_col="lightgray",
+  pch=6)
+
+ # adding a violin to existing plot
+ violin_plot(normvar2,at=3,add=TRUE,col="green",violin_width=1)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

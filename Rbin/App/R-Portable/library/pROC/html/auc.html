@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute the area under the ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for auc {pROC}"><tr><td>auc {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Compute the area under the ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This function computes the numeric value of area under the ROC curve
+(AUC) with the trapezoidal rule. Two syntaxes are possible: one object of class &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo;, or either
+two vectors (response, predictor) or a formula (response~predictor) as
+in the <code><a href="../../pROC/help/roc.html">roc</a></code> function.
+By default, the total AUC is computed, but a portion of the ROC curve
+can be specified with <code>partial.auc</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+auc(...)
+## S3 method for class 'roc'
+auc(roc, partial.auc=FALSE, partial.auc.focus=c("specificity",
+"sensitivity"), partial.auc.correct=FALSE, 
+allow.invalid.partial.auc.correct = FALSE, ...)
+## S3 method for class 'smooth.roc'
+auc(smooth.roc, ...)
+## S3 method for class 'multiclass.roc'
+auc(multiclass.roc, ...)
+## S3 method for class 'formula'
+auc(formula, data, ...)
+## Default S3 method:
+auc(response, predictor, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc, multiclass.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function, or a &ldquo;multiclass.roc&rdquo;
+or &ldquo;mv.multiclass.roc&rdquo; from the <code><a href="../../pROC/help/multiclass.roc.html">multiclass.roc</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>response, predictor</code></td>
+<td>
+<p>arguments for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>formula, data</code></td>
+<td>
+<p>a formula (and possibly a data object) of type response~predictor for the <code><a href="../../pROC/help/roc.html">roc</a></code> function.</p>
+</td></tr>
+<tr valign="top"><td><code>partial.auc</code></td>
+<td>
+<p>either <code>FALSE</code> (default: consider total area) or a
+numeric vector of length 2: boundaries of the AUC to consider in
+[0,1] (or [0,100] if percent is <code>TRUE</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>partial.auc.focus</code></td>
+<td>
+<p>if <code>partial.auc</code> is not <code>FALSE</code> and a partial
+AUC is computed, specifies if <code>partial.auc</code> specifies the bounds in
+terms of specificity (default) or sensitivity. Can be shortened to spec/sens
+or even sp/se. Ignored if <code>partial.auc=FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>partial.auc.correct</code></td>
+<td>
+<p>logical indicating if the correction of
+AUC must be applied in order to have a maximal AUC of 1.0 and a
+non-discriminant AUC of 0.5 whatever the <code>partial.auc</code>
+defined. Ignored if <code>partial.auc=FALSE</code>. Default: <code>FALSE</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>allow.invalid.partial.auc.correct</code></td>
+<td>
+<p>logical indicating if
+the correction must return <code>NA</code> (with a <code><a href="../../base/html/warning.html">warning</a></code>)
+when attempting to correct a pAUC below the diagonal.
+Set to <code>TRUE</code> to return a (probably invalid) corrected AUC.
+This is useful especially to avoid introducing a bias against low
+pAUCs in bootstrap operations.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods,
+especially arguments for <code><a href="../../pROC/help/roc.html">roc</a></code> when calling
+<code>auc.default</code>, <code>auc.formula</code>, <code>auc.smooth.roc</code>.
+Note that the <code>auc</code>
+argument of <code><a href="../../pROC/help/roc.html">roc</a></code> is not allowed. Unused in
+<code>auc.roc</code>. 
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function is typically called from <code><a href="../../pROC/help/roc.html">roc</a></code> when <code>auc=TRUE</code>
+(default). It is also used by <code><a href="../../pROC/help/ci.html">ci</a></code>. When it is called with
+two vectors (response, predictor) or a formula (response~predictor)
+arguments, the <code><a href="../../pROC/help/roc.html">roc</a></code> function is called and only the AUC is
+returned.
+</p>
+<p>By default the total area under the curve is computed, but a partial AUC (pAUC)
+can be
+specified with the <code>partial.auc</code> argument. It specifies the bounds of
+specificity or sensitivity (depending on <code>partial.auc.focus</code>) between
+which the AUC will be computed. As it specifies specificities or
+sensitivities, you must adapt it in relation to the 'percent'
+specification (see details in <code><a href="../../pROC/help/roc.html">roc</a></code>).
+</p>
+<p><code>partial.auc.focus</code> is ignored if
+<code>partial.auc=FALSE</code> (default). If a partial AUC is computed,
+<code>partial.auc.focus</code> specifies if the bounds specified in
+<code>partial.auc</code> must be interpreted as sensitivity or
+specificity. Any other value will produce an error. It is recommended to
+<code><a href="../../pROC/help/plot.roc.html">plot</a></code> the ROC curve with <code>auc.polygon=TRUE</code> in order to 
+make sure the specification is correct.
+</p>
+<p>If a pAUC is defined, it can be standardized (corrected). This correction is 
+controled by the <code>partial.auc.correct</code> argument. If <code>partial.auc.correct=TRUE</code>,
+the correction by McClish will be applied:
+</p>
+<p style="text-align: center;"><i>(1+(auc-min)/(max-min))/2</i></p>
+
+<p>where auc is the uncorrected pAUC computed in the region defined by <code>partial.auc</code>,
+min is the value of the non-discriminant AUC (with an AUC of 0.5 or 50
+in the region and max is the maximum possible AUC in the region. With this correction, the AUC
+will be 0.5 if non discriminant and 1.0 if maximal, whatever the region
+defined. This correction is fully compatible with <code>percent</code>.
+</p>
+<p>Note that this correction is undefined for curves below the diagonal (auc &lt; min). Attempting
+to correct such an AUC will return <code>NA</code> with a warning.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The numeric AUC value, of class <code>c("auc", "numeric")</code> (or
+<code>c("multiclass.auc", "numeric")</code> or <code>c("mv.multiclass.auc", "numeric")</code>
+if a &ldquo;multiclass.roc&rdquo; was supplied), in
+fraction of the area or in percent if <code>percent=TRUE</code>, with the
+following attributes:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>partial.auc</code></td>
+<td>
+<p>if the AUC is full (FALSE) or partial (and in this
+case the bounds), as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>partial.auc.focus</code></td>
+<td>
+<p>only for a partial AUC, if the bound specifies
+the sensitivity or specificity, as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>partial.auc.correct</code></td>
+<td>
+<p>only for a partial AUC, was it corrected?
+As defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>whether the AUC is given in percent or fraction.</p>
+</td></tr>
+<tr valign="top"><td><code>roc</code></td>
+<td>
+<p>the original ROC curve, as a &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo;,
+&ldquo;<a href="../../pROC/help/smooth.roc.html">smooth.roc</a>&rdquo; or &ldquo;<a href="../../pROC/help/multiclass.roc.html">multiclass.roc</a>&rdquo; object.</p>
+</td></tr>
+</table>
+
+
+<h3>Smoothed ROC curves</h3>
+
+<p>There is no difference in the computation of the area under a smoothed
+ROC curve, except for curves smoothed with <code>method="binomial"</code>. In this case
+and only if a full AUC is requested, the classical binormal AUC formula is applied:
+</p>
+<p style="text-align: center;"><i>pnorm(a/sqrt(1+b^2).</i></p>
+
+<p>If the ROC curve is smoothed with any other <code>method</code> or if a partial AUC
+is requested, the empirical AUC described in the previous section is applied.
+</p>
+
+
+<h3>Multi-class AUCs</h3>
+
+<p>With an object of class &ldquo;multiclass.roc&rdquo;, a multi-class AUC is
+computed as an average AUC as defined by Hand and Till (equation 7).
+</p>
+<p style="text-align: center;"><i>2/(count * (count -
+    1))*sum(aucs)</i></p>
+
+<p>with aucs all the pairwise roc curves.
+</p>
+
+
+<h3>References</h3>
+
+<p>Tom Fawcett (2006) &ldquo;An introduction to ROC analysis&rdquo;. <em>Pattern
+Recognition Letters</em> <b>27</b>, 861&ndash;874. DOI:
+doi: <a href="https://doi.org/10.1016/j.patrec.2005.10.010">10.1016/j.patrec.2005.10.010</a>.
+</p>
+<p>David J. Hand and Robert J. Till (2001). A Simple Generalisation of
+the Area Under the ROC Curve for Multiple Class Classification
+Problems. <em>Machine Learning</em> <b>45</b>(2), p. 171&ndash;186. DOI:
+doi: <a href="https://doi.org/10.1023/A:1010920819831">10.1023/A:1010920819831</a>.
+</p>
+<p>Donna Katzman McClish (1989) &ldquo;Analyzing a Portion of the ROC
+Curve&rdquo;. <em>Medical Decision Making</em> <b>9</b>(3), 190&ndash;195. DOI:
+doi: <a href="https://doi.org/10.1177/0272989X8900900307">10.1177/0272989X8900900307</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>, <code><a href="../../pROC/help/ci.auc.html">ci.auc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# Create a ROC curve:
+data(aSAH)
+roc.s100b &lt;- roc(aSAH$outcome, aSAH$s100b)
+
+# Get the full AUC
+auc(roc.s100b)
+
+# Get the partial AUC:
+auc(roc.s100b, partial.auc=c(1, .8), partial.auc.focus="se", partial.auc.correct=TRUE)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

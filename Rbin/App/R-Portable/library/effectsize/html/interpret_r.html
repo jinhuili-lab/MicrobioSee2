@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Interpret Correlation Coefficient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for interpret_r {effectsize}"><tr><td>interpret_r {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Interpret Correlation Coefficient</h2>
+
+<h3>Description</h3>
+
+<p>Interpret Correlation Coefficient
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+interpret_r(r, rules = "funder2019", ...)
+
+interpret_phi(r, rules = "funder2019", ...)
+
+interpret_cramers_v(r, rules = "funder2019", ...)
+
+interpret_rank_biserial(r, rules = "funder2019", ...)
+
+interpret_fei(r, rules = "funder2019", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>r</code></td>
+<td>
+<p>Value or vector of correlation coefficient.</p>
+</td></tr>
+<tr valign="top"><td><code>rules</code></td>
+<td>
+<p>Can be <code>"funder2019"</code> (default), <code>"gignac2016"</code>, <code>"cohen1988"</code>,
+<code>"evans1996"</code>, <code>"lovakov2021"</code> or a custom set of <code><a href="../../effectsize/help/rules.html">rules()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not directly used.</p>
+</td></tr>
+</table>
+
+
+<h3>Rules</h3>
+
+<p>Rules apply positive and negative <em>r</em> alike.
+</p>
+
+<ul>
+<li><p> Funder &amp; Ozer (2019) (<code>"funder2019"</code>; default)
+</p>
+
+<ul>
+<li> <p><strong>r &lt; 0.05</strong> - Tiny
+</p>
+</li>
+<li> <p><strong>0.05 &lt;= r &lt; 0.1</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.1 &lt;= r &lt; 0.2</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.2 &lt;= r &lt; 0.3</strong> - Medium
+</p>
+</li>
+<li> <p><strong>0.3 &lt;= r &lt; 0.4</strong> - Large
+</p>
+</li>
+<li> <p><strong>r &gt;= 0.4</strong> - Very large
+</p>
+</li></ul>
+
+</li>
+<li><p> Gignac &amp; Szodorai (2016) (<code>"gignac2016"</code>)
+</p>
+
+<ul>
+<li> <p><strong>r &lt; 0.1</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.1 &lt;= r &lt; 0.2</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.2 &lt;= r &lt; 0.3</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>r &gt;= 0.3</strong> - Large
+</p>
+</li></ul>
+
+</li>
+<li><p> Cohen (1988) (<code>"cohen1988"</code>)
+</p>
+
+<ul>
+<li> <p><strong>r &lt; 0.1</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.1 &lt;= r &lt; 0.3</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.3 &lt;= r &lt; 0.5</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>r &gt;= 0.5</strong> - Large
+</p>
+</li></ul>
+
+</li>
+<li><p> Lovakov &amp; Agadullina (2021) (<code>"lovakov2021"</code>)
+</p>
+
+<ul>
+<li> <p><strong>r &lt; 0.12</strong> - Very small
+</p>
+</li>
+<li> <p><strong>0.12 &lt;= r &lt; 0.24</strong> - Small
+</p>
+</li>
+<li> <p><strong>0.24 &lt;= r &lt; 0.41</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>r &gt;= 0.41</strong> - Large
+</p>
+</li></ul>
+
+</li>
+<li><p> Evans (1996) (<code>"evans1996"</code>)
+</p>
+
+<ul>
+<li> <p><strong>r &lt; 0.2</strong> - Very weak
+</p>
+</li>
+<li> <p><strong>0.2 &lt;= r &lt; 0.4</strong> - Weak
+</p>
+</li>
+<li> <p><strong>0.4 &lt;= r &lt; 0.6</strong> - Moderate
+</p>
+</li>
+<li> <p><strong>0.6 &lt;= r &lt; 0.8</strong> - Strong
+</p>
+</li>
+<li> <p><strong>r &gt;= 0.8</strong> - Very strong
+</p>
+</li></ul>
+
+</li></ul>
+
+
+
+<h3>Note</h3>
+
+<p>As <i>&phi;</i> can be larger than 1 - it is recommended to compute
+and interpret Cramer's <em>V</em> instead.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Lovakov, A., &amp; Agadullina, E. R. (2021). Empirically Derived Guidelines for
+Effect Size Interpretation in Social Psychology. European Journal of Social
+Psychology.
+</p>
+</li>
+<li><p> Funder, D. C., &amp; Ozer, D. J. (2019). Evaluating effect size in
+psychological research: sense and nonsense. Advances in Methods and Practices
+in Psychological Science.
+</p>
+</li>
+<li><p> Gignac, G. E., &amp; Szodorai, E. T. (2016). Effect size guidelines for
+individual differences researchers. Personality and individual differences,
+102, 74-78.
+</p>
+</li>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral sciences
+(2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Evans, J. D. (1996). Straightforward statistics for the behavioral
+sciences. Thomson Brooks/Cole Publishing Co.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Page 88 of APA's 6th Edition.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+interpret_r(.015)
+interpret_r(c(.5, -.02))
+interpret_r(.3, rules = "lovakov2021")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Empirical Distributions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for distribution {bayestestR}"><tr><td>distribution {bayestestR}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Empirical Distributions</h2>
+
+<h3>Description</h3>
+
+<p>Generate a sequence of n-quantiles, i.e., a sample of size <code>n</code> with a
+near-perfect distribution.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+distribution(type = "normal", ...)
+
+distribution_custom(n, type = "norm", ..., random = FALSE)
+
+distribution_beta(n, shape1, shape2, ncp = 0, random = FALSE, ...)
+
+distribution_binomial(n, size = 1, prob = 0.5, random = FALSE, ...)
+
+distribution_binom(n, size = 1, prob = 0.5, random = FALSE, ...)
+
+distribution_cauchy(n, location = 0, scale = 1, random = FALSE, ...)
+
+distribution_chisquared(n, df, ncp = 0, random = FALSE, ...)
+
+distribution_chisq(n, df, ncp = 0, random = FALSE, ...)
+
+distribution_gamma(n, shape, scale = 1, random = FALSE, ...)
+
+distribution_mixture_normal(n, mean = c(-3, 3), sd = 1, random = FALSE, ...)
+
+distribution_normal(n, mean = 0, sd = 1, random = FALSE, ...)
+
+distribution_gaussian(n, mean = 0, sd = 1, random = FALSE, ...)
+
+distribution_nbinom(n, size, prob, mu, phi, random = FALSE, ...)
+
+distribution_poisson(n, lambda = 1, random = FALSE, ...)
+
+distribution_student(n, df, ncp, random = FALSE, ...)
+
+distribution_t(n, df, ncp, random = FALSE, ...)
+
+distribution_student_t(n, df, ncp, random = FALSE, ...)
+
+distribution_tweedie(n, xi = NULL, mu, phi, power = NULL, random = FALSE, ...)
+
+distribution_uniform(n, min = 0, max = 1, random = FALSE, ...)
+
+rnorm_perfect(n, mean = 0, sd = 1)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>type</code></td>
+<td>
+<p>Can be any of the names from base R's
+<a href="../../stats/help/Distributions.html">Distributions</a>, like <code>"cauchy"</code>, <code>"pois"</code> or
+<code>"beta"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>the number of observations</p>
+</td></tr>
+<tr valign="top"><td><code>random</code></td>
+<td>
+<p>Generate near-perfect or random (simple wrappers for the base R
+<code style="white-space: pre;">r*</code> functions) distributions.</p>
+</td></tr>
+<tr valign="top"><td><code>shape1, shape2</code></td>
+<td>
+<p>non-negative parameters of the Beta distribution.</p>
+</td></tr>
+<tr valign="top"><td><code>ncp</code></td>
+<td>
+<p>non-centrality parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>number of trials (zero or more).</p>
+</td></tr>
+<tr valign="top"><td><code>prob</code></td>
+<td>
+<p>probability of success on each trial.</p>
+</td></tr>
+<tr valign="top"><td><code>location, scale</code></td>
+<td>
+<p>location and scale parameters.</p>
+</td></tr>
+<tr valign="top"><td><code>df</code></td>
+<td>
+<p>degrees of freedom (non-negative, but can be non-integer).</p>
+</td></tr>
+<tr valign="top"><td><code>shape</code></td>
+<td>
+<p>Shape parameter.</p>
+</td></tr>
+<tr valign="top"><td><code>mean</code></td>
+<td>
+<p>vector of means.</p>
+</td></tr>
+<tr valign="top"><td><code>sd</code></td>
+<td>
+<p>vector of standard deviations.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>the mean</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>Corresponding to <code>glmmTMB</code>'s implementation of nbinom
+distribution, where <code>size=mu/phi</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>vector of (non-negative) means.</p>
+</td></tr>
+<tr valign="top"><td><code>xi</code></td>
+<td>
+<p>For tweedie distributions, the value of <code>xi</code> such that the variance
+is <code>var(Y) = phi * mu^xi</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>power</code></td>
+<td>
+<p>Alias for <code>xi</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>min, max</code></td>
+<td>
+<p>lower and upper limits of the distribution.  Must be finite.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>When <code>random = FALSE</code>, these function return <code style="white-space: pre;">q*(ppoints(n), ...)</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(bayestestR)
+x &lt;- distribution(n = 10)
+plot(density(x))
+
+x &lt;- distribution(type = "gamma", n = 100, shape = 2)
+plot(density(x))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bayestestR</em> version 0.13.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Scale Parameter at the Minimum of the Tsallis Evenness...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for eventstar {vegan}"><tr><td>eventstar {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Scale Parameter at the Minimum of the Tsallis Evenness Profile
+</h2>
+
+<h3>Description</h3>
+
+<p>The function <code>eventstar</code> finds the minimum (<i>q*</i>) of the 
+evenness profile based on the Tsallis entropy. This scale factor
+of the entropy represents a specific weighting of species
+relative frequencies that leads to minimum evenness of the
+community (Mendes et al. 2008).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+eventstar(x, qmax = 5)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A community matrix or a numeric vector.
+</p>
+</td></tr>
+<tr valign="top"><td><code>qmax</code></td>
+<td>
+
+<p>Maximum scale parameter of the Tsallis entropy to be used in 
+finding the minimum of Tsallis based evenness
+in the range <code>c(0, qmax)</code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function <code>eventstar</code> finds a characteristic value of the scale 
+parameter <i>q</i> of the Tsallis entropy corresponding to
+minimum of the evenness (equitability) profile based on Tsallis entropy.
+This value was proposed by Mendes et al. (2008) as <i>q*</i>.
+</p>
+<p>The <i>q*</i> index represents the scale parameter of
+the one parameter Tsallis diversity family that leads to
+the greatest deviation from the maximum equitability given the relative 
+abundance vector of a community.
+</p>
+<p>The value of <i>q*</i> is found by identifying the minimum
+of the evenness profile over scaling factor <i>q</i> by
+one-dimensional minimization. Because evenness profile is
+known to be a convex function, it is guaranteed that underlying
+<code><a href="../../stats/html/optimize.html">optimize</a></code> function will find a unique solution
+if it is in the range <code>c(0, qmax)</code>.
+</p>
+<p>The scale parameter value <i>q*</i> is used to 
+find corresponding values of diversity (<i>H.q*</i>), 
+evenness (<i>H.q*(max)</i>),
+and numbers equivalent (<i>D.q*</i>). For calculation
+details, see <code><a href="../../vegan/help/tsallis.html">tsallis</a></code> and Examples below.
+</p>
+<p>Mendes et al. (2008) advocated the use of <i>q*</i>
+and corresponding diversity, evenness, and Hill numbers, because
+it is a unique value representing the diversity profile, and is
+is positively associated with rare species in the community,
+thus it is a potentially useful indicator of certain
+relative abundance distributions of the communities.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame with columns:
+</p>
+
+<ul>
+<li><p><code>qstar</code> scale parameter value <i>q*</i>
+corresponding to minimum value of Tsallis based evenness profile.
+</p>
+</li>
+<li><p><code>Estar</code> Value of evenness based on normalized Tsallis 
+entropy at <i>q*</i>.
+</p>
+</li>
+<li><p><code>Hstar</code> Value of Tsallis entropy at <i>q*</i>.
+</p>
+</li>
+<li><p><code>Dstar</code> Value of Tsallis entropy at <i>q*</i> 
+converted to numbers equivalents
+(also called as Hill numbers, effective number of species, 
+&lsquo;true&rsquo; diversity; cf. Jost 2007).
+</p>
+</li></ul>
+
+<p>See <code><a href="../../vegan/help/tsallis.html">tsallis</a></code> for calculation details.
+</p>
+
+
+<h3>Note</h3>
+
+<p>Values for <i>q*</i> found by Mendes et al. (2008) ranged
+from 0.56 and 1.12 presenting low variability, so an
+interval between 0 and 5 should safely encompass
+the possibly expected <i>q*</i> values in practice,
+but profiling the evenness and changing the value of
+the <code>qmax</code> argument is advised if output values
+near the range limits are found.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Eduardo Ribeiro Cunha <a href="mailto:edurcunha@gmail.com">edurcunha@gmail.com</a> and 
+Heloisa Beatriz Antoniazi Evangelista <a href="mailto:helobeatriz@gmail.com">helobeatriz@gmail.com</a>, 
+with technical input of Péter Sólymos.
+</p>
+
+
+<h3>References</h3>
+
+<p>Mendes, R.S., Evangelista, L.R., Thomaz, S.M.,
+Agostinho, A.A. and Gomes, L.C. (2008) A unified
+index to measure ecological diversity and species
+rarity. <em>Ecography</em> <b>31</b>, 450&ndash;456.
+</p>
+<p>Jost, L. (2007) Partitioning diversity into independent alpha and beta components.
+<em>Ecology</em> <b>88</b>, 2427&ndash;2439.
+</p>
+<p>Tsallis, C. (1988) Possible generalization of Boltzmann-Gibbs statistics. 
+<em>J. Stat. Phis.</em> <b>52</b>, 479&ndash;487.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Tsallis entropy: <code><a href="../../vegan/help/tsallis.html">tsallis</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(BCI)
+(x &lt;- eventstar(BCI[1:5,]))
+## profiling
+y &lt;- as.numeric(BCI[10,])
+(z &lt;- eventstar(y))
+q &lt;- seq(0, 2, 0.05)
+Eprof &lt;- tsallis(y, scales=q, norm=TRUE)
+Hprof &lt;- tsallis(y, scales=q)
+Dprof &lt;- tsallis(y, scales=q, hill=TRUE)
+opar &lt;- par(mfrow=c(3,1))
+plot(q, Eprof, type="l", main="Evenness")
+abline(v=z$qstar, h=tsallis(y, scales=z$qstar, norm=TRUE), col=2)
+plot(q, Hprof, type="l", main="Diversity")
+abline(v=z$qstar, h=tsallis(y, scales=z$qstar), col=2)
+plot(q, Dprof, type="l", main="Effective number of species")
+abline(v=z$qstar, h=tsallis(y, scales=z$qstar, hill=TRUE), col=2)
+par(opar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

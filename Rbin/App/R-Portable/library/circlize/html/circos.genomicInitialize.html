@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Initialize circular plot with any genomic data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicInitialize {circlize}"><tr><td>circos.genomicInitialize {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Initialize circular plot with any genomic data
+</h2>
+
+<h3>Description</h3>
+
+<p>Initialize circular plot with any genomic data
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicInitialize(
+    data,
+    sector.names = NULL,
+    major.by = NULL,
+    plotType = c("axis", "labels"),
+    tickLabelsStartFromZero = TRUE,
+    axis.labels.cex = 0.4*par("cex"),
+    labels.cex = 0.8*par("cex"),
+    track.height = NULL,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame in bed format.
+</p>
+</td></tr>
+<tr valign="top"><td><code>sector.names</code></td>
+<td>
+<p>Labels for each sectors which will be drawn along each sector. It will not modify values of sector index.
+</p>
+</td></tr>
+<tr valign="top"><td><code>major.by</code></td>
+<td>
+<p>Increment of major ticks. It is calculated automatically if the value is not set (about every 10 degrees there is a major tick).
+</p>
+</td></tr>
+<tr valign="top"><td><code>plotType</code></td>
+<td>
+<p>If it is not <code>NULL</code>, there will create a new track containing axis and names for sectors.
+This argument controls which part should be drawn, <code>axis</code> for genomic axis and <code>labels</code> for chromosome names
+</p>
+</td></tr>
+<tr valign="top"><td><code>tickLabelsStartFromZero</code></td>
+<td>
+<p>Whether axis tick labels start from 0? This will only affect the axis labels while not affect x-values in cells.
+</p>
+</td></tr>
+<tr valign="top"><td><code>axis.labels.cex</code></td>
+<td>
+<p>The font size for the axis tick labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>labels.cex</code></td>
+<td>
+<p>The font size for the labels.
+</p>
+</td></tr>
+<tr valign="top"><td><code>track.height</code></td>
+<td>
+<p>If <code>PlotType</code> is not <code>NULL</code>, height of the annotation track.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.initialize.html">circos.initialize</a></code>
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function will initialize circular plot from genomic data. If <code>plotType</code> is set with value in <code>axis</code> or <code>labels</code>, there will
+create a new track.
+</p>
+<p>The order of sectors related to data structure of <code>data</code>. If the first column in <code>data</code> is a factor, the order of sectors
+is <code>levels(data[[1]])</code>; If the first column is just a simple vector, the order of sectors is <code>unique(data[[1]]</code>.
+</p>
+<p>For more details on initializing genomic plot, please refer to the vignettes.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/initialize-genomic-plot.html#initialize-with-general-genomic-category">https://jokergoo.github.io/circlize_book/book/initialize-genomic-plot.html#initialize-with-general-genomic-category</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+df = read.cytoband()$df
+circos.genomicInitialize(df)
+
+df = data.frame(name = c("TP53", "TP63", "TP73"),
+                start = c(7565097, 189349205, 3569084),
+                end = c(7590856, 189615068, 3652765),
+                stringsAsFactors = FALSE)
+circos.genomicInitialize(df)
+circos.clear()
+
+circos.genomicInitialize(df, tickLabelsStartFromZero = FALSE)
+circos.clear()
+
+circos.genomicInitialize(df, major.by = 5000)
+circos.clear()
+
+circos.genomicInitialize(df, plotType = "labels")
+circos.clear()
+
+circos.genomicInitialize(df, sector.names = c("tp53", "tp63", "tp73"))
+circos.clear()
+
+circos.genomicInitialize(df, sector.names = c("tp53x", "tp63x", "tp73"))
+circos.clear()
+
+df[[1]] = factor(df[[1]], levels = c("TP73", "TP63", "TP53"))
+circos.genomicInitialize(df)
+circos.clear()
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

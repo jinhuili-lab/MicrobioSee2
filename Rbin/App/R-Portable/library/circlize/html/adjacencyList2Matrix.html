@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert adjacency list to an adjacency matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for adjacencyList2Matrix {circlize}"><tr><td>adjacencyList2Matrix {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Convert adjacency list to an adjacency matrix
+</h2>
+
+<h3>Description</h3>
+
+<p>Convert adjacency list to an adjacency matrix
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+adjacencyList2Matrix(lt, square = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lt</code></td>
+<td>
+<p>A data frame which contains adjacency list.</p>
+</td></tr>
+<tr valign="top"><td><code>square</code></td>
+<td>
+<p>Should the returned matrix be a square matrix?</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+set.seed(123)
+df = data.frame(from = sample(letters, 10, replace = TRUE), 
+                to = sample(letters, 10, replace = TRUE), 
+                value = 1:10)
+adjacencyList2Matrix(df)
+adjacencyList2Matrix(df, square = TRUE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

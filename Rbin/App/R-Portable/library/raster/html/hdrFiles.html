@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Header files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hdr {raster}"><tr><td>hdr {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Header files</h2>
+
+<h3>Description</h3>
+
+<p>Write header files to use together with raster binary files to read the data in other applications. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+hdr(x, format, extension='.wld', filename='') 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>RasterLayer or RasterBrick object associated with a binary values file on disk </p>
+</td></tr>
+<tr valign="top"><td><code>format</code></td>
+<td>
+<p>Type of header file: 'VRT', 'BIL', 'ENVI', 'ErdasRaw', 'IDRISI', 'SAGA', 'RASTER', 'WORLDFILE', 'PRJ' </p>
+</td></tr>
+<tr valign="top"><td><code>extension</code></td>
+<td>
+<p>File extension, only used with an ESRI worldfile (<code>format='WORLDFILE'</code>)</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Need to be provided if <code>x</code> is not associated with a file</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The RasterLayer object must be associated with a file on disk.
+</p>
+<p>You can use <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code> to save a existing file in another format. But if you have a file in a 'raster' format (or similar), you can also only export a header file, 
+and use the data file (.gri) that already exists. The function can write a VRT (GDAL virtual raster) header (.vrt); an ENVI or BIL header (.hdr) file; an Erdas Raw (.raw) header file; an IDRISI (.rdc) or SAGA (.sgrd). 
+This (hopefully) allows for reading the binary data (.gri), perhaps after changing the file extension, in other programs such as ENVI or ArcGIS.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/writeRaster.html">writeRaster</a></code>, <code><a href="../../rgdal/help/readGDAL.html">writeGDAL</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+## Not run: 
+r &lt;- raster(system.file("external/test.grd", package="raster"))
+r &lt;- writeRaster(r, filename='export.grd', overwrite=TRUE)
+hdr(r, format="ENVI") 
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

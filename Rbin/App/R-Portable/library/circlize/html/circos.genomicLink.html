@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Add links from two sets of genomic positions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for circos.genomicLink {circlize}"><tr><td>circos.genomicLink {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Add links from two sets of genomic positions
+</h2>
+
+<h3>Description</h3>
+
+<p>Add links from two sets of genomic positions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+circos.genomicLink(
+    region1,
+    region2,
+    rou = get_most_inside_radius(),
+    rou1 = rou,
+    rou2 = rou,
+    col = "black",
+    lwd = par("lwd"),
+    lty = par("lty"),
+    border = col,
+    ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>region1</code></td>
+<td>
+<p>A data frame in bed format.
+</p>
+</td></tr>
+<tr valign="top"><td><code>region2</code></td>
+<td>
+<p>A data frame in bed format.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou1</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rou2</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>, length can be either one or nrow of <code>region1</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>, length can be either one or nrow of <code>region1</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>, length can be either one or nrow of <code>region1</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>, length can be either one or nrow of <code>region1</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Pass to <code><a href="../../circlize/help/circos.link.html">circos.link</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Of course, number of rows should be same in <code>region1</code> and <code>region2</code>.
+</p>
+<p>If you want to have more controls on links, please use <code><a href="../../circlize/help/circos.link.html">circos.link</a></code> directly.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="https://jokergoo.github.io/circlize_book/book/genomic-plotting-region.html#genomic-links">https://jokergoo.github.io/circlize_book/book/genomic-plotting-region.html#genomic-links</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+set.seed(123)
+
+bed1 = generateRandomBed(nr = 100)
+bed1 = bed1[sample(nrow(bed1), 20), ]
+bed2 = generateRandomBed(nr = 100)
+bed2 = bed2[sample(nrow(bed2), 20), ]
+circos.par("track.height" = 0.1, cell.padding = c(0, 0, 0, 0))
+circos.initializeWithIdeogram()
+
+circos.genomicLink(bed1, bed2, col = sample(1:5, 20, replace = TRUE), border = NA)
+circos.clear()
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

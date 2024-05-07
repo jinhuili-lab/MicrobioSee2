@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fetch records from a previously executed query as an Arrow...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for dbFetchArrow {DBI}"><tr><td>dbFetchArrow {DBI}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Fetch records from a previously executed query as an Arrow object</h2>
+
+<h3>Description</h3>
+
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="../help/figures/lifecycle-experimental.svg" alt='[Experimental]' /></a>
+</p>
+<p>Fetch the result set and return it as an Arrow object.
+Use <code><a href="../../DBI/help/dbFetchArrowChunk.html">dbFetchArrowChunk()</a></code> to fetch results in chunks.
+</p>
+
+
+
+<h3>Usage</h3>
+
+<pre>
+dbFetchArrow(res, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>res</code></td>
+<td>
+<p>An object inheriting from <a href="../../DBI/help/DBIResultArrow-class.html">DBIResultArrow</a>, created by
+<code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed on to methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p><code>dbFetchArrow()</code> always returns an object coercible to a <a href="../../base/html/data.frame.html">data.frame</a> with
+as many rows as records were fetched and as many
+columns as fields in the result set,
+even if the result is a single value
+or has one
+or zero rows.
+</p>
+
+
+<h3>The data retrieval flow for Arrow streams</h3>
+
+<p>This section gives a complete overview over the flow
+for the execution of queries that return tabular data as an Arrow stream.
+</p>
+<p>Most of this flow, except repeated calling of <code><a href="../../DBI/help/dbBindArrow.html">dbBindArrow()</a></code> or <code><a href="../../DBI/help/dbBind.html">dbBind()</a></code>,
+is implemented by <code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow()</a></code>,
+which should be sufficient
+unless you have a parameterized query that you want to reuse.
+This flow requires an active connection established by <code><a href="../../DBI/help/dbConnect.html">dbConnect()</a></code>.
+See also <code>vignette("dbi-advanced")</code> for a walkthrough.
+</p>
+
+<ol>
+<li><p> Use <code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow()</a></code> to create a result set object of class
+<a href="../../DBI/help/DBIResultArrow-class.html">DBIResultArrow</a>.
+</p>
+</li>
+<li><p> Optionally, bind query parameters with <code><a href="../../DBI/help/dbBindArrow.html">dbBindArrow()</a></code> or <code><a href="../../DBI/help/dbBind.html">dbBind()</a></code>.
+This is required only if the query contains placeholders
+such as <code style="white-space: pre;">?</code> or <code style="white-space: pre;">$1</code>, depending on the database backend.
+</p>
+</li>
+<li><p> Use <code><a href="../../DBI/help/dbFetchArrow.html">dbFetchArrow()</a></code> to get a data stream.
+</p>
+</li>
+<li><p> Repeat the last two steps as necessary.
+</p>
+</li>
+<li><p> Use <code><a href="../../DBI/help/dbClearResult.html">dbClearResult()</a></code> to clean up the result set object.
+This step is mandatory even if no rows have been fetched
+or if an error has occurred during the processing.
+It is good practice to use <code><a href="../../base/html/on.exit.html">on.exit()</a></code> or <code><a href="../../withr/help/defer.html">withr::defer()</a></code>
+to ensure that this step is always executed.
+</p>
+</li></ol>
+
+
+
+<h3>Failure modes</h3>
+
+<p>An attempt to fetch from a closed result set raises an error.
+</p>
+
+
+<h3>Specification</h3>
+
+<p>Fetching multi-row queries with one
+or more columns by default returns the entire result.
+The object returned by <code>dbFetchArrow()</code> can also be passed to
+<code><a href="../../nanoarrow/help/as_nanoarrow_array_stream.html">nanoarrow::as_nanoarrow_array_stream()</a></code> to create a nanoarrow
+array stream object that can be used to read the result set
+in batches.
+The chunk size is implementation-specific.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Close the result set with <code><a href="../../DBI/help/dbClearResult.html">dbClearResult()</a></code> as soon as you
+finish retrieving the records you want.
+</p>
+<p>Other DBIResultArrow generics: 
+<code><a href="../../DBI/help/DBIResultArrow-class.html">DBIResultArrow-class</a></code>,
+<code><a href="../../DBI/help/dbBind.html">dbBind</a>()</code>,
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult</a>()</code>,
+<code><a href="../../DBI/help/dbFetchArrowChunk.html">dbFetchArrowChunk</a>()</code>,
+<code><a href="../../DBI/help/dbHasCompleted.html">dbHasCompleted</a>()</code>,
+<code><a href="../../DBI/help/dbIsValid.html">dbIsValid</a>()</code>
+</p>
+<p>Other data retrieval generics: 
+<code><a href="../../DBI/help/dbBind.html">dbBind</a>()</code>,
+<code><a href="../../DBI/help/dbClearResult.html">dbClearResult</a>()</code>,
+<code><a href="../../DBI/help/dbFetch.html">dbFetch</a>()</code>,
+<code><a href="../../DBI/help/dbFetchArrowChunk.html">dbFetchArrowChunk</a>()</code>,
+<code><a href="../../DBI/help/dbGetQuery.html">dbGetQuery</a>()</code>,
+<code><a href="../../DBI/help/dbGetQueryArrow.html">dbGetQueryArrow</a>()</code>,
+<code><a href="../../DBI/help/dbHasCompleted.html">dbHasCompleted</a>()</code>,
+<code><a href="../../DBI/help/dbSendQuery.html">dbSendQuery</a>()</code>,
+<code><a href="../../DBI/help/dbSendQueryArrow.html">dbSendQueryArrow</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+con &lt;- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbWriteTable(con, "mtcars", mtcars)
+
+# Fetch all results
+rs &lt;- dbSendQueryArrow(con, "SELECT * FROM mtcars WHERE cyl = 4")
+as.data.frame(dbFetchArrow(rs))
+dbClearResult(rs)
+
+dbDisconnect(con)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>DBI</em> version 1.2.2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

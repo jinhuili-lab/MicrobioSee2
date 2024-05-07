@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Adjacent cells</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for adjacent {raster}"><tr><td>adjacent {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Adjacent cells</h2>
+
+<h3>Description</h3>
+
+<p>Identify cells that are adjacent to a set of cells on a raster. 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'BasicRaster'
+adjacent(x, cells, directions=4, pairs=TRUE, target=NULL, sorted=FALSE, 
+         include=FALSE, id=FALSE, ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>cells</code></td>
+<td>
+<p>vector of cell numbers for which adjacent cells should be found. Cell numbers start with 1 in the upper-left corner and increase from left to right and from top to bottom</p>
+</td></tr>
+<tr valign="top"><td><code>directions</code></td>
+<td>
+<p>the number of directions in which cells should be connected: 4 (rook's case), 8 (queen's case), 16 (knight and one-cell queen moves), or 'bishop' to connect cells with one-cell diagonal moves. Or a neighborhood matrix (see Details)</p>
+</td></tr>
+<tr valign="top"><td><code>pairs</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a matrix of pairs of adjacent cells is returned. If <code>FALSE</code>, a vector of cells adjacent to <code>cells</code> is returned</p>
+</td></tr>
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>optional vector of target cell numbers that should be considered. All other adjacent cells are ignored</p>
+</td></tr>
+<tr valign="top"><td><code>sorted</code></td>
+<td>
+<p>logical. Should the results be sorted? </p>
+</td></tr>
+<tr valign="top"><td><code>include</code></td>
+<td>
+<p>logical. Should the focal cells be included in the result? </p>
+</td></tr>
+<tr valign="top"><td><code>id</code></td>
+<td>
+<p>logical. Should the id of the cells be included in the result? (numbered from 1 to length(cells) </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments. None implemented </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A neighborhood matrix identifies the cells around each cell that are considered adjacent. The matrix should have one, and only one, cell with value 0 (the focal cell); at least one cell with value 1 (the adjacent cell(s)); All other cells are not considered adjacent and ignored.
+</p>
+
+
+<h3>Value</h3>
+
+<p>matrix or vector with adjacent cells. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Robert J. Hijmans and Jacob van Etten</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(nrows=10, ncols=10)
+adjacent(r, cells=c(1, 55), directions=8, pairs=TRUE) 
+
+a &lt;- adjacent(r, cell = c(1,55,90), directions=4, sorted=TRUE) 
+a
+
+r[c(1,55,90)] &lt;- 1
+r[a] &lt;- 2
+plot(r)
+
+# same result as above
+rook &lt;- matrix(c(NA, 1, NA, 
+                  1, 0,  1, 
+                 NA, 1, NA), ncol=3, byrow=TRUE)
+
+adjacent(r, cells = c(1,55,90), directions=rook, sorted=TRUE) 
+
+
+# Count the number of times that a cell with a certain value
+# occurs next to a cell with a certain value
+set.seed(0)
+r &lt;- raster(ncol=10, nrow=10)
+values(r) &lt;- round(runif(ncell(r)) * 5)
+a &lt;- adjacent(r, 1:ncell(r), 4, pairs=TRUE)
+tb &lt;- table(r[a[,1]], r[a[,2]])
+tb
+# make a matrix out of the 'table' object
+tb &lt;- unclass(tb)
+plot(raster(tb, xmn=-0.5, xmx=5.5, ymn=-0.5, ymx=5.5))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

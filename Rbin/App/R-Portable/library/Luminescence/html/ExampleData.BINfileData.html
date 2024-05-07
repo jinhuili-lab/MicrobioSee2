@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Example data from a SAR OSL and SAR TL measurement for the...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for ExampleData.BINfileData {Luminescence}"><tr><td>ExampleData.BINfileData {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Example data from a SAR OSL and SAR TL measurement for the package
+Luminescence</h2>
+
+<h3>Description</h3>
+
+<p>Example data from a SAR OSL and TL measurement for package Luminescence
+directly extracted from a Risoe BIN-file and provided in an object of type
+<a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>
+</p>
+
+
+<h3>Format</h3>
+
+<p><code>CWOSL.SAR.Data</code>: SAR OSL measurement data
+</p>
+<p><code>TL.SAR.Data</code>: SAR TL measurement data
+</p>
+<p>Each class object contains two slots: (a) <code>METADATA</code> is a <a href="../../base/html/data.frame.html">data.frame</a> with
+all metadata stored in the BIN file of the measurements and (b) <code>DATA</code>
+contains a list of vectors of the measured data (usually count values).
+</p>
+
+
+<h3>Version</h3>
+
+<p>0.1
+</p>
+
+
+<h3>Note</h3>
+
+<p>Please note that this example data cannot be exported to a BIN-file using the function
+<code>writeR2BIN</code> as it was generated and implemented in the package long time ago. In the meantime
+the BIN-file format changed.
+</p>
+
+
+<h3>Source</h3>
+
+<p><strong>CWOSL.SAR.Data</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Lab: </td><td style="text-align: left;"> Luminescence Laboratory Bayreuth </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab-Code: </td><td style="text-align: left;"> BT607 </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Location: </td><td style="text-align: left;"> Saxony/Germany </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Material: </td><td style="text-align: left;"> Middle grain quartz measured on aluminium cups on a Risø TL/OSL DA-15 reader</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> unpublished
+</td>
+</tr>
+
+</table>
+
+<p><strong>TL.SAR.Data</strong>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Lab: </td><td style="text-align: left;"> Luminescence Laboratory of Cologne</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Lab-Code: </td><td style="text-align: left;"> LP1_5</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Location: </td><td style="text-align: left;"> Spain</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Material: </td><td style="text-align: left;"> Flint </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Setup: </td><td style="text-align: left;"> Risoe TL/OSL DA-20 reader (Filter: Semrock Brightline, HC475/50, N2, unpolished steel discs) </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Reference: </td><td style="text-align: left;"> unpublished </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Remarks: </td><td style="text-align: left;"> dataset limited to one position
+</td>
+</tr>
+
+</table>
+
+
+
+<h3>References</h3>
+
+<p><strong>CWOSL.SAR.Data</strong>: unpublished data
+</p>
+<p><strong>TL.SAR.Data</strong>: unpublished data
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## show first 5 elements of the METADATA and DATA elements in the terminal
+data(ExampleData.BINfileData, envir = environment())
+CWOSL.SAR.Data@METADATA[1:5,]
+CWOSL.SAR.Data@DATA[1:5]
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

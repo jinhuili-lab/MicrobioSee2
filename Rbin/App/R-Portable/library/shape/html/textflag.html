@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: adds a filled rounded rectangular box with a text to a plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for textflag {shape}"><tr><td>textflag {shape}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+adds a filled rounded rectangular box with a text to a plot
+</h2>
+
+<h3>Description</h3>
+
+<p>adds a rectangular box with rounded left and right edges to a plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+textflag(mid, radx, rady, rx = rady, dr = 0.01, 
+         col = femmecol(100), lcol = "white", 
+         bcol = lcol, lwd = 2, angle = 0, lab = NULL, 
+         leftright = TRUE, tcol = NULL, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>mid </code></td>
+<td>
+<p>midpoint (x,y) of the box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>radx </code></td>
+<td>
+<p>horizontal radius of the box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rady </code></td>
+<td>
+<p>vertical radius of the box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>rx </code></td>
+<td>
+<p>radius of rounded part.
+</p>
+</td></tr>
+<tr valign="top"><td><code>dr </code></td>
+<td>
+<p>size of segments, in radians, to draw the rounded line 
+(decrease for smoother).
+</p>
+</td></tr>
+<tr valign="top"><td><code>col </code></td>
+<td>
+<p>fill color of the box; the box will be filled from left to right.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lcol </code></td>
+<td>
+<p>line color surrounding box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bcol </code></td>
+<td>
+<p>line color to remove the ellipse from the rectangular box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>tcol </code></td>
+<td>
+<p>text color.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd </code></td>
+<td>
+<p>line width of line surrounding the box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>angle </code></td>
+<td>
+<p>rotation angle, degrees.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lab </code></td>
+<td>
+<p>one label or a vector string of labels to be added in box.
+</p>
+</td></tr>
+<tr valign="top"><td><code>leftright </code></td>
+<td>
+<p>if <code>TRUE</code> then coloring is from left to right 
+else the coloring is from bottom to top box (for <code>angle</code> = 0).
+</p>
+</td></tr>
+<tr valign="top"><td><code>... </code></td>
+<td>
+<p>other arguments passed to function <a href="../../graphics/html/text.html">text</a>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><code>radx</code> and <code>rady</code> are the horizontal and vertical radiusses of
+the box; <code>rx</code> is the horizontal radius of the rounded part.
+</p>
+<p>Here <code>horizontal</code> and <code>vertical</code> denote the position BEFORE
+rotation.
+</p>
+<p>This function is similar to function <a href="../../shape/help/roundrect.html">roundrect</a>, except that coloring 
+is from left to right.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Karline Soetaert &lt;karline.soetaert@nioz.nl&gt;</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+emptyplot()
+textflag(mid = c(0.5, 0.5), radx = 0.5, rady = 0.1, 
+         lcol = "white",  lab = "hello", cex = 5, font = 2:3)
+ 
+textflag(mid = c(0.5, 0.15), radx = 0.5, rady = 0.1, 
+         rx = 0.3,lcol = "black", lab = "hello 2", cex = 4, 
+         font = 2, angle = 20, tcol = "darkblue")
+  
+textflag(mid = c(0.5, 0.85), radx = 0.5, rady = 0.1, rx = 0.03,
+         lcol = "white", lab = "hello 3", cex = 4, font = 2, 
+         leftright = FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>shape</em> version 1.4.6.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

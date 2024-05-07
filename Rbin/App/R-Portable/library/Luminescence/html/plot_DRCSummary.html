@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a Dose-Response Curve Summary Plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_DRCSummary {Luminescence}"><tr><td>plot_DRCSummary {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a Dose-Response Curve Summary Plot</h2>
+
+<h3>Description</h3>
+
+<p>While analysing OSL SAR or pIRIR-data the view on the data is limited usually to one
+dose-response curve (DRC) at the time for one aliquot. This function overcomes this limitation
+by plotting all DRC from an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object created by the function <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>
+in one single plot.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_DRCSummary(
+  object,
+  source_dose_rate = NULL,
+  sel_curves = NULL,
+  show_dose_points = FALSE,
+  show_natural = FALSE,
+  n = 51L,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object (<strong>required</strong>): input object created by the function <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>. The input object can be provided as <a href="../../base/html/list.html">list</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>source_dose_rate</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): allows to modify the axis and show values in Gy, instead seconds. Only a single numerical values is allowed.</p>
+</td></tr>
+<tr valign="top"><td><code>sel_curves</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (optional): id of the curves to be plotting in its occurring order. A sequence can
+be provided for selecting, e.g., only every 2nd curve from the input object</p>
+</td></tr>
+<tr valign="top"><td><code>show_dose_points</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (with default): enable or disable plot of dose points in the graph</p>
+</td></tr>
+<tr valign="top"><td><code>show_natural</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (with default): enable or disable the plot of the natural <code>Lx/Tx</code> values</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (with default): the number of x-values used to evaluate one curve object. Large numbers slow
+down the plotting process and are usually not needed</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Further arguments and graphical parameters to be passed.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If you want plot your DRC on an energy scale (dose in Gy), you can either use the option <code>source_dose_rate</code> provided
+below or your can SAR analysis with the dose points in Gy (better axis scaling).
+</p>
+
+
+<h3>Value</h3>
+
+<p>An <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object is returned:
+</p>
+<p>Slot: <strong>@data</strong><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>OBJECT</strong> </td><td style="text-align: left;"> <strong>TYPE</strong> </td><td style="text-align: left;"> <strong>COMMENT</strong></td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>results</code> </td><td style="text-align: left;"> <a href="../../base/html/data.frame.html">data.frame</a> </td><td style="text-align: left;"> with dose and LxTx values </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>data</code> </td><td style="text-align: left;"> <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> </td><td style="text-align: left;"> original input data </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>Slot: <strong>@info</strong><br />
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<strong>OBJECT</strong> </td><td style="text-align: left;"> <strong>TYPE</strong> </td><td style="text-align: left;"> <strong>COMMENT</strong> </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>call</code> </td><td style="text-align: left;"> <code>call</code> </td><td style="text-align: left;"> the original function call </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<code>args</code> </td><td style="text-align: left;"> <code>list</code> </td><td style="text-align: left;"> arguments of the original function call </td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><em>Note: If the input object is a <a href="../../base/html/list.html">list</a> a list of <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> objects is returned.</em>
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.2.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., Burow, C., 2021. plot_DRCSummary(): Create a Dose-Response Curve Summary Plot. Function version 0.2.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom) <br />
+Christoph Burow, University of Cologne
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a>, <a href="../../Luminescence/help/analyse_SAR.CWOSL.html">analyse_SAR.CWOSL</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+#load data example data
+data(ExampleData.BINfileData, envir = environment())
+
+#transform the values from the first position in a RLum.Analysis object
+object &lt;- Risoe.BINfileData2RLum.Analysis(CWOSL.SAR.Data, pos=1)
+
+results &lt;- analyse_SAR.CWOSL(
+  object = object,
+  signal.integral.min = 1,
+  signal.integral.max = 2,
+   background.integral.min = 900,
+   background.integral.max = 1000,
+   plot = FALSE
+ )
+
+##plot only DRC
+plot_DRCSummary(results)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a RasterBrick object</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for brick {raster}"><tr><td>brick {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Create a RasterBrick object</h2>
+
+<h3>Description</h3>
+
+<p>A RasterBrick is a multi-layer raster object. They are typically created from a multi-layer (band) file; but they can also exist entirely in memory. They are similar to a RasterStack (that can be created with <code><a href="../help/stack.html">stack</a></code>), but processing time should be shorter when using a RasterBrick. Yet they are less flexible as they can only point to a single file.
+</p>
+<p>A RasterBrick can be created from RasterLayer objects, from a RasterStack, or from a (multi-layer) file. The can also be created from SpatialPixels*, SpatialGrid*, and Extent objects, and from a three-dimensional array.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'character'
+brick(x, ...)
+
+## S4 method for signature 'RasterStack'
+brick(x, values=TRUE, nl, filename='', ...) 
+
+## S4 method for signature 'RasterBrick'
+brick(x, nl, ...)
+
+## S4 method for signature 'RasterLayer'
+brick(x, ..., values=TRUE, nl=1, filename='') 
+
+## S4 method for signature 'missing'
+brick(nrows=180, ncols=360, xmn=-180, xmx=180, ymn=-90, ymx=90, nl=1, crs)
+
+## S4 method for signature 'Extent'
+brick(x, nrows=10, ncols=10, crs="", nl=1)
+
+## S4 method for signature 'array'
+brick(x, xmn=0, xmx=1, ymn=0, ymx=1, crs="", transpose=FALSE)
+
+## S4 method for signature 'SpatialGrid'
+brick(x)
+
+## S4 method for signature 'SpatialPixels'
+brick(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>character (filename, see Details); Raster* object; missing; array; SpatialGrid*; SpatialPixels*; Extent; or list of Raster* objects. Supported file types are the 'native' raster package format and those that can be read via rgdal (see <code><a href="../../rgdal/help/readGDAL.html">readGDAL</a></code>), and NetCDF files (see details)</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>see Details</p>
+</td></tr>
+<tr valign="top"><td><code>values</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, the cell values of '<code>x</code>' are copied to the RasterBrick object that is returned</p>
+</td></tr>
+<tr valign="top"><td><code>nl</code></td>
+<td>
+<p>integer &gt; 0. How many layers should the RasterBrick have?</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Filename if you want the RasterBrick to be saved on disk</p>
+</td></tr>
+<tr valign="top"><td><code>nrows</code></td>
+<td>
+<p>integer &gt; 0. Number of rows</p>
+</td></tr>
+<tr valign="top"><td><code>ncols</code></td>
+<td>
+<p>integer &gt; 0. Number of columns</p>
+</td></tr>
+<tr valign="top"><td><code>xmn</code></td>
+<td>
+<p>minimum x coordinate (left border)</p>
+</td></tr>
+<tr valign="top"><td><code>xmx</code></td>
+<td>
+<p>maximum x coordinate (right border)</p>
+</td></tr>
+<tr valign="top"><td><code>ymn</code></td>
+<td>
+<p>minimum y coordinate (bottom border)</p>
+</td></tr>
+<tr valign="top"><td><code>ymx</code></td>
+<td>
+<p>maximum y coordinate (top border)</p>
+</td></tr>
+<tr valign="top"><td><code>crs</code></td>
+<td>
+<p>character or object of class CRS. PROJ4 type description of a Coordinate Reference System (map projection). If this argument is missing, and the x coordinates are within -360 .. 360 and the y coordinates are within -90 .. 90, &quot;+proj=longlat +datum=WGS84&quot; is used</p>
+</td></tr>
+<tr valign="top"><td><code>transpose</code></td>
+<td>
+<p>if <code>TRUE</code>, the values in the array are transposed</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>x</code> is a RasterLayer, the additional arguments can be used to pass additional Raster* objects.
+</p>
+<p>If there is a <code>filename</code> argument, the additional arguments are as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code>. 
+</p>
+<p>If <code>x</code> represents a filename there is the following additional argument:
+</p>
+<p><code>native</code>: logical. If <code>TRUE</code> (not the default), reading and writing of IDRISI, BIL, BSQ, BIP, and Arc ASCII files is done with native (raster package) drivers, rather then via rgdal.
+</p>
+<p>In addition, if <code>x</code> is a <b>NetCDF</b> filename there are the following additional arguments:
+</p>
+<p><code>varname</code>: character. The variable name (e.g. 'altitude' or 'precipitation'. If not supplied and the file has multiple
+variables are a guess will be made (and reported))
+</p>
+<p><code>lvar</code>: integer &gt; 0 (default=3). To select the 'level variable' (3rd dimension variable) to use, if the file has 4 dimensions (e.g. depth instead of time)
+</p>
+<p><code>level</code>: integer &gt; 0 (default=1). To select the 'level' (4th dimension variable) to use, if the file has 4 dimensions, e.g. to create a RasterBrick of weather over time at a certain height.
+</p>
+<p><code>dims</code>: integer vector to indicated the order of the dimensions. Default is <code>dims=c(1,2,3)</code> (rows, cols, time).  
+</p>
+<p>To use NetCDF files the <code>ncdf4</code> package needs to be available. It is assumed that these files follow, or are compatible with the CF-1 convention.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterBrick
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../help/raster.html">raster</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+b &lt;- brick(system.file("external/rlogo.grd", package="raster"))
+b
+nlayers(b)
+names(b)
+extract(b, 870)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

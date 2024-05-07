@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Standardized Mean Differences for Repeated Measures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for repeated_measures_d {effectsize}"><tr><td>repeated_measures_d {effectsize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Standardized Mean Differences for Repeated Measures</h2>
+
+<h3>Description</h3>
+
+<p>Compute effect size indices for standardized mean differences in repeated
+measures data. Pair with any reported <code>stats::t.test(paired = TRUE)</code>.
+<br /><br />
+In a repeated-measures design, the same subjects are measured in multiple
+conditions or time points. Unlike the case of independent groups, there are
+multiple sources of variation that can be used to standardized the
+differences between the means of the conditions / times.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+repeated_measures_d(
+  x,
+  y,
+  data = NULL,
+  mu = 0,
+  method = c("rm", "av", "z", "b", "d", "r"),
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+
+rm_d(
+  x,
+  y,
+  data = NULL,
+  mu = 0,
+  method = c("rm", "av", "z", "b", "d", "r"),
+  adjust = TRUE,
+  ci = 0.95,
+  alternative = "two.sided",
+  verbose = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x, y</code></td>
+<td>
+<p>Paired numeric vectors, or names of ones in <code>data</code>. <code>x</code> can also
+be a formula:
+</p>
+
+<ul>
+<li> <p><code>Pair(x,y) ~ 1</code> for wide data.
+</p>
+</li>
+<li> <p><code>y ~ condition | id</code> for long data, possibly with repetitions.
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>An optional data frame containing the variables.</p>
+</td></tr>
+<tr valign="top"><td><code>mu</code></td>
+<td>
+<p>a number indicating the true value of the mean (or
+difference in means if you are performing a two sample test).</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method of repeated measures standardized differences. See
+details.</p>
+</td></tr>
+<tr valign="top"><td><code>adjust</code></td>
+<td>
+<p>Apply Hedges' small-sample bias correction? See <code><a href="../../effectsize/help/hedges_g.html">hedges_g()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Confidence Interval (CI) level</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>a character string specifying the alternative hypothesis;
+Controls the type of CI returned: <code>"two.sided"</code> (default, two-sided CI),
+<code>"greater"</code> or <code>"less"</code> (one-sided CI). Partial matching is allowed (e.g.,
+<code>"g"</code>, <code>"l"</code>, <code>"two"</code>...). See <em>One-Sided CIs</em> in <a href="../../effectsize/help/effectsize_CIs.html">effectsize_CIs</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle warnings and messages on or off.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods. When <code>x</code> is a formula,
+these can be <code>subset</code> and <code>na.action</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A data frame with the effect size and their CIs (<code>CI_low</code> and
+<code>CI_high</code>).
+</p>
+
+
+<h3>Standardized Mean Differences for Repeated Measures</h3>
+
+<p>Unlike <a href="../../effectsize/help/cohens_d.html">Cohen's d</a> for independent groups, where standardization
+naturally is done by the (pooled) population standard deviation (cf. Glass’s
+<i>&Delta;</i>), when measured across two conditions are dependent, there are
+many more options for what error term to standardize by. Additionally, some
+options allow for data to be replicated (many measurements per condition per
+individual), others require a single observation per condition per individual
+(aka, paired data; so replications are aggregated).
+</p>
+<p>(It should be noted that all of these have awful and confusing notations.)
+</p>
+<p>Standardize by...
+</p>
+
+<ul>
+<li> <p><strong>Difference Score Variance: <i>d_{z}</i></strong> (<em>Requires paired data</em>) - This
+is akin to computing difference scores for each individual and then
+computing a one-sample Cohen's <em>d</em> (Cohen, 1988, pp. 48; see examples).
+</p>
+</li>
+<li> <p><strong>Within-Subject Variance: <i>d_{rm}</i></strong> (<em>Requires paired data</em>) - Cohen
+suggested adjusting <i>d_{z}</i> to estimate the &quot;standard&quot; between-subjects
+<em>d</em> by a factor of <i>&radic;{2(1-r)}</i>, where <em>r</em> is the Pearson correlation
+between the paired measures (Cohen, 1988, pp. 48).
+</p>
+</li>
+<li> <p><strong>Control Variance: <i>d_{b}</i> (aka Becker's <em>d</em>)</strong> (<em>Requires paired
+data</em>) - Standardized by the variance of the control condition (or in a pre-
+post-treatment setting, the pre-treatment condition). This is akin to Glass'
+<em>delta</em> (<code><a href="../../effectsize/help/glass_delta.html">glass_delta()</a></code>) (Becker, 1988). Note that this is taken here as the
+<em>second</em> condition (<code>y</code>).
+</p>
+</li>
+<li> <p><strong>Average Variance: <i>d_{av}</i></strong> (<em>Requires paired data</em>) - Instead of
+standardizing by the variance in the of the control (or pre) condition,
+Cumming suggests standardizing by the average variance of the two paired
+conditions (Cumming, 2013, pp. 291).
+</p>
+</li>
+<li> <p><strong>All Variance: Just <i>d</i></strong> - This is the same as computing a standard
+independent-groups Cohen's <em>d</em> (Cohen, 1988). Note that CIs <em>do</em> account for
+the dependence, and so are typically more narrow (see examples).
+</p>
+</li>
+<li> <p><strong>Residual Variance: <i>d_{r}</i></strong> (<em>Requires data with replications</em>) -
+Divide by the pooled variance after all individual differences have been
+partialled out (i.e., the residual/level-1 variance in an ANOVA or MLM
+setting). In between-subjects designs where each subject contributes a single
+response, this is equivalent to classical Cohen’s d. Priors in the
+<code>BayesFactor</code> package are defined on this scale (Rouder et al., 2012).
+<br /><br />
+Note that for paired data, when the two conditions have equal variance,
+<i>d_{rm}</i>, <i>d_{av}</i>, <i>d_{b}</i> are equal to <i>d</i>.
+</p>
+</li></ul>
+
+
+
+<h3>Confidence (Compatibility) Intervals (CIs)</h3>
+
+<p>Confidence intervals are estimated using the standard normal parametric
+method (see Algina &amp; Keselman, 2003; Becker, 1988; Cooper et al., 2009;
+Hedges &amp; Olkin, 1985; Pustejovsky et al., 2014).
+</p>
+
+
+<h3>CIs and Significance Tests</h3>
+
+<p>&quot;Confidence intervals on measures of effect size convey all the information
+in a hypothesis test, and more.&quot; (Steiger, 2004). Confidence (compatibility)
+intervals and p values are complementary summaries of parameter uncertainty
+given the observed data. A dichotomous hypothesis test could be performed
+with either a CI or a p value. The 100 (1 - <i>&alpha;</i>)% confidence
+interval contains all of the parameter values for which <em>p</em> &gt; <i>&alpha;</i>
+for the current data and model. For example, a 95% confidence interval
+contains all of the values for which p &gt; .05.
+<br /><br />
+Note that a confidence interval including 0 <em>does not</em> indicate that the null
+(no effect) is true. Rather, it suggests that the observed data together with
+the model and its assumptions combined do not provided clear evidence against
+a parameter value of 0 (same as with any other value in the interval), with
+the level of this evidence defined by the chosen <i>&alpha;</i> level (Rafi &amp;
+Greenland, 2020; Schweder &amp; Hjort, 2016; Xie &amp; Singh, 2013). To infer no
+effect, additional judgments about what parameter values are &quot;close enough&quot;
+to 0 to be negligible are needed (&quot;equivalence testing&quot;; Bauer &amp; Kiesser,
+1996).
+</p>
+
+
+<h3>Plotting with <code>see</code></h3>
+
+<p>The <code>see</code> package contains relevant plotting functions. See the <a href="https://easystats.github.io/see/articles/effectsize.html">plotting vignette in the <code>see</code> package</a>.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>rm_d()</code> is an alias for <code>repeated_measures_d()</code>.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Algina, J., &amp; Keselman, H. J. (2003). Approximate confidence intervals for
+effect sizes. Educational and Psychological Measurement, 63(4), 537-553.
+</p>
+</li>
+<li><p> Becker, B. J. (1988). Synthesizing standardized mean‐change measures.
+British Journal of Mathematical and Statistical Psychology, 41(2), 257-278.
+</p>
+</li>
+<li><p> Cohen, J. (1988). Statistical power analysis for the behavioral
+sciences (2nd Ed.). New York: Routledge.
+</p>
+</li>
+<li><p> Cooper, H., Hedges, L., &amp; Valentine, J. (2009). Handbook of research
+synthesis and meta-analysis. Russell Sage Foundation, New York.
+</p>
+</li>
+<li><p> Cumming, G. (2013). Understanding the new statistics: Effect sizes,
+confidence intervals, and meta-analysis. Routledge.
+</p>
+</li>
+<li><p> Hedges, L. V. &amp; Olkin, I. (1985). Statistical methods for
+meta-analysis. Orlando, FL: Academic Press.
+</p>
+</li>
+<li><p> Pustejovsky, J. E., Hedges, L. V., &amp; Shadish, W. R. (2014).
+Design-comparable effect sizes in multiple baseline designs: A general
+modeling framework. Journal of Educational and Behavioral Statistics, 39(5),
+368-393.
+</p>
+</li>
+<li><p> Rouder, J. N., Morey, R. D., Speckman, P. L., &amp; Province, J. M. (2012).
+Default Bayes factors for ANOVA designs. Journal of mathematical psychology,
+56(5), 356-374.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../effectsize/help/cohens_d.html">cohens_d()</a></code>, and <code>lmeInfo::g_mlm()</code> and <code>emmeans::effsize()</code> for
+more flexible methods.
+</p>
+<p>Other standardized differences: 
+<code><a href="../../effectsize/help/cohens_d.html">cohens_d</a>()</code>,
+<code><a href="../../effectsize/help/mahalanobis_d.html">mahalanobis_d</a>()</code>,
+<code><a href="../../effectsize/help/means_ratio.html">means_ratio</a>()</code>,
+<code><a href="../../effectsize/help/p_superiority.html">p_superiority</a>()</code>,
+<code><a href="../../effectsize/help/rank_biserial.html">rank_biserial</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Paired data -------
+
+data("sleep")
+sleep2 &lt;- reshape(sleep,
+  direction = "wide",
+  idvar = "ID", timevar = "group"
+)
+
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2)
+
+# Same as:
+# repeated_measures_d(sleep$extra[sleep$group==1],
+#                     sleep$extra[sleep$group==2])
+# repeated_measures_d(extra ~ group | ID, data = sleep)
+
+
+# More options:
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, mu = -1)
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, alternative = "less")
+
+# Other methods
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, method = "av")
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, method = "b")
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, method = "d")
+repeated_measures_d(Pair(extra.1, extra.2) ~ 1, data = sleep2, method = "z", adjust = FALSE)
+
+# d_z is the same as Cohen's d for one sample (of individual difference):
+cohens_d(extra.1 - extra.2 ~ 1, data = sleep2)
+
+
+
+# Repetition data -----------
+
+data("rouder2016")
+
+# For rm, ad, z, b, data is aggregated
+repeated_measures_d(rt ~ cond | id, data = rouder2016)
+
+# same as:
+rouder2016_wide &lt;- tapply(rouder2016[["rt"]], rouder2016[1:2], mean)
+repeated_measures_d(rouder2016_wide[, 1], rouder2016_wide[, 2])
+
+# For r or d, data is not aggragated:
+repeated_measures_d(rt ~ cond | id, data = rouder2016, method = "r")
+repeated_measures_d(rt ~ cond | id, data = rouder2016, method = "d", adjust = FALSE)
+
+# d is the same as Cohen's d for two independent groups:
+cohens_d(rt ~ cond, data = rouder2016, ci = NULL)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>effectsize</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

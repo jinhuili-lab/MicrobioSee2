@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Construct the path to a file from components and expands...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for filePath {R.utils}"><tr><td>filePath {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Construct the path to a file from components and expands Windows Shortcuts along the pathname from root to leaf</h2>
+
+<h3>Description</h3>
+
+<p>Construct the path to a file from components and expands Windows Shortcuts along the pathname from root to leaf.  This function is backward compatible with
+<code><a href="../../base/help/file.path.html">file.path</a></code>() when argument <code>removeUps=FALSE</code> and
+<code>expandLinks="none"</code>, except that a (character) <code><a href="../../base/help/NA.html">NA</a></code> is
+return if any argument is NA.
+</p>
+<p>This function exists on all platforms, not only Windows systems.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+filePath(..., fsep=.Platform$file.sep, removeUps=TRUE,
+  expandLinks=c("none", "any", "local", "relative", "network"), unmap=FALSE,
+  mustExist=FALSE, verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments to be pasted together to a file path and then be
+parsed from the root to the leaf where Windows shortcut files are
+recognized and expanded according to argument <code>which</code> in each
+step.</p>
+</td></tr>
+<tr valign="top"><td><code>fsep</code></td>
+<td>
+<p>the path separator to use.</p>
+</td></tr>
+<tr valign="top"><td><code>removeUps</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, relative paths, for instance &quot;foo/bar/../&quot;
+are shortened into &quot;foo/&quot;, but also &quot;./&quot; are removed from the final
+pathname, if possible.</p>
+</td></tr>
+<tr valign="top"><td><code>expandLinks</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string. If <code>"none"</code>, Windows
+Shortcut files are ignored.  If <code>"local"</code>, the absolute target
+on the local file system is used. If <code>"relative"</code>, the relative
+target is used. If <code>"network"</code>, the network target is used. If
+<code>"any"</code>, first the local, then the relative and finally the
+network target is searched for.</p>
+</td></tr>
+<tr valign="top"><td><code>unmap</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, paths on mapped Windows drives are &quot;followed&quot;
+and translated to their corresponding &quot;true&quot; paths.</p>
+</td></tr>
+<tr valign="top"><td><code>mustExist</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code> and if the target does not exist, the original
+pathname, that is, argument <code>pathname</code> is returned. In all other
+cases the target is returned.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, extra information is written while reading.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>expandLinks != "none"</code>, each component, call it <em>parent</em>,
+in the absolute path is processed from the left to the right as follows:
+1. If a &quot;real&quot; directory of name <em>parent</em> exists, it is followed.
+2. Otherwise, if Microsoft Windows Shortcut file with name
+<em>parent.lnk</em> exists, it is read. If its local target exists, that
+is followed, otherwise its network target is followed.
+3. If no valid existing directory was found in (1) or (2), the expanded
+this far followed by the rest of the pathname is returned quietly.
+4. If all of the absolute path was expanded successfully the expanded
+absolute path is returned.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a <code><a href="../../base/help/character.html">character</a></code> string.
+</p>
+
+
+<h3>On speed</h3>
+
+<p>Internal <code>file.exists()</code> is call while expanding the pathname.
+This is used to check if there exists a Windows shortcut file named
+'foo.lnk' in 'path/foo/bar'. If it does, 'foo.lnk' has to be followed,
+and in other cases 'foo' is ordinary directory.
+The <code>file.exists()</code> is unfortunately a bit slow, which is why
+this function appears slow if called many times.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/readWindowsShellLink.html">readWindowsShellLink</a></code>().
+<code><a href="../../R.utils/help/readWindowsShortcut.html">readWindowsShortcut</a></code>().
+<code><a href="../../base/help/file.path.html">file.path</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Default
+print(file.path("foo", "bar", "..", "name")) # "foo/bar/../name"
+
+# Shorten pathname, if possible
+print(filePath("foo", "bar", "..", "name"))  # "foo/name"
+print(filePath("foo/bar/../name"))           # "foo/name"
+
+# Recognize Windows Shortcut files along the path, cf. Unix soft links
+filename &lt;- system.file("data-ex/HISTORY.LNK", package="R.utils")
+print(filename)
+filename &lt;- filePath(filename, expandLinks="relative")
+print(filename)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

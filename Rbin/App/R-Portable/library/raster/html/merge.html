@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Merge Raster* objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for merge {raster}"><tr><td>merge {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> 
+Merge Raster* objects
+</h2>
+
+<h3>Description</h3>
+
+<p>Merge Raster* objects to form a new Raster object with a larger spatial extent. If objects overlap, the values get priority in the same order as the arguments, but <code>NA</code> values are ignored (except when <code>overlap=FALSE</code>). See <code><a href="../help/subs.html">subs</a></code> to merge a <code>Raster*</code> object and a <code>data.frame</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster,Raster'
+merge(x, y, ..., tolerance=0.05, filename="", overlap=TRUE, ext=NULL)
+
+## S4 method for signature 'RasterStackBrick,missing'
+merge(x, ..., tolerance=0.05, filename="", ext=NULL)
+
+## S4 method for signature 'Extent,ANY'
+merge(x, y, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* or Extent object</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>Raster* if <code>x</code> is a Raster* object (or missing). If <code>x</code> is an Extent, <code>y</code> can be an Extent or object from which an Extent can be extracted</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional Raster or Extent objects (and/or arguments for writing files as in <code><a href="../../raster/help/writeRaster.html">writeRaster</a>)</code></p>
+</td></tr>
+<tr valign="top"><td><code>tolerance</code></td>
+<td>
+<p>numeric. permissible difference in origin (relative to the cell resolution). See <code><a href="../../base/help/all.equal.html">all.equal</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Output filename (optional)</p>
+</td></tr>
+<tr valign="top"><td><code>overlap</code></td>
+<td>
+<p>logical. If <code>FALSE</code> values of overlapping objects are based on the first layer, even if they are <code>NA</code></p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent object (optional) to limit the output to that extent</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Raster objects must have the same origin and resolution. In areas where the Raster objects overlap, the values of the Raster object that is first in the sequence of arguments will be retained. If you would rather use the average of cell values, or do another computation, you can use <code><a href="../help/mosaic.html">mosaic</a></code> instead of merge.
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer or RasterBrick
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r1 &lt;- raster(xmx=-150, ymn=60, ncols=30, nrows=30)
+values(r1) &lt;- 1:ncell(r1)
+r2 &lt;- raster(xmn=-100, xmx=-50, ymx=50, ymn=30)
+res(r2) &lt;- c(xres(r1), yres(r1))
+values(r2) &lt;- 1:ncell(r2)
+rm &lt;- merge(r1, r2)
+
+# if you have many RasterLayer objects in a list
+# you can use do.call:
+x &lt;- list(r1, r2)
+# add arguments such as filename
+# x$filename &lt;- 'test.tif'
+m &lt;- do.call(merge, x)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

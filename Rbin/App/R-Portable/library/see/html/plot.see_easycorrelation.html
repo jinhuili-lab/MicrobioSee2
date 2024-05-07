@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Plot method for Gaussian Graphical Models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot.see_easycorrelation {see}"><tr><td>plot.see_easycorrelation {see}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Plot method for Gaussian Graphical Models</h2>
+
+<h3>Description</h3>
+
+<p>The <code>plot()</code> method for the <code>correlation::correlation()</code> function.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'see_easycorrelation'
+plot(x, size_point = 22, text_color = "white", node_color = "#647687", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>An object.</p>
+</td></tr>
+<tr valign="top"><td><code>size_point</code></td>
+<td>
+<p>Numeric specifying size of point-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>text_color</code></td>
+<td>
+<p>Character specifying color of text labels.</p>
+</td></tr>
+<tr valign="top"><td><code>node_color</code></td>
+<td>
+<p>Character specifying color of node- or circle-geoms.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A ggplot2-object.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Not run: 
+library(correlation)
+library(ggraph)
+result &lt;- correlation(mtcars, partial = TRUE)
+plot(result)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>see</em> version 0.6.8 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

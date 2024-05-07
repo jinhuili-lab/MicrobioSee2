@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Permutation Test for Constrained Correspondence Analysis,...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for anova.cca {vegan}"><tr><td>anova.cca {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Permutation Test for Constrained Correspondence Analysis,
+Redundancy Analysis and Constrained Analysis of Principal Coordinates </h2>
+
+<h3>Description</h3>
+
+<p>The function performs an ANOVA like permutation test for Constrained
+Correspondence Analysis (<code><a href="../../vegan/help/cca.html">cca</a></code>), Redundancy Analysis
+(<code><a href="../../vegan/help/rda.html">rda</a></code>) or distance-based Redundancy Analysis (dbRDA,
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>) to assess the significance of constraints.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'cca'
+anova(object, ..., permutations = how(nperm=999),
+     by = NULL, model = c("reduced", "direct", "full"),
+     parallel = getOption("mc.cores"), strata = NULL,
+     cutoff = 1, scope = NULL)
+## S3 method for class 'cca'
+permutest(x, permutations = how(nperm = 99),
+     model = c("reduced", "direct", "full"), by = NULL, first = FALSE,
+     strata = NULL, parallel = getOption("mc.cores"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>One or several result objects from <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> or <code><a href="../../vegan/help/capscale.html">capscale</a></code>. If
+there are several result objects, they are compared against each
+other in the order they were supplied. For a single object, a test
+specified in <code>by</code> or an overall test is given.</p>
+</td></tr>
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A single ordination result object.</p>
+</td></tr>
+<tr valign="top"><td><code>permutations</code></td>
+<td>
+<p>a list of control values for the permutations
+as returned by the function <code><a href="../../permute/help/how.html">how</a></code>, or the
+number of permutations required, or a permutation matrix where each
+row gives the permuted indices.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>Setting <code>by = "axis"</code> will assess significance for
+each constrained axis, and setting <code>by = "terms"</code> will assess
+significance for each term (sequentially from first to last), and
+setting <code>by = "margin"</code> will assess the marginal effects of
+the terms (each marginal term analysed in a model with all other
+variables). Function <code>permutest</code> accepts choices
+<code>"terms"</code> for sequential test of terms, and <code>"onedf"</code>
+for sequential test of one-degree-of-freedom contrasts.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Permutation model: <code>model="direct"</code> permutes
+community data, <code>model="reduced"</code> permutes residuals
+of the community data after Conditions (partial model),
+<code>model = "full"</code> permutes residuals after Conditions and
+Constraints.</p>
+</td></tr>
+<tr valign="top"><td><code>parallel</code></td>
+<td>
+<p>Use parallel processing with the given number of
+cores.</p>
+</td></tr>
+<tr valign="top"><td><code>strata</code></td>
+<td>
+<p>An integer vector or factor specifying the strata for
+permutation. If supplied, observations are permuted only within
+the specified strata. It is an error to use this when
+<code>permutations</code> is a matrix, or a <code><a href="../../permute/help/how.html">how</a></code>
+defines <code>blocks</code>. This is a legacy argument that will be
+deprecated in the future: use
+<code>permutations = how(..., blocks)</code> instead. </p>
+</td></tr>
+<tr valign="top"><td><code>cutoff</code></td>
+<td>
+<p>Only effective with <code>by="axis"</code> where stops
+permutations after an axis exceeds the <code>cutoff</code> <i>p</i>-value.</p>
+</td></tr>
+<tr valign="top"><td><code>scope</code></td>
+<td>
+<p>Only effective with <code>by="margin"</code> where it can be
+used to select the marginal terms for testing. The default is to
+test all marginal terms in <code><a href="../../stats/html/factor.scope.html">drop.scope</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>first</code></td>
+<td>
+<p>Analyse only significance of the first axis.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Parameters passed to other functions.  <code>anova.cca</code>
+passes all arguments to <code>permutest.cca</code>. In <code>anova</code> with
+<code>by = "axis"</code> you can use argument <code>cutoff</code> (defaults
+<code>1</code>) which stops permutations after exceeding the given
+level. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Functions <code>anova.cca</code> and <code>permutest.cca</code> implement ANOVA
+like permutation tests for the joint effect of constraints in
+<code><a href="../../vegan/help/cca.html">cca</a></code>, <code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/dbrda.html">dbrda</a></code> or
+<code><a href="../../vegan/help/capscale.html">capscale</a></code>. Function <code>anova</code> is intended as a more
+user-friendly alternative to <code>permutest</code> (that is the real
+workhorse).
+</p>
+<p>Function <code>anova</code> can analyse a sequence of constrained
+ordination models. The analysis is based on the differences in
+residual deviance in permutations of nested models.
+</p>
+<p>The default test is for the sum of all constrained eigenvalues.
+Setting <code>first = TRUE</code> will perform a test for the first
+constrained eigenvalue.  Argument <code>first</code> can be set either in
+<code>anova.cca</code> or in <code>permutest.cca</code>.  It is also possible to
+perform significance tests for each axis or for each term
+(constraining variable) using argument <code>by</code> in
+<code>anova.cca</code>.  Setting <code>by = "axis"</code> will perform separate
+significance tests for each constrained axis.  All previous
+constrained axes will be used as conditions (&ldquo;partialled
+out&rdquo;) and a test for the first constrained eigenvalues is
+performed (Legendre et al. 2011).
+You can stop permutation tests after exceeding a given
+significance level with argument <code>cutoff</code> to speed up
+calculations in large models. Setting <code>by = "terms"</code> will
+perform separate significance test for each term (constraining
+variable). The terms are assessed sequentially from first to last,
+and the order of the terms will influence their
+significances. Setting <code>by = "margin"</code> will perform separate
+significance test for each marginal term in a model with all other
+terms. The marginal test also accepts a <code>scope</code> argument for
+the <code><a href="../../stats/html/factor.scope.html">drop.scope</a></code> which can be a character vector of term
+labels that are analysed, or a fitted model of lower scope.  The
+marginal effects are also known as &ldquo;Type III&rdquo; effects, but
+the current function only evaluates marginal terms. It will, for
+instance, ignore main effects that are included in interaction
+terms. In calculating pseudo-<i>F</i>, all terms are compared to the
+same residual of the full model.
+</p>
+<p>Community data are permuted with choice <code>model="direct"</code>, and
+residuals after partial CCA/ RDA/ dbRDA with choice
+<code>model="reduced"</code> (default).  If there is no partial CCA/ RDA/
+dbRDA stage, <code>model="reduced"</code> simply permutes the data and is
+equivalent to <code>model="direct"</code>.  The test statistic is
+&ldquo;pseudo-<i>F</i>&rdquo;, which is the ratio of constrained and
+unconstrained total Inertia (Chi-squares, variances or something
+similar), each divided by their respective degrees of freedom.  If
+there are no conditions (&ldquo;partial&rdquo; terms), the sum of all
+eigenvalues remains constant, so that pseudo-<i>F</i> and eigenvalues
+would give equal results.  In partial CCA/ RDA/ dbRDA, the effect of
+conditioning variables (&ldquo;covariables&rdquo;) is removed before
+permutation, and the total Chi-square is not fixed, and test based on
+pseudo-<i>F</i> would differ from the test based on plain
+eigenvalues.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The function <code>anova.cca</code> calls <code>permutest.cca</code> and fills an
+<code><a href="../../stats/html/anova.html">anova</a></code> table. Additional attributes are
+<code>Random.seed</code> (the random seeds used),
+<code>control</code> (the permutation design, see <a href="../../permute/help/how.html">how</a>) and
+<code>F.perm</code> (the permuted test statistics).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen</p>
+
+
+<h3>References</h3>
+
+<p>Legendre, P. and Legendre, L. (2012). <em>Numerical Ecology</em>. 3rd
+English ed. Elsevier.
+</p>
+<p>Legendre, P., Oksanen, J. and ter Braak, C.J.F. (2011). Testing the
+significance of canonical axes in redundancy analysis.
+<em>Methods in Ecology and Evolution</em> 2, 269&ndash;277.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/anova.cca.html">anova.cca</a></code>, <code><a href="../../vegan/help/cca.html">cca</a></code>,
+<code><a href="../../vegan/help/rda.html">rda</a></code>, <code><a href="../../vegan/help/capscale.html">capscale</a></code> to get something to
+analyse. Function <code><a href="../../vegan/help/drop1.cca.html">drop1.cca</a></code> calls <code>anova.cca</code>
+with <code>by = "margin"</code>, and <code><a href="../../vegan/help/add1.cca.html">add1.cca</a></code> an analysis
+for single terms additions, which can be used in automatic or
+semiautomatic model building (see <code><a href="../../vegan/help/deviance.cca.html">deviance.cca</a></code>). </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec, varechem)
+mod &lt;- cca(varespec ~ Al + P + K, varechem)
+## overall test
+anova(mod)
+## tests for individual terms
+anova(mod, by="term")
+anova(mod, by="margin")
+## test for adding all environmental variables
+anova(mod, cca(varespec ~ ., varechem))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

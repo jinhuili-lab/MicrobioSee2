@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Place labels in boxes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for boxed.labels {plotrix}"><tr><td>boxed.labels {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Place labels in boxes </h2>
+
+<h3>Description</h3>
+
+<p>Places labels in boxes on an existing plot
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ boxed.labels(x,y=NULL,labels,
+  bg=ifelse(match(par("bg"),"transparent",0),"white",par("bg")),
+  border=TRUE,xpad=1.2,ypad=1.2,srt=0,cex=1,adj=0.5,xlog=FALSE,ylog=FALSE,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y</code></td>
+<td>
+<p>x and y position of the centers of the labels. <span class="samp">x</span> can be an
+<a href="../../grDevices/html/xy.coords.html">xy.coords</a> list.</p>
+</td></tr>
+<tr valign="top"><td><code>bg</code></td>
+<td>
+<p>The fill color of the rectangles on which the labels are displayed
+(see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>labels</code></td>
+<td>
+<p>Text strings</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Whether to draw borders around the rectangles.</p>
+</td></tr>
+<tr valign="top"><td><code>xpad,ypad</code></td>
+<td>
+<p>The proportion of the rectangles to the
+extent of the text within.</p>
+</td></tr>
+<tr valign="top"><td><code>srt</code></td>
+<td>
+<p>Rotation of the labels. If 90 or 270 degrees, the box will be
+rotated 90 degrees.</p>
+</td></tr>
+<tr valign="top"><td><code>cex</code></td>
+<td>
+<p>Character expansion. See <span class="samp">text</span>.</p>
+</td></tr>
+<tr valign="top"><td><code>adj</code></td>
+<td>
+<p>left/right adjustment. If this is set outside the function,
+the box will not be aligned properly.</p>
+</td></tr>
+<tr valign="top"><td><code>xlog</code></td>
+<td>
+<p>Whether the X axis is a log axis</p>
+</td></tr>
+<tr valign="top"><td><code>ylog</code></td>
+<td>
+<p>Whether the Y axis is a log axis</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional arguments passed to <span class="samp">text</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The label(s) are displayed on a rectangular background. This may be useful
+for visibility and is the reason that &quot;transparent&quot; background is not available.
+With the default <span class="samp">textcol=NA</span>, the function tries to work out whether white
+or black text will be more easily read based on the background color and displays
+the text accordingly. If the user specifies text colors in the additional
+arguments, these colors will override the automatic white/black above - see the
+last example.
+</p>
+<p>Only right angle rotations are allowed in <span class="samp">boxed.labels</span>. <em>Important
+change</em>: <span class="samp">xpad</span> and <span class="samp">ypad</span> are now the full proportion of
+the box to text, not half. The user can now call <span class="samp">cylindrect</span> or
+<span class="samp">gradient.rect</span> for the background rectangle.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil</p>
+
+
+<h3>Note</h3>
+
+<p>This function is best for regularly spaced labels where overlapping is
+not a problem. See <a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a> for placing labels 
+where overlap is likely.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon - thanks to Thorn Thaler for the code allowing
+user-specified text colors and Flemming Skjoth for the log axis correction</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../plotrix/help/spread.labels.html">spread.labels</a>, <a href="../../plotrix/help/thigmophobe.labels.html">thigmophobe.labels</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x&lt;-rnorm(10)
+ y&lt;-rnorm(10)
+ plot(x,y,type="p")
+ nums&lt;-c("one","two","three","four","five","six","seven","eight","nine","ten")
+ boxed.labels(x,y-0.1,nums)
+ # now label a barplot
+ xpos&lt;-barp(c(1,3,2,4))
+ boxed.labels(xpos$x,0.5,nums[1:4])
+ # and add labels below the x axis ticks
+ boxed.labels(xpos$x,-0.4,c("First","Second","Third","Fourth"))
+ # perform a PCA on the "swiss" dataset and plot the first two components
+ data(swiss)
+ swiss.pca&lt;-prcomp(swiss)
+ plot(swiss.pca$rotation[,1:2],xlim=c(-1,0.2),main="PCA of swiss dataset",
+  type="n")
+ boxed.labels(swiss.pca$rotation[1:6],swiss.pca$rotation[7:12],ypad=1.5,
+  colnames(swiss),bg=c("red","purple","blue","blue","darkgreen","red"),
+  col="yellow")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

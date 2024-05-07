@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Export Risoe.BINfileData into Risø BIN/BINX-file</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for write_R2BIN {Luminescence}"><tr><td>write_R2BIN {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Export Risoe.BINfileData into Risø BIN/BINX-file</h2>
+
+<h3>Description</h3>
+
+<p>Exports a Risoe.BINfileData object in a *.bin or *.binx file that can be
+opened by the Analyst software or other Risø software.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+write_R2BIN(
+  object,
+  file,
+  version,
+  compatibility.mode = FALSE,
+  txtProgressBar = TRUE
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> (<strong>required</strong>):
+input object to be stored in a bin file.</p>
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<strong>required</strong>):
+file name and path of the output file
+</p>
+
+<ul>
+<li> <p><code style="white-space: pre;">[WIN]</code>: <code>write_R2BIN(object, "C:/Desktop/test.bin")</code>
+</p>
+</li>
+<li> <p><code style="white-space: pre;">[MAC/LINUX]</code>: <code>write_R2BIN("/User/test/Desktop/test.bin")</code>
+</p>
+</li></ul>
+</td></tr>
+<tr valign="top"><td><code>version</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+version number for the output file. If no value is provided the highest
+version number from the <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a> is taken automatically.
+</p>
+<p><strong>Note:</strong>
+This argument can be used to convert BIN-file versions.</p>
+</td></tr>
+<tr valign="top"><td><code>compatibility.mode</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+this option recalculates the position values if necessary and set the max.
+value to 48. The old position number is appended as comment (e.g., 'OP: 70).
+This option accounts for potential compatibility problems with the Analyst software.
+It further limits the maximum number of points per curve to 9,999. If a curve contains more
+data the curve data got binned using the smallest possible bin width.</p>
+</td></tr>
+<tr valign="top"><td><code>txtProgressBar</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+enables or disables <a href="../../utils/html/txtProgressBar.html">txtProgressBar</a>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The structure of the exported binary data follows the data structure
+published in the Appendices of the <em>Analyst</em> manual p. 42.
+</p>
+<p>If
+<code>LTYPE</code>, <code>DTYPE</code> and <code>LIGHTSOURCE</code> are not of type
+<a href="../../base/html/character.html">character</a>, no transformation into numeric values is done.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Write a binary file.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.5.1
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. write_R2BIN(): Export Risoe.BINfileData into Risø BIN/BINX-file. Function version 0.5.1. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Note</h3>
+
+<p>The function just roughly checks the data structures. The validity of
+the output data depends on the user.
+</p>
+<p>The validity of the file path is not further checked. BIN-file conversions
+using the argument <code>version</code> may be a lossy conversion, depending on the
+chosen input and output data (e.g., conversion from version 08 to 07 to 06 to 05 to 04 or 03).
+</p>
+<p><strong>Warning</strong>
+</p>
+<p>Although the coding was done carefully it seems that the BIN/BINX-files
+produced by Risø DA 15/20 TL/OSL readers slightly differ on the byte level.
+No obvious differences are observed in the METADATA, however, the
+BIN/BINX-file may not fully compatible, at least not similar to the once
+directly produced by the Risø readers!
+</p>
+<p>ROI definitions (introduced in BIN-file version 8) are not supported!
+There are furthermore ignored by the function <a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>DTU Nutech, 2016. The Sequence Editor, Users Manual, February, 2016.
+<a href="https://www.fysik.dtu.dk">https://www.fysik.dtu.dk</a>
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/read_BIN2R.html">read_BIN2R</a>, <a href="../../Luminescence/help/Risoe.BINfileData-class.html">Risoe.BINfileData</a>, <a href="../../base/html/readBin.html">writeBin</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+## Not run: 
+
+##load exampled dataset
+data(ExampleData.BINfileData, envir = environment())
+
+##create temporary filepath
+##(for usage replace by own path)
+temp_file &lt;- temp_file &lt;- tempfile(pattern = "output", fileext = ".bin")
+
+##export to temporary file path
+write_R2BIN(CWOSL.SAR.Data, file = temp_file)
+
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

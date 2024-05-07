@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: get and set parameter names</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for parnames {bbmle}"><tr><td>parnames {bbmle}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>get and set parameter names</h2>
+
+<h3>Description</h3>
+
+<p>Gets and sets the &quot;parnames&quot; attribute on a
+negative log-likelihood function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+parnames(obj)
+parnames(obj) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>obj</code></td>
+<td>
+<p>a negative log-likelihood function</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>a character vector of parameter names</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The <code>parnames</code> attribute is used by <code>mle2()</code>
+when the negative log-likelihood function takes a parameter
+vector, rather than a list of parameters; this allows
+users to use the same objective function for <code>optim()</code>
+and <code>mle2()</code>
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the <code>parnames</code> attribute (a character vector of
+parameter names) or sets it.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+x &lt;- 1:5
+set.seed(1001)
+y &lt;- rbinom(5,prob=x/(1+x),size=10)
+mfun &lt;- function(p) {
+  a &lt;- p[1]
+  b &lt;- p[2]
+  -sum(dbinom(y,prob=a*x/(b+x),size=10,log=TRUE))
+}
+optim(fn=mfun,par=c(1,1))
+parnames(mfun) &lt;- c("a","b")
+mle2(minuslogl=mfun,start=c(a=1,b=1),method="Nelder-Mead")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>bbmle</em> version 1.0.24 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

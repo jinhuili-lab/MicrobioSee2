@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Checks the permission of a file or a directory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for fileAccess {R.utils}"><tr><td>fileAccess {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Checks the permission of a file or a directory</h2>
+
+<h3>Description</h3>
+
+<p>Checks the permission of a file or a directory.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+fileAccess(pathname, mode=0, safe=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pathname</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string of the file or the directory
+to be checked.</p>
+</td></tr>
+<tr valign="top"><td><code>mode</code></td>
+<td>
+<p>An <code><a href="../../base/help/integer.html">integer</a></code> (0,1,2,4), cf. <code><a href="../../base/help/file.access.html">file.access</a></code>().</p>
+</td></tr>
+<tr valign="top"><td><code>safe</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the permissions are tested more carefully,
+otherwise <code><a href="../../base/help/file.access.html">file.access</a></code>() is used.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>In <span style="font-family: Courier New, Courier; color: #666666;"><b>R</b></span> there is <code><a href="../../base/help/file.access.html">file.access</a></code>() for checking whether the
+permission of a file.
+Unfortunately, that function cannot be 100% trusted depending on
+platform used and file system queried, cf. [1].
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns an <code><a href="../../base/help/integer.html">integer</a></code>; 0 if the permission exists, -1 if not.
+</p>
+
+
+<h3>Symbolic links</h3>
+
+<p>This function follows symbolic links (also on Windows) and returns a
+value based on the link target (rather than the link itself).
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>References</h3>
+
+<p>[1] R-devel thread
+<em>file.access() on network (mounted) drive on Windows Vista?</em>
+on Nov 26, 2008.
+<a href="https://stat.ethz.ch/pipermail/r-devel/2008-December/051461.html">https://stat.ethz.ch/pipermail/r-devel/2008-December/051461.html</a><br />
+[2] Filesystem permissions, Wikipedia, 2010.
+<a href="https://en.wikipedia.org/wiki/Filesystem_permissions">https://en.wikipedia.org/wiki/Filesystem_permissions</a><br />
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/file.access.html">file.access</a></code>()
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Current directory
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+path &lt;- "."
+
+# Test for existence
+print(fileAccess(path, mode=0))
+# Test for execute permission
+print(fileAccess(path, mode=1))
+# Test for write permission
+print(fileAccess(path, mode=2))
+# Test for read permission
+print(fileAccess(path, mode=4))
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# A temporary file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+pathname &lt;- tempfile()
+cat(file=pathname, "Hello world!")
+
+# Test for existence
+print(fileAccess(pathname, mode=0))
+# Test for execute permission
+print(fileAccess(pathname, mode=1))
+# Test for write permission
+print(fileAccess(pathname, mode=2))
+# Test for read permission
+print(fileAccess(pathname, mode=4))
+
+file.remove(pathname)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# The 'base' package directory
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+path &lt;- system.file(package="base")
+
+# Test for existence
+print(fileAccess(path, mode=0))
+# Test for execute permission
+print(fileAccess(path, mode=1))
+# Test for write permission
+print(fileAccess(path, mode=2))
+# Test for read permission
+print(fileAccess(path, mode=4))
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# The 'base' package DESCRIPTION file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+pathname &lt;- system.file("DESCRIPTION", package="base")
+
+# Test for existence
+print(fileAccess(pathname, mode=0))
+# Test for execute permission
+print(fileAccess(pathname, mode=1))
+# Test for write permission
+print(fileAccess(pathname, mode=2))
+# Test for read permission
+print(fileAccess(pathname, mode=4))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

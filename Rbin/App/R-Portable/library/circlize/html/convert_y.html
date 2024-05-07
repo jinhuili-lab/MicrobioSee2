@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert unit on y direction in data coordinate</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for convert_y {circlize}"><tr><td>convert_y {circlize}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Convert unit on y direction in data coordinate
+</h2>
+
+<h3>Description</h3>
+
+<p>Convert unit on y direction in data coordinate
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+convert_y(
+    x,
+    unit = c("mm", "cm", "inches"),
+    sector.index = get.current.sector.index(),
+    track.index = get.current.track.index())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>a numeric vector</p>
+</td></tr>
+<tr valign="top"><td><code>unit</code></td>
+<td>
+<p>supported units, only &quot;mm&quot;, &quot;cm&quot;, &quot;inches&quot;</p>
+</td></tr>
+<tr valign="top"><td><code>sector.index</code></td>
+<td>
+<p>index for the sector where the conversion is applied</p>
+</td></tr>
+<tr valign="top"><td><code>track.index</code></td>
+<td>
+<p>index for the track where the conversion is applied</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A vector of numeric values which are measured in the specified data coordinate
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Zuguang Gu &lt;z.gu@dkfz.de&gt;
+</p>
+
+
+<h3>See Also</h3>
+
+<p>For pre-defined units, users can use <code><a href="../../circlize/help/cm_y.html">cm_y</a></code>, <code><a href="../../circlize/help/mm_y.html">mm_y</a></code> and <code><a href="../../circlize/help/inches_y.html">inches_y</a></code>.
+</p>
+<p><code><a href="../../circlize/help/convert_x.html">convert_x</a></code> converts on x direction.
+</p>
+<p><a href="https://jokergoo.github.io/circlize_book/book/circular-layout.html#convert-functions">https://jokergoo.github.io/circlize_book/book/circular-layout.html#convert-functions</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# see example on `convert_x` page 
+NULL
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>circlize</em> version 0.4.16 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

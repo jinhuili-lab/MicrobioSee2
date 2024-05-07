@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compares Dissimilarity Indices for Gradient Detection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rankindex {vegan}"><tr><td>rankindex {vegan}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compares Dissimilarity Indices for Gradient Detection </h2>
+
+<h3>Description</h3>
+
+<p>Rank correlations between dissimilarity indices
+and gradient separation.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rankindex(grad, veg, indices = c("euc", "man", "gow", "bra", "kul"),
+          stepacross = FALSE, method = "spearman", 
+	  metric = c("euclidean", "mahalanobis", "manhattan", "gower"),
+	  ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>grad</code></td>
+<td>
+<p>The gradient variable or matrix. </p>
+</td></tr>
+<tr valign="top"><td><code>veg</code></td>
+<td>
+<p>The community data matrix. </p>
+</td></tr>
+<tr valign="top"><td><code>indices</code></td>
+<td>
+<p>Dissimilarity indices compared, partial matches to
+alternatives in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code>.
+Alternatively, it can be a (named) list of functions returning
+objects of class 'dist'.</p>
+</td></tr>
+<tr valign="top"><td><code>stepacross</code></td>
+<td>
+<p>Use <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> to find
+a shorter path dissimilarity. The dissimilarities for site pairs
+with no shared species are set <code>NA</code> using
+<code><a href="../../vegan/help/no.shared.html">no.shared</a></code> so that indices with no fixed
+upper limit can also be analysed.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Correlation method used.</p>
+</td></tr>
+<tr valign="top"><td><code>metric</code></td>
+<td>
+<p>Metric to evaluate the gradient separation. See Details.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other parameters to <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A good dissimilarity index for multidimensional scaling should have
+a high rank-order similarity with gradient separation.  The function
+compares most indices in <code><a href="../../vegan/help/vegdist.html">vegdist</a></code> against gradient
+separation using rank correlation coefficients in
+<code><a href="../../stats/html/cor.html">cor</a></code>. The gradient separation between each point is
+assessed using given <code>metric</code>. The default is to use Euclidean
+distance of continuous variables scaled to unit variance, or to use
+Gower metric for mixed data using function
+<code><a href="../../cluster/help/daisy.html">daisy</a></code> when <code>grad</code> has factors. The other
+alternatives are Mahalanabis distances which are based on
+<code>grad</code> matrix scaled so that columns are orthogonal
+(uncorrelated) and have unit variance, or Manhattan distances of
+<code>grad</code> variables scaled to unit range.
+</p>
+<p>The <code>indices</code> argument can accept any dissimilarity 
+indices besides the ones calculated by the 
+<code><a href="../../vegan/help/vegdist.html">vegdist</a></code> function. For this, the argument value
+should be a (possibly named) list of functions.
+Each function must return a valid 'dist' object with dissimilarities,
+similarities are not accepted and should be converted into dissimilarities
+beforehand.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns a named vector of rank correlations.
+</p>
+
+
+<h3>Note</h3>
+
+<p>There are several problems in using rank correlation coefficients.
+Typically there are very many ties when <i>n(n-1)/2</i> gradient
+separation values are derived from just <i>n</i> observations.
+Due to floating point arithmetics, many tied values differ by
+machine epsilon and are arbitrarily ranked differently by
+<code><a href="../../base/html/rank.html">rank</a></code> used in <code><a href="../../stats/html/cor.test.html">cor.test</a></code>.  Two indices
+which are identical with certain
+transformation or standardization may differ slightly
+(magnitude <i>10^{-15}</i>) and this may lead into third or fourth decimal
+instability in rank correlations.  Small differences in rank
+correlations should not be taken too seriously.  Probably this method
+should be replaced with a sounder method, but I do not yet know
+which...  You may experiment with <code><a href="../../vegan/help/mantel.html">mantel</a></code>,
+<code><a href="../../vegan/help/anosim.html">anosim</a></code> or even <code><a href="../../vegan/help/protest.html">protest</a></code>.
+</p>
+<p>Earlier version of this function used <code>method = "kendall"</code>, but
+that is far too slow in large data sets.
+</p>
+<p>The functions returning dissimilarity objects should be self contained,
+because the <code>...</code> argument passes additional parameters
+to <code><a href="../../vegan/help/stepacross.html">stepacross</a></code> and not to the functions supplied
+via the <code>indices</code> argument.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jari Oksanen, with additions from Peter Solymos</p>
+
+
+<h3>References</h3>
+
+<p> Faith, F.P., Minchin, P.R. and Belbin,
+L. (1987).  Compositional dissimilarity as a robust measure of
+ecological distance. <em>Vegetatio</em> 69, 57-68. </p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../vegan/help/vegdist.html">vegdist</a></code>, <code><a href="../../vegan/help/stepacross.html">stepacross</a></code>,
+<code><a href="../../vegan/help/no.shared.html">no.shared</a></code>, <code><a href="../../vegan/help/monoMDS.html">monoMDS</a></code>,
+<code><a href="../../stats/html/cor.html">cor</a></code>, <code><a href="../../base/html/base-defunct.html">Machine</a></code>, and for
+alternatives <code><a href="../../vegan/help/anosim.html">anosim</a></code>, <code><a href="../../vegan/help/mantel.html">mantel</a></code> and
+<code><a href="../../vegan/help/protest.html">protest</a></code>. </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(varespec)
+data(varechem)
+## The variables are automatically scaled
+rankindex(varechem, varespec)
+rankindex(varechem, wisconsin(varespec))
+## Using non vegdist indices as functions
+funs &lt;- list(Manhattan=function(x) dist(x, "manhattan"),
+    Gower=function(x) cluster:::daisy(x, "gower"),
+    Ochiai=function(x) designdist(x, "1-J/sqrt(A*B)"))
+rankindex(scale(varechem), varespec, funs)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>vegan</em> version 2.5-7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

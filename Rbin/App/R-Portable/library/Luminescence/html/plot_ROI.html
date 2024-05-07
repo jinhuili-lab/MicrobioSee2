@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create Regions of Interest (ROI) Graphic</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for plot_ROI {Luminescence}"><tr><td>plot_ROI {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create Regions of Interest (ROI) Graphic</h2>
+
+<h3>Description</h3>
+
+<p>Create ROI graphic with data extracted from the data imported
+via <a href="../../Luminescence/help/read_RF2R.html">read_RF2R</a>. This function is used internally by <a href="../../Luminescence/help/analyse_IRSAR.RF.html">analyse_IRSAR.RF</a> but
+might be of use to work with reduced data from spatially resolved measurements.
+The plot dimensions mimic the original image dimensions
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+plot_ROI(
+  object,
+  exclude_ROI = c(1),
+  dist_thre = -Inf,
+  dim.CCD = NULL,
+  plot = TRUE,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p><a href="../../Luminescence/help/RLum.Analysis-class.html">RLum.Analysis</a> or a <a href="../../base/html/list.html">list</a> of such objects (<strong>required</strong>):
+data input. Please note that to avoid function errors, only input created
+by the function <a href="../../Luminescence/help/read_RF2R.html">read_RF2R</a> is accepted</p>
+</td></tr>
+<tr valign="top"><td><code>exclude_ROI</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>with default</em>): option to remove particular ROIs from the
+analysis. Those ROIs are plotted but not coloured and not taken into account
+in distance analysis. <code>NULL</code> excludes nothing.</p>
+</td></tr>
+<tr valign="top"><td><code>dist_thre</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): euclidean distance threshold in pixel
+distance. All ROI for which the euclidean distance is smaller are marked. This
+helps to identify ROIs that might be affected by signal cross-talk. Note:
+the distance is calculated from the centre of an ROI, e.g., the threshold
+should include consider the ROIs or grain radius.</p>
+</td></tr>
+<tr valign="top"><td><code>dim.CCD</code></td>
+<td>
+<p><a href="../../base/html/numeric.html">numeric</a> (<em>optional</em>): metric x and y for the recorded (chip)
+surface in µm. For instance <code>c(8192,8192)</code>, if set additional x and y-axes are shown</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>): enable or disable plot output to use
+the function only to extract the ROI data</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further parameters to manipulate the plot. On top of all arguments of
+<a href="../../graphics/help/plot.default.html">graphics::plot.default</a> the following arguments are supported: <code>lwd.ROI</code>, <code>lty.ROI</code>,
+<code>col.ROI</code>, <code>col.pixel</code>, <code>text.labels</code>, <code>text.offset</code>, <code>grid</code> (<code>TRUE/FALSE</code>), <code>legend</code> (<code>TRUE/FALSE</code>),
+<code>legend.text</code>, <code>legend.pos</code></p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>An ROI plot and an <a href="../../Luminescence/help/RLum.Results-class.html">RLum.Results</a> object with a matrix containing
+the extracted ROI data and a object produced by <a href="../../stats/help/dist.html">stats::dist</a> containing
+the euclidean distance between the ROIs.
+</p>
+
+
+<h3>Function version</h3>
+
+<p>0.1.0
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Kreutzer, S., 2021. plot_ROI(): Create Regions of Interest (ROI) Graphic. Function version 0.1.0. In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sebastian Kreutzer, Department of Geography &amp; Earth Sciences, Aberystwyth University
+(United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../Luminescence/help/read_RF2R.html">read_RF2R</a>, <a href="../../Luminescence/help/analyse_IRSAR.RF.html">analyse_IRSAR.RF</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+file &lt;- system.file("extdata", "RF_file.rf", package = "Luminescence")
+temp &lt;- read_RF2R(file)
+plot_ROI(temp)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

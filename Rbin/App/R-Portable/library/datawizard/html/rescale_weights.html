@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Rescale design weights for multilevel analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for rescale_weights {datawizard}"><tr><td>rescale_weights {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Rescale design weights for multilevel analysis</h2>
+
+<h3>Description</h3>
+
+<p>Most functions to fit multilevel and mixed effects models only
+allow to specify frequency weights, but not design (i.e. sampling or
+probability) weights, which should be used when analyzing complex samples
+and survey data. <code>rescale_weights()</code> implements an algorithm proposed
+by <cite>Asparouhov (2006)</cite> and <cite>Carle (2009)</cite> to rescale design
+weights in survey data to account for the grouping structure of multilevel
+models, which then can be used for multilevel modelling.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+rescale_weights(data, group, probability_weights, nest = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+<tr valign="top"><td><code>group</code></td>
+<td>
+<p>Variable names (as character vector, or as formula), indicating
+the grouping structure (strata) of the survey data (level-2-cluster
+variable). It is also possible to create weights for multiple group
+variables; in such cases, each created weighting variable will be suffixed
+by the name of the group variable.</p>
+</td></tr>
+<tr valign="top"><td><code>probability_weights</code></td>
+<td>
+<p>Variable indicating the probability (design or
+sampling) weights of the survey data (level-1-weight).</p>
+</td></tr>
+<tr valign="top"><td><code>nest</code></td>
+<td>
+<p>Logical, if <code>TRUE</code> and <code>group</code> indicates at least two
+group variables, then groups are &quot;nested&quot;, i.e. groups are now a
+combination from each group level of the variables in <code>group</code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Rescaling is based on two methods: For <code>pweights_a</code>, the sample weights
+<code>probability_weights</code> are adjusted by a factor that represents the proportion
+of group size divided by the sum of sampling weights within each group. The
+adjustment factor for <code>pweights_b</code> is the sum of sample weights within each
+group divided by the sum of squared sample weights within each group (see
+Carle (2009), Appendix B). In other words, <code>pweights_a</code> &quot;scales the weights
+so that the new weights sum to the cluster sample size&quot; while <code>pweights_b</code>
+&quot;scales the weights so that the new weights sum to the effective cluster
+size&quot;.
+</p>
+<p>Regarding the choice between scaling methods A and B, Carle suggests that
+&quot;analysts who wish to discuss point estimates should report results based on
+weighting method A. For analysts more interested in residual between-group
+variance, method B may generally provide the least biased estimates&quot;. In
+general, it is recommended to fit a non-weighted model and weighted models
+with both scaling methods and when comparing the models, see whether the
+&quot;inferential decisions converge&quot;, to gain confidence in the results.
+</p>
+<p>Though the bias of scaled weights decreases with increasing group size,
+method A is preferred when insufficient or low group size is a concern.
+</p>
+<p>The group ID and probably PSU may be used as random effects (e.g. nested
+design, or group and PSU as varying intercepts), depending on the survey
+design that should be mimicked.
+</p>
+
+
+<h3>Value</h3>
+
+<p><code>data</code>, including the new weighting variables: <code>pweights_a</code>
+and <code>pweights_b</code>, which represent the rescaled design weights to use
+in multilevel models (use these variables for the <code>weights</code> argument).
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Carle A.C. (2009). Fitting multilevel models in complex survey data
+with design weights: Recommendations. BMC Medical Research Methodology
+9(49): 1-13
+</p>
+</li>
+<li><p> Asparouhov T. (2006). General Multi-Level Modeling with Sampling
+Weights. Communications in Statistics - Theory and Methods 35: 439-460
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("lme4")) {
+  data(nhanes_sample)
+  head(rescale_weights(nhanes_sample, "SDMVSTRA", "WTINT2YR"))
+
+  # also works with multiple group-variables
+  head(rescale_weights(nhanes_sample, c("SDMVSTRA", "SDMVPSU"), "WTINT2YR"))
+
+  # or nested structures.
+  x &lt;- rescale_weights(
+    data = nhanes_sample,
+    group = c("SDMVSTRA", "SDMVPSU"),
+    probability_weights = "WTINT2YR",
+    nest = TRUE
+  )
+  head(x)
+
+  nhanes_sample &lt;- rescale_weights(nhanes_sample, "SDMVSTRA", "WTINT2YR")
+
+  glmer(
+    total ~ factor(RIAGENDR) * (log(age) + factor(RIDRETH1)) + (1 | SDMVPSU),
+    family = poisson(),
+    data = nhanes_sample,
+    weights = pweights_a
+  )
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Appends a backup suffix to the pathname</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for pushBackupFile {R.utils}"><tr><td>pushBackupFile {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Appends a backup suffix to the pathname</h2>
+
+<h3>Description</h3>
+
+<p>Appends a backup suffix to the pathname and, optionally, renames an existing file accordingly.
+</p>
+<p>In combination with <code><a href="../../R.utils/help/popBackupFile.html">popBackupFile</a></code>(), this method is useful
+for creating a backup of a file and restoring it.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+pushBackupFile(filename, path=NULL, suffix=".bak", isFile=TRUE,
+  onMissing=c("ignore", "error"), copy=FALSE, overwrite=TRUE, ..., verbose=FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>The filename of the file to backup.</p>
+</td></tr>
+<tr valign="top"><td><code>path</code></td>
+<td>
+<p>The path of the file.</p>
+</td></tr>
+<tr valign="top"><td><code>suffix</code></td>
+<td>
+<p>The suffix to be appended.</p>
+</td></tr>
+<tr valign="top"><td><code>isFile</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, the file must exist and will be renamed
+on the file system.  If <code><a href="../../base/help/logical.html">FALSE</a></code>, it is only the pathname string
+that will be modified. For details, see below.</p>
+</td></tr>
+<tr valign="top"><td><code>onMissing</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> string specifying what to do if the
+file does not exist.</p>
+</td></tr>
+<tr valign="top"><td><code>copy</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, an existing original file remains after
+creating the backup copy, otherwise it is dropped.</p>
+</td></tr>
+<tr valign="top"><td><code>overwrite</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, any existing backup files are overwritten,
+otherwise an exception is thrown.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>A <code><a href="../../base/help/logical.html">logical</a></code> or <code><a href="../../R.utils/help/Verbose.html">Verbose</a></code>.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns the pathname with the suffix appended.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../R.utils/help/popBackupFile.html">popBackupFile</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# Create a file
+pathname &lt;- file.path(tempdir(), "foobar.txt")
+cat(file=pathname, "File v1\n")
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# (a) Backup and restore a file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Turn it into a backup file
+pathnameB &lt;- pushBackupFile(pathname, verbose=TRUE)
+print(pathnameB)
+
+# Restore main file from backup
+pathnameR &lt;- popBackupFile(pathnameB, verbose=TRUE)
+print(pathnameR)
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# (b) Backup, create a new file and frop backup file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Turn it into a backup file
+pathnameB &lt;- pushBackupFile(pathname, verbose=TRUE)
+print(pathnameB)
+
+# Create a new file
+cat(file=pathname, "File v2\n")
+
+# Drop backup because a new main file was successfully created
+pathnameR &lt;- popBackupFile(pathnameB, verbose=TRUE)
+print(pathnameR)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

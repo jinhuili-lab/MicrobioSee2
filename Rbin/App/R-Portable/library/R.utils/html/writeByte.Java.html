@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Writes a byte (8 bits) to a connection in Java format</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for Java$writeByte {R.utils}"><tr><td>Java$writeByte {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Writes a byte (8 bits) to a connection in Java format</h2>
+
+<h3>Description</h3>
+
+<p>Writes one or several byte's (8 bits) to a connection in Java
+format so they will be readable by Java.
+All data types in Java are signed, i.e. a byte can hold a value in
+the range [-128,127]. Trying to write a value outside this range
+will automatically be truncated without a warning.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Static method (use this):
+## Java$writeByte(con, b, ...)
+
+## Don't use the below:
+## S3 method for class 'Java'
+writeByte(static, con, b, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>con</code></td>
+<td>
+<p>Binary connection to be written to.</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>Vector of bytes to be written.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This method is included for consistency reasons only.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>For more information see <code><a href="../../R.utils/help/Java.html">Java</a></code>.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

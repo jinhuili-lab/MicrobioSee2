@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Easy 'emmeans' and 'emtrends'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for get_emcontrasts {modelbased}"><tr><td>get_emcontrasts {modelbased}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Easy 'emmeans' and 'emtrends'</h2>
+
+<h3>Description</h3>
+
+<p>The <code>get_emmeans()</code> function is a wrapper to facilitate the usage of
+<code>emmeans::emmeans()</code> and <code>emmeans::emtrends()</code>, providing a somewhat simpler
+and intuitive API to find the specifications and variables of interest. It is
+meanly made to for the developers to facilitate the organization and
+debugging, and end-users should rather use the <code style="white-space: pre;">estimate_*()</code> series of
+functions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+get_emcontrasts(
+  model,
+  contrast = NULL,
+  at = NULL,
+  fixed = NULL,
+  transform = "none",
+  method = "pairwise",
+  ...
+)
+
+model_emcontrasts(
+  model,
+  contrast = NULL,
+  at = NULL,
+  fixed = NULL,
+  transform = "none",
+  method = "pairwise",
+  ...
+)
+
+get_emmeans(
+  model,
+  at = "auto",
+  fixed = NULL,
+  transform = "response",
+  levels = NULL,
+  modulate = NULL,
+  ...
+)
+
+model_emmeans(
+  model,
+  at = "auto",
+  fixed = NULL,
+  transform = "response",
+  levels = NULL,
+  modulate = NULL,
+  ...
+)
+
+get_emtrends(
+  model,
+  trend = NULL,
+  at = NULL,
+  fixed = NULL,
+  levels = NULL,
+  modulate = NULL,
+  ...
+)
+
+model_emtrends(
+  model,
+  trend = NULL,
+  at = NULL,
+  fixed = NULL,
+  levels = NULL,
+  modulate = NULL,
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>contrast</code></td>
+<td>
+<p>A character vector indicating the name of the variable(s)
+for which to compute the contrasts.</p>
+</td></tr>
+<tr valign="top"><td><code>at</code></td>
+<td>
+<p>The predictor variable(s) <em>at</em> which to evaluate the desired effect
+/ mean / contrasts. Other predictors of the model that are not included
+here will be collapsed and &quot;averaged&quot; over (the effect will be estimated
+across them).</p>
+</td></tr>
+<tr valign="top"><td><code>fixed</code></td>
+<td>
+<p>A character vector indicating the names of the predictors to be
+&quot;fixed&quot; (i.e., maintained), so that the estimation is made at these values.</p>
+</td></tr>
+<tr valign="top"><td><code>transform</code></td>
+<td>
+<p>Is passed to the <code>type</code> argument in
+<code>emmeans::emmeans()</code>. See
+<a href="https://CRAN.R-project.org/package=emmeans/vignettes/transformations.html">this vignette</a>.
+Can be <code>"none"</code> (default for contrasts), <code>"response"</code>
+(default for means), <code>"mu"</code>, <code>"unlink"</code>, <code>"log"</code>.
+<code>"none"</code> will leave the values on scale of the linear predictors.
+<code>"response"</code> will transform them on scale of the response variable.
+Thus for a logistic model, <code>"none"</code> will give estimations expressed in
+log-odds (probabilities on logit scale) and <code>"response"</code> in terms of
+probabilities.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Contrast method. See same argument in <a href="../../emmeans/help/contrast.html">emmeans::contrast</a>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Other arguments passed for instance to <code><a href="../../insight/help/get_datagrid.html">insight::get_datagrid()</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>levels, modulate</code></td>
+<td>
+<p>Deprecated, use <code>at</code> instead.</p>
+</td></tr>
+<tr valign="top"><td><code>trend</code></td>
+<td>
+<p>A character indicating the name of the variable
+for which to compute the slopes.</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+if (require("emmeans", quietly = TRUE)) {
+  # Basic usage
+  model &lt;- lm(Sepal.Width ~ Species, data = iris)
+  get_emcontrasts(model)
+
+  # Dealing with interactions
+  model &lt;- lm(Sepal.Width ~ Species * Petal.Width, data = iris)
+  # By default: selects first factor
+  get_emcontrasts(model)
+  # Can also run contrasts between points of numeric
+  get_emcontrasts(model, contrast = "Petal.Width", length = 3)
+  # Or both
+  get_emcontrasts(model, contrast = c("Species", "Petal.Width"), length = 2)
+  # Or with custom specifications
+  estimate_contrasts(model, contrast = c("Species", "Petal.Width=c(1, 2)"))
+  # Can fixate the numeric at a specific value
+  get_emcontrasts(model, fixed = "Petal.Width")
+  # Or modulate it
+  get_emcontrasts(model, at = "Petal.Width", length = 4)
+}
+model &lt;- lm(Sepal.Length ~ Species + Petal.Width, data = iris)
+
+if (require("emmeans", quietly = TRUE)) {
+  # By default, 'at' is set to "Species"
+  get_emmeans(model)
+
+  # Overall mean (close to 'mean(iris$Sepal.Length)')
+  get_emmeans(model, at = NULL)
+
+  # One can estimate marginal means at several values of a 'modulate' variable
+  get_emmeans(model, at = "Petal.Width", length = 3)
+
+  # Interactions
+  model &lt;- lm(Sepal.Width ~ Species * Petal.Length, data = iris)
+
+  get_emmeans(model)
+  get_emmeans(model, at = c("Species", "Petal.Length"), length = 2)
+  get_emmeans(model, at = c("Species", "Petal.Length = c(1, 3, 5)"), length = 2)
+}
+if (require("emmeans")) {
+  model &lt;- lm(Sepal.Width ~ Species * Petal.Length, data = iris)
+
+  get_emtrends(model)
+  get_emtrends(model, at = "Species")
+  get_emtrends(model, at = "Petal.Length")
+  get_emtrends(model, at = c("Species", "Petal.Length"))
+
+  model &lt;- lm(Petal.Length ~ poly(Sepal.Width, 4), data = iris)
+  get_emtrends(model)
+  get_emtrends(model, at = "Sepal.Width")
+}
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>modelbased</em> version 0.8.7 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

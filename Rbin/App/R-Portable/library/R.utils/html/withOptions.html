@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Evaluate an R expression with options set temporarily</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for withOptions {R.utils}"><tr><td>withOptions {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Evaluate an R expression with options set temporarily</h2>
+
+<h3>Description</h3>
+
+<p>Evaluate an R expression with options set temporarily.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+withOptions(expr, ..., args=list(), substitute=TRUE, envir=parent.frame())
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>expr</code></td>
+<td>
+<p>The R expression to be evaluated.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Named options to be used.</p>
+</td></tr>
+<tr valign="top"><td><code>args</code></td>
+<td>
+<p>(optional) Additional named options specified as a named <code><a href="../../base/help/list.html">list</a></code>.</p>
+</td></tr>
+<tr valign="top"><td><code>substitute</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, argument <code>expr</code> is
+<code><a href="../../base/help/substitute.html">substitute</a>()</code>:ed, otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>envir</code></td>
+<td>
+<p>The <code><a href="../../base/help/environment.html">environment</a></code> in which the expression should be evaluated.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Upon exit (also on errors), this function will reset <em>all</em>
+options to the state of options available upon entry.  This means
+any options <em>modified</em> but also those <em>added</em> when
+evaluating <code>expr</code> will also be undone upon exit.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns the results of the expression evaluated.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p>Internally, <code><a href="../../base/help/eval.html">eval</a></code>() is used to evaluate the expression.
+and <code><a href="../../base/help/options.html">options</a></code>() to set options.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+print(pi)
+
+# Same, i.e. using default
+withOptions({
+  print(pi)
+})
+
+# Printing with two digits
+withOptions({
+  print(pi)
+}, digits=2)
+
+# Printing with two digits then with three more
+withOptions({
+  print(pi)
+  withOptions({
+    print(pi)
+  }, digits=getOption("digits")+3)
+}, digits=2)
+
+# Still printing with the default
+print(pi)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

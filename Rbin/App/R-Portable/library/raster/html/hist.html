@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Histogram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for hist {raster}"><tr><td>hist {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Histogram</h2>
+
+<h3>Description</h3>
+
+<p>Create a histogram of the values of a RasterLayer. For large datasets a sample is used.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'Raster'
+hist(x, layer, maxpixels=100000, plot=TRUE, main, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object</p>
+</td></tr>
+<tr valign="top"><td><code>layer</code></td>
+<td>
+<p>integer (or character) to indicate layer number (or name). Can be used to subset the layers to plot in a multilayer Raster* object</p>
+</td></tr> 
+<tr valign="top"><td><code>maxpixels</code></td>
+<td>
+<p>integer. To regularly subsample very large objects</p>
+</td></tr>
+<tr valign="top"><td><code>plot</code></td>
+<td>
+<p>logical. Plot the histogram or only return the histogram values</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>character. Main title(s) for the plot. Default is the value of <code><a href="../../raster/help/names.html">names</a></code></p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. See under Methods and at <code><a href="../../graphics/help/hist.html">hist</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Value</h3>
+
+<p>This function is principally used for the side-effect of plotting a histogram, but it also returns an S3 object of class 'histogram' (invisibly if <code>plot=TRUE</code>).
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/pairs.html">pairs</a>, <a href="../../raster/help/boxplot.html">boxplot</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre> 
+r1 &lt;- raster(nrows=50, ncols=50)
+r1 &lt;- setValues(r1, runif(ncell(r1)))
+r2 &lt;- setValues(r1, runif(ncell(r1)))
+rs &lt;- r1 + r2
+rp &lt;- r1 * r2
+par(mfrow=c(2,2))
+plot(rs, main='sum')
+plot(rp, main='product')
+hist(rs)
+a = hist(rp)
+a
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

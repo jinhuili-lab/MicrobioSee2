@@ -1,0 +1,129 @@
+# Alpha diversity mapping description
+
+
+
+## Upload sample data
+
+You need to upload two data files including **alpha diversity result file** and  **metadata file**.
+
+Such as
+
+| Sample | berger_parker | buzas_gibson | chao1 | dominance | equitability | jost  | jost1 | reads | richness | robbins | simpson | shannon_e | shannon_2 | shannon_10 |
+| ------ | ------------- | ------------ | ----- | --------- | ------------ | ----- | ----- | ----- | -------- | ------- | ------- | --------- | --------- | ---------- |
+| HSL001 | 0.059         | 0.0636       | 637.5 | 0.986     | 0.814        | 105.8 | 190.7 | 3000  | 631      | 0.541   | 0.014   | 5.25      | 7.58      | 2.28       |
+| HSL003 | 0.0483        | 0.144        | 965.7 | 0.993     | 0.883        | 246.3 | 430.7 | 3000  | 961      | 0.554   | 0.00679 | 6.07      | 8.75      | 2.63       |
+| HSL004 | 0.041         | 0.122        | 929.5 | 0.992     | 0.865        | 205.2 | 367.3 | 3000  | 922      | 0.587   | 0.00775 | 5.91      | 8.52      | 2.57       |
+| HSL006 | 0.0613        | 0.055        | 545.5 | 0.985     | 0.813        | 96.4  | 165.1 | 3000  | 536      | 0.551   | 0.0153  | 5.11      | 7.37      | 2.22       |
+| HSL010 | 0.185         | 0.0443       | 593.8 | 0.959     | 0.767        | 49.7  | 132.8 | 3000  | 587      | 0.56    | 0.041   | 4.89      | 7.05      | 2.12       |
+| HSL013 | 0.104         | 0.0928       | 883.9 | 0.982     | 0.831        | 115.7 | 278.3 | 3000  | 876      | 0.597   | 0.0175  | 5.63      | 8.12      | 2.44       |
+
+The first column is the sample id,the other column is the different alpha index values.
+
+| SampleID | Group |
+| -------- | ----- |
+| HSL001   | HSL   |
+| HSL002   | HSL   |
+| HSL003   | HSL   |
+| HSL004   | HSL   |
+| HSL005   | HSL   |
+| HSL006   | HSL   |
+| HSL007   | HSL   |
+| HSL008   | HSL   |
+| HSL009   | HSL   |
+| HSL010   | HSL   |
+| HSL011   | HSL   |
+| HSL012   | HSL   |
+| HSL013   | HSL   |
+
+The first column is the sample id,the second column is the grouping of samples.
+
+**Paying attention, please ,you need to upload the file in the format of the sample data**
+
+
+
+## Different alpha index values ,and statistical methods
+
+After uploading  your datas,you need to select which column in the first file you need to use for drawing,and the statistical methods you need to use.
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151702.png" style="zoom: 50%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151748.png" style="zoom:50%;" />
+
+Two methods based on t test and kruskal wallis test are performed on input data
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151799.png" style="zoom: 25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151844.png" style="zoom:25%;" />
+
+## Different drawing tools
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151883.png" style="zoom:50%;" />
+
+
+
+### box-plot
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151924.png" style="zoom:50%;" />
+
+### pirates
+
+- The color palette of the plot.  the name of a palette in the piratepal() function (e.g.; "basel", "google", "southpark"). 
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151964.png" style="zoom:50%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151000.png" style="zoom: 33%;" />
+
+
+
+ <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151039.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151075.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151113.png" style="zoom:25%;" />
+
+
+
+- Choose a different theme
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151148.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151186.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151224.png" style="zoom:25%;" />
+
+
+
+### cloudyrain
+
+- This button allows you to choose whether to transpose the graphics.
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151262.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151296.png" style="zoom:25%;" />
+
+**The box diagram can be regarded as a cloud diagram, a box diagram, and raindrops composed of three parts; the positional relationship of the three components can be adjusted through the following parameters**
+
+- With this parameter, you can adjust the raindrops to be above or below the axis of the cloud graph. The top is **+** and the bottom is **-**.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151333.png" style="zoom: 50%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151372.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151405.png" style="zoom:25%;" />
+
+- With this parameter you can adjust the width of the box chart.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151440.png" style="zoom:50%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151477.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151512.png" style="zoom:25%;" />
+
+  
+
+- With this parameter, you can adjust the box shape above or below the axis of the cloud graph. The top is **+** and the bottom is **-**.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151546.png" style="zoom:50%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151582.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151618.png" style="zoom:25%;" />
+
+- With this parameter, you can adjust the distribution spacing on the horizontal axis of the raindrop graph.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151652.png" style="zoom:50%;" />
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151690.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151730.png" style="zoom:25%;" />
+
+- With this parameter you can adjust the size of the raindrops.
+
+  <img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151767.png" style="zoom: 50%;" />
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151802.png" style="zoom:25%;" /><img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151841.png" style="zoom:25%;" />
+
+
+
+### violin
+
+<img src="https://raw.githubusercontent.com/jinhuili-lab/personal_image_bed/master/img99202201112151887.png" style="zoom: 50%;" />
+

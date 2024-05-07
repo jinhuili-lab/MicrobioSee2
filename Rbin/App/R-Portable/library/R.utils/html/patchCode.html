@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Patches installed and loaded packages and more</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for patchCode {R.utils}"><tr><td>patchCode {R.utils}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Patches installed and loaded packages and more</h2>
+
+<h3>Description</h3>
+
+<p>Patches installed and loaded packages and more.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## Default S3 method:
+patchCode(paths=NULL, recursive=TRUE, suppressWarnings=TRUE,
+  knownExtensions=c("R", "r", "S", "s"), verbose=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>paths</code></td>
+<td>
+<p>The path to the directory (and subdirectories) which
+contains source code that will patch loaded packages.
+If <code><a href="../../base/help/NULL.html">NULL</a></code>, the patch path is given by the option <code>R_PATCHES</code>,
+If the latter is not set, the system environment with the same name
+is used. If neither is given, then <code>~/R-patches/</code> is used.</p>
+</td></tr>
+<tr valign="top"><td><code>recursive</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, source code in subdirectories will also
+get loaded. </p>
+</td></tr>
+<tr valign="top"><td><code>suppressWarnings</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, <code><a href="../../base/help/warning.html">warning</a></code>s will be suppressed,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>knownExtensions</code></td>
+<td>
+<p>A <code><a href="../../base/help/character.html">character</a></code> <code><a href="../../base/help/vector.html">vector</a></code> of filename extensions
+used to identify source code files. All other files are ignored.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>If <code><a href="../../base/help/logical.html">TRUE</a></code>, extra information is printed while patching,
+otherwise not.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The method will look for source code files (recursively or not) that
+match known filename extensions. Each found source code file is
+then <code><a href="../../base/help/source.html">source</a></code>()d.
+</p>
+<p>If the search is recursive, subdirectories are entered if and only if
+either (1) the name of the subdirectory is the same as a <em>loaded</em>
+(and installed) package, or (2) if there is no installed package
+with that name. The latter allows common code to be organized in
+directories although it is still not assigned to packages.
+</p>
+<p>Each of the directories given by argument <code>paths</code> will be
+processed one by one. This makes it possible to have more than one
+file tree containing patches.
+</p>
+<p>To set an options, see <code><a href="../../base/help/options.html">options</a></code>(). To set a system
+environment, see <code><a href="../../base/help/Sys.setenv.html">Sys.setenv</a></code>().
+The character <code>;</code> is interpreted as a separator. Due to
+incompatibility with Windows pathnames, <code>:</code> is <em>not</em> a
+valid separator.
+</p>
+
+
+<h3>Value</h3>
+
+<p>Returns (invisibly) the number of files sourced.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Henrik Bengtsson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../base/help/source.html">source</a></code>().
+<code><a href="../../base/help/library.html">library</a></code>().
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>## Not run: 
+  # Patch all source code files in the current directory
+  patchCode(".")
+
+  # Patch all source code files in R_PATCHES
+  options("R_PATCHES"="~/R-patches/")
+  # alternatively, Sys.setenv("R_PATCHES"="~/R-patches/")
+  patchCode()
+
+## End(Not run)</pre>
+
+<hr /><div style="text-align: center;">[Package <em>R.utils</em> version 2.12.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

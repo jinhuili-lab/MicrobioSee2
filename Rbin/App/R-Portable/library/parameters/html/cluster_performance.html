@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Performance of clustering models</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for cluster_performance {parameters}"><tr><td>cluster_performance {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Performance of clustering models</h2>
+
+<h3>Description</h3>
+
+<p>Compute performance indices for clustering solutions.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cluster_performance(model, ...)
+
+## S3 method for class 'kmeans'
+cluster_performance(model, ...)
+
+## S3 method for class 'hclust'
+cluster_performance(model, data, clusters, ...)
+
+## S3 method for class 'dbscan'
+cluster_performance(model, data, ...)
+
+## S3 method for class 'parameters_clusters'
+cluster_performance(model, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Cluster model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>data</code></td>
+<td>
+<p>A data.frame.</p>
+</td></tr>
+<tr valign="top"><td><code>clusters</code></td>
+<td>
+<p>A vector with clusters assignments (must be same length as rows in data).</p>
+</td></tr>
+</table>
+
+
+<h3>Examples</h3>
+
+<pre>
+# kmeans
+model &lt;- kmeans(iris[1:4], 3)
+cluster_performance(model)
+# hclust
+data &lt;- iris[1:4]
+model &lt;- hclust(dist(data))
+clusters &lt;- cutree(model, 3)
+
+rez &lt;- cluster_performance(model, data, clusters)
+rez
+
+# DBSCAN
+model &lt;- dbscan::dbscan(iris[1:4], eps = 1.45, minPts = 10)
+
+rez &lt;- cluster_performance(model, iris[1:4])
+rez
+
+# Retrieve performance from parameters
+params &lt;- model_parameters(kmeans(iris[1:4], 3))
+cluster_performance(params)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

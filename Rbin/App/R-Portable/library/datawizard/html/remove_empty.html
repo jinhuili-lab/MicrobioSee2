@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Return or remove variables or observations that are...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for remove_empty {datawizard}"><tr><td>remove_empty {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Return or remove variables or observations that are completely missing</h2>
+
+<h3>Description</h3>
+
+<p>These functions check which rows or columns of a data frame completely
+contain missing values, i.e. which observations or variables completely have
+missing values, and either (1) returns their indices; or (2) removes them
+from the data frame.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+empty_columns(x)
+
+empty_rows(x)
+
+remove_empty_columns(x)
+
+remove_empty_rows(x)
+
+remove_empty(x)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A data frame.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>For character vectors, empty string values (i.e. <code>""</code>) are also
+considered as missing value. Thus, if a character vector only contains <code>NA</code>
+and <code style="white-space: pre;">""``, it is considered as empty variable and will be removed. Same applies to observations (rows) that only contain </code>NA<code>or</code>&quot;&quot;'.
+</p>
+
+
+<h3>Value</h3>
+
+
+<ul>
+<li><p> For <code>empty_columns()</code> and <code>empty_rows()</code>, a numeric (named) vector with row
+or column indices of those variables that completely have missing values.
+</p>
+</li>
+<li><p> For <code>remove_empty_columns()</code> and <code>remove_empty_rows()</code>, a data frame with
+&quot;empty&quot; columns or rows removed, respectively.
+</p>
+</li>
+<li><p> For <code>remove_empty()</code>, <strong>both</strong> empty rows and columns will be removed.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+tmp &lt;- data.frame(
+  a = c(1, 2, 3, NA, 5),
+  b = c(1, NA, 3, NA, 5),
+  c = c(NA, NA, NA, NA, NA),
+  d = c(1, NA, 3, NA, 5)
+)
+
+tmp
+
+# indices of empty columns or rows
+empty_columns(tmp)
+empty_rows(tmp)
+
+# remove empty columns or rows
+remove_empty_columns(tmp)
+remove_empty_rows(tmp)
+
+# remove empty columns and rows
+remove_empty(tmp)
+
+# also remove "empty" character vectors
+tmp &lt;- data.frame(
+  a = c(1, 2, 3, NA, 5),
+  b = c(1, NA, 3, NA, 5),
+  c = c("", "", "", "", ""),
+  stringsAsFactors = FALSE
+)
+empty_columns(tmp)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

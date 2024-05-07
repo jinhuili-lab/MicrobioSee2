@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create an sql translator</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sql_substr {dbplyr}"><tr><td>sql_substr {dbplyr}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create an sql translator</h2>
+
+<h3>Description</h3>
+
+<p>When creating a package that maps to a new SQL based src, you'll often
+want to provide some additional mappings from common R commands to the
+commands that your tbl provides. These three functions make that
+easy.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sql_substr(f = "SUBSTR")
+
+sql_str_sub(subset_f = "SUBSTR", length_f = "LENGTH", optional_length = TRUE)
+
+sql_paste(default_sep, f = "CONCAT_WS")
+
+sql_paste_infix(default_sep, op, cast)
+
+sql_variant(
+  scalar = sql_translator(),
+  aggregate = sql_translator(),
+  window = sql_translator()
+)
+
+sql_translator(..., .funs = list(), .parent = new.env(parent = emptyenv()))
+
+sql_infix(f, pad = TRUE)
+
+sql_prefix(f, n = NULL)
+
+sql_aggregate(f, f_r = f)
+
+sql_aggregate_2(f)
+
+sql_aggregate_n(f, f_r = f)
+
+sql_not_supported(f)
+
+sql_cast(type)
+
+sql_try_cast(type)
+
+sql_log()
+
+sql_cot()
+
+base_scalar
+
+base_agg
+
+base_win
+
+base_no_win
+
+base_odbc_scalar
+
+base_odbc_agg
+
+base_odbc_win
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>f</code></td>
+<td>
+<p>the name of the sql function as a string</p>
+</td></tr>
+<tr valign="top"><td><code>scalar, aggregate, window</code></td>
+<td>
+<p>The three families of functions than an
+SQL variant can supply.</p>
+</td></tr>
+<tr valign="top"><td><code>..., .funs</code></td>
+<td>
+<p>named functions, used to add custom converters from standard
+R functions to sql functions. Specify individually in <code>...</code>, or
+provide a list of <code>.funs</code></p>
+</td></tr>
+<tr valign="top"><td><code>.parent</code></td>
+<td>
+<p>the sql variant that this variant should inherit from.
+Defaults to <code>base_agg</code> which provides a standard set of
+mappings for the most common operators and functions.</p>
+</td></tr>
+<tr valign="top"><td><code>pad</code></td>
+<td>
+<p>If <code>TRUE</code>, the default, pad the infix operator with spaces.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>for <code>sql_infix()</code>, an optional number of arguments to expect.
+Will signal error if not correct.</p>
+</td></tr>
+<tr valign="top"><td><code>f_r</code></td>
+<td>
+<p>the name of the r function being translated as a string</p>
+</td></tr>
+</table>
+
+
+<h3>Helper functions</h3>
+
+<p><code>sql_infix()</code> and <code>sql_prefix()</code> create default SQL infix and prefix
+functions given the name of the SQL function. They don't perform any input
+checking, but do correctly escape their input, and are useful for
+quickly providing default wrappers for a new SQL variant.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../dbplyr/help/win_over.html">win_over()</a></code> for helper functions for window functions.
+</p>
+<p><code><a href="../../dbplyr/help/sql.html">sql()</a></code> for an example of a more customised sql
+conversion function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# An example of adding some mappings for the statistical functions that
+# postgresql provides: http://bit.ly/K5EdTn
+
+postgres_agg &lt;- sql_translator(.parent = base_agg,
+  cor = sql_aggregate_2("CORR"),
+  cov = sql_aggregate_2("COVAR_SAMP"),
+  sd =  sql_aggregate("STDDEV_SAMP", "sd"),
+  var = sql_aggregate("VAR_SAMP", "var")
+)
+
+# Next we have to simulate a connection that uses this variant
+con &lt;- simulate_dbi("TestCon")
+sql_translation.TestCon &lt;- function(x) {
+  sql_variant(
+    base_scalar,
+    postgres_agg,
+    base_no_win
+  )
+}
+
+translate_sql(cor(x, y), con = con, window = FALSE)
+translate_sql(sd(income / years), con = con, window = FALSE)
+
+# Any functions not explicitly listed in the converter will be translated
+# to sql as is, so you don't need to convert all functions.
+translate_sql(regr_intercept(y, x), con = con)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>dbplyr</em> version 2.1.1 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Check overdispersion (and underdispersion) of GL(M)M's</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for check_overdispersion {performance}"><tr><td>check_overdispersion {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Check overdispersion (and underdispersion) of GL(M)M's</h2>
+
+<h3>Description</h3>
+
+<p><code>check_overdispersion()</code> checks generalized linear (mixed)
+models for overdispersion (and underdispersion).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+check_overdispersion(x, ...)
+
+## S3 method for class 'performance_simres'
+check_overdispersion(x, alternative = c("two.sided", "less", "greater"), ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Fitted model of class <code>merMod</code>, <code>glmmTMB</code>, <code>glm</code>, or <code>glm.nb</code>
+(package <strong>MASS</strong>), or an object returned by <code>simulate_residuals()</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed down to <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>. This only applies
+for models with zero-inflation component, or for models of class <code>glmmTMB</code>
+from <code>nbinom1</code> or <code>nbinom2</code> family.</p>
+</td></tr>
+<tr valign="top"><td><code>alternative</code></td>
+<td>
+<p>A character string specifying the alternative hypothesis.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Overdispersion occurs when the observed variance is higher than the
+variance of a theoretical model. For Poisson models, variance increases
+with the mean and, therefore, variance usually (roughly) equals the mean
+value. If the variance is much higher, the data are &quot;overdispersed&quot;. A less
+common case is underdispersion, where the variance is much lower than the
+mean.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with results from the overdispersion test, like chi-squared
+statistics, p-value or dispersion ratio.
+</p>
+
+
+<h3>Interpretation of the Dispersion Ratio</h3>
+
+<p>If the dispersion ratio is close to one, a Poisson model fits well to the
+data. Dispersion ratios larger than one indicate overdispersion, thus a
+negative binomial model or similar might fit better to the data. Dispersion
+ratios much smaller than one indicate underdispersion. A p-value &lt; .05
+indicates either overdispersion or underdispersion (the first being more common).
+</p>
+
+
+<h3>Overdispersion in Poisson Models</h3>
+
+<p>For Poisson models, the overdispersion test is based on the code from
+<em>Gelman and Hill (2007), page 115</em>.
+</p>
+
+
+<h3>Overdispersion in Negative Binomial or Zero-Inflated Models</h3>
+
+<p>For negative binomial (mixed) models or models with zero-inflation component,
+the overdispersion test is based simulated residuals (see <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>).
+</p>
+
+
+<h3>Overdispersion in Mixed Models</h3>
+
+<p>For <code>merMod</code>- and <code>glmmTMB</code>-objects, <code>check_overdispersion()</code>
+is based on the code in the
+<a href="http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html">GLMM FAQ</a>,
+section <em>How can I deal with overdispersion in GLMMs?</em>. Note that this
+function only returns an <em>approximate</em> estimate of an overdispersion
+parameter. Using this approach would be inaccurate for zero-inflated or
+negative binomial mixed models (fitted with <code>glmmTMB</code>), thus, in such cases,
+the overdispersion test is based on <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code> (which is identical
+to <code>check_overdispersion(simulate_residuals(model))</code>).
+</p>
+
+
+<h3>How to fix Overdispersion</h3>
+
+<p>Overdispersion can be fixed by either modeling the dispersion parameter, or
+by choosing a different distributional family (like Quasi-Poisson, or
+negative binomial, see <em>Gelman and Hill (2007), pages 115-116</em>).
+</p>
+
+
+<h3>Tests based on simulated residuals</h3>
+
+<p>For certain models, resp. model from certain families, tests are based on
+simulated residuals (see <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>). These are usually more
+accurate for testing such models than the traditionally used Pearson residuals.
+However, when simulating from more complex models, such as mixed models or
+models with zero-inflation, there are several important considerations.
+Arguments specified in <code>...</code> are passed to <code><a href="../../performance/help/simulate_residuals.html">simulate_residuals()</a></code>, which
+relies on <code><a href="../../DHARMa/help/simulateResiduals.html">DHARMa::simulateResiduals()</a></code> (and therefore, arguments in <code>...</code>
+are passed further down to <em>DHARMa</em>). The defaults in DHARMa are set on the
+most conservative option that works for all models. However, in many cases,
+the help advises to use different settings in particular situations or for
+particular models. It is recommended to read the 'Details' in
+<code>?DHARMa::simulateResiduals</code> closely to understand the implications of the
+simulation process and which arguments should be modified to get the most
+accurate results.
+</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> Bolker B et al. (2017):
+<a href="http://bbolker.github.io/mixedmodels-misc/glmmFAQ.html">GLMM FAQ.</a>
+</p>
+</li>
+<li><p> Gelman, A., and Hill, J. (2007). Data analysis using regression and
+multilevel/hierarchical models. Cambridge; New York: Cambridge University
+Press.
+</p>
+</li></ul>
+
+
+
+<h3>See Also</h3>
+
+<p>Other functions to check model assumptions and and assess model quality: 
+<code><a href="../../performance/help/check_autocorrelation.html">check_autocorrelation</a>()</code>,
+<code><a href="../../performance/help/check_collinearity.html">check_collinearity</a>()</code>,
+<code><a href="../../performance/help/check_convergence.html">check_convergence</a>()</code>,
+<code><a href="../../performance/help/check_heteroscedasticity.html">check_heteroscedasticity</a>()</code>,
+<code><a href="../../performance/help/check_homogeneity.html">check_homogeneity</a>()</code>,
+<code><a href="../../performance/help/check_model.html">check_model</a>()</code>,
+<code><a href="../../performance/help/check_outliers.html">check_outliers</a>()</code>,
+<code><a href="../../performance/help/check_predictions.html">check_predictions</a>()</code>,
+<code><a href="../../performance/help/check_singularity.html">check_singularity</a>()</code>,
+<code><a href="../../performance/help/check_zeroinflation.html">check_zeroinflation</a>()</code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+data(Salamanders, package = "glmmTMB")
+m &lt;- glm(count ~ spp + mined, family = poisson, data = Salamanders)
+check_overdispersion(m)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

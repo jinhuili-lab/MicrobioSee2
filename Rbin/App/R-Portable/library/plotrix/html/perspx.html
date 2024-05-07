@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display perspective plot</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for perspx {plotrix}"><tr><td>perspx {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Display perspective plot </h2>
+
+<h3>Description</h3>
+
+<p>Display an enhanced perspective plot with additional return values
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ perspx(x,y,z,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x,y,z</code></td>
+<td>
+<p> x, y and z coordinates to plot. </p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p> Other arguments passed to <span class="samp">persp</span>. </p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Displays <span class="samp">z</span> values plotted on an x,y grid.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list with three elements, the ranges of <span class="samp">x</span>, <span class="samp">y</span> and <span class="samp">z</span>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Ben Bolker</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ x &lt;- 1:10
+ y &lt;- 1:10
+ z &lt;- outer(x,y,function(x,y) { 3*sin(2*pi*x)/(2*pi*x)+exp(y/10)+(x*y)/1000 })
+ par(mar=c(5,10,2,2))
+ pp &lt;- perspx(x,y,z,ticktype="detailed",phi=30,theta=80,nticks=3,r=10,
+  axes=FALSE)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

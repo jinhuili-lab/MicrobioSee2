@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create a DRAC input data template (v1.2)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for template_DRAC {Luminescence}"><tr><td>template_DRAC {Luminescence}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create a DRAC input data template (v1.2)</h2>
+
+<h3>Description</h3>
+
+<p>This function returns a DRAC input template (v1.2) to be used in conjunction
+with the <a href="../../Luminescence/help/use_DRAC.html">use_DRAC</a> function
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+template_DRAC(nrow = 1, preset = NULL, notification = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>nrow</code></td>
+<td>
+<p><a href="../../base/html/integer.html">integer</a> (<em>with default</em>):
+specifies the number of rows of the template (i.e., the number of data
+sets you want to submit).</p>
+</td></tr>
+<tr valign="top"><td><code>preset</code></td>
+<td>
+<p><a href="../../base/html/character.html">character</a> (<em>optional</em>):
+By default, all values of the template are set to <code>NA</code>, which means that
+the user needs to fill in <strong>all</strong> data first before submitting to DRAC
+using <code>use_DRAC()</code>. To reduce the number of values that need to be
+provided, <code>preset</code> can be used to create a template with at least
+a minimum of reasonable preset values.
+</p>
+<p><code>preset</code> can be one of the following:
+</p>
+
+<ul>
+<li> <p><code>quartz_coarse</code>
+</p>
+</li>
+<li> <p><code>quartz_fine</code>
+</p>
+</li>
+<li> <p><code>feldspar_coarse</code>
+</p>
+</li>
+<li> <p><code>polymineral_fine</code>
+</p>
+</li>
+<li> <p><code>DRAC-example_quartz</code>
+</p>
+</li>
+<li> <p><code>DRAC-example_feldspar</code>
+</p>
+</li>
+<li> <p><code>DRAC-example_polymineral</code>
+</p>
+</li></ul>
+
+<p>Note that the last three options can be used to produce a template
+with values directly taken from the official DRAC input <code>.csv</code> file.</p>
+</td></tr>
+<tr valign="top"><td><code>notification</code></td>
+<td>
+<p><a href="../../base/html/logical.html">logical</a> (<em>with default</em>):
+show or hide the notification</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list.
+</p>
+
+
+<h3>How to cite</h3>
+
+<p>Burow, C., Kreutzer, S., 2021. template_DRAC(): Create a DRAC input data template (v1.2). In: Kreutzer, S., Burow, C., Dietze, M., Fuchs, M.C., Schmidt, C., Fischer, M., Friedrich, J., Mercier, N., Philippe, A., Riedesel, S., Autzen, M., Mittelstrass, D., Gray, H.J., 2021. Luminescence: Comprehensive Luminescence Dating Data Analysis. R package version 0.9.15. https://CRAN.R-project.org/package=Luminescence
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Christoph Burow, University of Cologne (Germany), Sebastian Kreutzer, Geography &amp; Earth Sciences, Aberystwyth University (United Kingdom)
+, RLum Developer Team</p>
+
+
+<h3>References</h3>
+
+<p>Durcan, J.A., King, G.E., Duller, G.A.T., 2015. DRAC: Dose Rate and Age Calculator for trapped charge dating.
+Quaternary Geochronology 28, 54-61. doi:10.1016/j.quageo.2015.03.012
+</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../base/html/as.data.frame.html">as.data.frame</a>, <a href="../../base/html/list.html">list</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+# create a new DRAC input input
+input &lt;- template_DRAC(preset = "DRAC-example_quartz")
+
+# show content of the input
+print(input)
+print(input$`Project ID`)
+print(input[[4]])
+
+
+## Example: DRAC Quartz example
+# note that you only have to assign new values where they
+# are different to the default values
+input$`Project ID` &lt;- "DRAC-Example"
+input$`Sample ID` &lt;- "Quartz"
+input$`Conversion factors` &lt;- "AdamiecAitken1998"
+input$`External U (ppm)` &lt;- 3.4
+input$`errExternal U (ppm)` &lt;- 0.51
+input$`External Th (ppm)` &lt;- 14.47
+input$`errExternal Th (ppm)` &lt;- 1.69
+input$`External K (%)` &lt;- 1.2
+input$`errExternal K (%)` &lt;- 0.14
+input$`Calculate external Rb from K conc?` &lt;- "N"
+input$`Calculate internal Rb from K conc?` &lt;- "N"
+input$`Scale gammadoserate at shallow depths?` &lt;- "N"
+input$`Grain size min (microns)` &lt;- 90
+input$`Grain size max (microns)` &lt;- 125
+input$`Water content ((wet weight - dry weight)/dry weight) %` &lt;- 5
+input$`errWater content %` &lt;- 2
+input$`Depth (m)` &lt;- 2.2
+input$`errDepth (m)` &lt;- 0.22
+input$`Overburden density (g cm-3)` &lt;- 1.8
+input$`errOverburden density (g cm-3)` &lt;- 0.1
+input$`Latitude (decimal degrees)` &lt;- 30.0000
+input$`Longitude (decimal degrees)` &lt;- 70.0000
+input$`Altitude (m)` &lt;- 150
+input$`De (Gy)` &lt;- 20
+input$`errDe (Gy)` &lt;- 0.2
+
+# use DRAC
+## Not run: 
+output &lt;- use_DRAC(input)
+
+## End(Not run)
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Luminescence</em> version 0.9.15 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

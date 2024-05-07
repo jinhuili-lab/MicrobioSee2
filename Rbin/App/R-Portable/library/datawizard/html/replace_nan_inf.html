@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Convert infinite or 'NaN' values into 'NA'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for replace_nan_inf {datawizard}"><tr><td>replace_nan_inf {datawizard}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Convert infinite or <code>NaN</code> values into <code>NA</code></h2>
+
+<h3>Description</h3>
+
+<p>Replaces all infinite (<code>Inf</code> and <code>-Inf</code>) or <code>NaN</code> values with <code>NA</code>.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+replace_nan_inf(x, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A vector or a dataframe</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Currently not used.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Data with <code>Inf</code>, <code>-Inf</code>, and <code>NaN</code> converted to <code>NA</code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+# a vector
+x &lt;- c(1, 2, NA, 3, NaN, 4, NA, 5, Inf, -Inf, 6, 7)
+replace_nan_inf(x)
+
+# a data frame
+df &lt;- data.frame(
+  x = c(1, NA, 5, Inf, 2, NA),
+  y = c(3, NaN, 4, -Inf, 6, 7),
+  stringsAsFactors = FALSE
+)
+replace_nan_inf(df)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>datawizard</em> version 0.10.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

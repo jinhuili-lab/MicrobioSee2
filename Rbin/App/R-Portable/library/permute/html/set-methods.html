@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Replacement functions to set components of a permutation...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for set-methods {permute}"><tr><td>set-methods {permute}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Replacement functions to set components of a permutation design</h2>
+
+<h3>Description</h3>
+
+<p>Simple functions to allow abstracted replacement of components of a
+permutation design, for example as returned by <code><a href="../../permute/help/how.html">how</a></code>. In
+addition to performing replacement of components of the list returned
+by <code><a href="../../permute/help/how.html">how</a></code>, these replacement function also update the
+matched calls stored within the list to facilitate the use of
+<code><a href="../../stats/html/update.html">update</a></code> by users.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+
+setBlocks(object) &lt;- value
+setPlots(object) &lt;- value
+setWithin(object) &lt;- value
+setStrata(object) &lt;- value
+setNperm(object) &lt;- value
+setAllperms(object) &lt;- value
+setMaxperm(object) &lt;- value
+setMinperm(object) &lt;- value
+setComplete(object) &lt;- value
+setMake(object) &lt;- value
+setObserved(object) &lt;- value
+setRow(object) &lt;- value
+setCol(object) &lt;- value
+setDim(object) &lt;- value
+setType(object) &lt;- value
+setMirror(object) &lt;- value
+setConstant(object) &lt;- value
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>An R object to dispatch on.</p>
+</td></tr>
+<tr valign="top"><td><code>value</code></td>
+<td>
+<p>The replacement value/object.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>These are replacement functions for working with permutation design
+objects created by <code><a href="../../permute/help/how.html">how</a></code>. They should be used in
+preference to directly updating the permutation design in case the
+internal structure of object changes as <span class="pkg">permute</span> is developed and
+because the matched call also needs to be updated to facilitate use of
+<code><a href="../../stats/html/update.html">update</a></code> on the <code><a href="../../permute/help/how.html">how</a></code> object.
+</p>
+
+
+<h3>Value</h3>
+
+<p>These replacement functions return <code>object</code> suitably modified.
+</p>
+
+
+<h3>Note</h3>
+
+<p><code>setStrata&lt;-</code> has methods for objects of class <code>"how"</code> and
+<code>"Plots"</code>. The former sets the <code>blocks</code> component of the
+<code><a href="../../permute/help/how.html">how</a></code> object, whilst the latter sets the <code>strata</code>
+component of the <code><a href="../../permute/help/Plots.html">Plots</a></code> object.
+</p>
+<p><code>setDim&lt;-</code>, <code>setRow&lt;-</code>, and <code>setCol&lt;-</code> cannot be used
+on an object of class <code>"how"</code>. Instead, extract the <code>Plots</code>
+or <code>Within</code> components with <code><a href="../../permute/help/getPlots.html">getPlots</a></code> or
+<code><a href="../../permute/help/getWithin.html">getWithin</a></code> and alter those components, then use the
+resulting object to replace the <code>plots</code> or <code>within</code>
+components using <code>setPlots</code> or <code>setWithin</code>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Gavin Simpson</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../permute/help/check.html">check</a></code>, a utility function for checking
+permutation scheme described by <code><a href="../../permute/help/how.html">how</a></code>. Comparable
+extractor functions are also available; see
+<code><a href="../../permute/help/get-methods.html">get-methods</a></code>.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## extract components from a "how" object
+hh &lt;- how()
+getNperm(hh)
+setNperm(hh) &lt;- 999
+getNperm(hh)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>permute</em> version 0.9-5 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

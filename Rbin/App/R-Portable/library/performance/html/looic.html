@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: LOO-related Indices for Bayesian regressions.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for looic {performance}"><tr><td>looic {performance}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>LOO-related Indices for Bayesian regressions.</h2>
+
+<h3>Description</h3>
+
+<p>Compute LOOIC (leave-one-out cross-validation (LOO) information
+criterion) and ELPD (expected log predictive density) for Bayesian
+regressions. For LOOIC and ELPD, smaller and larger values are respectively
+indicative of a better fit.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+looic(model, verbose = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>A Bayesian regression model.</p>
+</td></tr>
+<tr valign="top"><td><code>verbose</code></td>
+<td>
+<p>Toggle off warnings.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>A list with four elements, the ELPD, LOOIC and their standard errors.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+model &lt;- suppressWarnings(rstanarm::stan_glm(
+  mpg ~ wt + cyl,
+  data = mtcars,
+  chains = 1,
+  iter = 500,
+  refresh = 0
+))
+looic(model)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>performance</em> version 0.11.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

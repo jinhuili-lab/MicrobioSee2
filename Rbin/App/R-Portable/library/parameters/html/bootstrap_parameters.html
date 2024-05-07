@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Parameters bootstrapping</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for bootstrap_parameters {parameters}"><tr><td>bootstrap_parameters {parameters}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Parameters bootstrapping</h2>
+
+<h3>Description</h3>
+
+<p>Compute bootstrapped parameters and their related indices such as Confidence Intervals (CI) and p-values.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+bootstrap_parameters(model, ...)
+
+## Default S3 method:
+bootstrap_parameters(
+  model,
+  iterations = 1000,
+  centrality = "median",
+  ci = 0.95,
+  ci_method = "quantile",
+  test = "p-value",
+  ...
+)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>Statistical model.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Arguments passed to or from other methods.</p>
+</td></tr>
+<tr valign="top"><td><code>iterations</code></td>
+<td>
+<p>The number of draws to simulate/bootstrap.</p>
+</td></tr>
+<tr valign="top"><td><code>centrality</code></td>
+<td>
+<p>The point-estimates (centrality indices) to compute. Character
+(vector) or list with one or more of these options: <code>"median"</code>, <code>"mean"</code>, <code>"MAP"</code>
+(see <code><a href="../../bayestestR/help/map_estimate.html">map_estimate()</a></code>), <code>"trimmed"</code> (which is just <code>mean(x, trim = threshold)</code>),
+<code>"mode"</code> or <code>"all"</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>Value or vector of probability of the CI (between 0 and 1)
+to be estimated. Default to <code>0.95</code> (<code style="white-space: pre;">95%</code>).</p>
+</td></tr>
+<tr valign="top"><td><code>ci_method</code></td>
+<td>
+<p>The type of index used for Credible Interval. Can be
+<code>"ETI"</code> (default, see <code><a href="../../bayestestR/help/eti.html">eti()</a></code>), <code>"HDI"</code>
+(see <code><a href="../../bayestestR/help/hdi.html">hdi()</a></code>), <code>"BCI"</code> (see
+<code><a href="../../bayestestR/help/bci.html">bci()</a></code>), <code>"SPI"</code> (see <code><a href="../../bayestestR/help/spi.html">spi()</a></code>), or
+<code>"SI"</code> (see <code><a href="../../bayestestR/help/si.html">si()</a></code>).</p>
+</td></tr>
+<tr valign="top"><td><code>test</code></td>
+<td>
+<p>The indices to compute. Character (vector) with one or more of
+these options: <code>"p-value"</code> (or <code>"p"</code>), <code>"p_direction"</code> (or <code>"pd"</code>), <code>"rope"</code>,
+<code>"p_map"</code>, <code>"equivalence_test"</code> (or <code>"equitest"</code>), <code>"bayesfactor"</code> (or <code>"bf"</code>)
+or <code>"all"</code> to compute all tests. For each &quot;test&quot;, the corresponding
+<strong>bayestestR</strong> function is called (e.g. <code><a href="../../bayestestR/help/rope.html">bayestestR::rope()</a></code> or
+<code><a href="../../bayestestR/help/p_direction.html">bayestestR::p_direction()</a></code>) and its results included in the summary output.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>This function first calls <code><a href="../../parameters/help/bootstrap_model.html">bootstrap_model()</a></code> to generate
+bootstrapped coefficients. The resulting replicated for each coefficient
+are treated as &quot;distribution&quot;, and is passed to <code><a href="../../bayestestR/help/describe_posterior.html">bayestestR::describe_posterior()</a></code>
+to calculate the related indices defined in the <code>"test"</code> argument.
+</p>
+<p>Note that that p-values returned here are estimated under the assumption of
+<em>translation equivariance</em>: that shape of the sampling distribution is
+unaffected by the null being true or not. If this assumption does not hold,
+p-values can be biased, and it is suggested to use proper permutation tests
+to obtain non-parametric p-values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A data frame summarizing the bootstrapped parameters.
+</p>
+
+
+<h3>Using with <strong>emmeans</strong></h3>
+
+<p>The output can be passed directly to the various functions from the
+<strong>emmeans</strong> package, to obtain bootstrapped estimates, contrasts, simple
+slopes, etc. and their confidence intervals. These can then be passed to
+<code>model_parameter()</code> to obtain standard errors, p-values, etc. (see
+example).
+</p>
+<p>Note that that p-values returned here are estimated under the assumption of
+<em>translation equivariance</em>: that shape of the sampling distribution is
+unaffected by the null being true or not. If this assumption does not hold,
+p-values can be biased, and it is suggested to use proper permutation tests
+to obtain non-parametric p-values.
+</p>
+
+
+<h3>References</h3>
+
+<p>Davison, A. C., &amp; Hinkley, D. V. (1997). Bootstrap methods and their
+application (Vol. 1). Cambridge university press.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../parameters/help/bootstrap_model.html">bootstrap_model()</a></code>, <code><a href="../../parameters/help/simulate_parameters.html">simulate_parameters()</a></code>, <code><a href="../../parameters/help/simulate_model.html">simulate_model()</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+
+
+set.seed(2)
+model &lt;- lm(Sepal.Length ~ Species * Petal.Width, data = iris)
+b &lt;- bootstrap_parameters(model)
+print(b)
+
+est &lt;- emmeans::emmeans(b, trt.vs.ctrl ~ Species)
+print(model_parameters(est))
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>parameters</em> version 0.21.6 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

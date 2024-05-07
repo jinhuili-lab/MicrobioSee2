@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Distance from points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for distanceFromPoints {raster}"><tr><td>distanceFromPoints {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Distance from points</h2>
+
+<h3>Description</h3>
+
+<p>The function calculates the distance from a set of points to all cells of a Raster* object.
+</p>
+<p>The distance unit is in meters if the coordinate reference system (crs) of the Raster* object is (<code>+proj=longlat</code>) or assumed to be if the crs is <code>NA</code>. In all other cases it is in the units defined by the crs (which typically is meters). 
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+distanceFromPoints(object, xy, filename='', ...) 
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>object</code></td>
+<td>
+<p>Raster object</p>
+</td></tr>
+<tr valign="top"><td><code>xy</code></td>
+<td>
+<p>matrix of x and y coordinates, or a SpatialPoints* object.</p>
+</td></tr>
+<tr valign="top"><td><code>filename</code></td>
+<td>
+<p>character. Optional filename for the output RasterLayer</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments as for <code><a href="../../raster/help/writeRaster.html">writeRaster</a></code></p>
+</td></tr>  
+</table>
+
+
+<h3>Details</h3>
+
+<p>Distances for <code>longlat</code> data are computed on the WGS84 spheroid using GeographicLib (Karney, 2013)
+</p>
+
+
+<h3>Value</h3>
+
+<p>RasterLayer</p>
+
+
+<h3>References</h3>
+
+<p>C.F.F. Karney, 2013. Algorithms for geodesics, J. Geodesy 87: 43-55. doi: <a href="https://doi.org/10.1007/s00190-012-0578-z">10.1007/s00190-012-0578-z</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="../../raster/help/crs.html">crs</a></code>, <code><a href="../help/distance.html">distance</a></code>,  <code><a href="../help/gridDistance.html">gridDistance</a></code>,  <code><a href="../help/pointDistance.html">pointDistance</a></code>  </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+r &lt;- raster(ncol=36,nrow=18)
+xy &lt;- c(0,0)
+d1 &lt;- distanceFromPoints(r, xy) 
+crs(r) = '+proj=utm +zone=12 +datum=WGS84'
+d2 &lt;- distanceFromPoints(r, xy) 
+par(mfrow=c(1,2))
+plot(d1)
+plot(d2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

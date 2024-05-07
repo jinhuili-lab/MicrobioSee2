@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Draw ellipse</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for draw.ellipse {plotrix}"><tr><td>draw.ellipse {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Draw ellipse</h2>
+
+<h3>Description</h3>
+
+<p>Draws ellipses on an existing plot.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+draw.ellipse(x, y, a = 1, b = 1, angle = 0, segment = NULL, 
+arc.only = TRUE, deg = TRUE, nv = 100, border = NULL, 
+col = NA, lty = 1, lwd = 1, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+
+<p>A vector or a matrix (if <code>y</code> is missing).</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+
+<p>A vector, can be missing.
+</p>
+</td></tr>
+<tr valign="top"><td><code>a,b</code></td>
+<td>
+
+<p>Vectors, radii of the ellypses along the two axes in user units.
+</p>
+</td></tr>
+<tr valign="top"><td><code>angle</code></td>
+<td>
+
+<p>Angle of rotation in degrees (if <code>deg=TRUE</code>) or in radians
+(if <code>deg=FALSE</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>segment</code></td>
+<td>
+
+<p>Start and endpoints of arc in degrees (if <code>deg=TRUE</code>) or in radians
+(if <code>deg=FALSE</code>).
+</p>
+</td></tr>
+<tr valign="top"><td><code>arc.only</code></td>
+<td>
+
+<p>Logical, if <code>segmen</code> the full ellipse is not drawn, radii from the
+ends of the arc are drawn to form a sector (see Examples).
+</p>
+</td></tr>
+<tr valign="top"><td><code>deg</code></td>
+<td>
+
+<p>Logical, if angles are given in degrees (<code>TRUE</code>) or radians.
+</p>
+</td></tr>
+<tr valign="top"><td><code>nv</code></td>
+<td>
+
+<p>Number of vertices to draw the ellipses.
+</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+
+<p>Color to use for drawing the circumference.
+</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+
+<p>Color to use for filling the circle.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+
+<p>Line type for the circumference.
+</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+
+<p>Line width for the circumference.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+
+<p>Additional arguments passed to <code><a href="../../graphics/html/polygon.html">polygon</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Draw ellipses as a side effect.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Peter Solymos &lt;solymos@ualberta.ca&gt;</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/polygon.html">polygon</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+plot(c(0,10), c(0,10), type="n", main="test draw.ellipse")
+draw.ellipse(c(3,7), c(8,8), c(0.5,1), c(1,0.5), col=c(2,4),
+ angle=c(45,0), segment=rbind(c(0,45),c(45,360)))
+draw.ellipse(c(3,7), c(6,6), c(0.5,1), c(1,0.5), col=c(2,4),
+ angle=c(45,0), segment=rbind(c(0,45),c(45,360)), arc.only=FALSE)
+draw.ellipse(c(3,7), c(4,4), c(0.5,1), c(1,0.5), border=c(2,4),
+ angle=c(45,0), segment=rbind(c(0,45),c(45,360)), arc.only=FALSE)
+draw.ellipse(c(3,7), c(2,2), c(0.5,1), c(1,0.5), border=1,
+ angle=c(45,0), lty=3)
+draw.ellipse(c(3,7), c(2,2), c(0.5,1), c(1,0.5), border=c(5,3),
+ angle=c(45,0), nv=c(3,4), lty=2, lwd=2)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

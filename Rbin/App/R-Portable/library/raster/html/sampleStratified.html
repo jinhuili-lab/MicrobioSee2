@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Stratified random sample</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for sampleStratified {raster}"><tr><td>sampleStratified {raster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Stratified random sample</h2>
+
+<h3>Description</h3>
+
+<p>Take a stratified random sample from the cell values of a Raster* object (without replacement). An attempt is made to sample <code>size</code> cells from each stratum. The values in the RasterLayer <code>x</code> are rounded to integers; with each value representing a stratum.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'RasterLayer'
+sampleStratified(x, size, exp=10, na.rm=TRUE, xy=FALSE, ext=NULL, sp=FALSE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>Raster* object, with values (rounded to integers) representing strata</p>
+</td></tr>
+<tr valign="top"><td><code>size</code></td>
+<td>
+<p>positive integer giving the number of items to choose</p>
+</td></tr> 
+<tr valign="top"><td><code>exp</code></td>
+<td>
+<p>numeric &gt;= 1. 'Expansion factor' that is multiplied with size to get an intial sample. Can be increased when you get an insufficient number of samples for small strata</p>
+</td></tr>
+<tr valign="top"><td><code>na.rm</code></td>
+<td>
+<p>logical. If <code>TRUE</code> (the default), <code>NA</code> values are removed from random sample</p>
+</td></tr>
+<tr valign="top"><td><code>xy</code></td>
+<td>
+<p>logical. Return coordinates of cells rather than cell numbers</p>
+</td></tr>
+<tr valign="top"><td><code>ext</code></td>
+<td>
+<p>Extent object. To limit regular sampling to the area within the extent</p>
+</td></tr>
+<tr valign="top"><td><code>sp</code></td>
+<td>
+<p>logical. If <code>TRUE</code>, a SpatialPointsDataFrame is returned</p>
+</td></tr>  
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments. None implemented</p>
+</td></tr> 
+</table>
+
+
+<h3>Details</h3>
+
+<p>The function may not work well when the size (number of cells) of some strata is relatively small.
+</p>
+
+
+<h3>Value</h3>
+
+<p>matrix of cell numbers (and optionally coordinates) by stratum
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../raster/help/sampleRandom.html">sampleRandom</a>, <a href="../../raster/help/sampleRegular.html">sampleRegular</a></code></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ r &lt;- raster(ncol=10, nrow=10)
+ names(r) &lt;- 'stratum'
+ values(r) &lt;- round((runif(ncell(r))+0.5)*3)
+ sampleStratified(r, size=3)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>raster</em> version 3.5-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

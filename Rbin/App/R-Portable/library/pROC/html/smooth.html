@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Smooth a ROC curve</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for smooth {pROC}"><tr><td>smooth {pROC}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Smooth a ROC curve
+</h2>
+
+<h3>Description</h3>
+
+<p>This function smoothes a ROC curve of numeric predictor. By default, a
+binormal smoothing is performed, but density or custom smoothings are
+supported.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+smooth(...)
+## Default S3 method:
+smooth(...)
+## S3 method for class 'roc'
+smooth(roc,
+method=c("binormal", "density", "fitdistr", "logcondens",
+"logcondens.smooth"), n=512, bw = "nrd0", density=NULL,
+density.controls=density, density.cases=density,
+start=NULL, start.controls=start, start.cases=start, 
+reuse.auc=TRUE, reuse.ci=FALSE, ...)
+## S3 method for class 'smooth.roc'
+smooth(smooth.roc, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>roc, smooth.roc</code></td>
+<td>
+<p>a &ldquo;roc&rdquo; object from the
+<code><a href="../../pROC/help/roc.html">roc</a></code> function, or a &ldquo;smooth.roc&rdquo; object from the
+<code><a href="../../pROC/help/smooth.roc.html">smooth</a></code> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>&ldquo;binormal&rdquo;, &ldquo;density&rdquo;, &ldquo;fitdistr&rdquo;,
+&ldquo;logcondens&rdquo;, &ldquo;&quot;logcondens.smooth&quot;&rdquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+
+<p>the number of equally spaced points where the smoothed curve will be
+calculated.
+</p>
+</td></tr>
+<tr valign="top"><td><code>bw</code></td>
+<td>
+
+<p>if <code>method="density"</code> and <code>density.controls</code> and
+<code>density.cases</code> are not provided, <code>bw</code> is passed to
+<code><a href="../../stats/html/density.html">density</a></code> to determine the bandwidth of the
+density Can be a character string (&ldquo;nrd0&rdquo;, &ldquo;nrd&rdquo;,
+&ldquo;ucv&rdquo;, &ldquo;bcv&rdquo; or &ldquo;SJ&rdquo;, but any name
+<a href="../../base/help/match.fun.html">matching</a> a function prefixed with &ldquo;bw.&rdquo; is
+supported) or a numeric value, as described in <code><a href="../../stats/html/density.html">density</a></code>.
+Defaults to &ldquo;<a href="../../stats/help/bandwidth.html">nrd0</a>&rdquo;.
+</p>
+</td></tr>
+<tr valign="top"><td><code>density, density.controls, density.cases</code></td>
+<td>
+<p>if
+<code>method="density"</code>, a numeric value of density (over the y
+axis) or a function returning a density (such as
+<code><a href="../../stats/html/density.html">density</a></code>. If <code>method="fitdistr"</code>, a <code>densfun</code>
+argument for <code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code>.
+If the value is different for control and case observations,
+<code>density.controls</code> and <code>density.cases</code> can be employed
+instead, otherwise <code>density</code> will be propagated to both
+<code>density.controls</code> and <code>density.cases</code>.
+</p>
+</td></tr>
+<tr valign="top"><td><code>start, start.controls, start.cases</code></td>
+<td>
+<p>if
+<code>method="fitdistr"</code>, optionnal <code>start</code>
+arguments for . <code>start.controls</code>
+and <code>start.cases</code> allows to specify different distributions for
+controls and cases.
+</p>
+</td></tr>
+<tr valign="top"><td><code>reuse.auc, reuse.ci</code></td>
+<td>
+<p>if <code>TRUE</code> (default for reuse.auc) and the &ldquo;roc&rdquo; objects
+contain &ldquo;auc&rdquo; or &ldquo;ci&rdquo; fields, re-use these
+specifications to regenerate <code><a href="../../pROC/help/auc.html">auc</a></code> or <code><a href="../../pROC/help/ci.html">ci</a></code>
+on the smoothed ROC curve with the original parameters. If
+<code>FALSE</code>, the object returned will not contain
+&ldquo;auc&rdquo; or &ldquo;ci&rdquo; fields. It is currently not possible to
+redefine <code><a href="../../pROC/help/auc.html">auc</a></code> and <code><a href="../../pROC/help/ci.html">ci</a></code> options directly: you need to call <code><a href="../../pROC/help/auc.html">auc</a></code> or
+<code><a href="../../pROC/help/ci.html">ci</a></code> later for that.
+</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>further arguments passed to or from other methods, and
+especially to <code><a href="../../stats/html/density.html">density</a></code> (only <code>cut</code>, <code>adjust</code>,
+and <code>kernel</code>, plus <code>window</code> for compatibility with S+) and
+<code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code>.
+</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>If <code>method="binormal"</code>, a linear model is fitted to the quantiles of
+the sensitivities and specificities. Smoothed sensitivities and
+specificities are then generated from this model on <code>n</code> points.
+This simple approach was found to work well for most ROC curves, but
+it may produce hooked smooths in some situations (see in Hanley (1988)). 
+</p>
+<p>With <code>method="density"</code>, the <code><a href="../../stats/html/density.html">density</a></code>
+function is employed to generate a smooth kernel
+density of the control and case observations as described by Zhou
+<em>et al.</em> (1997), unless
+<code>density.controls</code> or <code>density.cases</code> are provided
+directly. <code>bw</code> can be given to
+specify a bandwidth to use with <code><a href="../../stats/html/density.html">density</a></code>. It can be a
+numeric value or a character string (&ldquo;nrd0&rdquo;, &ldquo;nrd&rdquo;,
+&ldquo;ucv&rdquo;, &ldquo;bcv&rdquo; or &ldquo;SJ&rdquo;, but any name
+<a href="../../base/help/match.fun.html">matching</a> a function prefixed with &ldquo;bw.&rdquo; is
+supported). In the case of a character
+string, the whole predictor data is employed to determine the numeric
+value to use on both controls and cases.
+Depending on your data, it might be a good idea to specify the
+<code>kernel</code> argument for <code><a href="../../stats/html/density.html">density</a></code>. By default,
+&ldquo;gaussian&rdquo; is used, but &ldquo;epanechnikov&rdquo;,
+&ldquo;rectangular&rdquo;, &ldquo;triangular&rdquo;, &ldquo;biweight&rdquo;,
+&ldquo;cosine&rdquo; and &ldquo;optcosine&rdquo; are supported. As all the
+kernels are symetrical, it might help to normalize the data first
+(that is, before calling <code><a href="../../pROC/help/roc.html">roc</a></code>), for example with quantile
+normalization:
+</p>
+<pre>
+    norm.x &lt;- qnorm(rank(x)/(length(x)+1))
+    smooth(roc(response, norm.x, ...), ...)
+  </pre>
+<p>Additionally, <code>density</code> can be a function which must return
+either a numeric vector of densities over the y axis or a <a href="../../base/html/list.html">list</a>
+with a &ldquo;y&rdquo; item like the <code><a href="../../stats/html/density.html">density</a></code> function. It
+must accept the following input:
+</p>
+<pre>
+    density.fun(x, n, from, to, bw, kernel, ...)
+  </pre>
+<p>It is important to honour <code>n</code>, <code>from</code> and <code>to</code> in order
+to have the densities evaluated on the same points for controls and
+cases. Failing to do so and returning densities of different length
+will produce an error. It is also a good idea to use a constant
+smoothing parameter (such as <code>bw</code>) especially when controls and
+cases have a different number of observations, to avoid producing
+smoother or rougher densities.
+</p>
+<p>If <code>method="fitdistr"</code>, the <code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code>
+function from the <span class="pkg">MASS</span> package is employed to fit parameters for
+the density function <code>density</code> with optionnal start parameters
+<code>start</code>. The density function are fitted
+separately in control (<code>density.controls</code>, <code>start.controls</code>)
+and case observations (<code>density.cases</code>,
+<code>start.cases</code>). <code>density</code> can be one of the character values
+allowed by <code><a href="../../MASS/help/fitdistr.html">fitdistr</a></code> or a density function (such
+as <code><a href="../../stats/html/Normal.html">dnorm</a></code>, <code><a href="../../stats/html/Weibull.html">dweibull</a></code>, ...).
+</p>
+<p>The <code>method="logcondens"</code> and <code>method="logcondens.smooth"</code> use the
+<span class="pkg">logcondens</span> package to generate a non smoothed or smoothed
+(respectively) log-concave density estimate of of the control and case
+observation with the <a href="../../logcondens/help/logConROC.html">logConROC</a> function.
+</p>
+<p><code>smooth.default</code> forces the usage of the
+<code><a href="../../stats/help/smooth.html">smooth</a></code> function in the <span class="pkg">stats</span> package, so
+that other code relying on <code>smooth</code> should continue to function
+normally.
+</p>
+<p>Smoothed ROC curves can be passed to smooth again. In this case, the
+smoothing is not re-applied on the smoothed ROC curve but the
+original &ldquo;<a href="../../pROC/help/roc.html">roc</a>&rdquo; object will be re-used.
+</p>
+<p>Note that a <code>smooth.roc</code> curve has no threshold.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A list of class &ldquo;smooth.roc&rdquo; with the following fields:
+</p>
+<table summary="R valueblock">
+<tr valign="top"><td><code>sensitivities</code></td>
+<td>
+<p>the smoothed sensitivities defining the ROC curve.</p>
+</td></tr>
+<tr valign="top"><td><code>specificities</code></td>
+<td>
+<p>the smoothed specificities defining the ROC curve.</p>
+</td></tr>
+<tr valign="top"><td><code>percent</code></td>
+<td>
+<p>if the sensitivities, specificities and AUC are
+reported in percent, as defined in argument.
+</p>
+</td></tr>
+<tr valign="top"><td><code>direction</code></td>
+<td>
+<p>the direction of the comparison, as defined in argument.</p>
+</td></tr>
+<tr valign="top"><td><code>call</code></td>
+<td>
+<p>how the function was called. See <code><a href="../../base/html/match.call.html">match.call</a></code> for
+more details.
+</p>
+</td></tr>
+<tr valign="top"><td><code>smoothing.args</code></td>
+<td>
+<p>a list of the arguments used for the
+smoothing. Will serve to apply the smoothing again in further
+bootstrap operations.
+</p>
+</td></tr>
+<tr valign="top"><td><code>auc</code></td>
+<td>
+<p>if the original ROC curve contained an AUC, it is computed
+again on the smoothed ROC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>ci</code></td>
+<td>
+<p>if the original ROC curve contained a CI, it is computed
+again on the smoothed ROC.
+</p>
+</td></tr>
+<tr valign="top"><td><code>fit.controls, fit.cases</code></td>
+<td>
+<p>with  <code>method="fitdistr"</code> only: 
+the result of <span class="pkg">MASS</span>'s
+<code><a href="../../MASS/html/fitdistr.html">fitdistr</a></code> function for controls and cases, with an
+additional &ldquo;densfun&rdquo; item indicating the density function, if
+possible as character.
+</p>
+</td></tr>
+<tr valign="top"><td><code>logcondens</code></td>
+<td>
+<p>with <code>method="logcondens"</code> and <code>method="logcondens.smooth"</code> only: 
+the result of <span class="pkg">logcondens</span>'s <a href="../../logcondens/help/logConROC.html">logConROC</a> function.
+</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>with <code>method="binormal"</code> only: 
+the linear model from <code><a href="../../stats/html/lm.html">lm</a></code> used to smooth the ROC curve.
+</p>
+</td></tr>
+</table>
+
+
+<h4>Attributes</h4>
+
+<p>Additionally, the original <code><a href="../../pROC/help/roc.html">roc</a></code> object is stored as a
+&ldquo;roc&rdquo; attribute.
+</p>
+
+
+
+<h3>Errors</h3>
+
+<p>The message &ldquo;The 'density' function must return a numeric
+vector or a list with a 'y' item.&rdquo; will be displayed if the
+<code>density</code> function did not return a valid output. The message
+&ldquo;Length of 'density.controls' and 'density.cases' differ.&rdquo;
+will be displayed if the returned value differ in length.
+</p>
+<p>Binormal smoothing cannot smooth ROC curve defined by only one
+point. Any such attempt will fail with the error &ldquo;ROC curve not
+smoothable (not enough points).&rdquo;.
+</p>
+<p>If the smooth ROC curve was generated by <code><a href="../../pROC/help/roc.html">roc</a></code> with
+<code>density.controls</code> and <code>density.cases</code> numeric arguments, it
+cannot be smoothed and the error &ldquo;Cannot smooth a ROC curve
+generated directly with numeric 'density.controls' and
+'density.cases'.&rdquo; is produced.
+</p>
+<p><code>fitdistr</code> and <code>density</code> smoothing methods require a
+<a href="../../base/html/numeric.html">numeric</a> <code>predictor</code>. If the ROC curve to smooth was
+generated with an ordered factor only binormal smoothing can be
+applied and the message &ldquo;ROC curves of ordered predictors can
+be smoothed only with binormal smoothing.&rdquo; is displayed otherwise.
+</p>
+<p><code>fitdistr</code>, <code>logcondens</code> and <code>logcondens.smooth</code> methods
+require additional packages. If not available, the following message 
+will be displayed with the required command to install the package:
+&ldquo;Package ? not available, required with method='?'.
+Please install it with 'install.packages(&quot;?&quot;)'. 
+&rdquo;
+</p>
+
+
+<h3>References</h3>
+
+<p>James E. Hanley (1988) &ldquo;The robustness of the &ldquo;binormal&rdquo; assumptions
+used in fitting ROC curves&rdquo;. <em>Medical Decision Making</em> <b>8</b>, 197&ndash;203.
+</p>
+<p>Lutz Duembgen, Kaspar Rufibach (2011) &ldquo;logcondens: Computations Related
+to Univariate Log-Concave Density Estimation&rdquo;. <em>Journal of Statistical
+Software</em>, <b>39</b>, 1&ndash;28. URL: <a href="https://www.jstatsoft.org/v39/i06/">jstatsoft.org/v39/i06</a>.
+</p>
+<p>Xavier Robin, Natacha Turck, Alexandre Hainard, <em>et al.</em>
+(2011) &ldquo;pROC: an open-source package for R and S+ to analyze and
+compare ROC curves&rdquo;. <em>BMC Bioinformatics</em>, <b>7</b>, 77.
+DOI: doi: <a href="https://doi.org/10.1186/1471-2105-12-77">10.1186/1471-2105-12-77</a>.
+</p>
+<p>Kaspar Rufibach (2011) &ldquo;A Smooth ROC Curve Estimator Based on Log-Concave Density Estimates&rdquo;.
+<em>The International Journal of Biostatistics</em>, <b>8</b>, accepted. DOI: 
+doi: <a href="https://doi.org/10.1515/1557-4679.1378">10.1515/1557-4679.1378</a>. arXiv:
+<a href="https://arxiv.org/abs/1103.1787">1103.1787</a>.
+</p>
+<p>William N. Venables, Brian D. Ripley (2002). &ldquo;Modern Applied Statistics with S&rdquo;. New York, Springer.
+<a href="http://books.google.ch/books?id=974c4vKurNkC">Google books</a>.
+</p>
+<p>Kelly H. Zou, W. J. Hall and David E. Shapiro (1997) &ldquo;Smooth
+non-parametric receiver operating characteristic (ROC) curves for
+continuous diagnostic tests&rdquo;. <em>Statistics in Medicine</em>
+<b>18</b>, 2143&ndash;2156. DOI: 
+doi: <a href="https://doi.org/10.1002/(SICI)1097-0258(19971015)16:19%3C2143::AID-SIM655%3E3.0.CO;2-3">10.1002/(SICI)1097-0258(19971015)16:19&lt;2143::AID-SIM655&gt;3.0.CO;2-3</a>.
+</p>
+
+
+<h3>See Also</h3>
+
+<p><code><a href="../../pROC/help/roc.html">roc</a></code>
+</p>
+<p>CRAN packages <span class="pkg">MASS</span> and <span class="pkg">logcondens</span> employed in this function.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+data(aSAH)
+
+##  Basic example
+rocobj &lt;- roc(aSAH$outcome, aSAH$s100b)
+smooth(rocobj)
+# or directly with roc()
+roc(aSAH$outcome, aSAH$s100b, smooth=TRUE)
+
+# plotting
+plot(rocobj)
+rs &lt;- smooth(rocobj, method="binormal")
+plot(rs, add=TRUE, col="green")
+rs2 &lt;- smooth(rocobj, method="density")
+plot(rs2, add=TRUE, col="blue")
+rs3 &lt;- smooth(rocobj, method="fitdistr", density="lognormal")
+plot(rs3, add=TRUE, col="magenta")
+if (requireNamespace("logcondens")) {
+rs4 &lt;- smooth(rocobj, method="logcondens")
+plot(rs4, add=TRUE, col="brown")
+rs5 &lt;- smooth(rocobj, method="logcondens.smooth")
+plot(rs5, add=TRUE, col="orange")
+}
+legend("bottomright", legend=c("Empirical", "Binormal", "Density", "Log-normal",
+                               "Log-concave density", "Smoothed log-concave density"),
+       col=c("black", "green", "blue", "magenta", "brown", "orange"), lwd=2)
+
+## Advanced smoothing
+
+# if we know the distributions are normal with sd=0.1 and an unknown mean:
+smooth(rocobj, method="fitdistr", density=dnorm, start=list(mean=1), sd=.1)
+# different distibutions for controls and cases:
+smooth(rocobj, method="fitdistr", density.controls="normal", density.cases="lognormal")
+
+# with densities
+bw &lt;- bw.nrd0(rocobj$predictor)
+density.controls &lt;- density(rocobj$controls, from=min(rocobj$predictor) - 3 * bw,
+                            to=max(rocobj$predictor) + 3*bw, bw=bw, kernel="gaussian")
+density.cases &lt;- density(rocobj$cases, from=min(rocobj$predictor) - 3 * bw,
+                            to=max(rocobj$predictor) + 3*bw, bw=bw, kernel="gaussian")
+smooth(rocobj, method="density", density.controls=density.controls$y, 
+       density.cases=density.cases$y)
+# which is roughly what is done by a simple:
+smooth(rocobj, method="density")
+
+## Not run: 
+## Smoothing artificial ROC curves
+
+rand.unif &lt;- runif(1000, -1, 1)
+rand.exp &lt;- rexp(1000)
+rand.norm &lt;- 
+rnorm(1000)
+
+# two normals
+roc.norm &lt;- roc(controls=rnorm(1000), cases=rnorm(1000)+1, plot=TRUE)
+plot(smooth(roc.norm), col="green", lwd=1, add=TRUE)
+plot(smooth(roc.norm, method="density"), col="red", lwd=1, add=TRUE)
+plot(smooth(roc.norm, method="fitdistr"), col="blue", lwd=1, add=TRUE)
+if (requireNamespace("logcondens")) {
+plot(smooth(roc.norm, method="logcondens"), col="brown", lwd=1, add=TRUE)
+plot(smooth(roc.norm, method="logcondens.smooth"), col="orange", lwd=1, add=TRUE)
+}
+legend("bottomright", legend=c("empirical", "binormal", "density", "fitdistr",
+                               "logcondens", "logcondens.smooth"), 
+       col=c(par("fg"), "green", "red", "blue", "brown", "orange"), lwd=c(2, 1, 1, 1))
+       
+# deviation from the normality
+roc.norm.exp &lt;- roc(controls=rnorm(1000), cases=rexp(1000), plot=TRUE)
+plot(smooth(roc.norm.exp), col="green", lwd=1, add=TRUE)
+plot(smooth(roc.norm.exp, method="density"), col="red", lwd=1, add=TRUE)
+# Wrong fitdistr: normality assumed by default
+plot(smooth(roc.norm.exp, method="fitdistr"), col="blue", lwd=1, add=TRUE)
+# Correct fitdistr
+plot(smooth(roc.norm.exp, method="fitdistr", density.controls="normal",
+            density.cases="exponential"), col="purple", lwd=1, add=TRUE)
+if (requireNamespace("logcondens")) {
+plot(smooth(roc.norm.exp, method="logcondens"), col="brown", lwd=1, add=TRUE)
+plot(smooth(roc.norm.exp, method="logcondens.smooth"), col="orange", lwd=1, add=TRUE)
+}
+legend("bottomright", legend=c("empirical", "binormal", "density",
+                               "wrong fitdistr", "correct fitdistr",
+                               "logcondens", "logcondens.smooth"),
+       col=c(par("fg"), "green", "red", "blue", "purple", "brown", "orange"), lwd=c(2, 1, 1, 1, 1))
+
+# large deviation from the normality
+roc.unif.exp &lt;- roc(controls=runif(1000, 2, 3), cases=rexp(1000)+2, plot=TRUE)
+plot(smooth(roc.unif.exp), col="green", lwd=1, add=TRUE)
+plot(smooth(roc.unif.exp, method="density"), col="red", lwd=1, add=TRUE)
+plot(smooth(roc.unif.exp, method="density", bw="ucv"), col="magenta", lwd=1, add=TRUE)
+# Wrong fitdistr: normality assumed by default (uniform distributions not handled)
+plot(smooth(roc.unif.exp, method="fitdistr"), col="blue", lwd=1, add=TRUE)
+if (requireNamespace("logcondens")) {
+plot(smooth(roc.unif.exp, method="logcondens"), col="brown", lwd=1, add=TRUE)
+plot(smooth(roc.unif.exp, method="logcondens.smooth"), col="orange", lwd=1, add=TRUE)
+}
+legend("bottomright", legend=c("empirical", "binormal", "density",
+                               "density ucv", "wrong fitdistr",
+                               "logcondens", "logcondens.smooth"),
+       col=c(par("fg"), "green", "red", "magenta", "blue", "brown", "orange"), lwd=c(2, 1, 1, 1, 1))
+
+## End(Not run)
+
+# 2 uniform distributions with a custom density function
+unif.density &lt;- function(x, n, from, to, bw, kernel, ...) {
+  smooth.x &lt;- seq(from=from, to=to, length.out=n)
+  smooth.y &lt;- dunif(smooth.x, min=min(x), max=max(x))
+  return(smooth.y)
+}
+roc.unif &lt;- roc(controls=runif(1000, -1, 1), cases=runif(1000, 0, 2), plot=TRUE)
+s &lt;- smooth(roc.unif, method="density", density=unif.density)
+plot(roc.unif)
+plot(s, add=TRUE, col="grey")
+
+## Not run: 
+# you can bootstrap a ROC curve smoothed with a density function:
+ci(s, boot.n=100)
+
+## End(Not run)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>pROC</em> version 1.18.0 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

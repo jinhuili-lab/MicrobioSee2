@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Display the columns of a matrix or data frame as stacked...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for stackpoly {plotrix}"><tr><td>stackpoly {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+Display the columns of a matrix or data frame as stacked polygons
+</h2>
+
+<h3>Description</h3>
+
+<p>Plot one or more columns of numeric values as the top edges of polygons
+instead of lines.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ stackpoly(x,y=NULL,main="",xlab="",ylab="",xat=NA,xaxlab=NA,
+  xlim=NA,ylim=NA,lty=1,lwd=1,border=NA,col=NULL,staxx=FALSE,stack=FALSE,
+  axis2=TRUE,axis4=TRUE,padj=0,...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>A numeric data frame or matrix with the <span class="samp">x</span> values. If
+<span class="samp">y</span> is NULL, these will become the <span class="samp">y</span> values and the <span class="samp">x</span>
+positions will be the integers from 1 to dim(x)[1].</p>
+</td></tr>
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>The <span class="samp">y</span> values.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>The title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>x and y axis labels for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>xat</code></td>
+<td>
+<p>Where to put the optional xaxlabs.</p>
+</td></tr>
+<tr valign="top"><td><code>xaxlab</code></td>
+<td>
+<p>Optional labels for the x positions.</p>
+</td></tr>
+<tr valign="top"><td><code>xlim</code></td>
+<td>
+<p>Optional x limits.</p>
+</td></tr>
+<tr valign="top"><td><code>ylim</code></td>
+<td>
+<p>Optional y limits.</p>
+</td></tr>
+<tr valign="top"><td><code>lty</code></td>
+<td>
+<p>Line type for the polygon borders.</p>
+</td></tr>
+<tr valign="top"><td><code>lwd</code></td>
+<td>
+<p>Line width for the polygon borders.</p>
+</td></tr>
+<tr valign="top"><td><code>border</code></td>
+<td>
+<p>Color for the polygon borders.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>Color to fill the polygons. If NULL, <span class="samp">rainbow</span> will be
+called to generate the colors. If NA, the polygons will not be filled.</p>
+</td></tr>
+<tr valign="top"><td><code>staxx</code></td>
+<td>
+<p>Whether to call <span class="samp">staxlab</span> to stagger the x axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>stack</code></td>
+<td>
+<p>Whether to stack the successive values on top of each other.</p>
+</td></tr>
+<tr valign="top"><td><code>axis2</code></td>
+<td>
+<p>Whether to display the left ordinate on the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>axis4</code></td>
+<td>
+<p>Whether to display the right ordinate on the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>padj</code></td>
+<td>
+<p>Vertical justfication of the x axis labels, defaulting to &quot;top&quot;.
+Can be a vector with an element for each label.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><span class="samp">stackpoly</span> is similar to a line plot with the area under the
+lines filled with color(s). Ideally, each successive set of y values
+is greater than the values in the previous set so that the polygons 
+form a rising series of crests. If <span class="samp">stack</span> is TRUE, this is not a
+problem unless some values of <span class="samp">x</span> are negative.
+</p>
+<p>If <span class="samp">x</span> or <span class="samp">y</span> is a vector, not a matrix or list, the values will
+be displayed as a &quot;waterfall plot&quot;.
+</p>
+<p>The options for <span class="samp">axis2</span> and <span class="samp">axis4</span> can be used to produce
+panel plots. See the last example.
+</p>
+
+
+<h3>Value</h3>
+
+<p>nil
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jim Lemon and Thomas Petzoldt (waterfall plot option) - thanks to
+Phil Novack-Gottshall for the mismatched x and y fix</p>
+
+
+<h3>See Also</h3>
+
+<p><a href="../../graphics/html/polygon.html">polygon</a></p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ testx&lt;-matrix(abs(rnorm(100)),nrow=10)
+ stackpoly(matrix(cumsum(testx),nrow=10),main="Test Stackpoly I",
+  xaxlab=c("One","Two","Three","Four","Five",
+  "Six","Seven","Eight","Nine","Ten"),border="black",staxx=TRUE)
+ stackpoly(testx,main="Test Stackpoly II",
+  xaxlab=c("One","Two","Three","Four","Five",
+  "Six","Seven","Eight","Nine","Ten"),border="black",
+  staxx=TRUE,stack=TRUE)
+ layout(matrix(1:2,nrow=1))
+ oldmar&lt;-par(mar=c(5,4,4,0))
+ stackpoly(rev(sort(testx-mean(testx))),
+  main="Waterfall Plot (x-mean)",xat=seq(10,90,by=10),
+  xlab="Index",ylab="Value",lwd=3,col="green",border="black",
+  axis4=FALSE)
+ ylim&lt;-par("usr")[3:4]
+ par(mar=c(5,0,4,4))
+ stackpoly(rev(sort((testx-mean(testx))/sd(as.vector(testx)))),
+  ylim=ylim,main="Waterfall Plot ((x-mean)/sd)",xat=seq(10,90,by=10),
+  xlab="Index",lwd=3,col="lightblue",border="black",axis2=FALSE)
+ par(oldmar)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

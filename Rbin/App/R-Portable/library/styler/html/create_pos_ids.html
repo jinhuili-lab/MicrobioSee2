@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Create valid pos_ids if possible</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for create_pos_ids {styler}"><tr><td>create_pos_ids {styler}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Create valid pos_ids if possible</h2>
+
+<h3>Description</h3>
+
+<p>Create valid pos_ids if possible
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+create_pos_ids(pd, pos, by = 0.1, after = FALSE, n = 1L)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pd</code></td>
+<td>
+<p>A parse table.</p>
+</td></tr>
+<tr valign="top"><td><code>pos</code></td>
+<td>
+<p>The position where the new id should be inserted.</p>
+</td></tr>
+<tr valign="top"><td><code>by</code></td>
+<td>
+<p>By how much the reference <code>pos_id</code> should be increased / decreased
+to create a new id.</p>
+</td></tr>
+<tr valign="top"><td><code>after</code></td>
+<td>
+<p>Boolean indicating whether it should be inserted after or before
+<code>pos</code>.</p>
+</td></tr>
+<tr valign="top"><td><code>n</code></td>
+<td>
+<p>Number of ids to generate.</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Returns a valid sequences of pos_ids or an error if it was not possible to
+create one. The validation is done with <code><a href="../../styler/help/validate_new_pos_ids.html">validate_new_pos_ids()</a></code>
+</p>
+
+
+<h3>See Also</h3>
+
+<p>Other token creators: 
+<code><a href="../../styler/help/create_tokens.html">create_tokens</a>()</code>,
+<code><a href="../../styler/help/validate_new_pos_ids.html">validate_new_pos_ids</a>()</code>
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>styler</em> version 1.10.3 <a href="00Index.html">Index</a>]</div>
+</div></body></html>

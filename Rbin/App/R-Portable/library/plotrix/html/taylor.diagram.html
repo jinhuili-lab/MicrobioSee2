@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Taylor diagram</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+
+<table width="100%" summary="page for taylor.diagram {plotrix}"><tr><td>taylor.diagram {plotrix}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2> Taylor diagram </h2>
+
+<h3>Description</h3>
+
+<p> Display a Taylor diagram</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ taylor.diagram(ref,model,add=FALSE,col="red",pch=19,pos.cor=TRUE,
+  xlab="Standard deviation",ylab="",main="Taylor Diagram",
+  show.gamma=TRUE,ngamma=3,gamma.col=8,sd.arcs=0,
+  ref.sd=FALSE,sd.method="sample",grad.corr.lines=c(0.2,0.4,0.6,0.8,0.9),
+  pcex=1,cex.axis=1,normalize=FALSE,mar=c(4,3,4,3),...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ref</code></td>
+<td>
+<p>numeric vector - the reference values.</p>
+</td></tr>
+<tr valign="top"><td><code>model</code></td>
+<td>
+<p>numeric vector - the predicted model values.</p>
+</td></tr>
+<tr valign="top"><td><code>add</code></td>
+<td>
+<p>whether to draw the diagram or just add a point.</p>
+</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+<p>the color for the points displayed.</p>
+</td></tr>
+<tr valign="top"><td><code>pch</code></td>
+<td>
+<p>the type of point to display.</p>
+</td></tr>
+<tr valign="top"><td><code>pos.cor</code></td>
+<td>
+<p>whether to display only positive (<span class="samp">TRUE</span>) or all
+values of correlation (<span class="samp">FALSE</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>xlab,ylab</code></td>
+<td>
+<p>plot axis labels.</p>
+</td></tr>
+<tr valign="top"><td><code>main</code></td>
+<td>
+<p>title for the plot.</p>
+</td></tr>
+<tr valign="top"><td><code>show.gamma</code></td>
+<td>
+<p>whether to display standard deviation arcs around
+the reference point (only for <span class="samp">pos.cor=TRUE</span>).</p>
+</td></tr>
+<tr valign="top"><td><code>ngamma</code></td>
+<td>
+<p>the number of gammas to display (default=3).</p>
+</td></tr>
+<tr valign="top"><td><code>gamma.col</code></td>
+<td>
+<p>color to use for the gamma arcs (only with pos.cor=TRUE).</p>
+</td></tr>
+<tr valign="top"><td><code>sd.arcs</code></td>
+<td>
+<p>whether to display arcs along the standard deviation axes
+(see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>ref.sd</code></td>
+<td>
+<p>whether to display the arc representing the reference
+standard deviation.</p>
+</td></tr>
+<tr valign="top"><td><code>sd.method</code></td>
+<td>
+<p>Whether to use the sample or estimated population SD.</p>
+</td></tr>
+<tr valign="top"><td><code>grad.corr.lines</code></td>
+<td>
+<p>the values for the radial lines for correlation
+values (see Details).</p>
+</td></tr>
+<tr valign="top"><td><code>pcex</code></td>
+<td>
+<p>character expansion for the plotted points.</p>
+</td></tr>
+<tr valign="top"><td><code>cex.axis</code></td>
+<td>
+<p>character expansion for the axis text.</p>
+</td></tr>
+<tr valign="top"><td><code>normalize</code></td>
+<td>
+<p>whether to normalize the models so that the reference
+has a standard deviation of 1.</p>
+</td></tr>
+<tr valign="top"><td><code>mar</code></td>
+<td>
+<p>margins - only applies to the <span class="samp">pos.cor=TRUE</span> plot.</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>Additional arguments passed to <span class="samp">plot</span>.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The Taylor diagram is used to display the quality of model predictions
+against the reference values, typically direct observations.
+</p>
+<p>A diagram is built by plotting one model against the reference,
+then adding alternative model points. If <span class="samp">normalize=TRUE</span> 
+when plotting the first model, remember to set it to <span class="samp">TRUE</span>
+when plotting additional models.
+</p>
+<p>Two displays are available. One displays the entire range of correlations
+from -1 to 1. Setting <span class="samp">pos.cor</span> to <span class="samp">FALSE</span> will produce this
+display. The -1 to 1 display includes a radial grid for the correlation
+values. When <span class="samp">pos.cor</span> is set to <span class="samp">TRUE</span>, only the
+range from 0 to 1 will be displayed. The <span class="samp">gamma</span> lines and the arc at
+the reference standard deviation are optional in this display.
+</p>
+<p>Both the standard deviation arcs and the gamma lines are optional in the
+<span class="samp">pos.cor=TRUE</span> version. Setting <span class="samp">sd.arcs</span> or <span class="samp">grad.corr.lines</span>
+to zero or FALSE will cause them not to be displayed. If more than one value is
+passed for <span class="samp">sd.arcs</span>, the function will try to use the values passed,
+otherwise it will call <span class="samp">pretty</span> to calculate the values.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The values of <span class="samp">par</span> that preceded the function. This allows the
+user to add points to the diagram, then restore the original values. This
+is only necessary when using the 0 to 1 correlation range.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Olivier Eterradossi with modifications by Jim Lemon</p>
+
+
+<h3>References</h3>
+
+<p>Taylor, K.E. (2001) Summarizing multiple aspects of model performance in a
+single diagram. Journal of Geophysical Research, 106: 7183-7192.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ # fake some reference data
+ ref&lt;-rnorm(30,sd=2)
+ # add a little noise
+ model1&lt;-ref+rnorm(30)/2
+ # add more noise
+ model2&lt;-ref+rnorm(30)
+ # display the diagram with the better model
+ oldpar&lt;-taylor.diagram(ref,model1)
+ # now add the worse model
+ taylor.diagram(ref,model2,add=TRUE,col="blue")
+ # get approximate legend position
+ lpos&lt;-1.5*sd(ref)
+ # add a legend
+ legend(lpos,lpos,legend=c("Better","Worse"),pch=19,col=c("red","blue"))
+ # now restore par values
+ par(oldpar)
+ # show the "all correlation" display
+ taylor.diagram(ref,model1,pos.cor=FALSE)
+ taylor.diagram(ref,model2,add=TRUE,col="blue")
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>plotrix</em> version 3.8-2 <a href="00Index.html">Index</a>]</div>
+</div></body></html>
