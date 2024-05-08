@@ -17,6 +17,6 @@ The main code is available at https://github.com/jinhuili-lab/MicrobioSee2/.
 
 ## Acknowledge
 Thanks to all the members who contribute to the MicrobioSee.
-[Yimeng Sang](https://github.com/wanqiangdehuoguo)
-[Sen Zeng]()
-[Kaarunya Nachimuthu](https://github.com/kaarunyanachimuthu)
+- [Yimeng Sang](https://github.com/wanqiangdehuoguo)
+- [Sen Zeng]()
+- [Kaarunya Nachimuthu](https://github.com/kaarunyanachimuthu)
