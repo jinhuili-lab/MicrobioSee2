@@ -18,11 +18,11 @@ Detailed user documentation can be found [here](https://microbiosee.github.io).
 
 The main code is available at https://github.com/jinhuili-lab/MicrobioSee2/.
 
->In this work, we developed MicrobioSee, a desktop software, that could visualize microbial multi-omics data. It contains seventeen modules surrounding the major omics of microorganisms such as transcriptome, metagenome, and proteome. Subsequently, three case studies were chosen to represent the functional application of MicrobioSee. Overall, we provide a concise tool along with user-friendly, time-saving, cross-platform, and source-opening for researchers especially microbiologists without coding experience.
+- In this work, we developed MicrobioSee, a desktop software, that could visualize microbial multi-omics data. It contains seventeen modules surrounding the major omics of microorganisms such as transcriptome, metagenome, and proteome. Subsequently, three case studies were chosen to represent the functional application of MicrobioSee. Overall, we provide a concise tool along with user-friendly, time-saving, cross-platform, and source-opening for researchers especially microbiologists without coding experience.
 
 ## Cite us
-- Jinhui Li, Kaarunya Nachimuthu MicrobioSee2:  a desktop visualization toolkit for multi-omics of microbiology. bioRxiv 2024.
-- Jinhui Li, Yimeng Sang, Sen Zeng, Shuming Mo, Zufan Zhang, Sheng He, Xinying Li, Jianping Liao*, and Chengjian Jiang*. MicrobioSee: a web-based visualization toolkit for multi-omics of microbiology. 2022. DOI: 10.3389/fgene.2022.853612.
+> Jinhui Li, Kaarunya Nachimuthu MicrobioSee2:  a desktop visualization toolkit for multi-omics of microbiology. bioRxiv 2024.
+> Jinhui Li, Yimeng Sang, Sen Zeng, Shuming Mo, Zufan Zhang, Sheng He, Xinying Li, Jianping Liao*, and Chengjian Jiang*. MicrobioSee: a web-based visualization toolkit for multi-omics of microbiology. 2022. DOI: 10.3389/fgene.2022.853612.
 
 
 ## Acknowledge
