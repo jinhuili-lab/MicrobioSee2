@@ -1,5 +1,5 @@
 # MicrobioSee2
-This is a desktop tool for plotting.
+This is a desktop tool for plotting on Windows OS. MacOS version is developing. 
 ## Install
 - Method 1: Go to the following link and choose a file to download.
 https://github.com/jinhuili-lab/MicrobioSee2/releases/
@@ -9,9 +9,8 @@ git clone https://github.com/jinhuili-lab/MicrobioSee2.git
 """
 ## Description
 ![MicrobioSee](https://github.com/jinhuili-lab/jinhuili-lab/blob/main/pic01.jpg)
-- The web-based visualization toolkit developed in this study can be used on all operating system platforms that support modern browsers, and MicrobioSee provides data mining and visualization services for the field of microbial integration research.
-  
-- MicrobioSee is a complementary toolkit for multi-omics data, and is available free of charge from this repository;
+- The web-based visualization toolkit developed in the previous study can't be available sometimes because of the network security policy. At the same time, some researchers are afraid that their data uploaded will be revealed although most website owners promised not. Also, the potential hacker issues. So desktop version is necessary for data security.
+- MicrobioSee2 provides data mining and visualization services for the field of microbial integration research. MicrobioSee2 is a complementary toolkit for multi-omics data, and is available free of charge from this repository.
 
 - Detailed user documentation can be found [here](https://microbiosee.github.io).
 
