@@ -12,7 +12,7 @@ This is a desktop tool for plotting on Windows OS. The MacOS version is developi
 - The web-based visualization toolkit developed in the previous study can't be available sometimes because of the network security policy. At the same time, some researchers are afraid that their data uploaded will be revealed although most website owners promised not. Also, the potential hacker issues. So desktop version is necessary for data security.
 - MicrobioSee2 provides data mining and visualization services for the field of microbial integration research. MicrobioSee2 is a complementary toolkit for multi-omics data, and is available free of charge from this repository.
 
-- Detailed user documentation can be found [here](https://microbiosee.github.io).
+- Detailed user documentation can be found [here](https://microbiosee.github.io) and [https://github.com/jinhuili-lab/MicrobioSee2/blob/master/Bioinfor2finalproject%2005072024.pdf](https://github.com/jinhuili-lab/MicrobioSee2/blob/master/Bioinfor2finalproject%2005072024.pdf).
 
 - In this work, we developed MicrobioSee, a desktop software, that could visualize microbial multi-omics data. It contains seventeen modules surrounding the major omics of microorganisms such as transcriptome, metagenome, and proteome. Subsequently, three case studies were chosen to represent the functional application of MicrobioSee. Overall, we provide a concise tool along with user-friendly, time-saving, cross-platform, and source-opening for researchers especially microbiologists without coding experience.
 
