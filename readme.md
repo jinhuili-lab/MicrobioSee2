@@ -2,7 +2,7 @@
 This is a desktop tool for plotting on Windows OS. The MacOS version is developing. 
 ## Install
 - Method 1: Go to the following link and choose a file to download.
-  https://github.com/jinhuili-lab/MicrobioSee2/releases/
+  [https://github.com/jinhuili-lab/MicrobioSee2/releases/](https://github.com/jinhuili-lab/MicrobioSee2/releases/)
 - Method 2: Open the git command in Windows OS.
 ```
 git clone https://github.com/jinhuili-lab/MicrobioSee2.git
