@@ -4,9 +4,9 @@ This is a desktop tool for plotting on Windows OS. MacOS version is developing.
 - Method 1: Go to the following link and choose a file to download.
 https://github.com/jinhuili-lab/MicrobioSee2/releases/
 - Method 2: Open the git command in Windows OS.
-"""
+```
 git clone https://github.com/jinhuili-lab/MicrobioSee2.git
-"""
+```
 ## Description
 ![MicrobioSee](https://github.com/jinhuili-lab/jinhuili-lab/blob/main/pic01.jpg)
 - The web-based visualization toolkit developed in the previous study can't be available sometimes because of the network security policy. At the same time, some researchers are afraid that their data uploaded will be revealed although most website owners promised not. Also, the potential hacker issues. So desktop version is necessary for data security.
