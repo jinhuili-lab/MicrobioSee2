@@ -2,7 +2,7 @@
 This is a desktop tool for plotting.
 ## Install
 - Go to the following link and choose a file to download.
-- https://github.com/jinhuili-lab/MicrobioSee2/releases/tag/v2.0.1
+- https://github.com/jinhuili-lab/MicrobioSee2/releases/
 ## Description
 The web-based visualization toolkit developed in this study can be used on all operating system platforms that support modern browsers, and MicrobioSee provides data mining and visualization services for the field of microbial integration research.
 
