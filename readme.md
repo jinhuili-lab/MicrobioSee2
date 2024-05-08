@@ -13,9 +13,7 @@ git clone https://github.com/jinhuili-lab/MicrobioSee2.git
   
 - MicrobioSee is a complementary toolkit for multi-omics data, and is available free of charge from this repository;
 
-Detailed user documentation can be found [here](https://microbiosee.github.io).
-
-The main code is available at https://github.com/jinhuili-lab/MicrobioSee2/.
+- Detailed user documentation can be found [here](https://microbiosee.github.io).
 
 - In this work, we developed MicrobioSee, a desktop software, that could visualize microbial multi-omics data. It contains seventeen modules surrounding the major omics of microorganisms such as transcriptome, metagenome, and proteome. Subsequently, three case studies were chosen to represent the functional application of MicrobioSee. Overall, we provide a concise tool along with user-friendly, time-saving, cross-platform, and source-opening for researchers especially microbiologists without coding experience.
 
