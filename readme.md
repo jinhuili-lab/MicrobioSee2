@@ -13,3 +13,10 @@ Detailed user documentation can be found at https://microbiosee.github.io,
 The main code is available at https://github.com/jinhuili-lab/MicrobioSee2/.
 
 >In this work, we developed MicrobioSee, a desktop software, that could visualize microbial multi-omics data. It contains seventeen modules surrounding the major omics of microorganisms such as transcriptome, metagenome, and proteome. Subsequently, three case studies were chosen to represent the functional application of MicrobioSee. Overall, we provide a concise tool along with user-friendly, time-saving, cross-platform, and source-opening for researchers especially microbiologists without coding experience.
+
+
+## Acknowledge
+Thanks to all the members who contribute to the MicrobioSee.
+[Yimeng Sang](https://github.com/wanqiangdehuoguo)
+[Sen Zeng]()
+[Kaarunya Nachimuthu](https://github.com/kaarunyanachimuthu)
