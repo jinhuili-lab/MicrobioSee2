@@ -5,7 +5,7 @@ This is a desktop tool for plotting.
 - https://github.com/jinhuili-lab/MicrobioSee2/releases/
 ## Description
 The web-based visualization toolkit developed in this study can be used on all operating system platforms that support modern browsers, and MicrobioSee provides data mining and visualization services for the field of microbial integration research.
-
+![MicrobioSee](https://github.com/jinhuili-lab/jinhuili-lab/blob/main/pic01.jpg)
 - MicrobioSee is a complementary toolkit for multi-omics data, and is available free of charge from this repository;
 
 Detailed user documentation can be found [here](https://microbiosee.github.io).
