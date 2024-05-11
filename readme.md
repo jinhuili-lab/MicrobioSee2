@@ -23,5 +23,5 @@ Join our [Dicord](https://discord.gg/RtfskhPt).
 ## Acknowledge
 Thanks to all the members who contribute to the MicrobioSee.
 - [Yimeng Sang](https://github.com/wanqiangdehuoguo)
-- [Sen Zeng]()
+- [Sen Zeng](https://github.com/zengqingsongzzz)
 - [Kaarunya Nachimuthu](https://github.com/kaarunyanachimuthu)
