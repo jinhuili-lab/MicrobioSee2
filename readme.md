@@ -2,7 +2,7 @@
 This is a desktop tool for plotting on Windows OS. The MacOS version is developing. 
 Join our [Dicord](https://discord.gg/RtfskhPt).
 ## Install
-- Go to the following link and choose a file to download.
+- Binary version: Go to the following link and choose a file to download.
   > [https://github.com/jinhuili-lab/MicrobioSee2/releases/](https://github.com/jinhuili-lab/MicrobioSee2/releases/)
 
 ## Description
