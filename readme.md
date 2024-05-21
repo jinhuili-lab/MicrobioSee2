@@ -6,11 +6,7 @@ Join our [Dicord](https://discord.gg/RtfskhPt).
   
   > [https://github.com/jinhuili-lab/MicrobioSee2/releases/](https://github.com/jinhuili-lab/MicrobioSee2/releases/)
   
-- Method 2: Source code
-  
-  ```
-  git lfs clone https://github.com/jinhuili-lab/MicrobioSee2.git
-  ```
+
   
 ## Description
 ![MicrobioSee](https://github.com/jinhuili-lab/jinhuili-lab/blob/main/pic01.jpg)
