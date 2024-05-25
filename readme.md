@@ -6,7 +6,8 @@ Join our [Dicord](https://discord.gg/RtfskhPt).
   
   > [https://github.com/jinhuili-lab/MicrobioSee2/releases/](https://github.com/jinhuili-lab/MicrobioSee2/releases/)
   
-
+## Update log
+- 0525/2024 Release the installation version for McirobioSee. This version was added with the future module to Parallel load packages.
   
 ## Description
 ![MicrobioSee](https://github.com/jinhuili-lab/jinhuili-lab/blob/main/pic01.jpg)
